@@ -8,7 +8,6 @@ import {TeacherScreen} from '../views/teacher/TeacherScreen';
 
 
 const Main = () => (
-  <main>
     <Switch>
        <Route exact path="/" component={HomeScreen} />
        <Route exact path="/home" component={HomeScreen} />
@@ -17,7 +16,6 @@ const Main = () => (
        <Route exact path="/teacher" component={TeacherScreen} />
        <Route exact path="/student" component={StudentScreen} />
     </Switch>
-  </main>
 );
 
 export default Main;
