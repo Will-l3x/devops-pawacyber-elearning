@@ -10,7 +10,7 @@ export class HomeScreen extends Component {
         <aside id="left-sidebar-nav">
           <ul
             id="slide-out"
-            className="side-nav fixed leftside-navigation"
+            className="side-nav z-depth-5 fixed leftside-navigation"
           >
             <li className="user-details cyan darken-2">
               <div className="row">

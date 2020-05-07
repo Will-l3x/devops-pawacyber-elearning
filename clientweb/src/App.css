@@ -6578,6 +6578,16 @@ header .brand-logo img {
     padding: 0;
 }
 
+ .dropdown-notify {
+     width: 300px !important;
+     top: 65px !important;
+ }
+
+ .dropdown-acc {
+     width: 180px !important;
+     top: 65px !important;
+ }
+
 
 /*----------------------------------------
     Main Menu - SideNav
