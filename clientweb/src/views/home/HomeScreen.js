@@ -24,35 +24,35 @@ export class HomeScreen extends Component {
                 <div className="col col s8 m8 l8">
                   <ul id="profile-dropdown-nav" className="dropdown-content">
                     <li>
-                      <Link to="#" className="grey-text text-darken-1">
+                      <Link to="" className="grey-text text-darken-1">
                         <i className="material-icons">face</i> Profile
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="grey-text text-darken-1">
+                      <Link to="" className="grey-text text-darken-1">
                         <i className="material-icons">settings</i> Settings
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="grey-text text-darken-1">
+                      <Link to="" className="grey-text text-darken-1">
                         <i className="material-icons">live_help</i> Help
                       </Link>
                     </li>
                     <li className="divider"></li>
                     <li>
-                      <Link to="#" className="grey-text text-darken-1">
+                      <Link to="" className="grey-text text-darken-1">
                         <i className="material-icons">lock_outline</i> Lock
                       </Link>
                     </li>
                     <li>
-                      <Link to="#" className="grey-text text-darken-1">
+                      <Link to="" className="grey-text text-darken-1">
                         <i className="material-icons">keyboard_tab</i> Logout
                       </Link>
                     </li>
                   </ul>
                   <Link
                     className="btn-flat dropdown-button waves-effect waves-light white-text profile-btn"
-                    to="#"
+                    to=""
                     data-activates="profile-dropdown-nav"
                   >
                     John Doe
@@ -75,7 +75,7 @@ export class HomeScreen extends Component {
           </ul>
 
           <Link
-            to="#"
+            to=""
             data-activates="slide-out"
             className="sidebar-collapse waves-effect waves-block waves-light hide-on-large-only"
           >
@@ -168,7 +168,7 @@ export class HomeScreen extends Component {
                       <input type="checkbox" id="task1" />
                       <label htmlFor="task1">
                         Create Mobile App UI.
-                        <Link to="#" className="secondary-content">
+                        <Link to="" className="secondary-content">
                           <span className="ultra-small">Today</span>
                         </Link>
                       </label>
@@ -178,7 +178,7 @@ export class HomeScreen extends Component {
                       <input type="checkbox" id="task2" />
                       <label htmlFor="task2">
                         Check the new API standerds.
-                        <Link to="#" className="secondary-content">
+                        <Link to="" className="secondary-content">
                           <span className="ultra-small">Monday</span>
                         </Link>
                       </label>
@@ -192,7 +192,7 @@ export class HomeScreen extends Component {
                       />
                       <label htmlFor="task3">
                         Check the new Mockup of ABC.
-                        <Link to="#" className="secondary-content">
+                        <Link to="" className="secondary-content">
                           <span className="ultra-small">Wednesday</span>
                         </Link>
                       </label>

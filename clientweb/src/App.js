@@ -16,7 +16,6 @@ class App extends Component {
         $('body').addClass('loaded');
       }, 200);
     });
-     $(function() {
     //var window_width = $(window).width();
   
     // Search class for focus
@@ -119,7 +118,6 @@ class App extends Component {
         overflow: 'auto'
       })
     }
-  });
   }
   render() {
     return (

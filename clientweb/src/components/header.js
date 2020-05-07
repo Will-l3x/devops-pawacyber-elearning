@@ -11,7 +11,7 @@ class Header extends Component {
             <ul className="left">
               <li>
                 <h1 className="logo-wrapper">
-                  <Link to="index.html" className="brand-logo darken-1">
+                  <Link to="/" className="brand-logo darken-1">
                     <img src={logo} alt="materialize logo"></img>
                     <span className="logo-text hide-on-med-and-down">
                       Classroom
@@ -32,7 +32,7 @@ class Header extends Component {
             <ul className="right hide-on-med-and-down"> 
               <li>
                 <Link
-                  to="javascript:void(0);"
+                  to=""
                   className="waves-effect waves-block waves-light toggle-fullscreen"
                 >
                   <i className="material-icons">settings_overscan</i>
@@ -40,7 +40,7 @@ class Header extends Component {
               </li>
               <li>
                 <Link
-                  to="javascript:void(0);"
+                  to=""
                   className="waves-effect waves-block waves-light notification-button"
                   data-activates="notifications-dropdown"
                 >
@@ -54,7 +54,7 @@ class Header extends Component {
               </li>
               <li>
                 <Link
-                  to="javascript:void(0);"
+                  to=""
                   className="waves-effect waves-block waves-light profile-button"
                   data-activates="profile-dropdown"
                 >
