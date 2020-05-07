@@ -26,7 +26,7 @@ class Header extends Component {
                 type="text"
                 name="Search"
                 className="header-search-input z-depth-2"
-                placeholder="Explore Materialize"
+                placeholder="Explore Classroom"
               ></input>
             </div>
             <ul className="right hide-on-med-and-down"> 
