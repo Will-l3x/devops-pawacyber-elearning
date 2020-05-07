@@ -2,86 +2,23 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import avatar from "../../assets/images/avatar/avatar-7.png";
 import userbg from "../../assets/images/gallary/3.png";
+import SideBar from "../../components/SideBar";
 //import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar';
 export class HomeScreen extends Component {
   render() {
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
-          <ul
-            id="slide-out"
-            className="side-nav z-depth-5 fixed leftside-navigation"
-          >
-            <li className="user-details cyan darken-2">
-              <div className="row">
-                <div className="col col s4 m4 l4">
-                  <img
-                    src="images/avatar/avatar-7.png"
-                    alt=""
-                    className="circle responsive-img valign profile-image cyan"
-                  ></img>
-                </div>
-                <div className="col col s8 m8 l8">
-                  <ul id="profile-dropdown-nav" className="dropdown-content">
-                    <li>
-                      <Link to="" className="grey-text text-darken-1">
-                        <i className="material-icons">face</i> Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="" className="grey-text text-darken-1">
-                        <i className="material-icons">settings</i> Settings
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="" className="grey-text text-darken-1">
-                        <i className="material-icons">live_help</i> Help
-                      </Link>
-                    </li>
-                    <li className="divider"></li>
-                    <li>
-                      <Link to="" className="grey-text text-darken-1">
-                        <i className="material-icons">lock_outline</i> Lock
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="" className="grey-text text-darken-1">
-                        <i className="material-icons">keyboard_tab</i> Logout
-                      </Link>
-                    </li>
-                  </ul>
-                  <Link
-                    className="btn-flat dropdown-button waves-effect waves-light white-text profile-btn"
-                    to=""
-                    data-activates="profile-dropdown-nav"
-                  >
-                    John Doe
-                    <i className="mdi-navigation-arrow-drop-down right"></i>
-                  </Link>
-                  <p className="user-roal">Administrator</p>
-                </div>
-              </div>
-            </li>
-            <li className="no-padding">
-              <ul className="collapsible no-shadow" data-collapsible="accordion">
-                <li className="bold">
-                  <Link to="/" className="waves-effect waves-cyan">
-                    <i className="material-icons">pie_chart_outlined</i>
-                    <span className="nav-text">Dashboard</span>
-                  </Link>
-                </li>
-              </ul>
-            </li>
-          </ul>
-
-          <Link
-            to=""
-            data-activates="slide-out"
-            className="sidebar-collapse waves-effect waves-block waves-light hide-on-large-only"
-          >
-            <i className="material-icons">format_indent_increase</i>
-          </Link>
+            <SideBar></SideBar>
+            <Link
+                to=""
+                data-activates="slide-out"
+                className="sidebar-collapse waves-effect waves-block waves-light hide-on-large-only"
+            >
+                <i className="material-icons">format_indent_increase</i>
+            </Link>
         </aside>
+
         <section id="content">
           <div className="container">
             <div id="card-stats">
@@ -521,6 +458,7 @@ export class HomeScreen extends Component {
               </div>
             </div>
           </div>
+        
         </section>
       </div>
     );
