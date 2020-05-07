@@ -14,7 +14,7 @@ class Header extends Component {
                   <Link to="index.html" className="brand-logo darken-1">
                     <img src={logo} alt="materialize logo"></img>
                     <span className="logo-text hide-on-med-and-down">
-                      Materialize
+                      Classroom
                     </span>
                   </Link>
                 </h1>
