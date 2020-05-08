@@ -6388,6 +6388,7 @@ header .brand-logo img {
     aside .brand-sidebar .sidebar-collapse {
         top: -48px;
     }
+
     .side-nav.fixed {
         transform: translateX(-500px);
     }
@@ -6578,15 +6579,15 @@ header .brand-logo img {
     padding: 0;
 }
 
- .dropdown-notify {
-     width: 300px !important;
-     top: 65px !important;
- }
+.dropdown-notify {
+    width: 300px !important;
+    top: 65px !important;
+}
 
- .dropdown-acc {
-     width: 180px !important;
-     top: 65px !important;
- }
+.dropdown-acc {
+    width: 180px !important;
+    top: 65px !important;
+}
 
 
 /*----------------------------------------
@@ -7681,9 +7682,15 @@ tr.group:hover {
 }
 
 .no-shadow {
-    border-top: none !important ;
-    border-right: none !important ;
-    border-left: none !important ;
+    border-top: none !important;
+    border-right: none !important;
+    border-left: none !important;
     margin: .5rem 0 1rem 0;
     box-shadow: none !important;
+}
+
+.hovCard:hover {
+    -moz-box-shadow: 0 0 10px #ccc;
+    -webkit-box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px #ccc;
 }

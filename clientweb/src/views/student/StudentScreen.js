@@ -57,13 +57,63 @@ export class StudentScreen extends Component {
               </div>
               
             </div>
-            <div style={{marginLeft:'20px', marginRight:'20px', marginTop:'10px'}}>
+            <div style={{marginLeft:'20px', marginRight:'20px', marginTop:'15px'}}>
             <StudyMaterialCard></StudyMaterialCard>
             </div>
-           
+            <div style={{ marginTop:'15px'}}>
+            <div id="card-widgets">
+              <div className="row">
+                <div className="col s12 m4 l4">
+                  <ul id="task-card" className="collection with-header">
+                    <li className="collection-header teal accent-4">
+                      <h5 className="task-card-title">Pending Assignments</h5>
+                      <p className="task-card-title">Arranged by submission date</p>
+                    </li>
+                    <li className="collection-item dismissable">
+                      <input type="checkbox" id="task1" />
+                      <label htmlFor="task1">
+                        Create Mobile App UI.
+                        <Link to="" className="secondary-content">
+                          <span className="ultra-small">Today</span>
+                        </Link>
+                      </label>
+                      <span className="task-cat cyan">Mathematics</span>
+                    </li>
+                    <li className="collection-item dismissable">
+                      <input type="checkbox" id="task2" />
+                      <label htmlFor="task2">
+                        Check the new API standerds.
+                        <Link to="" className="secondary-content">
+                          <span className="ultra-small">Monday</span>
+                        </Link>
+                      </label>
+                      <span className="task-cat red accent-2">Computer Science</span>
+                    </li>
+                    <li className="collection-item dismissable">
+                      <input
+                        type="checkbox"
+                        id="task3"
+                        defaultChecked="defaultChecked"
+                      />
+                      <label htmlFor="task3">
+                        Check the new Mockup of ABC.
+                        <Link to="" className="secondary-content">
+                          <span className="ultra-small">Wednesday</span>
+                        </Link>
+                      </label>
+                      <span className="task-cat teal accent-4">Project</span>
+                    </li>
+
+                  </ul>
+                </div>
+                </div></div>
+                </div>
             
           </div>
-        </section>
+       
+
+        
+                </section>
       </div>
     );
   }
