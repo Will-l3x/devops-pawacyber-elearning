@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import postReducer from './postReducer';
+import dashLink from './navlink';
 
 export default combineReducers({
-    posts: postReducer
+    dashLink
 });
