@@ -4,8 +4,62 @@ import { Link } from "react-router-dom";
 import SideBar from "./SideBar";
 import $ from "jquery";
 import M from "materialize-css";
+import DropZone from "./dropzone";
 
 export class CourseOutlineScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      course: {
+        title: "Course name",
+        topics: [
+          {
+            id: "1",
+            title: "first",
+            material: [
+              {
+                id: "1.1",
+                title: "Sub Topic 1",
+                addMaterial: [],
+              },
+              {
+                id: "1.2",
+                title: "Sub Topic 2",
+                addMaterial: [],
+              },
+              {
+                id: "1.3",
+                title: "Sub Topic 3",
+                addMaterial: [],
+              },
+            ],
+          },
+          {
+            id: "2",
+            title: "Second",
+            material: [
+              {
+                id: "2.1",
+                title: "Sub Topic 1",
+                chapter: "1",
+                addMaterial: [],
+              },
+              {
+                id: "2.2",
+                title: "Sub Topic 2",
+                addMaterial: [],
+              },
+              {
+                id: "2.3",
+                title: "Sub Topic 3",
+                addMaterial: [],
+              },
+            ],
+          },
+        ],
+      },
+    };
+  }
   componentDidMount() {
     M.AutoInit();
     function toggleCourseListIcon() {
@@ -17,62 +71,13 @@ export class CourseOutlineScreen extends Component {
         }
       });
     }
-
     $(".collapsible-header").click(function () {
       $(this).toggleClass("active");
       toggleCourseListIcon();
     });
   }
   render() {
-    let course = {
-      title: "Course name",
-      topics: [
-        {
-          id: "1",
-          title: "first",
-          material: [
-            {
-              id: "1.1",
-              title: "Sub Topic 1",
-              addMaterial: [],
-            },
-            {
-              id: "1.2",
-              title: "Sub Topic 2",
-              addMaterial: [],
-            },
-            {
-              id: "1.3",
-              title: "Sub Topic 3",
-              addMaterial: [],
-            },
-          ],
-        },
-        {
-          id: "2",
-          title: "Second",
-          material: [
-            {
-              id: "2.1",
-              title: "Sub Topic 1",
-              chapter: "1",
-              addMaterial: [],
-            },
-            {
-              id: "2.2",
-              title: "Sub Topic 2",
-              addMaterial: [],
-            },
-            {
-              id: "2.3",
-              title: "Sub Topic 3",
-              addMaterial: [],
-            },
-          ],
-        },
-      ],
-    };
-    const topics = course.topics.map((topic) => (
+    const topics = this.state.course.topics.map((topic) => (
       <li key={topic.id}>
         <div className="collapsible-header">
           <i className="material-icons">add</i>
@@ -140,6 +145,7 @@ export class CourseOutlineScreen extends Component {
         </div>
       </li>
     ));
+
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
@@ -173,7 +179,7 @@ export class CourseOutlineScreen extends Component {
                       <li>
                         <Link to="/courses">Course List</Link>
                       </li>
-                      <li className="active">{course.title}</li>
+                      <li className="active">{this.state.course.title}</li>
                     </ol>
                   </div>
                   <div className="col s2 m6 l6">
@@ -200,19 +206,18 @@ export class CourseOutlineScreen extends Component {
                           data-target="modal1"
                           className="grey-text modal-trigger text-darken-2"
                         >
-                          <i className="material-icons ">add_box</i>
+                          <i className="material-icons ">library_add</i>
                           Add Material
                         </Link>
                       </li>
                       <li>
-                        <Link to="#!" className="grey-text text-darken-2">
+                        <Link
+                          to="#!"
+                          data-target="modal2"
+                          className="grey-text modal-trigger text-darken-2"
+                        >
                           <i className="material-icons ">backspace</i>
                           Remove Material
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#!" className="grey-text text-darken-2">
-                          Notifications
                         </Link>
                       </li>
                     </ul>
@@ -258,7 +263,7 @@ export class CourseOutlineScreen extends Component {
               <div className="modal-content">
                 <h4 className="header2">Add Course Material</h4>
                 <div className="row">
-                  <form className="col s12">
+                  <div className="col s12">
                     <div className="row">
                       <div className="input-field col s12">
                         <input id="name" type="text"></input>
@@ -267,38 +272,28 @@ export class CourseOutlineScreen extends Component {
                     </div>
                     <div className="row">
                       <div className="input-field col s12">
-                        <input id="email" type="email"></input>
-                        <label htmlFor="email">Email</label>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="input-field col s12">
-                        <input id="password" type="password"></input>
-                        <label htmlFor="password">Password</label>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="input-field col s12">
                         <textarea
-                          id="message"
+                          id="description"
                           className="materialize-textarea"
                         ></textarea>
-                        <label htmlFor="message">Message</label>
+                        <label htmlFor="description">Description</label>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="input-field col s12">
+                        <DropZone />
                       </div>
                       <div className="row">
                         <div className="input-field col s12">
-                          <button
-                            className="btn modal-close waves-effect waves-light right"
-                            type="submit"
-                            name="action"
-                          >
+                          <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
                             Submit
                             <i className="material-icons right">send</i>
                           </button>
                         </div>
                       </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>

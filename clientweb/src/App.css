@@ -2719,6 +2719,9 @@ select {
 #content .container .row {
     margin-bottom: 0;
 }
+#content {
+    min-height: 82vh;
+}
 
 @media only screen and (min-width: 601px) {
     .container {

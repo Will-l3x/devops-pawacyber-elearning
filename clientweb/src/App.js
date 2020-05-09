@@ -103,12 +103,11 @@ class App extends Component {
       toggleFullScreen();
     });
     function toggleCourseListIcon() {
-      
-      $(".collapsible-header").each(function (){
-        if($(this).hasClass("active")){
-           $(".active .material-icons").text("remove");
-        }else{
-           $(".active .material-icons").text("remove");
+      $(".collapsible-header").each(function () {
+        if ($(this).hasClass("active")) {
+          $(".active .material-icons").text("remove");
+        } else {
+          $(".active .material-icons").text("remove");
         }
       });
     }
@@ -142,6 +141,8 @@ class App extends Component {
         overflow: "auto",
       });
     }
+
+   
   }
   render() {
     return (
