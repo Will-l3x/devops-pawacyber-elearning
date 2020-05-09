@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-//import M from "materialize-css";
-import PerfectScrollbar from '@opuscapita/react-perfect-scrollbar';
 import logo from "../assets/images/logo/materialize-logo.png";
 import avatar from "../assets/images/avatar/avatar-7.png";
 class Header extends Component {
@@ -67,7 +65,6 @@ class Header extends Component {
                 </Link>
               </li>
             </ul>
-            <PerfectScrollbar>
               <ul id="notifications-dropdown" className="dropdown-content dropdown-notify">
                 <li>
                   <h6>
@@ -147,8 +144,6 @@ class Header extends Component {
                   </time>
                 </li>
               </ul>
-            </PerfectScrollbar>
-            <PerfectScrollbar>
               <ul id="profile-dropdown" className="dropdown-content dropdown-acc">
                 <li>
                   <Link to="#" className="grey-text text-darken-1">
@@ -177,7 +172,6 @@ class Header extends Component {
                   </Link>
                 </li>
               </ul>
-            </PerfectScrollbar>
           </div>
         </nav>
       </div>

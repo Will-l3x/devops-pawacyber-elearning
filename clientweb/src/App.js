@@ -1,4 +1,4 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import { Provider } from "react-redux";
 import store from "./config/store";
 import Header from "./components/header";
@@ -6,6 +6,7 @@ import Footer from "./components/footer";
 import Main from "./navigation/main";
 import $ from "jquery";
 import "./App.css";
+import "./assets/css/custom.css";
 import M from "materialize-css";
 
 class App extends Component {
@@ -101,6 +102,21 @@ class App extends Component {
     $(".toggle-fullscreen").click(function () {
       toggleFullScreen();
     });
+    function toggleCourseListIcon() {
+      
+      $(".collapsible-header").each(function (){
+        if($(this).hasClass("active")){
+           $(".active .material-icons").text("remove");
+        }else{
+           $(".active .material-icons").text("remove");
+        }
+      });
+    }
+
+    $(".collapsible-header").click(function () {
+      $(this).toggleClass("active");
+      toggleCourseListIcon();
+    });
 
     // Toggle Flow Text
     var toggleFlowTextButton = $("#flow-toggle");
@@ -141,7 +157,9 @@ class App extends Component {
         <main id="main">
           <Main />
         </main>
-        <Footer />
+        <footer className="footer page-footer gradient-45deg-light-blue-cyan">
+          <Footer />
+        </footer>
       </Provider>
     );
   }

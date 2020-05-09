@@ -4,64 +4,53 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { navClick } from "../../actions/navlink";
 
-class HomeLink extends Component {
+class TeacherLink extends Component {
+  
   dashClick = (dash) => {
     this.props.navClick(dash);
-  }
+  };
 
   render() {
     return (
       <ul className="collapsible no-shadow" data-collapsible="accordion">
         <li className="bold">
           <Link
-            to="/"
+            to="/teacher"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick('home')}
+            onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">pie_chart_outlined</i>
-            <span className="nav-text">This is not home</span>
-          </Link>
-        </li>
-        <li className="bold">
-          <Link
-            to="/admin"
-            className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick('admin')}
-          >
-            <i className="material-icons">
-              pie_chart_outlined
-            </i>
-            <span className="nav-text">
-              Admin
-            </span>
+            <span className="nav-text">Dashboard</span>
           </Link>
         </li>
         <li className="bold">
           <Link
             to="/teacher"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick('teacher')}
+            onClick={() => this.dashClick("teacher")}
           >
-            <i className="material-icons">
-              pie_chart_outlined
-            </i>
-            <span className="nav-text">
-             Teacher
-            </span>
+            <i className="material-icons">pie_chart_outlined</i>
+            <span className="nav-text">Teacher</span>
           </Link>
         </li>
         <li className="bold">
           <Link
-            to="/student"
+            to="/teacher"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick('student')}
+            onClick={() => this.dashClick("teacher")}
           >
-            <i className="material-icons">
-              pie_chart_outlined
-            </i>
-            <span className="nav-text">
-              Student
-            </span>
+            <i className="material-icons">pie_chart_outlined</i>
+            <span className="nav-text">Create Course Outline</span>
+          </Link>
+        </li>
+        <li className="bold">
+          <Link
+            to="/teacher"
+            className="dash-link waves-effect waves-cyan"
+            onClick={() => this.dashClick("teacher")}
+          >
+            <i className="material-icons">pie_chart_outlined</i>
+            <span className="nav-text">My Classes</span>
           </Link>
         </li>
       </ul>
@@ -69,7 +58,7 @@ class HomeLink extends Component {
   }
 }
 
-HomeLink.propTypes = {
+TeacherLink.propTypes = {
   navClick: PropTypes.func.isRequired,
   link: PropTypes.string,
 };
@@ -78,5 +67,4 @@ const mapStateToProps = (state) => ({
   link: state.dashLink.link,
 });
 
-
-export default connect(mapStateToProps, { navClick })(HomeLink);
+export default connect(mapStateToProps, { navClick /*, action*/ })(TeacherLink);

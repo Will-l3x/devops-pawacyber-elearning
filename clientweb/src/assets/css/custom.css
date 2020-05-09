@@ -1,0 +1,61 @@
+.curriculum-wrapper .lecture-container {
+    display: flex;
+    padding: 12px 30px 12px 43px;
+    background-color: #fff;
+    border: 1px solid #e8e9eb;
+    border-top: none;
+    color: #686f7a;
+    letter-spacing: .3px;
+    line-height: 1.33;
+}
+
+.curriculum-wrapper .lecture-container .left-content {
+    display: flex;
+    align-items: flex-start;
+    width: 50%;
+}
+
+.curriculum-wrapper .lecture-container .top {
+    flex-direction: column-reverse;
+    display: flex;
+    margin-left: 15px;
+    width: 100%;
+}
+
+.curriculum-wrapper .lecture-container .description {
+    font-size: 13px;
+}
+
+.collapse.in {
+    display: block;
+}
+
+.curriculum-wrapper .lecture-container .title {
+    color: #505763;
+    font-size: 14px;
+    margin-top: -2px;
+}
+
+.curriculum-wrapper .lecture-container .details {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin-left: auto;
+    width: 50%;
+    font-size: 14px;
+}
+
+@media (min-width: 992px) {
+    .curriculum-wrapper .content-summary {
+        width: 30%;
+    }
+}
+
+.curriculum-wrapper .content-summary {
+    color: #686f7a;
+    flex-direction: row-reverse;
+    display: flex;
+    text-align: right;
+    white-space: nowrap;
+    width: 40%;
+}
