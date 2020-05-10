@@ -9,9 +9,8 @@ export default class StudyMaterialCard extends Component {
                         <img src={avatar} alt="Avatar"  style={{flexShrink:'0',maxWidth: '100%',maxHeight: '80px'}}></img>
                 </div>
                 <div className="col s6 card-title">
-                  
                         <div style={{fontSize:'16px',marginTop:'10px', marginBottom:'10px'}}>
-                          Anytime is study time! View your school's learning resources library!
+                          Anytime is study time! View your learning resources library!
                         </div>
                      
                 </div>
