@@ -47,11 +47,7 @@ class SideBar extends Component {
                   </Link>
                 </li>
                 <li className="divider"></li>
-                <li>
-                  <Link to="" className="grey-text text-darken-1">
-                    <i className="material-icons">lock_outline</i> Lock
-                  </Link>
-                </li>
+
                 <li>
                   <Link to="" className="grey-text text-darken-1">
                     <i className="material-icons">keyboard_tab</i> Logout
