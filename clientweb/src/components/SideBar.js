@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+import {navClick} from "../actions/navlink";
 import AdminLink from "../views/admin/AdminLink";
 import HomeLink from "../views/home/HomeLink";
+import StudentLink from "../views/student/StudentLink";
+import TeacherLink from "../views/teacher/TeacherLink";
 
 class SideBar extends Component {
   render() {
@@ -10,11 +14,20 @@ class SideBar extends Component {
 
     if (this.props.link === "admin") {
       Links = AdminLink;
-    } else if (this.props.link === "home") {
-      Links = HomeLink;
-    } else {
-      Links = HomeLink;
     }
+    if (this.props.link === "teacher") {
+      Links = TeacherLink;
+    }
+    if (this.props.link === "student") {
+      Links = StudentLink;
+    }
+    if (this.props.link === "home") {
+      Links = HomeLink;
+    } 
+    if (this.props.link === "") {
+      this.props.navClick('home')
+      Links = HomeLink;
+    } 
     return (
       <ul
         id="slide-out"
@@ -54,10 +67,11 @@ class SideBar extends Component {
                   </Link>
                 </li>
               </ul>
+              
               <Link
-                className="btn-flat dropdown-button waves-effect waves-light white-text profile-btn"
+                className="btn-flat dropdown-button dropdown-trigger waves-effect waves-light white-text profile-btn"
                 to=""
-                data-activates="profile-dropdown-nav"
+                data-target="profile-dropdown-nav"
               >
                 John Doe
                 <i className="mdi-navigation-arrow-drop-down right"></i>
@@ -73,8 +87,14 @@ class SideBar extends Component {
     );
   }
 }
+
+SideBar.propTypes = {
+  navClick: PropTypes.func.isRequired,
+  link: PropTypes.string,
+};
+
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
 });
 
-export default connect(mapStateToProps, null)(SideBar);
+export default connect(mapStateToProps, {navClick})(SideBar);

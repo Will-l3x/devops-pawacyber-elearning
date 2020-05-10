@@ -12,8 +12,8 @@ export class HomeScreen extends Component {
             <SideBar></SideBar>
             <Link
                 to=""
-                data-activates="slide-out"
-                className="sidebar-collapse waves-effect waves-block waves-light hide-on-large-only"
+                data-target="slide-out"
+                className="sidebar-collapse dropdown-triger waves-effect waves-block waves-light hide-on-large-only"
             >
                 <i className="material-icons">format_indent_increase</i>
             </Link>

@@ -11,7 +11,6 @@ class AdminLink extends Component {
   }
 
   onClick(e) {
-    console.log('clicked');
     this.props.navClick('admin');
   }
 
@@ -78,9 +77,9 @@ AdminLink.propTypes = {
   link: PropTypes.string
 };
 
-const mapStateToProps = (state) => {
-  const link = state.dashLink.link;
-  return { link };
-};
+const mapStateToProps = (state) => ({
+  link: state.dashLink.link
+});
+
 
 export default connect(mapStateToProps, { navClick })(AdminLink);

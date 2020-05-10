@@ -9,6 +9,7 @@ import { AddCourseScreen } from "../views/admin/AddCourseScreen";
 import { AddTeacherScreen } from "../views/admin/AddTeacherScreen";
 import { SubscriptionScreen } from "../views/admin/SubscriptionScreen";
 import { CourseListScreen } from "../views/admin/CourseListScreen";
+import { CourseOutlineScreen } from "../components/CourseOutlineScreen";
 
 
 const Main = () => (
@@ -19,6 +20,7 @@ const Main = () => (
        <Route exact path="/admin" component={AdminScreen} />
        <Route exact path="/add-course" component={AddCourseScreen} />
        <Route exact path="/courses" component={CourseListScreen} />
+       <Route exact path="/course-outline" component={CourseOutlineScreen} />
        <Route exact path="/subscriptions" component={SubscriptionScreen} />
        <Route exact path="/add-teacher" component={AddTeacherScreen} />
        <Route exact path="/teacher" component={TeacherScreen} />

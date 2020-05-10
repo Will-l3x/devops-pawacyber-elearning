@@ -1,4 +1,15 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700);
+/*------------------------------------------------------------------
+    IMPORT FONTS
+-------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i');
+
+/*------------------------------------------------------------------
+    IMPORT FILES
+-------------------------------------------------------------------*/
+@import url(assets/css/flaticon.css);
+@import url(assets/css/font-awesome.min.css);
+
 
 .materialize-red {
     background-color: #e51c23 !important;
@@ -2707,6 +2718,9 @@ select {
 
 #content .container .row {
     margin-bottom: 0;
+}
+#content {
+    min-height: 82vh;
 }
 
 @media only screen and (min-width: 601px) {
@@ -6095,18 +6109,6 @@ li.home:before {
     background: #e6e6e6;
 }
 
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: local("Material Icons"),
-        local("MaterialIcons-Regular"),
-        url("./assets/css/fonts/material-design-icons/MaterialIcons-Regular.ttf") format("truetype"),
-        url("./assets/css/fonts/material-design-icons/MaterialIcons-Regular.woff2") format("woff2"),
-        url("./assets/css/fonts/material-design-icons/MaterialIcons-Regular.woff") format("woff"),
-        url("./assets/css/fonts/material-design-icons/MaterialIcons-Regular.eot");
-}
-
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -6967,7 +6969,9 @@ ul.side-nav .collapsible-header.active:after {
 ------------------------------------------*/
 
 #breadcrumbs-wrapper {
-    background: #f3f3f3;
+    border: 1px solid #4babb1;
+    border-top: 0px;
+    border-bottom: 0px;
 }
 
 #breadcrumbs-wrapper .breadcrumbs-btn {
@@ -7689,6 +7693,272 @@ tr.group:hover {
     box-shadow: none !important;
 }
 
+.all-title-box {
+    background: url(assets/images/banner.jpg)no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    min-height: 300px;
+}
+
+.all-title-box2 {
+    background: url(assets/images/gallary/28.png)no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    min-height: 300px;
+}
+
+.all-title-box h1,
+.all-title-box2 h1 {
+    color: #fff;
+    font-weight: 600;
+    text-transform: capitalize;
+    padding-top: 11%;
+    font-size: 48px;
+    line-height: 0px;
+}
+
+span.m_1 {
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1.5em;
+    display: block;
+}
+
+.section.wb {
+    background-color: #ffffff;
+}
+
+.section.lb {
+    background-color: #f2f3f5;
+}
+
+.section.db {
+    background-color: #1f1f1f;
+}
+
+.section.color1 {
+    background-color: #448AFF;
+}
+
+.section.cl {
+    background-color: #2d3032;
+}
+
+.section {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 70px 0;
+}
+
+.service-widget h3 a,
+.section.wb .service-widget h3,
+.section.lb .service-widget h3 {
+    color: #1f1f1f;
+}
+
+.section.parallax hr.hr1 {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.service-widget h3 a,
+.section.wb .service-widget h3,
+.section.lb .service-widget h3 {
+    color: #1f1f1f;
+}
+
+.section-title {
+    display: block;
+    position: relative;
+    margin-bottom: 60px;
+}
+
+.section-title p {
+    color: #999;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 33px;
+    margin: 0;
+}
+
+.section-title h3 {
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 62px;
+    margin: 0 0 25px;
+    padding: 0;
+    text-transform: none;
+}
+.message-box .lead {
+    padding-top: 10px;
+    font-size: 19px;
+    font-style: italic;
+    color: #999;
+    padding-bottom: 0;
+}
+
+.testimonial small,
+.testimonial .lead {
+    background-color: transparent;
+    color: #aaa;
+    display: block;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.first-section .lead {
+    font-size: 21px;
+    font-weight: 300;
+    padding: 0 0 40px;
+    margin: 0;
+    line-height: inherit;
+    color: #ffffff;
+}
+
+.lead {
+    font-size: 18px;
+    line-height: 30px;
+    color: #767676;
+    margin: 0;
+    padding: 0;
+}
+
+#testimonial-box .desc:hover .lead {
+    color: #121212;
+}
+
+hr.hr1 {
+    position: relative;
+    margin: 60px 0;
+    border: 1px dashed #f2f3f5;
+}
+
+hr.hr2 {
+    position: relative;
+    margin: 17px 0;
+    border: 1px dashed #f2f3f5;
+}
+
+hr.hr3 {
+    position: relative;
+    margin: 25px 0 30px 0;
+    border: 1px dashed #f2f3f5;
+}
+
+hr.invis {
+    border-color: transparent;
+}
+
+hr.invis1 {
+    margin: 10px 0;
+}
+.course-item {
+    background: #ffffff;
+}
+
+.course-item {}
+
+.course-title>h2 {
+    margin: 15px 0;
+    padding: 0px;
+}
+
+.course-title a {
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: 500;
+    color: #333333;
+    text-transform: capitalize;
+}
+
+.course-item:hover .course-title a {
+    color: #eea412;
+}
+
+.course-br {
+    border: 1px solid #4babb1;
+    padding: 15px;
+}
+
+.course-meta-bot {
+    border: 1px solid #4babb1;
+    border-top: 0px;
+    padding: 15px;
+}
+
+.course-meta-bot ul {
+    padding: 0px;
+    margin: 0px;
+    display: block;
+    text-align: center;
+}
+
+.course-meta-bot ul li {
+    display: inline-block;
+    list-style: none;
+    padding: 0px 5px;
+    color: #212121;
+    font-size: 11px;
+}
+
+.course-meta-bot ul li:hover {
+    color: #eea412;
+}
+
+.image-blog img {
+    padding: 0 !important;
+    width: 100%;
+    margin: 0 !important;
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    -webkit-transition: all 150ms ease-in-out;
+    -moz-transition: all 150ms ease-in-out;
+    -o-transition: all 150ms ease-in-out;
+    -ms-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
+}
+
+.image-blog2 img {
+    padding: 0 !important;
+    height: 300px;
+    width: 100%;
+    margin: 0 !important;
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    -webkit-transition: all 150ms ease-in-out;
+    -moz-transition: all 150ms ease-in-out;
+    -o-transition: all 150ms ease-in-out;
+    -ms-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
+}
+
+.image-blog img:hover {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    -moz-opacity: 0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
+}
+
+.image-center img {
+    position: relative;
+    margin: 0 0 -208px;
+    z-index: 10;
+    padding-right: 30px;
+    text-align: center;
+}
 .hovCard:hover {
     -moz-box-shadow: 0 0 10px #ccc;
     -webkit-box-shadow: 0 0 10px #ccc;

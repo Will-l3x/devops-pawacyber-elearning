@@ -124,9 +124,6 @@ export class StudentScreen extends Component {
               <PendingAssignments pendingWork = {this.state.pendingWork}></PendingAssignments>
               </ul>
               </div>
-             
-             
-             
               <div className="col s12 m12 l6">
             <ul id="task-card" className="collection with-header">
               <li className="collection-item avatar">
@@ -137,32 +134,13 @@ export class StudentScreen extends Component {
                     <p className="task-card-title" style={{color:'black'}}>Arranged by submission date</p>
                 </li>
                 <MarkedAssignments  markedWork = {this.state.markedWork}></MarkedAssignments>
-
-
             </ul>
             </div>
-
-          
-
-
-
-
-
-
-
-
                 </div>
               </div>
-
-
-                
                 </div>
-            
           </div>
-       
-
-        
-                </section>
+        </section>
       </div>
     );
   }
