@@ -25,12 +25,22 @@ class TeacherLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/teacher"
+            to="/teacher-students"
             className="dash-link waves-effect waves-cyan"
             onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">pie_chart_outlined</i>
-            <span className="nav-text">Teacher</span>
+            <span className="nav-text">Students</span>
+          </Link>
+        </li>
+        <li className="bold">
+          <Link
+            to="/teacher-classwork"
+            className="dash-link waves-effect waves-cyan"
+            onClick={() => this.dashClick("teacher")}
+          >
+            <i className="material-icons">pie_chart_outlined</i>
+            <span className="nav-text">Classwork</span>
           </Link>
         </li>
         <li className="bold">
@@ -40,17 +50,7 @@ class TeacherLink extends Component {
             onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">pie_chart_outlined</i>
-            <span className="nav-text">Create Course Outline</span>
-          </Link>
-        </li>
-        <li className="bold">
-          <Link
-            to="/teacher"
-            className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick("teacher")}
-          >
-            <i className="material-icons">pie_chart_outlined</i>
-            <span className="nav-text">My Classes</span>
+            <span className="nav-text">To-do</span>
           </Link>
         </li>
       </ul>
