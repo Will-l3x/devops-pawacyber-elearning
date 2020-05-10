@@ -102,6 +102,7 @@ class App extends Component {
     $(".toggle-fullscreen").click(function () {
       toggleFullScreen();
     });
+    /*
     function toggleCourseListIcon() {
       $(".collapsible-header").each(function () {
         if ($(this).hasClass("active")) {
@@ -116,6 +117,7 @@ class App extends Component {
       $(this).toggleClass("active");
       toggleCourseListIcon();
     });
+    */
 
     // Toggle Flow Text
     var toggleFlowTextButton = $("#flow-toggle");

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "./SideBar";
-import $ from "jquery";
+//import $ from "jquery";
 import M from "materialize-css";
-import DropZone from "./dropzone";
+import FileDropZone from "./dropzone";
 
 export class CourseOutlineScreen extends Component {
   constructor(props) {
@@ -16,52 +16,146 @@ export class CourseOutlineScreen extends Component {
           {
             id: "1",
             title: "first",
-            material: [
+            subtopic: [
               {
                 id: "1.1",
                 title: "Sub Topic 1",
-                addMaterial: [],
+                material: [
+                  {
+                    id: "1",
+                    title: "Course Intro",
+                    period: "week 1",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                  {
+                    id: "11",
+                    title: "Course Intro",
+                    period: "week 2",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                ],
               },
               {
                 id: "1.2",
                 title: "Sub Topic 2",
-                addMaterial: [],
+                material: [
+                  {
+                    id: "2",
+                    title: "Course Intro",
+                    period: "week 3 & 4",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                  {
+                    id: "12",
+                    title: "Course Intro",
+                    period: "week 5",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                ],
               },
               {
                 id: "1.3",
                 title: "Sub Topic 3",
-                addMaterial: [],
+                material: [
+                  {
+                    id: "3",
+                    title: "Course Intro",
+                    period: "week 6-9",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                  {
+                    id: "13",
+                    title: "Course Intro",
+                    period: "week 10",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                ],
               },
             ],
           },
           {
             id: "2",
             title: "Second",
-            material: [
+            subtopic: [
               {
                 id: "2.1",
                 title: "Sub Topic 1",
                 chapter: "1",
-                addMaterial: [],
+                material: [
+                  {
+                    id: "4",
+                    title: "Course Intro",
+                    period: "week 10",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                  {
+                    id: "14",
+                    title: "Course Intro",
+                    period: "week 11",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                ],
               },
               {
                 id: "2.2",
                 title: "Sub Topic 2",
-                addMaterial: [],
+                material: [
+                  {
+                    id: "5",
+                    title: "Course Intro",
+                    period: "week 2",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                  {
+                    id: "15",
+                    title: "Course Intro",
+                    period: "week 13",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                ],
               },
               {
                 id: "2.3",
                 title: "Sub Topic 3",
-                addMaterial: [],
+                material: [
+                  {
+                    id: "6",
+                    title: "Course Intro",
+                    period: "week 13",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                  {
+                    id: "16",
+                    title: "Course Intro",
+                    period: "week 14-17",
+                    doc_path: "path/to/file",
+                    video_path: "path/to/file",
+                  },
+                ],
               },
             ],
           },
         ],
       },
     };
+    this.topics.bind(this);
+    this.subTopics.bind(this);
+    this.courseMaterial.bind(this);
   }
   componentDidMount() {
     M.AutoInit();
+    /*
     function toggleCourseListIcon() {
       $(".collapsible-header").each(function () {
         if ($(this).hasClass("active")) {
@@ -74,78 +168,97 @@ export class CourseOutlineScreen extends Component {
     $(".collapsible-header").click(function () {
       $(this).toggleClass("active");
       toggleCourseListIcon();
-    });
+    });*/
   }
-  render() {
-    const topics = this.state.course.topics.map((topic) => (
+  topics = (topics) => {
+    return topics.map((topic) => (
       <li key={topic.id}>
-        <div className="collapsible-header">
+        <div
+          className="collapsible-header"
+          style={{ border: "1px solid #4babb1", borderTop: 0 }}
+        >
           <i className="material-icons">add</i>
           First
           <span className="badge">3 sub topics</span>
         </div>
 
-        <div className="collapsible-body">
-          <ul className="collapsible">
-            {topic.material.map((m) => (
-              <li key={m.id} className="">
-                <div className="collapsible-header">
-                  <i className="material-icons">add</i>
-                  {m.title}
-                  <span className="badge">1</span>
-                </div>
-                <div className="collapsible-body no-padding">
-                  <div className="collection">
-                    <div
-                      className="lecture-container lecture-container--preview collection-item"
-                      data-purpose="lecture-item-1-1"
-                    >
-                      <div className="left-content">
-                        <span className="udi udi-play-circle"></span>
-                        <div className="top">
-                          <div className="description collapse in">
-                            <p>
-                              Welcome to this course!&nbsp;Let me introduce
-                              myself and explain what the course is about!
-                            </p>
-                          </div>
-                          <div className="title">
-                            <Link to="">Course Introduction</Link>{" "}
-                            <Link className="down-arrow" to="">
-                              <span
-                                aria-label="Show description"
-                                data-purpose="lecture-caret-1-1"
-                                className="udi udi-caret-down"
-                              ></span>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="details">
-                        <Link data-purpose="preview-course" to="">
-                          <span className="preview-text">Preview</span>
-                        </Link>
-                        <span className="content-summary">00:57</span>
-                      </div>
-                    </div>
-                    <Link to="#!" className="collection-item">
-                      <span className="new badge">4</span>Alan
-                    </Link>
-                    <Link to="#!" className="collection-item">
-                      Alan
-                    </Link>
-                    <Link to="#!" className="collection-item">
-                      <span className="badge">14</span>Alan
-                    </Link>
-                  </div>
-                </div>
-              </li>
-            ))}
+        <div className="collapsible-body gradient-45deg-green-teal">
+          <ul className="collapsible" style={{ margin: 0 }}>
+            {this.subTopics(topic.subtopic)}
           </ul>
         </div>
       </li>
     ));
+  };
 
+  subTopics = (sub) => {
+    return sub.map((subtopic) => (
+      <li key={subtopic.id} className="">
+        <div className="collapsible-header">
+          <i className="material-icons">add</i>
+          {subtopic.title}
+          <span className="badge">1</span>
+        </div>
+        <div className="collapsible-body no-padding">
+          <div className="collection">
+            {this.courseMaterial(subtopic.material)}
+          </div>
+        </div>
+      </li>
+    ));
+  };
+  courseMaterial = (material) => {
+    return material.map((material, i) => (
+      <div
+        key={material.id}
+        style={{ paddingBottom: 30 }}
+        className="collection-item"
+      >
+        <div
+          className="lecture-container lecture-container--preview collection-item"
+          data-purpose="lecture-item-1-1"
+        >
+          <div className="left-content">
+            <div className="top">
+              <div className="description collapse in">
+                <p>
+                  Welcome to this course!&nbsp;Let me introduce myself and
+                  explain what the course is about!
+                </p>
+              </div>
+              <div className="title">
+                <span className="blue-grey-text">
+                  {i + 1}.{material.title}.................
+                  <i className="fa fa-calendar" aria-hidden="true"></i>
+                  {material.period}
+                </span>
+              </div>
+            </div>
+          </div>
+          <span className="badge">
+            <Link
+              className="green-text tooltipped"
+              data-position="top"
+              data-tooltip="Download pdf"
+              
+              to={material.doc_path}
+            >
+              <i className="material-icons">picture_as_pdf</i>
+            </Link>
+            <Link
+              className="blue-text tooltipped"
+              data-position="top"
+              data-tooltip="Download video"
+              to={material.video_path}
+            >
+              <i className="material-icons">ondemand_video</i>
+            </Link>
+          </span>
+        </div>
+      </div>
+    ));
+  };
+  render() {
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
@@ -228,7 +341,7 @@ export class CourseOutlineScreen extends Component {
                 <div className="course-title">
                   <h2>
                     <Link to="" title="">
-                      Summary
+                      Course introduction
                     </Link>
                   </h2>
                 </div>
@@ -255,9 +368,23 @@ export class CourseOutlineScreen extends Component {
                   </li>
                 </ul>
               </div>
+              <div className="course-meta-bot" style={{ paddingBottom: 10 }}>
+                <div className="row">
+                  <div className="col m12">
+                    <h5 className="breadcrumbs-title center-align text-darken-2">
+                      Topics
+                    </h5>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <ul className="collapsible">{topics}</ul>
+            <ul
+              className="collapsible"
+              style={{ margin: 0, border: "1px solid #4babb1", borderTop: 0 }}
+            >
+              {this.topics(this.state.course.topics)}
+            </ul>
 
             <div id="modal1" className="modal">
               <div className="modal-content">
@@ -276,14 +403,48 @@ export class CourseOutlineScreen extends Component {
                           id="description"
                           className="materialize-textarea"
                         ></textarea>
-                        <label htmlFor="description">Description</label>
                       </div>
                     </div>
 
                     <div className="row">
                       <div className="input-field col s12">
-                        <DropZone />
+                        <FileDropZone />
                       </div>
+                      <div className="row">
+                        <div className="input-field col s12">
+                          <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
+                            Submit
+                            <i className="material-icons right">send</i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="modal2" className="modal">
+              <div className="modal-content">
+                <h4 className="header2">Delete Course Material</h4>
+                <div className="row">
+                  <div className="col s12">
+                    <div className="row header-search-wrapper">
+                      <i className="material-icons">search</i>
+                      <input
+                        type="text"
+                        name="Search"
+                        className="header-search-input z-depth-2"
+                        placeholder="Explore Classroom"
+                      ></input>
+
+                      <label htmlFor="description">Search File</label>
+                    </div>
+                    <div className="row">
+                      <div className="col s12"></div>
+                    </div>
+
+                    <div className="row">
                       <div className="row">
                         <div className="input-field col s12">
                           <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">

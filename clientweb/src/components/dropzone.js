@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import $ from 'jquery';
 import M from 'materialize-css';
-import "../../node_modules/dropify/dist/css/dropify.min.css";
+import "../assets/css/dropify.min.css";
 import Dropzone from "react-dropzone";
 
-class DropZone extends Component {
+class FileDropZone extends Component {
   constructor() {
     super();
 
@@ -137,4 +137,4 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(DropZone);
+export default connect(mapStateToProps, mapDispatchToProps)(FileDropZone);
