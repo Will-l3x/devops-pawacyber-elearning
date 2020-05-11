@@ -7960,7 +7960,25 @@ hr.invis1 {
     text-align: center;
 }
 .hovCard:hover {
-    -moz-box-shadow: 0 0 10px #ccc;
-    -webkit-box-shadow: 0 0 10px #ccc;
-    box-shadow: 0 0 10px #ccc;
+    -moz-box-shadow: 5px 10px 10px 10px #ccc;
+    -webkit-box-shadow:5px 10px 10px 10px #ccc;
+    box-shadow: 5px 10px 10px 10px #ccc;
+}
+
+/* Custom Designs */
+
+.designed-dots{
+    background: url("./assets/images/gallary/design.png") repeat-x right;
+    background-size: contain;
+}
+
+.materialCard{
+    background: url("./assets/images/icon/capRibon.png") no-repeat center center;
+    background-size: contain;
+}
+
+
+.sub-card{
+    background-image: url("./assets/images/gallary/black-dots.png");
+    background-size:  contain;
 }
