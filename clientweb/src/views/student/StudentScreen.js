@@ -92,7 +92,6 @@ export class StudentScreen extends Component {
 
   render() {
     return (
-      
       <div className="wrapper">
         <aside id="left-sidebar-nav">
           <SideBar></SideBar>
@@ -127,7 +126,7 @@ export class StudentScreen extends Component {
               <div className="col s12 m12 l6">
             <ul id="task-card" className="collection with-header">
               <li className="collection-item avatar">
-                    <i className="material-icons red accent-2 circle">
+                    <i className="material-icons blue circle">
                     timeline
                     </i>
                     <h5 className="task-card-title" style={{color:'black'}}>Returned Assignments</h5>
