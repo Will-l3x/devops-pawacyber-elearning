@@ -13,8 +13,9 @@ const _auth = require('./controllers/_auth.js');
 var cluster = require('cluster');
 var cron = require('node-cron');
 var moment = require('moment');
-var nodemailer = require('nodemailer');
+
 var _ = require('underscore');
+
 
 //var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
@@ -28,7 +29,6 @@ sql.connect(config, (err) => {
         //return console.error(err);
     }
 });
-
 
 var api = require('./routes/api');
 

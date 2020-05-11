@@ -14,9 +14,9 @@
 
 var config = {
     user: 'sa', 
-    password: '12345678',
+    password: 'ymcmbmmtmc',
     server: 'LOCALHOST',
-    database: 'newschool',
+    database: 'frsms',
     stream: true,
      options: {
          encrypt: true,
