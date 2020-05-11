@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import SubjectDescrip from "../../components/student-components/SubjectDescrip";
+import store from "../../config/store";
 
 // Receives subject code and Name only from main screen and retrieves from endpoint the topics of that.
 export class SubjectContent extends Component {
@@ -39,6 +40,7 @@ export class SubjectContent extends Component {
   
 
   render() {
+    const course = store.getState().student.course;
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
@@ -60,11 +62,11 @@ export class SubjectContent extends Component {
                     <ul id="task-card" className="collection with-header">
                       <li className="collection-header gradient-45deg-light-blue-cyan ">
                         <p className="task-card-title">
-                          {this.props.location.data.name} TOPICS
+                          {course.name} TOPICS
                         </p>
                       </li>
-                      {this.state.topics.map((topic) => (
-                        <li className="collection-item dismissable">
+                      {this.state.topics.map((topic, i) => (
+                        <li key={i} className="collection-item dismissable">
                           <label htmlFor="task1">
                             {topic.title}
                             {/* Click to view the content by seting state of Topic Name and the content */}
@@ -110,8 +112,5 @@ export class SubjectContent extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SubjectContent);
+export default connect(null, null)(SubjectContent);

@@ -30,6 +30,7 @@ export class TeacherScreen extends Component {
   };
 
   render() {
+    console.log(this.props)
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
@@ -203,7 +204,9 @@ export class TeacherScreen extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  ...state
+});
 
 const mapDispatchToProps = {};
 export default connect(mapStateToProps, mapDispatchToProps)(TeacherScreen);

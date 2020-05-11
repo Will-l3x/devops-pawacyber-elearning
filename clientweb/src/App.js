@@ -146,7 +146,7 @@ class App extends Component {
 
    
   }
-  render() {
+  render() { 
     return (
       <Provider store={store}>
         <div id="loader-wrapper">
@@ -158,7 +158,7 @@ class App extends Component {
           <Header />
         </header>
         <main id="main">
-          <Main />
+          <Main store={store.getState()} />
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
           <Footer />
