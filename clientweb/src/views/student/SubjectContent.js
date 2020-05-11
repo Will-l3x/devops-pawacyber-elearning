@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import SubjectDescrip from "../../components/student-components/SubjectDescrip";
 import store from "../../config/store";
@@ -41,6 +41,9 @@ export class SubjectContent extends Component {
 
   render() {
     const course = store.getState().student.course;
+    if (course.name === '' || course.name === undefined){
+      return <Redirect to='/student'/>
+    }
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
