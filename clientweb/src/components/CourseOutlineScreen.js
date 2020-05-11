@@ -10,16 +10,13 @@ export class CourseOutlineScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: {
-        title: "Course name",
-        topics: [
-          {
+      course:   {
             id: "1",
-            title: "first",
-            subtopic: [
+            title: "Course Name",
+            topic: [
               {
                 id: "1.1",
-                title: "Sub Topic 1",
+                title: "Topic 1",
                 material: [
                   {
                     id: "1",
@@ -39,7 +36,7 @@ export class CourseOutlineScreen extends Component {
               },
               {
                 id: "1.2",
-                title: "Sub Topic 2",
+                title: "Topic 2",
                 material: [
                   {
                     id: "2",
@@ -59,7 +56,7 @@ export class CourseOutlineScreen extends Component {
               },
               {
                 id: "1.3",
-                title: "Sub Topic 3",
+                title: "Topic 3",
                 material: [
                   {
                     id: "3",
@@ -79,78 +76,8 @@ export class CourseOutlineScreen extends Component {
               },
             ],
           },
-          {
-            id: "2",
-            title: "Second",
-            subtopic: [
-              {
-                id: "2.1",
-                title: "Sub Topic 1",
-                chapter: "1",
-                material: [
-                  {
-                    id: "4",
-                    title: "Course Intro",
-                    period: "week 10",
-                    doc_path: "path/to/file",
-                    video_path: "path/to/file",
-                  },
-                  {
-                    id: "14",
-                    title: "Course Intro",
-                    period: "week 11",
-                    doc_path: "path/to/file",
-                    video_path: "path/to/file",
-                  },
-                ],
-              },
-              {
-                id: "2.2",
-                title: "Sub Topic 2",
-                material: [
-                  {
-                    id: "5",
-                    title: "Course Intro",
-                    period: "week 2",
-                    doc_path: "path/to/file",
-                    video_path: "path/to/file",
-                  },
-                  {
-                    id: "15",
-                    title: "Course Intro",
-                    period: "week 13",
-                    doc_path: "path/to/file",
-                    video_path: "path/to/file",
-                  },
-                ],
-              },
-              {
-                id: "2.3",
-                title: "Sub Topic 3",
-                material: [
-                  {
-                    id: "6",
-                    title: "Course Intro",
-                    period: "week 13",
-                    doc_path: "path/to/file",
-                    video_path: "path/to/file",
-                  },
-                  {
-                    id: "16",
-                    title: "Course Intro",
-                    period: "week 14-17",
-                    doc_path: "path/to/file",
-                    video_path: "path/to/file",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
     };
     this.topics.bind(this);
-    this.subTopics.bind(this);
     this.courseMaterial.bind(this);
   }
   componentDidMount() {
@@ -170,38 +97,18 @@ export class CourseOutlineScreen extends Component {
       toggleCourseListIcon();
     });*/
   }
-  topics = (topics) => {
-    return topics.map((topic) => (
-      <li key={topic.id}>
-        <div
-          className="collapsible-header"
-          style={{ border: "1px solid #4babb1", borderTop: 0 }}
-        >
-          <i className="material-icons">add</i>
-          First
-          <span className="badge">3 sub topics</span>
-        </div>
 
-        <div className="collapsible-body gradient-45deg-green-teal">
-          <ul className="collapsible" style={{ margin: 0 }}>
-            {this.subTopics(topic.subtopic)}
-          </ul>
-        </div>
-      </li>
-    ));
-  };
-
-  subTopics = (sub) => {
-    return sub.map((subtopic) => (
-      <li key={subtopic.id} className="">
+  topics = (sub) => {
+    return sub.map((topic) => (
+      <li key={topic.id} className="">
         <div className="collapsible-header">
           <i className="material-icons">add</i>
-          {subtopic.title}
+          {topic.title}
           <span className="badge">1</span>
         </div>
         <div className="collapsible-body no-padding">
           <div className="collection">
-            {this.courseMaterial(subtopic.material)}
+            {this.courseMaterial(topic.material)}
           </div>
         </div>
       </li>
@@ -240,7 +147,6 @@ export class CourseOutlineScreen extends Component {
               className="green-text tooltipped"
               data-position="top"
               data-tooltip="Download pdf"
-              
               to={material.doc_path}
             >
               <i className="material-icons">picture_as_pdf</i>
@@ -297,11 +203,11 @@ export class CourseOutlineScreen extends Component {
                   </div>
                   <div className="col s2 m6 l6">
                     <Link
-                      className="btn dropdown-settings dropdown-trigger waves-effect waves-light gradient-45deg-light-blue-cyan breadcrumbs-btn right"
+                      className="btn dropdown-settings dropdown-trigger waves-effect waves-light gradient-45deg-blue-grey-blue-grey breadcrumbs-btn right"
                       to="#!"
                       data-target="dropdown1"
                     >
-                      <i className="material-icons ">settings</i>
+                      <i className="material-icons">library_add</i>
                     </Link>
                     <ul
                       id="dropdown1"
@@ -383,7 +289,7 @@ export class CourseOutlineScreen extends Component {
               className="collapsible"
               style={{ margin: 0, border: "1px solid #4babb1", borderTop: 0 }}
             >
-              {this.topics(this.state.course.topics)}
+              {this.topics(this.state.course.topic)}
             </ul>
 
             <div id="modal1" className="modal">

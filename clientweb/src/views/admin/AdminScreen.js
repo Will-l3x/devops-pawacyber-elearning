@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
-import avatar from "../../assets/images/avatar/avatar-7.png";
-import userbg from "../../assets/images/gallary/3.png";
-
 
 export class AdminScreen extends Component {
   render() {
@@ -95,9 +92,9 @@ export class AdminScreen extends Component {
                 </div>
               </div>
             </div>
-            <div id="card-widgets">
+            <div id="work-collections">
               <div className="row">
-                <div className="col s12 m4 l4">
+                <div className="col s12 m12 l6">
                   <ul id="task-card" className="collection with-header">
                     <li className="collection-header teal accent-4">
                       <h4 className="task-card-title">My Task</h4>
@@ -148,215 +145,6 @@ export class AdminScreen extends Component {
                       <span className="task-cat deep-orange accent-2">
                         Mobile App
                       </span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col s12 m12 l4">
-                  <div id="flight-card" className="card">
-                    <div className="card-header deep-orange accent-2">
-                      <div className="card-title">
-                        <h4 className="flight-card-title">Flight</h4>
-                        <p className="flight-card-date">June 18, Thu 04:50</p>
-                      </div>
-                    </div>
-                    <div className="card-content-bg white-text">
-                      <div className="card-content">
-                        <div className="row flight-state-wrapper">
-                          <div className="col s5 m5 l5 center-align">
-                            <div className="flight-state">
-                              <h4 className="margin">LDN</h4>
-                              <p className="ultra-small">London</p>
-                            </div>
-                          </div>
-                          <div className="col s2 m2 l2 center-align">
-                            <i className="material-icons flight-icon">
-                              local_airport
-                            </i>
-                          </div>
-                          <div className="col s5 m5 l5 center-align">
-                            <div className="flight-state">
-                              <h4 className="margin">SFO</h4>
-                              <p className="ultra-small">San Francisco</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col s6 m6 l6 center-align">
-                            <div className="flight-info">
-                              <p className="small">
-                                <span className="grey-text text-lighten-4">
-                                  Depart:
-                                </span>{" "}
-                                04.50
-                              </p>
-                              <p className="small">
-                                <span className="grey-text text-lighten-4">
-                                  Flight:
-                                </span>{" "}
-                                IB 5786
-                              </p>
-                              <p className="small">
-                                <span className="grey-text text-lighten-4">
-                                  Terminal:
-                                </span>{" "}
-                                B
-                              </p>
-                            </div>
-                          </div>
-                          <div className="col s6 m6 l6 center-align flight-state-two">
-                            <div className="flight-info">
-                              <p className="small">
-                                <span className="grey-text text-lighten-4">
-                                  Arrive:
-                                </span>{" "}
-                                08.50
-                              </p>
-                              <p className="small">
-                                <span className="grey-text text-lighten-4">
-                                  Flight:
-                                </span>{" "}
-                                IB 5786
-                              </p>
-                              <p className="small">
-                                <span className="grey-text text-lighten-4">
-                                  Terminal:
-                                </span>{" "}
-                                C
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col s12 m4 l4">
-                  <div id="profile-card" className="card">
-                    <div className="card-image waves-effect waves-block waves-light">
-                      <img
-                        className="activator"
-                        src={userbg}
-                        alt="user bg"
-                      ></img>
-                    </div>
-                    <div className="card-content">
-                      <img
-                        src={avatar}
-                        alt=""
-                        className="circle responsive-img activator card-profile-image cyan lighten-1 padding-2"
-                      ></img>
-                      <Link
-                        to=""
-                        className="btn-floating activator btn-move-up waves-effect waves-light red accent-2 z-depth-4 right"
-                      >
-                        <i className="material-icons">edit</i>
-                      </Link>
-                      <span className="card-title activator grey-text text-darken-4">
-                        Roger Waters
-                      </span>
-                      <p>
-                        <i className="material-icons">perm_identity</i> Project
-                        Manager
-                      </p>
-                      <p>
-                        <i className="material-icons">perm_phone_msg</i> +1
-                        (612) 222 8989
-                      </p>
-                      <p>
-                        <i className="material-icons">email</i>{" "}
-                        yourmail@domain.com
-                      </p>
-                    </div>
-                    <div className="card-reveal">
-                      <span className="card-title grey-text text-darken-4">
-                        Roger Waters
-                        <i className="material-icons right">close</i>
-                      </span>
-                      <p>Here is some more information about this card.</p>
-                      <p>
-                        <i className="material-icons">perm_identity</i> Project
-                        Manager
-                      </p>
-                      <p>
-                        <i className="material-icons">perm_phone_msg</i> +1
-                        (612) 222 8989
-                      </p>
-                      <p>
-                        <i className="material-icons">email</i>{" "}
-                        yourmail@domain.com
-                      </p>
-                      <p>
-                        <i className="material-icons">cake</i> 18th June 1990
-                      </p>
-                      <p></p>
-                      <p>
-                        <i className="material-icons">airplanemode_active</i>{" "}
-                        BAR - AUS
-                      </p>
-                      <p></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="work-collections">
-              <div className="row">
-                <div className="col s12 m12 l6">
-                  <ul id="projects-collection" className="collection z-depth-1">
-                    <li className="collection-item avatar">
-                      <i className="material-icons cyan circle">card_travel</i>
-                      <h6 className="collection-header m-0">Projects</h6>
-                      <p>Your Favorites</p>
-                    </li>
-                    <li className="collection-item">
-                      <div className="row">
-                        <div className="col s9">
-                          <p className="collections-title">Web App</p>
-                          <p className="collections-content">AEC Company</p>
-                        </div>
-                        <div className="col s3">
-                          <span className="task-cat cyan">Development</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="collection-item">
-                      <div className="row">
-                        <div className="col s9">
-                          <p className="collections-title">
-                            Mobile App for Social
-                          </p>
-                          <p className="collections-content">iSocial App</p>
-                        </div>
-                        <div className="col s3">
-                          <span className="task-cat red accent-2">UI/UX</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="collection-item">
-                      <div className="row">
-                        <div className="col s9">
-                          <p className="collections-title">Website</p>
-                          <p className="collections-content">MediTab</p>
-                        </div>
-                        <div className="col s3">
-                          <span className="task-cat teal accent-4">
-                            Marketing
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="collection-item">
-                      <div className="row">
-                        <div className="col s9">
-                          <p className="collections-title">AdWord campaign</p>
-                          <p className="collections-content">True Line</p>
-                        </div>
-                        <div className="col s3">
-                          <span className="task-cat deep-orange accent-2">
-                            SEO
-                          </span>
-                        </div>
-                      </div>
                     </li>
                   </ul>
                 </div>

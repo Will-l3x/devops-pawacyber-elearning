@@ -1,6 +1,6 @@
 
 const initialState = {
-  link: ''
+  link: 'teacher'
 };
 
 export default function(state = initialState, action) {
