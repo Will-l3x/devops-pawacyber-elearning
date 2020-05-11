@@ -11,7 +11,7 @@ export default class MarkedAssignments extends Component {
                   <Link to="#" className="">
                       <div className="row">
                         <div className="col s7">
-                        <span className="task-cat teal accent-4">{course.courseName}</span>
+                        <span className="task-cat" style={{color:'black'}}>{course.courseName}</span>
                         </div>
                         <div className="col s2">
                           <span className="task-cat deep-orange accent-2">
