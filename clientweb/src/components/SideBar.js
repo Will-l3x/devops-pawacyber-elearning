@@ -87,7 +87,6 @@ class SideBar extends Component {
     );
   }
 }
-
 SideBar.propTypes = {
   navClick: PropTypes.func.isRequired,
   link: PropTypes.string,

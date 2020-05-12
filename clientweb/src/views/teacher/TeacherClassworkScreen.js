@@ -5,7 +5,7 @@ import SideBar from "../../components/SideBar";
 import avatar from "../../assets/images/icon/book_lover.png";
 import DatatablePage from "../../components/DatatablePage";
 import TeacherCourseCard from "./TeacherCourseCard";
-
+import M from "materialize-css";
 export class TeacherClassworkScreen extends Component {
   state = {
     courses: [
@@ -29,6 +29,9 @@ export class TeacherClassworkScreen extends Component {
       },
     ],
   };
+  componentWillMount(){
+    M.AutoInit()
+  }
   render() {
     return (
       <div className="wrapper">
@@ -107,46 +110,6 @@ export class TeacherClassworkScreen extends Component {
             <div id="card-stats" className="z-depth-5 padding-5">
               <div className="row mt-1">
                 <div className="col s12 m6 l12">
-                  <Link
-                    className="btn dropdown-settings dropdown-trigger waves-effect waves-light gradient-45deg-light-blue-cyan breadcrumbs-btn right"
-                    to="#!"
-                    data-target="dropdown1"
-                    style={{ top: 25 }}
-                  >
-                    <i className="material-icons ">settings</i>
-                  </Link>
-                  <ul
-                    id="dropdown1"
-                    className="dropdown-content"
-                    style={{
-                      minWidth: "200px",
-                      whiteSpace: "nowrap",
-                      opacity: 1,
-                      display: "none",
-                    }}
-                  >
-                    <li>
-                      <Link
-                        to="#!"
-                        data-target="modal1"
-                        className="grey-text modal-trigger text-darken-2"
-                      >
-                        <i className="material-icons ">library_add</i>
-                        Add Material
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="#!"
-                        data-target="modal2"
-                        className="grey-text modal-trigger text-darken-2"
-                      >
-                        <i className="material-icons ">backspace</i>
-                        Remove Material
-                      </Link>
-                    </li>
-                  </ul>
-
                   <DatatablePage />
                 </div>
               </div>

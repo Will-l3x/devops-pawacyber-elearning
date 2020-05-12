@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 export default class MarkedAssignments extends Component {
     render() {
 
-        return this.props.markedWork.map((course)=>
+        return this.props.markedWork.map((course, i)=>
         (
-              <li className="collection-item">
+              <li key={i} className="collection-item">
                   <Link to="#" className="">
                       <div className="row">
                         <div className="col s7">

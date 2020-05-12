@@ -16,7 +16,7 @@ class StudentLink extends Component {
           <Link
             to="/student"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick('home')}
+            onClick={() => this.dashClick("student")}
           >
             <i className="material-icons">pie_chart_outlined</i>
             <span className="nav-text">Home</span>
@@ -24,15 +24,15 @@ class StudentLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/student"
+            to="/subject-content"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick('admin')}
+            onClick={() => this.dashClick("student")}
           >
-            <i className="material-icons" data-link="admin">
+            <i className="material-icons">
               pie_chart_outlined
             </i>
-            <span className="nav-text" data-link="admin">
-              Admin
+            <span className="nav-text">
+              Student content
             </span>
           </Link>
         </li>
