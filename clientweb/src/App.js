@@ -29,12 +29,12 @@ class App extends Component {
       });
 
     // Check first if any of the task is checked
-    $("#task-card input:checkbox").each(function () {
+    $(".task-card input:checkbox").each(function () {
       checkbox_check(this);
     });
 
     // Task check box
-    $("#task-card input:checkbox").change(function () {
+    $(".task-card input:checkbox").change(function () {
       checkbox_check(this);
     });
 

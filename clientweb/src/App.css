@@ -7291,35 +7291,35 @@ Cards
 
 /* task card */
 
-#task-card label {
+.task-card label {
     display: block;
     color: rgba(0, 0, 0, 0.87);
     height: auto;
 }
 
-#task-card .task-card-title {
+.task-card .task-card-title {
     margin: 0;
     color: #fff;
     font-weight: 300;
 }
 
-#task-card .task-card-date {
+.task-card .task-card-date {
     font-size: 1.0rem;
     margin: 0;
     color: #fff;
 }
 
-#task-card .collection-header {
+.task-card .collection-header {
     padding: 20px;
 }
 
-#task-card .task-add {
+.task-card .task-add {
     position: absolute;
     right: 10px;
     top: 76px;
 }
 
-#task-card .task-cat {
+.task-card .task-cat {
     padding: 2px 4px;
     color: #fff;
     margin-left: 37px;

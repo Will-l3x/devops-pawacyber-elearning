@@ -118,7 +118,7 @@ export class TeacherScreen extends Component {
             <div id="work-collections">
               <div className="row">
                 <div className="col s12 m12 l6">
-                  <ul id="task-card" className="collection with-header">
+                  <ul className="task-card collection with-header">
                     <li className="collection-header blue lighten-1">
                       <h5 className="task-card-title">Student classwork</h5>
                       <p className="task-card-title">Todo List</p>
@@ -157,7 +157,7 @@ export class TeacherScreen extends Component {
                   </ul>
                 </div>
                 <div className="col s12 m12 l6">
-                  <ul id="task-card" className="collection with-header">
+                  <ul className="task-card collection with-header">
                     <li className="collection-header teal accent-4">
                       <h5 className="task-card-title">Pending Assignments</h5>
                       <p className="task-card-title">

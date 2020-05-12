@@ -1,93 +1,67 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import SideBar from "./SideBar";
-import { Redirect } from "react-router";
-import FileDropZone from "./dropzone";
+import SideBar from "../SideBar";
+import FileDropZone from "../dropzone";
 import $ from "jquery";
+import { ClassroomClassworkCard } from "./ClassroomClassworkCard";
+import ClassroomStudentsCard from "./ClassroomStudentsCard";
+import { ClassroomCourseCard } from "./ClassroomCourseCard";
 export class ClassroomScreen extends Component {
-  constructor() {
-    super();
-    this.state = {
-      redirect: false,
-      to: "",
-      classwork: [
-        {
-          id: "1",
-          title: "Assignment 1",
-          type: "Assignment",
-          due: "18 May",
-          posted: "18 May",
-        },
-        {
-          id: "2",
-          title: "Test 1",
-          type: "Test/Exercise",
-          due: "18 May",
-          posted: "18 May",
-        },
-        {
-          id: "3",
-          title: "Exercise 2",
-          type: "Test/Exercise",
-          due: "18 May",
-          posted: "18 May",
-        },
-        {
-          id: "4",
-          title: "Chapter 6",
-          type: "Course Material",
-          due: "18 May",
-          posted: "18 May",
-        },
-        {
-          id: "5",
-          title: "Assignment 2",
-          type: "Assignment",
-          due: "18 May",
-          posted: "18 May",
-        },
-        {
-          id: "6",
-          title: "Exercise 1",
-          type: "Test/Exercise",
-          due: "18 May",
-          posted: "18 May",
-        },
-        {
-          id: "7",
-          title: "Assignment 1",
-          type: "Assignment",
-          due: "18 May",
-          posted: "18 May",
-        },
-        {
-          id: "8",
-          title: "Chapter 3 & 4",
-          type: "Course Material",
-          due: "18 May",
-          posted: "18 May",
-        },
-      ],
-    };
-  }
-  
   componentDidMount() {
     $(".remove-material").on("click", function () {
       $(".content-clear").css({
         display: "inline",
       });
     });
+    $(".tabs-trigger").each(function () {
+      $(this).on("click", function () {
+        $(".tabs-trigger").removeClass("active");
+        $(this).addClass("active");
+        const tab = $(this).attr("data-target");
+        if (tab === "task-card1") {
+          $("#task-card1").css({
+            display: "block",
+          });
+          $("#task-card2").css({
+            display: "none",
+          });
+          $("#task-card3").css({
+            display: "none",
+          });
+        }
+        if (tab === "task-card2") {
+          $("#task-card1").css({
+            display: "none",
+          });
+          $("#task-card2").css({
+            display: "block",
+          });
+          $("#task-card3").css({
+            display: "none",
+          });
+        }
+        if (tab === "task-card3") {
+          $("#task-card1").css({
+            display: "none",
+          });
+          $("#task-card2").css({
+            display: "none",
+          });
+          $("#task-card3").css({
+            display: "block",
+          });
+        }
+      });
+    });
   }
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to="classroom-students" />;
-    }
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
           <SideBar></SideBar>
+
           <Link
             to=""
             data-target="slide-out"
@@ -99,39 +73,27 @@ export class ClassroomScreen extends Component {
 
         <section id="content">
           <div style={{ position: "relative", zIndex: 50 }}>
-            <nav style={{ position: "fixed" }}>
-              <div className="nav-wrapper grey lighten-3 row">
-                <div className="col s4 offset-s4">
-                  <div className="col s6">
-                    <div className="btn-classroom left black-text bold">
-                      Classwork
-                    </div>
+            <nav
+              style={{ position: "fixed", width: "90%" }}
+              className="navbar nav-extended"
+            >
+              <div className="nav-wrapper">
+                <Link to="#" className="brand-logo">
+                  Classroom
+                </Link>
 
-                    <div
-                      onClick={() => {
-                        this.setState({
-                          redirect: true,
-                        });
-                      }}
-                      className="btn-classroom left black-text bold"
-                    >
-                      Students
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </nav>
-          </div>
-          <div className="container">
-            <div className="row" style={{ paddingTop: 85, width: "80%" }}>
-              <div className="col s12">
                 <Link
-                  className="btn dropdown-settings dropdown-trigger waves-effect waves-light gradient-45deg-blue-grey-blue-grey breadcrumbs-btn right"
+                  className="dropdown-trigger waves-effect black-text"
                   to="#!"
                   data-target="dropdown1"
-                  style={{ marginLeft: 30, marginTop: 10 }}
+                  style={{
+                    zIndex: 51,
+                    transform: "translate(4000%,60%)",
+                    background: "transparent",
+                    boxShadow: "none",
+                  }}
                 >
-                  <i className="material-icons ">note_add</i>
+                  <i className="material-icons ">settings</i>
                 </Link>
                 <ul
                   id="dropdown1"
@@ -183,49 +145,46 @@ export class ClassroomScreen extends Component {
                     </Link>
                   </li>
                 </ul>
-
-                <ul id="task-card" className="collection">
-                  {this.state.classwork.map((cw) => {
-                    let cl = "";
-                    if (cw.type === "Course material") {
-                      return (
-                        <li key={cw.id} className="collection-item ">
-                          <label>
-                            {cw.title}
-                            <Link to="" className="secondary-content">
-                              <span className="ultra-small">
-                                Posted {cw.posted}
-                              </span>
-                            </Link>
-                          </label>
-                          <span className="task-cat cyan">{cw.type}</span>
-                          <button className="content-clear right white">
-                            Remove
-                          </button>
-                        </li>
-                      );
-                    }
-                    if (cw.type === "Assignment") {
-                      cl = "teal accent-4";
-                    } else {
-                      cl = "red accent-2";
-                    }
-                    return (
-                      <li key={cw.id} className="collection-item">
-                        <label>
-                          {cw.title}
-                          <Link to="" className="secondary-content">
-                            <span className="ultra-small">Due {cw.due}</span>
-                          </Link>
-                        </label>
-                        <span className={`task-cat ${cl}`}>{cw.type}</span>
-                        <button className="content-clear right white">
-                          Remove
-                        </button>
-                      </li>
-                    );
-                  })}
+              </div>
+              <div className="nav-content">
+                <ul className="tabs">
+                  <li className="tab">
+                    <Link
+                      to="#"
+                      data-target="task-card1"
+                      className="tabs-trigger active"
+                    >
+                      Classwork
+                    </Link>
+                  </li>
+                  <li className="tab">
+                    <Link
+                      to="#"
+                      data-target="task-card2"
+                      className="tabs-trigger"
+                    >
+                      Students
+                    </Link>
+                  </li>
+                  <li className="tab">
+                    <Link
+                      to="#"
+                      data-target="task-card3"
+                      className="tabs-trigger"
+                    >
+                      Course Content
+                    </Link>
+                  </li>
                 </ul>
+              </div>
+            </nav>
+          </div>
+          <div className="container">
+            <div className="row" style={{ paddingTop: 85, width: "80%" }}>
+              <div className="col s12">
+                <ClassroomClassworkCard />
+                <ClassroomStudentsCard />
+                <ClassroomCourseCard />
               </div>
             </div>
           </div>

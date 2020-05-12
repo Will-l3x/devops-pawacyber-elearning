@@ -24,8 +24,6 @@ export class StudentCourseCard extends Component {
     return colors[i % 5];
   };
   render() {
-    console.log(this.props);
-
     return this.props.courses.map((course, i) => (
       <div key={i} className="col s12 m6 l3">
         <div className="col s12">

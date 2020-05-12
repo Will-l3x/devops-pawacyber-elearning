@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { navClick } from "../../actions/navlink";
+import { course_data } from "../../actions/student";
 import { Redirect } from "react-router";
 
 class TeacherCourseCard extends Component {
@@ -9,8 +10,11 @@ class TeacherCourseCard extends Component {
     redirect: false,
     count: -1,
   };
-  dashClick = (dash) => {
+  dashClick = (dash, course) => {
     this.props.navClick(dash);
+     this.props.course_data({
+       course
+     });
     this.setState({
       redirect: true,
     });
@@ -38,7 +42,7 @@ class TeacherCourseCard extends Component {
         <div
           className={`card ${this.colors(i)} min-height-100 white-text`}
           style={{ borderRadius: "5px", cursor: "pointer" }}
-          onClick={() => this.dashClick("teacher")}
+          onClick={() => this.dashClick("teacher", course)}
         >
           <div className="padding-4">
             <div className="col s7 m7">
@@ -63,15 +67,18 @@ class TeacherCourseCard extends Component {
 
 TeacherCourseCard.propTypes = {
   navClick: PropTypes.func.isRequired,
+  course_data: PropTypes.func.isRequired,
   link: PropTypes.string,
 };
 
+
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
+  course: state.student,
 });
 
 const mapDispatchToProps = {
-  navClick,
+  navClick,course_data,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeacherCourseCard);

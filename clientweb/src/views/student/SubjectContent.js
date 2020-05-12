@@ -62,7 +62,7 @@ export class SubjectContent extends Component {
               <div id="card-widgets">
                 <div className="row">
                   <div className="col s12 m2 l3">
-                    <ul id="task-card" className="collection with-header">
+                    <ul className="task-card collection with-header">
                       <li className="collection-header gradient-45deg-light-blue-cyan ">
                         <p className="task-card-title">
                           {course.name} TOPICS
@@ -85,7 +85,7 @@ export class SubjectContent extends Component {
                     </ul>
                   </div>
                   <div className="col s12 m13 l9">
-                    <div id="task-card" className="collection with-header">
+                    <div className="task-card collection with-header">
                       <div className="collection-header designed-dots">
                         <h5
                           className="task-card-title"

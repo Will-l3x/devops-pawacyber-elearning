@@ -120,3 +120,169 @@
     color: rgb(255, 0, 0);
     transition: all .15s linear;
 }
+
+.caption {
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+h4.header {
+    line-height: 2.508rem;
+    margin: 1.14rem 0 0.912rem 0;
+    font-size: 1.4rem;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.plans-container .card .card-image {
+    position: relative;
+    width: 100%;
+}
+
+.plans-container .card .card-image .card-title {
+    position: relative;
+    font-size: 1.28rem;
+    line-height: 1.6em;
+    text-align: center;
+    width: 100%;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.plans-container .card .card-image .price {
+    position: relative;
+    font-size: 5rem;
+    line-height: 1.6em;
+    color: #fff;
+    font-weight: 300;
+    text-align: center;
+}
+
+.plans-container .card .card-image .price sup {
+    font-weight: 100;
+    font-size: 1.42rem;
+    line-height: 1.6em;
+    top: -35px;
+}
+
+.plans-container .card .card-image .price sub {
+    font-weight: 100;
+    font-size: 1.42rem;
+    line-height: 1.6em;
+    top: 0;
+}
+
+.plans-container .card .card-image .price-desc {
+    text-align: center;
+    color: #fff;
+    padding-bottom: 10px;
+}
+
+.plans-container .card .card-content {
+    padding: 0;
+}
+
+.plans-container .collection {
+    border: none;
+}
+
+.plans-container .collection .collection-item:before {
+    font-size: 1.28rem;
+    line-height: 1.6em;
+    color: #009315;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    content: "\e623";
+    margin-right: 10px;
+}
+
+.plans-container .collection .collection-item {
+    border-bottom: none;
+    text-align: center;
+    font-size: 1.07rem;
+    line-height: 1.6em;
+}
+
+nav.navbar {
+    z-index: 10;
+    transition: box-shadow .3s, background-color .3s;
+    padding: 0 20px;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+nav.nav-extended {
+    height: auto;
+}
+
+nav.nav-extended .nav-content {
+    position: relative;
+    line-height: normal;
+}
+
+.tabs {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 48px;
+    width: 100%;
+    background-color: #fff;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+
+.tabs .tab a.active {
+    background-color: transparent;
+    color: #448AFF;
+    border-bottom: 2px solid;
+}
+
+.tabs .tab a {
+    color: rgba(68, 138, 255, 0.7);
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 24px;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transition: color .28s ease, background-color .28s ease;
+}
+
+nav.navbar ul a {
+    color: rgba(0, 0, 0, 0.87);
+    position: relative;
+    transition: color .2s;
+}
+
+nav ul a {
+    transition: background-color .3s;
+    font-size: 1rem;
+    color: #fff;
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+.tabs .indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #91baff;
+    will-change: left, right;
+}
+
+nav.navbar .brand-logo {
+    position: relative;
+    float: left;
+    font-size: 28px;
+    left: 2%;
+    margin-top: 18px;
+    color: rgba(0, 0, 0, 0.87);
+}

@@ -95,7 +95,7 @@ export class AdminScreen extends Component {
             <div id="work-collections">
               <div className="row">
                 <div className="col s12 m12 l6">
-                  <ul id="task-card" className="collection with-header">
+                  <ul className="task-card collection with-header">
                     <li className="collection-header teal accent-4">
                       <h4 className="task-card-title">My Task</h4>
                       <p className="task-card-date">Sept 16, 2017</p>

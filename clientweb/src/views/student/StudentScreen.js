@@ -125,7 +125,7 @@ export class StudentScreen extends Component {
               <div id="card-widgets">
                 <div className="row">
                   <div className="col s12 m4 l4">
-                    <ul id="task-card" className="collection with-header">
+                    <ul className="task-card collection with-header">
                       <li className="collection-header teal accent-4">
                         <h5 className="task-card-title">Pending Assignments</h5>
                         <p className="task-card-title">
@@ -138,7 +138,7 @@ export class StudentScreen extends Component {
                     </ul>
                   </div>
                   <div className="col s12 m12 l6">
-                    <ul id="task-card" className="collection with-header">
+                    <ul className="task-card collection with-header">
                       <li className="collection-item avatar">
                         <i className="material-icons blue circle">timeline</i>
                         <h5
