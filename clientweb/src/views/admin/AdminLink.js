@@ -23,18 +23,8 @@ class AdminLink extends Component {
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
-            <i className="material-icons">pie_chart_outlined</i>
+            <i className="material-icons">dashboard</i>
             <span className="nav-text">Dashboard</span>
-          </Link>
-        </li>
-        <li className="bold">
-          <Link
-            to="/add-course"
-            className="waves-effect waves-cyan"
-            onClick={this.onClick}
-          >
-            <i className="material-icons">pie_chart_outlined</i>
-            <span className="nav-text">Add Course</span>
           </Link>
         </li>
         <li className="bold">
@@ -44,7 +34,7 @@ class AdminLink extends Component {
             onClick={this.onClick}
           >
             <i className="material-icons">pie_chart_outlined</i>
-            <span className="nav-text">Course List</span>
+            <span className="nav-text">Courses</span>
           </Link>
         </li>
         <li className="bold">
@@ -54,7 +44,7 @@ class AdminLink extends Component {
             onClick={this.onClick}
           >
             <i className="material-icons">pie_chart_outlined</i>
-            <span className="nav-text">Add Teacher</span>
+            <span className="nav-text">Teachers</span>
           </Link>
         </li>
         <li className="bold">
@@ -64,7 +54,7 @@ class AdminLink extends Component {
             onClick={this.onClick}
           >
             <i className="material-icons">pie_chart_outlined</i>
-            <span className="nav-text">Manage Subscriptions</span>
+            <span className="nav-text">Subscriptions</span>
           </Link>
         </li>
       </ul>

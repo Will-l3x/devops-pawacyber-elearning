@@ -45,8 +45,77 @@ export class TeacherScreen extends Component {
         </aside>
 
         <section id="content">
+          <div style={{ position: "relative", zIndex: 50 }}>
+            <nav
+              className="navbar nav-extended"
+              style={{
+                position: "fixed",
+                maxWidth: "85%",
+                minHeight: 70,
+                transform: 'translateY(-40%)'
+              }}
+            >
+              <div className="nav-content">
+                <Link to="#" className="brand-logo">
+                 Teacher Dashboard
+                </Link>
+                
+                <ul
+                  id="dropdown7"
+                  className="dropdown-content"
+                  style={{
+                    minWidth: "200px",
+                    whiteSpace: "nowrap",
+                    opacity: 1,
+                    display: "none",
+                  }}
+                >
+                  <li>
+                    <Link
+                      to="#!"
+                      data-target="modal1"
+                      className="grey-text modal-trigger text-darken-2"
+                    >
+                      <i className="material-icons ">book</i>
+                      Add Material
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="#!"
+                      data-target="modal2"
+                      className="grey-text modal-trigger text-darken-2"
+                    >
+                      <i className="material-icons ">description</i>
+                      Test/Exercise
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="#!"
+                      data-target="modal3"
+                      className="grey-text modal-trigger text-darken-2"
+                    >
+                      <i className="material-icons ">assignment</i>
+                      Add Assignment
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="#!"
+                      className="grey-text remove-material text-darken-2"
+                    >
+                      <i className="material-icons ">backspace</i>
+                      Remove Content
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+
           <div className="container">
-            <div id="card-stats">
+            <div className="card-stats">
               <div className="row mt-1">
                 <p className="flow-text">Your Teaching Classes</p>
                 <TeacherCourseCard courses={this.state.courses} />

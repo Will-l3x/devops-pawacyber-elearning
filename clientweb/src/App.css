@@ -7124,41 +7124,41 @@ Cards
     overflow: hidden;
 }
 
-#card-stats .card-content {
+.card-stats .card-content {
     text-align: center;
 }
 
-#card-stats .card-stats-title {
+.card-stats .card-stats-title {
     font-size: 1rem;
 }
 
-#card-stats .card-stats-title i {
+.card-stats .card-stats-title i {
     font-size: 1.2rem;
     top: 4px;
     position: relative;
 }
 
-#card-stats .card-stats-compare {
+.card-stats .card-stats-compare {
     font-size: 1.0rem;
 }
 
-#card-stats .card-stats-compare i {
+.card-stats .card-stats-compare i {
     position: relative;
     top: 5px;
 }
 
-#card-stats .card-stats-number {
+.card-stats .card-stats-number {
     font-size: 1.8rem;
     line-height: 2.0rem;
     margin: 0.2rem 0 0.2rem 0;
     font-weight: 500;
 }
 
-#card-stats .card .card-content {
+.card-stats .card .card-content {
     padding: 10px 14px;
 }
 
-#card-stats .card .card-action {
+.card-stats .card .card-action {
     padding: 10px 14px;
 }
 

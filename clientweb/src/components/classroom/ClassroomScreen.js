@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import SideBar from "../SideBar";
 import FileDropZone from "../dropzone";
 import $ from "jquery";
+import M from "materialize-css";
+
 import { ClassroomClassworkCard } from "./ClassroomClassworkCard";
 import ClassroomStudentsCard from "./ClassroomStudentsCard";
 import { ClassroomCourseCard } from "./ClassroomCourseCard";
 export class ClassroomScreen extends Component {
   componentDidMount() {
+    M.AutoInit();
     $(".remove-material").on("click", function () {
       $(".content-clear").css({
         display: "inline",
@@ -70,33 +73,29 @@ export class ClassroomScreen extends Component {
             <i className="material-icons">format_indent_increase</i>
           </Link>
         </aside>
-
         <section id="content">
           <div style={{ position: "relative", zIndex: 50 }}>
             <nav
-              style={{ position: "fixed", width: "90%" }}
               className="navbar nav-extended"
+              style={{ position: "fixed", maxWidth: "85%" }}
             >
-              <div className="nav-wrapper">
+              <div className="nav-content">
                 <Link to="#" className="brand-logo">
                   Classroom
                 </Link>
-
-                <Link
-                  className="dropdown-trigger waves-effect black-text"
-                  to="#!"
-                  data-target="dropdown1"
-                  style={{
-                    zIndex: 51,
-                    transform: "translate(4000%,60%)",
-                    background: "transparent",
-                    boxShadow: "none",
-                  }}
-                >
-                  <i className="material-icons ">settings</i>
-                </Link>
+                <ul id="nav-mobile" className="right">
+                  <li>
+                    <Link
+                      to="#!"
+                      className="dropdown-trigger waves-effect"
+                      data-target="dropdown7"
+                    >
+                      <i className="material-icons">settings</i>
+                    </Link>
+                  </li>
+                </ul>
                 <ul
-                  id="dropdown1"
+                  id="dropdown7"
                   className="dropdown-content"
                   style={{
                     minWidth: "200px",
@@ -145,8 +144,7 @@ export class ClassroomScreen extends Component {
                     </Link>
                   </li>
                 </ul>
-              </div>
-              <div className="nav-content">
+
                 <ul className="tabs">
                   <li className="tab">
                     <Link
@@ -180,7 +178,7 @@ export class ClassroomScreen extends Component {
             </nav>
           </div>
           <div className="container">
-            <div className="row" style={{ paddingTop: 85, width: "80%" }}>
+            <div className="row" style={{ paddingTop: 85, width: "90%" }}>
               <div className="col s12">
                 <ClassroomClassworkCard />
                 <ClassroomStudentsCard />

@@ -102,12 +102,12 @@ export class TeacherClassworkScreen extends Component {
                 </div>
               </div>
             </div>
-            <div id="card-stats">
+            <div className="card-stats">
               <div className="row mt-1">
                 <TeacherCourseCard courses={this.state.courses} />
               </div>
             </div>
-            <div id="card-stats" className="z-depth-5 padding-5">
+            <div className="card-stats z-depth-5 padding-5">
               <div className="row mt-1">
                 <div className="col s12 m6 l12">
                   <DatatablePage />

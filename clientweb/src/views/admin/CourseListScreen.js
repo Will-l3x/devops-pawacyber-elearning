@@ -8,8 +8,11 @@ import blog_3 from "../../assets/images/blog_3.jpg";
 import blog_4 from "../../assets/images/blog_4.jpg";
 import blog_5 from "../../assets/images/blog_5.jpg";
 import blog_6 from "../../assets/images/blog_6.jpg";
+import FileDropZone from "../../components/dropzone";
 
 export class CourseListScreen extends Component {
+  images = [blog_1, blog_2, blog_3, blog_4, blog_5, blog_6];
+
   render() {
     return (
       <div className="wrapper">
@@ -25,414 +28,159 @@ export class CourseListScreen extends Component {
         </aside>
 
         <section id="content">
-          <div className="container">
-            <div className="all-title-box z-depth-1-half">
-              <div className="container">
-                <h1 className="center-align flow-text">
-                  List of Courses We offer
-                </h1>
+          <div style={{ position: "relative", zIndex: 50 }}>
+            <nav
+              className="navbar nav-extended"
+              style={{
+                position: "fixed",
+                maxWidth: "85%",
+                minHeight: 70,
+              }}
+            >
+              <div className="nav-content">
+                <Link to="#" className="brand-logo">
+                  Course Management
+                </Link>
+                <ul id="nav-mobile" className="right">
+                  <li>
+                    <Link
+                      to="#!"
+                      className="waves-effect dropdown-trigger"
+                      data-target="dropdown1"
+                    >
+                      <i className="material-icons right">more_vert</i>
+                    </Link>
+                    <ul
+                      id="dropdown1"
+                      className="dropdown-content"
+                      style={{
+                        minWidth: "200px",
+                        whiteSpace: "nowrap",
+                        opacity: 1,
+                        display: "none",
+                      }}
+                    >
+                      <li>
+                        <Link
+                          to="#!"
+                          data-target="modal1"
+                          className="grey-text modal-trigger text-darken-2"
+                        >
+                          <i className="material-icons ">library_add</i>
+                          Add Course
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="#!" className="grey-text text-darken-2">
+                          <i className="material-icons ">delete</i>
+                          Delete Course
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </div>
-            </div>
+            </nav>
+          </div>
 
+          <div className="container" style={{ paddingTop: "2%" }}>
             <div id="overviews" className="section wb">
               <div className="container">
-                <hr className="hr3"></hr>
-                <div className="section-title row center-align flow-text">
-                  <div className="col m8 offset-m2">
-                    <p className="lead">
-                      Lorem Ipsum dolroin gravida nibh vel velit auctor aliquet.
-                      Aenean sollicitudin, lorem quis bibendum auctor, nisi elit
-                      consequat ipsum, nec sagittis sem!
-                    </p>
-                  </div>
-                </div>
-                <hr className="hr3"></hr>
-
                 <div className="row">
-                  <div className="col s12 m6 l3">
-                    <div className="course-item">
-                      <div className="image-blog">
-                        <img src={blog_1} alt="" className="img-fluid"></img>
-                      </div>
-                      <div className="course-br">
-                        <div className="course-title">
-                          <h2>
-                            <Link to="/course-outline" title="">
-                              Engineering
-                            </Link>
-                          </h2>
+                  {this.images.map((image, i) => (
+                    <div key={i} className="col s12 m6 l4">
+                      <div className="card">
+                        <div className="card-image waves-effect waves-block waves-light">
+                          <img src={image} alt="alt"></img>
                         </div>
-                        <div className="course-desc">
+                        <div className="card-content">
+                          <Link
+                            to="#"
+                            className="card-title grey-text text-darken-4"
+                            style={{ cursor: "unset" }}
+                          >
+                            Course Name
+                            <i
+                              style={{ cursor: "pointer", display: "none" }}
+                              className="material-icons red-text right tooltipped"
+                              data-position="right"
+                              data-tooltip="Delete"
+                            >
+                              delete_forever
+                            </i>
+                          </Link>
                           <p>
-                            Lorem ipsum door sit amet, fugiat deicata avise id
-                            cum, no quo maiorum intel ogrets geuiat operts
-                            elicata libere avisse id cumlegebat, liber regione
-                            eu sit....{" "}
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit.
+                          </p>
+                          <hr className="invis"></hr>
+                          <p>
+                            <Link to="#">View Content</Link>
                           </p>
                         </div>
-                        
-                      </div>
-                      <div className="course-meta-bot">
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-calendar"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            6 Month
-                          </li>
-                          <li>
-                            <i
-                              className="fa fa-youtube-play"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            56 Video Tutorials
-                          </li>
-                          <li>
-                            <i className="fa fa-book" aria-hidden="true"></i> 7
-                            Books
-                          </li>
-                        </ul>
+                        <div className="card-action course-meta">
+                          <ul>
+                            <li>
+                              <i
+                                className="fa fa-calendar"
+                                aria-hidden="true"
+                              ></i>
+                              6 Month
+                            </li>
+                            <li>
+                              <i
+                                className="fa fa-youtube-play"
+                                aria-hidden="true"
+                              ></i>{" "}
+                              56 Video Tutorials
+                            </li>
+                            <li>
+                              <i className="fa fa-book" aria-hidden="true"></i>{" "}
+                              7 Books
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="col s12 m6 l3">
-                    <div className="course-item">
-                      <div className="image-blog">
-                        <img src={blog_2} alt="" className="img-fluid"></img>
-                      </div>
-                      <div className="course-br">
-                        <div className="course-title">
-                          <h2>
-                            <Link to="/course-outline" title="">
-                              Hotel Management
-                            </Link>
-                          </h2>
-                        </div>
-                        <div className="blog-desc">
-                          <p>
-                            Lorem ipsum door sit amet, fugiat deicata avise id
-                            cum, no quo maiorum intel ogrets geuiat operts
-                            elicata libere avisse id cumlegebat, liber regione
-                            eu sit....{" "}
-                          </p>
-                        </div>
-                        
-                      </div>
-                      <div className="course-meta-bot">
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-calendar"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            6 Month
-                          </li>
-                          <li>
-                            <i
-                              className="fa fa-youtube-play"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            56 Video Tutorials
-                          </li>
-                          <li>
-                            <i className="fa fa-book" aria-hidden="true"></i> 7
-                            Books
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col s12 m6 l3">
-                    <div className="course-item">
-                      <div className="image-blog">
-                        <img src={blog_3} alt="" className="img-fluid"></img>
-                      </div>
-                      <div className="course-br">
-                        <div className="course-title">
-                          <h2>
-                            <Link to="/course-outline" title="">
-                              Biotechnology
-                            </Link>
-                          </h2>
-                        </div>
-                        <div className="course-desc">
-                          <p>
-                            Lorem ipsum door sit amet, fugiat deicata avise id
-                            cum, no quo maiorum intel ogrets geuiat operts
-                            elicata libere avisse id cumlegebat, liber regione
-                            eu sit....{" "}
-                          </p>
-                        </div>
-                        
-                      </div>
-                      <div className="course-meta-bot">
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-calendar"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            6 Month
-                          </li>
-                          <li>
-                            <i
-                              className="fa fa-youtube-play"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            56 Video Tutorials
-                          </li>
-                          <li>
-                            <i className="fa fa-book" aria-hidden="true"></i> 7
-                            Books
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col s12 m6 l3">
-                    <div className="course-item">
-                      <div className="image-blog">
-                        <img src={blog_4} alt="" className="img-fluid"></img>
-                      </div>
-                      <div className="course-br">
-                        <div className="course-title">
-                          <h2>
-                            <Link to="/course-outline" title="">
-                              Medical Sciences
-                            </Link>
-                          </h2>
-                        </div>
-                        <div className="course-desc">
-                          <p>
-                            Lorem ipsum door sit amet, fugiat deicata avise id
-                            cum, no quo maiorum intel ogrets geuiat operts
-                            elicata libere avisse id cumlegebat, liber regione
-                            eu sit....{" "}
-                          </p>
-                        </div>
-                        
-                      </div>
-                      <div className="course-meta-bot">
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-calendar"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            6 Month
-                          </li>
-                          <li>
-                            <i
-                              className="fa fa-youtube-play"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            56 Video Tutorials
-                          </li>
-                          <li>
-                            <i className="fa fa-book" aria-hidden="true"></i> 7
-                            Books
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-
-                <hr className="hr3"></hr>
-
-                <div className="row">
-                  <div className="col s12 m6 l3">
-                    <div className="course-item">
-                      <div className="image-blog">
-                        <img src={blog_4} alt="" className="img-fluid"></img>
-                      </div>
-                      <div className="course-br">
-                        <div className="course-title">
-                          <h2>
-                            <Link to="/course-outline" title="">
-                              Medical Sciences
-                            </Link>
-                          </h2>
-                        </div>
-                        <div className="course-desc">
-                          <p>
-                            Lorem ipsum door sit amet, fugiat deicata avise id
-                            cum, no quo maiorum intel ogrets geuiat operts
-                            elicata libere avisse id cumlegebat, liber regione
-                            eu sit....{" "}
-                          </p>
-                        </div>
-                        
-                      </div>
-                      <div className="course-meta-bot">
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-calendar"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            6 Month
-                          </li>
-                          <li>
-                            <i
-                              className="fa fa-youtube-play"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            56 Video Tutorials
-                          </li>
-                          <li>
-                            <i className="fa fa-book" aria-hidden="true"></i> 7
-                            Books
-                          </li>
-                        </ul>
-                      </div>
+              </div>
+            </div>
+          </div>
+          <div id="modal1" className="modal" style={{ overflowY: "hidden" }}>
+            <div className="modal-content">
+              <h4 className="header2">Add Test/Exercise</h4>
+              <div className="row">
+                <div className="col s12">
+                  <div className="row">
+                    <div className="input-field col s4">
+                      <input id="title2" type="text"></input>
+                      <label htmlFor="title2">Title</label>
+                    </div>
+                    <div className="input-field col s4">
+                      <input
+                        type="text"
+                        name="due_date"
+                        className="datepicker"
+                      ></input>
+                      <label htmlFor="due_date">Due</label>
+                    </div>
+                    <div className="input-field col s4">
+                      <input id="duration" type="text"></input>
+                      <label htmlFor="duration">Duration(mins)</label>
                     </div>
                   </div>
 
-                  <div className="col s12 m6 l3">
-                    <div className="course-item">
-                      <div className="image-blog">
-                        <img src={blog_2} alt="" className="img-fluid"></img>
-                      </div>
-                      <div className="course-br">
-                        <div className="course-title">
-                          <h2>
-                            <Link to="/course-outline" title="">
-                              Hotel Management
-                            </Link>
-                          </h2>
-                        </div>
-                        <div className="blog-desc">
-                          <p>
-                            Lorem ipsum door sit amet, fugiat deicata avise id
-                            cum, no quo maiorum intel ogrets geuiat operts
-                            elicata libere avisse id cumlegebat, liber regione
-                            eu sit....{" "}
-                          </p>
-                        </div>
-                        
-                      </div>
-                      <div className="course-meta-bot">
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-calendar"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            6 Month
-                          </li>
-                          <li>
-                            <i
-                              className="fa fa-youtube-play"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            56 Video Tutorials
-                          </li>
-                          <li>
-                            <i className="fa fa-book" aria-hidden="true"></i> 7
-                            Books
-                          </li>
-                        </ul>
-                      </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <FileDropZone />
                     </div>
-                  </div>
-
-                  <div className="col s12 m6 l3">
-                    <div className="course-item">
-                      <div className="image-blog">
-                        <img src={blog_5} alt="" className="img-fluid"></img>
-                      </div>
-                      <div className="course-br">
-                        <div className="course-title">
-                          <h2>
-                            <Link to="/course-outline" title="">
-                              Finance
-                            </Link>
-                          </h2>
-                        </div>
-                        <div className="course-desc">
-                          <p>
-                            Lorem ipsum door sit amet, fugiat deicata avise id
-                            cum, no quo maiorum intel ogrets geuiat operts
-                            elicata libere avisse id cumlegebat, liber regione
-                            eu sit....{" "}
-                          </p>
-                        </div>
-                        
-                      </div>
-                      <div className="course-meta-bot">
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-calendar"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            6 Month
-                          </li>
-                          <li>
-                            <i
-                              className="fa fa-youtube-play"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            56 Video Tutorials
-                          </li>
-                          <li>
-                            <i className="fa fa-book" aria-hidden="true"></i> 7
-                            Books
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col s12 m6 l3">
-                    <div className="course-item">
-                      <div className="image-blog">
-                        <img src={blog_6} alt="" className="img-fluid"></img>
-                      </div>
-                      <div className="course-br">
-                        <div className="course-title">
-                          <h2>
-                            <Link to="/course-outline" title="">
-                              Fashion Designing
-                            </Link>
-                          </h2>
-                        </div>
-                        <div className="course-desc">
-                          <p>
-                            Lorem ipsum door sit amet, fugiat deicata avise id
-                            cum, no quo maiorum intel ogrets geuiat operts
-                            elicata libere avisse id cumlegebat, liber regione
-                            eu sit....{" "}
-                          </p>
-                        </div>
-                        
-                      </div>
-                      <div className="course-meta-bot">
-                        <ul>
-                          <li>
-                            <i
-                              className="fa fa-calendar"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            6 Month
-                          </li>
-                          <li>
-                            <i
-                              className="fa fa-youtube-play"
-                              aria-hidden="true"
-                            ></i>{" "}
-                            56 Video Tutorials
-                          </li>
-                          <li>
-                            <i className="fa fa-book" aria-hidden="true"></i> 7
-                            Books
-                          </li>
-                        </ul>
+                    <div className="row">
+                      <div className="input-field col s12">
+                        <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
+                          Submit
+                          <i className="material-icons right">send</i>
+                        </button>
                       </div>
                     </div>
                   </div>

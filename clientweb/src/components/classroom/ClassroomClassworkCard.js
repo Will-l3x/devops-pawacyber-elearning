@@ -73,7 +73,7 @@ export class ClassroomClassworkCard extends Component {
       <ul
         id="task-card1"
         className="collection task-card"
-        style={{ display: "block", marginTop: "7%" }}
+        style={{ display: "block", marginTop: "3%" }}
       >
         {this.state.classwork.map((cw, i) => {
           let cl = "";

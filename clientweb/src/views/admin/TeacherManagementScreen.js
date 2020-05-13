@@ -3,37 +3,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
-import M from "materialize-css";
-export class TeacherStudentScreen extends Component {
-  constructor() {
-    super();
-    this.state = {
-      courses: [
-        {
-          courseId: 1,
-          courseName: "Mathematics",
-          numberOfTopics: 5,
-          courseCode: 1234,
-        },
-        {
-          courseId: 2,
-          courseName: "Mathematics",
-          numberOfTopics: 7,
-          courseCode: 123,
-        },
-        {
-          courseId: 3,
-          courseName: "Advanced Mathematics",
-          numberOfTopics: 9,
-          courseCode: 1456,
-        },
-      ],
-    };
-  }
 
-  componentDidMount() {
-    M.AutoInit();
-  }
+export class TeacherManagementScreen extends Component {
   render() {
     return (
       <div className="wrapper">
@@ -56,14 +27,23 @@ export class TeacherStudentScreen extends Component {
                 position: "fixed",
                 maxWidth: "85%",
                 minHeight: 70,
-                transform: "translateY(-10%)",
               }}
             >
               <div className="nav-content">
                 <Link to="#" className="brand-logo">
-                  Student Assessment
+                  Teacher Management
                 </Link>
-
+                <ul id="nav-mobile" className="right">
+                  <li>
+                    <Link
+                      to="#!"
+                      className="dropdown-trigger waves-effect"
+                      data-target="dropdown7"
+                    >
+                      <i className="material-icons">settings</i>
+                    </Link>
+                  </li>
+                </ul>
                 <ul
                   id="dropdown7"
                   className="dropdown-content"
@@ -118,16 +98,18 @@ export class TeacherStudentScreen extends Component {
             </nav>
           </div>
 
-          <div className="container" style={{ paddingTop: "6%" }}>
+          <div className="container" style={{ paddingTop: "7%" }}>
             <div className="card-stats z-depth-5 padding-3">
               <div className="row mt-1">
                 <div className="col s12 m6 l12">
+                  <div className="center-align flow-text">Teacher List</div>
+                  <hr className="hr4"></hr>
                   <DatatablePage />
                 </div>
               </div>
             </div>
           </div>
-          </section>
+        </section>
       </div>
     );
   }
@@ -137,7 +119,4 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TeacherStudentScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(TeacherManagementScreen);
