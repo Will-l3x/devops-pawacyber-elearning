@@ -148,7 +148,6 @@ export class Calendar extends Component {
                       id="start-time"
                       className="timepicker"
                       type="text"
-                      step={1}
                     ></input>
                     <label htmlFor="start-time">Start Time</label>
                   </div>
@@ -167,7 +166,6 @@ export class Calendar extends Component {
                       id="end-time"
                       className="timepicker"
                       type="text"
-                      step={1}
                     ></input>
                     <label htmlFor="end-time">End Time</label>
                   </div>

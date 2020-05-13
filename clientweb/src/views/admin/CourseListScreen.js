@@ -9,10 +9,13 @@ import blog_4 from "../../assets/images/blog_4.jpg";
 import blog_5 from "../../assets/images/blog_5.jpg";
 import blog_6 from "../../assets/images/blog_6.jpg";
 import FileDropZone from "../../components/dropzone";
+import M from "materialize-css";
 
 export class CourseListScreen extends Component {
   images = [blog_1, blog_2, blog_3, blog_4, blog_5, blog_6];
-
+  componentDidMount() {
+    M.AutoInit();
+  }
   render() {
     return (
       <div className="wrapper">
@@ -101,7 +104,10 @@ export class CourseListScreen extends Component {
                           >
                             Course Name
                             <i
-                              style={{ cursor: "pointer", display: "none" }}
+                              style={{
+                                cursor: "pointer",
+                                display: "none",
+                              }}
                               className="material-icons red-text right tooltipped"
                               data-position="right"
                               data-tooltip="Delete"
@@ -115,7 +121,7 @@ export class CourseListScreen extends Component {
                           </p>
                           <hr className="invis"></hr>
                           <p>
-                            <Link to="#">View Content</Link>
+                            <Link to="/course-outline">View Content</Link>
                           </p>
                         </div>
                         <div className="card-action course-meta">
@@ -136,7 +142,7 @@ export class CourseListScreen extends Component {
                             </li>
                             <li>
                               <i className="fa fa-book" aria-hidden="true"></i>{" "}
-                              7 Books
+                              7 Chapters
                             </li>
                           </ul>
                         </div>
