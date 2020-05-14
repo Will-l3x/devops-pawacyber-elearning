@@ -20,7 +20,7 @@ class Header extends Component {
                 </h1>
               </li>
             </ul>
-            <div className="header-search-wrapper hide-on-med-and-down">
+            {/* <div className="header-search-wrapper hide-on-med-and-down">
               <i className="material-icons">search</i>
               <input
                 type="text"
@@ -28,7 +28,7 @@ class Header extends Component {
                 className="header-search-input z-depth-2"
                 placeholder="Explore Classroom"
               ></input>
-            </div>
+            </div> */}
             <ul className="right hide-on-med-and-down">
               <li>
                 <Link

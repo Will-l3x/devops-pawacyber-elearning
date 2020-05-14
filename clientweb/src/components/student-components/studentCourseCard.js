@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { course_data } from "../../actions/student";
+
 export class StudentCourseCard extends Component {
   constructor() {
     super();
@@ -35,21 +36,22 @@ export class StudentCourseCard extends Component {
               <p>{course.courseName}</p>
             </div>
             <div
-              className="col s1"
-              style={{
-                paddingTop: "10px",
-                paddingBottom: "10px",
-                position: "center",
-                paddingLeft: "40px",
-                paddingRight: "10px",
-              }}
+                className="col s1"
+                style={{
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  position: "center",
+                  paddingLeft: "40px",
+                  paddingRight: "10px",
+                }}
             >
               <Link
                 to="/subject-content"
                 onClick={() => {
                   this.props.course_data({course:{
                     name: course.courseName,
-                    courseId: course.id,}
+                    courseId: course.id,
+                    color:this.colors(i)}
                   });
                 }}
               >

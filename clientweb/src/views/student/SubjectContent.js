@@ -17,27 +17,18 @@ export class SubjectContent extends Component {
         id: 2,
         title: "Introduction to Programming",
       },
+      {
+        id: 2,
+        title: "Advanced Programming 1",
+      },
     ],
   };
 
-  contentSate = {
-    content: {
-      id: 1,
-      topic: "Databases",
-      videoLink: "somewhere",
-      topicContent: `The quick brown fox jumped over the lazy dogs
-              kdkdkd
-              dkdkkdkdkkdkdkdkd djd kd wos cne 
-              dls`,
-    },
-  };
-
-  topicSelected = false;
-
+  videoSelected = false;
   selectedTopic() {
-    this.topicSelected = true;
+    // set video link to display
+    this.videoSelected = true;
   }
-  
 
   render() {
     const course = store.getState().student.course;
@@ -62,10 +53,11 @@ export class SubjectContent extends Component {
               <div id="card-widgets">
                 <div className="row">
                   <div className="col s12 m2 l3">
+                    <div className="column">
                     <ul className="task-card collection with-header">
-                      <li className="collection-header gradient-45deg-light-blue-cyan ">
+                      <li className={`collection-header ${course.color} `}>
                         <p className="task-card-title">
-                          {course.name} TOPICS
+                          {course.name} VIDEOS
                         </p>
                       </li>
                       {this.state.topics.map((topic, i) => (
@@ -77,31 +69,35 @@ export class SubjectContent extends Component {
                               onClick={() => this.selectedTopic()}
                               className="secondary-content"
                             >
-                              <span className="ultra-small">VIEW</span>
+                              <span style={{fontSize:"11px"}}>Watch</span>
                             </Link>
                           </label>
                         </li>
                       ))}
                     </ul>
+
+                    </div>
                   </div>
                   <div className="col s12 m13 l9">
                     <div className="task-card collection with-header">
-                      <div className="collection-header designed-dots">
-                        <h5
+                      <div className="collection-header teal">
+                        <p
                           className="task-card-title"
-                          style={{ color: "black" }}
+                          style={{ color: "white" }}
                         >
-                          {this.topicSelected
+                          {this.videoSelected
                             ? this.contentSate.content.topic
-                            : "Select Topic"}
-                        </h5>
+                            : "DOWNLOADABLE RESOURCES"}
+                        </p>
                       </div>
-                      {this.topicSelected ? (
-                        <SubjectDescrip
-                          content={this.contentSate.content}
-                        ></SubjectDescrip>
-                      ) : (
+                      {this.videoSelected ? ( 
                           <div></div>
+                      ) : (
+                        <div className="row mt-1" style={{paddingLeft:'10px',paddingRight:'10px'}}>
+                        <SubjectDescrip
+                        content={course.courseId}
+                      ></SubjectDescrip>
+                      </div>
                         )}
                     </div>
                   </div>
