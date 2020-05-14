@@ -12,7 +12,7 @@ Currently on this branch I'll be using sqlite3 for dev, until I finish setting u
 
 **Teacher**
 
-- [ ] Enrol students for a course
+- [x] Enrol students for a course
   - [ ] sends email with enrolment details
   - [ ] link contained in email, completes class reg
 - [ ] Create and upload content
