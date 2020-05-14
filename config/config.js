@@ -16,7 +16,7 @@ var config = {
     user: 'sa', 
     password: 'ymcmbmmtmc',
     server: 'LOCALHOST',
-    database: 'frsms',
+    database: 'newscchool',
     stream: true,
      options: {
          encrypt: true,
