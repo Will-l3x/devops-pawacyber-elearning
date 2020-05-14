@@ -20,15 +20,6 @@ class Header extends Component {
                 </h1>
               </li>
             </ul>
-            {/* <div className="header-search-wrapper hide-on-med-and-down">
-              <i className="material-icons">search</i>
-              <input
-                type="text"
-                name="Search"
-                className="header-search-input z-depth-2"
-                placeholder="Explore Classroom"
-              ></input>
-            </div> */}
             <ul className="right hide-on-med-and-down">
               <li>
                 <Link
@@ -144,28 +135,24 @@ class Header extends Component {
                   </time>
                 </li>
               </ul>
+              
               <ul id="profile-dropdown" className="dropdown-content dropdown-acc">
                 <li>
                   <Link to="#" className="grey-text text-darken-1">
                     <i className="material-icons">face</i> Profile
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="#" className="grey-text text-darken-1">
                     <i className="material-icons">settings</i> Settings
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to="#" className="grey-text text-darken-1">
                     <i className="material-icons">live_help</i> Help
                   </Link>
                 </li>
                 <li className="divider"></li>
-                <li>
-                  <Link to="#" className="grey-text text-darken-1">
-                    <i className="material-icons">lock_outline</i> Lock
-                  </Link>
-                </li>
                 <li>
                   <Link to="#" className="grey-text text-darken-1">
                     <i className="material-icons">keyboard_tab</i> Logout

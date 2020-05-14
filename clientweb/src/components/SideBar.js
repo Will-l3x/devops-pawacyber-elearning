@@ -30,18 +30,13 @@ class SideBar extends Component {
     } 
     return (
       <ul id="slide-out" className="side-nav z-depth-2 fixed leftside-navigation" >
-        <li className="user-details cyan darken-2">
+        {/* <li className="user-details cyan darken-2">
           <div className="row">
             <div className="col col s8 m8 l8">
               <ul id="profile-dropdown-nav" className="dropdown-content">
                 <li>
                   <Link to="" className="grey-text text-darken-1">
                     <i className="material-icons">face</i> Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link to="" className="grey-text text-darken-1">
-                    <i className="material-icons">settings</i> Settings
                   </Link>
                 </li>
                 <li>
@@ -56,21 +51,9 @@ class SideBar extends Component {
                   </Link>
                 </li>
               </ul>
-              
-              <Link
-                className="btn-flat dropdown-button dropdown-trigger waves-effect waves-light white-text profile-btn"
-                to=""
-                data-target="profile-dropdown-nav"
-              >
-                John Doe
-                <i className="mdi-navigation-arrow-drop-down right"></i>
-              </Link>
-              <p className="user-roal">Administrator</p>
-
-              
             </div>
           </div>
-        </li>
+        </li> */}
         <li className="no-padding">
           <Links></Links>
         </li>
