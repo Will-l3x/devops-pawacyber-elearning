@@ -54,11 +54,6 @@ export class StudentScreen extends Component {
         courseName: "COMPUTERS",
         score: 90,
       },
-      {
-        assignmentId: 4,
-        courseName: "PHYSICS",
-        score: 100,
-      },
     ],
     pendingWork: [
       {
@@ -139,19 +134,10 @@ export class StudentScreen extends Component {
                   </div>
                   <div className="col s12 m12 l6">
                     <ul className="task-card collection with-header">
-                      <li className="collection-item avatar">
-                        <i className="material-icons blue circle">timeline</i>
-                        <h5
-                          className="task-card-title"
-                          style={{ color: "black" }}
-                        >
-                          Returned Assignments
-                        </h5>
-                        <p
-                          className="task-card-title"
-                          style={{ color: "black" }}
-                        >
-                          Arranged by submission date
+                    <li className="collection-header gradient-45deg-light-blue-cyan accent-4">
+                        <h5 className="task-card-title">Graded Assignments</h5>
+                        <p className="task-card-title">
+                          Overview for your marked assignments
                         </p>
                       </li>
                       <MarkedAssignments

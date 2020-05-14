@@ -13,6 +13,7 @@ import { TeacherClassworkScreen } from "../views/teacher/TeacherClassworkScreen"
 import { TeacherStudentScreen } from "../views/teacher/TeacherStudentScreen";
 import { ClassroomScreen } from "../components/classroom/ClassroomScreen";
 import { SubjectContent } from "../views/student/SubjectContent";
+import { StudentAssignments } from "../views/student/StudentAssignments";
 import { TeacherTodoScreen } from "../views/teacher/TeacherTodoScreen";
 
 
@@ -35,6 +36,7 @@ const Main = () => (
 
        <Route exact path="/student" component={StudentScreen} />
        <Route exact path="/subject-content" component={SubjectContent} />
+       <Route exact path="/student-assignments" component={StudentAssignments} />
     </Switch>
 );
 

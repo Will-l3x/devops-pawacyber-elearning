@@ -22,9 +22,10 @@ class StudentLink extends Component {
             <span className="nav-text">Home</span>
           </Link>
         </li>
+
         <li className="bold">
           <Link
-            to="/subject-content"
+            to="/student-assignments"
             className="dash-link waves-effect waves-cyan"
             onClick={() => this.dashClick("student")}
           >
@@ -32,7 +33,7 @@ class StudentLink extends Component {
               pie_chart_outlined
             </i>
             <span className="nav-text">
-              Student content
+              My Assignments
             </span>
           </Link>
         </li>
