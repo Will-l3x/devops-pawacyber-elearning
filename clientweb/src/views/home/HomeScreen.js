@@ -21,7 +21,7 @@ export class HomeScreen extends Component {
 
         <section id="content">
           <div className="container">
-            <div id="card-stats">
+            <div className="card-stats">
               <div className="row mt-1">
                 <div className="col s12 m6 l3">
                   <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text">

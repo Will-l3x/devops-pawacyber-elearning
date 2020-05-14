@@ -9,8 +9,7 @@ class Footer extends Component {
             Copyright © {new Date().getFullYear()} Classroom All rights reserved.
           </span>
           <span className="right hide-on-small-only">
-            {" "}
-            Design and Developed by The Boys
+            Design and Developed by Shingirirai Bishi and Kelvin Chelenje
           </span>
         </div>
       </div>

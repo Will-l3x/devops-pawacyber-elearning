@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { navClick } from "../../actions/navlink";
 import { course_data } from "../../actions/student";
 import { Redirect } from "react-router";
+//import M from "materialize-css";
 
 class TeacherCourseCard extends Component {
   state = {

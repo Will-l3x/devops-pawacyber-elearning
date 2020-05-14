@@ -46,7 +46,7 @@ export class ClassroomCourseCard extends Component {
       <div
         id="task-card3"
         className="col l12"
-        style={{ display: "none", marginTop: "6%" }}
+        style={{ display: "none", marginTop: "2%" }}
       >
         <div className="col s12 m2 l3">
           <ul className="task-card collection with-header">

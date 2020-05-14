@@ -11,7 +11,7 @@ export class ClassroomScreen extends Component {
       students: [
         {
           id: "H163898D",
-          name: "Shingie Bisi",
+          name: "Shingie Bishi",
           class: "Comp Scie",
         },
         {
@@ -42,7 +42,7 @@ export class ClassroomScreen extends Component {
       <ul
         id="task-card2"
         className="collection task-card"
-        style={{ display: "none" , marginTop: '7%'}}
+        style={{ display: "none" , marginTop: '3%'}}
       >
         {this.state.students.map((st, i) => (
           <li key={i} className="collection-item">

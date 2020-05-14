@@ -192,7 +192,6 @@ h4.header {
     font-size: 1.28rem;
     line-height: 1.6em;
     color: #009315;
-    speak: none;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -285,4 +284,15 @@ nav.navbar .brand-logo {
     left: 2%;
     margin-top: 18px;
     color: rgba(0, 0, 0, 0.87);
+}
+.course-meta ul li {
+    display: inline-block;
+    list-style: none;
+    padding: 0px 5px;
+    color: #212121;
+    font-size: 11px;
+}
+.datepicker-modal,
+.timepicker-modal {
+    top: -10px !important;
 }

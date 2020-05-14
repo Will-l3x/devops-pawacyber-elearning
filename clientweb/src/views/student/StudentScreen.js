@@ -100,7 +100,7 @@ export class StudentScreen extends Component {
 
         <section id="content">
           <div className="container">
-            <div id="card-stats">
+            <div className="card-stats">
               <div className="row mt-1">
                 <StudentCourseCard
                   courses={this.state.courses}

@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
-import avatar from "../../assets/images/icon/book_lover.png";
 import DatatablePage from "../../components/DatatablePage";
-import TeacherCourseCard from "./TeacherCourseCard";
 import M from "materialize-css";
 export class TeacherClassworkScreen extends Component {
   state = {
@@ -29,8 +27,8 @@ export class TeacherClassworkScreen extends Component {
       },
     ],
   };
-  componentWillMount(){
-    M.AutoInit()
+  componentDidMount() {
+    M.AutoInit();
   }
   render() {
     return (
@@ -47,67 +45,26 @@ export class TeacherClassworkScreen extends Component {
         </aside>
 
         <section id="content">
-          <div className="container">
-            <div
-              className="row card"
+          <div style={{ position: "relative", zIndex: 50 }}>
+            <nav
+              className="navbar nav-extended"
               style={{
-                backgroundImage:
-                  'url("../../assets/images/icon/book_lover.png")',
-                marginTop: 15,
-                marginBottom: 15,
+                position: "fixed",
+                maxWidth: "85%",
+                minHeight: 70,
+                transform: "translateY(-10%)",
               }}
             >
-              <div
-                className="col s2"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  overflow: "hidden",
-                }}
-              >
-                <img
-                  src={avatar}
-                  alt="Avatar"
-                  style={{
-                    flexShrink: "0",
-                    maxWidth: "100%",
-                    maxHeight: "80px",
-                  }}
-                ></img>
+              <div className="nav-content">
+                <Link to="#" className="brand-logo">
+                  Student Classwork
+                </Link>
               </div>
-              <div className="col s6 card-title">
-                <div
-                  style={{
-                    fontSize: "16px",
-                    marginTop: "10px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Student assessment. View your students' classwork.
-                </div>
-              </div>
-              <div
-                className="col s4"
-                style={{ paddingTop: "1.4%", paddingBottom: "1.3%" }}
-              >
-                <div className="right-align">
-                  <Link
-                    to="/teacher-students"
-                    className="card btn gradient-45deg-light-blue-cyan"
-                    style={{ maxWidth: "150px" }}
-                  >
-                    All Students
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div id="card-stats">
-              <div className="row mt-1">
-                <TeacherCourseCard courses={this.state.courses} />
-              </div>
-            </div>
-            <div id="card-stats" className="z-depth-5 padding-5">
+            </nav>
+          </div>
+
+          <div className="container" style={{ paddingTop: "6%" }}>
+            <div className="card-stats z-depth-5 padding-5">
               <div className="row mt-1">
                 <div className="col s12 m6 l12">
                   <DatatablePage />

@@ -4,33 +4,8 @@ import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 import M from "materialize-css";
-export class TeacherStudentScreen extends Component {
-  constructor() {
-    super();
-    this.state = {
-      courses: [
-        {
-          courseId: 1,
-          courseName: "Mathematics",
-          numberOfTopics: 5,
-          courseCode: 1234,
-        },
-        {
-          courseId: 2,
-          courseName: "Mathematics",
-          numberOfTopics: 7,
-          courseCode: 123,
-        },
-        {
-          courseId: 3,
-          courseName: "Advanced Mathematics",
-          numberOfTopics: 9,
-          courseCode: 1456,
-        },
-      ],
-    };
-  }
 
+export class TeacherManagementScreen extends Component {
   componentDidMount() {
     M.AutoInit();
   }
@@ -48,22 +23,27 @@ export class TeacherStudentScreen extends Component {
           </Link>
         </aside>
 
-        <section id="content">
+        <div id="section">
           <div style={{ position: "relative", zIndex: 50 }}>
             <nav
               className="navbar nav-extended"
               style={{
                 position: "fixed",
-                maxWidth: "85%",
-                minHeight: 70,
-                transform: "translateY(-10%)",
+                maxWidth: "85%"
               }}
             >
               <div className="nav-content">
-                <Link to="#" className="brand-logo">
-                  Student Assessment
+                <Link style={{ marginTop: "4%" }} to="#" className="brand-logo">
+                  Teacher Management
                 </Link>
-
+                <Link
+                  to="#!"
+                  className="dropdown-trigger waves-effect black-text right"
+                  style={{ marginTop: "3%", marginRight: "2%" }}
+                  data-target="dropdown7"
+                >
+                  <i className="material-icons">settings</i>
+                </Link>
                 <ul
                   id="dropdown7"
                   className="dropdown-content"
@@ -77,7 +57,7 @@ export class TeacherStudentScreen extends Component {
                   <li>
                     <Link
                       to="#!"
-                      data-target="modal1"
+                      data-target="modal7"
                       className="grey-text modal-trigger text-darken-2"
                     >
                       <i className="material-icons ">book</i>
@@ -117,17 +97,20 @@ export class TeacherStudentScreen extends Component {
               </div>
             </nav>
           </div>
-
-          <div className="container" style={{ paddingTop: "6%" }}>
-            <div className="card-stats z-depth-5 padding-3">
-              <div className="row mt-1">
-                <div className="col s12 m6 l12">
-                  <DatatablePage />
+          <section id="content" style={{ paddingTop: "2%" }}>
+            <div className="container" style={{ paddingTop: "7%" }}>
+              <div className="card-stats z-depth-5 padding-3">
+                <div className="row mt-1">
+                  <div className="col s12 m6 l12">
+                    <div className="center-align flow-text">Teacher List</div>
+                    <hr className="hr4"></hr>
+                    <DatatablePage />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           </section>
+        </div>
       </div>
     );
   }
@@ -140,4 +123,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TeacherStudentScreen);
+)(TeacherManagementScreen);
