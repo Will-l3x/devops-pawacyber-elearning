@@ -123,6 +123,7 @@ let newCourseMaterial = (req, res) => {
          values (${obj.classid}, ${obj.studentid}, ${obj.materialname}, ${obj.file})`;
     }
     console.log(q); //dev
+    let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
         console.log(err); //dev
@@ -152,14 +153,89 @@ let newCourseMaterial = (req, res) => {
     });
   }
 };
-
-let getCourseMaterial = () => {
-  console.log("Teacher : creating new questionnaire...");
+//--Gets course material, single row
+let getCourseMaterial = (req, res) => {
+  console.log("Teacher : Getting course material...");
+  //Expects materialid
+  if (!req.params.id) {
+    res.send({
+      err: "Missing a parameter, expects material id",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.params.id;
+    let q = `select * \
+      from materials \
+      where materials.materialID = ${p}`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Material not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
+};
+//--Gets course materials for a class, single row
+let getCourseMaterials = (req, res) => {
+  console.log("Teacher : Getting course materials...");
+  //Expects classid
+  if (!req.params.id) {
+    res.send({
+      err: "Missing a parameter, expects material id",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.params.id;
+    let q = `select * \
+      from materials \
+      where materials.classid = ${p}`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Materials not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
 };
 
 module.exports = {
   enrolStudent: enrolStudent,
   newCourseMaterial: newCourseMaterial,
   getCourseMaterial: getCourseMaterial,
+  getCourseMaterials: getCourseMaterials,
 };
 
