@@ -13,15 +13,19 @@ Currently on this branch I'll be using sqlite3 for dev, until I finish setting u
 **Teacher**
 
 - [x] Enrol students for a course
-  - Route :
-    `diff + /api/teacher/enrol_student`
+  - Route `+ /api/teacher/enrol_student`
   - [ ] sends email with enrolment details
   - [ ] link contained in email, completes class reg
 - [x] Create and upload content
-      `diff + /api/teacher/newCourseMaterial`
+  - Route post `+ /api/teacher/newCourseMaterial`
+  - Route get `+ /api/teacher/getCourseMaterial/:id`
+  - Route get `+ /api/teacher/getCourseMaterials/:id`
 - [ ] Conduct class online
   - Live stream ?
-- [ ] Able to create questionnaire, test & assignments
+- [x] Able to create questionnaire, test & assignments
+  - Route post `+ /api/teacher/newAssignment`
+  - Route get `+ /api/teacher/getAssignment/:id`
+  - Route get `+ /api/teacher/getAssignments/:id`
 - [ ] Able to broadcast reminders
 - [ ] Able to take questions and answers ( chat timeline ? like a class channel(slack) ?)
 - [ ] Able to send emails to students' attached emails
