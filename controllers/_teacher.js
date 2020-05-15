@@ -248,11 +248,11 @@ let newAssignment = (req, res) => {
       let o = JSON.stringify(obj.obj);
       q = `insert into assignments \
         (classid, teacherid, assignmentname, obj) \
-         values (${obj.classid}, ${obj.studentid}, ${obj.assignmentname}, ${o})`;
+         values (${obj.classid}, ${obj.studentid}, '${obj.assignmentname}', ${o})`;
     } else {
       q = `insert into assignments \
         (classid, teacherid, assignmentname, file) \
-         values (${obj.classid}, ${obj.studentid}, ${obj.assignmentname}, ${obj.file})`;
+         values (${obj.classid}, ${obj.studentid}, '${obj.assignmentname}', '${obj.file}')`;
     }
     console.log(q); //dev
     let ms_req = new sql.Request();
@@ -364,6 +364,53 @@ let getAssignments = (req, res) => {
   }
 };
 
+//-- Create new reminder for classes in a list
+let newReminder = async (req, res) => {
+  console.log("Teacher : creating new reminder..."); //dev
+  //Expects teacherid, enddate(**/**/****), classes(json->array of broadcast classes)
+  // , title and messege
+  let obj = req.body;
+  if (!obj.enddate || !obj.classid || !obj.teacherid) {
+    res.send({
+      err:
+        "Missing a parameter, expects classid, title, teacherid on request object",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let q = `insert into reminders \
+        (classid, teacherid, title, message, enddate) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.title}', '${obj.message}', '${obj.enddate}')`;
+    console.log(q); //dev
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added reminder...",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add reminder...",
+          });
+        }
+      }
+    });
+  }
+};
+
 module.exports = {
   enrolStudent: enrolStudent,
   newCourseMaterial: newCourseMaterial,
@@ -372,5 +419,6 @@ module.exports = {
   newAssignment: newAssignment,
   getAssignment: getAssignment,
   getAssignments: getAssignments,
+  newReminder: newReminder,
 };
 

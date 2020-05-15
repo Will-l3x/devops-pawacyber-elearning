@@ -6,14 +6,12 @@ E-learning
 
 _@tatembuva_
 
-Currently on this branch I'll be using sqlite3 for dev, until I finish setting up docker and mssql on my mac...
-
 **System Admin**
 
 **Teacher**
 
 - [x] Enrol students for a course
-  - Route `+ /api/teacher/enrol_student`
+  - Route post `+ /api/teacher/enrol_student`
   - [ ] sends email with enrolment details
   - [ ] link contained in email, completes class reg
 - [x] Create and upload content
@@ -26,7 +24,8 @@ Currently on this branch I'll be using sqlite3 for dev, until I finish setting u
   - Route post `+ /api/teacher/newAssignment`
   - Route get `+ /api/teacher/getAssignment/:id`
   - Route get `+ /api/teacher/getAssignments/:id`
-- [ ] Able to broadcast reminders
+- [x] Able to broadcast reminders
+  - Route post `+ /api/teacher/newReminder` (classid, teacherid, title, message, enddate(e.g 2020-05-15))
 - [ ] Able to take questions and answers ( chat timeline ? like a class channel(slack) ?)
 - [ ] Able to send emails to students' attached emails
 - [ ] Ability to download/upload
@@ -35,3 +34,10 @@ Currently on this branch I'll be using sqlite3 for dev, until I finish setting u
 - [ ] Basic reporting
 
 **Student**
+
+- [ ] Students can get all enrolled subjects/courses
+- [ ] Student can get all course material for a subject
+- [ ] Student can get Past Exam Papers by class
+- [ ] Exam Paper resources can contain memos, answers scripts
+- [ ] Can get reminders for all registered classes
+- [ ] Student can post questions for teacher
