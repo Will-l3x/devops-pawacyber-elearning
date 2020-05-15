@@ -16,18 +16,20 @@ let _teacher = require("../controllers/_teacher.js");
 //router.put('/resetpassword', _auth.resetpassword);
 
 //////////////////////teacher//////////////////////////////////////////////
-//add your teacher endpoints here
 router.post("/teacher/enrol_student", _teacher.enrolStudent);
 
 router.post("/teacher/new_material", _teacher.newCourseMaterial);
 router.get("/teacher/get_material/:id", _teacher.getCourseMaterial);
 router.get("/teacher/get_materials/:id", _teacher.getCourseMaterials);
 
-router.post("/teacher/new_assignment", _teacher.newCourseMaterial);
-router.get("/teacher/get_assignment/:id", _teacher.getCourseMaterial);
-router.get("/teacher/get_assignments/:id", _teacher.getCourseMaterials);
+router.post("/teacher/new_assignment", _teacher.newAssignment);
+router.get("/teacher/get_assignment/:id", _teacher.getAssignment);
+router.get("/teacher/get_assignments/:id", _teacher.getAssignments);
 
 router.post("/teacher/new_reminder", _teacher.newReminder);
+
+router.post("/teacher/mark_assignment", _teacher.markAssignment);
+router.post("/teacher/comment_assignment", _teacher.commentAssignment);
 //////////////////////student//////////////////////////////////////////////
 //add your student endpoints here... well you get the gist
 

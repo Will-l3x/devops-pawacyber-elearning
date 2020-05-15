@@ -363,7 +363,95 @@ let getAssignments = (req, res) => {
     });
   }
 };
+//-- Mark an assignment, update mark
+//--Updates a student_assignment, single row
+let markAssignment = (req, res) => {
+  console.log("Teacher : Marking student assignment...");
+  //Expects student_assignmentid and mark
+  let obj = req.body;
+  if (!obj.student_assignmentid || !obj.mark) {
+    res.send({
+      err: "Missing a parameter, expects student assignment id and mark",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let q = `update student_assignments \
+      set student_assignments.mark = ${obj.mark} \
+      where student_assignments.assignmentId = ${obj.student_assignmentid}`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added mark to student submission...",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add mark...",
+          });
+        }
+      }
+    });
+  }
+};
 
+//-- comment on an assignment, update comment field
+//--Updates a student_assignment, single row
+let commentAssignment = (req, res) => {
+  console.log("Teacher : Commenting on student assignment...");
+  //Expects student_assignmentid and comment
+  let obj = req.body;
+  if (!obj.student_assignmentid || !obj.comment) {
+    res.send({
+      err: "Missing a parameter, expects student assignment id and comment",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let q = `update student_assignments \
+      set student_assignments.comment = ${obj.comment} \
+      where student_assignments.assignmentId = ${obj.student_assignmentid}`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added comment to student submission...",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add comment...",
+          });
+        }
+      }
+    });
+  }
+};
 //-- Create new reminder for classes in a list
 let newReminder = async (req, res) => {
   console.log("Teacher : creating new reminder..."); //dev
@@ -420,5 +508,7 @@ module.exports = {
   getAssignment: getAssignment,
   getAssignments: getAssignments,
   newReminder: newReminder,
+  markAssignment: markAssignment,
+  commentAssignment: commentAssignment,
 };
 
