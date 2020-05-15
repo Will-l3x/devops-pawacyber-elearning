@@ -6,6 +6,7 @@ var router = express.Router();
 var _auth = require("../controllers/_auth.js");
 
 let _teacher = require("../controllers/_teacher.js");
+let _student = require("../controllers/_student.js");
 
 ////////////////////////auth/////////////////////////////////// all users
 //router.post('/login', _auth.login);//done
@@ -30,7 +31,11 @@ router.post("/teacher/new_reminder", _teacher.newReminder);
 
 router.post("/teacher/mark_assignment", _teacher.markAssignment);
 router.post("/teacher/comment_assignment", _teacher.commentAssignment);
+
+router.post("/teacher/new_msg", _teacher.newMsg);
+router.get("/teacher/get_msgs/:id", _teacher.getMsgs);
 //////////////////////student//////////////////////////////////////////////
-//add your student endpoints here... well you get the gist
+router.post("/student/new_msg", _student.newMsg);
+router.get("/student/get_msgs/:id", _student.getMsgs);
 
 module.exports = router;
