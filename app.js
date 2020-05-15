@@ -6,7 +6,7 @@ var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
-// var sql = require('mssql');
+var sql = require("mssql");
 var config = require("./config/config.js");
 const cors = require("cors");
 const _auth = require("./controllers/_auth.js");
@@ -15,18 +15,17 @@ var cron = require("node-cron");
 var moment = require("moment");
 var nodemailer = require("nodemailer");
 var _ = require("underscore");
-var db = require("./db/db.js");
 
 //var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
-//sql.connect(config, (err) => {
-//  if (err) {
-//    console.log(err);
-//    // process.exit(1);
-//  } else {
-//    console.log("SQL DATABASE CONNECTED");
-//    //return console.error(err);
-//  }
-//});
+sql.connect(config, (err) => {
+  if (err) {
+    console.log(err);
+    // process.exit(1);
+  } else {
+    console.log("SQL DATABASE CONNECTED");
+    //return console.error(err);
+  }
+});
 
 var api = require("./routes/api");
 
