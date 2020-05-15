@@ -29,7 +29,9 @@ _@tatembuva_
 - [ ] Able to take questions and answers ( chat timeline ? like a class channel(slack) ?)
 - [ ] Able to send emails to students' attached emails
 - [ ] Ability to download/upload
-- [ ] Ability to mark online
+- [x] Ability to mark online
+  - Route post `+ /api/teacher/markAssignment` (student_assignmentid, mark)
+  - Route post `+ /api/teacher/commentAssignment` (student_assignmentid, comment)
 - [ ] Ability to track students in online session
 - [ ] Basic reporting
 
