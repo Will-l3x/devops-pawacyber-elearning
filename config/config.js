@@ -14,8 +14,8 @@
 
 var config = {
   user: "sa",
-  password: "12345678",
-  server: "LOCALHOST",
+  password: "tate@1234",
+  server: "localhost",
   database: "newschool",
   stream: true,
   options: {
