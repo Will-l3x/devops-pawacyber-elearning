@@ -26,7 +26,9 @@ _@tatembuva_
   - Route get `+ /api/teacher/getAssignments/:id`
 - [x] Able to broadcast reminders
   - Route post `+ /api/teacher/newReminder` (classid, teacherid, title, message, enddate(e.g 2020-05-15))
-- [ ] Able to take questions and answers ( chat timeline ? like a class channel(slack) ?)
+- [x] Able to take questions and answers ( chat timeline ? like a class channel(slack) ?)
+  - Route post `+ /api/teacher/newMsg` (teacherid, studentid,to,from,title,message)
+  - Route get `+ /api/teacher/getMsgs/:id`
 - [ ] Able to send emails to students' attached emails
 - [ ] Ability to download/upload
 - [x] Ability to mark online
@@ -42,4 +44,6 @@ _@tatembuva_
 - [ ] Student can get Past Exam Papers by class
 - [ ] Exam Paper resources can contain memos, answers scripts
 - [ ] Can get reminders for all registered classes
-- [ ] Student can post questions for teacher
+- [x] Student can post questions for teacher
+  - Route post `+ /api/student/newMsg` (teacherid, studentid,to,from,title,message)
+  - Route get `+ /api/student/getMsgs/:id`
