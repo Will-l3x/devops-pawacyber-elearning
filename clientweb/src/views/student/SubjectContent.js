@@ -40,6 +40,7 @@ export class SubjectContent extends Component {
   
 
   render() {
+    console.log(this.props)
     const course = store.getState().student.course;
     if (course.name === '' || course.name === undefined){
       return <Redirect to='/student'/>
@@ -115,5 +116,8 @@ export class SubjectContent extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  
+});
 
-export default connect(null, null)(SubjectContent);
+export default connect(mapStateToProps, null)(SubjectContent);

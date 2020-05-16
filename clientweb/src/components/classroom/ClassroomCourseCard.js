@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SubjectDescrip from "../student-components/SubjectDescrip";
+import TopicContentCard from "../TopicContentCard";
 import { Link, Redirect } from "react-router-dom";
 import store from "../../config/store"
 
@@ -80,9 +80,9 @@ export class ClassroomCourseCard extends Component {
               </h5>
             </div>
             {this.topicSelected ? (
-              <SubjectDescrip
+              <TopicContentCard
                 content={this.contentSate.content}
-              ></SubjectDescrip>
+              ></TopicContentCard>
             ) : (
               <div></div>
             )}

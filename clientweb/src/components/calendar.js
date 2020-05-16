@@ -122,11 +122,21 @@ export class Calendar extends Component {
             <div className="row">
               <div className="col s12">
                 <div className="row">
-                  <div className="input-field col s4">
+                  <div className="input-field col s3">
                     <input id="title" type="text"></input>
                     <label htmlFor="title">Title</label>
                   </div>
-                  <div className="input-field col s8">
+                  <div className="input-field col s2">
+                    <select id="type">
+                      <option disabled>
+                        Type
+                      </option>
+                      <option defaultValue="event">Event</option>
+                      <option defaultValue="reminder">To-do</option>
+                      <option defaultValue="to-do">Reminder</option>
+                    </select>
+                  </div>
+                  <div className="input-field col s7">
                     <input id="description" type="text"></input>
                     <label htmlFor="description">Description</label>
                   </div>
@@ -136,10 +146,9 @@ export class Calendar extends Component {
                     <input
                       id="start-date"
                       className=""
-                      placeholder="start date"
+                      placeholder={this.state.strDate}
                       defaultValue={this.state.strDate}
                       type="text"
-                      disabled
                     ></input>
                     <label htmlFor="start-date">Start Date</label>
                   </div>

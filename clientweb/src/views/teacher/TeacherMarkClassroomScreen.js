@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import SideBar from "../SideBar";
-import FileDropZone from "../dropzone";
+import SideBar from "../../components/SideBar";
+import FileDropZone from "../../components/dropzone";
 import $ from "jquery";
 import M from "materialize-css";
 
-import { ClassroomClassworkCard } from "./ClassroomClassworkCard";
-import ClassroomStudentsCard from "./ClassroomStudentsCard";
-import { ClassroomCourseCard } from "./ClassroomCourseCard";
-import { ClassroomStudentAssessment } from "./ClassroomStudentAssessment";
-export class ClassroomScreen extends Component {
- 
+import TestFolderCard  from "../../components/teacher-mark/TestFolderCard";
+import AssignmentFolderCard from "../../components/teacher-mark/AssignmentFolderCard";
+export class TeacherMarkClassroomScreen extends Component {
+  constructor() {
+    super();
+    this.removeMaterialHandler.bind(this);
+    this.removeItemHandler.bind(this);
+  }
+
   componentDidMount() {
     M.AutoInit();
     $(".tabs-trigger").each(function () {
@@ -29,9 +32,6 @@ export class ClassroomScreen extends Component {
           $("#task-card3").css({
             display: "none",
           });
-          $("#task-card4").css({
-            display: "none",
-          });
         }
         if (tab === "task-card2") {
           $("#task-card1").css({
@@ -43,9 +43,6 @@ export class ClassroomScreen extends Component {
           $("#task-card3").css({
             display: "none",
           });
-          $("#task-card4").css({
-            display: "none",
-          });
         }
         if (tab === "task-card3") {
           $("#task-card1").css({
@@ -55,23 +52,6 @@ export class ClassroomScreen extends Component {
             display: "none",
           });
           $("#task-card3").css({
-            display: "block",
-          });
-          $("#task-card4").css({
-            display: "none",
-          });
-        }
-        if (tab === "task-card4") {
-          $("#task-card1").css({
-            display: "none",
-          });
-          $("#task-card2").css({
-            display: "none",
-          });
-          $("#task-card3").css({
-            display: "none",
-          });
-          $("#task-card4").css({
             display: "block",
           });
         }
@@ -106,67 +86,8 @@ export class ClassroomScreen extends Component {
             >
               <div className="nav-content">
                 <Link to="#" className="brand-logo">
-                  Classroom
+                  Classroom Mark/Grade
                 </Link>
-                <Link
-                  to="#!"
-                  className="dropdown-trigger black-text right waves-effect"
-                  data-target="dropdown7"
-                  style={{ transform: "translate(-80%, 20%)" }}
-                >
-                  <i className="material-icons">settings</i>
-                </Link>
-                <ul
-                  id="dropdown7"
-                  className="dropdown-content"
-                  style={{
-                    minWidth: "200px",
-                    whiteSpace: "nowrap",
-                    opacity: 1,
-                    display: "none",
-                  }}
-                >
-                  <li>
-                    <Link
-                      to="#!"
-                      data-target="modal1"
-                      className="grey-text modal-trigger text-darken-2"
-                    >
-                      <i className="material-icons ">book</i>
-                      Add Material
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="#!"
-                      data-target="modal2"
-                      className="grey-text modal-trigger text-darken-2"
-                    >
-                      <i className="material-icons ">description</i>
-                      Test/Exercise
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="#!"
-                      data-target="modal3"
-                      className="grey-text modal-trigger text-darken-2"
-                    >
-                      <i className="material-icons ">assignment</i>
-                      Add Assignment
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="#!"
-                      className="grey-text remove-material text-darken-2"
-                    >
-                      <i className="material-icons ">delete</i>
-                      Remove Content
-                    </Link>
-                  </li>
-                </ul>
-
                 <ul className="tabs">
                   <li className="tab">
                     <Link
@@ -174,7 +95,7 @@ export class ClassroomScreen extends Component {
                       data-target="task-card1"
                       className="tabs-trigger active"
                     >
-                      Classwork
+                      Test/Exercise
                     </Link>
                   </li>
                   <li className="tab">
@@ -183,38 +104,19 @@ export class ClassroomScreen extends Component {
                       data-target="task-card2"
                       className="tabs-trigger"
                     >
-                      Students
+                      Assignment
                     </Link>
                   </li>
-                  <li className="tab">
-                    <Link
-                      to="#"
-                      data-target="task-card3"
-                      className="tabs-trigger"
-                    >
-                      Course Content
-                    </Link>
-                  </li>
-                  <li className="tab">
-                    <Link
-                      to="#"
-                      data-target="task-card4"
-                      className="tabs-trigger"
-                    >
-                      Assessment
-                    </Link>
-                  </li>
-                </ul>
+                 </ul>
               </div>
             </nav>
           </div>
           <div className="container">
             <div className="row" style={{ paddingTop: 85, width: "90%" }}>
-              
-                <ClassroomClassworkCard />
-                <ClassroomStudentsCard />
-                <ClassroomCourseCard />
-                <ClassroomStudentAssessment/>
+              <div className="col s12">
+                <TestFolderCard />
+                <AssignmentFolderCard />
+              </div>
             </div>
           </div>
           <div id="modal1" className="modal" style={{ overflowY: "hidden" }}>
@@ -336,4 +238,4 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClassroomScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(TeacherMarkClassroomScreen);

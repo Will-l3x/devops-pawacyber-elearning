@@ -89,7 +89,7 @@ export class StudentScreen extends Component {
   };
 
   render() {
-    
+    console.log(this.props)
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
@@ -170,7 +170,7 @@ export class StudentScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
+  
 });
 
 const mapDispatchToProps = { course_data };

@@ -53,7 +53,6 @@ export class ClassroomScreen extends Component {
               </Link>
             </label>
             <span className="task-cat cyan">{st.id}</span>
-            <button className="content-clear right white">Remove</button>
           </li>
         ))}
       </ul>

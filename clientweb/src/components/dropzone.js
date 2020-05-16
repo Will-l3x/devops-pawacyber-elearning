@@ -75,7 +75,6 @@ class FileDropZone extends Component {
     this.setState({ files });
   };
   render() {
-    console.log(this.state.files);
     const preview = {
       display: "inline",
     };
