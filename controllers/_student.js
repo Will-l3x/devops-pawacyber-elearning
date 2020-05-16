@@ -1,4 +1,6 @@
 let sql = require("mssql");
+let fs = require("fs");
+
 //-- Create new message
 let newMsg = async (req, res) => {
   console.log("Student : creating new msg..."); //dev
@@ -201,10 +203,82 @@ let getReminders = (req, res) => {
     });
   }
 };
+//Student assignment submission
+let newSubmission = (req, res) => {
+  console.log("Student : creating new submission..."); //dev
+  //Expects teacherid, classid, schoolid, assid, and a json object containing material/file name
+  let obj = req.body;
+  if (
+    !obj.assid ||
+    !obj.classid ||
+    !obj.teacherid ||
+    !obj.studentid ||
+    !obj.schoolid
+  ) {
+    res.send({
+      err:
+        "Missing a parameter, expects classid, studentid, assid, teacherid on request object",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let uploadPath;
+    let q;
+    if (!obj.file) {
+      let o = JSON.stringify(obj.obj);
+      q = `insert into student_assignments \
+        (classid, teacherid, assid, studentid, obj) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.assid}','${studentid}', ${o})`;
+    } else {
+      uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/${obj.assid}/`;
+      obj.file = `/uploads/${obj.schoolid}/${obj.classid}/${obj.assid}/`;
+      console.log("Checking upload path..."); //dev
+      if (!fs.existsSync(uploadPath)) {
+        console.log("Creating upload path..."); //dev
+        console.log(uploadPath); //dev
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+      q = `insert into student_assignments \
+        (classid, teacherid, assid, studentid, [file]) \
+         values (${obj.classid}, ${obj.teacherid}, ${obj.assid}, ${obj.studentid}, '${obj.file}'); \
+        select * FROM student_assignments where student_assignments.assignmentID = SCOPE_IDENTITY(); `;
+    }
+    console.log(q); //dev
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          let assId = data.recordset[0].assignmentId;
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added assignment submission...",
+            uploadId: assId,
+            uploadType: "student_assignments",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add assignment submission...",
+          });
+        }
+      }
+    });
+  }
+};
 module.exports = {
   newMsg: newMsg,
   getMsgs: getMsgs,
   getClasses: getClasses,
   getCourseMaterials: getCourseMaterials,
   getReminders: getReminders,
+  newSubmission: newSubmission,
 };

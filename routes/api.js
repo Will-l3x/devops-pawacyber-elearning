@@ -47,6 +47,8 @@ router.get("/student/get_classes/:id", _student.getClasses);
 router.get("/student/get_materials/:id", _student.getCourseMaterials);
 
 router.get("/student/get_reminders/:id", _student.getReminders);
+
+router.post("/student/new_submission", _student.newSubmission);
 //////////////////////uploads//////////////////////////////////////////////
 router.post("/upload/new", _uploads.upload);
 

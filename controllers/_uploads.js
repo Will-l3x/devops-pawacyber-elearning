@@ -21,6 +21,8 @@ let upload = async (req, res) => {
         tableIdString = "materials.mID";
       } else if (obj.uploadType == "assignments") {
         tableIdString = "assignments.assignmentID";
+      } else if (obj.uploadType == "student_assignments") {
+        tableIdString = "student_assignments.assignmentID";
       } else {
         return res.status(400).send({
           success: false,
