@@ -39,7 +39,11 @@ _@tatembuva_
 - [ ] Ability to track students in online session
 - [ ] Basic reporting
 - [x] Get all classes for a single teacher
-  - Route get `+ /api/teacher/get_classes/:id` (id = teacherId)
+  - Route get `+ /api/teacher/get_classes/:id` (teacherId)
+- [x] Get all students in a class
+  - Route get `+ /api/teacher/get_students/:id` (classId)
+- [x] Get all submissions for an assignment
+  - Route get `+ /api/teacher/get_submissions/:id` (assignmentId)
 
 **Student**
 
@@ -49,5 +53,5 @@ _@tatembuva_
 - [ ] Exam Paper resources can contain memos, answers scripts
 - [ ] Can get reminders for all registered classes
 - [x] Student can post questions for teacher
-  - Route post `+ /api/student/newMsg` (teacherid, studentid,to,from,title,message)
-  - Route get `+ /api/student/getMsgs/:id`
+  - Route post `+ /api/student/new_msg` (teacherid, studentid,to,from,title,message)
+  - Route get `+ /api/student/get_msgs/:id`

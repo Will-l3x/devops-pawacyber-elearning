@@ -648,6 +648,83 @@ let getClasses = (req, res) => {
     });
   }
 };
+//Get all students in a class
+let getStudents = (req, res) => {
+  console.log("Teacher : Getting all students in a class...");
+  //Expects classid
+  if (!req.params.id) {
+    res.send({
+      err: "Missing a parameter, expects classid",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.params.id;
+    let q = `select * from students where students.studentId in \
+      (select class_students.studentid from class_students \
+      where class_students.classid = ${p});`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Class students not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
+};
+// Get all submissions for an assignment
+let getSubmissions = (req, res) => {
+  console.log("Teacher : Getting all assignment submissions in a class...");
+  //Expects assignmentid
+  if (!req.params.id) {
+    res.send({
+      err: "Missing a parameter, expects assignmentid",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.params.id;
+    let q = `select * from student_assignments \
+    where student_assignments.assId = ${p}`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Assignment submissions not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
+};
 module.exports = {
   enrolStudent: enrolStudent,
   newCourseMaterial: newCourseMaterial,
@@ -662,5 +739,7 @@ module.exports = {
   newMsg: newMsg,
   getMsgs: getMsgs,
   getClasses: getClasses,
+  getStudents: getStudents,
+  getSubmissions: getSubmissions,
 };
 
