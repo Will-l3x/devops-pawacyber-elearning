@@ -53,7 +53,8 @@ _@tatembuva_
   - Route get `+ /api/student/get_materials/:id` (classid)
 - [ ] Student can get Past Exam Papers by class
 - [ ] Exam Paper resources can contain memos, answers scripts
-- [ ] Can get reminders for all registered classes
+- [x] Can get reminders for all registered classes
+  - Route get `+ /api/student/get_reminders/:id` (studentid)
 - [x] Student can post questions for teacher
   - Route post `+ /api/student/new_msg` (teacherid, studentid,to,from,title,message)
   - Route get `+ /api/student/get_msgs/:id`
