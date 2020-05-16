@@ -30,6 +30,19 @@ sql.connect(config, (err) => {
     }
 });
 
+//retry logic on error
+sql.on('error', err => sql.connect(config, (err) => {
+    if (err) {
+        console.log(err + "after retry");
+        // process.exit(1);
+
+    } else {
+        console.log("SQL DATABASE CONNECTED after retry");
+        //return console.error(err);
+    }
+})
+);
+
 var api = require('./routes/api');
 
 //var redis = require('redis');
