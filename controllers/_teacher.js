@@ -1,4 +1,5 @@
 let sql = require("mssql");
+let fs = require("fs");
 let nodemailer = require("nodemailer");
 
 let enrolStudent = async (req, res) => {
@@ -100,16 +101,17 @@ let enrolStudent = async (req, res) => {
 //-- Create new course material for a class
 let newCourseMaterial = (req, res) => {
   console.log("Teacher : creating new course material...");
-  //Expects teacherid, classid, materialname, and a json object containing material/file name
+  //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
   let obj = req.body;
 
-  if (!obj.materialname || !obj.classid || !obj.teacherid) {
+  if (!obj.materialname || !obj.classid || !obj.teacherid || !obj.schoolid) {
     res.send({
       err:
         "Missing a parameter, expects classid, materialtype, teacherid on request object",
     });
     console.log("Missing parameter..."); //dev
   } else {
+    let uploadPath;
     let q;
     if (!obj.file) {
       let o = JSON.stringify(obj.obj);
@@ -117,9 +119,18 @@ let newCourseMaterial = (req, res) => {
         (classid, teacherid, materialname, obj) \
          values (${obj.classid}, ${obj.studentid}, ${obj.materialname}, ${o})`;
     } else {
+      uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/`;
+      obj.file = `/uploads/${obj.schoolid}/${obj.classid}/`;
+      console.log("Checking upload path..."); //dev
+      if (!fs.existsSync(uploadPath)) {
+        console.log("Creating upload path..."); //dev
+        console.log(uploadPath); //dev
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
       q = `insert into materials \
-        (classid, teacherid, materialname, file) \
-         values (${obj.classid}, ${obj.studentid}, ${obj.materialname}, ${obj.file})`;
+        (classid, teacherid, materialname, [file]) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}'); \
+         select * FROM materials where materials.mID = SCOPE_IDENTITY();`;
     }
     console.log(q); //dev
     let ms_req = new sql.Request();
@@ -135,11 +146,13 @@ let newCourseMaterial = (req, res) => {
         console.log("Insert : "); //dev
         console.log(data); //dev
         if (data.rowsAffected[0] > 0) {
-          //5.Nodemailer here
+          let mId = data.recordset[0].mId;
           return res.json({
             status: 200,
             success: true,
             message: "Added material...",
+            uploadId: mId,
+            uploadType: "materials",
           });
         } else {
           return res.json({
@@ -250,6 +263,7 @@ let newAssignment = (req, res) => {
         (classid, teacherid, assignmentname, obj) \
          values (${obj.classid}, ${obj.studentid}, '${obj.assignmentname}', ${o})`;
     } else {
+      //file upload stuff here...
       q = `insert into assignments \
         (classid, teacherid, assignmentname, file) \
          values (${obj.classid}, ${obj.studentid}, '${obj.assignmentname}', '${obj.file}')`;

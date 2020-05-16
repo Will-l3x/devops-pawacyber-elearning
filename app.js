@@ -15,6 +15,7 @@ var cron = require("node-cron");
 var moment = require("moment");
 var nodemailer = require("nodemailer");
 var _ = require("underscore");
+const fileUpload = require("express-fileupload");
 
 //var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 sql.connect(config, (err) => {
@@ -39,6 +40,9 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+
+//File Upload
+app.use(fileUpload());
 
 process.env.jwt_secret =
   "AURacx3425#$G$#3VBHSJBSJTSDDN4c4cEfFvGggGGf5t3e4Y%G&tgyGUbtfVE345$#3#$$456789(./)()newScho0l";
