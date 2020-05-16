@@ -598,6 +598,45 @@ let getMsgs = (req, res) => {
     });
   }
 };
+// get all classes for a teacher
+let getClasses = (req, res) => {
+  console.log("Teacher : Getting all classes...");
+  //Expects teacherid
+  if (!req.params.id) {
+    res.send({
+      err: "Missing a parameter, expects teacherid",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.params.id;
+    let q = `select * \
+      from classes \
+      where classes.teacherid = ${p}`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Teacher classes not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
+};
 module.exports = {
   enrolStudent: enrolStudent,
   newCourseMaterial: newCourseMaterial,
@@ -611,5 +650,6 @@ module.exports = {
   commentAssignment: commentAssignment,
   newMsg: newMsg,
   getMsgs: getMsgs,
+  getClasses: getClasses,
 };
 

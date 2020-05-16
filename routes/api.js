@@ -35,6 +35,8 @@ router.post("/teacher/comment_assignment", _teacher.commentAssignment);
 
 router.post("/teacher/new_msg", _teacher.newMsg);
 router.get("/teacher/get_msgs/:id", _teacher.getMsgs);
+
+router.get("/teacher/get_classes/:id", _teacher.getClasses);
 //////////////////////student//////////////////////////////////////////////
 router.post("/student/new_msg", _student.newMsg);
 router.get("/student/get_msgs/:id", _student.getMsgs);
