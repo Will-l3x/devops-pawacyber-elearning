@@ -39,14 +39,14 @@ class TeacherCourseCard extends Component {
       return <Redirect to="/classroom" />;
     }
     return this.props.courses.map((course, i) => (
-      <div key={course.courseId} className="col s12 m6 l4">
+      <div key={course.courseId} className="col s12 m6 l4 ">
         <div
           className={`card ${this.colors(i)} min-height-100 white-text`}
           style={{ borderRadius: "5px", cursor: "pointer" }}
           onClick={() => this.dashClick("teacher", course)}
         >
           <div className="padding-4">
-            <div className="col s7 m7">
+            <div className="col s7 m7 sub-card">
               <div to="/teacher-classwork" className="">
                 <i className="material-icons medium">school</i>
               </div>

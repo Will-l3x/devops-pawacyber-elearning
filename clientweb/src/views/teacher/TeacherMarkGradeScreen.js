@@ -1,11 +1,36 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
 import { Link } from "react-router-dom";
-import { Calendar } from "../../components/calendar";
 import M from "materialize-css";
+import SideBar from "../../components/SideBar";
+import { TeacherFolderCard } from "./TeacherFolderCard";
 
-export class TeacherTodoScreen extends Component {
+export class TeacherMarkGradeScreen extends Component {
+    constructor(){
+        super();
+        this.state = {
+          courses: [
+            {
+              courseId: 1,
+              courseName: "Mathematics",
+              numberOfTopics: 5,
+              courseCode: 1234,
+            },
+            {
+              courseId: 2,
+              courseName: "Mathematics",
+              numberOfTopics: 7,
+              courseCode: 123,
+            },
+            {
+              courseId: 3,
+              courseName: "Advanced Mathematics",
+              numberOfTopics: 9,
+              courseCode: 1456,
+            },
+          ],
+        };
+    }
   componentDidMount() {
     M.AutoInit();
   }
@@ -34,21 +59,21 @@ export class TeacherTodoScreen extends Component {
               }}
             >
               <div className="nav-content">
-                <Link style={{ marginTop: "3%", marginBottom: '1%' }} to="#" className="brand-logo">
-                  Calendar
+                <Link
+                  style={{ marginTop: "3%", marginBottom: "1%" }}
+                  to="#"
+                  className="brand-logo"
+                >
+                  Course Folders
                 </Link>
-               </div>
+              </div>
             </nav>
           </div>
 
           <section id="content" style={{ paddingTop: "1%" }}>
             <div className="container">
               <div className="row">
-                <div className="col m10 offset-m1" style={{ paddingTop: 15 }}>
-                  <div className="card padding-1">
-                    <Calendar />
-                  </div>
-                </div>
+                <TeacherFolderCard courses={this.state.courses} />
               </div>
             </div>
           </section>
@@ -58,8 +83,13 @@ export class TeacherTodoScreen extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    ...state
+});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeacherTodoScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TeacherMarkGradeScreen);

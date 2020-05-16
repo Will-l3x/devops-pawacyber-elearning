@@ -30,7 +30,7 @@ export class TeacherScreen extends Component {
   };
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div className="wrapper">
         <aside id="left-sidebar-nav">
@@ -43,8 +43,7 @@ export class TeacherScreen extends Component {
             <i className="material-icons">format_indent_increase</i>
           </Link>
         </aside>
-
-        <section id="content">
+        <div className="section" style={{ paddingBottom: 0 }}>
           <div style={{ position: "relative", zIndex: 50 }}>
             <nav
               className="navbar nav-extended"
@@ -52,229 +51,184 @@ export class TeacherScreen extends Component {
                 position: "fixed",
                 maxWidth: "85%",
                 minHeight: 70,
-                transform: 'translateY(-40%)'
+                transform: "translateY(-100%)",
               }}
             >
               <div className="nav-content">
-                <Link to="#" className="brand-logo">
-                 Teacher Dashboard
-                </Link>
-                
-                <ul
-                  id="dropdown7"
-                  className="dropdown-content"
-                  style={{
-                    minWidth: "200px",
-                    whiteSpace: "nowrap",
-                    opacity: 1,
-                    display: "none",
-                  }}
+                <Link
+                  style={{ marginTop: "3%", marginBottom: "1%" }}
+                  to="#"
+                  className="brand-logo"
                 >
-                  <li>
-                    <Link
-                      to="#!"
-                      data-target="modal1"
-                      className="grey-text modal-trigger text-darken-2"
-                    >
-                      <i className="material-icons ">book</i>
-                      Add Material
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="#!"
-                      data-target="modal2"
-                      className="grey-text modal-trigger text-darken-2"
-                    >
-                      <i className="material-icons ">description</i>
-                      Test/Exercise
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="#!"
-                      data-target="modal3"
-                      className="grey-text modal-trigger text-darken-2"
-                    >
-                      <i className="material-icons ">assignment</i>
-                      Add Assignment
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="#!"
-                      className="grey-text remove-material text-darken-2"
-                    >
-                      <i className="material-icons ">backspace</i>
-                      Remove Content
-                    </Link>
-                  </li>
-                </ul>
+                  Dashboard
+                </Link>
               </div>
             </nav>
           </div>
 
-          <div className="container">
-            <div className="card-stats">
-              <div className="row mt-1">
-                <p className="flow-text">Your Teaching Classes</p>
-                <TeacherCourseCard courses={this.state.courses} />
+          <section id="content" style={{ paddingTop: "1%" }}>
+            <div className="container">
+              <div className="card-stats">
+                <div className="row">
+                  <TeacherCourseCard courses={this.state.courses} />
+                </div>
               </div>
-            </div>
-            <div
-              style={{
-                marginLeft: "20px",
-                marginRight: "20px",
-                marginTop: "15px",
-                marginBottom: "15px",
-              }}
-            >
               <div
-                className="row card"
                 style={{
-                  backgroundImage:
-                    'url("../../assets/images/icon/book_lover.png")',
-                  marginTop: 15,
-                  marginBottom: 15,
+                  marginLeft: "20px",
+                  marginRight: "20px",
+                  marginTop: "15px",
+                  marginBottom: "15px",
                 }}
               >
                 <div
-                  className="col s2"
+                  className="row card"
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    overflow: "hidden",
+                    backgroundImage:
+                      'url("../../assets/images/icon/book_lover.png")',
+                    marginTop: 15,
+                    marginBottom: 15,
                   }}
                 >
-                  <img
-                    src={avatar}
-                    alt="Avatar"
-                    style={{
-                      flexShrink: "0",
-                      maxWidth: "100%",
-                      maxHeight: "80px",
-                    }}
-                  ></img>
-                </div>
-                <div className="col s6 card-title">
                   <div
+                    className="col s2"
                     style={{
-                      fontSize: "16px",
-                      marginTop: "10px",
-                      marginBottom: "10px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      overflow: "hidden",
                     }}
                   >
-                    Student assessment. View your students' classwork.
+                    <img
+                      src={avatar}
+                      alt="Avatar"
+                      style={{
+                        flexShrink: "0",
+                        maxWidth: "100%",
+                        maxHeight: "80px",
+                      }}
+                    ></img>
                   </div>
-                </div>
-                <div
-                  className="col s4"
-                  style={{ paddingTop: "1.4%", paddingBottom: "1.3%" }}
-                >
-                  <div className="right-align">
-                    <Link
-                      to=""
-                      className="card btn gradient-45deg-light-blue-cyan"
-                      style={{ maxWidth: "150px" }}
+                  <div className="col s6 card-title">
+                    <div
+                      style={{
+                        fontSize: "16px",
+                        marginTop: "10px",
+                        marginBottom: "10px",
+                      }}
                     >
-                      All Students
-                    </Link>
+                      Student assessment. View your students' classwork.
+                    </div>
+                  </div>
+                  <div
+                    className="col s4"
+                    style={{ paddingTop: "1.4%", paddingBottom: "1.3%" }}
+                  >
+                    <div className="right-align">
+                      <Link
+                        to="/teacher-students"
+                        className="card btn gradient-45deg-light-blue-cyan"
+                        style={{ maxWidth: "150px" }}
+                      >
+                        All Students
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="work-collections">
+                <div className="row">
+                  <div className="col s12 m12 l6">
+                    <ul className="task-card collection with-header">
+                      <li className="collection-header blue lighten-1">
+                        <h5 className="task-card-title">Student classwork</h5>
+                        <p className="task-card-title">Todo List</p>
+                      </li>
+                      <li className="collection-item dismissable">
+                        <label htmlFor="task1">
+                          Mark Assignment 1
+                          <input id="task1" type="checkbox" />
+                          <Link to="" className="secondary-content">
+                            <span className="ultra-small">Today</span>
+                          </Link>
+                        </label>
+                        <span className="task-cat cyan">Mathematics 4a</span>
+                      </li>
+                      <li className="collection-item dismissable">
+                        <label htmlFor="task2">
+                          Mark Assignment 3
+                          <Link to="" className="secondary-content">
+                            <span className="ultra-small">Monday</span>
+                          </Link>
+                        </label>
+                        <span className="task-cat red accent-2">
+                          Computer Science 12c
+                        </span>
+                      </li>
+                      <li className="collection-item">
+                        <label htmlFor="task3">
+                          Grade Assignment 1
+                          <Link to="" className="secondary-content">
+                            <span className="ultra-small">Wednesday</span>
+                          </Link>
+                        </label>
+                        <span className="task-cat teal accent-4">
+                          Mathematics 4a
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="col s12 m12 l6">
+                    <ul className="task-card collection with-header">
+                      <li className="collection-header teal accent-4">
+                        <h5 className="task-card-title">Pending Assignments</h5>
+                        <p className="task-card-title">
+                          Arranged by submission date
+                        </p>
+                      </li>
+                      <li className="collection-item dismissable">
+                        <label htmlFor="task1">
+                          Create Mobile App UI.
+                          <Link to="" className="secondary-content">
+                            <span className="ultra-small">Today</span>
+                          </Link>
+                        </label>
+                        <span className="task-cat cyan">Mathematics</span>
+                      </li>
+                      <li className="collection-item dismissable">
+                        <label htmlFor="task2">
+                          Check the new API standerds.
+                          <Link to="" className="secondary-content">
+                            <span className="ultra-small">Monday</span>
+                          </Link>
+                        </label>
+                        <span className="task-cat red accent-2">
+                          Computer Science
+                        </span>
+                      </li>
+                      <li className="collection-item dismissable">
+                        <label htmlFor="task3">
+                          Check the new Mockup of ABC.
+                          <Link to="" className="secondary-content">
+                            <span className="ultra-small">Wednesday</span>
+                          </Link>
+                        </label>
+                        <span className="task-cat teal accent-4">Project</span>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
-            <div id="work-collections">
-              <div className="row">
-                <div className="col s12 m12 l6">
-                  <ul className="task-card collection with-header">
-                    <li className="collection-header blue lighten-1">
-                      <h5 className="task-card-title">Student classwork</h5>
-                      <p className="task-card-title">Todo List</p>
-                    </li>
-                    <li className="collection-item dismissable">
-                      <label htmlFor="task1">
-                        Mark Assignment 1
-                        <Link to="" className="secondary-content">
-                          <span className="ultra-small">Today</span>
-                        </Link>
-                      </label>
-                      <span className="task-cat cyan">Mathematics 4a</span>
-                    </li>
-                    <li className="collection-item dismissable">
-                      <label htmlFor="task2">
-                        Mark Assignment 3
-                        <Link to="" className="secondary-content">
-                          <span className="ultra-small">Monday</span>
-                        </Link>
-                      </label>
-                      <span className="task-cat red accent-2">
-                        Computer Science 12c
-                      </span>
-                    </li>
-                    <li className="collection-item">
-                      <label htmlFor="task3">
-                        Grade Assignment 1
-                        <Link to="" className="secondary-content">
-                          <span className="ultra-small">Wednesday</span>
-                        </Link>
-                      </label>
-                      <span className="task-cat teal accent-4">
-                        Mathematics 4a
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col s12 m12 l6">
-                  <ul className="task-card collection with-header">
-                    <li className="collection-header teal accent-4">
-                      <h5 className="task-card-title">Pending Assignments</h5>
-                      <p className="task-card-title">
-                        Arranged by submission date
-                      </p>
-                    </li>
-                    <li className="collection-item dismissable">
-                      <label htmlFor="task1">
-                        Create Mobile App UI.
-                        <Link to="" className="secondary-content">
-                          <span className="ultra-small">Today</span>
-                        </Link>
-                      </label>
-                      <span className="task-cat cyan">Mathematics</span>
-                    </li>
-                    <li className="collection-item dismissable">
-                      <label htmlFor="task2">
-                        Check the new API standerds.
-                        <Link to="" className="secondary-content">
-                          <span className="ultra-small">Monday</span>
-                        </Link>
-                      </label>
-                      <span className="task-cat red accent-2">
-                        Computer Science
-                      </span>
-                    </li>
-                    <li className="collection-item dismissable">
-                      <label htmlFor="task3">
-                        Check the new Mockup of ABC.
-                        <Link to="" className="secondary-content">
-                          <span className="ultra-small">Wednesday</span>
-                        </Link>
-                      </label>
-                      <span className="task-cat teal accent-4">Project</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  ...state
+  ...state,
 });
 
 const mapDispatchToProps = {};

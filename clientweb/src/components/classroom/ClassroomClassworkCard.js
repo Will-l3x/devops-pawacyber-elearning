@@ -33,7 +33,7 @@ export class ClassroomClassworkCard extends Component {
         {
           id: "4",
           title: "Chapter 6",
-          type: "Course Material",
+          type: "Course material",
           due: "18 May",
           posted: "18 May",
         },
@@ -61,13 +61,14 @@ export class ClassroomClassworkCard extends Component {
         {
           id: "8",
           title: "Chapter 3 & 4",
-          type: "Course Material",
+          type: "Course material",
           due: "18 May",
           posted: "18 May",
         },
       ],
     };
   }
+  
   render() {
     return (
       <ul
@@ -79,7 +80,7 @@ export class ClassroomClassworkCard extends Component {
           let cl = "";
           if (cw.type === "Course material") {
             return (
-              <li key={i} className="collection-item ">
+              <li key={cw.id} className="collection-item ">
                 <label>
                   {cw.title}
                   <Link to="" className="secondary-content">
@@ -87,7 +88,13 @@ export class ClassroomClassworkCard extends Component {
                   </Link>
                 </label>
                 <span className="task-cat cyan">{cw.type}</span>
-                <button className="content-clear right white">Remove</button>
+                <label className="right">
+                  <span>
+                    <i className="material-icons remove-content">
+                      delete_forever
+                    </i>
+                  </span>
+                </label>
               </li>
             );
           }
@@ -105,7 +112,13 @@ export class ClassroomClassworkCard extends Component {
                 </Link>
               </label>
               <span className={`task-cat ${cl}`}>{cw.type}</span>
-              <button className="content-clear right white">Remove</button>
+              <label className="right">
+                <span>
+                  <i className="material-icons remove-content">
+                    delete_forever
+                  </i>
+                </span>
+              </label>
             </li>
           );
         })}

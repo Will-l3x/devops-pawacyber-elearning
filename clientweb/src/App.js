@@ -1,6 +1,5 @@
+
 import React, { Component } from "react";
-import { Provider } from "react-redux";
-import store from "./config/store";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Main from "./navigation/main";
@@ -8,6 +7,7 @@ import $ from "jquery";
 import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
+import store from "./config/store";
 
 class App extends Component {
   componentDidMount() {
@@ -142,12 +142,10 @@ class App extends Component {
         overflow: "auto",
       });
     }
-
-   
   }
-  render() { 
+  render() {
     return (
-      <Provider store={store}>
+      <div>
         <div id="loader-wrapper">
           <div id="loader"></div>
           <div className="loader-section section-left"></div>
@@ -157,14 +155,15 @@ class App extends Component {
           <Header />
         </header>
         <main id="main">
-          <Main store={store.getState()} />
+          <Main store={store}/>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
           <Footer />
         </footer>
-      </Provider>
+      </div>
     );
   }
 }
+
 
 export default App;

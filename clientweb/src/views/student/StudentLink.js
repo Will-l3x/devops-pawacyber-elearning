@@ -18,7 +18,7 @@ class StudentLink extends Component {
             className="dash-link waves-effect waves-cyan"
             onClick={() => this.dashClick("student")}
           >
-            <i className="material-icons">pie_chart_outlined</i>
+            <i className="material-icons">dashboard</i>
             <span className="nav-text">Home</span>
           </Link>
         </li>
