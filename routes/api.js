@@ -7,6 +7,7 @@ var _auth = require("../controllers/_auth.js");
 
 let _teacher = require("../controllers/_teacher.js");
 let _student = require("../controllers/_student.js");
+let _uploads = require("../controllers/_uploads.js");
 
 ////////////////////////auth/////////////////////////////////// all users
 //router.post('/login', _auth.login);//done
@@ -34,8 +35,12 @@ router.post("/teacher/comment_assignment", _teacher.commentAssignment);
 
 router.post("/teacher/new_msg", _teacher.newMsg);
 router.get("/teacher/get_msgs/:id", _teacher.getMsgs);
+
+router.get("/teacher/get_classes/:id", _teacher.getClasses);
 //////////////////////student//////////////////////////////////////////////
 router.post("/student/new_msg", _student.newMsg);
 router.get("/student/get_msgs/:id", _student.getMsgs);
+//////////////////////uploads//////////////////////////////////////////////
+router.post("/upload/new", _uploads.upload);
 
 module.exports = router;
