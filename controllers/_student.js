@@ -84,7 +84,48 @@ let getMsgs = (req, res) => {
     });
   }
 };
+// Gets all classes student is enrolled in
+let getClasses = (req, res) => {
+  console.log("Student : Getting all Classes enrolled in...");
+  //Expects studentid
+  if (!req.params.id) {
+    res.send({
+      err: "Missing a parameter, expects studentid",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.params.id;
+    let q = `select * from classes \
+    where classes.classId in \
+      (select class_students.classid from class_students \
+  where class_students.studentid = ${p});`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Classes not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
+};
 module.exports = {
   newMsg: newMsg,
   getMsgs: getMsgs,
+  getClasses: getClasses,
 };

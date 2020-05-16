@@ -47,7 +47,8 @@ _@tatembuva_
 
 **Student**
 
-- [ ] Students can get all enrolled subjects/courses
+- [x] Students can get all enrolled subjects/courses
+  - Route get `+ /api/student/get_classes/:id` (studentId)
 - [ ] Student can get all course material for a subject
 - [ ] Student can get Past Exam Papers by class
 - [ ] Exam Paper resources can contain memos, answers scripts
