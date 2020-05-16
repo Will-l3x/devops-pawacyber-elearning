@@ -44,6 +44,7 @@ router.post("/student/new_msg", _student.newMsg);
 router.get("/student/get_msgs/:id", _student.getMsgs);
 
 router.get("/student/get_classes/:id", _student.getClasses);
+router.get("/student/get_materials/:id", _student.getCourseMaterials);
 //////////////////////uploads//////////////////////////////////////////////
 router.post("/upload/new", _uploads.upload);
 
