@@ -31,7 +31,7 @@ _@tatembuva_
   - Route get `+ /api/teacher/get_msgs/:id`
 - [ ] Able to send emails to students' attached emails
 - [x] Ability to download/upload
-  - Route post `+ /api/teacher/new_material`
+  - Route post `+ /api/teacher/new_material` `+ /api/teacher/new_assignment`
   - Route post `+ /api/upload/new` (uploadId, uploadType) `<input name="uploadFile"/>`
 - [x] Ability to mark online
   - Route post `+ /api/teacher/mark_assignment` (student_assignmentid, mark)
@@ -58,3 +58,6 @@ _@tatembuva_
 - [x] Student can post questions for teacher
   - Route post `+ /api/student/new_msg` (teacherid, studentid,to,from,title,message)
   - Route get `+ /api/student/get_msgs/:id`
+- [x] Ability to download/upload assignments
+  - Route post `+ /api/teacher/new_submission`
+  - Route post `+ /api/upload/new` (uploadId, uploadType) `<input name="uploadFile"/>`
