@@ -13,8 +13,8 @@
 //};
 
 var config = {
-  user: "sa",
-  password: "tate@1234",
+  user: "root",
+  password: "",
   server: "localhost",
   database: "newschool",
   stream: true,
