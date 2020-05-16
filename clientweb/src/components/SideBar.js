@@ -29,19 +29,9 @@ class SideBar extends Component {
       Links = HomeLink;
     } 
     return (
-      <ul
-        id="slide-out"
-        className="side-nav z-depth-5 fixed leftside-navigation"
-      >
-        <li className="user-details cyan darken-2">
+      <ul id="slide-out" className="side-nav z-depth-2 fixed leftside-navigation" >
+        {/* <li className="user-details cyan darken-2">
           <div className="row">
-            <div className="col col s4 m4 l4">
-              <img
-                src="images/avatar/avatar-7.png"
-                alt=""
-                className="circle responsive-img valign profile-image cyan"
-              ></img>
-            </div>
             <div className="col col s8 m8 l8">
               <ul id="profile-dropdown-nav" className="dropdown-content">
                 <li>
@@ -51,35 +41,19 @@ class SideBar extends Component {
                 </li>
                 <li>
                   <Link to="" className="grey-text text-darken-1">
-                    <i className="material-icons">settings</i> Settings
-                  </Link>
-                </li>
-                <li>
-                  <Link to="" className="grey-text text-darken-1">
                     <i className="material-icons">live_help</i> Help
                   </Link>
                 </li>
                 <li className="divider"></li>
-
                 <li>
                   <Link to="" className="grey-text text-darken-1">
                     <i className="material-icons">keyboard_tab</i> Logout
                   </Link>
                 </li>
               </ul>
-              
-              <Link
-                className="btn-flat dropdown-button dropdown-trigger waves-effect waves-light white-text profile-btn"
-                to=""
-                data-target="profile-dropdown-nav"
-              >
-                John Doe
-                <i className="mdi-navigation-arrow-drop-down right"></i>
-              </Link>
-              <p className="user-roal">Administrator</p>
             </div>
           </div>
-        </li>
+        </li> */}
         <li className="no-padding">
           <Links></Links>
         </li>
