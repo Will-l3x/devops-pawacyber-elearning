@@ -52,9 +52,9 @@ let upload = async (req, res) => {
             let fpath = data.recordset[0].file;
             console.log(req.files);
             //for postman, it doesn't name the <input/> element...
-            // let tempFile = req.files[""];
+            let tempFile = req.files[""];
             //Name of frontend <input/> element should be 'name="fileUpload"'
-            let tempFile = req.files.fileUpload;
+            // let tempFile = req.files.fileUpload;
             console.log(tempFile); //dev
             let finalPath = base + fpath + tempFile.name;
             console.log(finalPath); //dev

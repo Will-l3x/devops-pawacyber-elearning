@@ -247,26 +247,35 @@ let getCourseMaterials = (req, res) => {
 //-- Create new assignment for a class
 let newAssignment = (req, res) => {
   console.log("Teacher : creating new assignment..."); //dev
-  //Expects teacherid, classid, assignmentname, and a json object containing material/file name
+  //Expects teacherid, classid, assignmentname, schoolid , and a json object containing material/file name
   let obj = req.body;
-  if (!obj.assignmentname || !obj.classid || !obj.teacherid) {
+  if (!obj.assignmentname || !obj.classid || !obj.teacherid || !obj.schoolid) {
     res.send({
       err:
-        "Missing a parameter, expects classid, assignmentname, teacherid on request object",
+        "Missing a parameter, expects classid, schoolid, assignmentname, teacherid on request object",
     });
     console.log("Missing parameter..."); //dev
   } else {
+    let uploadPath;
     let q;
     if (!obj.file) {
       let o = JSON.stringify(obj.obj);
       q = `insert into assignments \
         (classid, teacherid, assignmentname, obj) \
-         values (${obj.classid}, ${obj.studentid}, '${obj.assignmentname}', ${o})`;
+         values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', ${o})`;
     } else {
-      //file upload stuff here...
+      uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/`;
+      obj.file = `/uploads/${obj.schoolid}/${obj.classid}/`;
+      console.log("Checking upload path..."); //dev
+      if (!fs.existsSync(uploadPath)) {
+        console.log("Creating upload path..."); //dev
+        console.log(uploadPath); //dev
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
       q = `insert into assignments \
-        (classid, teacherid, assignmentname, file) \
-         values (${obj.classid}, ${obj.studentid}, '${obj.assignmentname}', '${obj.file}')`;
+        (classid, teacherid, assignmentname, [file]) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', '${obj.file}'); \
+        select * FROM assignments where assignments.assignmentID = SCOPE_IDENTITY(); `;
     }
     console.log(q); //dev
     let ms_req = new sql.Request();
@@ -282,11 +291,13 @@ let newAssignment = (req, res) => {
         console.log("Insert : "); //dev
         console.log(data); //dev
         if (data.rowsAffected[0] > 0) {
-          //5.Nodemailer here
+          let assId = data.recordset[0].assignmentId;
           return res.json({
             status: 200,
             success: true,
             message: "Added assignment...",
+            uploadId: assId,
+            uploadType: "assignments",
           });
         } else {
           return res.json({

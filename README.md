@@ -16,14 +16,14 @@ _@tatembuva_
   - [ ] link contained in email, completes class reg
 - [x] Create and upload content
   - Route post `+ /api/teacher/new_material`
-  - Route get `+ /api/teacher/get_material/:id`
-  - Route get `+ /api/teacher/get_materials/:id`
+  - Route get `+ /api/teacher/get_material/:id` (materialId)
+  - Route get `+ /api/teacher/get_materials/:id` (classId)
 - [ ] Conduct class online
   - Live stream ?
 - [x] Able to create questionnaire, test & assignments
   - Route post `+ /api/teacher/new_assignment`
-  - Route get `+ /api/teacher/get_assignment/:id`
-  - Route get `+ /api/teacher/get_assignments/:id`
+  - Route get `+ /api/teacher/get_assignment/:id` (assignmentId)
+  - Route get `+ /api/teacher/get_assignments/:id` (classId)
 - [x] Able to broadcast reminders
   - Route post `+ /api/teacher/new_reminder` (classid, teacherid, title, message, enddate(e.g 2020-05-15))
 - [x] Able to take questions and answers ( chat timeline ? like a class channel(slack) ?)
