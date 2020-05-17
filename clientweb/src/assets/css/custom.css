@@ -443,34 +443,6 @@ nav.nav-extended .nav-content {
     line-height: normal;
 }
 
-.tabs {
-    position: relative;
-    overflow-x: auto;
-    overflow-y: hidden;
-    height: 48px;
-    width: 100%;
-    background-color: #fff;
-    margin: 0 auto;
-    white-space: nowrap;
-}
-
-.tabs .tab a.active {
-    background-color: transparent;
-    color: #448AFF;
-    border-bottom: 2px solid;
-}
-
-.tabs .tab a {
-    color: rgba(68, 138, 255, 0.7);
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding: 0 24px;
-    font-size: 14px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    transition: color .28s ease, background-color .28s ease;
-}
 
 nav.navbar ul a {
     color: rgba(0, 0, 0, 0.87);
@@ -599,4 +571,19 @@ h3 {
 
 .wrapper .btn {
     margin: 0px 5px;
+}
+
+.card-services .card{
+    margin-right:50px;
+}
+
+.text-container{
+    padding-left:50px;
+}
+
+.sect-learn{
+    margin-top:-100px;
+}
+.navbar-custom {
+    padding-bottom:30px;
 }

@@ -23,7 +23,7 @@ import { StudentTestScreen } from "../components/teacher-mark/StudentTestScreen"
 
 const Main = ({ store }) => (
   <Switch store={store}>
-    <Route exact path="/" component={LoginScreen} />
+    <Route exact path="/" component={HomeScreen} />
     <Route exact path="/login" component={LoginScreen} />
     <Route exact path="/about" component={AboutScreen} />
 
