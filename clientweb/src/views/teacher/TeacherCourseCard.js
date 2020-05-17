@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { navClick } from "../../actions/navlink";
 import { course_data } from "../../actions/student";
 import { Redirect } from "react-router";
+
 //import M from "materialize-css";
 
 class TeacherCourseCard extends Component {
@@ -45,19 +46,19 @@ class TeacherCourseCard extends Component {
           style={{ borderRadius: "5px", cursor: "pointer" }}
           onClick={() => this.dashClick("teacher", course)}
         >
-          <div className="padding-4">
+          <div className="padding-4 white-text">
             <div className="col s7 m7 sub-card">
               <div to="/teacher-classwork" className="">
-                <i className="material-icons medium">school</i>
+                <i className="material-icons medium white-text">school</i>
               </div>
-              <p>{course.courseName}</p>
-              <p>Students</p>
+              <p className="white-text">{course.courseName}</p>
+              <p className="white-text">Students</p>
             </div>
             <div className="col s5 m5 right-align">
-              <h5 className="mb-0">{course.courseCode}</h5>
-              <p className="no-margin">Code</p>
-              <p>4a</p>
-              <p>26</p>
+              <h5 className="mb-0 white-text">{course.courseCode}</h5>
+              <p className="no-margin white-text">Code</p>
+              <p className="white-text">4a</p>
+              <p className="white-text">26</p>
             </div>
           </div>
         </div>

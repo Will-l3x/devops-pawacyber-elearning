@@ -1,11 +1,63 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import DatatablePage from "../DatatablePage";
+import { TeacherService } from "../../services/teacher";
 
 export class ClassroomStudentAssessment extends Component {
   constructor() {
     super();
     this.state = {
+      data: {
+        columns: [
+          {
+            label: "Student Id",
+            field: "id",
+            sort: "asc",
+            width: "15%",
+          },
+          {
+            label: "Name",
+            field: "name",
+            sort: "asc",
+            width: "20%",
+          },
+          {
+            label: "Course",
+            field: "course",
+            sort: "asc",
+            width: "20%",
+          },
+          {
+            label: "Test/Exercise",
+            field: "test",
+            sort: "asc",
+            width: "10%",
+          },
+          {
+            label: "Assignment",
+            field: "assignment",
+            sort: "asc",
+            width: "10%",
+          },
+          {
+            label: "Avg",
+            field: "avg",
+            sort: "asc",
+            width: "10%",
+          },
+          {
+            label: "Grade",
+            field: "grade",
+            sort: "asc",
+            width: "15%",
+          },
+        ],
+        rows: [],
+      },
+    };
+  }
+  componentDidMount() {
+    this.setState({
       data: {
         columns: [
           {
@@ -72,9 +124,19 @@ export class ClassroomStudentAssessment extends Component {
           },
         ],
       },
-    };
-  }
+    });
+    
+    TeacherService.get_course_classroom_students_assessment().then(
+      (students) => {
+        console.log(students);
+        const rows = students;
+        const data = this.state.data;
+        data.rows = rows;
 
+        this.setState({data})
+      }
+    );
+  }
   render() {
     return (
       <div

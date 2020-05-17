@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+
 import SideBar from "../../components/SideBar";
 import blog_1 from "../../assets/images/blog_1.jpg";
 import blog_2 from "../../assets/images/blog_2.jpg";
@@ -11,6 +12,8 @@ import blog_6 from "../../assets/images/blog_6.jpg";
 import FileDropZone from "../../components/dropzone";
 import $ from "jquery";
 import M from "materialize-css";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
 
 export class CourseListScreen extends Component {
   constructor() {
@@ -31,190 +34,209 @@ export class CourseListScreen extends Component {
     });
   };
   removeItemHandler = () => {
-    const images =  this.state.images;
-    images.pop()
-    this.setState(
-      images
-    )
-     M.toast({
-       html: "Course successfully removed!",
-       classes: "green accent-3",
-     });
+    const images = this.state.images;
+    images.pop();
+    this.setState(images);
+    M.toast({
+      html: "Course successfully removed!",
+      classes: "green accent-3",
+    });
   };
   render() {
     return (
-      <div className="wrapper">
-        <aside id="left-sidebar-nav">
-          <SideBar></SideBar>
-          <Link
-            to=""
-            data-target="slide-out"
-            className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-          >
-            <i className="material-icons">format_indent_increase</i>
-          </Link>
-        </aside>
-        <div id="section">
-          <div style={{ position: "relative", zIndex: 50 }}>
-            <nav
-              className="navbar nav-extended"
-              style={{
-                position: "fixed",
-                maxWidth: "85%",
-              }}
-            >
-              <div className="nav-content">
-                <Link to="#" style={{ marginTop: "3%" }} className="brand-logo">
-                  Course Management
-                </Link>
-                <Link
-                  to="#!"
-                  className="dropdown-trigger waves-effect black-text right"
-                  style={{ marginTop: "2%", marginRight: "2%" }}
-                  data-target="dropdown1"
-                >
-                  <i className="material-icons">settings</i>
-                </Link>
-                <ul
-                  id="dropdown1"
-                  className="dropdown-content"
+      <div>
+        <header id="header" className="page-topbar">
+          <Header />
+        </header>
+        <main id="main">
+          <div className="wrapper">
+            <aside id="left-sidebar-nav">
+              <SideBar></SideBar>
+              <Link
+                to=""
+                data-target="slide-out"
+                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
+              >
+                <i className="material-icons">format_indent_increase</i>
+              </Link>
+            </aside>
+            <div id="section">
+              <div style={{ position: "relative", zIndex: 50 }}>
+                <nav
+                  className="navbar nav-extended"
                   style={{
-                    minWidth: "200px",
-                    whiteSpace: "nowrap",
-                    opacity: 1,
-                    display: "none",
+                    position: "fixed",
+                    maxWidth: "85%",
                   }}
                 >
-                  <li>
+                  <div className="nav-content">
+                    <Link
+                      to="#"
+                      style={{ marginTop: "3%" }}
+                      className="brand-logo"
+                    >
+                      Course Management
+                    </Link>
                     <Link
                       to="#!"
-                      data-target="modal1"
-                      className="grey-text modal-trigger text-darken-2"
+                      className="dropdown-trigger waves-effect black-text right"
+                      style={{ marginTop: "2%", marginRight: "2%" }}
+                      data-target="dropdown1"
                     >
-                      <i className="material-icons ">library_add</i>
-                      Add Course
+                      <i className="material-icons">settings</i>
                     </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="#!"
-                      onClick={this.removeMaterialHandler}
-                      className="grey-text text-darken-2"
+                    <ul
+                      id="dropdown1"
+                      className="dropdown-content"
+                      style={{
+                        minWidth: "200px",
+                        whiteSpace: "nowrap",
+                        opacity: 1,
+                        display: "none",
+                      }}
                     >
-                      <i className="material-icons ">delete</i>
-                      Delete Course
-                    </Link>
-                  </li>
-                </ul>
+                      <li>
+                        <Link
+                          to="#!"
+                          data-target="modal1"
+                          className="grey-text modal-trigger text-darken-2"
+                        >
+                          <i className="material-icons ">library_add</i>
+                          Add Course
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="#!"
+                          onClick={this.removeMaterialHandler}
+                          className="grey-text text-darken-2"
+                        >
+                          <i className="material-icons ">delete</i>
+                          Delete Course
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
               </div>
-            </nav>
-          </div>
-          <section id="content" style={{ paddingTop: "2%" }}>
-            <div id="overviews" className="section wb">
-              <div className="container">
-                <div className="row">
-                  {this.state.images.map((image, i) => (
-                    <div key={i} className="col s12 m6 l4">
-                      <div className="card">
-                        <div className="card-image waves-effect waves-block waves-light">
-                          <img src={image} alt="alt"></img>
+              <section id="content" style={{ paddingTop: "2%" }}>
+                <div id="overviews" className="section wb">
+                  <div className="container">
+                    <div className="row">
+                      {this.state.images.map((image, i) => (
+                        <div key={i} className="col s12 m6 l4">
+                          <div className="card">
+                            <div className="card-image waves-effect waves-block waves-light">
+                              <img src={image} alt="alt"></img>
+                            </div>
+                            <div className="card-content">
+                              <Link
+                                to="#"
+                                className="card-title grey-text text-darken-4"
+                                style={{ cursor: "unset" }}
+                              >
+                                Course Name
+                                <i
+                                  className="material-icons red-text right remove-content"
+                                  data-position="right"
+                                  onClick={this.removeItemHandler}
+                                >
+                                  delete_forever
+                                </i>
+                              </Link>
+                              <p>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit.
+                              </p>
+                              <hr className="invis"></hr>
+                              <p>
+                                <Link to="/course-outline">View Content</Link>
+                              </p>
+                            </div>
+                            <div className="card-action course-meta">
+                              <ul>
+                                <li>
+                                  <i
+                                    className="fa fa-calendar"
+                                    aria-hidden="true"
+                                  ></i>
+                                  6 Month
+                                </li>
+                                <li>
+                                  <i
+                                    className="fa fa-youtube-play"
+                                    aria-hidden="true"
+                                  ></i>{" "}
+                                  56 Video Tutorials
+                                </li>
+                                <li>
+                                  <i
+                                    className="fa fa-book"
+                                    aria-hidden="true"
+                                  ></i>{" "}
+                                  7 Chapters
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
                         </div>
-                        <div className="card-content">
-                          <Link
-                            to="#"
-                            className="card-title grey-text text-darken-4"
-                            style={{ cursor: "unset" }}
-                          >
-                            Course Name
-                            <i
-                              className="material-icons red-text right remove-content"
-                              data-position="right"
-                              onClick={this.removeItemHandler}
-                            >
-                              delete_forever
-                            </i>
-                          </Link>
-                          <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit.
-                          </p>
-                          <hr className="invis"></hr>
-                          <p>
-                            <Link to="/course-outline">View Content</Link>
-                          </p>
-                        </div>
-                        <div className="card-action course-meta">
-                          <ul>
-                            <li>
-                              <i
-                                className="fa fa-calendar"
-                                aria-hidden="true"
-                              ></i>
-                              6 Month
-                            </li>
-                            <li>
-                              <i
-                                className="fa fa-youtube-play"
-                                aria-hidden="true"
-                              ></i>{" "}
-                              56 Video Tutorials
-                            </li>
-                            <li>
-                              <i className="fa fa-book" aria-hidden="true"></i>{" "}
-                              7 Chapters
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div id="modal1" className="modal" style={{ overflowY: "hidden" }}>
-              <div className="modal-content">
-                <h4 className="header2">Add Test/Exercise</h4>
-                <div className="row">
-                  <div className="col s12">
+                <div
+                  id="modal1"
+                  className="modal"
+                  style={{ overflowY: "hidden" }}
+                >
+                  <div className="modal-content">
+                    <h4 className="header2">Add Test/Exercise</h4>
                     <div className="row">
-                      <div className="input-field col s4">
-                        <input id="title2" type="text"></input>
-                        <label htmlFor="title2">Title</label>
-                      </div>
-                      <div className="input-field col s4">
-                        <input
-                          type="text"
-                          name="due_date"
-                          className="datepicker"
-                        ></input>
-                        <label htmlFor="due_date">Due</label>
-                      </div>
-                      <div className="input-field col s4">
-                        <input id="duration" type="text"></input>
-                        <label htmlFor="duration">Duration(mins)</label>
-                      </div>
-                    </div>
+                      <div className="col s12">
+                        <div className="row">
+                          <div className="input-field col s4">
+                            <input id="title2" type="text"></input>
+                            <label htmlFor="title2">Title</label>
+                          </div>
+                          <div className="input-field col s4">
+                            <input
+                              type="text"
+                              name="due_date"
+                              className="datepicker"
+                            ></input>
+                            <label htmlFor="due_date">Due</label>
+                          </div>
+                          <div className="input-field col s4">
+                            <input id="duration" type="text"></input>
+                            <label htmlFor="duration">Duration(mins)</label>
+                          </div>
+                        </div>
 
-                    <div className="row">
-                      <div className="input-field col s12">
-                        <FileDropZone />
-                      </div>
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                            Submit
-                            <i className="material-icons right">send</i>
-                          </button>
+                        <div className="row">
+                          <div className="input-field col s12">
+                            <FileDropZone />
+                          </div>
+                          <div className="row">
+                            <div className="input-field col s12">
+                              <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
+                                Submit
+                                <i className="material-icons right">send</i>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
-          </section>
-        </div>
+          </div>
+        </main>
+        <footer className="footer page-footer gradient-45deg-light-blue-cyan">
+          <Footer />
+        </footer>
       </div>
     );
   }

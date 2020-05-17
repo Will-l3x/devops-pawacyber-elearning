@@ -9,6 +9,8 @@ import StudentCourseCard from "../../components/student-components/studentCourse
 import StudyMaterialCard from "../../components/student-components/StudyMaterialCard";
 import PendingAssignments from "../../components/student-components/Assignments";
 import MarkedAssignments from "../../components/student-components/MarkedAssignmentsCard";
+import Footer from "../../components/footer";
+import Header from "../../components/header";
 
 export class StudentScreen extends Component {
   state = {
@@ -84,80 +86,93 @@ export class StudentScreen extends Component {
   };
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
-      <div className="wrapper">
-        <aside id="left-sidebar-nav">
-          <SideBar></SideBar>
-          <Link
-            to=""
-            data-target="slide-out"
-            className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-          >
-            <i className="material-icons">format_indent_increase</i>
-          </Link>
-        </aside>
+      <div>
+        <header id="header" className="page-topbar">
+          <Header />
+        </header>
+        <main id="main">
+          {" "}
+          <div className="wrapper">
+            <aside id="left-sidebar-nav">
+              <SideBar data={this.props}></SideBar>
+              <Link
+                to=""
+                data-target="slide-out"
+                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
+              >
+                <i className="material-icons">format_indent_increase</i>
+              </Link>
+            </aside>
 
-        <section id="content">
-          <div className="container">
-            <div className="card-stats">
-              <div className="row mt-1">
-                <StudentCourseCard
-                  courses={this.state.courses}
-                ></StudentCourseCard>
-              </div>
-            </div>
-            <div
-              style={{
-                marginLeft: "20px",
-                marginRight: "20px",
-                marginTop: "15px",
-              }}
-            >
-              <StudyMaterialCard></StudyMaterialCard>
-            </div>
-            <div style={{ marginTop: "15px" }}>
-              <div id="card-widgets">
-                <div className="row">
-                  <div className="col s12 m4 l4">
-                    <ul className="task-card collection with-header">
-                      <li className="collection-header teal accent-4">
-                        <h5 className="task-card-title">Pending Assignments</h5>
-                        <p className="task-card-title">
-                          Arranged by submission date
-                        </p>
-                      </li>
-                      <PendingAssignments
-                        pendingWork={this.state.pendingWork}
-                      ></PendingAssignments>
-                    </ul>
+            <section id="content">
+              <div className="container">
+                <div className="card-stats">
+                  <div className="row mt-1">
+                    <StudentCourseCard
+                      courses={this.state.courses}
+                    ></StudentCourseCard>
                   </div>
-                  <div className="col s12 m12 l6">
-                    <ul className="task-card collection with-header">
-                    <li className="collection-header gradient-45deg-light-blue-cyan accent-4">
-                        <h5 className="task-card-title">Graded Assignments</h5>
-                        <p className="task-card-title">
-                          Overview for your marked assignments
-                        </p>
-                      </li>
-                      <MarkedAssignments
-                        markedWork={this.state.markedWork}
-                      ></MarkedAssignments>
-                    </ul>
+                </div>
+                <div
+                  style={{
+                    marginLeft: "20px",
+                    marginRight: "20px",
+                    marginTop: "15px",
+                  }}
+                >
+                  <StudyMaterialCard></StudyMaterialCard>
+                </div>
+                <div style={{ marginTop: "15px" }}>
+                  <div id="card-widgets">
+                    <div className="row">
+                      <div className="col s12 m4 l4">
+                        <ul className="task-card collection with-header">
+                          <li className="collection-header teal accent-4">
+                            <h5 className="task-card-title">
+                              Pending Assignments
+                            </h5>
+                            <p className="task-card-title">
+                              Arranged by submission date
+                            </p>
+                          </li>
+                          <PendingAssignments
+                            pendingWork={this.state.pendingWork}
+                          ></PendingAssignments>
+                        </ul>
+                      </div>
+                      <div className="col s12 m12 l6">
+                        <ul className="task-card collection with-header">
+                          <li className="collection-header gradient-45deg-light-blue-cyan accent-4">
+                            <h5 className="task-card-title">
+                              Graded Assignments
+                            </h5>
+                            <p className="task-card-title">
+                              Overview for your marked assignments
+                            </p>
+                          </li>
+                          <MarkedAssignments
+                            markedWork={this.state.markedWork}
+                          ></MarkedAssignments>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
           </div>
-        </section>
+        </main>
+        <footer className="footer page-footer gradient-45deg-light-blue-cyan">
+          <Footer />
+        </footer>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = { course_data };
 

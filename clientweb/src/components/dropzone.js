@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import $ from 'jquery';
-import M from 'materialize-css';
+import $ from "jquery";
+import M from "materialize-css";
 import "../assets/css/dropify.min.css";
 import Dropzone from "react-dropzone";
+import { fileUpload } from "../actions/fileUpload";
 
 class FileDropZone extends Component {
   constructor() {
@@ -11,7 +12,7 @@ class FileDropZone extends Component {
 
     this.state = {
       files: [],
-      fileIcon: ''
+      fileIcon: "",
     };
     this.onDrop.bind(this);
   }
@@ -20,7 +21,9 @@ class FileDropZone extends Component {
       var parts = filename.split(".");
       return parts[parts.length - 1];
     }
-
+    this.setState({ files });
+    this.props.fileUpload(files);
+    console.log(this.props, this.state)
     function isValidFile(filename) {
       var ext = getExtension(filename);
       switch (ext.toLowerCase()) {
@@ -53,26 +56,26 @@ class FileDropZone extends Component {
         case "mkv":
           return { isValid: true, icon: "ondemand_video" };
         default:
-          return { isValid: true, icon: "warning" }
+          return { isValid: false, icon: "warning" };
       }
     }
 
     var file = $("#input-file");
-    if (!isValidFile(file.val()).isValid) {
-      $('.file-upload').addClass("upload-disabled");
+    if (isValidFile(file.val()).isValid === false) {
+      $(".file-upload").addClass("upload-disabled");
       this.setState({ fileIcon: isValidFile(file.val()).icon });
       return M.toast({
         html: "Fail. Please select valid file type!",
         classes: "red accent-2",
       });
     }
-    $('.file-upload').removeClass("upload-disabled");
+    $(".file-upload").removeClass("upload-disabled");
     this.setState({ fileIcon: isValidFile(file.val()).icon });
     M.toast({
       html: "Success. Valid file type!",
       classes: "green accent-3",
     });
-    this.setState({ files });
+
   };
   render() {
     const preview = {
@@ -132,8 +135,13 @@ class FileDropZone extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  ...state,
+  files : state.fileUpload
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  fileUpload,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FileDropZone);

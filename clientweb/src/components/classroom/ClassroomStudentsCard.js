@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { TeacherService } from "../../services/teacher";
 
 export class ClassroomScreen extends Component {
   constructor() {
@@ -37,12 +38,48 @@ export class ClassroomScreen extends Component {
       ],
     };
   }
+  componentDidMount() {
+    this.setState({
+      students: [
+        {
+          id: "H163898D",
+          name: "Shingie Bishi",
+          class: "Comp Scie",
+        },
+        {
+          id: "2",
+          name: "Nu J Twork",
+          class: "URL",
+        },
+        {
+          id: "H12213D",
+          name: "Will Zhira",
+          class: "Comp Scie 4",
+        },
+        {
+          id: "H16038H",
+          name: "Kelvin Chelenje",
+          class: "Comp Scie 4",
+        },
+        {
+          id: "H150335Y",
+          name: "Rum Nitty",
+          class: "URL",
+        },
+      ],
+    });
+    TeacherService.get_course_classroom_students_assessment().then(
+      (students) => {
+        console.log(students);
+      }
+    );
+  }
   render() {
     return (
       <ul
         id="task-card2"
         className="collection task-card"
-        style={{ display: "none" , marginTop: '3%'}}
+        style={{ display: "none", marginTop: "3%" }}
       >
         {this.state.students.map((st, i) => (
           <li key={i} className="collection-item">

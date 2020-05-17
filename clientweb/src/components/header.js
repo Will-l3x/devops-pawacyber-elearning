@@ -11,7 +11,7 @@ class Header extends Component {
             <ul className="left">
               <li>
                 <h1 className="logo-wrapper">
-                  <Link to="/" className="brand-logo darken-1">
+                  <Link to="#" className="brand-logo darken-1">
                     <img src={logo} alt="materialize logo"></img>
                     <span className="logo-text hide-on-med-and-down">
                       Classroom
