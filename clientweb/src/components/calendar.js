@@ -14,19 +14,14 @@ import interactionPlugin from "@fullcalendar/interaction";
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
+import { EventService } from "../services/events";
 
 export class Calendar extends Component {
   constructor() {
     super();
     this.state = {
-      events: [
-        {
-          description: "fdfd",
-          end: "2020-05-14T11:10:00.000Z",
-          start: "2020-05-13T11:10:00.000Z",
-          title: "mfm",
-        },
-      ],
+      user: {},
+      events: [],
       strDate: "",
     };
     this.onDateClick.bind(this);
@@ -34,6 +29,16 @@ export class Calendar extends Component {
   }
   componentDidMount() {
     M.AutoInit();
+    const user = this.props.user
+    this.setState({
+      user
+    })
+    EventService.get_events(user.id).then((events) => {
+      console.log(events);
+      this.setState({
+        events,
+      });
+    });
   }
   onDateClick = (info) => {
     const months = [
@@ -82,10 +87,13 @@ export class Calendar extends Component {
       this.setState({
         events,
       });
-      return M.toast({
-        html: "Event has been successfully saved!",
-        classes: "green accent-3",
-      });
+      EventService.post_events(event).then((res) => {
+        console.log(res);
+        return M.toast({
+          html: "Event has been successfully saved!",
+          classes: "green accent-3",
+        });
+      })
     }
     M.toast({
       html: "Failed. End date > Start date!",
@@ -128,9 +136,7 @@ export class Calendar extends Component {
                   </div>
                   <div className="input-field col s2">
                     <select id="type">
-                      <option disabled>
-                        Type
-                      </option>
+                      <option disabled>Type</option>
                       <option defaultValue="event">Event</option>
                       <option defaultValue="reminder">To-do</option>
                       <option defaultValue="to-do">Reminder</option>

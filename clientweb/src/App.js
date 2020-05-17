@@ -1,7 +1,4 @@
-
 import React, { Component } from "react";
-import Header from "./components/header";
-import Footer from "./components/footer";
 import Main from "./navigation/main";
 import $ from "jquery";
 import "./App.css";
@@ -151,19 +148,10 @@ class App extends Component {
           <div className="loader-section section-left"></div>
           <div className="loader-section section-right"></div>
         </div>
-        <header id="header" className="page-topbar">
-          <Header />
-        </header>
-        <main id="main">
-          <Main store={store}/>
-        </main>
-        <footer className="footer page-footer gradient-45deg-light-blue-cyan">
-          <Footer />
-        </footer>
+        <Main store={store} />
       </div>
     );
   }
 }
-
 
 export default App;
