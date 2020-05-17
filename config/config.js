@@ -14,14 +14,14 @@
 
 var config = {
   user: "sa",
-  password: "tate@1234",
+  password: "ymcmbmmtmc",
   server: "localhost",
   database: "newschool",
   stream: true,
   options: {
     encrypt: true,
-    stream: true,
-  },
+    stream: true
+  }
 };
 
 module.exports = config;

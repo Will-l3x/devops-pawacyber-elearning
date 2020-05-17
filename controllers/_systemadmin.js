@@ -33,7 +33,7 @@ async function role(req, res) {
     var id = req.params.id;
 
     var query = "select * from [roles] \
-    where RoleId =@id";
+    where roleId =@id";
 
     var request = new sql.Request();
 
@@ -63,7 +63,7 @@ async function role(req, res) {
 
 async function del_role(req, res) {
     var id = req.params.id;
-    var query = "DELETE from [roles] where RoleId=@id";
+    var query = "DELETE from [roles] where roleId=@id";
 
     request
         .input("id", id)
@@ -93,7 +93,7 @@ async function add_role(req, res) {
     var rolename = req.body.rolename;
    
     var query = "INSERT INTO [roles] \
-    (RoleName) \
+    (rolename) \
     VALUES(@name)";
     var request = new sql.Request();
 
@@ -138,8 +138,8 @@ async function update_role(req, res) {
     var roleid = req.params.id;
 
     let query = "UPDATE [roles] \
-    SET RoleName=@name \
-    WHERE RoleId = @id";
+    SET rolename=@name \
+    WHERE roleId = @id";
 
     var request = new sql.Request();
 
@@ -425,7 +425,7 @@ async function add_subscription(req, res) {
     var price = req.body.price;
 
     var query = "INSERT INTO [subscriptions] \
-    (SubscriptionName,SubscriptionDesc,MinGrade,MaxGrade,Price) \
+    (subscriptionname,subscriptiondesc,mingrade,maxgrade,price) \
     VALUES(@name,@desc,@min,@max,@price)";
     var request = new sql.Request();
 
@@ -472,7 +472,7 @@ async function add_subscription(req, res) {
 
 async function del_subscription(req, res) {
     var id = req.params.id;
-    var query = "DELETE from [subscriptions] where SubscriptionId=@id";
+    var query = "DELETE from [subscriptions] where subscriptionId=@id";
 
     request
         .input("id", id)
@@ -502,7 +502,7 @@ async function subscription(req, res) {
     var id = req.params.id;
 
     var query = "select * from [subscriptions] \
-    where SubscriptionId =@id";
+    where subscriptionId =@id";
 
     var request = new sql.Request();
 
@@ -539,12 +539,12 @@ async function update_subscription(req, res) {
     var price = req.body.price;
 
     let query = "UPDATE [subscriptions] \
-      SET Price=@price \
-      SET SubscriptionName=@name \
-      SET SubscriptionDesc=@desc \
-      SET MinGrade=@min \
-      SET MaxGrade=@max \
-    WHERE SubscriptionId = @id";
+      SET price=@price \
+      SET subscriptionname=@name \
+      SET subscriptiondesc=@desc \
+      SET mingrade=@min \
+      SET maxgrade=@max \
+    WHERE subscriptionId = @id";
 
     var request = new sql.Request();
 
