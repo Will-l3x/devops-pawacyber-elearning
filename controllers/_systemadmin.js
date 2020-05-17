@@ -349,29 +349,45 @@ async function school(req, res) {
 }
 
 async function update_school(req, res) {
-    var query = "select * from [commissions]";
+    var rolename = req.params.rolename;
+    var schoolid = req.params.id;
+
+    let query = "UPDATE [roles] \
+    SET RoleName=@name \
+    WHERE RoleId = @id";
+
     var request = new sql.Request();
 
-    request.query(query, function (err, recordset) {
+    request
+        .input("id", roleid)
+        .input("name", rolename)
+        .query(query, function (err, recordset) {
 
-        if (err) {
-            console.log(err);
-            console.log(err.stack);
-            return res.json({
-                status: 500,
-                success: false,
-                message: "An error occured",
-                error: err.message
-            });
-        } else {
-
-            return res.json({
-                status: 200,
-                success: true,
-                data: JSON.parse(JSON.stringify({ commissions: recordset.recordset }))
-            });
-        }
-    });
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update'
+                    });
+                }
+            }
+        });
 }
 
 ////////////////////////////subscription
