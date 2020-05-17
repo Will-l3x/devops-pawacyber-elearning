@@ -33,7 +33,7 @@ sql.connect(config, (err) => {
 //retry logic on error
 sql.on('error', err => sql.connect(config, (err) => {
     if (err) {
-        console.log(err + "after retry");
+        console.log(err + " - after retry");
         // process.exit(1);
 
     } else {
