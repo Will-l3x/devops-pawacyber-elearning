@@ -15,7 +15,7 @@ export class AdminScreen extends Component {
         <main id="main">
           <div className="wrapper">
             <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
+              <SideBar data={this.props}></SideBar>
               <Link
                 to=""
                 data-target="slide-out"
@@ -33,15 +33,15 @@ export class AdminScreen extends Component {
                       <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text">
                         <div className="padding-4">
                           <div className="col s7 m7">
-                            <i className="material-icons background-round mt-5">
+                            <i className="material-icons background-round mt-5 white-text">
                               add_shopping_cart
                             </i>
-                            <p>Orders</p>
+                            <p className="white-text">Orders</p>
                           </div>
                           <div className="col s5 m5 right-align">
-                            <h5 className="mb-0">690</h5>
-                            <p className="no-margin">New</p>
-                            <p>6,00,00</p>
+                            <h5 className="mb-0 white-text">690</h5>
+                            <p className="no-margin white-text">New</p>
+                            <p className="white-text">6,00,00</p>
                           </div>
                         </div>
                       </div>
@@ -50,15 +50,15 @@ export class AdminScreen extends Component {
                       <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text">
                         <div className="padding-4">
                           <div className="col s7 m7">
-                            <i className="material-icons background-round mt-5">
+                            <i className="material-icons background-round mt-5 white-text">
                               perm_identity
                             </i>
-                            <p>Clients</p>
+                            <p className="white-text">Clients</p>
                           </div>
-                          <div className="col s5 m5 right-align">
-                            <h5 className="mb-0">1885</h5>
-                            <p className="no-margin">New</p>
-                            <p>1,12,900</p>
+                          <div className="col s5 m5 right-align white-text">
+                            <h5 className="mb-0 white-text">1885</h5>
+                            <p className="no-margin white-text">New</p>
+                            <p className="white-text">1,12,900</p>
                           </div>
                         </div>
                       </div>
@@ -67,15 +67,15 @@ export class AdminScreen extends Component {
                       <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text">
                         <div className="padding-4">
                           <div className="col s7 m7">
-                            <i className="material-icons background-round mt-5">
+                            <i className="material-icons background-round mt-5 white-text">
                               timeline
                             </i>
-                            <p>Sales</p>
+                            <p className="white-text">Sales</p>
                           </div>
                           <div className="col s5 m5 right-align">
-                            <h5 className="mb-0">80%</h5>
-                            <p className="no-margin">Growth</p>
-                            <p>3,42,230</p>
+                            <h5 className="mb-0 white-text">80%</h5>
+                            <p className="no-margin white-text">Growth</p>
+                            <p className="white-text">3,42,230</p>
                           </div>
                         </div>
                       </div>
@@ -84,15 +84,15 @@ export class AdminScreen extends Component {
                       <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text">
                         <div className="padding-4">
                           <div className="col s7 m7">
-                            <i className="material-icons background-round mt-5">
+                            <i className="material-icons background-round mt-5 white-text">
                               attach_money
                             </i>
-                            <p>Profit</p>
+                            <p className="white-text">Profit</p>
                           </div>
                           <div className="col s5 m5 right-align">
-                            <h5 className="mb-0">$890</h5>
-                            <p className="no-margin">Today</p>
-                            <p>$25,000</p>
+                            <h5 className="mb-0 white-text">$890</h5>
+                            <p className="no-margin white-text">Today</p>
+                            <p className="white-text">$25,000</p>
                           </div>
                         </div>
                       </div>
@@ -104,8 +104,10 @@ export class AdminScreen extends Component {
                     <div className="col s12 m12 l6">
                       <ul className="task-card collection with-header">
                         <li className="collection-header teal accent-4">
-                          <h4 className="task-card-title">My Task</h4>
-                          <p className="task-card-date">Sept 16, 2017</p>
+                          <h4 className="task-card-title white-text">
+                            My Task
+                          </h4>
+                          <p className="task-card-date ">Sept 16, 2017</p>
                         </li>
                         <li className="collection-item dismissable">
                           <input type="checkbox" id="task1" />

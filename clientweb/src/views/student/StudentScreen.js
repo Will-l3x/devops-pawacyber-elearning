@@ -96,7 +96,7 @@ export class StudentScreen extends Component {
           {" "}
           <div className="wrapper">
             <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
+              <SideBar data={this.props}></SideBar>
               <Link
                 to=""
                 data-target="slide-out"

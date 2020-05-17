@@ -583,6 +583,7 @@ export class HomeScreen extends Component {
               <div className="col-lg-6">
                 <div className="map-responsive">
                   <iframe
+                    title="iframe1"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d319097.96859987295!2d30.894229441627157!3d-17.824354532951162!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1931a4ee1bdddb35%3A0xa5143b9be5134f2f!2sHarare!5e0!3m2!1sen!2szw!4v1589677925407!5m2!1sen!2szw"
                     allowfullscreen
                   ></iframe>

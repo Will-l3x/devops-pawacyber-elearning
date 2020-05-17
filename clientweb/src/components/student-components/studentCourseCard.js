@@ -33,7 +33,7 @@ export class StudentCourseCard extends Component {
             style={{ boxShadow: "100px", borderRadius: "5px" }}
           >
             <div className="col s11 m7  sub-card ">
-              <p>{course.courseName}</p>
+              <p className="white-text```">{course.courseName}</p>
             </div>
             <div
                 className="col s1"

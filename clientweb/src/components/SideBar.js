@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from 'prop-types';
-import {navClick} from "../actions/navlink";
-import AdminLink from "../views/admin/AdminLink";
+import PropTypes from "prop-types";
+import { navClick } from "../actions/navlink";
 import HomeLink from "../views/home/HomeLink";
+import AdminLink from "../views/admin/AdminLink";
 import StudentLink from "../views/student/StudentLink";
 import TeacherLink from "../views/teacher/TeacherLink";
+import { Redirect } from "react-router";
 
 class SideBar extends Component {
   render() {
@@ -20,15 +21,28 @@ class SideBar extends Component {
     if (this.props.link === "student") {
       Links = StudentLink;
     }
-    if (this.props.link === "home") {
-      Links = HomeLink;
-    } 
     if (this.props.link === "") {
-      this.props.navClick('home')
-      Links = HomeLink;
-    } 
+      if (this.props.data) {
+        if (this.props.data.location.pathname === "/teacher") {
+          Links = TeacherLink;
+        }
+        if (this.props.data.location.pathname === "/student") {
+          Links = StudentLink;
+        }
+        if (this.props.data.location.pathname === "/admin") {
+          Links = AdminLink;
+        }
+      } else {
+        Links = HomeLink;
+        return <Redirect to="/" />;
+      }
+    }
+
     return (
-      <ul id="slide-out" className="side-nav z-depth-2 fixed leftside-navigation" >
+      <ul
+        id="slide-out"
+        className="side-nav z-depth-2 fixed leftside-navigation"
+      >
         {/* <li className="user-details cyan darken-2">
           <div className="row">
             <div className="col col s8 m8 l8">
@@ -69,4 +83,4 @@ const mapStateToProps = (state) => ({
   link: state.dashLink.link,
 });
 
-export default connect(mapStateToProps, {navClick})(SideBar);
+export default connect(mapStateToProps, { navClick })(SideBar);

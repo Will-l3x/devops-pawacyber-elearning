@@ -6,7 +6,7 @@ import SubjectDescrip from "../../components/student-components/SubjectDescrip";
 import store from "../../config/store";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
-import VideoPriview from "../../components/student-components/VideoPreview";
+//import VideoPriview from "../../components/student-components/VideoPreview";
 
 // Receives subject code and Name only from main screen and retrieves from endpoint the topics of that.
 export class SubjectContent extends Component {
