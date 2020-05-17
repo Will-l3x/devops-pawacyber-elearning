@@ -188,10 +188,9 @@ export class CourseListScreen extends Component {
                 <div
                   id="modal1"
                   className="modal"
-                  style={{ overflowY: "hidden" }}
                 >
                   <div className="modal-content">
-                    <h4 className="header2">Add Test/Exercise</h4>
+                    <h4 className="header2">Add Course</h4>
                     <div className="row">
                       <div className="col s12">
                         <div className="row">
@@ -200,22 +199,31 @@ export class CourseListScreen extends Component {
                             <label htmlFor="title2">Title</label>
                           </div>
                           <div className="input-field col s4">
-                            <input
-                              type="text"
-                              name="due_date"
-                              className="datepicker"
-                            ></input>
-                            <label htmlFor="due_date">Due</label>
+                            <input type="text" id="num_of_topics"></input>
+                            <label htmlFor="short_descrip">
+                              Number of Topics
+                            </label>
                           </div>
                           <div className="input-field col s4">
-                            <input id="duration" type="text"></input>
-                            <label htmlFor="duration">Duration(mins)</label>
+                            <input id="course_duration" type="text"></input>
+                            <label htmlFor="course_duration">
+                              Duration (weeks)
+                            </label>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="input-field col s9">
+                            <input type="text" id="short_descrip"></input>
+                            <label htmlFor="short_descrip">
+                              Short Description
+                            </label>
                           </div>
                         </div>
 
                         <div className="row">
                           <div className="input-field col s12">
                             <FileDropZone />
+                            <label style={{transform: "translateY(-100%)"}}> <i className="material-icons left">photo</i> Cover Image</label>
                           </div>
                           <div className="row">
                             <div className="input-field col s12">
