@@ -74,7 +74,7 @@ export class SubscriptionScreen extends Component {
                           className="grey-text modal-trigger text-darken-2"
                         >
                           <i className="material-icons ">create</i>
-                          Basic
+                          Starter
                         </Link>
                       </li>
 
@@ -85,7 +85,7 @@ export class SubscriptionScreen extends Component {
                           className="grey-text modal-trigger text-darken-2"
                         >
                           <i className="material-icons ">create</i>
-                          Professional
+                          Medium
                         </Link>
                       </li>
 
@@ -96,7 +96,7 @@ export class SubscriptionScreen extends Component {
                           className="grey-text modal-trigger text-darken-2"
                         >
                           <i className="material-icons ">create</i>
-                          Premium
+                          Complete
                         </Link>
                       </li>
                     </ul>
@@ -104,97 +104,182 @@ export class SubscriptionScreen extends Component {
                 </nav>
               </div>
 
-              <section id="content" style={{ paddingTop: "2%" }}>
-                <div className="container">
-                  <div className="row">
-                    <section className="plans-container" id="plans">
-                      <article className="col s12 m6 l4">
-                        <div className="card hoverable">
-                          <div className="card-image purple waves-effect">
-                            <div className="card-title">BASIC</div>
-                            <div className="price">
-                              <sup>$</sup>9<sub>/mo</sub>
+              <section id="content" style={{marginBottom: 0}}>
+                <div className="container" style={{ paddingTop: "7%" }}>
+                  <div id="pricing" className="cards-2 sect-learn">
+                    <div className="container">
+                      <div className="row">
+                        <div className="col s12">
+                          <div className="card">
+                            <div className="card-body">
+                              <div className="card-title">STARTER</div>
+                              <div className="card-subtitle">
+                                Just to see what can be achieved
+                              </div>
+                              <hr className="cell-divide-hr" />
+                              <div className="price">
+                                <span className="currency">$</span>
+                                <span className="value">199</span>
+                                <div className="frequency">monthly</div>
+                              </div>
+                              <hr className="cell-divide-hr" />
+                              <ul className="list-unstyled li-space-lg">
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                              </ul>
+                              <div className="button-wrapper">
+                                <Link
+                                  className="btn-solid-reg page-scroll"
+                                  rel="noopener noreferrer"
+                                  to="#request"
+                                >
+                                  REQUEST
+                                </Link>
+                              </div>
                             </div>
-                            <div className="price-desc">Free 1 month</div>
                           </div>
-                          <div className="card-content">
-                            <ul className="collection">
-                              <li className="collection-item">500 emails</li>
-                              <li className="collection-item">
-                                unlimited data
-                              </li>
-                              <li className="collection-item">1 users</li>
-                              <li className="collection-item">
-                                first 15 day free
-                              </li>
-                            </ul>
+
+                          <div className="card">
+                            <div className="card-body">
+                              <div className="card-title">MEDIUM</div>
+                              <div className="card-subtitle">
+                                Very appropriate for the short term
+                              </div>
+                              <hr className="cell-divide-hr" />
+                              <div className="price">
+                                <span className="currency">$</span>
+                                <span className="value">299</span>
+                                <div className="frequency">monthly</div>
+                              </div>
+                              <hr className="cell-divide-hr" />
+                              <ul className="list-unstyled li-space-lg">
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                              </ul>
+                              <div className="button-wrapper">
+                                <Link
+                                  className="btn-solid-reg page-scroll"
+                                  rel="noopener noreferrer"
+                                  to="#request"
+                                >
+                                  REQUEST
+                                </Link>
+                              </div>
+                            </div>
                           </div>
-                          <div className="card-action center-align">
-                            <button className="waves-effect waves-light  btn">
-                              Select Plan
-                            </button>
+
+                          <div className="card">
+                            <div className="label">
+                              <p className="best-value">Best Value</p>
+                            </div>
+                            <div className="card-body">
+                              <div className="card-title">COMPLETE</div>
+                              <div className="card-subtitle">
+                                Must have for large companies
+                              </div>
+                              <hr className="cell-divide-hr" />
+                              <div className="price">
+                                <span className="currency">$</span>
+                                <span className="value">399</span>
+                                <div className="frequency">monthly</div>
+                              </div>
+                              <hr className="cell-divide-hr" />
+                              <ul className="list-unstyled li-space-lg">
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                                <li className="media">
+                                  <i
+                                    className="fas fa-check"
+                                    style={{ paddingRight: "5px" }}
+                                  ></i>
+                                  Dummy Feature 3a
+                                </li>
+                              </ul>
+                              <div className="button-wrapper">
+                                <Link
+                                  className="btn-solid-reg page-scroll"
+                                  rel="noopener noreferrer"
+                                  to="#request"
+                                >
+                                  REQUEST
+                                </Link>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </article>
-                      <article className="col s12 m6 l4">
-                        <div className="card z-depth-1 hoverable">
-                          <div className="card-image cyan waves-effect">
-                            <div className="card-title">PROFESSIONAL</div>
-                            <div className="price">
-                              <sup>$</sup>29<sub>/mo</sub>
-                            </div>
-                            <div className="price-desc">Most Popular</div>
-                          </div>
-                          <div className="card-content">
-                            <ul className="collection">
-                              <li className="collection-item">2000 emails</li>
-                              <li className="collection-item">
-                                unlimited data
-                              </li>
-                              <li className="collection-item">10 users</li>
-                              <li className="collection-item">
-                                first 30 day free
-                              </li>
-                            </ul>
-                          </div>
-                          <div className="card-action center-align">
-                            <button className="waves-effect waves-light  btn">
-                              Select Plan
-                            </button>
-                          </div>
-                        </div>
-                      </article>
-                      <article className="col s12 m6 l4">
-                        <div className="card hoverable">
-                          <div className="card-image green waves-effect">
-                            <div className="card-title">PREMIUM</div>
-                            <div className="price">
-                              <sup>$</sup>49<sub>/mo</sub>
-                            </div>
-                            <div className="price-desc">Get 20% off</div>
-                          </div>
-                          <div className="card-content">
-                            <ul className="collection">
-                              <li className="collection-item">10,000 emails</li>
-                              <li className="collection-item">
-                                unlimited data
-                              </li>
-                              <li className="collection-item">
-                                unlimited users
-                              </li>
-                              <li className="collection-item">
-                                first 90 day free
-                              </li>
-                            </ul>
-                          </div>
-                          <div className="card-action center-align">
-                            <button className="waves-effect waves-light  btn">
-                              Select Plan
-                            </button>
-                          </div>
-                        </div>
-                      </article>
-                    </section>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </section>
