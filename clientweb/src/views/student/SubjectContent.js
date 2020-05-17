@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import SubjectDescrip from "../../components/student-components/SubjectDescrip";
 import store from "../../config/store";
+import VideoPriview from "../../components/student-components/VideoPreview";
 
 // Receives subject code and Name only from main screen and retrieves from endpoint the topics of that.
 export class SubjectContent extends Component {
@@ -12,21 +13,27 @@ export class SubjectContent extends Component {
       {
         id: 1,
         title: "Databases",
+        videoLink:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
       },
       {
         id: 2,
         title: "Introduction to Programming",
+        videoLink:"http://media.w3.org/2010/05/bunny/movie.mp4"
       },
       {
         id: 2,
         title: "Advanced Programming 1",
+        videoLink:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
       },
     ],
   };
 
   videoSelected = false;
-  selectedTopic() {
-    // set video link to display
+  videoAddress = "";
+  previewTitle = "";
+  selectedTopic(title, video) {
+    this.videoAddress = video;
+    this.previewTitle = title;
     this.videoSelected = true;
   }
 
@@ -67,7 +74,7 @@ export class SubjectContent extends Component {
                             {topic.title}
                             {/* Click to view the content by seting state of Topic Name and the content */}
                             <Link to="#"
-                              onClick={() => this.selectedTopic()}
+                              onClick={() => this.selectedTopic(topic.title,topic.videoLink)}
                               className="secondary-content"
                             >
                               <span style={{fontSize:"11px"}}>Watch</span>
@@ -87,12 +94,15 @@ export class SubjectContent extends Component {
                           style={{ color: "white" }}
                         >
                           {this.videoSelected
-                            ? this.contentSate.content.topic
+                            ? `Now Watching ${this.previewTitle}`
                             : "DOWNLOADABLE RESOURCES"}
                         </p>
                       </div>
                       {this.videoSelected ? ( 
-                          <div></div>
+                          <div>
+                            <VideoPriview
+                            videoLink={this.videoAddress}></VideoPriview>
+                          </div>
                       ) : (
                         <div className="row mt-1" style={{paddingLeft:'10px',paddingRight:'10px'}}>
                         <SubjectDescrip

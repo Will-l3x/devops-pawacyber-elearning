@@ -9,6 +9,7 @@
 -------------------------------------------------------------------*/
 @import url(assets/css/flaticon.css);
 @import url(assets/css/font-awesome.min.css);
+@import url(../node_modules/video-react/dist/video-react.css);
 
 
 .materialize-red {
