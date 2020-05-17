@@ -10,6 +10,7 @@ import blog_4 from "../../assets/images/blog_4.jpg";
 import blog_5 from "../../assets/images/blog_5.jpg";
 import blog_6 from "../../assets/images/blog_6.jpg";
 import FileDropZone from "../../components/dropzone";
+import PerfectScrollbar from "@opuscapita/react-perfect-scrollbar";
 import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
@@ -185,57 +186,62 @@ export class CourseListScreen extends Component {
                   </div>
                 </div>
 
-                <div
-                  id="modal1"
-                  className="modal"
-                >
+                <div id="modal1" className="modal">
                   <div className="modal-content">
-                    <h4 className="header2">Add Course</h4>
-                    <div className="row">
-                      <div className="col s12">
-                        <div className="row">
-                          <div className="input-field col s4">
-                            <input id="title2" type="text"></input>
-                            <label htmlFor="title2">Title</label>
-                          </div>
-                          <div className="input-field col s4">
-                            <input type="text" id="num_of_topics"></input>
-                            <label htmlFor="short_descrip">
-                              Number of Topics
-                            </label>
-                          </div>
-                          <div className="input-field col s4">
-                            <input id="course_duration" type="text"></input>
-                            <label htmlFor="course_duration">
-                              Duration (weeks)
-                            </label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s9">
-                            <input type="text" id="short_descrip"></input>
-                            <label htmlFor="short_descrip">
-                              Short Description
-                            </label>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <FileDropZone />
-                            <label style={{transform: "translateY(-100%)"}}> <i className="material-icons left">photo</i> Cover Image</label>
+                    <PerfectScrollbar>
+                      <h4 className="header2">Add Course</h4>
+                      <div className="row">
+                        <div className="col s12">
+                          <div className="row">
+                            <div className="input-field col s4">
+                              <input id="title2" type="text"></input>
+                              <label htmlFor="title2">Title</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input type="text" id="num_of_topics"></input>
+                              <label htmlFor="short_descrip">
+                                Number of Topics
+                              </label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="course_duration" type="text"></input>
+                              <label htmlFor="course_duration">
+                                Duration (weeks)
+                              </label>
+                            </div>
                           </div>
                           <div className="row">
+                            <div className="input-field col s9">
+                              <input type="text" id="short_descrip"></input>
+                              <label htmlFor="short_descrip">
+                                Short Description
+                              </label>
+                            </div>
+                          </div>
+
+                          <div className="row">
                             <div className="input-field col s12">
-                              <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                                Submit
-                                <i className="material-icons right">send</i>
-                              </button>
+                              <FileDropZone />
+                              <label style={{ transform: "translateY(-100%)" }}>
+                                {" "}
+                                <i className="material-icons left">
+                                  photo
+                                </i>{" "}
+                                Cover Image
+                              </label>
+                            </div>
+                            <div className="row">
+                              <div className="input-field col s12">
+                                <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
+                                  Submit
+                                  <i className="material-icons right">send</i>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </PerfectScrollbar>
                   </div>
                 </div>
               </section>
