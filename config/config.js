@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
 //var config = {
-//    user: 'sa', 
+//    user: 'sa',
 //    password: '12345678',
 //    server: 'LOCALHOST',
 //    database: 'newschool',
@@ -13,16 +13,15 @@
 //};
 
 var config = {
-    user: 'sa', 
-    password: 'ymcmbmmtmc',
-    server: 'LOCALHOST',
-    database: 'newscchool',
+  user: "sa",
+  password: "tate@1234",
+  server: "localhost",
+  database: "newschool",
+  stream: true,
+  options: {
+    encrypt: true,
     stream: true,
-     options: {
-         encrypt: true,
-         stream: true
-    }
+  },
 };
-
 
 module.exports = config;
