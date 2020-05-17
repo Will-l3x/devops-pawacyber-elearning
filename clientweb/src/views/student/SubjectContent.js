@@ -4,8 +4,12 @@ import { Link, Redirect } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import SubjectDescrip from "../../components/student-components/SubjectDescrip";
 import store from "../../config/store";
+<<<<<<< HEAD
 import Footer from "../../components/footer";
 import Header from "../../components/header";
+=======
+import VideoPriview from "../../components/student-components/VideoPreview";
+>>>>>>> 1631ca2af0b690bf7eb31d813c71e178416b204c
 
 // Receives subject code and Name only from main screen and retrieves from endpoint the topics of that.
 export class SubjectContent extends Component {
@@ -14,21 +18,27 @@ export class SubjectContent extends Component {
       {
         id: 1,
         title: "Databases",
+        videoLink:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
       },
       {
         id: 2,
         title: "Introduction to Programming",
+        videoLink:"http://media.w3.org/2010/05/bunny/movie.mp4"
       },
       {
         id: 2,
         title: "Advanced Programming 1",
+        videoLink:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
       },
     ],
   };
 
   videoSelected = false;
-  selectedTopic() {
-    // set video link to display
+  videoAddress = "";
+  previewTitle = "";
+  selectedTopic(title, video) {
+    this.videoAddress = video;
+    this.previewTitle = title;
     this.videoSelected = true;
   }
 
@@ -39,6 +49,7 @@ export class SubjectContent extends Component {
       return <Redirect to="/student" />;
     }
     return (
+<<<<<<< HEAD
       <div>
         <header id="header" className="page-topbar">
           <Header />
@@ -122,6 +133,72 @@ export class SubjectContent extends Component {
                             </div>
                           )}
                         </div>
+=======
+      <div className="wrapper">
+        <aside id="left-sidebar-nav">
+          <SideBar></SideBar>
+          <Link
+            to=""
+            data-target="slide-out"
+            className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
+          >
+            <i className="material-icons">format_indent_increase</i>
+          </Link>
+        </aside>
+        <section id="content">
+          <div className="container">
+            <div style={{ marginTop: "15px" }}>
+              <div id="card-widgets">
+                <div className="row">
+                  <div className="col s12 m2 l3">
+                    <div className="column">
+                    <ul className="task-card collection with-header">
+                      <li className={`collection-header ${course.color} `}>
+                        <p className="task-card-title">
+                          {course.name} VIDEOS
+                        </p>
+                      </li>
+                      {this.state.topics.map((topic, i) => (
+                        <li key={i} className="collection-item dismissable">
+                          <label htmlFor="task1">
+                            {topic.title}
+                            {/* Click to view the content by seting state of Topic Name and the content */}
+                            <Link to="#"
+                              onClick={() => this.selectedTopic(topic.title,topic.videoLink)}
+                              className="secondary-content"
+                            >
+                              <span style={{fontSize:"11px"}}>Watch</span>
+                            </Link>
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+
+                    </div>
+                  </div>
+                  <div className="col s12 m13 l9">
+                    <div className="task-card collection with-header">
+                      <div className="collection-header teal">
+                        <p
+                          className="task-card-title"
+                          style={{ color: "white" }}
+                        >
+                          {this.videoSelected
+                            ? `Now Watching ${this.previewTitle}`
+                            : "DOWNLOADABLE RESOURCES"}
+                        </p>
+                      </div>
+                      {this.videoSelected ? ( 
+                          <div>
+                            <VideoPriview
+                            videoLink={this.videoAddress}></VideoPriview>
+                          </div>
+                      ) : (
+                        <div className="row mt-1" style={{paddingLeft:'10px',paddingRight:'10px'}}>
+                        <SubjectDescrip
+                        content={course.courseId}
+                      ></SubjectDescrip>
+>>>>>>> 1631ca2af0b690bf7eb31d813c71e178416b204c
                       </div>
                     </div>
                   </div>
