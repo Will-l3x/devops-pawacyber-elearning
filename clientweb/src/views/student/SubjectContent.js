@@ -6,7 +6,7 @@ import SubjectDescrip from "../../components/student-components/SubjectDescrip";
 import store from "../../config/store";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
-//import VideoPriview from "../../components/student-components/VideoPreview";
+import VideoPriview from "../../components/student-components/VideoPreview";
 
 // Receives subject code and Name only from main screen and retrieves from endpoint the topics of that.
 export class SubjectContent extends Component {
@@ -40,7 +40,6 @@ export class SubjectContent extends Component {
   }
 
   render() {
-    console.log(this.props);
     const course = store.getState().student.course;
     if (course.name === "" || course.name === undefined) {
       return <Redirect to="/student" />;
@@ -53,16 +52,8 @@ export class SubjectContent extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+              <SideBar/>
+            
             <section id="content">
               <div className="container">
                 <div style={{ marginTop: "15px" }}>
@@ -88,7 +79,7 @@ export class SubjectContent extends Component {
                                   {/* Click to view the content by seting state of Topic Name and the content */}
                                   <Link
                                     to="#"
-                                    onClick={() => this.selectedTopic()}
+                                    onClick={() => this.selectedTopic(topic.title, topic.videoLink)}
                                     className="secondary-content"
                                   >
                                     <span style={{ fontSize: "11px" }}>
@@ -109,12 +100,15 @@ export class SubjectContent extends Component {
                               style={{ color: "white" }}
                             >
                               {this.videoSelected
-                                ? this.contentSate.content.topic
+                                ? this.previewTitle
                                 : "DOWNLOADABLE RESOURCES"}
                             </p>
                           </div>
                           {this.videoSelected ? (
-                            <div></div>
+                            <div>
+                              <VideoPriview videoLink={this.videoAddress}>
+                           </VideoPriview>
+                              </div>
                           ) : (
                             <div
                               className="row mt-1"

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import { Link } from "react-router-dom";
 import { Calendar } from "../../components/calendar";
-import M from "materialize-css";
+//import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 
@@ -14,9 +14,6 @@ export class TeacherTodoScreen extends Component {
       user: {},
     };
   }
-  componentDidMount() {
-    M.AutoInit();
-  }
   render() {
     return (
       <div>
@@ -25,23 +22,14 @@ export class TeacherTodoScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+            <SideBar/>
+
             <div className="section" style={{ paddingBottom: 0 }}>
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                    maxWidth: "85%",
                     minHeight: 70,
                     transform: "translateY(-100%)",
                   }}

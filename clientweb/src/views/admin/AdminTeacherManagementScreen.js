@@ -101,16 +101,8 @@ export class AdminTeacherManagementScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+              <SideBar/>
+              
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -118,7 +110,7 @@ export class AdminTeacherManagementScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                    maxWidth: "85%",
+                  
                   }}
                 >
                   <div className="nav-content">

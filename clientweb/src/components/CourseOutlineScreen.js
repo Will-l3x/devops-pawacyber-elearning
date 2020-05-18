@@ -136,16 +136,7 @@ export class CourseOutlineScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="waves-effect sidenav-trigger gradient-45deg-light-blue-cyan waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+            <SideBar/>
 
             <section id="content">
               <div className="container">
