@@ -75,22 +75,14 @@ export class TeacherMarkClassroomScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
 
-              <Link
-                to=""
-                data-target="slide-out"
-                className="sidebar-collapse dropdown-triger waves-effect waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+              <SideBar/>
+
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
                   className="navbar nav-extended"
-                  style={{ position: "fixed", maxWidth: "85%" }}
+                  style={{ position: "fixed"}}
                 >
                   <div className="nav-content">
                     <Link to="#" className="brand-logo">

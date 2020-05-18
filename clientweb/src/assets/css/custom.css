@@ -433,10 +433,17 @@ nav.navbar {
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
 }
+@media only screen and (max-width: 997px) {
+    nav.nav-extended {
+        width: 100% !important;
+    }
 
+}
 nav.nav-extended {
     height: auto;
+    width: 85%;
 }
+
 
 nav.nav-extended .nav-content {
     position: relative;

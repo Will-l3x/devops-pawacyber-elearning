@@ -72,7 +72,7 @@ export class StudentAssignmentScreen extends Component {
         <main id="main">
           <div className="wrapper">
             <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
+              <SideBar/>
 
               <Link
                 to=""
@@ -86,7 +86,7 @@ export class StudentAssignmentScreen extends Component {
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
                   className="navbar nav-extended"
-                  style={{ position: "fixed", maxWidth: "85%" }}
+                  style={{ position: "fixed"}}
                 >
                   <div className="nav-content">
                     <Link

@@ -20,7 +20,14 @@ export class CourseListScreen extends Component {
   constructor() {
     super();
     this.state = {
-      images: [blog_1, blog_2, blog_3, blog_4, blog_5, blog_6],
+      courses: [
+        { id: "1", title: "Course Name 1", img: blog_1 },
+        { id: "2", title: "Course Name 2", img: blog_2 },
+        { id: "3", title: "Course Name 3", img: blog_3 },
+        { id: "4", title: "Course Name 4", img: blog_4 },
+        { id: "5", title: "Course Name 5", img: blog_5 },
+        { id: "6", title: "Course Name 6", img: blog_6 },
+      ],
     };
     this.removeMaterialHandler.bind(this);
   }
@@ -34,14 +41,20 @@ export class CourseListScreen extends Component {
       display: "inline",
     });
   };
-  removeItemHandler = () => {
-    const images = this.state.images;
-    images.pop();
-    this.setState(images);
-    M.toast({
-      html: "Course successfully removed!",
-      classes: "green accent-3",
-    });
+  removeItemHandler = (id) => {
+    let courses = [];
+    for (const course of this.state.courses) {
+      if (id === course.id) {
+        console.log(id + " removed");
+        M.toast({
+          html: `${course.title} successfully removed!`,
+          classes: "green accent-3",
+        });
+      } else {
+        courses.push(course);
+      }
+    }
+    this.setState({ courses });
   };
   render() {
     return (
@@ -51,23 +64,15 @@ export class CourseListScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+            <SideBar />
+
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                    maxWidth: "85%",
+                   
                   }}
                 >
                   <div className="nav-content">
@@ -124,11 +129,11 @@ export class CourseListScreen extends Component {
                 <div id="overviews" className="section wb">
                   <div className="container">
                     <div className="row">
-                      {this.state.images.map((image, i) => (
+                      {this.state.courses.map((course, i) => (
                         <div key={i} className="col s12 m6 l4">
                           <div className="card">
                             <div className="card-image waves-effect waves-block waves-light">
-                              <img src={image} alt="alt"></img>
+                              <img src={course.img} alt="alt" />
                             </div>
                             <div className="card-content">
                               <Link
@@ -136,11 +141,13 @@ export class CourseListScreen extends Component {
                                 className="card-title grey-text text-darken-4"
                                 style={{ cursor: "unset" }}
                               >
-                                Course Name
+                                {course.title}
                                 <i
                                   className="material-icons red-text right remove-content"
                                   data-position="right"
-                                  onClick={this.removeItemHandler}
+                                  onClick={() => {
+                                    this.removeItemHandler(course.id);
+                                  }}
                                 >
                                   delete_forever
                                 </i>

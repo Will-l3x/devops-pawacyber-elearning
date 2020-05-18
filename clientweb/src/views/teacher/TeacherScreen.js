@@ -70,7 +70,7 @@ export class TeacherScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                    maxWidth: "85%",
+                   
                     minHeight: 70,
                     transform: "translateY(-100%)",
                   }}
