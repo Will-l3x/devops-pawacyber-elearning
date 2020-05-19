@@ -57,6 +57,11 @@ export class CourseListScreen extends Component {
     this.setState({ courses });
   };
   render() {
+    /*
+    if(school is regestering ) redirect to course register else course out line;
+    when school registers see more detailed content about couse, allowed to wiew maybe first topic only
+    click register they see subcripion prices and register
+   */
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -72,7 +77,6 @@ export class CourseListScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                   
                   }}
                 >
                   <div className="nav-content">
@@ -158,7 +162,16 @@ export class CourseListScreen extends Component {
                               </p>
                               <hr className="invis"></hr>
                               <p>
-                                <Link to="/course-outline">View Content</Link>
+                                <Link
+                                  onClick={() => {
+                                    console.log(
+                                      "action for which course was clicked and for who clicked and for who if"
+                                    );
+                                  }}
+                                  to="/course-outline"
+                                >
+                                  View Content
+                                </Link>
                               </p>
                             </div>
                             <div className="card-action course-meta">
