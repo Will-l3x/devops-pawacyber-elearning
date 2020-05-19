@@ -9,6 +9,8 @@ import TopicContentCard from "./TopicContentCard";
 import Footer from "./footer";
 import Header from "./header";
 
+import AdminActions from "../actions/admin";
+
 export class CourseOutlineScreen extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +29,7 @@ export class CourseOutlineScreen extends Component {
       course: {
         id: "1",
         title: "Course Name",
-        topic: [
+        topics: [
           {
             id: "1.1",
             title: "Topic 1",
@@ -136,16 +138,7 @@ export class CourseOutlineScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="waves-effect sidenav-trigger gradient-45deg-light-blue-cyan waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+            <SideBar />
 
             <section id="content">
               <div className="container">
@@ -258,7 +251,7 @@ export class CourseOutlineScreen extends Component {
                             {this.state.course.title} TOPICS
                           </p>
                         </li>
-                        {this.state.topics.map((topic, i) => (
+                        {this.state.course.topics.map((topic, i) => (
                           <li key={i} className="collection-item dismissable">
                             <label htmlFor="task1">
                               {topic.title}
@@ -386,7 +379,7 @@ const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = Object.assign({}, AdminActions);
 
 export default connect(
   mapStateToProps,

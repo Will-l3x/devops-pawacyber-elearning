@@ -3,20 +3,27 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { navClick } from "../../actions/navlink";
 import { course_data } from "../../actions/student";
+import TeacherActions from "../../actions/teacher";
 import { Redirect } from "react-router";
 
 //import M from "materialize-css";
 
 class TeacherCourseCard extends Component {
-  state = {
-    redirect: false,
-    count: -1,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false,
+      count: -1,
+    };
+  }
+  componentDidMount() {
+    this.props.get_all_courses("teacher_id");
+  }
   dashClick = (dash, course) => {
     this.props.navClick(dash);
-     this.props.course_data({
-       course
-     });
+    this.props.course_data({
+      course,
+    });
     this.setState({
       redirect: true,
     });
@@ -35,6 +42,7 @@ class TeacherCourseCard extends Component {
     */
     return colors[i % 5];
   };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/classroom" />;
@@ -73,14 +81,17 @@ TeacherCourseCard.propTypes = {
   link: PropTypes.string,
 };
 
-
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
-  course: state.student,
+  courses: state.teacher.courses,
 });
 
-const mapDispatchToProps = {
-  navClick,course_data,
-};
+const mapDispatchToProps = Object.assign(
+  {
+    navClick,
+    course_data,
+  },
+  TeacherActions
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeacherCourseCard);

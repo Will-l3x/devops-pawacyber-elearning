@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import DatatablePage from "../DatatablePage";
-import { TeacherService } from "../../services/teacher";
 
 export class ClassroomStudentAssessment extends Component {
   constructor() {
@@ -125,8 +124,8 @@ export class ClassroomStudentAssessment extends Component {
         ],
       },
     });
-    
-    TeacherService.get_course_classroom_students_assessment().then(
+    /**
+     *  TeacherService.get_course_classroom_students_assessment().then(
       (students) => {
         console.log(students);
         const rows = students;
@@ -136,6 +135,7 @@ export class ClassroomStudentAssessment extends Component {
         this.setState({data})
       }
     );
+     */
   }
   render() {
     return (

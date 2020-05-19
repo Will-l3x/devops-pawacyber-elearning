@@ -3,21 +3,25 @@ import { connect } from "react-redux";
 //import PropTypes from "prop-types";
 import { navClick } from "../../actions/navlink";
 import { course_data } from "../../actions/student";
+import TeacherActions from "../../actions/teacher"
+import store from "../../config/store";
 import { Redirect } from "react-router";
 import folderIcon from "../../assets/images/icon/folder.svg";
 
 //import M from "materialize-css";
 
 export class TeacherFolderCard extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
-    redirect: false,
-    count: -1,
-  };
-  this.dashClick.bind(this);
+      redirect: false,
+      count: -1,
+    };
+    this.dashClick.bind(this);
   }
-  
+  componentDidMount() {
+    TeacherActions.get_all_courses("teacher_id");
+  }
 
   dashClick = (dash, course) => {
     console.log(this.props);
@@ -27,16 +31,15 @@ export class TeacherFolderCard extends Component {
       course,
     });*/
     this.setState({
-      redirect: true
-    })
+      redirect: true,
+    });
   };
 
   render() {
-    
     if (this.state.redirect === true) {
       return <Redirect to="/classroom-mark" />;
     }
-    return this.props.courses.map((course, i) => (
+    return store.getState().teacher.courses.map((course, i) => (
       <div key={i} className="col s12 m4 l3 padding-5px">
         <div className="folder-container">
           <div
@@ -64,12 +67,15 @@ TeacherFolderCard.propTypes = {
 */
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
-  course: state.student,
+  courses: state.teacher.courses,
 });
 
-const mapDispatchToProps = {
-  navClick,
-  course_data,
-};
+const mapDispatchToProps = Object.assign(
+  {
+    navClick,
+    course_data,
+  },
+  TeacherActions
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeacherFolderCard);

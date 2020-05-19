@@ -1,51 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import TeacherCourseCard from "./TeacherCourseCard";
-import { TeacherService } from "../../services/teacher";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
-
-
+import TeacherActions from "../../actions/teacher";
 export class TeacherScreen extends Component {
-  constructor() {
-    super();
-    this.state = {
-      courses: [],
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-      courses: [
-        {
-          courseId: 1,
-          courseName: "Mathematics",
-          numberOfTopics: 5,
-          courseCode: 1234,
-        },
-        {
-          courseId: 2,
-          courseName: "Mathematics",
-          numberOfTopics: 7,
-          courseCode: 123,
-        },
-        {
-          courseId: 3,
-          courseName: "Advanced Mathematics",
-          numberOfTopics: 9,
-          courseCode: 1456,
-        },
-      ],
-    });
-    TeacherService.get_all_courses().then((courses) => {
-      console.log(courses);
-    });
-  }
-
   render() {
-    console.log(this.state);
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -54,23 +16,15 @@ export class TeacherScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar data={this.props}></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+            <SideBar data={this.props} />
+
             <div className="section" style={{ paddingBottom: 0 }}>
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                    maxWidth: "85%",
+
                     minHeight: 70,
                     transform: "translateY(-100%)",
                   }}
@@ -91,7 +45,7 @@ export class TeacherScreen extends Component {
                 <div className="container">
                   <div className="card-stats">
                     <div className="row">
-                      <TeacherCourseCard courses={this.state.courses} />
+                      <TeacherCourseCard />
                     </div>
                   </div>
                   <div id="work-collections">
@@ -202,5 +156,8 @@ const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = {};
-export default connect(mapStateToProps, mapDispatchToProps)(TeacherScreen);
+const mapDispatchToProps = Object.assign({}, TeacherActions);
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TeacherScreen)
+);

@@ -14,7 +14,6 @@ import interactionPlugin from "@fullcalendar/interaction";
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
-import { EventService } from "../services/events";
 
 export class Calendar extends Component {
   constructor() {
@@ -33,12 +32,6 @@ export class Calendar extends Component {
     this.setState({
       user
     })
-    EventService.get_events(user.id).then((events) => {
-      console.log(events);
-      this.setState({
-        events,
-      });
-    });
   }
   onDateClick = (info) => {
     const months = [
@@ -87,13 +80,6 @@ export class Calendar extends Component {
       this.setState({
         events,
       });
-      EventService.post_events(event).then((res) => {
-        console.log(res);
-        return M.toast({
-          html: "Event has been successfully saved!",
-          classes: "green accent-3",
-        });
-      })
     }
     M.toast({
       html: "Failed. End date > Start date!",

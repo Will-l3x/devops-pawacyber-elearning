@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Main from "./navigation/main";
 import $ from "jquery";
+import "materialize-css/dist/css/materialize.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
@@ -49,73 +51,8 @@ class App extends Component {
     );
     if (indeterminateCheckbox !== null)
       indeterminateCheckbox.indeterminate = true;
-    const elem = $(".tooltipped");
-    M.Tooltip.init(elem, {
-      delay: 50,
-    });
-    const elem2 = $(".sidebar-collapse");
-    M.Sidenav.init(elem2, {
-      edge: "left",
-    });
-    const elem3 = $(".menu-sidebar-collapse");
-    M.Sidenav.init(elem3, {
-      menuWidth: 240,
-      edge: "left", // Choose the horizontal origin
-      //closeOnClick:true, // Set if default menu open is true
-      menuOut: false, // Set if default menu open is true
-    });
-    const elem4 = $(".chat-collapse");
-    M.Sidenav.init(elem4, {
-      menuWidth: 300,
-      edge: "right",
-    });
-    // Fullscreen
-    function toggleFullScreen() {
-      if (
-        (document.fullScreenElement && document.fullScreenElement !== null) ||
-        (!document.mozFullScreen && !document.webkitIsFullScreen)
-      ) {
-        if (document.documentElement.requestFullScreen) {
-          document.documentElement.requestFullScreen();
-        } else if (document.documentElement.mozRequestFullScreen) {
-          document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullScreen) {
-          document.documentElement.webkitRequestFullScreen(
-            Element.ALLOW_KEYBOARD_INPUT
-          );
-        }
-      } else {
-        if (document.cancelFullScreen) {
-          document.cancelFullScreen();
-        } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-        } else if (document.webkitCancelFullScreen) {
-          document.webkitCancelFullScreen();
-        }
-      }
-    }
-
-    $(".toggle-fullscreen").click(function () {
-      toggleFullScreen();
-    });
-    /*
-    function toggleCourseListIcon() {
-      $(".collapsible-header").each(function () {
-        if ($(this).hasClass("active")) {
-          $(".active .material-icons").text("remove");
-        } else {
-          $(".active .material-icons").text("remove");
-        }
-      });
-    }
-
-    $(".collapsible-header").click(function () {
-      $(this).toggleClass("active");
-      toggleCourseListIcon();
-    });
-    */
-
-    // Toggle Flow Text
+    
+    
     var toggleFlowTextButton = $("#flow-toggle");
     toggleFlowTextButton.click(function () {
       $("#flow-text-demo")

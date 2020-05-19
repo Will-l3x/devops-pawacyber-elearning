@@ -1,14 +1,16 @@
 
 const initialState = {
-  link: ''
+  link: '',
+  location: ''
 };
 
-export default function(state = initialState, action) {
-  switch (action.type) {
+export default function(state = initialState,{type , payload}) {
+  switch (type) {
     case 'DASH_LINK':
       return {
         ...state,
-        link: action.payload
+        link: payload.link,
+        location: payload.location
       };
     default:
       return state;

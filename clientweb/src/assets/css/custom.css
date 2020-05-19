@@ -38,6 +38,10 @@
     width: 35px;
     height: 35px;
     cursor: pointer
+ !important}
+
+.sidenav-trigger-2 {
+    transform: translate(-105%, 1%) !important;
 }
 
 .twitter {
@@ -72,6 +76,13 @@
 .or {
     width: 10%;
     font-weight: bold
+}
+
+.modal{
+    max-height: 100% !important;
+}
+a{
+    text-decoration: none !important;
 }
 
 .text-sm {
@@ -433,10 +444,17 @@ nav.navbar {
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
 }
+@media only screen and (max-width: 997px) {
+    nav.nav-extended {
+        width: 100% !important;
+    }
 
+}
 nav.nav-extended {
     height: auto;
+    width: 85%;
 }
+
 
 nav.nav-extended .nav-content {
     position: relative;

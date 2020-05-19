@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-
 import SideBar from "../../components/SideBar";
 import { course_data } from "../../actions/student";
 
@@ -86,7 +84,6 @@ export class StudentScreen extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -95,16 +92,7 @@ export class StudentScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar data={this.props}></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+            <SideBar data={this.props} />
 
             <section id="content">
               <div className="container">

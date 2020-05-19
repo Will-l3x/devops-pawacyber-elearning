@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { TeacherService } from "../../services/teacher";
-
+import ClassroomActions from "../../actions/classroom"
+//import store from "../../config/store"
 export class ClassroomClassworkCard extends Component {
   constructor() {
     super();
@@ -131,9 +131,6 @@ export class ClassroomClassworkCard extends Component {
       ],
     });
 
-    TeacherService.get_course_classroom_classwork().then((classwork) => {
-      console.log(classwork);
-    });
   }
   handleDeleteItem(id) {
     let classwork = [];
@@ -150,6 +147,7 @@ export class ClassroomClassworkCard extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <ul
         id="task-card1"
@@ -222,7 +220,7 @@ const mapStateToProps = (state) => ({
   files: state.fileUpload,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = Object.assign({}, ClassroomActions);
 
 export default connect(
   mapStateToProps,
