@@ -10,7 +10,6 @@ import blog_4 from "../../assets/images/blog_4.jpg";
 import blog_5 from "../../assets/images/blog_5.jpg";
 import blog_6 from "../../assets/images/blog_6.jpg";
 import FileDropZone from "../../components/dropzone";
-import PerfectScrollbar from "@opuscapita/react-perfect-scrollbar";
 import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
@@ -134,7 +133,7 @@ export class CourseListScreen extends Component {
                   <div className="container">
                     <div className="row">
                       {this.state.courses.map((course, i) => (
-                        <div key={i} className="col s12 m6 l4">
+                        <div key={i} className="col l3">
                           <div className="card">
                             <div className="card-image waves-effect waves-block waves-light">
                               <img src={course.img} alt="alt" />
@@ -208,10 +207,9 @@ export class CourseListScreen extends Component {
 
                 <div id="modal1" className="modal">
                   <div className="modal-content">
-                    <PerfectScrollbar>
-                      <h4 className="header2">Add Course</h4>
-                      <div className="row">
-                        <div className="col s12">
+                    <h4 className="header2">Add Course</h4>
+                    <div className="row">
+                      <div className="col s12">
                           <div className="row">
                             <div className="input-field col s4">
                               <input id="title2" type="text"></input>
@@ -238,7 +236,6 @@ export class CourseListScreen extends Component {
                               </label>
                             </div>
                           </div>
-
                           <div className="row">
                             <div className="input-field col s12">
                               <FileDropZone />
@@ -250,18 +247,17 @@ export class CourseListScreen extends Component {
                                 Cover Image
                               </label>
                             </div>
-                            <div className="row">
-                              <div className="input-field col s12">
-                                <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                                  Submit
-                                  <i className="material-icons right">send</i>
-                                </button>
-                              </div>
+                          </div>
+                          <div className="row">
+                            <div className="input-field col s12">
+                              <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
+                                Submit
+                                <i className="material-icons right">send</i>
+                              </button>
                             </div>
                           </div>
-                        </div>
                       </div>
-                    </PerfectScrollbar>
+                    </div>
                   </div>
                 </div>
               </section>

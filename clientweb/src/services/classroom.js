@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = "http://loaclhost:3000/api";
+const apiUrl = "http://localhost:3000/api";
 
 export const ClassroomService = {
   get_all_classwork,
@@ -112,7 +112,7 @@ async function post_new_classroom_material(classroom_id, data) {
     console.error(err);
   }
 }
-async function delete_classwork(classroom_id, material_id) {a
+async function delete_classwork(classroom_id, material_id) {
   try {
     let res = await axios({
       url: `${apiUrl}/classroom/delete-classwork/${classroom_id}/${material_id}`,

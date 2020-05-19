@@ -12,7 +12,11 @@ import $ from "jquery";
 import M from "materialize-css";
 
 class SideBar extends Component {
-  componentDidMount(){
+  constructor(props) {
+    super(props);
+    this.state = { sidenav_trigger: "" };
+  }
+  componentDidMount() {
     M.AutoInit();
     const elem = $(".tooltipped");
     M.Tooltip.init(elem, {
@@ -29,15 +33,14 @@ class SideBar extends Component {
       //closeOnClick:true, // Set if default menu open is true
       menuOut: false, // Set if default menu open is true
     });
-    const elem4 = $(".chat-collapse");
-    M.Sidenav.init(elem4, {
-      menuWidth: 300,
-      edge: "right",
-    });
   }
+  toggleSidenav() {
+    var css = this.state.sidenav_trigger === "" ? "sidenav-trigger-2" : "";
+    this.setState({ sidenav_trigger: css });
+  }
+
   render() {
     let Links;
-    console.log(this.props)
     if (this.props.link === "admin") {
       Links = AdminLink;
     }
@@ -69,7 +72,7 @@ class SideBar extends Component {
         {" "}
         <ul
           id="slide-out"
-          className="side-nav z-depth-2 fixed leftside-navigation"
+          className={`side-nav ${this.state.sidenav_trigger} z-depth-2 fixed leftside-navigation`}
         >
           {/* <li className="user-details cyan darken-2">
           <div className="row">
@@ -102,6 +105,7 @@ class SideBar extends Component {
         <Link
           to="#"
           data-target="slide-out"
+          onClick={this.toggleSidenav.bind(this)}
           className="sidebar-collapse sidenav-trigger white-text waves-effect waves-light hide-on-large-only"
         >
           <i className="material-icons">format_indent_increase</i>

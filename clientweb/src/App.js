@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Main from "./navigation/main";
 import $ from "jquery";
+import "materialize-css/dist/css/materialize.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";

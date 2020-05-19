@@ -17,28 +17,6 @@ export class TeacherMarkGradeScreen extends Component {
 
   componentDidMount() {
     M.AutoInit();
-    this.setState({
-      courses: [
-        {
-          courseId: 1,
-          courseName: "Mathematics",
-          numberOfTopics: 5,
-          courseCode: 1234,
-        },
-        {
-          courseId: 2,
-          courseName: "Mathematics",
-          numberOfTopics: 7,
-          courseCode: 123,
-        },
-        {
-          courseId: 3,
-          courseName: "Advanced Mathematics",
-          numberOfTopics: 9,
-          courseCode: 1456,
-        },
-      ],
-    });
   }
   render() {
     return (
@@ -75,9 +53,9 @@ export class TeacherMarkGradeScreen extends Component {
               </div>
 
               <section id="content">
-                <div className="container" style={{ paddingTop: "7%" }}>
+                <div className="container" style={{ paddingTop: "1%" }}>
                   <div className="row">
-                    <TeacherFolderCard courses={this.state.courses} />
+                    <TeacherFolderCard/>
                   </div>
                 </div>
               </section>

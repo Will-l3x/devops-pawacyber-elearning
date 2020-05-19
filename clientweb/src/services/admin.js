@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = "http://loaclhost:3000/api";
+const apiUrl = "http://localhost:3000/api";
 
 export const AdminService = {
   get_all_courses,

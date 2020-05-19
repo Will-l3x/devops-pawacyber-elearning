@@ -1,5 +1,7 @@
 import TeacherConstants from "../constants/teacher";
-const initialState = {};
+const initialState = {
+  courses: [],
+};
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {

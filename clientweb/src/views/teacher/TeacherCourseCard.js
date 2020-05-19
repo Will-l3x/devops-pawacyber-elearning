@@ -9,10 +9,16 @@ import { Redirect } from "react-router";
 //import M from "materialize-css";
 
 class TeacherCourseCard extends Component {
-  state = {
-    redirect: false,
-    count: -1,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false,
+      count: -1,
+    };
+  }
+  componentDidMount() {
+    this.props.get_all_courses("teacher_id");
+  }
   dashClick = (dash, course) => {
     this.props.navClick(dash);
     this.props.course_data({
@@ -36,6 +42,7 @@ class TeacherCourseCard extends Component {
     */
     return colors[i % 5];
   };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/classroom" />;
@@ -76,7 +83,7 @@ TeacherCourseCard.propTypes = {
 
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
-  course: state.student,
+  courses: state.teacher.courses,
 });
 
 const mapDispatchToProps = Object.assign(

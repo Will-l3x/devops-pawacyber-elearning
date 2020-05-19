@@ -1,7 +1,7 @@
 /** Admin actions */
 
 import { AdminService } from "../services/admin";
-import { AdminConstants } from "../constants/admin";
+import AdminConstants from "../constants/admin";
 import AlertActions from "./alert";
 
 export const get_all_courses = () => (dispatch) => {

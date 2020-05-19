@@ -14,16 +14,7 @@ export class AdminScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <aside id="left-sidebar-nav">
-              <SideBar data={this.props}></SideBar>
-              <Link
-                to=""
-                data-target="slide-out"
-                className="sidebar-collapse waves-effect dropdown-trigger waves-block waves-light hide-on-large-only"
-              >
-                <i className="material-icons">format_indent_increase</i>
-              </Link>
-            </aside>
+            <SideBar data={this.props}></SideBar>
 
             <section id="content">
               <div className="container">

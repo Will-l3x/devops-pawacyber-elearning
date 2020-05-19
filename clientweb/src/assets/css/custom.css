@@ -38,6 +38,10 @@
     width: 35px;
     height: 35px;
     cursor: pointer
+ !important}
+
+.sidenav-trigger-2 {
+    transform: translate(-105%, 1%) !important;
 }
 
 .twitter {
@@ -72,6 +76,13 @@
 .or {
     width: 10%;
     font-weight: bold
+}
+
+.modal{
+    max-height: 100% !important;
+}
+a{
+    text-decoration: none !important;
 }
 
 .text-sm {
