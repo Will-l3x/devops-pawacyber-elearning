@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { navClick } from "../../actions/navlink";
 import { course_data } from "../../actions/student";
+import TeacherActions from "../../actions/teacher";
 import { Redirect } from "react-router";
 
 //import M from "materialize-css";
@@ -14,9 +15,9 @@ class TeacherCourseCard extends Component {
   };
   dashClick = (dash, course) => {
     this.props.navClick(dash);
-     this.props.course_data({
-       course
-     });
+    this.props.course_data({
+      course,
+    });
     this.setState({
       redirect: true,
     });
@@ -73,14 +74,17 @@ TeacherCourseCard.propTypes = {
   link: PropTypes.string,
 };
 
-
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
   course: state.student,
 });
 
-const mapDispatchToProps = {
-  navClick,course_data,
-};
+const mapDispatchToProps = Object.assign(
+  {
+    navClick,
+    course_data,
+  },
+  TeacherActions
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeacherCourseCard);

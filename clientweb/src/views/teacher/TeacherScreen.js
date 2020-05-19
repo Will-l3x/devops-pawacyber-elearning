@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import TeacherCourseCard from "./TeacherCourseCard";
-import { TeacherService } from "../../services/teacher";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
-
-
+import TeacherActions from "../../actions/teacher";
 export class TeacherScreen extends Component {
   constructor() {
     super();
@@ -39,13 +37,10 @@ export class TeacherScreen extends Component {
         },
       ],
     });
-    TeacherService.get_all_courses().then((courses) => {
-      console.log(courses);
-    });
   }
 
   render() {
-    console.log(this.state);
+    console.log(this.props);
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -70,7 +65,7 @@ export class TeacherScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                   
+
                     minHeight: 70,
                     transform: "translateY(-100%)",
                   }}
@@ -202,5 +197,8 @@ const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = {};
-export default connect(mapStateToProps, mapDispatchToProps)(TeacherScreen);
+const mapDispatchToProps = Object.assign({}, TeacherActions);
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TeacherScreen)
+);

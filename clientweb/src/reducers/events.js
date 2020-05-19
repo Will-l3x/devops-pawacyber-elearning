@@ -1,4 +1,4 @@
-import { EventConstants } from "../constants/events";
+import EventConstants  from "../constants/events";
 const initialState = {};
 
 export default (state = initialState, { type, payload }) => {

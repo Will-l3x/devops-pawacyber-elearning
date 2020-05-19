@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { TeacherService } from "../../services/teacher";
-
 export class ClassroomScreen extends Component {
   constructor() {
     super();
@@ -68,11 +66,7 @@ export class ClassroomScreen extends Component {
         },
       ],
     });
-    TeacherService.get_course_classroom_students_assessment().then(
-      (students) => {
-        console.log(students);
-      }
-    );
+   
   }
   render() {
     return (

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import M from "materialize-css";
 import SideBar from "../../components/SideBar";
 import { TeacherFolderCard } from "./TeacherFolderCard";
-import { TeacherService } from "../../services/teacher";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 
@@ -39,9 +38,6 @@ export class TeacherMarkGradeScreen extends Component {
           courseCode: 1456,
         },
       ],
-    });
-    TeacherService.get_all_courses().then((courses) => {
-      console.log(courses);
     });
   }
   render() {

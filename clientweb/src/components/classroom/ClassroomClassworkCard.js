@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { TeacherService } from "../../services/teacher";
 
 export class ClassroomClassworkCard extends Component {
   constructor() {
@@ -129,10 +128,6 @@ export class ClassroomClassworkCard extends Component {
           posted: "18 May",
         },
       ],
-    });
-
-    TeacherService.get_course_classroom_classwork().then((classwork) => {
-      console.log(classwork);
     });
   }
   handleDeleteItem(id) {

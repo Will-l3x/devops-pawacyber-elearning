@@ -1,4 +1,4 @@
-import { ClassroomConstants } from "../constants/classroom";
+import ClassroomConstants  from "../constants/classroom";
 const initialState = {};
 
 export default (state = initialState, { type, payload }) => {

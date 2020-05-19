@@ -1,4 +1,4 @@
-import { AdminConstants } from "../constants/admin";
+import AdminConstants  from "../constants/admin";
 const initialState = {};
 
 export default (state = initialState, { type, payload }) => {

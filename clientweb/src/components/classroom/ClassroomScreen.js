@@ -11,7 +11,6 @@ import ClassroomStudentsCard from "./ClassroomStudentsCard";
 import { ClassroomCourseCard } from "./ClassroomCourseCard";
 import { ClassroomStudentAssessment } from "./ClassroomStudentAssessment";
 import store from "../../config/store";
-import { TeacherService } from "../../services/teacher";
 import Footer from "../footer";
 import Header from "../header";
 
@@ -111,9 +110,7 @@ export class ClassroomScreen extends Component {
     };
 
     data.append("files", file, file.name);
-    TeacherService.post_course_classwork(data).then((res) => {
-      console.log(res);
-    });
+    
   };
   handleSendTest = () => {
     const files = store.getState().fileUpload;
@@ -129,9 +126,7 @@ export class ClassroomScreen extends Component {
     };
 
     data.append("files", file, file.name);
-    TeacherService.post_course_classwork(data).then((res) => {
-      console.log(res);
-    });
+    
   };
   handleSendAssignment = () => {
     const files = store.getState().fileUpload;
@@ -147,9 +142,7 @@ export class ClassroomScreen extends Component {
     };
 
     data.append("files", file, file.name);
-    TeacherService.post_course_classwork(data).then((res) => {
-      console.log(res);
-    });
+  
   };
   render() {
     return (

@@ -8,7 +8,9 @@ export const error = (message) => {
   return { type: AlertConstants.ALERT_ERROR, message };
 };
 
-export default AlertActions = {
+const AlertActions = {
   success,
   error,
 };
+
+export default AlertActions;
