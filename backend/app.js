@@ -16,6 +16,11 @@ var moment = require("moment");
 var nodemailer = require("nodemailer");
 var _ = require("underscore");
 const fileUpload = require("express-fileupload");
+const db = require("./db/db_conn.js");
+//Documentation
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 //var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 sql.connect(config, (err) => {
@@ -69,6 +74,9 @@ app.use("/", routes);
 app.use("/users", users);
 app.use("/api", api);
 
+//Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error("Not Found");
@@ -105,3 +113,10 @@ app.set("port", process.env.PORT || 3000);
 var server = app.listen(app.get("port"), function () {
   console.log("Express server listening on port " + server.address().port);
 });
+
+async function testDb() {
+  let data = await db.sqlz.query("select * from parents");
+  console.log(data);
+}
+
+testDb();
