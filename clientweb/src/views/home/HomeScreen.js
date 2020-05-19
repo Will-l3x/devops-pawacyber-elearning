@@ -1,32 +1,26 @@
 import React, { Component } from "react";
+import { HashLink as Link } from 'react-router-hash-link';
 
 import "../../assets/css/styles.css";
-
-import { Link } from "react-router-dom";
 
 import headerImg from "../../assets/images/header-teamwork.svg";
 import kigsImg from "../../assets/images/gids.png";
 import servicesImg1 from "../../assets/images/services-icon-1.svg";
 import servicesImg2 from "../../assets/images/services-icon-2.svg";
 import servicesImg3 from "../../assets/images/services-icon-3.svg";
-// import kigsImg from "../../assets/images/gids.png";
-// import kigsImg from "../../assets/images/gids.png";
-// import kigsImg from "../../assets/images/gids.png";
-// import kigsImg from "../../assets/images/gids.png";
-// import kigsImg from "../../assets/images/gids.png";
 
 export class HomeScreen extends Component {
   render() {
     return (
       <div>
         <nav className="nav-wrapper gradient-45deg-light-blue-cyan navbar-custom fixed">
-        <Link className="brand-logo" rel="noopener noreferrer"  to="#header">LOGO</Link>
+        <Link className="brand-logo" rel="noopener noreferrer"  to="#header">PawaCyber School</Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li className="nav-item">
                 <Link
                   className="nav-link page-scroll"
                   rel="noopener noreferrer"
-                  to="#header"
+                  to=""
                 >
                   Home <span className="sr-only">(current)</span>
                 </Link>
@@ -35,7 +29,7 @@ export class HomeScreen extends Component {
                 <Link
                   className="nav-link page-scroll"
                   rel="noopener noreferrer"
-                  to="#services"
+                  to="/#services"
                 >
                   Services
                 </Link>
@@ -53,7 +47,7 @@ export class HomeScreen extends Component {
                 <Link
                   className="nav-link page-scroll"
                   rel="noopener noreferrer"
-                  to="#contact"
+                  to="/about"
                 >
                   About
                 </Link>
@@ -68,12 +62,12 @@ export class HomeScreen extends Component {
                 <div className="col s6">
                   <div className="text-container">
                     <h1>
-                      <span className="turquoise">LearniStud Online</span>
+                      <span className="turquoise">PawaCyber School</span>
                     </h1>
                     <h5 style={{marginTop:"-5px"}}>Learn Practice Achieve</h5>
                     <p className="p-large">
                       Just the virtual classroom you were looking for!. Get
-                      started now with LearniStud to experience next gen
+                      started now with PawaCyber School e-learning to experience next gen
                       education!
                     </p>
                     <Link
