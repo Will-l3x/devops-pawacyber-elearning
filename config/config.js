@@ -16,7 +16,7 @@ var config = {
   user: "sa",
   password: "tate@1234",
   server: "localhost",
-  database: "newschool",
+  database: "newschool3",
   stream: true,
   options: {
     encrypt: true,

@@ -16,7 +16,10 @@ var moment = require("moment");
 var nodemailer = require("nodemailer");
 var _ = require("underscore");
 const fileUpload = require("express-fileupload");
-
+//Documentation
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
 //var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 sql.connect(config, (err) => {
   if (err) {
@@ -81,6 +84,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", routes);
 app.use("/users", users);
 app.use("/api", api);
+
+//Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
