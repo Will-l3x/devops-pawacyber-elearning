@@ -30,8 +30,8 @@ router.get("/teacher/get_assignments/:id", _teacher.getAssignments);
 
 router.post("/teacher/new_reminder", _teacher.newReminder);
 
-router.post("/teacher/mark_assignment", _teacher.markAssignment);
-router.post("/teacher/comment_assignment", _teacher.commentAssignment);
+router.put("/teacher/mark_assignment", _teacher.markAssignment);
+router.put("/teacher/comment_assignment", _teacher.commentAssignment);
 
 router.post("/teacher/new_msg", _teacher.newMsg);
 router.get("/teacher/get_msgs/:id", _teacher.getMsgs);
