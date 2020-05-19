@@ -37,7 +37,7 @@ class SideBar extends Component {
   }
   render() {
     let Links;
-
+    console.log(this.props)
     if (this.props.link === "admin") {
       Links = AdminLink;
     }
@@ -60,7 +60,7 @@ class SideBar extends Component {
         }
       } else {
         Links = HomeLink;
-        return <Redirect to="/" />;
+        return <Redirect to="/login" />;
       }
     }
 
@@ -117,6 +117,7 @@ SideBar.propTypes = {
 
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
+  location: state.dashLink.location,
 });
 
 export default connect(mapStateToProps, { navClick })(SideBar);

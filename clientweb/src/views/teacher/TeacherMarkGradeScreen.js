@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import M from "materialize-css";
 import SideBar from "../../components/SideBar";
 import { TeacherFolderCard } from "./TeacherFolderCard";
@@ -98,7 +98,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TeacherMarkGradeScreen);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TeacherMarkGradeScreen)
+);

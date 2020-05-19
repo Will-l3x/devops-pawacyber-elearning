@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { Router, Route, Switch } from "react-router";
-import createHistory from "history/createBrowserHistory";
+import { createBrowserHistory } from "history";
 import { HomeScreen } from "../views/home/HomeScreen";
 import { AboutScreen } from "../views/about/AboutScreen";
 import { AdminScreen } from "../views/admin/AdminScreen";
@@ -23,7 +23,7 @@ import { StudentAssignmentScreen } from "../components/teacher-mark/StudentAssig
 import { StudentTestScreen } from "../components/teacher-mark/StudentTestScreen";
 import store from "../config/store"
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 const Main = () => (
   <Provider store={store}>
