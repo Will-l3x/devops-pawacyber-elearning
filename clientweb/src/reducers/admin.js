@@ -27,6 +27,9 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, subscriptions: payload };
     case AdminConstants.UPDATE_SUBCRIPTION_INFO:
       return { ...state, updated_subscription: payload };
+    case AdminConstants.GET_TOPIC_CONTENT:
+      console.log(payload);
+      return { ...state, topic_content: payload };
 
     default:
       return state;

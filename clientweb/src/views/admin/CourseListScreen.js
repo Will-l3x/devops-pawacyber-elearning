@@ -167,6 +167,7 @@ export class CourseListScreen extends Component {
                                       "action for which course was clicked and for who clicked and for who if"
                                     );
                                   }}
+                                  className="cyan-text"
                                   to="/course-outline"
                                 >
                                   View Content

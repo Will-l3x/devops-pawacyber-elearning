@@ -39,7 +39,7 @@ export class LoginScreen extends Component {
     return (
       <main id="main_1">
         <OuterHeader></OuterHeader>
-        <div className="container content-pawa" style={{ paddingTop: "10%" }}>
+        <div className="container content-pawa" style={{ paddingTop: "7%" }}>
           <div className="row">
             <div className="col s8 offset-s2">
               <div className="card card-login">
