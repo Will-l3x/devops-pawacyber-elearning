@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import $ from "jquery";
 import bg_img from "../assets/images/login_bg.jpg";
 import { Redirect } from "react-router";
+import OuterHeader from "../components/outerHeader";
+import OuterFooter from "../components/outerFooter";
 
 export class LoginScreen extends Component {
   constructor() {
@@ -37,7 +39,8 @@ export class LoginScreen extends Component {
     }
     return (
       <main id="main_1">
-        <div className="container" style={{ paddingTop: "10%" }}>
+        <OuterHeader></OuterHeader>
+        <div className="container content-pawa" style={{ paddingTop: "10%" }}>
           <div className="row">
             <div className="col s8 offset-s2">
               <div className="card card-login">
@@ -107,7 +110,9 @@ export class LoginScreen extends Component {
               </div>
             </div>
           </div>
+          <OuterFooter></OuterFooter>
         </div>
+       
       </main>
     );
   }
