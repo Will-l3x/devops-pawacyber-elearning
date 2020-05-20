@@ -29,14 +29,13 @@ class Pricing extends Component {
                       <li key={i} className="media">
                         <i className="fas fa-check" style={{paddingRight:"5px"}}></i>{feature}
                     </li>))}
-
                       </ul>
                       <Link
                         className="btn-solid-reg page-scroll"
                         rel="noopener noreferrer"
-                        to="#request"
+                        to="/about#contact"
                       >
-                        REQUEST
+                        ENQUIRE
                       </Link>
                   </div>
                 </div>

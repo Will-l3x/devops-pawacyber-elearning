@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from 'react-router-hash-link';
 
 class OuterHeader extends Component {
   render() {
@@ -29,19 +29,20 @@ class OuterHeader extends Component {
                 <Link
                   className="nav-link page-scroll"
                   rel="noopener noreferrer"
-                  to="#pricing"
+                  to="/#pricing"
                 >
                   Pricing
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className="nav-link page-scroll"
-                  rel="noopener noreferrer"
-                  to="/about"
-                >
+                <Link className="nav-link" to="/about">
                   About
                 </Link>
+              </li>
+              <li className="nav-item">
+              <Link className="btn-solid-lg teal" to="/login">
+                  LOGIN
+              </Link>
               </li>
             </ul>
         </nav>

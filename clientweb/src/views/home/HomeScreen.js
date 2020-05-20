@@ -223,7 +223,7 @@ export class HomeScreen extends Component {
             </div>
           </div>
         </div>
-          <OuterFooter></OuterFooter>
+<OuterFooter></OuterFooter>
         </div>
       </div>
     );
