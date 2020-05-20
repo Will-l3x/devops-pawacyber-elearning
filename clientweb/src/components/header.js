@@ -4,7 +4,11 @@ import avatar from "../assets/images/avatar/avatar-7.png";
 class Header extends Component {
   constructor() {
     super();
+    this.state = {
+      logout: false,
+    };
     this.toggleFullScreen.bind(this);
+    this.handleLogout.bind(this);
   }
   toggleFullScreen = () => {
     if (
@@ -30,6 +34,12 @@ class Header extends Component {
       }
     }
   };
+  handleLogout = () => {
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ username: "", password: "" })
+    );
+  };
   render() {
     return (
       <div className="navbar-fixed">
@@ -40,7 +50,7 @@ class Header extends Component {
                 <h1 className="logo-wrapper">
                   <Link to="#" className="brand-logo darken-1">
                     <span className="logo-text hide-on-med-and-down">
-                    PawaCyber eLearning
+                      PawaCyber eLearning
                     </span>
                   </Link>
                 </h1>
@@ -184,7 +194,11 @@ class Header extends Component {
               </li>
               <li className="divider"></li>
               <li>
-                <Link to="#" className="grey-text text-darken-1">
+                <Link
+                  to="#"
+                  onClick={this.handleLogout}
+                  className="grey-text text-darken-1"
+                >
                   <i className="material-icons">keyboard_tab</i> Logout
                 </Link>
               </li>

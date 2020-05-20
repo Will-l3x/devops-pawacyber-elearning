@@ -5,7 +5,7 @@ import { navClick } from "../actions/navlink";
 import AdminLink from "../views/admin/AdminLink";
 import StudentLink from "../views/student/StudentLink";
 import TeacherLink from "../views/teacher/TeacherLink";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import $ from "jquery";
 import M from "materialize-css";
 
@@ -50,11 +50,14 @@ class SideBar extends Component {
     if (user.username === "admin") {
       Links = AdminLink;
     }
-    if (user.username === "teacher") {
+    else if  (user.username === "teacher") {
       Links = TeacherLink;
     }
-    if (user.username === "student") {
+    else if  (user.username === "student") {
       Links = StudentLink;
+    }
+    else {
+      return (<Redirect to="/login"/>)
     }
 
     return (

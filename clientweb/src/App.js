@@ -23,6 +23,8 @@ import { TeacherMarkGradeScreen } from "./views/teacher/TeacherMarkGradeScreen";
 import { TeacherMarkClassroomScreen } from "./views/teacher/TeacherMarkClassroomScreen";
 import { StudentAssignmentScreen } from "./components/teacher-mark/StudentAssignmentScreen";
 import { StudentTestScreen } from "./components/teacher-mark/StudentTestScreen";
+import { RegisterScreen } from "./auth/RegisterScreen";
+
 
 import $ from "jquery";
 import "materialize-css/dist/css/materialize.min.css";
@@ -31,6 +33,7 @@ import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
+
 
 const history = createBrowserHistory();
 
@@ -115,6 +118,7 @@ class App extends Component {
             <Route exact path="/" component={HomeScreen} />
 
             <Route exact path="/login" component={LoginScreen} />
+            <Route exact path="/register" component={RegisterScreen} />
             <Route exact path="/about" component={AboutScreen} />
 
             <Route exact path="/admin" component={AdminScreen} />
