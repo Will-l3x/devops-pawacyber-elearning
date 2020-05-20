@@ -5,11 +5,42 @@ import SideBar from "../../components/SideBar";
 import M from "materialize-css";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
+import Pricing from "../../components/pricing";
 
 export class SubscriptionScreen extends Component {
   componentDidMount() {
     M.AutoInit();
   }
+
+  state = {
+    plans: [
+      {
+        title:"STARTER",
+        description:" Best plan for individual students",
+        price:"-", 
+        frequency:"Monthly", 
+        bestOffer:false, 
+        features:["Enquire Now"]
+      },
+      {
+        title:"MEDIUM",
+        description:" Best plan for individual students",
+        price:"-", 
+        frequency:"Monthly", 
+        bestOffer:false, 
+        features:["Enquire Now"]
+      },
+      {
+        title:"COMPLETE",
+        description:"Must have for large schools",
+        price:"-", 
+        frequency:"Yearly", 
+        bestOffer:true, 
+        features:["Enquire Now"]
+      },
+    ],
+  };
+
   render() {
     return (
       <div>
@@ -99,175 +130,13 @@ export class SubscriptionScreen extends Component {
                   <div id="pricing" className="cards-2 sect-learn">
                     <div className="container">
                       <div className="row">
-                        <div className="col s12">
-                          <div className="card">
-                            <div className="card-body">
-                              <div className="card-title">STARTER</div>
-                              <div className="card-subtitle">
-                                Just to see what can be achieved
-                              </div>
-                              <hr className="cell-divide-hr" />
-                              <div className="price">
-                                <span className="currency">$</span>
-                                <span className="value">199</span>
-                                <div className="frequency">monthly</div>
-                              </div>
-                              <hr className="cell-divide-hr" />
-                              <ul className="list-unstyled li-space-lg">
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                              </ul>
-                              <div className="button-wrapper">
-                                <Link
-                                  className="btn-solid-reg page-scroll"
-                                  rel="noopener noreferrer"
-                                  to="#request"
-                                >
-                                  REQUEST
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
 
-                          <div className="card">
-                            <div className="card-body">
-                              <div className="card-title">MEDIUM</div>
-                              <div className="card-subtitle">
-                                Very appropriate for the short term
-                              </div>
-                              <hr className="cell-divide-hr" />
-                              <div className="price">
-                                <span className="currency">$</span>
-                                <span className="value">299</span>
-                                <div className="frequency">monthly</div>
-                              </div>
-                              <hr className="cell-divide-hr" />
-                              <ul className="list-unstyled li-space-lg">
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                              </ul>
-                              <div className="button-wrapper">
-                                <Link
-                                  className="btn-solid-reg page-scroll"
-                                  rel="noopener noreferrer"
-                                  to="#request"
-                                >
-                                  REQUEST
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
+                      <div className="col s12">
+                        {this.state.plans.map((plan, i) => (
+                          <Pricing key ={i} plan={plan}></Pricing>
+                        ))}
+                      </div>
 
-                          <div className="card">
-                            <div className="label">
-                              <p className="best-value">Best Value</p>
-                            </div>
-                            <div className="card-body">
-                              <div className="card-title">COMPLETE</div>
-                              <div className="card-subtitle">
-                                Must have for large companies
-                              </div>
-                              <hr className="cell-divide-hr" />
-                              <div className="price">
-                                <span className="currency">$</span>
-                                <span className="value">399</span>
-                                <div className="frequency">monthly</div>
-                              </div>
-                              <hr className="cell-divide-hr" />
-                              <ul className="list-unstyled li-space-lg">
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                                <li className="media">
-                                  <i
-                                    className="fas fa-check"
-                                    style={{ paddingRight: "5px" }}
-                                  ></i>
-                                  Dummy Feature 3a
-                                </li>
-                              </ul>
-                              <div className="button-wrapper">
-                                <Link
-                                  className="btn-solid-reg page-scroll"
-                                  rel="noopener noreferrer"
-                                  to="#request"
-                                >
-                                  REQUEST
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>

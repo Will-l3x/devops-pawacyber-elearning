@@ -3,63 +3,56 @@ import { HashLink as Link } from 'react-router-hash-link';
 
 import "../../assets/css/styles.css";
 
-import headerImg from "../../assets/images/header-teamwork.svg";
+import headerImg from "../../assets/images/girl.png";
 import kigsImg from "../../assets/images/gids.png";
 import servicesImg1 from "../../assets/images/services-icon-1.svg";
 import servicesImg2 from "../../assets/images/services-icon-2.svg";
 import servicesImg3 from "../../assets/images/services-icon-3.svg";
+import Pricing from "../../components/pricing";
+import OuterHeader from "../../components/outerHeader";
+import OuterFooter from "../../components/outerFooter";
 
 export class HomeScreen extends Component {
+  state = {
+    plans: [
+      {
+        title:"STARTER",
+        description:" Best plan for individual students",
+        price:"-", 
+        frequency:"Monthly", 
+        bestOffer:false, 
+        features:["Enquire Now"]
+      },
+      {
+        title:"MEDIUM",
+        description:" Best plan for individual students",
+        price:"-", 
+        frequency:"Monthly", 
+        bestOffer:false, 
+        features:["Enquire Now"]
+      },
+      {
+        title:"COMPLETE",
+        description:"Must have for large schools",
+        price:"-", 
+        frequency:"Yearly", 
+        bestOffer:true, 
+        features:["Enquire Now"]
+      },
+
+    ],
+  };
   render() {
     return (
       <div>
-        <nav className="nav-wrapper gradient-45deg-light-blue-cyan navbar-custom fixed">
-        <Link className="brand-logo" rel="noopener noreferrer"  to="#header">PawaCyber School</Link>
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li className="nav-item">
-                <Link
-                  className="nav-link page-scroll"
-                  rel="noopener noreferrer"
-                  to=""
-                >
-                  Home <span className="sr-only">(current)</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link page-scroll"
-                  rel="noopener noreferrer"
-                  to="/#services"
-                >
-                  Services
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link page-scroll"
-                  rel="noopener noreferrer"
-                  to="#pricing"
-                >
-                  Pricing
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link page-scroll"
-                  rel="noopener noreferrer"
-                  to="/about"
-                >
-                  About
-                </Link>
-              </li>
-            </ul>
-        </nav>
+<OuterHeader></OuterHeader>
 
-        <header id="header" className="header">
+<div className="content-pawa">
+        <header id="welcome" className="header">
           <div className="header-content">
             <div className="container">
-              <div className="row">
-                <div className="col s6">
+              <div className="row mt-1">
+                <div className="col s12 m6">
                   <div className="text-container">
                     <h1>
                       <span className="turquoise">PawaCyber School</span>
@@ -79,7 +72,7 @@ export class HomeScreen extends Component {
                     </Link>
                   </div>
                 </div>
-                <div className="col s6">
+                <div className="col s12 m6">
                   <div className="image-container">
                     <img
                       className="img-fluid"
@@ -161,8 +154,8 @@ export class HomeScreen extends Component {
 
         <div className="basic-2 sect-learn" >
           <div className="container">
-            <div className="row">
-              <div className="col s6">
+          <div className="row mt-1">
+                <div className="col s12 m6">
                 <div className="image-container">
                   <img
                     className="img-fluid"
@@ -171,30 +164,30 @@ export class HomeScreen extends Component {
                   />
                 </div>
               </div>
-              <div className="col s6">
+              <div className="col s12 m6">
                 <div className="text-container" style={{paddingLeft:"0px"}}>
                   <h2  style={{fontSize:"28px",fontWeight:"bold"}}>Learning Resources<br/>Wherever You are</h2>
                   <ul className="list-unstyled li-space-lg">
                     <li className="media">
                       <i className="fas fa-check"></i>
-                      <div className="media-body">
+                   
                         For sure we know you know what's best for your brilliant
                         child
-                      </div>
+                    
                     </li>
                     <li className="media">
                       <i className="fas fa-check"></i>
-                      <div className="media-body">
+                    
                         We are here for one purpose, to deliver that best to
                         your child
-                      </div>
+                 
                     </li>
                     <li className="media">
                       <i className="fas fa-check"></i>
-                      <div className="media-body">
+
                         Everyone will be pleased from students to teachers to
                         parents
-                      </div>
+                   
                     </li>
                   </ul>
                   <Link
@@ -223,143 +216,14 @@ export class HomeScreen extends Component {
             </div>
             <div className="row">
               <div className="col s12">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-title">STARTER</div>
-                    <div className="card-subtitle">
-                      Just to see what can be achieved
-                    </div>
-                    <hr className="cell-divide-hr" />
-                    <div className="price">
-                      <span className="currency">$</span>
-                      <span className="value">199</span>
-                      <div className="frequency">monthly</div>
-                    </div>
-                    <hr className="cell-divide-hr" />
-                    <ul className="list-unstyled li-space-lg">
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                        <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      </ul>
-                    <div className="button-wrapper">
-                      <Link
-                        className="btn-solid-reg page-scroll"
-                        rel="noopener noreferrer"
-                        to="#request"
-                      >
-                        REQUEST
-                      </Link>
-                    </div>
-                  </div>
+                {this.state.plans.map((plan, i) => (
+                  <Pricing key ={i} plan={plan}></Pricing>
+                ))}
                 </div>
-
-                <div className="card">
-                  <div className="card-body">
-                    <div className="card-title">MEDIUM</div>
-                    <div className="card-subtitle">
-                      Very appropriate for the short term
-                    </div>
-                    <hr className="cell-divide-hr" />
-                    <div className="price">
-                      <span className="currency">$</span>
-                      <span className="value">299</span>
-                      <div className="frequency">monthly</div>
-                    </div>
-                    <hr className="cell-divide-hr" />
-                    <ul className="list-unstyled li-space-lg">
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                        <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      </ul>
-                    <div className="button-wrapper">
-                      <Link
-                        className="btn-solid-reg page-scroll"
-                        rel="noopener noreferrer"
-                        to="#request"
-                      >
-                        REQUEST
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card">
-                  <div className="label">
-                    <p className="best-value">Best Value</p>
-                  </div>
-                  <div className="card-body">
-                    <div className="card-title">COMPLETE</div>
-                    <div className="card-subtitle">
-                      Must have for large companies
-                    </div>
-                    <hr className="cell-divide-hr" />
-                    <div className="price">
-                      <span className="currency">$</span>
-                      <span className="value">399</span>
-                      <div className="frequency">monthly</div>
-                    </div>
-                    <hr className="cell-divide-hr" />
-                    <ul className="list-unstyled li-space-lg">
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                        <li className="media">
-                          <i className="fas fa-check" style={{paddingRight:"5px"}}></i>Dummy Feature 3a
-                        </li>
-                      </ul>
-                    <div className="button-wrapper">
-                      <Link
-                        className="btn-solid-reg page-scroll"
-                        rel="noopener noreferrer"
-                        to="#request"
-                      >
-                        REQUEST
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-        <div className="copyright">
-          <div className="container">
-            <div className="row">
-              <div className="col s12">
-                <p className="p-small">
-                  Copyright © 2020{" "}
-                  <Link rel="noopener noreferrer" to="#">
-                    Our Name
-                  </Link>{" "}
-                  - All rights reserved
-                </p>
-              </div>
-            </div>
-          </div>
+          <OuterFooter></OuterFooter>
         </div>
       </div>
     );

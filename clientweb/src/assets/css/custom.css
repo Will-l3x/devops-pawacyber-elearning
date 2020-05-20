@@ -1,9 +1,10 @@
 @font-face {
-    font-family: 'Material Icons';
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-style: normal;
     font-weight: 400;
     src: local("Material Icons"), local("MaterialIcons-Regular"), url("../fonts/material-design-icons/MaterialIcons-Regular.ttf") format("truetype"), url("../fonts/material-design-icons/MaterialIcons-Regular.woff2") format("woff2"), url("../fonts/material-design-icons/MaterialIcons-Regular.woff") format("woff"), url("../fonts/material-design-icons/MaterialIcons-Regular.eot");
 }
+
 .card0 {
     box-shadow: 0px 4px 8px 0px #757575;
     border-radius: 0px
@@ -37,8 +38,8 @@
     border-radius: 50%;
     width: 35px;
     height: 35px;
-    cursor: pointer
- !important}
+    cursor: pointer !important
+}
 
 .sidenav-trigger-2 {
     transform: translate(-105%, 1%) !important;
@@ -78,10 +79,11 @@
     font-weight: bold
 }
 
-.modal{
+.modal {
     max-height: 100% !important;
 }
-a{
+
+a {
     text-decoration: none !important;
 }
 
@@ -176,6 +178,7 @@ a {
         margin: 0px 15px
     }
 }
+
 .curriculum-wrapper .lecture-container {
     display: flex;
     padding: 12px 30px 12px 43px;
@@ -215,7 +218,7 @@ a {
     overflow: hidden;
 }
 
-.padding-5px{
+.padding-5px {
     padding: 5px !important;
 }
 
@@ -249,6 +252,7 @@ a {
     border-radius: 5px;
     border: 1px solid #bbdefb;
 }
+
 .folder-container :hover,
 .folder-container :active,
 .folder-container :focus {
@@ -334,19 +338,23 @@ a {
     display: none;
     cursor: pointer;
 }
+
 .upload {
     display: none;
     cursor: pointer;
 }
+
 .marked {
     display: none;
     pointer-events: none !important;
 }
-.download{
+
+.download {
     display: none;
     cursor: pointer;
 }
-.display-block{
+
+.display-block {
     display: block !important;
 }
 
@@ -444,12 +452,14 @@ nav.navbar {
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
 }
+
 @media only screen and (max-width: 997px) {
     nav.nav-extended {
         width: 100% !important;
     }
 
 }
+
 nav.nav-extended {
     height: auto;
     width: 85%;
@@ -591,17 +601,51 @@ h3 {
     margin: 0px 5px;
 }
 
-.card-services .card{
-    margin-right:50px;
+.card-services .card {
+    margin-right: 50px;
 }
 
-.text-container{
-    padding-left:50px;
+.text-container {
+    padding-left: 50px;
 }
 
-.sect-learn{
-    margin-top:-100px;
+.sect-learn {
+    margin-top: -100px;
 }
-.navbar-custom {
-    padding-bottom:30px;
+
+.head-pawa {
+    padding-left: 80px;
+    padding-right: 80px;
+    height: 60px;
+}
+
+.head-pawa li:hover {
+    color: white;
+}
+
+.head-pawa .brand-logo {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-top: -5px;
+}
+
+.content-pawa {
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow-y: scroll;
+}
+
+.image-container{
+    margin-top: -70px;
+    
+}
+.image-container{
+    width: 100%;
+    height: auto;
+}
+
+i{
+    padding-right: 5px;
 }
