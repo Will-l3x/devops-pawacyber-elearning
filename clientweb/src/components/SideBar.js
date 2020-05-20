@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { navClick } from "../actions/navlink";
-import HomeLink from "../views/home/HomeLink";
 import AdminLink from "../views/admin/AdminLink";
 import StudentLink from "../views/student/StudentLink";
 import TeacherLink from "../views/teacher/TeacherLink";
-import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import $ from "jquery";
 import M from "materialize-css";
@@ -14,7 +12,13 @@ import M from "materialize-css";
 class SideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = { sidenav_trigger: "" };
+
+    this.state = {
+      sidenav_trigger: "",
+      user: {
+        role: "admin",
+      },
+    };
   }
   componentDidMount() {
     M.AutoInit();
@@ -40,31 +44,17 @@ class SideBar extends Component {
   }
 
   render() {
+    //should just use user role to change links
     let Links;
-    if (this.props.link === "admin") {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.username === "admin") {
       Links = AdminLink;
     }
-    if (this.props.link === "teacher") {
+    if (user.username === "teacher") {
       Links = TeacherLink;
     }
-    if (this.props.link === "student") {
+    if (user.username === "student") {
       Links = StudentLink;
-    }
-    if (this.props.link === "") {
-      if (this.props.data) {
-        if (this.props.data.location.pathname === "/teacher") {
-          Links = TeacherLink;
-        }
-        if (this.props.data.location.pathname === "/student") {
-          Links = StudentLink;
-        }
-        if (this.props.data.location.pathname === "/admin") {
-          Links = AdminLink;
-        }
-      } else {
-        Links = HomeLink;
-        return <Redirect to="/login" />;
-      }
     }
 
     return (
@@ -99,7 +89,7 @@ class SideBar extends Component {
           </div>
         </li> */}
           <li className="no-padding">
-            <Links></Links>
+            <Links />
           </li>
         </ul>
         <Link

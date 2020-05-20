@@ -16,21 +16,23 @@ export class LoginScreen extends Component {
   handleLogin = () => {
     const username = $("#username").val();
     const password = $("#password").val();
-    this.setState(
-      {
-        username,
-        password
-      }
-    )
+    this.setState({
+      username,
+      password,
+    });
   };
   render() {
+    console.log(this.props);
     if (this.state.username === "teacher") {
+      localStorage.setItem("user", JSON.stringify(this.state));
       return <Redirect to="/teacher" />;
     }
     if (this.state.username === "admin") {
+      localStorage.setItem("user", JSON.stringify(this.state));
       return <Redirect to="/admin" />;
     }
     if (this.state.username === "student") {
+      localStorage.setItem("user", JSON.stringify(this.state));
       return <Redirect to="/student" />;
     }
     return (

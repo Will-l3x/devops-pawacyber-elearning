@@ -8,6 +8,7 @@ import Header from "../../components/header";
 import TeacherActions from "../../actions/teacher";
 export class TeacherScreen extends Component {
   render() {
+    console.log(this.props)
     return (
       <div>
         <header id="header" className="page-topbar">
