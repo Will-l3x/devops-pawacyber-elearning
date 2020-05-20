@@ -193,7 +193,7 @@ export class HomeScreen extends Component {
                   <Link
                     className="btn-solid-reg"
                     rel="noopener noreferrer"
-                    to="#"
+                    to="/register"
                   >
                     REGISTER NOW
                   </Link>
