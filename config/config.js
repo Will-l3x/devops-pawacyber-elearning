@@ -13,15 +13,16 @@
 //};
 
 var config = {
-  user: "sa",
-  password: "tate@1234",
-  server: "localhost",
-  database: "newschool3",
+  user: "cyberadmin",
+    password: "Mcgry567@w1",
+    server: "cyberschool1.database.windows.net",
+  database: "cyberschool",
   stream: true,
   options: {
     encrypt: true,
-    stream: true,
-  },
+      stream: true,
+      enableArithAbort:true
+  }
 };
 
 module.exports = config;
