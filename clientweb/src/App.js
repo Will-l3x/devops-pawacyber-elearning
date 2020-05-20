@@ -33,8 +33,6 @@ import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
-import { TopicContentScreen } from "./components/TopicContentScreen";
-
 
 const history = createBrowserHistory();
 

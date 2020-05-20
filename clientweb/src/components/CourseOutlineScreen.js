@@ -199,7 +199,7 @@ export class CourseOutlineScreen extends Component {
                         <Link
                           to="#!"
                           className="tooltipped modal-trigger waves-effect black-text right"
-                          data-target="modal1"
+                          data-target="modal7"
                           data-tooltip="Add New Topic"
                           style={{ marginTop: "3%" }}
                         >
@@ -293,23 +293,19 @@ export class CourseOutlineScreen extends Component {
                     </div>
                   </div>
                 </div>
-                <div id="modal1" className="modal">
+                <div id="modal7" className="modal">
                   <div className="modal-content">
-                    <h4 className="header2">Add Course Material</h4>
+                    <h4 className="header2">Add Course Topic</h4>
                     <div className="row">
                       <div className="col s12">
                         <div className="row">
-                          <div className="input-field col s12">
-                            <input id="name" type="text"></input>
-                            <label htmlFor="first_name">Name</label>
+                          <div className="input-field col s4">
+                            <input id="title" type="text"></input>
+                            <label htmlFor="title">Title</label>
                           </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <textarea
-                              id="description"
-                              className="materialize-textarea"
-                            ></textarea>
+                          <div className="input-field col s4">
+                            <input id="duaration" type="text"></input>
+                            <label htmlFor="duaration">Duration(weeks)</label>
                           </div>
                         </div>
 
