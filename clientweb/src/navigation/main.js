@@ -22,6 +22,7 @@ import { TeacherMarkClassroomScreen } from "../views/teacher/TeacherMarkClassroo
 import { StudentAssignmentScreen } from "../components/teacher-mark/StudentAssignmentScreen";
 import { StudentTestScreen } from "../components/teacher-mark/StudentTestScreen";
 import store from "../config/store"
+import { RegisterScreen } from "../auth/RegisterScreen";
 
 const history = createBrowserHistory();
 
@@ -32,6 +33,7 @@ const Main = () => (
         <Route exact path="/" component={HomeScreen} />
 
         <Route exact path="/login" component={LoginScreen} />
+        <Route exact path="/register" component={RegisterScreen} />
         <Route exact path="/about" component={AboutScreen} />
 
         <Route exact path="/admin" component={AdminScreen} />

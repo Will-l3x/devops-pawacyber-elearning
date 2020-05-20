@@ -40,7 +40,7 @@ class Header extends Component {
                 <h1 className="logo-wrapper">
                   <Link to="#" className="brand-logo darken-1">
                     <span className="logo-text hide-on-med-and-down">
-                      LearniStud
+                    PawaCyber eLearning
                     </span>
                   </Link>
                 </h1>
