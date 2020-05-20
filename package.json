@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "pm2 start app.js -i MAX",
-    "dev": "nodemon app.js"
+    "server": "node app",
+    "client": "cd clientweb && npm start",
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "description": "newschool",
   "author": {

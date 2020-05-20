@@ -21,28 +21,43 @@ const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 //var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
-sql.connect(config, (err) => {
-  if (err) {
-    console.log(err);
-    // process.exit(1);
-  } else {
-    console.log("SQL DATABASE CONNECTED");
-    //return console.error(err);
-  }
+function connect() {
+    sql.connect(config, (err) => {
+        if (err) {
+            console.log(err);
+            // process.exit(1);
+
+        } else {
+            console.log("SQL DATABASE CONNECTED");
+            //return console.error(err);
+        }
+    });
+}
+
+connect();
+
+sql.on('error', err => {
+    // ... error handler
+    console.log("error detected = " + err + "___ " + err.stack);
+    // connect();
+
 });
 
-//retry logic on error
-sql.on("error", (err) =>
-  sql.connect(config, (err) => {
-    if (err) {
-      console.log(err + "after retry");
-      // process.exit(1);
-    } else {
-      console.log("SQL DATABASE CONNECTED after retry");
-      //return console.error(err);
-    }
-  })
-);
+setInterval(function () {
+    var query = "select 1";
+    var request = new sql.Request();
+    request
+        .query(query, function (err, recordset) {
+            if (err) {
+                console.log("Database connection lost - " + err);
+                connect();
+            } else {
+
+                //console.log("Database connection still alive");
+            }
+        });
+
+}, 3210);
 
 var api = require("./routes/api");
 
@@ -119,7 +134,7 @@ app.use(function (err, req, res, next) {
   });
 });
 
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 3001);
 
 var server = app.listen(app.get("port"), function () {
   console.log("Express server listening on port " + server.address().port);
