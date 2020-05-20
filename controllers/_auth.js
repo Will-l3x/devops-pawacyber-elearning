@@ -721,7 +721,7 @@ let register = (req, res) => {
                                     message: email + ' is already taken'
                                 });
                             } else {
-
+                                password = bcrypt.hashSync(password, process.env.bcrypt_salt);
                                 //  var SubscriptionEndDate = moment().format();
 
                                 request

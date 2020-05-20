@@ -1,5 +1,13 @@
 'use strict';
 var sql = require('mssql');
+var generator = require('generate-password');
+var rn = require('random-number');
+
+var gen = rn.generator({
+    min: 10000009,
+    max: 99999909,
+    integer: true
+});
 
 /////////////////////////////roles
 
@@ -203,88 +211,199 @@ async function schools(req, res) {
 }
 
 async function add_school(req, res) {
-    var EventName = req.body.name;
-    var StartTime = req.body.starttime;
-    var EndTime = req.body.endtime;
-    var Description = req.body.description;
-    var Venue = req.body.venue;
-    var Contacts = req.body.contacts;
-    var AddedBy = req.decoded.userid;
-    var invited = req.body.invited;
+    var schoolid = 0;
+    var schoolname = req.body.schoolname;
+    var contacts = req.body.contacts;
+    var address = req.body.address;
+    var email = req.body.email;
+    var datejoined , activefrom = moment().format('YYYY-MM-DD');
+    var enrolmentkey = generator.generate({
+        length: 5,
+        numbers: true
+    });
 
-    var query = "INSERT INTO [events] \
-    (EventName,StartTime,Endtime,Description,Venue,Contacts,AddedBy,Invited) \
-    VALUES(@name,@st,@et,@desc,@venue,@contacts,@ab,@invited)";
-    var request = new sql.Request();
+    var password = generator.generate({
+        length: 8,
+        numbers: true
+    });
 
-    request
-        .input("name", EventName)
-        .input("st", StartTime)
-        .input("et", EndTime)
-        .input("desc", Description)
-        .input("venue", Venue)
-        .input("contacts", Contacts)
-        .input("ab", AddedBy)
-        .input("invited", invited)
-        .query(query, function (err, recordset) {
+    password = bcrypt.hashSync(password, process.env.bcrypt_salt);
 
-            if (err) {
-                console.log(err);
-                console.log(err.stack);
-                return res.json({
-                    status: 500,
-                    success: false,
-                    message: "An error occured",
-                    error: err.message
-                });
-            } else {
+    var roleid = 4; //schooladmin
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var otpexpiry = moment().add(31, 'day').format();
+    var pin = gen();
 
-                if (recordset.rowsAffected[0] > 0) {
+    var query = "INSERT INTO [schools] \
+    (schoolname,contacts,address,email,datejoined,enrolmentkey) \
+    VALUES(@name,@contacts,@address,@email,@dj,@enrolmentkey)";
+    query = query + ';select @@IDENTITY AS \'identity\'';
 
-                    var message = {
-                        from: 'FRSMS ADMIN',
-                        to: 'staff@frs.co.zw',
-                        subject: "New Event Added",
-                        text: "New event added, please login to see full details",
-                        html: "<h3>FRSMS</h3><hr><p>A new event: <b>" + EventName + "</b> starting  " + StartTime + " and ending " + EndTime + " has been added. Please login to your fms account to view more details"
-                    };
+    var query_user = "INSERT INTO [users] \
+    (email,password,otp,roleid,otpexpiry,activefrom) \
+    VALUES(@email,@password,@otp,@roleid,@otpe,@dj)";
+    query_user = query_user + ';select @@IDENTITY AS \'identity\'';
 
-                    transporter.sendMail(message, (error, info) => {
-                        if (error) {
-                            console.log('Error occurred');
-                            console.log(error.message);
-                            return res.json({
-                                status: 400,
-                                success: false,
-                                message: 'Account registration completed with errors',
-                                error: 'Could not send verification pin '
-                            });
-                        }
+    var query_schooladmin = "INSERT INTO [schooladmins] \
+    (firstname,lastname,activefrom,userid,schoolid) \
+    VALUES(@firstname,@lastname,@dj,@userid,@schoolid)";
 
-                        console.log('Message sent successfully!');
-                        console.log(nodemailer.getTestMessageUrl(info));
+    let query_email = "SELECT * FROM [schools] WHERE email = @email";
 
-                        // only needed when using pooled connections
-                        transporter.close();
+    var transaction = new sql.Transaction();
+    transaction.begin(function (err) {
+        transaction.rollback();
+        if (err) {
+            console.log(err.message);
+            return res.json({
+                status: 400,
+                success: false,
+                message: 'Internal server error'
+            });
+        } else {
+        //
+          var request = new sql.Request(transaction);
 
-                        return res.json({
-                            status: 200,
-                            success: true,
-                            message: "Event Added"
-                        });
+          request
+            .input('email', email)
+            .query(query_email, function (err, recordset) {
+                if (err) {
+                    console.log(err);
+                    transaction.rollback();
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: 'Database error'
+
                     });
                 } else {
+                    if (recordset.recordset.length > 0) {
+                        transaction.rollback();
+                        return res.json({
+                            status: 400,
+                            success: false,
+                            message: email + ' is already taken'
+                        });
+                    } else {
+                        //////
+                        request
+                            .input('email', email)
+                            .input('schoolname', schoolname)
+                            .input('address', address)
+                            .input('contacts', contacts)
+                            .input('datejoined', datejoined)
+                            .input('enrolmentkey', enrolmentkey)
+                            .query(query, function (err, recordset) {
+                                if (err) {
+                                    console.log(err);
+                                    transaction.rollback();
+                                    return res.json({
+                                        status: 500,
+                                        success: false,
+                                        message: 'Database error'
 
-                    return res.json({
-                        status: 400,
-                        success: false,
-                        message: 'Failed to add event'
+                                    });
+                                } else {
+                                    if (recordset.rowsAffected[0] > 0) {
+                                        //if school added succ
+                                        schoolid = recordset.recordset[0].identity;
 
-                    });
+                                        ////////////////////
+                                        request
+                                            .input('email', email)
+                                            .input('password', password)
+                                            .input('otp', pin)
+                                            .input('roleid', roleid)
+                                            .input('otpe', otpexpiry)
+                                            .input('dj', datejoined)
+                                            .query(query_user, function (err, recordset) {
+                                                if (err) {
+                                                    console.log(err);
+                                                    transaction.rollback();
+                                                    return res.json({
+                                                        status: 500,
+                                                        success: false,
+                                                        message: 'Database error'
+
+                                                    });
+                                                } else {
+                                                    if (recordset.rowsAffected[0] > 0) {
+                                                        //if user added succ
+                                                        userid = recordset.recordset[0].identity;
+                                                        ////////////////////////////////////////////////////
+                                                        request
+                                                            .input('firstname', firstname)
+                                                            .input('lastname', lastname)
+                                                            .input('userid', userid)
+                                                            .input('schoolid', schoolid)
+                                                            .input('dj', datejoined)
+                                                            .query(query_schooladmin, function (err, recordset) {
+                                                                if (err) {
+                                                                    console.log(err);
+                                                                    transaction.rollback();
+                                                                    return res.json({
+                                                                        status: 500,
+                                                                        success: false,
+                                                                        message: 'Database error'
+
+                                                                    });
+                                                                } else {
+                                                                    if (recordset.rowsAffected[0] > 0) {
+                                                                        return res.json({
+                                                                            status: 2001,
+                                                                            success: false,
+                                                                            message: 'school Added'
+                                                                        });
+
+                                                                    } else {
+
+                                                                        transaction.rollback();
+                                                                        return res.json({
+                                                                            status: 400,
+                                                                            success: false,
+                                                                            message: 'Failed to add school , admin. Rolled back changes'
+                                                                        });
+                                                                    }
+                                                                }
+                                                            });
+
+
+
+
+                                                        /////////////////////////////////////////////////////
+
+                                                    } else {
+
+                                                        transaction.rollback();
+                                                        return res.json({
+                                                            status: 400,
+                                                            success: false,
+                                                            message: 'Failed to add school , user. Rolled back changes'
+                                                        });
+                                                    }
+                                                }
+                                            });
+
+                                        //////////////////////
+
+                                    } else {
+                                  
+                                        transaction.rollback();
+                                        return res.json({
+                                            status: 400,
+                                            success: false,
+                                            message: 'Failed to add school. Rolled back changes'
+                                        });
+                                    }
+                                }
+                            });
+                        //////
+                    }
                 }
-
-            }
-        });
+            });
+        }
+    });
 }
 
 async function del_school(req, res) {
@@ -316,21 +435,28 @@ async function del_school(req, res) {
 }
 
 async function school(req, res) {
-    var id = req.params.id;
+    var schoolid = req.params.id;
+    var school_obj , admin_obj , subscriptions_obj;
 
-    var query = "select * from [events] \
-    LEFT OUTER JOIN employees ON employees.UserId = events.AddedBy \
-    where EventId =@id";
+    var query_school = "select * from [schools] \
+    where schoolId =@id";
+
+    var query_subscriptions = "select * from [school_subscriptions] \
+    LEFT OUTER JOIN schools ON schools.schoolId = school_subscriptions.schoolid \
+    LEFT OUTER JOIN subscriptions ON subscriptions.subscriptionId = school_subscriptions.subscriptionid \
+    where school_subscriptions.schoolid =@id";
+
+    var query_admin = "select * from [schooladmins] \
+    where schoolid =@id";
 
     var request = new sql.Request();
 
     request
-        .input("id", id)
-        .query(query, function (err, recordset) {
+        .input("id", schoolid)
+        .query(query_school, function (err, recordset) {
 
             if (err) {
                 console.log(err);
-                console.log(err.stack);
                 return res.json({
                     status: 500,
                     success: false,
@@ -338,29 +464,80 @@ async function school(req, res) {
                     error: err.message
                 });
             } else {
+                school_obj = recordset.recordset;
 
-                return res.json({
-                    status: 200,
-                    success: true,
-                    data: JSON.parse(JSON.stringify({ event: recordset.recordset }))
-                });
+                request
+                    .input("id", schoolid)
+                    .query(query_subscriptions, function (err, recordset) {
+
+                        if (err) {
+                            console.log(err);
+                            return res.json({
+                                status: 500,
+                                success: false,
+                                message: "An error occured",
+                                error: err.message
+                            });
+                        } else {
+                            subscriptions_obj = recordset.recordset;
+
+                            request
+                                .input("id", schoolid)
+                                .query(query_admin, function (err, recordset) {
+
+                                    if (err) {
+                                        console.log(err);
+                                        return res.json({
+                                            status: 500,
+                                            success: false,
+                                            message: "An error occured",
+                                            error: err.message
+                                        });
+                                    } else {
+                                        admin_obj = recordset.recordset;
+
+                                        return res.json({
+                                            status: 200,
+                                            success: true,
+                                            school: JSON.parse(JSON.stringify({ school_obj })),
+                                            subscriptions: JSON.parse(JSON.stringify({ subscriptions_obj })),
+                                            admin: JSON.parse(JSON.stringify({ event: admin_obj }))
+                                        });
+                                    }
+                                });
+                        }
+                    });
             }
         });
 }
 
 async function update_school(req, res) {
-    var rolename = req.params.rolename;
-    var schoolid = req.params.id;
+   
+    var schoolid = req.body.id;
+    var schoolname = req.body.schoolname;
+    var contacts = req.body.contacts;
+    var address = req.body.address;
+    //var email = req.body.email;
+    //var enrolmentkey = generator.generate({
+    //    length: 5,
+    //    numbers: true
+    //});
 
-    let query = "UPDATE [roles] \
-    SET RoleName=@name \
-    WHERE RoleId = @id";
+
+    let query = "UPDATE [schools] \
+    SET schoolname=@name \
+      SET contacts=@contacts \
+      SET address=@address \
+    WHERE schoolId = @id";
 
     var request = new sql.Request();
 
     request
-        .input("id", roleid)
-        .input("name", rolename)
+        .input("id", schoolid)
+        .input("name", schoolname)
+        .input("contacts", contacts)
+        .input("address", address)
+        .input("name", schoolname)
         .query(query, function (err, recordset) {
 
             if (err) {
@@ -584,7 +761,6 @@ async function update_subscription(req, res) {
         });
 }
 
-//come back to get id
 async function subscribe(req, res) {
     var schoolid = req.body.schoolid;
     var subscriptionid = req.body.subscriptionid;
@@ -592,15 +768,15 @@ async function subscribe(req, res) {
 
 
     var query1 = "select * from [school_subscriptions] \
-    where SchoolId=@school and SubscriptionId=@subscription ";
+    where schoolid=@school and subscriptionid=@subscription ";
 
     var query2 = "INSERT INTO [school_subscriptions] \
-    (SubscriptionId,SchoolId,SubscriptionEndDate) \
+    (subscriptionid,schoolid,subscriptionenddate) \
     VALUES(@subid,@scid,@enddate)";
 
     let query3 = "UPDATE [school_subscriptions] \
-    SET SubscriptionEndDate=@enddate \
-    WHERE SchoolSubscriptionId = @id";
+    SET subscriptionenddate=@enddate \
+    where schoolid=@school and subscriptionid=@subscription ";
 
 
     var request = new sql.Request();
@@ -703,5 +879,8 @@ module.exports = {
     del_subscription: del_subscription,
     update_subscription: update_subscription,
     subscribe: subscribe,
-    schools: schools
+    schools: schools,
+    school: school,
+    update_school:update_school,
+    add_school:add_school
 };
