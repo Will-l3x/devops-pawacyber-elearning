@@ -4,12 +4,8 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "scripts": {
-    "start": "npm-run-all --parallel start:server start:web",
-    "start:web": "cd client && react-scripts start",
-    "start:server": "node app.js",
-    "build": "cd client && react-scripts build",
-    "test": "cd client && react-scripts test --env=jsdom",
-    "eject": "cd client && react-scripts eject"
+    "start": "node app ",
+    "postinstall": "cd client && react-scripts build && react-scripts start"
   },
   "description": "newschool",
   "author": {
