@@ -1,10 +1,13 @@
-import AdminConstants  from "../constants/admin";
-const initialState = {};
+import AdminConstants from "../constants/admin";
+const initialState = {
+  courses: [],
+  pages: [],
+};
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case AdminConstants.GET_ALL_COURSES:
-      return { ...state, courses: payload };
+      return { ...state, courses: payload.courses, pages: payload.pages };
     case AdminConstants.ADD_NEW_COURSE:
       return { ...state, new_course: payload };
     case AdminConstants.ADD_COURSE_TOPIC:

@@ -4,8 +4,8 @@ import { AdminService } from "../services/admin";
 import AdminConstants from "../constants/admin";
 import AlertActions from "./alert";
 
-export const get_all_courses = () => (dispatch) => {
-  AdminService.get_all_courses()
+export const get_all_courses = (currentPageNumber) => (dispatch) => {
+  AdminService.get_all_courses(currentPageNumber)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
       dispatch({
