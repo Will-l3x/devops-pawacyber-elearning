@@ -5,8 +5,7 @@
   "proxy": "http://localhost:3001/",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "node ./app.js",
-    "postinstall": "cd client && npm run build && npm  run start"
+    "start": "node ./app.js"
   },
   "description": "newschool",
   "author": {
@@ -54,7 +53,7 @@
     "xlsx": "0.15.2"
   },
   "engines": {
-    "node": "12.15.0"
+    "node": "12.13.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.9",
