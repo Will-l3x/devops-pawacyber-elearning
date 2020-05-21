@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import $ from "jquery";
-import bg_img from "../assets/images/login_bg.jpg";
+import bg_img from "../assets/images/details-1-office-worker.svg";
+// import bg_img from "../assets/images/details-lightbox-1.svg";
 import { Redirect } from "react-router";
 import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
 
 export class LoginScreen extends Component {
+  
+  salutations = "Good day"
+  today = new Date();
+  curHr = this.today.getHours();
+
   constructor() {
     super();
     this.state = {
@@ -14,7 +20,17 @@ export class LoginScreen extends Component {
       password: "",
     };
     this.handleLogin.bind(this);
+    if (this.curHr < 12) {
+      this.salutations = "Good Morning";
+    } else if (this.curHr < 18) {
+      this.salutations = "Good Afternoon";
+    } else {
+      this.salutations = "Good Evening";
+    }
   }
+
+
+  
   handleLogin = () => {
     const username = $("#username").val();
     const password = $("#password").val();
@@ -39,38 +55,24 @@ export class LoginScreen extends Component {
     return (
       <main id="main_1">
         <OuterHeader></OuterHeader>
-        <div className="container content-pawa" style={{ paddingTop: "10%" }}>
+        <div className="container content-pawa" style={{ paddingTop: "2%" }}>
           <div className="row">
             <div className="col s8 offset-s2">
-              <div className="card card-login">
-                <div className="card-login-splash">
-                  <div className="wrapper">
-                    <h3 className="white-text">Account</h3>
+              <div className="card card-login row mt-1" style={{padding:"10px",}}>
 
-                    <a
-                      className="btn gradient-45deg-light-blue-cyan"
-                      rel="noopener noreferrer"
-                      href="#!"
-                    >
-                      Sign In
-                    </a>
-                    <a
-                      className="btn gradient-45deg-light-blue-cyan"
-                      rel="noopener noreferrer"
-                      href="#!"
-                    >
-                      Register
-                    </a>
+              <div class="col s12 m5">
+                  <div class="image-container" style={{paddingTop:"90px"}}>
+                      <img class="img-fluid" src={bg_img} alt="alternative"/>
                   </div>
+                </div> 
 
-                  <img src={bg_img} alt="" />
-                </div>
+                <div class="col s12 m7">
                 <div className="card-content">
-                  <span className="card-title">Log In</span>
+                  <span className="card-title ex-basic-1">{this.salutations}</span>
                   <form>
                     <div className="input-field">
                       <input id="username" type="text" className="validate" />
-                      <label htmlFor="username">Username</label>
+                      <label htmlFor="username">Username*</label>
                     </div>
                     <div className="input-field">
                       <input
@@ -78,34 +80,28 @@ export class LoginScreen extends Component {
                         type="password"
                         className="validate"
                       />
-                      <label htmlFor="password">Password</label>
+                      <label htmlFor="password">Password*</label>
                     </div>
 
-                    <a rel="noopener noreferrer" href="#!">
-                      Forgot Password?
-                    </a>
-
-                    <br />
-                    <br />
-                    <div>
-                      <a
-                        onClick={this.handleLogin}
-                        rel="noopener noreferrer"
-                        href="#!"
-                        className="btn right gradient-45deg-light-blue-cyan"
-                      >
-                        Log In
-                      </a>
-                      <a
-                        rel="noopener noreferrer"
-                        href="#!"
-                        className="btn-flat"
-                      >
-                        Back
-                      </a>
+                    <div class="form-group" style={{marginTop:"30px"}}>
+                        <button type="submit" class="form-control-submit-button" onClick={this.handleLogin}>LOGIN</button>
+                    </div>
+                    <div class="form-group" style={{marginTop:"10px", textAlign:"center"}}>
+                        <a href="#">Forgot Password</a>
+                    </div>
+                    <div class="form-group" style={{textAlign:"center",fontStyle:"italic"}}>
+                        <a href="/register">Don't have account? Register Now</a>
                     </div>
                   </form>
                 </div>
+                </div>
+
+
+
+
+
+
+
               </div>
             </div>
           </div>
