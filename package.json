@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "node --harmony app.js && cd client && npm run build",
+    "start": "node app.js && cd client && npm run build",
     "server": "nodemon app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
