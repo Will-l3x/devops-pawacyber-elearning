@@ -12,7 +12,7 @@ var gen = rn.generator({
 
 /////////////////////////////roles
 
-async function roles(req, res) {
+let roles = (req, res) => {
     var query = "select * from [roles] ";
     var request = new sql.Request();
 
@@ -38,7 +38,7 @@ async function roles(req, res) {
     });
 }
 
-async function role(req, res) {
+let role = (req, res) => {
     var id = req.params.id;
 
     var query = "select * from [roles] \
@@ -70,7 +70,7 @@ async function role(req, res) {
         });
 }
 
-async function del_role(req, res) {
+let del_role = (req, res) => {
     var id = req.params.id;
     var query = "DELETE from [roles] where roleId=@id";
 
@@ -98,7 +98,7 @@ async function del_role(req, res) {
         });
 }
 
-async function add_role(req, res) {
+let add_role = (req, res) => {
     var rolename = req.body.rolename;
    
     var query = "INSERT INTO [roles] \
@@ -142,7 +142,7 @@ async function add_role(req, res) {
         });
 }
 
-async function update_role(req, res) {
+let update_role = (req, res) => {
     var rolename = req.params.rolename;
     var roleid = req.params.id;
 
@@ -185,7 +185,7 @@ async function update_role(req, res) {
 }
 
 ////////////////////////////schools
-async function schools(req, res) {
+let schools = (req, res) => {
     var query = "select * from [schools] ";
     var request = new sql.Request();
 
@@ -211,7 +211,7 @@ async function schools(req, res) {
     });
 }
 
-async function add_school(req, res) {
+let add_school = (req, res) => {
     var schoolid = 0;
     var schoolname = req.body.schoolname;
     var contacts = req.body.contacts;
@@ -407,7 +407,7 @@ async function add_school(req, res) {
     });
 }
 
-async function del_school(req, res) {
+let del_school = (req, res) => {
     var id = req.params.id;
     var query = "DELETE from [events] where EventId=@id";
 
@@ -435,7 +435,7 @@ async function del_school(req, res) {
         });
 }
 
-async function school(req, res) {
+let school = (req, res) => {
     var schoolid = req.params.id;
     var school_obj , admin_obj , subscriptions_obj;
 
@@ -512,7 +512,7 @@ async function school(req, res) {
         });
 }
 
-async function update_school(req, res) {
+let update_school = (req, res) => {
    
     var schoolid = req.body.id;
     var schoolname = req.body.schoolname;
@@ -569,7 +569,7 @@ async function update_school(req, res) {
 }
 
 ////////////////////////////subscription
-async function subscriptions(req, res) {
+let subscriptions = (req, res) => {
     var query = "select * from [subscriptions]";
     var request = new sql.Request();
 
@@ -595,7 +595,7 @@ async function subscriptions(req, res) {
     });
 }
 
-async function add_subscription(req, res) {
+let add_subscription = (req, res) => {
     var subscriptionname = req.body.subscriptionname;
     var subscriptiondesc = req.body.subscriptiondesc;
     var mingrade = req.body.mingrade;
@@ -648,7 +648,7 @@ async function add_subscription(req, res) {
         });
 }
 
-async function del_subscription(req, res) {
+let del_subscription = (req, res) => {
     var id = req.params.id;
     var query = "DELETE from [subscriptions] where subscriptionId=@id";
 
@@ -676,7 +676,7 @@ async function del_subscription(req, res) {
         });
 }
 
-async function subscription(req, res) {
+let subscription = (req, res) => {
     var id = req.params.id;
 
     var query = "select * from [subscriptions] \
@@ -708,7 +708,7 @@ async function subscription(req, res) {
         });
 }
 
-async function update_subscription(req, res) {
+let update_subscription = (req, res) => {
     var subscriptionid = req.params.subscriptionid;
     var subscriptionname = req.body.subscriptionname;
     var subscriptiondesc = req.body.subscriptiondesc;
@@ -762,7 +762,7 @@ async function update_subscription(req, res) {
         });
 }
 
-async function subscribe(req, res) {
+let subscribe = (req, res) => {
     var schoolid = req.body.schoolid;
     var subscriptionid = req.body.subscriptionid;
     var subscriptionenddate = req.body.subscriptionenddate;
