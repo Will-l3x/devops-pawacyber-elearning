@@ -24,12 +24,12 @@ export class SubjectContent extends Component {
   }
 
   assignmentData(){
-    StudentService.get_course_video_resources('course_id')
+    const course_id = store.getState().student.courseId;
+    StudentService.get_course_video_resources(course_id)
     .then((response) => {
       this.setState({ topics: response })
     });
   }
-
 
   videoSelected = false;
   videoAddress = "";
@@ -106,10 +106,10 @@ export class SubjectContent extends Component {
                             </p>
                           </div>
                           {this.videoSelected ? (
-                            <div>
+                            
                               <VideoPriview videoLink={this.videoAddress}>
                            </VideoPriview>
-                              </div>
+                            
                           ) : (
                             <div
                               className="row mt-1"

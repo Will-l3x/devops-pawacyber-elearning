@@ -11,8 +11,6 @@ import Footer from "../../components/footer";
 import Header from "../../components/header";
 import {StudentService} from '../../services/student';
 
-
-
 export class StudentScreen extends Component {
   constructor(props) {
     super(props);
@@ -23,22 +21,27 @@ export class StudentScreen extends Component {
     };
   }
 
+  user = {};
+
   componentDidMount() {
     this.getDashData();
   }
 
   getDashData(){
-    StudentService.get_all_courses('student_id')
+
+   this.user= JSON.parse(localStorage.getItem("user"));
+
+    StudentService.get_all_courses(this.user.username)
     .then((response) => {
       this.setState({ courses: response })
     });
 
-    StudentService.get_student_marked_classwork('student_id')
+    StudentService.get_student_marked_classwork(this.user.username)
     .then((response) => {
       this.setState({ markedWork: response })
     });
 
-    StudentService.get_student_pending_classwork('student_id')
+    StudentService.get_student_pending_classwork(this.user.username)
     .then((response) => {
       this.setState({ pendingWork: response })
     });

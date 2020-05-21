@@ -36,7 +36,7 @@ export default class SubjectDescrip extends Component {
                   </div>
                   <div className="right-align" style={{marginTop:"60px",color:"black"}}>
                     {/* <p className="no-margin"><a href={resource.resourceLink}>DOWNLOAD</a></p> */}
-                    <p className="no-margin">DOWNLOAD</p>
+                    <p className="no-margin"><a href={resource.resourceLink} target="blank">DOWNLOAD</a></p>
                   </div> 
                 </div>
               </div>

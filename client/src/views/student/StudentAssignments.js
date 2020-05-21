@@ -19,9 +19,10 @@ export class StudentAssignments extends Component {
   componentDidMount() {
     this.assignmentData();
   }
-
+user = {};
   assignmentData(){
-    StudentService.get_student_all_classwork('student_id')
+    this.user= JSON.parse(localStorage.getItem("user"));
+    StudentService.get_student_all_classwork(this.user.username)
     .then((response) => {
       this.setState({ assignment: response })
     });
@@ -174,7 +175,7 @@ export class StudentAssignments extends Component {
                                             color: "black",
                                           }}
                                         >
-                                          <p className="no-margin">DOWNLOAD</p>
+                                          <p className="no-margin"><a href={assigment.assignmentLink} target="blank">DOWNLOAD</a></p>
                                         </div>
                                       </div>
                                     </div>
@@ -230,7 +231,7 @@ export class StudentAssignments extends Component {
                                               {this.assignmentCategory ===
                                               "Submit New Assignment"
                                                 ? "UPLOAD"
-                                                : "DOWNLOAD"}
+                                                : (<a href={assigment.assignmentLink} target="blank">DOWNLOAD</a>)}
                                             </p>
                                           </div>
                                         </div>
