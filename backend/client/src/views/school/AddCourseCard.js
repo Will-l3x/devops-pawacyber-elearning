@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import M from "materialize-css";
+import SchoolActions from "../../actions/school";
 import AdminActions from "../../actions/admin";
 import CounterActions from "../../actions/counter";
 import { Link, Redirect } from "react-router-dom";
 
-export class CoursesCard extends Component {
+export class AddCourseCard extends Component {
   constructor() {
     super();
     this.state = {
@@ -19,7 +20,7 @@ export class CoursesCard extends Component {
     this.handleNextClick.bind(this);
     this.handlePageClick.bind(this);
     this.handlePrevClick.bind(this);
-    this.handleCourseViewClick.bind(this);
+    this.handleCourseClick.bind(this);
   }
 
   componentDidMount() {
@@ -53,14 +54,15 @@ export class CoursesCard extends Component {
       parseInt(this.props.currentPageNumber)
     );
   };
-  handleCourseViewClick = async (course) => {
-    await this.props.get_course_content(course);
+  handleCourseClick = async (course) => {
+    await this.props.get_subscribe_course(course);
     this.setState({ redirect: true });
   };
 
   render() {
+    console.log(this.props);
     if (this.state.redirect) {
-      return <Redirect to="/course-outline" />;
+      return <Redirect to="/school-subscribe" />;
     }
     return (
       <div className="container">
@@ -94,11 +96,16 @@ export class CoursesCard extends Component {
                   <hr className="invis"></hr>
                   <p>
                     <Link
-                      onClick={() => this.handleCourseViewClick(course)}
-                      className="cyan-text"
+                      onClick={() => {
+                        this.handleCourseClick(course);
+                      }}
+                      className="cyan-text tooltipped"
+                      data-position="down"
+                      data-tooltip="Add Subscription"
                       to="#"
                     >
-                      View Content
+                      Subscriptions
+                      <i className="material-icons left">subscriptions</i>
                     </Link>
                   </p>
                 </div>
@@ -207,6 +214,10 @@ const mapStateToProps = (state) => ({
   currentPageNumber: state.counter.currentPageNumber,
 });
 
-const mapDispatchToProps = Object.assign({}, AdminActions, CounterActions);
+const mapDispatchToProps = Object.assign(
+  { get_all_courses: AdminActions.get_all_courses },
+  SchoolActions,
+  CounterActions
+);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursesCard);
+export default connect(mapStateToProps, mapDispatchToProps)(AddCourseCard);

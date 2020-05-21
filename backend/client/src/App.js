@@ -31,6 +31,7 @@ import { SchoolTeacherManagementScreen } from "./views/school/SchoolTeacherManag
 import { SchoolSubscribeScreen } from "./views/school/SchoolSubscribeScreen";
 import { CourseSubscriptionScreen } from "./views/school/CourseSubscriptionScreen";
 import { SchoolCalendarScreen } from "./views/school/SchoolCalendarScreen";
+import { SchoolAddCourseScreen } from "./views/school/SchoolAddCourseScreen";
 
 import $ from "jquery";
 import "materialize-css/dist/css/materialize.min.css";
@@ -200,6 +201,11 @@ class App extends Component {
               exact
               path="/school-subscribe"
               component={SchoolSubscribeScreen}
+            />
+            <Route
+              exact
+              path="/school-add-course"
+              component={SchoolAddCourseScreen}
             />
             <Route
               exact

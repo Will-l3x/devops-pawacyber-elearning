@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
+import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -93,6 +94,8 @@ export class SchoolTeacherManagementScreen extends Component {
 
   componentDidMount() {
     M.AutoInit();
+    $(".custom-select.custom-select-sm").addClass("display-none");
+    $(".col-sm-12.col-md-6").addClass("height-0");
   }
   render() {
     return (
@@ -138,10 +141,6 @@ export class SchoolTeacherManagementScreen extends Component {
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
-                        <div className="center-align flow-text">
-                          Teacher List
-                        </div>
-                        <hr className="hr4"></hr>
                         <DatatablePage data={this.state.data} />
                       </div>
                     </div>

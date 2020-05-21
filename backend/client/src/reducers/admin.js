@@ -2,6 +2,7 @@ import AdminConstants from "../constants/admin";
 const initialState = {
   courses: [],
   pages: [],
+  course_content: [],
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -10,6 +11,8 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, courses: payload.courses, pages: payload.pages };
     case AdminConstants.ADD_NEW_COURSE:
       return { ...state, new_course: payload };
+    case AdminConstants.GET_COURSE_CONTENT:
+      return { ...state, course_content: payload };
     case AdminConstants.ADD_COURSE_TOPIC:
       return { ...state, new_course_topic: payload };
     case AdminConstants.GET_COURSE_MATERIAL:

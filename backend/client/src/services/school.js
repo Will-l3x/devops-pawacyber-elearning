@@ -4,8 +4,6 @@ import blog_1 from "../assets/images/blog_1.jpg";
 import blog_2 from "../assets/images/blog_2.jpg";
 import blog_3 from "../assets/images/blog_3.jpg";
 import blog_4 from "../assets/images/blog_4.jpg";
-import blog_5 from "../assets/images/blog_5.jpg";
-import blog_6 from "../assets/images/blog_6.jpg";
 
 const apiUrl = "http://localhost:3000/api";
 
@@ -42,8 +40,6 @@ async function get_subscribed_courses(school_id, currentPageNumber) {
         { id: "2", title: "Course Name 2", img: blog_2 },
         { id: "3", title: "Course Name 3", img: blog_3 },
         { id: "4", title: "Course Name 4", img: blog_4 },
-        { id: "5", title: "Course Name 5", img: blog_5 },
-        { id: "6", title: "Course Name 6", img: blog_6 },
       ],
     };
     let pages = [];

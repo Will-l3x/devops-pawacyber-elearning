@@ -8,6 +8,7 @@ import FileDropZone from "./dropzone";
 import TopicContentCard from "./TopicContentCard";
 import Footer from "./footer";
 import Header from "./header";
+import store from "../config/store";
 
 import AdminActions from "../actions/admin";
 
@@ -124,6 +125,7 @@ export class CourseOutlineScreen extends Component {
     M.AutoInit();
     AdminActions.get_topic_content({ id: 1 });
 
+    console.log(store.getState().school.course);
     /*
     function toggleCourseListIcon() {
       $(".collapsible-header").each(function () {

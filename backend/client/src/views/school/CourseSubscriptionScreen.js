@@ -58,34 +58,18 @@ export class CourseSubscriptionScreen extends Component {
                     >
                       <li>
                         <Link
-                          to="#!"
-                          data-target="modal1"
-                          className="grey-text modal-trigger text-darken-2"
+                          to="/school-add-course"
+                          className="grey-text text-darken-2"
                         >
-                          <i className="material-icons ">create</i>
-                          Starter
+                          <i className="material-icons ">add_box</i>
+                          Add Course
                         </Link>
                       </li>
 
                       <li>
-                        <Link
-                          to="#!"
-                          data-target="modal1"
-                          className="grey-text modal-trigger text-darken-2"
-                        >
-                          <i className="material-icons ">create</i>
-                          Medium
-                        </Link>
-                      </li>
-
-                      <li>
-                        <Link
-                          to="#!"
-                          data-target="modal1"
-                          className="grey-text modal-trigger text-darken-2"
-                        >
-                          <i className="material-icons ">create</i>
-                          Complete
+                        <Link to="#!" className="grey-text text-darken-2">
+                          <i className="material-icons ">low_priority</i>
+                          Unsubscribe
                         </Link>
                       </li>
                     </ul>
@@ -94,7 +78,11 @@ export class CourseSubscriptionScreen extends Component {
               </div>
 
               <section id="content">
-                <div id="overviews" className="section wb" style={{paddingTop: 15}}>
+                <div
+                  id="overviews"
+                  className="section wb"
+                  style={{ paddingTop: 15 }}
+                >
                   <SubscribedCoursesCard />
                 </div>
 

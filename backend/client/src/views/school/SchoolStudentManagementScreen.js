@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
+import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -47,7 +48,7 @@ export class SchoolStudentManagementScreen extends Component {
             field: "delete",
             sort: "asc",
             width: "3%",
-          }
+          },
         ],
         rows: [
           {
@@ -66,7 +67,7 @@ export class SchoolStudentManagementScreen extends Component {
               <a rel="noopener noreferrer" to="#">
                 <i className="material-icons left black-text">delete</i>
               </a>
-            )
+            ),
           },
           {
             id: "student id 2",
@@ -84,7 +85,7 @@ export class SchoolStudentManagementScreen extends Component {
               <a rel="noopener noreferrer" to="#">
                 <i className="material-icons left black-text">delete</i>
               </a>
-            )
+            ),
           },
         ],
       },
@@ -93,6 +94,8 @@ export class SchoolStudentManagementScreen extends Component {
 
   componentDidMount() {
     M.AutoInit();
+    $(".custom-select.custom-select-sm").addClass("display-none");
+    $(".col-sm-12.col-md-6").addClass("height-0");
   }
   render() {
     return (
@@ -102,8 +105,7 @@ export class SchoolStudentManagementScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-              <SideBar/>
-              
+            <SideBar />
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -111,7 +113,6 @@ export class SchoolStudentManagementScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                  
                   }}
                 >
                   <div className="nav-content">
@@ -138,10 +139,6 @@ export class SchoolStudentManagementScreen extends Component {
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
-                        <div className="center-align flow-text">
-                          Student List
-                        </div>
-                        <hr className="hr4"></hr>
                         <DatatablePage data={this.state.data} />
                       </div>
                     </div>
