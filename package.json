@@ -4,8 +4,12 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "scripts": {
-    "start": "node ./app.js",
-    "postinstall": "cd client && react-scripts build && react-scripts start"
+    "client-install": "npm install --prefix client",
+    "start": "node --harmony ./app.js && cd client && npm run build",
+    "server": "node app.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "postinstall": "cd client && npm install && npm run build"
   },
   "description": "newschool",
   "author": {
