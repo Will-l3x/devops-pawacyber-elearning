@@ -77,7 +77,7 @@ let checkToken = (req, res, next) => {
     }
 };
 
-async function profile(req, res) {
+let profile = (req, res) => {
     var id = req.decoded.userid;
     var role = req.decoded.roleid;
 
