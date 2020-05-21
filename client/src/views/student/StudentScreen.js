@@ -9,79 +9,40 @@ import PendingAssignments from "../../components/student-components/Assignments"
 import MarkedAssignments from "../../components/student-components/MarkedAssignmentsCard";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
+import {StudentService} from '../../services/student';
+
+
 
 export class StudentScreen extends Component {
-  state = {
-    courses: [
-      {
-        id: 1,
-        courseName: "COMPUTING",
-        numberOfTopics: 5,
-        courseCode: 1234,
-      },
-      {
-        id: 2,
-        courseName: "MATHEMATICS",
-        numberOfTopics: 7,
-        courseCode: 123,
-      },
-      {
-        id: 3,
-        courseName: "ENGLISH",
-        numberOfTopics: 9,
-        courseCode: 1456,
-      },
-      {
-        id: 4,
-        courseName: "PHYSICS",
-        numberOfTopics: 5,
-        courseCode: 1098,
-      },
-    ],
-    markedWork: [
-      {
-        assignmentId: 1,
-        courseName: "English Assignment 2",
-        score: 50,
-      },
-      {
-        assignmentId: 2,
-        courseName: "MATHEMATICS",
-        score: 70,
-      },
-      {
-        assignmentId: 3,
-        courseName: "COMPUTERS",
-        score: 90,
-      },
-    ],
-    pendingWork: [
-      {
-        assignmentId: 1,
-        courseName: "Agriculture",
-        dueDate: "13 May 2020",
-        submited: true,
-      },
-      {
-        assignmentId: 2,
-        courseName: "Maths Homework 1",
-        dueDate: "15 May 2020",
-        submited: true,
-      },
-      {
-        assignmentId: 3,
-        courseName: "English Report",
-        dueDate: "05 June 2020",
-        submited: false,
-      },
-      {
-        assignmentId: 4,
-        courseName: "Physics Report",
-        dueDate: " 17 June 2020",
-        submited: false,
-      },
-    ],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      courses: [],
+      markedWork: [],
+      pendingWork: [],
+    };
+  }
+
+  componentDidMount() {
+    this.getDashData();
+  }
+
+  getDashData(){
+    StudentService.get_all_courses('student_id')
+    .then((response) => {
+      this.setState({ courses: response })
+    });
+
+    StudentService.get_student_marked_classwork('student_id')
+    .then((response) => {
+      this.setState({ markedWork: response })
+    });
+
+    StudentService.get_student_pending_classwork('student_id')
+    .then((response) => {
+      this.setState({ pendingWork: response })
+    });
+  }
 
   render() {
     return (
