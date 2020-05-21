@@ -83,6 +83,7 @@ process.env.bcrypt_salt =
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
+
 app.use(cors());
 
 // uncomment after placing your favicon in /public
