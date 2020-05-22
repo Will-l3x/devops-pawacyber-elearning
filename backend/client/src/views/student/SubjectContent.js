@@ -8,28 +8,27 @@ import Footer from "../../components/footer";
 import Header from "../../components/header";
 import VideoPriview from "../../components/student-components/VideoPreview";
 
-import {StudentService} from '../../services/student';
-
 // Receives subject code and Name only from main screen and retrieves from endpoint the topics of that.
 export class SubjectContent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      topics: [],
-    };
-  }
-
-  componentDidMount() {
-    this.assignmentData();
-  }
-
-  assignmentData(){
-    StudentService.get_course_video_resources('course_id')
-    .then((response) => {
-      this.setState({ topics: response })
-    });
-  }
-
+  state = {
+    topics: [
+      {
+        id: 1,
+        title: "Databases",
+        videoLink:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
+      },
+      {
+        id: 2,
+        title: "Introduction to Programming",
+        videoLink:"http://media.w3.org/2010/05/bunny/movie.mp4"
+      },
+      {
+        id: 2,
+        title: "Advanced Programming 1",
+        videoLink:"https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
+      },
+    ],
+  };
 
   videoSelected = false;
   videoAddress = "";

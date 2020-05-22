@@ -7,7 +7,7 @@ import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-export class AdminTeacherManagementScreen extends Component {
+export class SchoolTeacherManagementScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -48,7 +48,7 @@ export class AdminTeacherManagementScreen extends Component {
             field: "delete",
             sort: "asc",
             width: "3%",
-          },
+          }
         ],
         rows: [
           {
@@ -67,7 +67,7 @@ export class AdminTeacherManagementScreen extends Component {
               <a rel="noopener noreferrer" to="#">
                 <i className="material-icons left black-text">delete</i>
               </a>
-            ),
+            )
           },
           {
             id: "teacher id 2",
@@ -85,7 +85,7 @@ export class AdminTeacherManagementScreen extends Component {
               <a rel="noopener noreferrer" to="#">
                 <i className="material-icons left black-text">delete</i>
               </a>
-            ),
+            )
           },
         ],
       },
@@ -105,7 +105,8 @@ export class AdminTeacherManagementScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+              <SideBar/>
+              
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -113,6 +114,7 @@ export class AdminTeacherManagementScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
+                  
                   }}
                 >
                   <div className="nav-content">
@@ -203,4 +205,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AdminTeacherManagementScreen);
+)(SchoolTeacherManagementScreen);

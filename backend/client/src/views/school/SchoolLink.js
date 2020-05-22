@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { navClick } from "../../actions/navlink";
 
-class AdminLink extends Component {
+class SchoolLink extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
 
   onClick(e) {
-    this.props.navClick('admin');
+    this.props.navClick("school");
   }
 
   render() {
@@ -19,7 +19,7 @@ class AdminLink extends Component {
       <ul className="collapsible no-shadow" data-collapsible="accordion">
         <li className="bold">
           <Link
-            to="/admin"
+            to="/school"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
@@ -29,17 +29,18 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/courses"
+            to="/school-subscriptions"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
-            <i className="fa fa-book"></i>
-            <span className="nav-text">Courses</span>
+            <i className="material-icons">subscriptions</i>
+            <span className="nav-text">Course Subscription</span>
           </Link>
         </li>
+
         <li className="bold">
           <Link
-            to="/admin-teacher-management"
+            to="/school-teacher-management"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
@@ -49,17 +50,17 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/subscriptions"
+            to="/school-student-management"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
-            <i className="material-icons">subscriptions</i>
-            <span className="nav-text">Subscriptions</span>
+            <i className="material-icons">people</i>
+            <span className="nav-text">Student</span>
           </Link>
         </li>
         <li className="bold">
           <Link
-            to="/admin-calendar"
+            to="/school-calendar"
             className="dash-link waves-effect waves-cyan"
             onClick={this.onClick}
           >
@@ -72,14 +73,13 @@ class AdminLink extends Component {
   }
 }
 
-AdminLink.propTypes = {
+SchoolLink.propTypes = {
   navClick: PropTypes.func.isRequired,
-  link: PropTypes.string
+  link: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
-  link: state.dashLink.link
+  link: state.dashLink.link,
 });
 
-
-export default connect(mapStateToProps, { navClick })(AdminLink);
+export default connect(mapStateToProps, { navClick })(SchoolLink);

@@ -1,81 +1,48 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
 import SideBar from "../../components/SideBar";
 import FileDropZone from "../../components/dropzone";
-import $ from "jquery";
-import M from "materialize-css";
-import Header from "../../components/header";
 import Footer from "../../components/footer";
-import CoursesCard from "./CoursesCard";
+import Header from "../../components/header";
+import SubscribedCoursesCard from "./SubscribedCoursesCard";
+//import Pricing from "../../components/pricing";
 
-export class CourseListScreen extends Component {
-  constructor() {
-    super();
-    this.removeMaterialHandler.bind(this);
-  }
-
-  componentDidMount() {
-    M.AutoInit();
-  }
-
-  removeMaterialHandler = () => {
-    $(".remove-content").css({
-      display: "inline",
-    });
-  };
-  removeItemHandler = (id) => {
-    let courses = [];
-    for (const course of this.state.courses) {
-      if (id === course.id) {
-        console.log(id + " removed");
-        M.toast({
-          html: `${course.title} successfully removed!`,
-          classes: "green accent-3",
-        });
-      } else {
-        courses.push(course);
-      }
-    }
-    this.setState({ courses });
-  };
+export class CourseSubscriptionScreen extends Component {
   render() {
-    /*
-    if(school is regestering ) redirect to course register else course out line;
-    when school registers see more detailed content about couse, allowed to wiew maybe first topic only
-    click register they see subcripion prices and register
-   */
     return (
       <div>
         <header id="header" className="page-topbar">
           <Header />
         </header>
         <main id="main">
+          {" "}
           <div className="wrapper">
             <SideBar />
-
-            <div id="section">
+            <div className="section" style={{ paddingBottom: 0 }}>
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
+
+                    minHeight: 70,
+                    transform: "translateY(-100%)",
                   }}
                 >
                   <div className="nav-content">
                     <Link
+                      style={{ marginTop: "4%" }}
                       to="#"
-                      style={{ marginTop: "3%" }}
                       className="brand-logo"
                     >
-                      Course Management
+                      Course Subscription
                     </Link>
                     <Link
                       to="#!"
                       className="dropdown-trigger waves-effect black-text right"
-                      style={{ marginTop: "2%", marginRight: "2%" }}
                       data-target="dropdown1"
+                      style={{ marginTop: "3%", marginRight: "2%" }}
                     >
                       <i className="material-icons">settings</i>
                     </Link>
@@ -91,31 +58,32 @@ export class CourseListScreen extends Component {
                     >
                       <li>
                         <Link
-                          to="#!"
-                          data-target="modal1"
-                          className="grey-text modal-trigger text-darken-2"
+                          to="/school-add-course"
+                          className="grey-text text-darken-2"
                         >
-                          <i className="material-icons ">library_add</i>
+                          <i className="material-icons ">add_box</i>
                           Add Course
                         </Link>
                       </li>
+
                       <li>
-                        <Link
-                          to="#!"
-                          onClick={this.removeMaterialHandler}
-                          className="grey-text text-darken-2"
-                        >
-                          <i className="material-icons ">delete</i>
-                          Delete Course
+                        <Link to="#!" className="grey-text text-darken-2">
+                          <i className="material-icons ">low_priority</i>
+                          Unsubscribe
                         </Link>
                       </li>
                     </ul>
                   </div>
                 </nav>
               </div>
-              <section id="content" style={{ paddingTop: "2%" }}>
-                <div id="overviews" className="section wb">
-                  <CoursesCard />
+
+              <section id="content">
+                <div
+                  id="overviews"
+                  className="section wb"
+                  style={{ paddingTop: 15 }}
+                >
+                  <SubscribedCoursesCard />
                 </div>
 
                 <div id="modal1" className="modal">
@@ -187,4 +155,7 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseListScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CourseSubscriptionScreen);

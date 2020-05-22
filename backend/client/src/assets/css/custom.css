@@ -83,6 +83,14 @@
     max-height: 100% !important;
 }
 
+.modal-width-30 {
+    width: 30% !important;
+}
+
+.modal-width-20 {
+    width: 20% !important;
+}
+
 a {
     text-decoration: none !important;
 }
@@ -305,6 +313,20 @@ a {
     float: right;
 }
 
+.height-0 {
+    height: 35px !important;
+}
+.custom-select.custom-select-sm {
+    display: none !important;
+}
+
+.mdb-datatable-filter {
+    transform: translateY(-30%) !important;
+}
+.translateY-10 {
+    transform: translateY(10%) !important;
+}
+
 .dataTables_filter label {
     float: left;
     margin-left: 20px;
@@ -349,6 +371,10 @@ a {
     pointer-events: none !important;
 }
 
+.pointer-events-none {
+    pointer-events: none !important;
+}
+
 .download {
     display: none;
     cursor: pointer;
@@ -356,6 +382,10 @@ a {
 
 .display-block {
     display: block !important;
+}
+
+.display-none {
+    display: none !important;
 }
 
 .caption {
@@ -637,15 +667,16 @@ h3 {
     overflow-y: scroll;
 }
 
-.image-container{
+.image-container {
     margin-top: -70px;
-    
+
 }
-.image-container{
+
+.image-container {
     width: 100%;
     height: auto;
 }
 
-i{
+i {
     padding-right: 5px;
 }

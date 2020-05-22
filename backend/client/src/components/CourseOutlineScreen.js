@@ -8,6 +8,7 @@ import FileDropZone from "./dropzone";
 import TopicContentCard from "./TopicContentCard";
 import Footer from "./footer";
 import Header from "./header";
+import store from "../config/store";
 
 import AdminActions from "../actions/admin";
 
@@ -15,17 +16,6 @@ export class CourseOutlineScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      topics: [
-        {
-          id: 1,
-          title: "Databases",
-        },
-        {
-          id: 2,
-          title: "Introduction to Programming",
-        },
-      ],
-
       course: {
         id: "1",
         title: "Course Name",
@@ -33,6 +23,13 @@ export class CourseOutlineScreen extends Component {
           {
             id: "1.1",
             title: "Topic 1",
+            content: {
+              id: 1,
+              topic: "Databases",
+              videoLink: "somewhere",
+              topicContent:
+                "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
+            },
             material: [
               {
                 id: "1",
@@ -53,6 +50,13 @@ export class CourseOutlineScreen extends Component {
           {
             id: "1.2",
             title: "Topic 2",
+            content: {
+              id: 1,
+              topic: "Databases",
+              videoLink: "somewhere",
+              topicContent:
+                "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
+            },
             material: [
               {
                 id: "2",
@@ -73,6 +77,13 @@ export class CourseOutlineScreen extends Component {
           {
             id: "1.3",
             title: "Topic 3",
+            content: {
+              id: 1,
+              topic: "Databases",
+              videoLink: "somewhere",
+              topicContent:
+                "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
+            },
             material: [
               {
                 id: "3",
@@ -93,21 +104,28 @@ export class CourseOutlineScreen extends Component {
         ],
       },
     };
+    this.handleDeleteContent.bind(this);
   }
   contentSate = {
     content: {
       id: 1,
       topic: "Databases",
       videoLink: "somewhere",
-      topicContent:
-        "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
+      topicContent: `The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown 
+        fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls Lorem ipsum door sit amet, fugiat deicata avise id cum,
+         no quo maiorum intel ogrets geuiat operts elicata libere avisse id cumlegebat, liber regione eu sit....
+         Lorem ipsum door sit amet, fugiat deicata avise id cum, no quo maiorum intel ogrets geuiat operts elicata libere avisse id cumlegebat, liber regione eu sit....
+         Lorem ipsum door sit amet, fugiat deicata avise id cum, no quo maiorum intel ogrets geuiat operts elicata libere avisse id cumlegebat, liber regione eu sit....`,
     },
   };
 
   topicSelected = false;
-
+  disabled = true;
   componentDidMount() {
     M.AutoInit();
+    AdminActions.get_topic_content({ id: 1 });
+
+    console.log(store.getState().school.course);
     /*
     function toggleCourseListIcon() {
       $(".collapsible-header").each(function () {
@@ -127,9 +145,25 @@ export class CourseOutlineScreen extends Component {
   selectedTopic() {
     this.topicSelected = true;
   }
+  handleDeleteContent = (e) => {
+    const topic = e.target.value;
+
+    if (topic === "Select a Topic") {
+      M.toast({
+        html: "Please select a topic",
+        classes: "red accent-2",
+      });
+    } else {
+      for (const topik of this.state.course.topics) {
+        if (topik.title === topic) {
+          AdminActions.get_topic_content(topik);
+        }
+      }
+      this.setState({ redirect: true });
+    }
+  };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -166,43 +200,13 @@ export class CourseOutlineScreen extends Component {
                       <div className="col s2 m6 l6">
                         <Link
                           to="#!"
-                          className="dropdown-trigger waves-effect black-text right"
-                          data-target="dropdown1"
+                          className="tooltipped modal-trigger waves-effect black-text right"
+                          data-target="modal7"
+                          data-tooltip="Add New Topic"
                           style={{ marginTop: "3%" }}
                         >
-                          <i className="material-icons">settings</i>
+                          <i className="material-icons">library_add</i>
                         </Link>
-                        <ul
-                          id="dropdown1"
-                          className="dropdown-content"
-                          style={{
-                            minWidth: "200px",
-                            whiteSpace: "nowrap",
-                            opacity: 1,
-                            display: "none",
-                          }}
-                        >
-                          <li>
-                            <Link
-                              to="#!"
-                              data-target="modal1"
-                              className="grey-text modal-trigger text-darken-2"
-                            >
-                              <i className="material-icons ">library_add</i>
-                              Add Material
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="#!"
-                              data-target="modal2"
-                              className="grey-text modal-trigger text-darken-2"
-                            >
-                              <i className="material-icons ">backspace</i>
-                              Remove Material
-                            </Link>
-                          </li>
-                        </ul>
                       </div>
                     </div>
                   </div>
@@ -291,23 +295,19 @@ export class CourseOutlineScreen extends Component {
                     </div>
                   </div>
                 </div>
-                <div id="modal1" className="modal">
+                <div id="modal7" className="modal">
                   <div className="modal-content">
-                    <h4 className="header2">Add Course Material</h4>
+                    <h4 className="header2">Add Course Topic</h4>
                     <div className="row">
                       <div className="col s12">
                         <div className="row">
-                          <div className="input-field col s12">
-                            <input id="name" type="text"></input>
-                            <label htmlFor="first_name">Name</label>
+                          <div className="input-field col s4">
+                            <input id="title" type="text"></input>
+                            <label htmlFor="title">Title</label>
                           </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <textarea
-                              id="description"
-                              className="materialize-textarea"
-                            ></textarea>
+                          <div className="input-field col s4">
+                            <input id="duaration" type="text"></input>
+                            <label htmlFor="duaration">Duration(weeks)</label>
                           </div>
                         </div>
 
@@ -315,41 +315,6 @@ export class CourseOutlineScreen extends Component {
                           <div className="input-field col s12">
                             <FileDropZone />
                           </div>
-                          <div className="row">
-                            <div className="input-field col s12">
-                              <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                                Submit
-                                <i className="material-icons right">send</i>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div id="modal2" className="modal">
-                  <div className="modal-content">
-                    <h4 className="header2">Delete Course Material</h4>
-                    <div className="row">
-                      <div className="col s12">
-                        <div className="row header-search-wrapper">
-                          <i className="material-icons">search</i>
-                          <input
-                            type="text"
-                            name="Search"
-                            className="header-search-input z-depth-2"
-                            placeholder="Explore Classroom"
-                          ></input>
-
-                          <label htmlFor="description">Search File</label>
-                        </div>
-                        <div className="row">
-                          <div className="col s12"></div>
-                        </div>
-
-                        <div className="row">
                           <div className="row">
                             <div className="input-field col s12">
                               <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">

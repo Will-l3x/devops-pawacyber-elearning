@@ -7,14 +7,14 @@ import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-export class AdminTeacherManagementScreen extends Component {
+export class SchoolStudentManagementScreen extends Component {
   constructor() {
     super();
     this.state = {
       data: {
         columns: [
           {
-            label: "Teacher Id",
+            label: "Student Id",
             field: "id",
             sort: "asc",
             width: "15%",
@@ -52,8 +52,8 @@ export class AdminTeacherManagementScreen extends Component {
         ],
         rows: [
           {
-            id: "teacher_id1",
-            name: "Teacher Name",
+            id: "student_id1",
+            name: "Student Name",
             school: "schoolname",
             courses: "Course 1, Course 2",
             edit: (
@@ -70,8 +70,8 @@ export class AdminTeacherManagementScreen extends Component {
             ),
           },
           {
-            id: "teacher id 2",
-            name: "Teacher Name",
+            id: "student id 2",
+            name: "Student Name",
             school: "schoolname",
             courses: "Course 1, Course 2",
             edit: (
@@ -121,13 +121,13 @@ export class AdminTeacherManagementScreen extends Component {
                       to="#"
                       className="brand-logo"
                     >
-                      Teacher Management
+                      Student Management
                     </Link>
                     <Link
                       to="#!"
                       className="modal-trigger waves-effect black-text right"
                       style={{ marginTop: "1%", marginRight: "2%" }}
-                      data-target="add-teacher"
+                      data-target="add-student"
                     >
                       <i className="material-icons">person_add</i>
                     </Link>
@@ -146,7 +146,7 @@ export class AdminTeacherManagementScreen extends Component {
                 </div>
               </section>
               <div
-                id="add-teacher"
+                id="add-student"
                 className="modal"
                 style={{ overflowY: "hidden" }}
               >
@@ -203,4 +203,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AdminTeacherManagementScreen);
+)(SchoolStudentManagementScreen);

@@ -1,12 +1,18 @@
-import AdminConstants  from "../constants/admin";
-const initialState = {};
+import AdminConstants from "../constants/admin";
+const initialState = {
+  courses: [],
+  pages: [],
+  course_content: [],
+};
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case AdminConstants.GET_ALL_COURSES:
-      return { ...state, courses: payload };
+      return { ...state, courses: payload.courses, pages: payload.pages };
     case AdminConstants.ADD_NEW_COURSE:
       return { ...state, new_course: payload };
+    case AdminConstants.GET_COURSE_CONTENT:
+      return { ...state, course_content: payload };
     case AdminConstants.ADD_COURSE_TOPIC:
       return { ...state, new_course_topic: payload };
     case AdminConstants.GET_COURSE_MATERIAL:
@@ -27,6 +33,9 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, subscriptions: payload };
     case AdminConstants.UPDATE_SUBCRIPTION_INFO:
       return { ...state, updated_subscription: payload };
+    case AdminConstants.GET_TOPIC_CONTENT:
+      console.log(payload);
+      return { ...state, topic_content: payload };
 
     default:
       return state;

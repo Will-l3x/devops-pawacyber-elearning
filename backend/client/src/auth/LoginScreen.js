@@ -35,11 +35,15 @@ export class LoginScreen extends Component {
     if (this.state.username === "student") {
       localStorage.setItem("user", JSON.stringify(this.state));
       return <Redirect to="/student" />;
-    }
+    } 
+    if (this.state.username === "school") {
+      localStorage.setItem("user", JSON.stringify(this.state));
+      return <Redirect to="/school" />;
+    } 
     return (
       <main id="main_1">
         <OuterHeader></OuterHeader>
-        <div className="container content-pawa" style={{ paddingTop: "10%" }}>
+        <div className="container content-pawa" style={{ paddingTop: "7%" }}>
           <div className="row">
             <div className="col s8 offset-s2">
               <div className="card card-login">

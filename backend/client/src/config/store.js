@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose} from "redux";
+import { createStore, applyMiddleware } from "redux";
 //import { createBrowserHistory } from "history"
 //import { routerMiddleware } from "react-router-redux";
 
@@ -12,9 +12,7 @@ const middleware = [thunk];
 const store = createStore(
   reducers,
   initialState,
- 
-    applyMiddleware(...middleware),
-   
+  applyMiddleware(...middleware)
 );
 
 export default store;
