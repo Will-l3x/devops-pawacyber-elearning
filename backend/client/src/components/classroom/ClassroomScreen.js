@@ -25,6 +25,69 @@ export class ClassroomScreen extends Component {
   }
   componentDidMount() {
     M.AutoInit();
+    $(".tabs-trigger").each(function () {
+      $(this).on("click", function () {
+        $(".tabs-trigger").removeClass("active");
+        $(this).addClass("active");
+        const tab = $(this).attr("data-target");
+        if (tab === "task-card1") {
+          $("#task-card1").css({
+            display: "block",
+          });
+          $("#task-card2").css({
+            display: "none",
+          });
+          $("#task-card3").css({
+            display: "none",
+          });
+          $("#task-card4").css({
+            display: "none",
+          });
+        }
+        if (tab === "task-card2") {
+          $("#task-card1").css({
+            display: "none",
+          });
+          $("#task-card2").css({
+            display: "block",
+          });
+          $("#task-card3").css({
+            display: "none",
+          });
+          $("#task-card4").css({
+            display: "none",
+          });
+        }
+        if (tab === "task-card3") {
+          $("#task-card1").css({
+            display: "none",
+          });
+          $("#task-card2").css({
+            display: "none",
+          });
+          $("#task-card3").css({
+            display: "block",
+          });
+          $("#task-card4").css({
+            display: "none",
+          });
+        }
+        if (tab === "task-card4") {
+          $("#task-card1").css({
+            display: "none",
+          });
+          $("#task-card2").css({
+            display: "none",
+          });
+          $("#task-card3").css({
+            display: "none",
+          });
+          $("#task-card4").css({
+            display: "block",
+          });
+        }
+      });
+    });
   }
 
   removeMaterialHandler = () => {
@@ -47,6 +110,7 @@ export class ClassroomScreen extends Component {
     };
 
     data.append("files", file, file.name);
+    
   };
   handleSendTest = () => {
     const files = store.getState().fileUpload;
@@ -62,6 +126,7 @@ export class ClassroomScreen extends Component {
     };
 
     data.append("files", file, file.name);
+    
   };
   handleSendAssignment = () => {
     const files = store.getState().fileUpload;
@@ -77,6 +142,7 @@ export class ClassroomScreen extends Component {
     };
 
     data.append("files", file, file.name);
+  
   };
   render() {
     return (
@@ -87,7 +153,7 @@ export class ClassroomScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar />
+              <SideBar/>
 
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -167,42 +233,43 @@ export class ClassroomScreen extends Component {
                         </Link>
                       </li>
                     </ul>
+
                     <ul className="tabs">
-                      <li className="tab col s3">
-                        <a
-                          className="active cyan-text"
-                          rel="noopener noreferer"
-                          href="#task-card1"
+                      <li className="tab">
+                        <Link
+                          to="#"
+                          data-target="task-card1"
+                          className="tabs-trigger active"
                         >
                           Classwork
-                        </a>
+                        </Link>
                       </li>
-                      <li className="tab col s3">
-                        <a
-                          className="cyan-text"
-                          rel="noopener noreferer"
-                          href="#task-card2"
+                      <li className="tab">
+                        <Link
+                          to="#"
+                          data-target="task-card2"
+                          className="tabs-trigger"
                         >
                           Students
-                        </a>
+                        </Link>
                       </li>
-                      <li className="tab col s3">
-                        <a
-                          className="cyan-text"
-                          rel="noopener noreferer"
-                          href="#task-card3"
+                      <li className="tab">
+                        <Link
+                          to="#"
+                          data-target="task-card3"
+                          className="tabs-trigger"
                         >
                           Course Content
-                        </a>
+                        </Link>
                       </li>
-                      <li className="tab col s3">
-                        <a
-                          className="cyan-text"
-                          rel="noopener noreferer"
-                          href="#task-card4"
+                      <li className="tab">
+                        <Link
+                          to="#"
+                          data-target="task-card4"
+                          className="tabs-trigger"
                         >
                           Assessment
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>

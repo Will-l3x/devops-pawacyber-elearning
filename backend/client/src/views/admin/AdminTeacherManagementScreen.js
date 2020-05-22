@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
-import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -23,7 +22,7 @@ export class AdminTeacherManagementScreen extends Component {
             label: "Name",
             field: "name",
             sort: "asc",
-            width: "24%",
+            width: "20%",
           },
           {
             label: "School",
@@ -35,19 +34,19 @@ export class AdminTeacherManagementScreen extends Component {
             label: "Teaching Courses",
             field: "courses",
             sort: "asc",
-            width: "50%",
+            width: "40%",
           },
           {
             label: "Edit",
             field: "edit",
             sort: "asc",
-            width: "3%",
+            width: "10%",
           },
           {
             label: "Delete",
             field: "delete",
             sort: "asc",
-            width: "3%",
+            width: "10%",
           },
         ],
         rows: [
@@ -57,16 +56,15 @@ export class AdminTeacherManagementScreen extends Component {
             school: "schoolname",
             courses: "Course 1, Course 2",
             edit: (
-              // eslint-disable-next-line
-              <a rel="noopener noreferrer" to="#">
-                <i className="material-icons left black-text">create</i>
-              </a>
+              <span>
+                Edit <i className="material-icons left black-text">create</i>
+              </span>
             ),
             delete: (
-              // eslint-disable-next-line
-              <a rel="noopener noreferrer" to="#">
-                <i className="material-icons left black-text">delete</i>
-              </a>
+              <label>
+                <input type="checkbox" id="teacher_id1" />
+                <span>Delete</span>
+              </label>
             ),
           },
           {
@@ -75,16 +73,16 @@ export class AdminTeacherManagementScreen extends Component {
             school: "schoolname",
             courses: "Course 1, Course 2",
             edit: (
-              // eslint-disable-next-line
-              <a rel="noopener noreferrer" to="#">
-                <i className="material-icons left black-text">create</i>
-              </a>
+              <span className="cursor-pointer">
+                Edit <i className="material-icons left black-text">create</i>
+              </span>
             ),
+
             delete: (
-              // eslint-disable-next-line
-              <a rel="noopener noreferrer" to="#">
-                <i className="material-icons left black-text">delete</i>
-              </a>
+              <label>
+                <input type="checkbox" id="teacher_id2" />
+                <span>Delete</span>
+              </label>
             ),
           },
         ],
@@ -94,8 +92,6 @@ export class AdminTeacherManagementScreen extends Component {
 
   componentDidMount() {
     M.AutoInit();
-    $(".custom-select.custom-select-sm").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
   }
   render() {
     return (
@@ -105,7 +101,8 @@ export class AdminTeacherManagementScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+              <SideBar/>
+              
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -113,6 +110,7 @@ export class AdminTeacherManagementScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
+                  
                   }}
                 >
                   <div className="nav-content">
@@ -139,6 +137,10 @@ export class AdminTeacherManagementScreen extends Component {
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
+                        <div className="center-align flow-text">
+                          Teacher List
+                        </div>
+                        <hr className="hr4"></hr>
                         <DatatablePage data={this.state.data} />
                       </div>
                     </div>

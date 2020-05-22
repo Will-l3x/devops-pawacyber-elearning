@@ -3,16 +3,31 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import SideBar from "../../components/SideBar";
+import blog_1 from "../../assets/images/blog_1.jpg";
+import blog_2 from "../../assets/images/blog_2.jpg";
+import blog_3 from "../../assets/images/blog_3.jpg";
+import blog_4 from "../../assets/images/blog_4.jpg";
+import blog_5 from "../../assets/images/blog_5.jpg";
+import blog_6 from "../../assets/images/blog_6.jpg";
 import FileDropZone from "../../components/dropzone";
 import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import CoursesCard from "./CoursesCard";
 
 export class CourseListScreen extends Component {
   constructor() {
     super();
+    this.state = {
+      courses: [
+        { id: "1", title: "Course Name 1", img: blog_1 },
+        { id: "2", title: "Course Name 2", img: blog_2 },
+        { id: "3", title: "Course Name 3", img: blog_3 },
+        { id: "4", title: "Course Name 4", img: blog_4 },
+        { id: "5", title: "Course Name 5", img: blog_5 },
+        { id: "6", title: "Course Name 6", img: blog_6 },
+      ],
+    };
     this.removeMaterialHandler.bind(this);
   }
 
@@ -115,7 +130,79 @@ export class CourseListScreen extends Component {
               </div>
               <section id="content" style={{ paddingTop: "2%" }}>
                 <div id="overviews" className="section wb">
-                  <CoursesCard />
+                  <div className="container">
+                    <div className="row">
+                      {this.state.courses.map((course, i) => (
+                        <div key={i} className="col l3">
+                          <div className="card">
+                            <div className="card-image waves-effect waves-block waves-light">
+                              <img src={course.img} alt="alt" />
+                            </div>
+                            <div className="card-content">
+                              <Link
+                                to="#"
+                                className="card-title grey-text text-darken-4"
+                                style={{ cursor: "unset" }}
+                              >
+                                {course.title}
+                                <i
+                                  className="material-icons red-text right remove-content"
+                                  data-position="right"
+                                  onClick={() => {
+                                    this.removeItemHandler(course.id);
+                                  }}
+                                >
+                                  delete_forever
+                                </i>
+                              </Link>
+                              <p>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit.
+                              </p>
+                              <hr className="invis"></hr>
+                              <p>
+                                <Link
+                                  onClick={() => {
+                                    console.log(
+                                      "action for which course was clicked and for who clicked and for who if"
+                                    );
+                                  }}
+                                  to="/course-outline"
+                                >
+                                  View Content
+                                </Link>
+                              </p>
+                            </div>
+                            <div className="card-action course-meta">
+                              <ul>
+                                <li>
+                                  <i
+                                    className="fa fa-calendar"
+                                    aria-hidden="true"
+                                  ></i>
+                                  6 Month
+                                </li>
+                                <li>
+                                  <i
+                                    className="fa fa-youtube-play"
+                                    aria-hidden="true"
+                                  ></i>{" "}
+                                  56 Video Tutorials
+                                </li>
+                                <li>
+                                  <i
+                                    className="fa fa-book"
+                                    aria-hidden="true"
+                                  ></i>{" "}
+                                  7 Chapters
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 <div id="modal1" className="modal">
@@ -123,50 +210,52 @@ export class CourseListScreen extends Component {
                     <h4 className="header2">Add Course</h4>
                     <div className="row">
                       <div className="col s12">
-                        <div className="row">
-                          <div className="input-field col s4">
-                            <input id="title2" type="text"></input>
-                            <label htmlFor="title2">Title</label>
+                          <div className="row">
+                            <div className="input-field col s4">
+                              <input id="title2" type="text"></input>
+                              <label htmlFor="title2">Title</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input type="text" id="num_of_topics"></input>
+                              <label htmlFor="short_descrip">
+                                Number of Topics
+                              </label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="course_duration" type="text"></input>
+                              <label htmlFor="course_duration">
+                                Duration (weeks)
+                              </label>
+                            </div>
                           </div>
-                          <div className="input-field col s4">
-                            <input type="text" id="num_of_topics"></input>
-                            <label htmlFor="short_descrip">
-                              Number of Topics
-                            </label>
+                          <div className="row">
+                            <div className="input-field col s9">
+                              <input type="text" id="short_descrip"></input>
+                              <label htmlFor="short_descrip">
+                                Short Description
+                              </label>
+                            </div>
                           </div>
-                          <div className="input-field col s4">
-                            <input id="course_duration" type="text"></input>
-                            <label htmlFor="course_duration">
-                              Duration (weeks)
-                            </label>
+                          <div className="row">
+                            <div className="input-field col s12">
+                              <FileDropZone />
+                              <label style={{ transform: "translateY(-100%)" }}>
+                                {" "}
+                                <i className="material-icons left">
+                                  photo
+                                </i>{" "}
+                                Cover Image
+                              </label>
+                            </div>
                           </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s9">
-                            <input type="text" id="short_descrip"></input>
-                            <label htmlFor="short_descrip">
-                              Short Description
-                            </label>
+                          <div className="row">
+                            <div className="input-field col s12">
+                              <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
+                                Submit
+                                <i className="material-icons right">send</i>
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <FileDropZone />
-                            <label style={{ transform: "translateY(-100%)" }}>
-                              {" "}
-                              <i className="material-icons left">photo</i> Cover
-                              Image
-                            </label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                              Submit
-                              <i className="material-icons right">send</i>
-                            </button>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>

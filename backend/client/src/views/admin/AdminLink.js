@@ -39,7 +39,7 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/admin-teacher-management"
+            to="/teacher-management"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >

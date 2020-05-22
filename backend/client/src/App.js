@@ -16,8 +16,8 @@ import { CourseOutlineScreen } from "./components/CourseOutlineScreen";
 import { ClassroomScreen } from "./components/classroom/ClassroomScreen";
 import { SubjectContent } from "./views/student/SubjectContent";
 import { StudentAssignments } from "./views/student/StudentAssignments";
-import { TeacherCalendarScreen } from "./views/teacher/TeacherCalendarScreen";
-import { AdminCalendarScreen } from "./views/admin/AdminCalendarScreen";
+import { TeacherTodoScreen } from "./views/teacher/TeacherTodoScreen";
+import { AdminTodoScreen } from "./views/admin/AdminTodoScreen";
 import { LoginScreen } from "./auth/LoginScreen";
 import { TeacherMarkGradeScreen } from "./views/teacher/TeacherMarkGradeScreen";
 import { TeacherMarkClassroomScreen } from "./views/teacher/TeacherMarkClassroomScreen";
@@ -25,13 +25,6 @@ import { StudentAssignmentScreen } from "./components/teacher-mark/StudentAssign
 import { StudentTestScreen } from "./components/teacher-mark/StudentTestScreen";
 import { RegisterScreen } from "./auth/RegisterScreen";
 
-import { SchoolScreen } from "./views/school/SchoolScreen";
-import { SchoolStudentManagementScreen } from "./views/school/SchoolStudentManagementScreen";
-import { SchoolTeacherManagementScreen } from "./views/school/SchoolTeacherManagementScreen";
-import { SchoolSubscribeScreen } from "./views/school/SchoolSubscribeScreen";
-import { CourseSubscriptionScreen } from "./views/school/CourseSubscriptionScreen";
-import { SchoolCalendarScreen } from "./views/school/SchoolCalendarScreen";
-import { SchoolAddCourseScreen } from "./views/school/SchoolAddCourseScreen";
 
 import $ from "jquery";
 import "materialize-css/dist/css/materialize.min.css";
@@ -40,6 +33,7 @@ import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
+
 
 const history = createBrowserHistory();
 
@@ -128,11 +122,7 @@ class App extends Component {
             <Route exact path="/about" component={AboutScreen} />
 
             <Route exact path="/admin" component={AdminScreen} />
-            <Route
-              exact
-              path="/admin-calendar"
-              component={AdminCalendarScreen}
-            />
+            <Route exact path="/admin-calendar" component={AdminTodoScreen} />
             <Route exact path="/courses" component={CourseListScreen} />
             <Route
               exact
@@ -141,7 +131,7 @@ class App extends Component {
             />
             <Route
               exact
-              path="/admin-teacher-management"
+              path="/teacher-management"
               component={AdminTeacherManagementScreen}
             />
             <Route exact path="/subscriptions" component={SubscriptionScreen} />
@@ -155,7 +145,7 @@ class App extends Component {
             <Route
               exact
               path="/teacher-calendar"
-              component={TeacherCalendarScreen}
+              component={TeacherTodoScreen}
             />
             <Route exact path="/classroom" component={ClassroomScreen} />
             <Route
@@ -181,38 +171,6 @@ class App extends Component {
               path="/student-assignments"
               component={StudentAssignments}
             />
-            <Route exact path="/school" component={SchoolScreen} />
-            <Route
-              exact
-              path="/school-teacher-management"
-              component={SchoolTeacherManagementScreen}
-            />
-            <Route
-              exact
-              path="/school-student-management"
-              component={SchoolStudentManagementScreen}
-            />
-            <Route
-              exact
-              path="/school-subscriptions"
-              component={CourseSubscriptionScreen}
-            />
-            <Route
-              exact
-              path="/school-subscribe"
-              component={SchoolSubscribeScreen}
-            />
-            <Route
-              exact
-              path="/school-add-course"
-              component={SchoolAddCourseScreen}
-            />
-            <Route
-              exact
-              path="/school-calendar"
-              component={SchoolCalendarScreen}
-            />
-
             <Route
               path="/*"
               component={() => <h1 style={{ color: "red" }}>NOT FOUND!!!</h1>}

@@ -5,7 +5,28 @@ import SideBar from "../../components/SideBar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 
+import {StudentService} from '../../services/student';
+
 export class StudentAssignments extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      assignment: [],
+    };
+  }
+
+  componentDidMount() {
+    this.assignmentData();
+  }
+
+  assignmentData(){
+    StudentService.get_student_all_classwork('student_id')
+    .then((response) => {
+      this.setState({ assignment: response })
+    });
+  }
+
   assignmentCategory = "ALL ASSIGNMENTS";
   status = "All";
 
@@ -13,35 +34,6 @@ export class StudentAssignments extends Component {
     this.assignmentCategory = category;
     this.status = stat;
   }
-
-  state = {
-    assignment: [
-      {
-        id: 1,
-        assignmentTitle: "Assignment 1",
-        assignmentLink: "path/to/assigment1",
-        assignmentStatus: "Submitted",
-        date: "10-05-2020",
-        score: "75%",
-      },
-      {
-        id: 2,
-        assignmentTitle: "Assignment 2",
-        assignmentLink: "path/to/assigment2",
-        assignmentStatus: "Pending",
-        date: "20-05-2020",
-        score: "",
-      },
-      {
-        id: 3,
-        assignmentTitle: "Assignment 3",
-        assignmentLink: "path/to/assigment3",
-        assignmentStatus: "Submitted",
-        date: "14-05-2020",
-        score: "",
-      },
-    ],
-  };
 
   render() {
     return (
@@ -52,8 +44,7 @@ export class StudentAssignments extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-              <SideBar/>
-              
+              <SideBar/>     
             <section id="content">
               <div className="container">
                 <div style={{ marginTop: "15px" }}>
@@ -138,7 +129,6 @@ export class StudentAssignments extends Component {
                             }}
                           >
                             {this.state.assignment.map((assigment, i) => {
-                              console.log(this.status);
                               if (this.status === "All") {
                                 return (
                                   <div key={i} className="col s12 m8 l4">
@@ -152,7 +142,7 @@ export class StudentAssignments extends Component {
                                             className="no-margin"
                                             style={{ color: "teal" }}
                                           >
-                                            <b>{assigment.assignmentTitle}</b>
+                                            <b>{assigment.courseName}<br/>{assigment.assignmentTitle}</b>
                                           </p>
                                           <p
                                             className="no-margin"
@@ -161,7 +151,7 @@ export class StudentAssignments extends Component {
                                               color: "grey",
                                             }}
                                           >
-                                            {assigment.date}
+                                            {assigment.dueDate}
                                           </p>
                                           <p
                                             className={
@@ -170,7 +160,7 @@ export class StudentAssignments extends Component {
                                                 ? "red"
                                                 : "gradient-45deg-light-blue-cyan"
                                             }
-                                            style={{ paddingLeft: "5px" }}
+                                            style={{ paddingLeft: "5px", color:"white" }}
                                           >
                                             {assigment.score !== ""
                                               ? `Graded: ${assigment.score}`
@@ -191,9 +181,7 @@ export class StudentAssignments extends Component {
                                   </div>
                                 );
                               } else {
-                                if (
-                                  assigment.assignmentStatus === this.status
-                                ) {
+                                if (assigment.assignmentStatus === this.status) {
                                   return (
                                     <div key={i} className="col s12 m8 l4">
                                       <div
@@ -206,7 +194,7 @@ export class StudentAssignments extends Component {
                                               className="no-margin"
                                               style={{ color: "teal" }}
                                             >
-                                              <b>{assigment.assignmentTitle}</b>
+                                              <b>{assigment.courseName}<br/>{assigment.assignmentTitle}</b>
                                             </p>
                                             <p
                                               className="no-margin"
@@ -215,7 +203,7 @@ export class StudentAssignments extends Component {
                                                 color: "grey",
                                               }}
                                             >
-                                              {assigment.date}
+                                              {assigment.dueDate}
                                             </p>
                                             <p
                                               className={
@@ -224,7 +212,7 @@ export class StudentAssignments extends Component {
                                                   ? "red"
                                                   : "gradient-45deg-light-blue-cyan"
                                               }
-                                              style={{ paddingLeft: "5px" }}
+                                              style={{ paddingLeft: "5px", color:"white" }}
                                             >
                                               {assigment.score !== ""
                                                 ? `Graded: ${assigment.score}`
@@ -250,8 +238,6 @@ export class StudentAssignments extends Component {
                                     </div>
                                   );
                                 }
-
-                                return 1;
                               }
                             })}
                           </div>

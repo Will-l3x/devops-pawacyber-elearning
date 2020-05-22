@@ -4,8 +4,8 @@ import { AdminService } from "../services/admin";
 import AdminConstants from "../constants/admin";
 import AlertActions from "./alert";
 
-export const get_all_courses = (currentPageNumber) => (dispatch) => {
-  AdminService.get_all_courses(currentPageNumber)
+export const get_all_courses = () => (dispatch) => {
+  AdminService.get_all_courses()
     .then((response) => {
       dispatch(AlertActions.success("Success"));
       dispatch({
@@ -87,12 +87,6 @@ export const get_course_material = (course_id) => (dispatch) => {
       console.log(error);
       dispatch(AlertActions.error(error));
     });
-};
-export const get_course_content = (payload) => (dispatch) => {
-  dispatch({
-    type: AdminConstants.GET_COURSE_CONTENT,
-    payload,
-  });
 };
 export const post_course_material = (course_id, topic_id, data) => (
   dispatch
@@ -184,13 +178,6 @@ export const update_subscription_info = (subscription_id, data) => (
       dispatch(AlertActions.error(error));
     });
 };
-export const get_topic_content = (payload) => (dispatch) => {
-  console.log(payload);
-  dispatch({
-    type: AdminConstants.GET_TOPIC_CONTENT,
-    payload,
-  });
-};
 
 const AdminActions = {
   get_all_courses,
@@ -205,6 +192,5 @@ const AdminActions = {
   confirm_teacher,
   get_subscription_info,
   update_subscription_info,
-  get_topic_content,
 };
 export default AdminActions;

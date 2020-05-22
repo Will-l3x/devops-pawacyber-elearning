@@ -1,11 +1,4 @@
-import axios from "axios";
-
-import blog_1 from "../assets/images/blog_1.jpg";
-import blog_2 from "../assets/images/blog_2.jpg";
-import blog_3 from "../assets/images/blog_3.jpg";
-import blog_4 from "../assets/images/blog_4.jpg";
-import blog_5 from "../assets/images/blog_5.jpg";
-import blog_6 from "../assets/images/blog_6.jpg";
+import axios from 'axios';
 
 const apiUrl = "http://localhost:3000/api";
 
@@ -24,55 +17,18 @@ export const AdminService = {
   update_subscription_info,
 };
 
-const pageArraySplit = (array, pagingOptions) => {
-  const currentPageNumber = pagingOptions.currentPageNumber;
-  const perPage = pagingOptions.perPage;
-  const startingIndex = (currentPageNumber - 1) * perPage;
-  const endingIndex = startingIndex + perPage;
-  return array.slice(startingIndex, endingIndex);
-};
-
 // course functions
-async function get_all_courses(currentPageNumber) {
-  try {
-    /**
-     * 
-     * let res = await axios({
-       url: `${apiUrl}/course/get-all-courses`,
-       method: "get",
-       timeout: 8000,
-       headers: {
-         "Content-Type": "application/json",
-       },
-     });
-     return res.data;
-     * 
-     * 
-     */
-
-    let res = {
-      data: [
-        { id: "1", title: "Course Name 1", img: blog_1 },
-        { id: "2", title: "Course Name 2", img: blog_2 },
-        { id: "3", title: "Course Name 3", img: blog_3 },
-        { id: "4", title: "Course Name 4", img: blog_4 },
-        { id: "5", title: "Course Name 5", img: blog_5 },
-        { id: "6", title: "Course Name 6", img: blog_6 },
-      ],
-    };
-    let pages = [];
-    let perPage = 8;
-    const totalPageCount = Math.ceil(res.data.length / perPage);
-
-    for (var i = 1; i <= totalPageCount; i++) {
-      pages.push(i);
-    }
-    const courses = pageArraySplit(res.data, {
-      currentPageNumber,
-      perPage,
+async function get_all_courses() {
+   try {
+    let res = await axios({
+      url: `${apiUrl}/course/get-all-courses`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
-    console.log(courses)
-    return { courses, pages };
+    return res.data;
   } catch (err) {
     console.error(err);
   }
@@ -85,8 +41,8 @@ async function post_new_course(data) {
       data,
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
@@ -100,8 +56,8 @@ async function get_course_material(course_id) {
       method: "get",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
@@ -116,8 +72,8 @@ async function post_course_material(course_id, data) {
       data,
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
@@ -132,14 +88,14 @@ async function post_course_topic(course_id, data) {
       data,
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
     console.error(err);
   }
-}
+ }
 async function update_course_material(course_id, topic_id, data) {
   try {
     let res = await axios({
@@ -148,14 +104,14 @@ async function update_course_material(course_id, topic_id, data) {
       data,
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
     console.error(err);
   }
-}
+ }
 async function delete_course(course_id) {
   try {
     let res = await axios({
@@ -163,8 +119,8 @@ async function delete_course(course_id) {
       method: "delete",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
@@ -178,8 +134,8 @@ async function delete_course_topic(course_id, topic_id) {
       method: "delete",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
@@ -194,8 +150,8 @@ async function get_all_teachers() {
       method: "get",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
@@ -210,8 +166,8 @@ async function confirm_teacher(teacher_id, data) {
       data,
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
@@ -225,8 +181,8 @@ async function get_subscription_info() {
       method: "get",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {
@@ -241,8 +197,8 @@ async function update_subscription_info(subscription_id, data) {
       data,
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
     return res.data;
   } catch (err) {

@@ -6,9 +6,7 @@ import classroom from "./classroom";
 import events from "./events";
 import teacher from "./teacher";
 import dashLink from "./navlink";
-import school from "./school";
 import student from "./student";
-import counter from "./counter";
 import fileUpload from "./fileUpload";
 
 export default combineReducers({
@@ -16,10 +14,8 @@ export default combineReducers({
   dashLink,
   admin,
   student,
-  school,
   teacher,
   events,
   classroom,
   fileUpload,
-  counter,
 });
