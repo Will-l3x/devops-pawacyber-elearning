@@ -52,12 +52,42 @@ async function get_all_courses(currentPageNumber) {
 
     let res = {
       data: [
-        { id: "1", title: "Course Name 1", img: blog_1 },
-        { id: "2", title: "Course Name 2", img: blog_2 },
-        { id: "3", title: "Course Name 3", img: blog_3 },
-        { id: "4", title: "Course Name 4", img: blog_4 },
-        { id: "5", title: "Course Name 5", img: blog_5 },
-        { id: "6", title: "Course Name 6", img: blog_6 },
+        {
+          id: "1",
+          title: "Course Name 1",
+          subscribed: false,
+          img: blog_1,
+        },
+        {
+          id: "2",
+          title: "Course Name 2",
+          subscribed: false,
+          img: blog_2,
+        },
+        {
+          id: "3",
+          title: "Course Name 3",
+          subscribed: false,
+          img: blog_3,
+        },
+        {
+          id: "4",
+          title: "Course Name 4",
+          subscribed: false,
+          img: blog_4,
+        },
+        {
+          id: "5",
+          title: "Course Name 5",
+          subscribed: false,
+          img: blog_5,
+        },
+        {
+          id: "6",
+          title: "Course Name 6",
+          subscribed: false,
+          img: blog_6,
+        },
       ],
     };
     let pages = [];
@@ -71,7 +101,7 @@ async function get_all_courses(currentPageNumber) {
       currentPageNumber,
       perPage,
     });
-    console.log(courses)
+    console.log(courses);
     return { courses, pages };
   } catch (err) {
     console.error(err);

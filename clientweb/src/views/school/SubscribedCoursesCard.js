@@ -53,7 +53,7 @@ export class SubscribedCoursesCard extends Component {
 
   componentDidMount() {
     M.AutoInit();
-    this.props.get_subscribed_courses(this.state.school.id, 1);
+    this.props.get_subscribed_courses(this.state.school.id, 1, "GRID");
   }
 
   handlePageClick = async (pageNumber) => {
@@ -62,7 +62,8 @@ export class SubscribedCoursesCard extends Component {
 
     this.props.get_subscribed_courses(
       this.state.school.id,
-      parseInt(this.props.currentPageNumber)
+      parseInt(this.props.currentPageNumber),
+      "GRID"
     );
   };
   handlePrevClick = async () => {
@@ -71,7 +72,8 @@ export class SubscribedCoursesCard extends Component {
 
     this.props.get_subscribed_courses(
       this.state.school.id,
-      parseInt(this.props.currentPageNumber)
+      parseInt(this.props.currentPageNumber),
+      "GRID"
     );
   };
   handleNextClick = async () => {
@@ -79,7 +81,8 @@ export class SubscribedCoursesCard extends Component {
     this.setState({ currentPageNumber: this.props.currentPageNumber });
     this.props.get_subscribed_courses(
       this.state.school.id,
-      parseInt(this.props.currentPageNumber)
+      parseInt(this.props.currentPageNumber),
+      "GRID",
     );
   };
   handleCourseClick = async (course) => {

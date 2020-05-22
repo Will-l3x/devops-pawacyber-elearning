@@ -4,10 +4,10 @@ import { SchoolService } from "../services/school";
 import SchoolConstants from "../constants/school";
 import AlertActions from "./alert";
 
-export const get_subscribed_courses = (school_id, currentPageNumber) => (
+export const get_subscribed_courses = (school_id, currentPageNumber, lim) => (
   dispatch
 ) => {
-  SchoolService.get_subscribed_courses(school_id, currentPageNumber)
+  SchoolService.get_subscribed_courses(school_id, currentPageNumber, lim)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
       dispatch({

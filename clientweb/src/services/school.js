@@ -2,7 +2,6 @@ import axios from "axios";
 
 import blog_1 from "../assets/images/blog_1.jpg";
 import blog_2 from "../assets/images/blog_2.jpg";
-import blog_3 from "../assets/images/blog_3.jpg";
 import blog_4 from "../assets/images/blog_4.jpg";
 
 const apiUrl = "http://localhost:3000/api";
@@ -22,7 +21,7 @@ const pageArraySplit = (array, pagingOptions) => {
   return array.slice(startingIndex, endingIndex);
 };
 // course functions
-async function get_subscribed_courses(school_id, currentPageNumber) {
+async function get_subscribed_courses(school_id, currentPageNumber, lim) {
   try {
     /**
      let res = await axios({
@@ -36,12 +35,15 @@ async function get_subscribed_courses(school_id, currentPageNumber) {
     */
     let res = {
       data: [
-        { id: "1", title: "Course Name 1", img: blog_1 },
-        { id: "2", title: "Course Name 2", img: blog_2 },
-        { id: "3", title: "Course Name 3", img: blog_3 },
-        { id: "4", title: "Course Name 4", img: blog_4 },
+        { id: "1", title: "Course Name 1", subscribed: true, img: blog_1 },
+        { id: "2", title: "Course Name 2", subscribed: true, img: blog_2 },
+        { id: "4", title: "Course Name 4", subscribed: true, img: blog_4 },
       ],
     };
+    if (lim === "ALL") {
+      console.log(res);
+      return res.data;
+    }
     let pages = [];
     let perPage = 8;
     const totalPageCount = Math.ceil(res.data.length / perPage);
