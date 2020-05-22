@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import avatar from "../assets/images/avatar/avatar-7.png";
 class Header extends Component {
   constructor() {
@@ -35,12 +35,16 @@ class Header extends Component {
     }
   };
   handleLogout = () => {
+    this.setState({ logout: true });
     localStorage.setItem(
       "user",
       JSON.stringify({ username: "", password: "" })
     );
   };
   render() {
+    if (this.state.logout) {
+      return <Redirect to="/login" />;
+    }
     return (
       <div className="navbar-fixed">
         <nav className="navbar-color gradient-45deg-light-blue-cyan">
@@ -75,7 +79,7 @@ class Header extends Component {
                   <i className="material-icons">
                     notifications_none
                     <small className="notification-badge pink accent-2">
-                      5
+                      0
                     </small>
                   </i>
                 </Link>
@@ -100,11 +104,11 @@ class Header extends Component {
               <li>
                 <h6>
                   NOTIFICATIONS
-                  <span className="new badge">5</span>
+                  <span className="new badge">0</span>
                 </h6>
               </li>
               <li className="divider"></li>
-              <li>
+              {/* <li>
                 <Link to="#" className="grey-text text-darken-2">
                   <span className="material-icons icon-bg-circle cyan small">
                     add_shopping_cart
@@ -117,63 +121,7 @@ class Header extends Component {
                 >
                   2 hours ago
                 </time>
-              </li>
-              <li>
-                <Link to="#" className="grey-text text-darken-2">
-                  <span className="material-icons icon-bg-circle red small">
-                    stars
-                  </span>{" "}
-                  Completed the task
-                </Link>
-                <time
-                  className="media-meta"
-                  dateTime="2015-06-12T20:50:48+08:00"
-                >
-                  3 days ago
-                </time>
-              </li>
-              <li>
-                <Link to="#" className="grey-text text-darken-2">
-                  <span className="material-icons icon-bg-circle teal small">
-                    settings
-                  </span>{" "}
-                  Settings updated
-                </Link>
-                <time
-                  className="media-meta"
-                  dateTime="2015-06-12T20:50:48+08:00"
-                >
-                  4 days ago
-                </time>
-              </li>
-              <li>
-                <Link to="#" className="grey-text text-darken-2">
-                  <span className="material-icons icon-bg-circle deep-orange small">
-                    today
-                  </span>{" "}
-                  Director meeting started
-                </Link>
-                <time
-                  className="media-meta"
-                  dateTime="2015-06-12T20:50:48+08:00"
-                >
-                  6 days ago
-                </time>
-              </li>
-              <li>
-                <Link to="#" className="grey-text text-darken-2">
-                  <span className="material-icons icon-bg-circle amber small">
-                    trending_up
-                  </span>{" "}
-                  Generate monthly report
-                </Link>
-                <time
-                  className="media-meta"
-                  dateTime="2015-06-12T20:50:48+08:00"
-                >
-                  1 week ago
-                </time>
-              </li>
+              </li> */}
             </ul>
 
             <ul id="profile-dropdown" className="dropdown-content dropdown-acc">
@@ -182,11 +130,6 @@ class Header extends Component {
                   <i className="material-icons">face</i> Profile
                 </Link>
               </li>
-              {/* <li>
-                  <Link to="#" className="grey-text text-darken-1">
-                    <i className="material-icons">settings</i> Settings
-                  </Link>
-                </li> */}
               <li>
                 <Link to="#" className="grey-text text-darken-1">
                   <i className="material-icons">live_help</i> Help
