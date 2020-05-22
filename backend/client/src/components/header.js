@@ -43,6 +43,7 @@ class Header extends Component {
   };
   render() {
     if (this.state.logout) {
+      console.log("logged out")
       return <Redirect to="/login" />;
     }
     return (
