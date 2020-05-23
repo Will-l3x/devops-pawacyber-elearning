@@ -1,8 +1,0 @@
-export const EventConstants = {
-  GET_USER_EVENTS: "GET_USER_EVENTS",
-  ADD_USER_EVENTS: "ADD_USER_EVENTS",
-  UPDATE_USER_EVENTS: "UPDATE_USER_EVENTS",
-  DELETE_USER_EVENTS: "DELETE_USER_EVENTS",
-};
-
-export default EventConstants;
