@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import M from "materialize-css";
 import AdminActions from "../../actions/admin";
 import CounterActions from "../../actions/counter";
@@ -20,6 +19,7 @@ export class CoursesCard extends Component {
     this.handlePageClick.bind(this);
     this.handlePrevClick.bind(this);
     this.handleCourseViewClick.bind(this);
+    this.removeItemHandler.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +32,6 @@ export class CoursesCard extends Component {
     this.setState({ currentPageNumber: this.props.currentPageNumber });
 
     this.props.get_all_courses(
-      this.state.admin.id,
       parseInt(this.props.currentPageNumber)
     );
   };
@@ -41,7 +40,6 @@ export class CoursesCard extends Component {
     this.setState({ currentPageNumber: this.props.currentPageNumber });
 
     this.props.get_all_courses(
-      this.state.admin.id,
       parseInt(this.props.currentPageNumber)
     );
   };
@@ -49,7 +47,6 @@ export class CoursesCard extends Component {
     await this.props.nextClick(parseInt(this.props.currentPageNumber));
     this.setState({ currentPageNumber: this.props.currentPageNumber });
     this.props.get_all_courses(
-      this.state.admin.id,
       parseInt(this.props.currentPageNumber)
     );
   };
@@ -58,15 +55,34 @@ export class CoursesCard extends Component {
     this.setState({ redirect: true });
   };
 
+  removeItemHandler = async (id) => {
+    await this.props.delete_course(id);
+    await this.props.get_all_courses(
+      parseInt(this.props.currentPageNumber)
+    );
+    console.log(this.props.adminState.courses)
+    if (this.props.adminState.deleted_course_info) {
+      M.toast({
+        html: `Course successfully removed!`,
+        classes: "green accent-3",
+      });
+    } else {
+      M.toast({
+        html: `Course removal failed!`,
+        classes: "red accent-2",
+      });
+    }
+  };
   render() {
+    console.log(this.props);
     if (this.state.redirect) {
       return <Redirect to="/course-outline" />;
     }
     return (
       <div className="container">
         <div className="row">
-          {this.props.courses.map((course, i) => (
-            <div key={i} className="col l3">
+          {this.props.adminState.courses.map((course, i) => (
+            <div key={i} className="col m6 l4">
               <div className="card">
                 <div className="card-image waves-effect waves-block waves-light">
                   <img src={course.img} alt="alt" />
@@ -146,7 +162,7 @@ export class CoursesCard extends Component {
                   <i className="material-icons">chevron_left</i>
                 </a>
               </li>
-              {this.props.pages.map((page) => {
+              {this.props.adminState.pages.map((page) => {
                 if (page === this.props.currentPageNumber) {
                   return (
                     <li key={page} className="active">
@@ -175,7 +191,7 @@ export class CoursesCard extends Component {
               })}
               <li
                 className={
-                  this.state.currentPageNumber === this.props.pages.length
+                  this.state.currentPageNumber === this.props.adminState.pages.length
                     ? "disabled"
                     : "waves-effect"
                 }
@@ -183,7 +199,7 @@ export class CoursesCard extends Component {
                 <a
                   onClick={this.handleNextClick}
                   className={
-                    this.state.currentPageNumber === this.props.pages.length
+                    this.state.currentPageNumber === this.props.adminState.pages.length
                       ? "pointer-events-none"
                       : ""
                   }
@@ -202,8 +218,7 @@ export class CoursesCard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  courses: state.admin.courses,
-  pages: state.admin.pages,
+  adminState: state.admin,
   currentPageNumber: state.counter.currentPageNumber,
 });
 

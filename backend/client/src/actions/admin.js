@@ -205,6 +205,7 @@ const AdminActions = {
   confirm_teacher,
   get_subscription_info,
   update_subscription_info,
+  get_course_content,
   get_topic_content,
 };
 export default AdminActions;

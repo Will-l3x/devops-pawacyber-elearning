@@ -3,6 +3,7 @@ const initialState = {
   courses: [],
   pages: [],
   course_content: [],
+  deleted_course_info: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -34,7 +35,6 @@ export default (state = initialState, { type, payload }) => {
     case AdminConstants.UPDATE_SUBCRIPTION_INFO:
       return { ...state, updated_subscription: payload };
     case AdminConstants.GET_TOPIC_CONTENT:
-      console.log(payload);
       return { ...state, topic_content: payload };
 
     default:

@@ -91,7 +91,7 @@ async function get_all_courses(currentPageNumber) {
       ],
     };
     let pages = [];
-    let perPage = 8;
+    let perPage = 6;
     const totalPageCount = Math.ceil(res.data.length / perPage);
 
     for (var i = 1; i <= totalPageCount; i++) {
@@ -101,7 +101,6 @@ async function get_all_courses(currentPageNumber) {
       currentPageNumber,
       perPage,
     });
-    console.log(courses);
     return { courses, pages };
   } catch (err) {
     console.error(err);
@@ -188,7 +187,10 @@ async function update_course_material(course_id, topic_id, data) {
 }
 async function delete_course(course_id) {
   try {
-    let res = await axios({
+   /**
+    * 
+    * 
+    * let res = await axios({
       url: `${apiUrl}/course/delete-course/${course_id}`,
       method: "delete",
       timeout: 8000,
@@ -196,7 +198,12 @@ async function delete_course(course_id) {
         "Content-Type": "application/json",
       },
     });
-    return res.data;
+    * 
+    *  return res.data;
+    * 
+     */ 
+    console.log(course_id);
+    return true
   } catch (err) {
     console.error(err);
   }

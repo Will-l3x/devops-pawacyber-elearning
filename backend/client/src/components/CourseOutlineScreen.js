@@ -240,7 +240,8 @@ export class CourseOutlineScreen extends Component {
                         56 Video Tutorials
                       </li>
                       <li>
-                        <i className="fa fa-book" aria-hidden="true"></i> 7
+                        <i className="fa fa-book" aria-hidden="true"></i>
+                        {this.state.course.topics.length}
                         Topics
                       </li>
                     </ul>

@@ -15,31 +15,15 @@ export class CourseListScreen extends Component {
     super();
     this.removeMaterialHandler.bind(this);
   }
-
-  componentDidMount() {
-    M.AutoInit();
-  }
-
   removeMaterialHandler = () => {
     $(".remove-content").css({
       display: "inline",
     });
   };
-  removeItemHandler = (id) => {
-    let courses = [];
-    for (const course of this.state.courses) {
-      if (id === course.id) {
-        console.log(id + " removed");
-        M.toast({
-          html: `${course.title} successfully removed!`,
-          classes: "green accent-3",
-        });
-      } else {
-        courses.push(course);
-      }
-    }
-    this.setState({ courses });
-  };
+  componentDidMount() {
+    M.AutoInit();
+  }
+
   render() {
     /*
     if(school is regestering ) redirect to course register else course out line;
