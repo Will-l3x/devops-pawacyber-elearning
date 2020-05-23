@@ -2,7 +2,7 @@
   "name": "newschool",
   "version": "0.0.0",
   "private": true,
-  "proxy": "http://localhost:3001/",
+  "proxy": "http://localhost:3000/",
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node ./app.js",
