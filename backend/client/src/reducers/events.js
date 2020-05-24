@@ -1,5 +1,7 @@
-import EventConstants  from "../constants/events";
-const initialState = {};
+import EventConstants from "../constants/events";
+const initialState = {
+  events: [],
+};
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {

@@ -1,10 +1,11 @@
 /** Event actions */
 
 import { EventService } from "../services/events";
-import { EventConstants } from "../constants/events";
-import AlertActions  from "./alert";
+import EventConstants from "../constants/events";
+import AlertActions from "./alert";
 
 export const get_events = (user_id) => (dispatch) => {
+  console.log(user_id)
   EventService.get_events(user_id)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -14,12 +15,11 @@ export const get_events = (user_id) => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const post_events = (user_id, data) => (
-  dispatch
-) => {
+export const post_events = (user_id, data) => (dispatch) => {
   EventService.post_events(user_id, data)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -29,12 +29,11 @@ export const post_events = (user_id, data) => (
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const update_events = (user_id, data) => (
-  dispatch
-) => {
+export const update_events = (user_id, data) => (dispatch) => {
   EventService.update_events(user_id, data)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -44,12 +43,11 @@ export const update_events = (user_id, data) => (
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const delete_events = (user_id, event_id) => (
-  dispatch
-) => {
+export const delete_events = (user_id, event_id) => (dispatch) => {
   EventService.delete_events(user_id, event_id)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -59,7 +57,8 @@ export const delete_events = (user_id, event_id) => (
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
 const EventActions = {

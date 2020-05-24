@@ -9,6 +9,16 @@ import SubscribedCoursesCard from "./SubscribedCoursesCard";
 //import Pricing from "../../components/pricing";
 
 export class CourseSubscriptionScreen extends Component {
+  constructor() {
+    super();
+    this.state = {
+      unsubscribe: false,
+    };
+    this.handleUnsubscribe.bind(this);
+  }
+  handleUnsubscribe = () => {
+    this.setState({ unsubscribe: true });
+  };
   render() {
     return (
       <div>
@@ -67,7 +77,7 @@ export class CourseSubscriptionScreen extends Component {
                       </li>
 
                       <li>
-                        <Link to="#!" className="grey-text text-darken-2">
+                        <Link onClick={this.handleUnsubscribe} to="#!" className="grey-text text-darken-2">
                           <i className="material-icons ">low_priority</i>
                           Unsubscribe
                         </Link>
@@ -83,7 +93,7 @@ export class CourseSubscriptionScreen extends Component {
                   className="section wb"
                   style={{ paddingTop: 15 }}
                 >
-                  <SubscribedCoursesCard />
+                  <SubscribedCoursesCard unsubscribe={this.state.unsubscribe} />
                 </div>
 
                 <div id="modal1" className="modal">

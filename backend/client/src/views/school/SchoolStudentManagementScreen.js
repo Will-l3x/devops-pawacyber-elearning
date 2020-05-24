@@ -32,7 +32,7 @@ export class SchoolStudentManagementScreen extends Component {
             width: "20%",
           },
           {
-            label: "Teaching Courses",
+            label: "Courses",
             field: "courses",
             sort: "asc",
             width: "50%",
@@ -117,13 +117,13 @@ export class SchoolStudentManagementScreen extends Component {
                 >
                   <div className="nav-content">
                     <Link
-                      style={{ marginTop: "2%" }}
+                      style={{ marginTop: "2%", marginBottom: "1%" }}
                       to="#"
                       className="brand-logo"
                     >
-                      Student Management
+                      Student List
                     </Link>
-                    <Link
+                    {/** <Link
                       to="#!"
                       className="modal-trigger waves-effect black-text right"
                       style={{ marginTop: "1%", marginRight: "2%" }}
@@ -131,6 +131,7 @@ export class SchoolStudentManagementScreen extends Component {
                     >
                       <i className="material-icons">person_add</i>
                     </Link>
+                   */}
                   </div>
                 </nav>
               </div>
@@ -145,13 +146,15 @@ export class SchoolStudentManagementScreen extends Component {
                   </div>
                 </div>
               </section>
-              <div
+              {/**
+               * 
+               * <div
                 id="add-student"
                 className="modal"
                 style={{ overflowY: "hidden" }}
               >
                 <div className="modal-content">
-                  <h4 className="header2">Add Test/Exercise</h4>
+                  <h4 className="header2">Add </h4>
                   <div className="row">
                     <div className="col s12">
                       <div className="row">
@@ -185,6 +188,10 @@ export class SchoolStudentManagementScreen extends Component {
                   </div>
                 </div>
               </div>
+            
+               * 
+               * 
+               */}
             </div>
           </div>
         </main>

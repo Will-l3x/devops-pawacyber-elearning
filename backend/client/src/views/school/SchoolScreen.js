@@ -1,15 +1,3 @@
-/**
- * home page
- * used by headmaster and school admin staff
- * can register course
- * can manage its teacher list
- * can manage its students list for each course they register
- * info about registered courses/classes
- * Page with classroom teacher/students and their marks
- * table of all students under that school
- * table for all teachers at that school
- **/
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Footer from "../../components/footer";
@@ -17,6 +5,7 @@ import SideBar from "../../components/SideBar";
 import Header from "../../components/header";
 import M from "materialize-css";
 import { Calendar } from "../../components/calendar";
+import store from "../../config/store";
 import { Link } from "react-router-dom";
 
 export class SchoolScreen extends Component {
@@ -30,6 +19,7 @@ export class SchoolScreen extends Component {
     M.AutoInit();
   }
   render() {
+    const eventState = store.getState().events;
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -77,7 +67,7 @@ export class SchoolScreen extends Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col s12 m12 l">
+                      <div className="col s12">
                         <ul className="task-card collection with-header">
                           <li className="collection-header teal accent-4">
                             <h4 className="task-card-title white-text">
@@ -85,6 +75,18 @@ export class SchoolScreen extends Component {
                             </h4>
                             <p className="task-card-date ">Sept 16, 2017</p>
                           </li>
+                          {eventState.events.map((event) => (
+                            <li className="collection-item dismissable">
+                              <input type="checkbox" id="task1" />
+                              <label htmlFor="task1">
+                                {event.title}.
+                                <Link to="#" className="secondary-content">
+                                  <span className="ultra-small">Today</span>
+                                </Link>
+                              </label>
+                              <span className="task-cat cyan">Event</span>
+                            </li>
+                          ))}
                           <li className="collection-item dismissable">
                             <input type="checkbox" id="task1" />
                             <label htmlFor="task1">

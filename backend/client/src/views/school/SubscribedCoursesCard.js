@@ -14,6 +14,7 @@ export class SubscribedCoursesCard extends Component {
         id: "3e23e23",
         name: "Pawa High School",
       },
+      unsubscribe: false,
       redirect: false,
       courses: [],
       currentPageNumber: 1,
@@ -82,12 +83,15 @@ export class SubscribedCoursesCard extends Component {
     this.props.get_subscribed_courses(
       this.state.school.id,
       parseInt(this.props.currentPageNumber),
-      "GRID",
+      "GRID"
     );
   };
   handleCourseClick = async (course) => {
     await this.props.get_subscribe_course(course);
     this.setState({ redirect: true });
+  };
+  handleCourseUnsubscribe = async (course) => {
+    console.log(course);
   };
 
   render() {
@@ -99,7 +103,7 @@ export class SubscribedCoursesCard extends Component {
       <div className="container">
         <div className="row">
           {this.props.subscribed_courses.map((course, i) => (
-            <div key={i} className="col l3">
+            <div key={course.id} className="col l3">
               <div className="card">
                 <div className="card-image waves-effect waves-block waves-light">
                   <img src={course.img} alt="alt" />
@@ -126,18 +130,33 @@ export class SubscribedCoursesCard extends Component {
                   </p>
                   <hr className="invis"></hr>
                   <p>
-                    <Link
-                      onClick={() => {
-                        this.handleCourseClick(course);
-                      }}
-                      className="cyan-text tooltipped"
-                      data-position="down"
-                      data-tooltip="Upgrade/Downgrade"
-                      to="#"
-                    >
-                      Subscriptions
-                      <i className="material-icons left">subscriptions</i>
-                    </Link>
+                    {this.props.unsubscribe ? (
+                      <Link
+                        onClick={() => {
+                          this.handleCourseUnsubscribe(course);
+                        }}
+                        className="red-text accent-2 tooltipped"
+                        data-position="down"
+                        data-tooltip="Upgrade/Downgrade"
+                        to="#"
+                      >
+                        Unsubscribe
+                        <i className="material-icons left">low_priority</i>
+                      </Link>
+                    ) : (
+                      <Link
+                        onClick={() => {
+                          this.handleCourseClick(course);
+                        }}
+                        className="red-text accent-2 tooltipped"
+                        data-position="down"
+                        data-tooltip="Upgrade/Downgrade"
+                        to="#"
+                      >
+                        Upgrade/Downgrade
+                        <i className="material-icons left">subscriptions</i>
+                      </Link>
+                    )}
                   </p>
                 </div>
                 <div className="card-action course-meta">

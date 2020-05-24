@@ -48,7 +48,7 @@ export class SchoolTeacherManagementScreen extends Component {
             field: "delete",
             sort: "asc",
             width: "3%",
-          }
+          },
         ],
         rows: [
           {
@@ -67,7 +67,7 @@ export class SchoolTeacherManagementScreen extends Component {
               <a rel="noopener noreferrer" to="#">
                 <i className="material-icons left black-text">delete</i>
               </a>
-            )
+            ),
           },
           {
             id: "teacher id 2",
@@ -85,7 +85,7 @@ export class SchoolTeacherManagementScreen extends Component {
               <a rel="noopener noreferrer" to="#">
                 <i className="material-icons left black-text">delete</i>
               </a>
-            )
+            ),
           },
         ],
       },
@@ -105,8 +105,7 @@ export class SchoolTeacherManagementScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-              <SideBar/>
-              
+            <SideBar />
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -114,18 +113,18 @@ export class SchoolTeacherManagementScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
-                  
                   }}
                 >
                   <div className="nav-content">
                     <Link
-                      style={{ marginTop: "2%" }}
+                      style={{ marginTop: "2%", marginBottom: "1%" }}
                       to="#"
                       className="brand-logo"
                     >
-                      Teacher Management
+                      Teacher List
                     </Link>
-                    <Link
+                    {/**
+                     *  <Link
                       to="#!"
                       className="modal-trigger waves-effect black-text right"
                       style={{ marginTop: "1%", marginRight: "2%" }}
@@ -133,27 +132,14 @@ export class SchoolTeacherManagementScreen extends Component {
                     >
                       <i className="material-icons">person_add</i>
                     </Link>
-                  </div>
-                </nav>
-              </div>
-              <section id="content" style={{ paddingTop: "7%" }}>
-                <div className="container">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m6 l12">
-                        <DatatablePage data={this.state.data} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <div
+
+                     <div
                 id="add-teacher"
                 className="modal"
                 style={{ overflowY: "hidden" }}
               >
                 <div className="modal-content">
-                  <h4 className="header2">Add Test/Exercise</h4>
+                  <h4 className="header2">Add </h4>
                   <div className="row">
                     <div className="col s12">
                       <div className="row">
@@ -187,6 +173,22 @@ export class SchoolTeacherManagementScreen extends Component {
                   </div>
                 </div>
               </div>
+            
+                     */}
+                  </div>
+                </nav>
+              </div>
+              <section id="content" style={{ paddingTop: "7%" }}>
+                <div className="container">
+                  <div className="card-stats z-depth-5 padding-3">
+                    <div className="row mt-1">
+                      <div className="col s12 m6 l12">
+                        <DatatablePage data={this.state.data} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </main>
