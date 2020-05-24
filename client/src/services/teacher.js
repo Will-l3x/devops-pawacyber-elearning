@@ -20,7 +20,7 @@ async function get_all_courses(teacher_id) {
         "Content-Type": "application/json",
       },
     });*/
-
+    console.log("teacher service")
     return [
       {
         courseId: 1,

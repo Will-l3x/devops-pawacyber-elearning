@@ -52,6 +52,10 @@ export class LoginScreen extends Component {
       localStorage.setItem("user", JSON.stringify(this.state));
       return <Redirect to="/student" />;
     }
+    if (this.state.username === "school") {
+      localStorage.setItem("user", JSON.stringify(this.state));
+      return <Redirect to="/school" />;
+    }
     return (
       <main id="main_1">
         <OuterHeader></OuterHeader>

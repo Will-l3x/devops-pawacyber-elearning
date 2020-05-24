@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import avatar from "../assets/images/avatar/avatar-7.png";
 class Header extends Component {
   constructor() {
@@ -35,12 +35,17 @@ class Header extends Component {
     }
   };
   handleLogout = () => {
+    this.setState({ logout: true });
     localStorage.setItem(
       "user",
       JSON.stringify({ username: "", password: "" })
     );
   };
   render() {
+    if (this.state.logout) {
+      console.log("logged out")
+      return <Redirect to="/login" />;
+    }
     return (
       <div className="navbar-fixed">
         <nav className="navbar-color gradient-45deg-light-blue-cyan">

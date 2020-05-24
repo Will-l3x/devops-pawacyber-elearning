@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { navClick } from "../actions/navlink";
 import AdminLink from "../views/admin/AdminLink";
+import SchoolLink from "../views/school/SchoolLink";
 import StudentLink from "../views/student/StudentLink";
 import TeacherLink from "../views/teacher/TeacherLink";
 import { Link, Redirect } from "react-router-dom";
 import $ from "jquery";
 import M from "materialize-css";
+
 
 class SideBar extends Component {
   constructor(props) {
@@ -50,12 +52,16 @@ class SideBar extends Component {
     if (user.username === "admin") {
       Links = AdminLink;
     }
+    else if  (user.username === "school") {
+      Links = SchoolLink;
+    }
     else if  (user.username === "teacher") {
       Links = TeacherLink;
     }
     else if  (user.username === "student") {
       Links = StudentLink;
     }
+    
     else {
       return (<Redirect to="/login"/>)
     }
