@@ -8,7 +8,7 @@
     "start": "node ./app.js",
     "postinstall": "cd client && npm run build "
   },
-  "description": "newschool", 
+  "description": "newschool",
   "author": {
     "name": " "
   },
