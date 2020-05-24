@@ -151,7 +151,7 @@ export class AdminTeacherManagementScreen extends Component {
                 style={{ overflowY: "hidden" }}
               >
                 <div className="modal-content">
-                  <h4 className="header2">Add Test/Exercise</h4>
+                  <h4 className="header2">Add Teacher</h4>
                   <div className="row">
                     <div className="col s12">
                       <div className="row">
