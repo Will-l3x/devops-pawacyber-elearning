@@ -137,7 +137,7 @@ export class SubscribedCoursesCard extends Component {
                         }}
                         className="red-text accent-2 tooltipped"
                         data-position="down"
-                        data-tooltip="Upgrade/Downgrade"
+                        data-tooltip="Unsubscibe"
                         to="#"
                       >
                         Unsubscribe
