@@ -8,6 +8,9 @@ import FileDropZone from "./dropzone";
 export class TopicContentCard extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      user: {},
+    };
     this.handleDeleteContext.bind(this);
     this.handleDeletePdf.bind(this);
     this.handleDeleteVideo.bind(this);
@@ -17,6 +20,8 @@ export class TopicContentCard extends Component {
   }
   componentDidMount() {
     M.AutoInit();
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.setState({ user });
   }
   handleDeleteContext = () => {};
   handleDeletePdf = () => {};
@@ -50,16 +55,19 @@ export class TopicContentCard extends Component {
           >
             <i className="material-icons">ondemand_video</i>
           </a>
-
-          <Link
-            className="black-text modal-trigger tooltipped"
-            data-target="modal1"
-            data-position="top"
-            data-tooltip="Options"
-            to="/"
-          >
-            <i className="material-icons">settings</i>
-          </Link>
+          {this.state.user.username === "admin" ? (
+            <Link
+              className="black-text modal-trigger tooltipped"
+              data-target="modal1"
+              data-position="top"
+              data-tooltip="Options"
+              to="/"
+            >
+              <i className="material-icons">settings</i>
+            </Link>
+          ) : (
+            ""
+          )}
         </span>
         <p>{data.topicContent}</p>
 
@@ -130,8 +138,8 @@ export class TopicContentCard extends Component {
               <div className="col s12">
                 <div className="row">
                   <div className="input-field col s6">
-                    <input id="title2" type="text"></input>
-                    <label htmlFor="title2">PDF TITLE</label>
+                    <input id="title3" type="text"></input>
+                    <label htmlFor="title3">PDF TITLE</label>
                   </div>
                 </div>
                 <div className="row">
