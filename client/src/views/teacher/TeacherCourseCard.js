@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import $ from "jquery";
 import { navClick } from "../../actions/navlink";
 import { course_data } from "../../actions/student";
 import TeacherActions from "../../actions/teacher";
@@ -15,10 +16,17 @@ class TeacherCourseCard extends Component {
       redirect: false,
       count: -1,
     };
+    this.get_all_courses.bind(this);
   }
   componentDidMount() {
-    this.props.get_all_courses("teacher_id");
+    $(".progress").removeClass("display-none");
+    this.get_all_courses()
   }
+  get_all_courses = async () => {
+    await this.props.get_all_courses("teacher_id");
+    $(".progress").addClass("display-none");
+
+  };
   dashClick = (dash, course) => {
     this.props.navClick(dash);
     this.props.course_data({

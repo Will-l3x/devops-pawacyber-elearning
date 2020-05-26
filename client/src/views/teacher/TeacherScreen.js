@@ -40,6 +40,9 @@ export class TeacherScreen extends Component {
                     </Link>
                   </div>
                 </nav>
+                <div className="progress display-none">
+                  <div className="indeterminate"></div>
+                </div>
               </div>
 
               <section id="content" style={{ paddingTop: "1%" }}>
