@@ -9,7 +9,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import {AdminService} from '../../services/admin';
 
-export class SubscriptionScreen extends Component {
+export class SchoolManagement extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -89,18 +89,33 @@ export class SubscriptionScreen extends Component {
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
-                <nav className="navbar nav-extended" style={{ position: "fixed"}} >
+                <nav
+                  className="navbar nav-extended"
+                  style={{
+                    position: "fixed",
+                  }}
+                >
                   <div className="nav-content">
-                    <div className="brand-logo" style={{padding:"10px"}} >
-                      Manage Subscriptions
-                    </div>
+                    <Link
+                      style={{ marginTop: "2%" }}
+                      to="#"
+                      className="brand-logo"
+                    >
+                      School Management
+                    </Link>
+                    <Link
+                      to="#!"
+                      className="modal-trigger waves-effect black-text right"
+                      style={{ marginTop: "1%", marginRight: "2%" }}
+                      data-target="add-School"
+                    >
+                      <i className="material-icons">add_circle</i>
+                    </Link>
                   </div>
                 </nav>
               </div>
-              <div>
-
-              <section  className = "row" id="content" style={{ paddingTop: "7%" }}>
-                <div className="container  col s12 m6 6">
+              <section id="content" style={{ paddingTop: "7%" }}>
+                <div className="container">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
@@ -109,12 +124,13 @@ export class SubscriptionScreen extends Component {
                     </div>
                   </div>
                 </div>
-
-                <div className="container col s12 m6 6">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m6 l12">
-                      <div className="modal-content">
+              </section>
+              <div
+                id="add-School"
+                className="modal"
+                style={{ overflowY: "hidden" }}
+              >
+                <div className="modal-content">
                   <h4 className="header2">Add School</h4>
                   <form onSubmit={this.handleSubmit}>
                   <div className="row">
@@ -159,20 +175,9 @@ export class SubscriptionScreen extends Component {
                     </div>
                     </form>
                   </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-              </section>
-
-                          
-
-       
-              </div>
                 </div>
               </div>
-       
+          </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
           <Footer />
@@ -191,4 +196,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SubscriptionScreen);
+)(SchoolManagement);

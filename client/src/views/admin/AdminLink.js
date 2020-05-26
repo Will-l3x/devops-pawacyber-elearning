@@ -39,12 +39,12 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/admin-teacher-management"
+            to="/school-management"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
-            <i className="material-icons">people</i>
-            <span className="nav-text">Teachers</span>
+            <i className="material-icons">local_library</i>
+            <span className="nav-text">School Management</span>
           </Link>
         </li>
         <li className="bold">
@@ -55,16 +55,6 @@ class AdminLink extends Component {
           >
             <i className="material-icons">subscriptions</i>
             <span className="nav-text">Subscriptions</span>
-          </Link>
-        </li>
-        <li className="bold">
-          <Link
-            to="/admin-calendar"
-            className="dash-link waves-effect waves-cyan"
-            onClick={this.onClick}
-          >
-            <i className="material-icons">date_range</i>
-            <span className="nav-text">Calender</span>
           </Link>
         </li>
       </ul>
