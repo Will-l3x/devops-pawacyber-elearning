@@ -85,12 +85,9 @@ class FileDropZone extends Component {
       progress: 0,
     };
     await this.props.setUploadFile(fileToUpload);
-    await this.props.uploadFile(fileToUpload);
     this.setState({ files: toArray(this.props.uploadState.fileProgress) });
   };
   render() {
-    console.log(this.props);
-
     const preview = {
       display: "inline",
     };

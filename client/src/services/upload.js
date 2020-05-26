@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://localhost:5000";
+const apiUrl = "http://localhost:3001";
 
 export const UploadService = {
   upload,
@@ -16,7 +16,7 @@ async function upload(
 ) {
   try {
     let res = await axios({
-      url: `${apiUrl}/file-upload`,
+      url: `${apiUrl}/upload/new`,
       method: "post",
       data,
       onUploadProgress: (progress) => {
@@ -27,6 +27,10 @@ async function upload(
       },
     });
     dispatch(successUploadFile(file.id));
+    //res.data {
+    //  --------after upload of file this is required ----------
+    //          path : "path/to/file",
+    //}
     return res;
   } catch (error) {
     dispatch(failureUploadFile(file.id));
