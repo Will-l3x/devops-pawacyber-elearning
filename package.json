@@ -28,7 +28,7 @@
     "fs": "0.0.2",
     "generate-password": "^1.5.1",
     "harmony": "^1.5.1",
-    "helmet": "3.15.0",
+    "helmet": "^3.22.0",
     "install": "^0.13.0",
     "jsonwebtoken": "8.4.0",
     "lodash": "^4.17.15",

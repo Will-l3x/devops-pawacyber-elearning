@@ -23,7 +23,6 @@ router.delete('/del_role/:id', _systemadmin.del_role);
 router.post('/add_role', _systemadmin.add_role);
 router.put('/update_role', _systemadmin.update_role);
 
-
 router.get('/subscriptions', _systemadmin.subscriptions);
 router.post('/add_subscription', _systemadmin.add_subscription);
 router.delete('/del_subscription/:id', _systemadmin.del_subscription);
