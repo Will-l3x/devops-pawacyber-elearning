@@ -6,7 +6,7 @@ info:
   license:
     name: "Github Repo"
     url: "https://github.com/Will-l3x/devops"
-host: "localhost:3000"
+host: "localhost:3001"
 basePath: "/api"
 tags:
   - name: "Teacher"
@@ -15,6 +15,8 @@ tags:
     description: "All student-account related endpoints"
   - name: "Uploads"
     description: "All upload related endpoints"
+  - name: "School Admin"
+    description: "All schooladmin-account related endpoints"
 schemes:
   - "http"
 paths:
@@ -375,3 +377,42 @@ paths:
       responses:
         "405":
           description: "Invalid input"
+
+  /schooladmin/teacher/{id}:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets a single teacher..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "TeacherID of (teacher)record to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/teachers/{id}:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets all teachers at a school..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "SchoolID on (teacher)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
