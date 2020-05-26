@@ -4,7 +4,8 @@ import $ from "jquery";
 import M from "materialize-css";
 import "../assets/css/dropify.min.css";
 import Dropzone from "react-dropzone";
-import { fileUpload } from "../actions/fileUpload";
+import { toArray } from "lodash";
+import UploadActions from "../actions/upload";
 
 class FileDropZone extends Component {
   constructor() {
@@ -16,14 +17,15 @@ class FileDropZone extends Component {
     };
     this.onDrop.bind(this);
   }
-  onDrop = (files) => {
+  componentDidMount() {
+    M.AutoInit();
+  }
+  onDrop = async (files) => {
     function getExtension(filename) {
       var parts = filename.split(".");
       return parts[parts.length - 1];
     }
-    this.setState({ files });
-    this.props.fileUpload(files);
-    console.log(this.props, this.state)
+
     function isValidFile(filename) {
       var ext = getExtension(filename);
       switch (ext.toLowerCase()) {
@@ -61,6 +63,7 @@ class FileDropZone extends Component {
     }
 
     var file = $("#input-file");
+
     if (isValidFile(file.val()).isValid === false) {
       $(".file-upload").addClass("upload-disabled");
       this.setState({ fileIcon: isValidFile(file.val()).icon });
@@ -76,22 +79,31 @@ class FileDropZone extends Component {
       classes: "green accent-3",
     });
 
+    const fileToUpload = {
+      id: 1,
+      file: files[0],
+      progress: 0,
+    };
+    await this.props.setUploadFile(fileToUpload);
+    await this.props.uploadFile(fileToUpload);
+    this.setState({ files: toArray(this.props.uploadState.fileProgress) });
   };
   render() {
+    console.log(this.props);
+
     const preview = {
       display: "inline",
     };
-    const files = this.state.files.map((file) => (
-      <li key={file.name}>
+    const files = this.state.files.map((file, i) => (
+      <li key={i}>
         <p className="dropify-filename">
           <span className="file-icon"></span>
           <span className="dropify-filename-inner">
-            {file.name} - {file.size} bytes
+            {file.file.name} - {file.file.size} bytes
           </span>
         </p>
       </li>
     ));
-
     return (
       <Dropzone onDrop={this.onDrop}>
         {({ getRootProps, getInputProps }) => (
@@ -106,25 +118,52 @@ class FileDropZone extends Component {
                 className="dropify-clear"
                 onClick={() => {
                   this.setState({ files: [] });
+                  this.props.fileClear();
                 }}
-                style={this.state.files.length > 0 ? preview : {}}
+                style={
+                  toArray(this.props.uploadState.fileProgress).length > 0
+                    ? preview
+                    : {}
+                }
               >
                 Remove
               </button>
               <div
                 className="dropify-preview"
-                style={this.state.files.length > 0 ? preview : {}}
+                style={
+                  toArray(this.props.uploadState.fileProgress).length > 0
+                    ? preview
+                    : {}
+                }
               >
                 <span className="dropify-render">
                   <i
                     className="file-icon material-icons large"
-                    style={this.state.files.length > 0 ? preview : {}}
+                    style={
+                      toArray(this.props.uploadState.fileProgress).length > 0
+                        ? preview
+                        : {}
+                    }
                   >
                     {this.state.fileIcon}
                   </i>
                 </span>
                 <div className="dropify-infos">
-                  <ul className="dropify-infos-inner">{files}</ul>
+                  <ul className="dropify-infos-inner">
+                    {files}
+                    <div className="progress">
+                      <div
+                        className="determinate"
+                        style={{
+                          width: this.props.uploadState.fileProgress
+                            .fileToUpload.progress
+                            ? this.props.uploadState.fileProgress.fileToUpload
+                                .progress + "%"
+                            : 0 + "%",
+                        }}
+                      ></div>
+                    </div>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -136,12 +175,9 @@ class FileDropZone extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
-  files : state.fileUpload
+  uploadState: state.upload,
 });
 
-const mapDispatchToProps = {
-  fileUpload,
-};
+const mapDispatchToProps = Object.assign({}, UploadActions);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FileDropZone);

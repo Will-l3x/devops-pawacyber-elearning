@@ -427,6 +427,43 @@ paths:
         "405":
           description: "Invalid input"
 
+  /student/get_classes/{id}:
+    get:
+      tags:
+        - "Student"
+      summary: "Gets all classes for a student..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "StudentID of (classes)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+  
+  /student/get_materials/{id}:
+    get:
+      tags:
+        - "Student"
+      summary: "Gets all course material for an erolled class..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ClassID of (material)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
 
   /schooladmin/teacher/{id}:
     get:

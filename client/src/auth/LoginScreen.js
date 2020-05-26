@@ -6,6 +6,7 @@ import bg_img from "../assets/images/details-1-office-worker.svg";
 import { Redirect } from "react-router";
 import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
+import { Link } from "react-router-dom";
 
 export class LoginScreen extends Component {
   
@@ -64,13 +65,13 @@ export class LoginScreen extends Component {
             <div className="col s8 offset-s2">
               <div className="card card-login row mt-1" style={{padding:"10px",}}>
 
-              <div class="col s12 m5">
-                  <div class="image-container" style={{paddingTop:"90px"}}>
-                      <img class="img-fluid" src={bg_img} alt="alternative"/>
+              <div className="col s12 m5">
+                  <div className="image-container" style={{paddingTop:"90px"}}>
+                      <img className="img-fluid" src={bg_img} alt="alternative"/>
                   </div>
                 </div> 
 
-                <div class="col s12 m7">
+                <div className="col s12 m7">
                 <div className="card-content">
                   <span className="card-title ex-basic-1">{this.salutations}</span>
                   <form>
@@ -87,14 +88,14 @@ export class LoginScreen extends Component {
                       <label htmlFor="password">Password*</label>
                     </div>
 
-                    <div class="form-group" style={{marginTop:"30px"}}>
-                        <button type="submit" class="form-control-submit-button" onClick={this.handleLogin}>LOGIN</button>
+                    <div className="form-group" style={{marginTop:"30px"}}>
+                        <button type="submit" className="form-control-submit-button" onClick={this.handleLogin}>LOGIN</button>
                     </div>
-                    <div class="form-group" style={{marginTop:"10px", textAlign:"center"}}>
-                        <a href="#">Forgot Password</a>
+                    <div className="form-group" style={{marginTop:"10px", textAlign:"center"}}>
+                        <Link to="#">Forgot Password</Link>
                     </div>
-                    <div class="form-group" style={{textAlign:"center",fontStyle:"italic"}}>
-                        <a href="/register">Don't have account? Register Now</a>
+                    <div className="form-group" style={{textAlign:"center",fontStyle:"italic"}}>
+                        <Link to="/register">Don't have account? Register Now</Link>
                     </div>
                   </form>
                 </div>

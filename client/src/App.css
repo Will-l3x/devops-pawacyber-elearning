@@ -2720,6 +2720,7 @@ select {
 #content .container .row {
     margin-bottom: 0;
 }
+
 #content {
     min-height: 82vh;
 }
@@ -6321,7 +6322,11 @@ li.home:before {
 }
 
 .progress {
-    background-color: rgba(255, 64, 129, 0.22);
+    background-color: #e0e0e0;
+}
+
+.progress .indeterminate {
+    background-color: #3bb2f1;
 }
 
 
@@ -6782,7 +6787,7 @@ ul.side-nav.leftside-navigation li:not(.no-padding).active {
 }
 
 ul.side-nav.leftside-navigation li:not(.no-padding) a {
-   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 300;
     white-space: nowrap;
@@ -7759,6 +7764,7 @@ span.m_1 {
 .section.parallax hr.hr1 {
     border-color: rgba(255, 255, 255, 0.1);
 }
+
 .service-widget h3 a,
 .section.wb .service-widget h3,
 .section.lb .service-widget h3 {
@@ -7787,6 +7793,7 @@ span.m_1 {
     padding: 0;
     text-transform: none;
 }
+
 .message-box .lead {
     padding-top: 10px;
     font-size: 19px;
@@ -7854,6 +7861,7 @@ hr.invis {
 hr.invis1 {
     margin: 10px 0;
 }
+
 .course-item {
     background: #ffffff;
 }
@@ -7952,26 +7960,27 @@ hr.invis1 {
     padding-right: 30px;
     text-align: center;
 }
+
 .hovCard:hover {
     -moz-box-shadow: 5px 10px 10px 10px #ccc;
-    -webkit-box-shadow:5px 10px 10px 10px #ccc;
+    -webkit-box-shadow: 5px 10px 10px 10px #ccc;
     box-shadow: 5px 10px 10px 10px #ccc;
 }
 
 /* Custom Designs */
 
-.designed-dots{
+.designed-dots {
     background: url("./assets/images/gallary/design.png") repeat-x right;
     background-size: contain;
 }
 
-.materialCard{
+.materialCard {
     background: url("./assets/images/icon/capRibon.png") no-repeat center center;
     background-size: contain;
 }
 
 
-.sub-card{
+.sub-card {
     background-image: url("./assets/images/gallary/black-dots.png");
-    background-size:  contain;
+    background-size: contain;
 }

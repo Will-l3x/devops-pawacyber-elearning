@@ -240,6 +240,7 @@ user = {};
                                   );
                                 }
                               }
+                              return 1;
                             })}
                           </div>
                         </div>
