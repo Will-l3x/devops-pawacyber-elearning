@@ -19,8 +19,13 @@ export class TeacherFolderCard extends Component {
     };
     this.dashClick.bind(this);
   }
+
+  user = {};
+  
   componentDidMount() {
-    TeacherActions.get_all_courses("teacher_id");
+    this.user= JSON.parse(localStorage.getItem("user"));
+    TeacherActions.get_all_courses(this.user.username);
+   
   }
 
   dashClick = () => {
