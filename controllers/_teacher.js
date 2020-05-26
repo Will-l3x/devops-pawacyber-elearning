@@ -178,7 +178,7 @@ let getCourseMaterial = (req, res) => {
     let p = req.params.id;
     let q = `select * \
       from materials \
-      where materials.materialID = ${p}`;
+      where materials.mId = ${p}`;
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {

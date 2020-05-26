@@ -83,6 +83,14 @@
     max-height: 100% !important;
 }
 
+.modal-width-30 {
+    width: 30% !important;
+}
+
+.modal-width-20 {
+    width: 20% !important;
+}
+
 a {
     text-decoration: none !important;
 }
@@ -356,6 +364,9 @@ a {
 
 .display-block {
     display: block !important;
+}
+.display-none {
+    display: none !important;
 }
 
 .caption {

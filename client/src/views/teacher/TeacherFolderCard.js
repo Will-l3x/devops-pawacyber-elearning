@@ -28,13 +28,7 @@ export class TeacherFolderCard extends Component {
    
   }
 
-  dashClick = (dash, course) => {
-    console.log(this.props);
-    /*
-    this.props.navClick(dash);
-  this.props.course_data({
-      course,
-    });*/
+  dashClick = () => {
     this.setState({
       redirect: true,
     });
@@ -63,13 +57,7 @@ export class TeacherFolderCard extends Component {
     ));
   }
 }
-/*
-TeacherFolderCard.propTypes = {
-  navClick: PropTypes.func.isRequired,
-  course_data: PropTypes.func.isRequired,
-  link: PropTypes.string,
-};
-*/
+
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
   courses: state.teacher.courses,

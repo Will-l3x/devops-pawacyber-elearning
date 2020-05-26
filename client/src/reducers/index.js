@@ -6,16 +6,20 @@ import classroom from "./classroom";
 import events from "./events";
 import teacher from "./teacher";
 import dashLink from "./navlink";
+import school from "./school";
 import student from "./student";
-import fileUpload from "./fileUpload";
+import counter from "./counter";
+import upload from "./upload";
 
 export default combineReducers({
   routing: routerReducer,
   dashLink,
   admin,
   student,
+  school,
   teacher,
   events,
   classroom,
-  fileUpload,
+  upload,
+  counter,
 });

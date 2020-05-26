@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import $ from "jquery";
 import { navClick } from "../../actions/navlink";
 import { course_data } from "../../actions/student";
 import TeacherActions from "../../actions/teacher";
@@ -15,10 +16,17 @@ class TeacherCourseCard extends Component {
       redirect: false,
       count: -1,
     };
+    this.get_all_courses.bind(this);
   }
   componentDidMount() {
-    this.props.get_all_courses("teacher_id");
+    $(".progress").removeClass("display-none");
+    this.get_all_courses()
   }
+  get_all_courses = async () => {
+    await this.props.get_all_courses("teacher_id");
+    $(".progress").addClass("display-none");
+
+  };
   dashClick = (dash, course) => {
     this.props.navClick(dash);
     this.props.course_data({
@@ -47,7 +55,7 @@ class TeacherCourseCard extends Component {
     if (this.state.redirect) {
       return <Redirect to="/classroom" />;
     }
-    return this.props.courses.map((course, i) => (
+    return this.props.teacherState.courses.map((course, i) => (
       <div key={course.courseId} className="col s12 m6 l4 ">
         <div
           className={`card ${this.colors(i)} min-height-100 white-text`}
@@ -77,13 +85,12 @@ class TeacherCourseCard extends Component {
 
 TeacherCourseCard.propTypes = {
   navClick: PropTypes.func.isRequired,
-  course_data: PropTypes.func.isRequired,
   link: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
-  courses: state.teacher.courses,
+  teacherState: state.teacher,
 });
 
 const mapDispatchToProps = Object.assign(

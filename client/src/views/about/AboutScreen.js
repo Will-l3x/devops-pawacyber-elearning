@@ -41,13 +41,13 @@ export class AboutScreen extends Component {
                       <p>
                         When you first register for a PawaCyber School eLearning
                         account, and when you use the Services, we collect some{" "}
-                        <a
+                        <Link
                           className="turquoise"
-                          href="#"
+                          to="#"
                           rel="noopener noreferrer"
                         >
                           Personal Information
-                        </a>{" "}
+                        </Link>{" "}
                         about you such as:
                       </p>
                       <div className="row mt-1">
