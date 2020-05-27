@@ -647,6 +647,8 @@ let register = (req, res) => {
     var password = req.body.password;
     var vpassword = req.body.vpassword;
 
+    var grade = req.body.grade;
+
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var title = req.body.title;
@@ -668,7 +670,7 @@ let register = (req, res) => {
 
     var query_parent = "INSERT INTO [parents] (firstame,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,@dj,@userid,@title)";
 
-    var query_student = "INSERT INTO [employees] (firstame,lastname,datejoined,userid,dob,enrolmentkey) VALUES(@firstname,@lastname,@dj,@userid,@dob,@enrolmentkey)";
+    var query_student = "INSERT INTO [employees] (firstame,lastname,datejoined,userid,dob,enrolmentkey,grade) VALUES(@firstname,@lastname,@dj,@userid,@dob,@enrolmentkey,@grade)";
 
 
     var schema = new passwordValidator();
@@ -767,7 +769,7 @@ let register = (req, res) => {
                                                     .input('userid', lastid)
                                                     .input('ek', enrolmentkey)
                                                     .input('dj', activefrom)
-
+                                                    .input('grade', grade)
                                                     .query(q, function (err, recordset) {
 
                                                         if (err) {
@@ -864,7 +866,7 @@ let register = (req, res) => {
             erro: 'error'
         });
     }
-};
+}; 
 
 //login
 let login = (req, res) => {
@@ -873,6 +875,7 @@ let login = (req, res) => {
         let email = req.body.email;
         let password = req.body.password;
         let lastpassword = password;
+        console.log(email + " " + password);
 
         if (email && password) {
             if (!validator.isEmail(email)) {
@@ -887,7 +890,7 @@ let login = (req, res) => {
 
             var query = "select * from[users] where email=@email and password=@password";
 
-            var request = new sql.Request(sqlConn);
+            var request = new sql.Request();
             request
                 .input('email', email)
                 .input('password', password)

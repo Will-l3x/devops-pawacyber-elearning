@@ -1,7 +1,6 @@
 let sql = require("mssql");
 let upload = async (req, res) => {
-  console.log(req);
-  let obj = JSON.parse(req.body.exForm);
+  let obj = req.body;
   if (!obj.uploadId || !obj.uploadType) {
     return res.status(400).send({
       success: false,
@@ -52,9 +51,9 @@ let upload = async (req, res) => {
             //get the file path
             let fpath = data.recordset[0].file;
             //for postman, it doesn't name the <input/> element...
-            // let tempFile = req.files[""];
+            let tempFile = req.files[""];
             //Name of frontend <input/> element should be 'name="fileUpload"'
-            let tempFile = req.files.fileUpload;
+            // let tempFile = req.files.fileUpload;
             console.log(tempFile); //dev
             let finalPath = base + fpath + tempFile.name;
             let downloadEndpoint = fpath + tempFile.name;

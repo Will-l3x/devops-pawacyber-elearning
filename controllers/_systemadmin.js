@@ -2,6 +2,9 @@
 var sql = require('mssql');
 var generator = require('generate-password');
 var rn = require('random-number');
+var moment = require('moment');
+var bcrypt = require('bcryptjs');
+
 
 
 var gen = rn.generator({
@@ -96,7 +99,7 @@ let del_role = (req, res) => {
                 });
             }
         });
-}
+}   
 
 let add_role = (req, res) => {
     var rolename = req.body.rolename;
