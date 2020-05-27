@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 import $ from "jquery";
@@ -17,7 +16,7 @@ export class SchoolManagement extends Component {
         columns: [
           {
             label: "School Name",
-            field: "schoolName",
+            field: "schoolname",
             sort: "asc",
             width: "24%",
           },
@@ -34,8 +33,8 @@ export class SchoolManagement extends Component {
             width: "15%",
           },
           {
-            label: "Contact Person",
-            field: "contactPerson",
+            label: "Enrolment Key",
+            field: "enrolmentkey",
             sort: "asc",
             width: "50%",
           },
