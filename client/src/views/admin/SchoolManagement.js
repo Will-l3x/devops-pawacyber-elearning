@@ -12,7 +12,8 @@ export class SchoolManagement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+       
+        subId: "",
         columns: [
           {
             label: "School Name",
@@ -40,8 +41,10 @@ export class SchoolManagement extends Component {
           },
         ],
         rows: [],
-      
+        options: []
     };
+
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
   
   componentDidMount() {
@@ -52,6 +55,10 @@ export class SchoolManagement extends Component {
   }
 
   getDashData(){
+    AdminService.get_subs_plans()
+    .then((response) => {
+      this.setState({ options: response});
+    });
     AdminService.get_all_schools()
     .then((response) => {
       this.setState({ rows: response })
@@ -59,9 +66,7 @@ export class SchoolManagement extends Component {
   }
 
   handleSubmit = (event) => {
-    event.preventDefault()
-   
-    console.log(event.target.schoolName.value)
+    event.preventDefault();
     var data = {
         schoolName: event.target.schoolName.value,
         address: event.target.schoolAddress.value,
@@ -70,16 +75,39 @@ export class SchoolManagement extends Component {
         lastname: event.target.surname.value,
         email: event.target.email.value,
     }
+
+    var subData ={
+      schoolId:"2",
+      subscriptionid:this.state.subId,
+      subscriptiondate:Date.now()
+    }
+
+
     AdminService.post_new_school(data).then((response)=>{
-        console.log(response);
         if(response === undefined){
           alert('School creation failed');
         }else{
+          console.log(response);
           alert(response.message);
           document.getElementById("sibs").reset();
           this.getDashData();
-        }
-    })
+        //   AdminService.subscribe_school(subData).then((response)=>{
+        //     console.log(response);
+        //     if(response === undefined){
+        //       alert('School subscription failed');
+        //     }else{
+        //       alert(response.message);
+        //       document.getElementById("sibs").reset();
+        //       this.getDashData();
+        //     }
+        // })
+      }
+    });   
+  }
+
+  handleDropdownChange(event) {
+    this.setState({subId: event.target.value });
+    console.log(this.state.subId);
   }
 
   render() {
@@ -91,7 +119,6 @@ export class SchoolManagement extends Component {
         <main id="main">
           <div className="wrapper">
             <SideBar />
-
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
@@ -154,6 +181,19 @@ export class SchoolManagement extends Component {
                               <label htmlFor="email">Email</label>
                             </div>
                           </div>
+
+                          {/* <div className="row">
+                            <div className="input-field col s6" >
+
+                            <select name="sub" defaultValue={this.state.subId}   onChange={this.handleDropdownChange}>                              
+                              {this.state.options.map((optionField, i) =>  (
+                                <option key={i} value={optionField.subscriptionId}>{optionField.subscriptionname}</option> 
+                            
+                              ))}
+                            </select>
+                            <label htmlFor="sub">Subcription Package</label>
+                            </div>
+                          </div> */}
                         </div>
                           <div className="row">
                             <div className="input-field col s6 offset-s6">

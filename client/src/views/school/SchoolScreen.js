@@ -25,11 +25,11 @@ export class SchoolScreen extends Component {
   }
 
   getDashData(){
-    SchoolService.get_all_teachers('1')
+    SchoolService.get_all_teachers('2')
     .then((response) => {
       this.setState({ teachers: response })
     });
-    SchoolService.get_all_teachers('1')
+    SchoolService.get_all_students('2')
     .then((response) => {
       this.setState({ students: response })
     });
