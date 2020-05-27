@@ -655,3 +655,32 @@ paths:
       responses:
         "405":
           description: "Invalid input"
+
+  /upload/new:
+    post:
+      tags:
+        - "Uploads"
+      summary: "Upload a new file..."
+      description: ""
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - in: formData
+          name: "fileUpload"
+          type: "file"
+          required: true
+          description: "File upload + form data..., expects uploadId, and uploadType..."
+        - in: formData
+          name: "exForm"
+          required: true
+          type: "object"
+          properties:
+            uploadType:
+              type: "string"
+            uploadId:
+              type: "integer"
+      responses:
+        "405":
+          description: "Invalid input"
