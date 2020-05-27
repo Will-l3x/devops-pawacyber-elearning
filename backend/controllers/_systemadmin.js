@@ -96,7 +96,7 @@ let del_role = (req, res) => {
                 });
             }
         });
-}
+}   
 
 let add_role = (req, res) => {
     var rolename = req.body.rolename;
