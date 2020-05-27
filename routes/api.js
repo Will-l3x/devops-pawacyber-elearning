@@ -78,18 +78,17 @@ router.get("/student/get_assignments/:id", _student.getAssignments);
 router.post("/student/new_submission", _student.newSubmission);
 
 //////////////////////schooladmin//////////////////////////////////////////////
-
 router.get("/schooladmin/teacher/:id", _schooladmin.teacher);
 router.get("/schooladmin/teachers/:id", _schooladmin.teachers);
 router.post("/schooladmin/add_teacher", _schooladmin.add_teacher);
 router.delete("/schooladmin/del_teacher/:id", _schooladmin.del_teacher);
 router.put("/schooladmin/update_teacher", _schooladmin.update_teacher);
 
-//router.get("/schooladmin/class/:id", _schooladmin.class);
-//router.get("/schooladmin/classes", _schooladmin.classes);
-//router.post("/schooladmin/add_class", _schooladmin.add_class);
-//router.delete("/schooladmin/del_class", _schooladmin.del_class);
-//router.put("/schooladmin/update_class", _schooladmin.update_class);
+router.get("/schooladmin/get_class/:id", _schooladmin.get_class);
+router.get("/schooladmin/get_classes", _schooladmin.get_classes);
+router.post("/schooladmin/add_class", _schooladmin.add_class);
+router.delete("/schooladmin/del_class", _schooladmin.del_class);
+router.put("/schooladmin/update_class", _schooladmin.update_class);
 
 //router.get("/schooladmin/syllabus/:id", _schooladmin.syllabus);
 //router.get("/schooladmin/syllabi", _schooladmin.syllabi);

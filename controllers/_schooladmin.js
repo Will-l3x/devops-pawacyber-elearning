@@ -3,7 +3,7 @@ let fs = require("fs");
 let nodemailer = require("nodemailer");
 
 /*-------------------------------------------------------------------------------------*/
-/*teacher------------------------------------------------------------------------------*/
+/*teachers------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------*/
 let teacher = (req, res) => {
     let teacherid = req.params.id;
@@ -202,10 +202,192 @@ let update_teacher = (req, res) => {
         });
 }
 
+/*-------------------------------------------------------------------------------------*/
+/*classes------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------*/
+let get_class = (req, res) => {
+    let classid = req.params.id;
+
+    let query = `select * from [classes] \
+    where classId = ${classid}`;
+
+    var request = new sql.Request();
+
+    request
+        .query(query, (err, recordset) => {
+            let _class = recordset.recordset;
+            if (err) {
+                console.log(err);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                
+                return res.json({
+                                status: 200,
+                                success: true,
+                                data: JSON.parse(JSON.stringify({ _class }))
+                            });
+
+                     
+            }
+        });
+}
+
+let get_classes = (req, res) => {
+    let schoolid = req.params.id;
+    let query = `select * from [classes]\
+    where classes.schoolid = ${schoolid}`;
+    let request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+        let classes = recordset.recordset;
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message
+            });
+        } else {
+
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ classes }))
+            });
+        }
+    });
+}
+
+let add_class = (req, res) => {
+    let teacherid = req.body.teacherid;
+    let classname = req.body.classname;
+    let createdby = req.body.createdby;
+    let status = req.body.status;
+    let createdon = moment().format('YYYY-MM-DD');
+    let enrolmentkey;
+   
+
+    var query = `insert into [classes] \
+    (teacherid, classname, createdby, createdon, status) \
+    values(${teacherid}, ${classname}, ${createdby}, ${createdon}, ${status}); \
+    select * from classes where classes.classId = SCOPE_IDENTITY(); `;
+   
+       request
+        .query(query, function (err, recordset) {
+            let _class = recordset.recordset;
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ _class }))
+                });
+            }
+        });
+
+
+}
+
+let del_class = (req, res) => {
+    var id = req.params.id;
+    var query = `delete from [classes] where classId= ${id}`;
+
+    request
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    message: "Deleted"
+                });
+            }
+        });
+}
+
+
+
+let update_class = (req, res) => {
+   let teacherid = req.body.teacherId;
+   let classid = req.body.classid;
+   let classname = req.body.classname;
+   let status = req.body.status;
+   let enrolmentkey = req.body.enrolmentkey;
+   
+    let query = `UPDATE [classes] \
+    SET teacherid=${teacherid} \
+    SET classname=${classname} \
+    SET status=${status} \
+    SET enrolmentkey=${enrolmentkey} \
+    WHERE classId = ${classid}`;
+
+    var request = new sql.Request();
+
+    request
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update'
+                    });
+                }
+            }
+        });
+}
+
 module.exports = {
 	teacher,
 	teachers,
 	add_teacher,
 	del_teacher,
-	update_teacher
+	update_teacher,
+    get_class,
+    get_classes,
+    add_class,
+    del_class,
+    update_class
 };
