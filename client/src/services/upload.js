@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://localhost:3001";
+const apiUrl = "http://localhost:5000";
 
 export const UploadService = {
   upload,
@@ -16,7 +16,7 @@ async function upload(
 ) {
   try {
     let res = await axios({
-      url: `${apiUrl}/upload/new`,
+      url: `${apiUrl}/file-upload`,
       method: "post",
       data,
       onUploadProgress: (progress) => {

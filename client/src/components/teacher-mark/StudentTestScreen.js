@@ -182,7 +182,7 @@ export class StudentTestScreen extends Component {
 
                       <div className="row">
                         <div className="input-field col s12">
-                          <FileDropZone />
+                          <FileDropZone input_id="file1" />
                         </div>
                         <div className="row">
                           <div className="input-field col s12">

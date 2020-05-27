@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "http://localhost:3001/api";
 
 export const ClassroomService = {
   get_all_classwork,
@@ -17,10 +17,10 @@ export const ClassroomService = {
 };
 
 // classroom functions
-async function get_all_classwork() {
+async function get_all_classwork(id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/classroom/get-all-classwork`,
+      url: `${apiUrl}/teacher/get_materials/${id}`,
       method: "get",
       timeout: 8000,
       headers: {
@@ -93,24 +93,10 @@ async function get_all_assignment_files(classroom_id, assignment_id) {
     console.error(err);
   }
 }
-async function post_new_classroom_material(classroom_id, data) {
-  /**
-  data = {
-      "classid": 0,
-      "teacherid": 0,
-      "schoolid": 0,
-      "materialname": "string",
-      "type": "assignment",
-      duration : "120",
-      due: new Date().toISODateString();
-      posted: new Date().toISODateString();
-      "path": "path/to/file"
-      <del>"file": true </del>
-    }
-     */
+async function post_new_classroom_material(data) {
   try {
     let res = await axios({
-      url: `${apiUrl}/teacher/new_material`,
+      url: `${apiUrl}/teacher/new_${data.type}`,
       method: "post",
       data,
       timeout: 8000,
@@ -118,6 +104,7 @@ async function post_new_classroom_material(classroom_id, data) {
         "Content-Type": "application/json",
       },
     });
+    console.log(res.data)
     return res.data;
   } catch (err) {
     console.error(err);

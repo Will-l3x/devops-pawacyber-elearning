@@ -4,7 +4,7 @@ import blog_1 from "../assets/images/blog_1.jpg";
 import blog_2 from "../assets/images/blog_2.jpg";
 import blog_4 from "../assets/images/blog_4.jpg";
 
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "http://localhost:3001/api";
 
 export const SchoolService = {
   get_subscribed_courses,

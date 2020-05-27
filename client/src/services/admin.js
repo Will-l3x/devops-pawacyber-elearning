@@ -7,7 +7,7 @@ import blog_4 from "../assets/images/blog_4.jpg";
 import blog_5 from "../assets/images/blog_5.jpg";
 import blog_6 from "../assets/images/blog_6.jpg";
 
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "http://localhost:3001/api";
 
 export const AdminService = {
   get_all_courses,

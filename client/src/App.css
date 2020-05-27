@@ -6325,7 +6325,8 @@ li.home:before {
     background-color: #e0e0e0;
 }
 
-.progress .indeterminate {
+.progress .indeterminate,
+.progress .determinate {
     background-color: #3bb2f1;
 }
 

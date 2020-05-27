@@ -135,7 +135,7 @@ export class CourseListScreen extends Component {
                         </div>
                         <div className="row">
                           <div className="input-field col s12">
-                            <FileDropZone />
+                            <FileDropZone input_id="file1" />
                             <label style={{ transform: "translateY(-100%)" }}>
                               {" "}
                               <i className="material-icons left">photo</i> Cover

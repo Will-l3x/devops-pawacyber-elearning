@@ -39,6 +39,11 @@ router.get("/school/:id", _systemadmin.school);
 router.post("/add_school", _systemadmin.add_school);
 router.put("/update_school", _systemadmin.update_school);
 
+router.get('/subscriptions', _systemadmin.subscriptions);
+router.post('/add_subscription', _systemadmin.add_subscription);
+router.delete('/del_subscription/:id', _systemadmin.del_subscription);
+router.get('/subscription/:id', _systemadmin.subscription);
+router.get('/update_subcription', _systemadmin.update_subscription);
 //////////////////////mediaplayer//////////////////////////////////////////////
 router.get("/playvideo", _media_server.playvideo);
 
