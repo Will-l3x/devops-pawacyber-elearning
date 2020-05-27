@@ -866,7 +866,7 @@ let register = (req, res) => {
             erro: 'error'
         });
     }
-};
+}; 
 
 //login
 let login = (req, res) => {
