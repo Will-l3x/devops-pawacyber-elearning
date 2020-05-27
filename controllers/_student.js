@@ -280,5 +280,5 @@ module.exports = {
   getClasses: getClasses,
   getCourseMaterials: getCourseMaterials,
   getReminders: getReminders,
-  newSubmission: newSubmission,
+  newSubmission: newSubmission
 };
