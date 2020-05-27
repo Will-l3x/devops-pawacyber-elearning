@@ -55,8 +55,7 @@ export class SchoolManagement extends Component {
   getDashData(){
     AdminService.get_all_schools()
     .then((response) => {
-        console.log(response.schools);
-      this.setState({ rows: response.schools })
+      this.setState({ rows: response })
     });
   }
 
@@ -74,6 +73,13 @@ export class SchoolManagement extends Component {
     }
     AdminService.post_new_school(data).then((response)=>{
         console.log(response);
+        if(response === undefined){
+          alert('School creation failed');
+        }else{
+          alert(response.message);
+          document.getElementById("sibs").reset();
+          this.getDashData();
+        }
     })
   }
 
@@ -96,86 +102,75 @@ export class SchoolManagement extends Component {
                   }}
                 >
                   <div className="nav-content">
-                    <Link
-                      style={{ marginTop: "2%" }}
-                      to="#"
-                      className="brand-logo"
-                    >
+                    <p style={{ padding: "10px",fontSize:"16px" }} >
                       School Management
-                    </Link>
-                    <Link
-                      to="#!"
-                      className="modal-trigger waves-effect black-text right"
-                      style={{ marginTop: "1%", marginRight: "2%" }}
-                      data-target="add-School"
-                    >
-                      <i className="material-icons">add_circle</i>
-                    </Link>
+                    </p>
                   </div>
                 </nav>
               </div>
-              <section id="content" style={{ paddingTop: "7%" }}>
-                <div className="container">
+              <section className = "row" id="content" style={{ paddingTop: "7%" }}>
+                <div className="container col s12 m6 6">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
-                      <div className="col s12 m6 l12">
+                      <div className="col s12 m6 l12" style={{padding:"20px"}}>
                         <DatatablePage data={this.state} />
                       </div>
                     </div>
                   </div>
                 </div>
-              </section>
-              <div
-                id="add-School"
-                className="modal"
-                style={{ overflowY: "hidden" }}
-              >
-                <div className="modal-content">
-                  <h4 className="header2">Add School</h4>
-                  <form onSubmit={this.handleSubmit}>
-                  <div className="row">
-                    <div className="col s12">
+
+                <div className="container col s12 m6 6">
+                  <div className="card-stats z-depth-5 padding-3">
+                    <div className="row mt-1">
+                      <div className="col s12 m6 l12">
+                      <h4 className="header2">Add School</h4>
+                      <form onSubmit={this.handleSubmit} id="sibs">
                       <div className="row">
-                        <div className="input-field col s4">
-                          <input id="schoolName" type="text" name="schoolName"></input>
-                          <label htmlFor="schoolName">School Name</label>
+                        <div className="col s12">
+                          <div className="row">
+                            <div className="input-field col s4">
+                              <input id="schoolName" type="text" name="schoolName"></input>
+                              <label htmlFor="schoolName">School Name</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="schoolAddress" type="text" name="schoolAddress"></input>
+                              <label htmlFor="schoolAddress">School Address</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="schoolContactNumber" type="number" name="schoolContactNumber"></input>
+                              <label htmlFor="schoolContactNumber">Contact Number</label>
+                            </div>
                         </div>
-                        <div className="input-field col s4">
-                          <input id="schoolAddress" type="text" name="schoolAddress"></input>
-                          <label htmlFor="schoolAddress">School Address</label>
+                        <div className="row">
+                            <div className="input-field col s4">
+                              <input id="personName" type="text" name="personName"></input>
+                              <label htmlFor="personName">Contact Person Name</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="surname" type="text" name="surname"></input>
+                              <label htmlFor="surname">Surname</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="email" type="email" name="email"></input>
+                              <label htmlFor="email">Email</label>
+                            </div>
+                          </div>
                         </div>
-                        <div className="input-field col s4">
-                          <input id="schoolContactNumber" type="number" name="schoolContactNumber"></input>
-                          <label htmlFor="schoolContactNumber">Contact Number</label>
+                          <div className="row">
+                            <div className="input-field col s6 offset-s6">
+                              <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
+                                Submit
+                                <i className="material-icons right">send</i>
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="input-field col s4">
-                          <input id="personName" type="text" name="personName"></input>
-                          <label htmlFor="personName">Contact Person Name</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input id="surname" type="text" name="surname"></input>
-                          <label htmlFor="surname">Surname</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input id="email" type="email" name="email"></input>
-                          <label htmlFor="email">Email</label>
-                        </div>
+                        </form>
                       </div>
                     </div>
-                      <div className="row">
-                        <div className="input-field col s6 offset-s6">
-                          <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                            Submit
-                            <i className="material-icons right">send</i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    </form>
                   </div>
                 </div>
+              </section>
               </div>
           </div>
         </main>

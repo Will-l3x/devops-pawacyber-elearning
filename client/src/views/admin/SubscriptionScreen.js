@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 import $ from "jquery";
@@ -16,28 +15,34 @@ export class SubscriptionScreen extends Component {
       
         columns: [
           {
-            label: "School Name",
-            field: "schoolName",
+            label: "Package Name",
+            field: "subscriptionname",
             sort: "asc",
             width: "24%",
           },
           {
-            label: "Address",
-            field: "address",
+            label: "Starting Grade",
+            field: "mingrade",
             sort: "asc",
-            width: "20%",
+            width: "10%",
           },
           {
-            label: "School Contact",
-            field: "contacts",
+            label: "Ending Grade",
+            field: "maxgrade",
+            sort: "asc",
+            width: "10%",
+          },
+          {
+            label: "Price",
+            field: "price",
             sort: "asc",
             width: "15%",
           },
           {
-            label: "Contact Person",
-            field: "contactPerson",
+            label: "Expiration Date",
+            field: "subscriptiondesc",
             sort: "asc",
-            width: "50%",
+            width: "15%",
           },
         ],
         rows: [],
@@ -53,27 +58,30 @@ export class SubscriptionScreen extends Component {
   }
 
   getDashData(){
-    AdminService.get_all_schools()
+    AdminService.get_subs_plans()
     .then((response) => {
-        console.log(response.schools);
-      this.setState({ rows: response.schools })
+        console.log(response);
+      this.setState({ rows: response});
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault()
-   
-    console.log(event.target.schoolName.value)
     var data = {
-        schoolName: event.target.schoolName.value,
-        address: event.target.schoolAddress.value,
-        contacts: event.target.schoolContactNumber.value,
-        firstname: event.target.personName.value,
-        lastname: event.target.surname.value,
-        email: event.target.email.value,
+      subscriptionname: event.target.subscriptionname.value,
+      subscriptiondesc: event.target.subscriptiondesc.value,
+      mingrade: event.target.mingrade.value,
+      maxgrade: event.target.maxgrade.value,
+      price: event.target.price.value,
     }
-    AdminService.post_new_school(data).then((response)=>{
-        console.log(response);
+    AdminService.post_new_plan(data).then((response)=>{
+      if(response===undefined){
+        alert(response.message);
+      }else{
+        alert(response.message);
+        document.getElementById("sibs").reset();
+        this.getDashData();
+      }
     })
   }
 
@@ -86,93 +94,80 @@ export class SubscriptionScreen extends Component {
         <main id="main">
           <div className="wrapper">
             <SideBar />
-
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav className="navbar nav-extended" style={{ position: "fixed"}} >
                   <div className="nav-content">
-                    <div className="brand-logo" style={{padding:"10px"}} >
-                      Manage Subscriptions
-                    </div>
+                    <p style={{padding:"10px", fontSize:"16px"}} >
+                      Manage Subscriptions Plans
+                    </p>
                   </div>
                 </nav>
               </div>
               <div>
-
               <section  className = "row" id="content" style={{ paddingTop: "7%" }}>
                 <div className="container  col s12 m6 6">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
-                      <div className="col s12 m6 l12">
+                      <div className="col s12 m6 l12" style={{padding:"20px"}}>
                         <DatatablePage data={this.state} />
                       </div>
                     </div>
                   </div>
                 </div>
-
                 <div className="container col s12 m6 6">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
                       <div className="modal-content">
-                  <h4 className="header2">Add School</h4>
-                  <form onSubmit={this.handleSubmit}>
-                  <div className="row">
-                    <div className="col s12">
-                      <div className="row">
-                        <div className="input-field col s4">
-                          <input id="schoolName" type="text" name="schoolName"></input>
-                          <label htmlFor="schoolName">School Name</label>
+                        <h4 className="header2">Add Subscription Plan</h4>
+                        <form onSubmit={this.handleSubmit} id="sibs">
+                          <div className="row">
+                            <div className="col s12">
+                              <div className="row">
+                                <div className="input-field col s6">
+                                  <input id="subscriptionname" type="text" name="subscriptionname"></input>
+                                  <label htmlFor="subscriptionname">Package Name</label>
+                                </div>
+                                <div className="input-field col s4">
+                                  <input id="subscriptiondesc" type="date" name="subscriptiondesc"></input>
+                                  <label htmlFor="subscriptiondesc">Expiration Date</label>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="input-field col s4">
+                                  <input id="mingrade" type="number" name="mingrade"></input>
+                                  <label htmlFor="mingrade">Starting Grade</label>
+                                </div>
+                                <div className="input-field col s4">
+                                  <input id="maxgrade" type="number" name="maxgrade"></input>
+                                  <label htmlFor="maxgrade">Ending Grade</label>
+                                </div>
+                                <div className="input-field col s4">
+                                  <input id="price" type="number" name="price"></input>
+                                  <label htmlFor="price">Price</label>
+                                </div>
+                              </div>
+                            </div>
+                              <div className="row">
+                                <div className="input-field col s6 offset-s6">
+                                  <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
+                                    Submit
+                                    <i className="material-icons right">send</i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
                         </div>
-                        <div className="input-field col s4">
-                          <input id="schoolAddress" type="text" name="schoolAddress"></input>
-                          <label htmlFor="schoolAddress">School Address</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input id="schoolContactNumber" type="number" name="schoolContactNumber"></input>
-                          <label htmlFor="schoolContactNumber">Contact Number</label>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="input-field col s4">
-                          <input id="personName" type="text" name="personName"></input>
-                          <label htmlFor="personName">Contact Person Name</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input id="surname" type="text" name="surname"></input>
-                          <label htmlFor="surname">Surname</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input id="email" type="email" name="email"></input>
-                          <label htmlFor="email">Email</label>
-                        </div>
-                      </div>
-                    </div>
-                      <div className="row">
-                        <div className="input-field col s6 offset-s6">
-                          <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                            Submit
-                            <i className="material-icons right">send</i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    </form>
-                  </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                
               </section>
-
-                          
-
-       
               </div>
-                </div>
-              </div>
-       
+            </div>
+          </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
           <Footer />
@@ -182,12 +177,8 @@ export class SubscriptionScreen extends Component {
   }
 }
 
-
-
 const mapStateToProps = (state) => ({});
-
 const mapDispatchToProps = {};
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
