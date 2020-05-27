@@ -97,7 +97,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 //app.use(_auth.checkToken);
 //app.use(_auth.authorize);
 //app.use(subscriptions.checkSubscription);
-
+ 
 app.use("/", routes);
 app.use("/users", users);
 app.use("/api", api);
