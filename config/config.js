@@ -22,7 +22,7 @@ var config = {
    options: {
      encrypt: true,
        stream: true,
-       enableArithAbort:true
+       enableArithAbort:false
    }
  };
 
