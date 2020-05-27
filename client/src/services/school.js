@@ -109,7 +109,6 @@ async function get_all_teachers(id) {
         "Content-Type": "application/json",
       },
     });
-   console.log(res.data.data.teachers)
     return res.data.data.teachers;
   } catch (err) {
     console.error(err);
@@ -146,7 +145,6 @@ async function get_all_students(id) {
         "Content-Type": "application/json",
       },
     });
-    console.log(res.data.data.students)
     return res.data.data.students;
 
   } catch (err) {
