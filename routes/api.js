@@ -84,6 +84,12 @@ router.post("/schooladmin/add_teacher", _schooladmin.add_teacher);
 router.delete("/schooladmin/del_teacher/:id", _schooladmin.del_teacher);
 router.put("/schooladmin/update_teacher", _schooladmin.update_teacher);
 
+router.get("/schooladmin/student/:id", _schooladmin.student);
+router.get("/schooladmin/students/:id", _schooladmin.students);
+//router.post("/schooladmin/add_student", _schooladmin.add_student);
+router.delete("/schooladmin/del_student/:id", _schooladmin.del_student);
+router.put("/schooladmin/update_student", _schooladmin.update_student);
+
 router.get("/schooladmin/get_class/:id", _schooladmin.get_class);
 router.get("/schooladmin/get_classes", _schooladmin.get_classes);
 router.post("/schooladmin/add_class", _schooladmin.add_class);

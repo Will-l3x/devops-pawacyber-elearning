@@ -809,3 +809,124 @@ paths:
       responses:
         "405":
           description: "Invalid input"
+
+  /schooladmin/student/{id}:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets a single student..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "StudentID of (student)record to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/students/{id}:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets all students at a school..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "SchoolID on (students)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/add_student:
+    post:
+      tags:
+        - "School Admin"
+      summary: "Adds a new teachers to a school..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              schoolid:
+                type: "integer"
+              userid:
+                type: "integer"
+              firstname:
+                type: "string"
+              lastname:
+                type: "string"
+              datejoined:
+                type: "date"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/del_student/{id}:
+    delete:
+      tags:
+        - "School Admin"
+      summary: "Deletes a teacher from a school..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "TeacherID on (teacher)records to delete..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/update_student:
+    put:
+      tags:
+        - "School Admin"
+      summary: "Updates a teachers record..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              schoolid:
+                type: "integer"
+              userid:
+                type: "integer"
+              firstname:
+                type: "string"
+              lastname:
+                type: "string"
+              datejoined:
+                type: "date"
+      responses:
+        "405":
+          description: "Invalid input"
