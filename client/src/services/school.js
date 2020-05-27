@@ -4,12 +4,13 @@ import blog_1 from "../assets/images/blog_1.jpg";
 import blog_2 from "../assets/images/blog_2.jpg";
 import blog_4 from "../assets/images/blog_4.jpg";
 
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "http://localhost:3001/api/schooladmin";
 
 export const SchoolService = {
   get_subscribed_courses,
   subscribe_course,
   unsubscribe_course,
+  post_new_teachers,
   get_all_teachers,
   get_all_students,
 };
@@ -91,12 +92,35 @@ async function unsubscribe_course(school_id, course_id) {
   }
 }
 
+
+
+
+
+
 // teacher functions
-async function get_all_teachers() {
+async function get_all_teachers(id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/school/get-all-teachers`,
+      url: `${apiUrl}/teachers/${id}`,
       method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+   console.log(res.data.data.teachers)
+    return res.data.data.teachers;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function post_new_teachers(data) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/add_teacher`,
+      method: "post",
+      data,
       timeout: 8000,
       headers: {
         "Content-Type": "application/json",
@@ -107,21 +131,29 @@ async function get_all_teachers() {
     console.error(err);
   }
 }
+
+
+
 // student functions
-async function get_all_students() {
+async function get_all_students(id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/school/get-all-students`,
+      url: `${apiUrl}/students/${id}`,
       method: "get",
       timeout: 8000,
       headers: {
         "Content-Type": "application/json",
       },
     });
-    return res.data;
+    console.log(res.data.data.students)
+    return res.data.data.students;
+
   } catch (err) {
     console.error(err);
   }
 }
+
+
+
 
 export default SchoolService;
