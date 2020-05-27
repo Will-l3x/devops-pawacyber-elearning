@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
+import {SchoolService} from '../../services/school';
+
 export class SchoolStudentManagementScreen extends Component {
   constructor() {
     super();
@@ -15,88 +16,55 @@ export class SchoolStudentManagementScreen extends Component {
         columns: [
           {
             label: "Student Id",
-            field: "id",
+            field: "userid",
             sort: "asc",
             width: "15%",
           },
           {
-            label: "Name",
-            field: "name",
+            label: "First Name",
+            field: "firstname",
             sort: "asc",
             width: "24%",
           },
           {
-            label: "School",
-            field: "school",
+            label: "Surname",
+            field: "lastname",
             sort: "asc",
-            width: "20%",
+            width: "24%",
           },
           {
-            label: "Courses",
-            field: "courses",
+            label: "DOB",
+            field: "dob",
+            sort: "asc",
+            width: "24%",
+          },
+          {
+            label: "Enrollment Key",
+            field: "enrolmentkey",
             sort: "asc",
             width: "50%",
-          },
-          {
-            label: "Edit",
-            field: "edit",
-            sort: "asc",
-            width: "3%",
-          },
-          {
-            label: "Delete",
-            field: "delete",
-            sort: "asc",
-            width: "3%",
-          },
+          }
         ],
-        rows: [
-          {
-            id: "student_id1",
-            name: "Student Name",
-            school: "schoolname",
-            courses: "Course 1, Course 2",
-            edit: (
-              // eslint-disable-next-line
-              <a rel="noopener noreferrer" to="#">
-                <i className="material-icons left black-text">create</i>
-              </a>
-            ),
-            delete: (
-              // eslint-disable-next-line
-              <a rel="noopener noreferrer" to="#">
-                <i className="material-icons left black-text">delete</i>
-              </a>
-            ),
-          },
-          {
-            id: "student id 2",
-            name: "Student Name",
-            school: "schoolname",
-            courses: "Course 1, Course 2",
-            edit: (
-              // eslint-disable-next-line
-              <a rel="noopener noreferrer" to="#">
-                <i className="material-icons left black-text">create</i>
-              </a>
-            ),
-            delete: (
-              // eslint-disable-next-line
-              <a rel="noopener noreferrer" to="#">
-                <i className="material-icons left black-text">delete</i>
-              </a>
-            ),
-          },
-        ],
+        rows: [],
       },
     };
   }
 
+    
   componentDidMount() {
+    this.getDashData();
     M.AutoInit();
     $(".custom-select.custom-select-sm").addClass("display-none");
     $(".col-sm-12.col-md-6").addClass("height-0");
   }
+
+  getDashData(){
+    SchoolService.get_all_students('1')
+    .then((response) => {
+      this.setState({ rows: response })
+    });
+  }
+
   render() {
     return (
       <div>
@@ -115,24 +83,13 @@ export class SchoolStudentManagementScreen extends Component {
                     position: "fixed",
                   }}
                 >
+              
                   <div className="nav-content">
-                    <Link
-                      style={{ marginTop: "2%", marginBottom: "1%" }}
-                      to="#"
-                      className="brand-logo"
-                    >
+                    <p style={{ padding: "10px",fontSize:"16px" }} >
                       Student List
-                    </Link>
-                    {/** <Link
-                      to="#!"
-                      className="modal-trigger waves-effect black-text right"
-                      style={{ marginTop: "1%", marginRight: "2%" }}
-                      data-target="add-student"
-                    >
-                      <i className="material-icons">person_add</i>
-                    </Link>
-                   */}
+                    </p>
                   </div>
+              
                 </nav>
               </div>
               <section id="content" style={{ paddingTop: "7%" }}>
@@ -146,52 +103,6 @@ export class SchoolStudentManagementScreen extends Component {
                   </div>
                 </div>
               </section>
-              {/**
-               * 
-               * <div
-                id="add-student"
-                className="modal"
-                style={{ overflowY: "hidden" }}
-              >
-                <div className="modal-content">
-                  <h4 className="header2">Add </h4>
-                  <div className="row">
-                    <div className="col s12">
-                      <div className="row">
-                        <div className="input-field col s4">
-                          <input id="title2" type="text"></input>
-                          <label htmlFor="title2">First Name</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input
-                            type="text"
-                            name="due_date"
-                            className="datepicker"
-                          ></input>
-                          <label htmlFor="due_date">Last Name</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input id="duration" type="text"></input>
-                          <label htmlFor="duration">School</label>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="input-field col s6 offset-s6">
-                          <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                            Submit
-                            <i className="material-icons right">send</i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            
-               * 
-               * 
-               */}
             </div>
           </div>
         </main>

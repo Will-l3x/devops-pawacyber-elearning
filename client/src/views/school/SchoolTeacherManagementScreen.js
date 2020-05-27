@@ -59,8 +59,7 @@ export class SchoolTeacherManagementScreen extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-   
-    console.log(event.target.schoolName.value)
+
     var data = {
         schoolId: "1",
         userId: event.target.userid.value,
@@ -70,7 +69,7 @@ export class SchoolTeacherManagementScreen extends Component {
     SchoolService.post_new_school(data).then((response)=>{
         console.log(response);
         if(response === undefined){
-          alert('School creation failed');
+          alert('Teacher addition failed');
         }else{
           alert(response.message);
           document.getElementById("sibs").reset();

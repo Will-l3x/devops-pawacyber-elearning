@@ -8,6 +8,7 @@ import blog_5 from "../assets/images/blog_5.jpg";
 import blog_6 from "../assets/images/blog_6.jpg";
 
 const apiUrl = "http://cybers.azurewebsites.net/api";
+// const apiUrl = "http://localhost:3001/api";
 
 export const AdminService = {
   post_new_school,
