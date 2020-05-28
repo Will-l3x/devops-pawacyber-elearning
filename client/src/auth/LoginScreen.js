@@ -19,6 +19,8 @@ export class LoginScreen extends Component {
     this.state = {
       username: "",
       password: "",
+      userid:"",
+      schoolid:""
     };
     this.handleLogin.bind(this);
     if (this.curHr < 12) {
@@ -35,9 +37,14 @@ export class LoginScreen extends Component {
   handleLogin = () => {
     const username = $("#username").val();
     const password = $("#password").val();
+    const userid = 1;
+    const schoolid= 2;
+    
     this.setState({
       username,
       password,
+      userid,
+      schoolid
     });
   };
   render() {
