@@ -17,7 +17,7 @@ export const StudentService = {
 async function get_all_courses(student_id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/get_cklasses/${student_id}`,
+      url: `${apiUrl}/get_classes/${student_id}`,
       method: "get",
       timeout: 8000,
       headers: {
@@ -94,7 +94,7 @@ async function get_course_video_resources(course_id) {
 async function get_student_pending_classwork(student_id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/student/get-all-pending/${student_id}`,
+      url: `${apiUrl}/get_assignments/${student_id}`,
       method: "get",
       timeout: 8000,
       headers: {
