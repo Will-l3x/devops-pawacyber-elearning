@@ -268,7 +268,8 @@ let add_school = (req, res) => {
             return res.json({
                 status: 400,
                 success: false,
-                message: 'Internal server error'
+                message: 'Internal server error',
+                 err: err.message
             });
         } else {
             //
@@ -283,8 +284,8 @@ let add_school = (req, res) => {
                         return res.json({
                             status: 500,
                             success: false,
-                            message: 'Database error'
-
+                            message: 'Database error',
+                             err: err.message
                         });
                     } else {
                         if (recordset.recordset.length > 0) {
@@ -310,8 +311,8 @@ let add_school = (req, res) => {
                                         return res.json({
                                             status: 500,
                                             success: false,
-                                            message: 'Database error1'
-
+                                            message: 'Database error1',
+                                            err: err.message
                                         });
                                     } else {
                                         if (recordset.rowsAffected[0] > 0) {
@@ -333,7 +334,8 @@ let add_school = (req, res) => {
                                                         return res.json({
                                                             status: 500,
                                                             success: false,
-                                                            message: 'Database error2'
+                                                            message: 'Database error2',
+                                                            err:err.message
 
                                                         });
                                                     } else {
@@ -354,8 +356,8 @@ let add_school = (req, res) => {
                                                                         return res.json({
                                                                             status: 500,
                                                                             success: false,
-                                                                            message: 'Database error3'
-
+                                                                            message: 'Database error3',
+                                                                             err: err.message
                                                                         });
                                                                     } else {
                                                                         if (recordset.rowsAffected[0] > 0) {
