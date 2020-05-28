@@ -900,12 +900,10 @@ let register = (req, res) => {
 //login
 let login = (req, res) => {
   
-
         let email = req.body.email;
         let password = req.body.password;
         let lastpassword = password;
-        console.log(email + " " + password);
-
+      
         if (email && password) {
             if (!validator.isEmail(email)) {
                 return res.json({
@@ -924,6 +922,7 @@ let login = (req, res) => {
                 .input('email', email)
                 .input('password', password)
                 .query(query, function (err, recordset) {
+                    console.log(recordset.recordsets[0]);
 
                     if (err) {
 
@@ -939,6 +938,33 @@ let login = (req, res) => {
                         if (recordset.recordset.length > 0) {
 
                             var result = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
+                            var userid = 0;
+                            var roleid = 0;
+
+                            for (let prop in result) {
+                                console.log(prop);
+                                if (prop === "userId") {
+                                    userid = result[prop];
+                                    console.log(userid);
+                                }
+
+                                if (prop === "roleid") {
+                                    roleid = result[prop];
+                                    console.log(roleid);
+                                }
+                            }
+
+                            var p = "";
+                            if (roleid === 3) {
+                                p = "students";
+                            } else if (roleid === 2) {
+                                p = "parents";
+                            } else if (roleid === 1) {
+                                p = "teachers";
+                            }
+
+                            var q = "select * from[" + p + "] where userid = @id";
+                            var resp = "";
 
                             //verify password hash
                             if (!bcrypt.compareSync(lastpassword, result.password)) {
@@ -955,16 +981,41 @@ let login = (req, res) => {
                                         expiresIn: '48h' // expires in 2 days
                                     }
                                 );
+                                //////////////////////////////
 
-                                return res.json({
-                                    status: 200,
-                                    success: true,
-                                    message: 'Login successful',
-                                    token: token
-                                });
+                                request
+                                    .input("id",userid)
+                                    .query(q, function (err, recordset) {
+                                        
+                                        if (err) {
+
+                                            console.log(err.message);
+                                            return res.json({
+                                                status: 500,
+                                                success: false,
+                                                message: 'something went wrong',
+                                                error: err.message
+                                            });
+                                        } else {
+
+                                            if (recordset.recordset.length > 0) {
+
+                                                resp = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
+
+                                                return res.json({
+                                                    status: 200,
+                                                    roleid: roleid,
+                                                    success: true,
+                                                    message: 'Login successful',
+                                                    token: token,
+                                                    User:resp
+                                                });
+
+                                            }
+                                        }
+                                    });
                             }
-
-                        } else {
+                        }else {
 
                             return res.json({
                                 status: 401,
