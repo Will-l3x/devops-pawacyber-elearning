@@ -43,6 +43,12 @@ export class SchoolStudentManagementScreen extends Component {
             field: "enrolmentkey",
             sort: "asc",
             width: "50%",
+          },
+          {
+            label: "Enrolment Date",
+            field: "datejoined",
+            sort: "asc",
+            width: "50%",
           }
         ],
         rows: [],

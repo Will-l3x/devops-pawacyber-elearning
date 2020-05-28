@@ -16,6 +16,8 @@ export const AdminService = {
   post_new_plan,
   get_subs_plans,
   subscribe_school,
+  get_roles,
+  post_new_role,
 
   get_all_courses,
   post_new_course,
@@ -156,6 +158,59 @@ async function subscribe_school(data) {
     console.error(err);
   }
 }
+
+
+async function post_new_role(data) {
+  try {
+
+    let res = await axios({
+      url: `${apiUrl}/add_role`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function get_roles() {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/roles`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data.roles;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
