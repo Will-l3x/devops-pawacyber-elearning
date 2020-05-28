@@ -823,9 +823,9 @@ let register = (req, res) => {
                                                                         console.log(error.message);
 
                                                                         return res.json({
-                                                                            status: 400,
-                                                                            success: false,
-                                                                            message: 'Account Registered with some errors',
+                                                                            status: 201,
+                                                                            success: true,
+                                                                            message: 'Account Registered',
                                                                             error: 'Failed to send authorization pin'
                                                                         });
                                                                         //    return res.status(400).json({ message: 'Account Registration succeded but failed to send verification pin' });
@@ -851,7 +851,7 @@ let register = (req, res) => {
                                                                 return res.json({
                                                                     status: 400,
                                                                     success: false,
-                                                                    message: 'Account failed'
+                                                                    message: 'Failed to register'
                                                                 });
 
                                                             }
@@ -859,6 +859,7 @@ let register = (req, res) => {
                                                     });
 
                                             } else {
+                                                transaction.rollback();
                                                 return res.json({
                                                     status: 400,
                                                     success: false,
@@ -936,7 +937,7 @@ let login = (req, res) => {
                     } else {
 
                         if (recordset.recordset.length > 0) {
-
+                           
                             var result = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
                             var userid = 0;
                             var roleid = 0;

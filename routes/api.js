@@ -26,18 +26,20 @@ router.get("/roles", _systemadmin.roles);
 router.get("/role/:id", _systemadmin.role);
 router.delete("/del_role/:id", _systemadmin.del_role);
 router.post("/add_role", _systemadmin.add_role);
-router.put("/update_role", _systemadmin.update_role);
+router.put("/update_role/:id", _systemadmin.update_role);
 
 router.get("/subscriptions", _systemadmin.subscriptions);
 router.post("/add_subscription", _systemadmin.add_subscription);
 router.delete("/del_subscription/:id", _systemadmin.del_subscription);
 router.get("/subscription/:id", _systemadmin.subscription);
-router.get("/update_subcription", _systemadmin.update_subscription);
+router.put("/update_subscription/:id", _systemadmin.update_subscription);
+router.put("/subscribe", _systemadmin.subscribe);
 
 router.get("/schools", _systemadmin.schools);
 router.get("/school/:id", _systemadmin.school);
 router.post("/add_school", _systemadmin.add_school);
-router.put("/update_school", _systemadmin.update_school);
+router.put("/update_school/:id", _systemadmin.update_school);
+router.delete("/del_school/:id", _systemadmin.del_school);
 
 //////////////////////mediaplayer//////////////////////////////////////////////
 router.get("/playvideo", _media_server.playvideo);
