@@ -13,7 +13,7 @@ let transporter = nodemailer.createTransport(
     {
         host: 'n3plcpnl0071.prod.ams3.secureserver.net',
         port: 465,
-        secure: true,
+        secure: true, 
         secureConnection: true,
         auth: {
             user: 'strimai@auragrp.com',
