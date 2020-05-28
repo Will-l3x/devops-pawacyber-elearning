@@ -39,7 +39,7 @@ let roles = (req, res) => {
             });
         }
     });
-}
+};
 
 let role = (req, res) => {
     var id = req.params.id;
@@ -71,7 +71,7 @@ let role = (req, res) => {
                 });
             }
         });
-}
+};
 
 let del_role = (req, res) => {
     var id = req.params.id;
@@ -99,11 +99,11 @@ let del_role = (req, res) => {
                 });
             }
         });
-}   
+};
 
 let add_role = (req, res) => {
     var rolename = req.body.rolename;
-   
+
     var query = "INSERT INTO [roles] \
     (rolename) \
     VALUES(@name)";
@@ -126,12 +126,12 @@ let add_role = (req, res) => {
 
                 if (recordset.rowsAffected[0] > 0) {
 
-                        return res.json({
-                            status: 200,
-                            success: true,
-                            message: "Role Added"
-                        });
-                   
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Role Added"
+                    });
+
                 } else {
 
                     return res.json({
@@ -143,7 +143,7 @@ let add_role = (req, res) => {
                 }
             }
         });
-}
+};
 
 let update_role = (req, res) => {
     var rolename = req.params.rolename;
@@ -185,7 +185,7 @@ let update_role = (req, res) => {
                 }
             }
         });
-}
+};
 
 ////////////////////////////schools
 let schools = (req, res) => {
@@ -212,7 +212,7 @@ let schools = (req, res) => {
             });
         }
     });
-}
+};
 
 let add_school = (req, res) => {
     var schoolid = 0;
@@ -220,7 +220,7 @@ let add_school = (req, res) => {
     var contacts = req.body.contacts;
     var address = req.body.address;
     var email = req.body.email;
-    var datejoined , activefrom = moment().format('YYYY-MM-DD');
+    var datejoined, activefrom = moment().format('YYYY-MM-DD');
     var enrolmentkey = generator.generate({
         length: 5,
         numbers: true
@@ -266,149 +266,149 @@ let add_school = (req, res) => {
                 message: 'Internal server error'
             });
         } else {
-        //
-          var request = new sql.Request(transaction);
+            //
+            var request = new sql.Request(transaction);
 
-          request
-            .input('email', email)
-            .query(query_email, function (err, recordset) {
-                if (err) {
-                    console.log(err);
-                    transaction.rollback();
-                    return res.json({
-                        status: 500,
-                        success: false,
-                        message: 'Database error'
-
-                    });
-                } else {
-                    if (recordset.recordset.length > 0) {
+            request
+                .input('email', email)
+                .query(query_email, function (err, recordset) {
+                    if (err) {
+                        console.log(err);
                         transaction.rollback();
                         return res.json({
-                            status: 400,
+                            status: 500,
                             success: false,
-                            message: email + ' is already taken'
+                            message: 'Database error'
+
                         });
                     } else {
-                        //////
-                        request
-                            .input('email', email)
-                            .input('schoolname', schoolname)
-                            .input('address', address)
-                            .input('contacts', contacts)
-                            .input('datejoined', datejoined)
-                            .input('enrolmentkey', enrolmentkey)
-                            .query(query, function (err, recordset) {
-                                if (err) {
-                                    console.log(err);
-                                    transaction.rollback();
-                                    return res.json({
-                                        status: 500,
-                                        success: false,
-                                        message: 'Database error'
-
-                                    });
-                                } else {
-                                    if (recordset.rowsAffected[0] > 0) {
-                                        //if school added succ
-                                        schoolid = recordset.recordset[0].identity;
-
-                                        ////////////////////
-                                        request
-                                            .input('email', email)
-                                            .input('password', password)
-                                            .input('otp', pin)
-                                            .input('roleid', roleid)
-                                            .input('otpe', otpexpiry)
-                                            .input('dj', datejoined)
-                                            .query(query_user, function (err, recordset) {
-                                                if (err) {
-                                                    console.log(err);
-                                                    transaction.rollback();
-                                                    return res.json({
-                                                        status: 500,
-                                                        success: false,
-                                                        message: 'Database error'
-
-                                                    });
-                                                } else {
-                                                    if (recordset.rowsAffected[0] > 0) {
-                                                        //if user added succ
-                                                        userid = recordset.recordset[0].identity;
-                                                        ////////////////////////////////////////////////////
-                                                        request
-                                                            .input('firstname', firstname)
-                                                            .input('lastname', lastname)
-                                                            .input('userid', userid)
-                                                            .input('schoolid', schoolid)
-                                                            .input('dj', datejoined)
-                                                            .query(query_schooladmin, function (err, recordset) {
-                                                                if (err) {
-                                                                    console.log(err);
-                                                                    transaction.rollback();
-                                                                    return res.json({
-                                                                        status: 500,
-                                                                        success: false,
-                                                                        message: 'Database error'
-
-                                                                    });
-                                                                } else {
-                                                                    if (recordset.rowsAffected[0] > 0) {
-                                                                        return res.json({
-                                                                            status: 2001,
-                                                                            success: false,
-                                                                            message: 'school Added'
-                                                                        });
-
-                                                                    } else {
-
-                                                                        transaction.rollback();
-                                                                        return res.json({
-                                                                            status: 400,
-                                                                            success: false,
-                                                                            message: 'Failed to add school , admin. Rolled back changes'
-                                                                        });
-                                                                    }
-                                                                }
-                                                            });
-
-
-
-
-                                                        /////////////////////////////////////////////////////
-
-                                                    } else {
-
-                                                        transaction.rollback();
-                                                        return res.json({
-                                                            status: 400,
-                                                            success: false,
-                                                            message: 'Failed to add school , user. Rolled back changes'
-                                                        });
-                                                    }
-                                                }
-                                            });
-
-                                        //////////////////////
-
-                                    } else {
-                                  
+                        if (recordset.recordset.length > 0) {
+                            transaction.rollback();
+                            return res.json({
+                                status: 400,
+                                success: false,
+                                message: email + ' is already taken'
+                            });
+                        } else {
+                            //////
+                            request
+                                .input('email', email)
+                                .input('schoolname', schoolname)
+                                .input('address', address)
+                                .input('contacts', contacts)
+                                .input('datejoined', datejoined)
+                                .input('enrolmentkey', enrolmentkey)
+                                .query(query, function (err, recordset) {
+                                    if (err) {
+                                        console.log(err);
                                         transaction.rollback();
                                         return res.json({
-                                            status: 400,
+                                            status: 500,
                                             success: false,
-                                            message: 'Failed to add school. Rolled back changes'
+                                            message: 'Database error'
+
                                         });
+                                    } else {
+                                        if (recordset.rowsAffected[0] > 0) {
+                                            //if school added succ
+                                            schoolid = recordset.recordset[0].identity;
+
+                                            ////////////////////
+                                            request
+                                                .input('email', email)
+                                                .input('password', password)
+                                                .input('otp', pin)
+                                                .input('roleid', roleid)
+                                                .input('otpe', otpexpiry)
+                                                .input('dj', datejoined)
+                                                .query(query_user, function (err, recordset) {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        transaction.rollback();
+                                                        return res.json({
+                                                            status: 500,
+                                                            success: false,
+                                                            message: 'Database error'
+
+                                                        });
+                                                    } else {
+                                                        if (recordset.rowsAffected[0] > 0) {
+                                                            //if user added succ
+                                                            userid = recordset.recordset[0].identity;
+                                                            ////////////////////////////////////////////////////
+                                                            request
+                                                                .input('firstname', firstname)
+                                                                .input('lastname', lastname)
+                                                                .input('userid', userid)
+                                                                .input('schoolid', schoolid)
+                                                                .input('dj', datejoined)
+                                                                .query(query_schooladmin, function (err, recordset) {
+                                                                    if (err) {
+                                                                        console.log(err);
+                                                                        transaction.rollback();
+                                                                        return res.json({
+                                                                            status: 500,
+                                                                            success: false,
+                                                                            message: 'Database error'
+
+                                                                        });
+                                                                    } else {
+                                                                        if (recordset.rowsAffected[0] > 0) {
+                                                                            return res.json({
+                                                                                status: 2001,
+                                                                                success: false,
+                                                                                message: 'school Added'
+                                                                            });
+
+                                                                        } else {
+
+                                                                            transaction.rollback();
+                                                                            return res.json({
+                                                                                status: 400,
+                                                                                success: false,
+                                                                                message: 'Failed to add school , admin. Rolled back changes'
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                });
+
+
+
+
+                                                            /////////////////////////////////////////////////////
+
+                                                        } else {
+
+                                                            transaction.rollback();
+                                                            return res.json({
+                                                                status: 400,
+                                                                success: false,
+                                                                message: 'Failed to add school , user. Rolled back changes'
+                                                            });
+                                                        }
+                                                    }
+                                                });
+
+                                            //////////////////////
+
+                                        } else {
+
+                                            transaction.rollback();
+                                            return res.json({
+                                                status: 400,
+                                                success: false,
+                                                message: 'Failed to add school. Rolled back changes'
+                                            });
+                                        }
                                     }
-                                }
-                            });
-                        //////
+                                });
+                            //////
+                        }
                     }
-                }
-            });
+                });
         }
     });
-}
+};
 
 let del_school = (req, res) => {
     var id = req.params.id;
@@ -436,11 +436,11 @@ let del_school = (req, res) => {
                 });
             }
         });
-}
+};
 
 let school = (req, res) => {
     var schoolid = req.params.id;
-    var school_obj , admin_obj , subscriptions_obj;
+    var school_obj, admin_obj, subscriptions_obj;
 
     var query_school = "select * from [schools] \
     where schoolId =@id";
@@ -513,10 +513,10 @@ let school = (req, res) => {
                     });
             }
         });
-}
+};
 
 let update_school = (req, res) => {
-   
+
     var schoolid = req.body.id;
     var schoolname = req.body.schoolname;
     var contacts = req.body.contacts;
@@ -569,7 +569,7 @@ let update_school = (req, res) => {
                 }
             }
         });
-}
+};
 
 ////////////////////////////subscription
 let subscriptions = (req, res) => {
@@ -596,7 +596,7 @@ let subscriptions = (req, res) => {
             });
         }
     });
-}
+};
 
 let add_subscription = (req, res) => {
     var subscriptionname = req.body.subscriptionname;
@@ -631,12 +631,12 @@ let add_subscription = (req, res) => {
 
                 if (recordset.rowsAffected[0] > 0) {
 
-                        return res.json({
-                            status: 200,
-                            success: true,
-                            message: "Subscription Added"
-                        });
-                    
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Subscription Added"
+                    });
+
                 } else {
 
                     return res.json({
@@ -649,7 +649,7 @@ let add_subscription = (req, res) => {
 
             }
         });
-}
+};
 
 let del_subscription = (req, res) => {
     var id = req.params.id;
@@ -677,7 +677,7 @@ let del_subscription = (req, res) => {
                 });
             }
         });
-}
+};
 
 let subscription = (req, res) => {
     var id = req.params.id;
@@ -709,7 +709,7 @@ let subscription = (req, res) => {
                 });
             }
         });
-}
+};
 
 let update_subscription = (req, res) => {
     var subscriptionid = req.params.subscriptionid;
@@ -763,7 +763,7 @@ let update_subscription = (req, res) => {
                 }
             }
         });
-}
+};
 
 let subscribe = (req, res) => {
     var schoolid = req.body.schoolid;
@@ -869,7 +869,7 @@ let subscribe = (req, res) => {
                 }
             }
         });
-}
+};
 
 module.exports = {
     roles: roles,

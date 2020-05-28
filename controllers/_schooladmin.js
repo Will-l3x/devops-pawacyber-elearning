@@ -148,18 +148,18 @@ let del_teacher = (req, res) => {
                 });
             }
         });
-}
+};
 
 
 
 let update_teacher = (req, res) => {
-   let teacherid = req.body.teacherId;
-   let schoolid = req.body.schoolid;
-   let firstname = req.body.firstname;
-   let lastname = req.body.lastname;
-   let userid = req.body.userid;
-   let datejoined = req.body.datejoined;
-   
+    let teacherid = req.body.teacherId;
+    let schoolid = req.body.schoolid;
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    let userid = req.body.userid;
+    let datejoined = req.body.datejoined;
+
     let query = `UPDATE [teachers] \
     SET schoolid=${schoolid} \
     SET firstname=${firstname} \
@@ -198,7 +198,7 @@ let update_teacher = (req, res) => {
                 }
             }
         });
-}
+};
 
 /*-------------------------------------------------------------------------------------*/
 /*classes------------------------------------------------------------------------------*/
@@ -223,17 +223,17 @@ let get_class = (req, res) => {
                     error: err.message
                 });
             } else {
-                
-                return res.json({
-                                status: 200,
-                                success: true,
-                                data: JSON.parse(JSON.stringify({ _class }))
-                            });
 
-                     
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ _class }))
+                });
+
+
             }
         });
-}
+};
 
 let get_classes = (req, res) => {
     let schoolid = req.params.id;
@@ -261,7 +261,7 @@ let get_classes = (req, res) => {
             });
         }
     });
-}
+};
 
 let add_class = (req, res) => {
     let teacherid = req.body.teacherid;
@@ -270,14 +270,14 @@ let add_class = (req, res) => {
     let status = req.body.status;
     let createdon = moment().format('YYYY-MM-DD');
     let enrolmentkey;
-   
+
 
     var query = `insert into [classes] \
     (teacherid, classname, createdby, createdon, status) \
     values(${teacherid}, ${classname}, ${createdby}, ${createdon}, ${status}); \
     select * from classes where classes.classId = SCOPE_IDENTITY(); `;
-   
-       request
+
+    request
         .query(query, function (err, recordset) {
             let _class = recordset.recordset;
             if (err) {
@@ -300,7 +300,7 @@ let add_class = (req, res) => {
         });
 
 
-}
+};
 
 let del_class = (req, res) => {
     var id = req.params.id;
@@ -327,17 +327,17 @@ let del_class = (req, res) => {
                 });
             }
         });
-}
+};
 
 
 
 let update_class = (req, res) => {
-   let teacherid = req.body.teacherId;
-   let classid = req.body.classid;
-   let classname = req.body.classname;
-   let status = req.body.status;
-   let enrolmentkey = req.body.enrolmentkey;
-   
+    let teacherid = req.body.teacherId;
+    let classid = req.body.classid;
+    let classname = req.body.classname;
+    let status = req.body.status;
+    let enrolmentkey = req.body.enrolmentkey;
+
     let query = `UPDATE [classes] \
     SET teacherid=${teacherid} \
     SET classname=${classname} \
@@ -375,14 +375,14 @@ let update_class = (req, res) => {
                 }
             }
         });
-}
+};
 
 /*-------------------------------------------------------------------------------------*/
 /*students------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------*/
 let student = (req, res) => {
     let studentid = req.params.id;
-    
+
 
     let query = `select * from [students] \
     where studentId = ${studentid}`;
@@ -405,15 +405,15 @@ let student = (req, res) => {
                 student = recordset.recordset;
 
                 return res.json({
-                                status: 200,
-                                success: true,
-                                data: JSON.parse(JSON.stringify({ student }))
-                            });
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ student }))
+                });
 
-                     
+
             }
         });
-}
+};
 
 let students = (req, res) => {
     let schoolid = req.params.id;
@@ -441,7 +441,7 @@ let students = (req, res) => {
             });
         }
     });
-}
+};
 
 let add_student = (req, res) => {
     let schoolid = req.body.schoolid;
@@ -451,14 +451,14 @@ let add_student = (req, res) => {
     let dob = req.body.dob;
     let enrolmentkey = req.body.enrolmentkey;
     let datejoined = moment().format('YYYY-MM-DD');
-   
+
 
     var query = `insert into [students] \
     (schoolid, firstname, lastname, userid, dob, enrolmentkey, datejoined) \
     values(${schoolid}, ${firstname}, ${lastname}, ${userid}, ${dob}, ${enrolmentkey}, ${datejoined}); \
     select * from students where students.studentId = SCOPE_IDENTITY(); `;
-   
-       request
+
+    request
         .query(query, function (err, recordset) {
             let student = recordset.recordset;
             if (err) {
@@ -481,7 +481,7 @@ let add_student = (req, res) => {
         });
 
 
-}
+};
 
 let del_student = (req, res) => {
     var id = req.params.id;
@@ -508,7 +508,7 @@ let del_student = (req, res) => {
                 });
             }
         });
-}
+};
 
 
 
@@ -520,8 +520,8 @@ let update_student = (req, res) => {
     let userid = req.body.userid;
     let dob = req.body.dob;
     let enrolmentkey = req.body.enrolmentkey;
-   
-   
+
+
     let query = `UPDATE [students] \
     SET schoolid=${schoolid} \
     SET firstname=${firstname} \
@@ -561,7 +561,7 @@ let update_student = (req, res) => {
                 }
             }
         });
-}
+};
 
 module.exports = {
 	teacher,
@@ -578,5 +578,5 @@ module.exports = {
     students,
     add_student,
     del_student,
-    update_student,
+    update_student
 };

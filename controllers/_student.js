@@ -10,7 +10,7 @@ let newMsg = async (req, res) => {
   if (!obj.teacherid || !obj.studentid || !obj.message) {
     res.send({
       err:
-        "Missing a parameter, expects classid, title, teacherid on request object",
+        "Missing a parameter, expects classid, title, teacherid on request object"
     });
     console.log("Missing parameter..."); //dev
   } else {
@@ -25,7 +25,7 @@ let newMsg = async (req, res) => {
         return res.status(500).send({
           success: false,
           message: "An error occured",
-          error: err.message,
+          error: err.message
         });
       } else {
         console.log("Insert : "); //dev
@@ -34,13 +34,13 @@ let newMsg = async (req, res) => {
           return res.json({
             status: 200,
             success: true,
-            message: "Added msg...",
+            message: "Added msg..."
           });
         } else {
           return res.json({
             status: 400,
             success: false,
-            message: "Failed to add msg...",
+            message: "Failed to add msg..."
           });
         }
       }
@@ -53,7 +53,7 @@ let getMsgs = (req, res) => {
   //Expects studentid
   if (!req.params.id) {
     res.send({
-      err: "Missing a parameter, expects studentid",
+      err: "Missing a parameter, expects studentid"
     });
     console.log("Missing parameter..."); //dev
   } else {
@@ -68,18 +68,18 @@ let getMsgs = (req, res) => {
         return res.status(500).send({
           success: false,
           message: "An error occured",
-          error: err.message,
+          error: err.message
         });
       } else {
         if (data.recordset.len === 0) {
           return res.status(400).send({
             success: false,
-            message: "Student messages not found",
+            message: "Student messages not found"
           });
         } else {
           return res.status(200).send({
             success: true,
-            data: data.recordset,
+            data: data.recordset
           });
         }
       }
@@ -92,7 +92,7 @@ let getClasses = (req, res) => {
   //Expects studentid
   if (!req.params.id) {
     res.send({
-      err: "Missing a parameter, expects studentid",
+      err: "Missing a parameter, expects studentid"
     });
     console.log("Missing parameter..."); //dev
   } else {
@@ -108,18 +108,18 @@ let getClasses = (req, res) => {
         return res.status(500).send({
           success: false,
           message: "An error occured",
-          error: err.message,
+          error: err.message
         });
       } else {
         if (data.recordset.len === 0) {
           return res.status(400).send({
             success: false,
-            message: "Classes not found",
+            message: "Classes not found"
           });
         } else {
           return res.status(200).send({
             success: true,
-            data: data.recordset,
+            data: data.recordset
           });
         }
       }
@@ -132,7 +132,7 @@ let getCourseMaterials = (req, res) => {
   //Expects classid
   if (!req.params.id) {
     res.send({
-      err: "Missing a parameter, expects classid",
+      err: "Missing a parameter, expects classid"
     });
     console.log("Missing parameter..."); //dev
   } else {
@@ -146,18 +146,18 @@ let getCourseMaterials = (req, res) => {
         return res.status(500).send({
           success: false,
           message: "An error occured",
-          error: err.message,
+          error: err.message
         });
       } else {
         if (data.recordset.len === 0) {
           return res.status(400).send({
             success: false,
-            message: "Materials not found",
+            message: "Materials not found"
           });
         } else {
           return res.status(200).send({
             success: true,
-            data: data.recordset,
+            data: data.recordset
           });
         }
       }
@@ -170,7 +170,7 @@ let getReminders = (req, res) => {
   //Expects studentid
   if (!req.params.id) {
     res.send({
-      err: "Missing a parameter, expects studentid",
+      err: "Missing a parameter, expects studentid"
     });
     console.log("Missing parameter..."); //dev
   } else {
@@ -185,18 +185,18 @@ let getReminders = (req, res) => {
         return res.status(500).send({
           success: false,
           message: "An error occured",
-          error: err.message,
+          error: err.message
         });
       } else {
         if (data.recordset.len === 0) {
           return res.status(400).send({
             success: false,
-            message: "Reminders not found",
+            message: "Reminders not found"
           });
         } else {
           return res.status(200).send({
             success: true,
-            data: data.recordset,
+            data: data.recordset
           });
         }
       }
@@ -217,7 +217,7 @@ let newSubmission = (req, res) => {
   ) {
     res.send({
       err:
-        "Missing a parameter, expects classid, studentid, assid, teacherid on request object",
+        "Missing a parameter, expects classid, studentid, assid, teacherid on request object"
     });
     console.log("Missing parameter..."); //dev
   } else {
@@ -250,7 +250,7 @@ let newSubmission = (req, res) => {
         return res.status(500).send({
           success: false,
           message: "An error occured",
-          error: err.message,
+          error: err.message
         });
       } else {
         console.log(data); //dev
@@ -261,13 +261,13 @@ let newSubmission = (req, res) => {
             success: true,
             message: "Added assignment submission...",
             uploadId: assId,
-            uploadType: "student_assignments",
+            uploadType: "student_assignments"
           });
         } else {
           return res.json({
             status: 400,
             success: false,
-            message: "Failed to add assignment submission...",
+            message: "Failed to add assignment submission..."
           });
         }
       }
