@@ -226,7 +226,7 @@ let newSubmission = (req, res) => {
     if (!obj.file) {
       let o = JSON.stringify(obj.obj);
       q = `insert into student_assignments \
-        (classid, teacherid, assid, studentid, obj) \
+        (classid, teacherid, assignmentid, studentid, obj) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assid}','${studentid}', ${o})`;
     } else {
       uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/${obj.assid}/`;
@@ -238,7 +238,7 @@ let newSubmission = (req, res) => {
         fs.mkdirSync(uploadPath, { recursive: true });
       }
       q = `insert into student_assignments \
-        (classid, teacherid, assid, studentid, [file]) \
+        (classid, teacherid, assignmentid, studentid, [file]) \
          values (${obj.classid}, ${obj.teacherid}, ${obj.assid}, ${obj.studentid}, '${obj.file}'); \
         select * FROM student_assignments where student_assignments.assignmentID = SCOPE_IDENTITY(); `;
     }
@@ -280,5 +280,5 @@ module.exports = {
   getClasses: getClasses,
   getCourseMaterials: getCourseMaterials,
   getReminders: getReminders,
-  newSubmission: newSubmission
+  newSubmission: newSubmission,
 };
