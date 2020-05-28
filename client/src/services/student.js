@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://localhost:3001";
+const apiUrl = "http://localhost:3001/api/student";
 
 export const StudentService = {
   get_all_courses,
@@ -17,19 +17,19 @@ export const StudentService = {
 async function get_all_courses(student_id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/student/get_classes/${student_id}`,
+      url: `${apiUrl}/get_cklasses/${student_id}`,
       method: "get",
       timeout: 8000,
       headers: {
         "Content-Type": "application/json",
       },
     });
-    return res.data;
+    return res.data.data;
   } catch (err) {
     console.error(err);
     return [{
-      courseId: 1,
-      courseName: "Check connection...",
+      classId: 0,
+      classname: "Check connection...",
       numberOfTopics: null,
       courseCode: null,
     },
@@ -40,23 +40,23 @@ async function get_all_courses(student_id) {
 async function get_course_downloadables(course_id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/student/get_materials/${course_id}`,
+      url: `${apiUrl}/get_materials/${course_id}`,
       method: "get",
       timeout: 8000,
       headers: {
         "Content-Type": "application/json",
       },
     });
-    return res.data;
+    console.log(res.data.data)
+    return res.data.data;
 
   } catch (err) {
     console.error(err);
-
     return [{
       resourceid: 1,
-      resourceName: "Check connection...",
-      resourceLink: "null",
-      date: "15-05-2020"
+      materialname: "Check connection...",
+      file: "null",
+      dateadded: "15-05-2020"
     }, ];
 
   }
@@ -65,7 +65,7 @@ async function get_course_downloadables(course_id) {
 async function get_course_video_resources(course_id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/student/get-all-unmarked/${course_id}`,
+      url: `${apiUrl}/get-all-unmarked/${course_id}`,
       method: "get",
       timeout: 8000,
       headers: {
