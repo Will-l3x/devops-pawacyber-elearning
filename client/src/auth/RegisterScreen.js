@@ -4,9 +4,50 @@ import { connect } from 'react-redux'
 import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
 import img from "../assets/images/details-2-office-team-work.svg"
-
+import {AuthService} from '../services/authServices';
 
 export class RegisterScreen extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            title:""
+        };
+        this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
+      }
+    
+
+    handleTitleDropdownChange(event) {
+        this.setState({title: event.target.value });
+      }
+
+      handleSubmit = (event) => {
+        event.preventDefault();
+
+        var registerAdmin = {
+            email: event.target.email.value,
+            password:  event.target.password.value,
+            vpassword:  event.target.vpassword.value,
+            firstname: event.target.firstname.value,
+            lastname: event.target.lastname.value,
+            title: this.state.title,
+            grade: event.target.grade.value,
+            roleId: 'student',
+        }
+
+        AuthService.register(registerAdmin).then((response) => {
+            if (response === undefined) {
+                alert("Registration Failed")
+            } else if (response.success === false) {
+                alert(response.message);
+            } else {
+                alert(response.message);
+                document.getElementById("contactForm").reset();
+                this.getDashData();
+            }
+        });
+    }
+
     render() {
         return (
             <div>
@@ -24,24 +65,29 @@ export class RegisterScreen extends Component {
                                 </div>
                             </div> 
                             <div class="col s12 m7">                    
-                                <form id="contactForm" data-toggle="validator" data-focus="false" novalidate="true">
+                                <form id="contactForm" data-toggle="validator" data-focus="false" novalidate="true" onSubmit={this.handleSubmit}>
                                     <div class="row mt-1">
-                                        <div class="col s12 m5">  
-                                            <div className="input-field">
-                                                <input id="surname" type="text" className="validate" />
-                                                <label htmlFor="surname">Surname *</label>
-                                            </div>
+                                    <div class="col s12 m3">     
+                                     <div className="input-field">
+                                            <select name="title" defaultValue={this.state.title}   onChange={this.handleTitleDropdownChange} required>                              
+                                                <option value="Mr">Mr</option> 
+                                                <option value="Mr">Mrs</option> 
+                                                <option value="Mr">Rev</option> 
+                                                <option value="Mr">Dr</option> 
+                                            </select>
                                         </div>
+                                        </div>
+
                                         <div class="col s12 m4">     
                                             <div className="input-field">
-                                                <input id="name" type="text" className="validate"/>
-                                                <label htmlFor="name">Name *</label>
+                                                <input id="firstname" type="text" className="validate" name="firstname" required/>
+                                                <label htmlFor="firstname">First Name *</label>
                                             </div>
                                         </div>
-                                        <div class="col s12 m3">     
+                                        <div class="col s12 m5">  
                                             <div className="input-field">
-                                                <input id="gender" type="text" className="validate"/>
-                                                <label htmlFor="gender">Gender *</label>
+                                                <input id="lastname" type="text" className="validate" name="lastname" required />
+                                                <label htmlFor="lastname">Surname *</label>
                                             </div>
                                         </div>
                                     </div>
@@ -49,44 +95,35 @@ export class RegisterScreen extends Component {
                                     <div class="row mt-1">
                                         <div class="col s12 m6">     
                                             <div className="input-field">
-                                                <input id="school" type="text" className="validate"/>
-                                                <label htmlFor="school">Select School *</label>
+                                                <input id="school" type="text" className="validate" name="school"required/>
+                                                <label htmlFor="school">School ID *</label>
                                             </div>
                                         </div>
                                         <div class="col s12 m6">  
                                             <div className="input-field">
-                                                <input id="grade" type="text" className="validate" />
+                                                <input id="grade" type="text" className="validate" name="grade" required/>
                                                 <label htmlFor="grade">Select Grade *</label>
                                             </div>
                                         </div>
                                     </div>
                                                                         
                                     <div class="row mt-1">
-                                        <div class="col s12 m7">  
-                                            <div className="input-field">
-                                                <input id="phoneNumber" type="number" className="validate" />
-                                                <label htmlFor="phoneNumber">Phone Number *</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-1">
                                         <div class="col s12 m4">  
                                             <div className="input-field">
-                                                <input id="username" type="text" className="validate" />
-                                                <label htmlFor="username">Username *</label>
+                                                <input id="email" type="email" className="validate" name="email" required />
+                                                <label htmlFor="email">Email *</label>
                                             </div>
                                         </div>
                                         <div class="col s12 m4">  
                                             <div className="input-field">
-                                                <input id="password" type="password" className="validate" />
+                                                <input id="password" type="password" className="validate" name="password" required />
                                                 <label htmlFor="password">Password *</label>
                                             </div>
                                         </div>
                                         <div class="col s12 m4">     
                                             <div className="input-field">
-                                                <input id="repassword" type="password" className="validate"/>
-                                                <label htmlFor="repassword">Retype Password *</label>
+                                                <input id="vpassword" type="password" className="validate" name="vpassword" required />
+                                                <label htmlFor="vpassword">Retype Password *</label>
                                             </div>
                                         </div>
                                     </div>
