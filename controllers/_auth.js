@@ -114,11 +114,11 @@ let profile = (req, res) => {
             status: 400,
             success: false,
             message: "Something went wrong"
-         
+
         });
     }
 
-  
+
     var request = new sql.Request();
 
     request
@@ -143,7 +143,7 @@ let profile = (req, res) => {
                 });
             }
         });
-}
+};
 
 let resetpassword = (req, res) => {
 

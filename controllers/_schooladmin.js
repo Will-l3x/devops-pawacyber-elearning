@@ -7,7 +7,7 @@ let nodemailer = require("nodemailer");
 /*-------------------------------------------------------------------------------------*/
 let teacher = (req, res) => {
     let teacherid = req.params.id;
-    let teacher , classes;
+    let teacher, classes;
 
     let query_teacher = `select * from [teachers] \
     where teacherId = ${teacherid}`;
@@ -47,26 +47,26 @@ let teacher = (req, res) => {
                             classes = recordset.recordset;
 
                             return res.json({
-                                            status: 200,
-                                            success: true,
-                                            data: JSON.parse(JSON.stringify({ teacher, classes }))
-                                        });
+                                status: 200,
+                                success: true,
+                                data: JSON.parse(JSON.stringify({ teacher, classes }))
+                            });
 
-                           
+
                         }
                     });
             }
         });
-}
+};
 
 let teachers = (req, res) => {
-	let schoolid = req.params.id;
+    let schoolid = req.params.id;
     let query = `select * from [teachers]\
     where teachers.schoolid = ${schoolid}`;
     let request = new sql.Request();
 
     request.query(query, function (err, recordset) {
-    	let teachers = recordset.recordset;
+        let teachers = recordset.recordset;
         if (err) {
             console.log(err);
             console.log(err.stack);
@@ -85,7 +85,7 @@ let teachers = (req, res) => {
             });
         }
     });
-}
+};
 
 let add_teacher = (req, res) => {
     let schoolid = req.body.schoolid;
@@ -93,16 +93,16 @@ let add_teacher = (req, res) => {
     let lastname = req.body.lastname;
     let userid = req.body.userid;
     let datejoined = moment().format('YYYY-MM-DD');
-   
+
 
     var query = `insert into [teachers] \
     (schoolid, firstname, lastname, userid,datejoined) \
     values(${schoolid}, ${firstname}, ${lastname}, ${userid}, ${datejoined}); \
     select * from teachers where teachers.teacherId = SCOPE_IDENTITY(); `;
-   
-       request
+
+    request
         .query(query, function (err, recordset) {
-        	let teacher = recordset.recordset;
+            let teacher = recordset.recordset;
             if (err) {
                 console.log(err);
                 console.log(err.stack);
@@ -121,9 +121,7 @@ let add_teacher = (req, res) => {
                 });
             }
         });
-
-
-}
+};
 
 let del_teacher = (req, res) => {
     var id = req.params.id;
