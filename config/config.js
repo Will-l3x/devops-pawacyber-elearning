@@ -2,9 +2,9 @@
 
 //var config = {
 //  user: "sa",
-//  password: "tate@1234",
+//  password: "ymcmbmmtmc",
 //  server: "localhost",
-//  database: "newschool4",
+//  database: "cyberschool",
 //  enableArithAbort:true,
 //  stream: true,
 //   options: {
