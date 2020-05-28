@@ -58,7 +58,7 @@ let teacher = (req, res) => {
             }
         });
 };
-
+ 
 let teachers = (req, res) => {
     let schoolid = req.params.id;
     let query = `select * from [teachers]\
