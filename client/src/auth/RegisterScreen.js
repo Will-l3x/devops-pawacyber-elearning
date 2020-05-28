@@ -16,7 +16,6 @@ export class RegisterScreen extends Component {
         this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
       }
     
-
     handleTitleDropdownChange(event) {
         this.setState({title: event.target.value });
       }
@@ -43,7 +42,6 @@ export class RegisterScreen extends Component {
             } else {
                 alert(response.message);
                 document.getElementById("contactForm").reset();
-                this.getDashData();
             }
         });
     }
@@ -69,25 +67,25 @@ export class RegisterScreen extends Component {
                                     <div class="row mt-1">
                                     <div class="col s12 m3">     
                                      <div className="input-field">
-                                            <select name="title" defaultValue={this.state.title}   onChange={this.handleTitleDropdownChange} required>                              
-                                                <option value="Mr">Mr</option> 
-                                                <option value="Mr">Mrs</option> 
-                                                <option value="Mr">Rev</option> 
-                                                <option value="Mr">Dr</option> 
+                                            <select name="title" defaultValue={this.state.title}  onChange={this.handleTitleDropdownChange} required>                              
+                                                <option value="Mr">Male</option> 
+                                                <option value="Miss">Female</option> 
                                             </select>
+                                            <label htmlFor="title">Gender* </label>
                                         </div>
                                         </div>
 
-                                        <div class="col s12 m4">     
-                                            <div className="input-field">
-                                                <input id="firstname" type="text" className="validate" name="firstname" required/>
-                                                <label htmlFor="firstname">First Name *</label>
-                                            </div>
-                                        </div>
+ 
                                         <div class="col s12 m5">  
                                             <div className="input-field">
-                                                <input id="lastname" type="text" className="validate" name="lastname" required />
+                                                <input id="lastname" type="text" className="validate" name="lastname" required ></input>
                                                 <label htmlFor="lastname">Surname *</label>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m4">     
+                                            <div className="input-field">
+                                                <input id="firstname" type="text" className="validate" name="firstname" required></input>
+                                                <label htmlFor="firstname">First Name *</label>
                                             </div>
                                         </div>
                                     </div>
@@ -101,7 +99,7 @@ export class RegisterScreen extends Component {
                                         </div>
                                         <div class="col s12 m6">  
                                             <div className="input-field">
-                                                <input id="grade" type="text" className="validate" name="grade" required/>
+                                                <input id="grade" type="text" className="validate" name="grade" required></input>
                                                 <label htmlFor="grade">Select Grade *</label>
                                             </div>
                                         </div>
@@ -110,19 +108,19 @@ export class RegisterScreen extends Component {
                                     <div class="row mt-1">
                                         <div class="col s12 m4">  
                                             <div className="input-field">
-                                                <input id="email" type="email" className="validate" name="email" required />
+                                                <input id="email" type="email" className="validate" name="email" required ></input>
                                                 <label htmlFor="email">Email *</label>
                                             </div>
                                         </div>
                                         <div class="col s12 m4">  
                                             <div className="input-field">
-                                                <input id="password" type="password" className="validate" name="password" required />
+                                                <input id="password" type="password" className="validate" name="password" required ></input>
                                                 <label htmlFor="password">Password *</label>
                                             </div>
                                         </div>
                                         <div class="col s12 m4">     
                                             <div className="input-field">
-                                                <input id="vpassword" type="password" className="validate" name="vpassword" required />
+                                                <input id="vpassword" type="password" className="validate" name="vpassword" required ></input>
                                                 <label htmlFor="vpassword">Retype Password *</label>
                                             </div>
                                         </div>
