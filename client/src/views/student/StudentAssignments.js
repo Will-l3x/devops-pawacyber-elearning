@@ -22,8 +22,9 @@ export class StudentAssignments extends Component {
 user = {};
   assignmentData(){
     this.user= JSON.parse(localStorage.getItem("user"));
-    StudentService.get_student_all_classwork(this.user.username)
+    StudentService.get_student_all_classwork(1) //course id
     .then((response) => {
+      console.log(response)
       this.setState({ assignment: response })
     });
   }

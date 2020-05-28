@@ -37,12 +37,12 @@ export class StudentScreen extends Component {
       this.setState({ courses: response })
     });
 
-    StudentService.get_student_marked_classwork(this.user.username)
+    StudentService.get_student_marked_classwork(1) // Course Id
     .then((response) => {
       this.setState({ markedWork: response })
     });
 
-    StudentService.get_student_pending_classwork(this.user.username)
+    StudentService.get_student_pending_classwork(1) // Course Id
     .then((response) => {
       this.setState({ pendingWork: response })
     });

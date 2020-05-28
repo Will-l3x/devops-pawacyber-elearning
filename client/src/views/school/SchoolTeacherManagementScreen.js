@@ -16,7 +16,7 @@ export class SchoolTeacherManagementScreen extends Component {
         columns: [
           {
             label: "ID",
-            field: "userid",
+            field: "teacherId",
             sort: "asc",
             width: "20%",
           },
