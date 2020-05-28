@@ -51,7 +51,7 @@ export class SchoolTeacherManagementScreen extends Component {
   }
 
   getDashData(){
-    SchoolService.get_all_teachers('1')
+    SchoolService.get_all_teachers('2')
     .then((response) => {
       this.setState({ rows: response })
     });
@@ -61,12 +61,11 @@ export class SchoolTeacherManagementScreen extends Component {
     event.preventDefault()
 
     var data = {
-        schoolId: "1",
-        userId: event.target.userid.value,
-        firstName: event.target.firstName.value,
-        lastName: event.target.lastName.value,
+        schoolId: "2",
+        firstname: event.target.firstName.value,
+        lastname: event.target.lastName.value,
     }
-    SchoolService.post_new_school(data).then((response)=>{
+    SchoolService.post_new_teachers(data).then((response)=>{
         console.log(response);
         if(response === undefined){
           alert('Teacher addition failed');
@@ -104,7 +103,7 @@ export class SchoolTeacherManagementScreen extends Component {
                 </nav>
               </div>
               <section className = "row" id="content" style={{ paddingTop: "7%" }}>
-                <div className="container col s12 m6 8">
+                <div className="container col s8">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12" style={{padding:"20px"}}>
@@ -114,7 +113,7 @@ export class SchoolTeacherManagementScreen extends Component {
                   </div>
                 </div>
 
-                <div className="container col s12 m6 4">
+                <div className="container col s4">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
@@ -123,17 +122,13 @@ export class SchoolTeacherManagementScreen extends Component {
                       <div className="row">
                         <div className="col s12">
                           <div className="row">
-                            <div className="input-field col s4">
-                              <input id="firstname" type="text" name="firstname"></input>
-                              <label htmlFor="firstname">Teacher First Name</label>
+                            <div className="input-field col s6">
+                              <input id="firstName" type="text" name="firstName" required></input>
+                              <label htmlFor="firstName">Teacher First Name</label>
                             </div>
-                            <div className="input-field col s4">
-                              <input id="lastname" type="text" name="lastname"></input>
-                              <label htmlFor="lastname">Teacher Surname</label>
-                            </div>
-                            <div className="input-field col s4">
-                              <input id="userid" type="text" name="userid"></input>
-                              <label htmlFor="userid">ID Number</label>
+                            <div className="input-field col s6">
+                              <input id="lastName" type="text" name="lastName" required></input>
+                              <label htmlFor="lastName">Teacher Surname</label>
                             </div>
                         </div>
                         </div>

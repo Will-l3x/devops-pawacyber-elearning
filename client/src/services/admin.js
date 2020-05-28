@@ -7,14 +7,17 @@ import blog_4 from "../assets/images/blog_4.jpg";
 import blog_5 from "../assets/images/blog_5.jpg";
 import blog_6 from "../assets/images/blog_6.jpg";
 
-const apiUrl = "http://cybers.azurewebsites.net/api";
-// const apiUrl = "http://localhost:3001/api";
+// const apiUrl = "http://cybers.azurewebsites.net/api";
+const apiUrl = "http://localhost:3001/api";
 
 export const AdminService = {
   post_new_school,
   get_all_schools,
   post_new_plan,
   get_subs_plans,
+  subscribe_school,
+  get_roles,
+  post_new_role,
 
   get_all_courses,
   post_new_course,
@@ -29,7 +32,7 @@ export const AdminService = {
 
   get_subscription_info,
   update_subscription_info,
-  
+
 };
 
 const pageArraySplit = (array, pagingOptions) => {
@@ -74,12 +77,11 @@ async function get_all_schools() {
   } catch (err) {
     console.error(err);
     return [{
-        schoolName: "Error Connecting",
-        address: "null",
-        contacts: "null",
-        contactPerson: "null",
-      }];
-
+      schoolname: "Error Connecting",
+      address: "null",
+      contacts: "null",
+      enrolmentkey: "null",
+    }];
   }
 }
 
@@ -113,9 +115,9 @@ async function get_subs_plans() {
         "Content-Type": "application/json",
       },
     });
-    if(res.data.success){
+    if (res.data.success) {
       return res.data.data.subscriptions;
-    }else{
+    } else {
       return [{
         "subscriptionId": 1,
         "subscriptionname": "null",
@@ -123,24 +125,92 @@ async function get_subs_plans() {
         "mingrade": 0,
         "maxgrade": 0,
         "price": 0
-    }];
+      }];
     }
-   
+
   } catch (err) {
     console.error(err);
-
     return [{
-        "subscriptionId": 0,
-        "subscriptionname": "connection failed",
-        "subscriptiondesc": "null",
-        "mingrade": 0,
-        "maxgrade": 0,
-        "price": 0
-    },
-  ];
-
+      "subscriptionId": 0,
+      "subscriptionname": "connection failed",
+      "subscriptiondesc": "null",
+      "mingrade": 0,
+      "maxgrade": 0,
+      "price": 0
+    }, ];
   }
 }
+
+//Subscribe School
+async function subscribe_school(data) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/subscribe`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+async function post_new_role(data) {
+  try {
+
+    let res = await axios({
+      url: `${apiUrl}/add_role`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function get_roles() {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/roles`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data.roles;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

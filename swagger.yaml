@@ -529,6 +529,8 @@ paths:
                 type: "integer"
               classid:
                 type: "integer"
+              assid:
+                type: "integer"
               file:
                 type: "boolean"
       responses:

@@ -34,7 +34,7 @@ class SchoolLink extends Component {
             onClick={this.onClick}
           >
             <i className="material-icons">subscriptions</i>
-            <span className="nav-text">Course Subscription</span>
+            <span className="nav-text">Courses</span>
           </Link>
         </li>
 
@@ -58,7 +58,7 @@ class SchoolLink extends Component {
             <span className="nav-text">Student</span>
           </Link>
         </li>
-        <li className="bold">
+        {/* <li className="bold">
           <Link
             to="/school-calendar"
             className="dash-link waves-effect waves-cyan"
@@ -67,7 +67,7 @@ class SchoolLink extends Component {
             <i className="material-icons">date_range</i>
             <span className="nav-text">Calender</span>
           </Link>
-        </li>
+        </li> */}
       </ul>
     );
   }

@@ -22,41 +22,36 @@ const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 //var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 function connect() {
-    sql.connect(config, (err) => {
-        if (err) {
-            console.log(err);
-            // process.exit(1);
-
-        } else {
-            console.log("SQL DATABASE CONNECTED");
-            //return console.error(err);
-        }
-    });
+  sql.connect(config, (err) => {
+    if (err) {
+      console.log(err);
+      // process.exit(1);
+    } else {
+      console.log("SQL DATABASE CONNECTED");
+      //return console.error(err);
+    }
+  });
 }
 
 connect();
 
-sql.on('error', err => {
-    // ... error handler
-    console.log("error detected = " + err + "___ " + err.stack);
-    // connect();
-
+sql.on("error", (err) => {
+  // ... error handler
+  console.log("error detected = " + err + "___ " + err.stack);
+  // connect();
 });
 
 setInterval(function () {
-    var query = "select 1";
-    var request = new sql.Request();
-    request
-        .query(query, function (err, recordset) {
-            if (err) {
-                console.log("Database connection lost - " + err);
-                connect();
-            } else {
-
-                //console.log("Database connection still alive");
-            }
-        });
-
+  var query = "select 1";
+  var request = new sql.Request();
+  request.query(query, function (err, recordset) {
+    if (err) {
+      console.log("Database connection lost - " + err);
+      connect();
+    } else {
+      //console.log("Database connection still alive");
+    }
+  });
 }, 3210);
 
 var api = require("./routes/api");
@@ -83,7 +78,6 @@ process.env.bcrypt_salt =
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
-
 app.use(cors());
 
 // uncomment after placing your favicon in /public
@@ -92,16 +86,18 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, "client/build")));
 
 //app.use(_auth.checkToken);
 //app.use(_auth.authorize);
 //app.use(subscriptions.checkSubscription);
- 
+
 app.use("/", routes);
 app.use("/users", users);
 app.use("/api", api);
 
+//uploads
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

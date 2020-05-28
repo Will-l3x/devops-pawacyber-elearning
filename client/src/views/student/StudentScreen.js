@@ -31,8 +31,9 @@ export class StudentScreen extends Component {
 
    this.user= JSON.parse(localStorage.getItem("user"));
 
-    StudentService.get_all_courses(this.user.username)
+    StudentService.get_all_courses(1) // by student id
     .then((response) => {
+      console.log(response)
       this.setState({ courses: response })
     });
 

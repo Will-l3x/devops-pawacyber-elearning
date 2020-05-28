@@ -43,6 +43,12 @@ export class SchoolStudentManagementScreen extends Component {
             field: "enrolmentkey",
             sort: "asc",
             width: "50%",
+          },
+          {
+            label: "Enrolment Date",
+            field: "datejoined",
+            sort: "asc",
+            width: "50%",
           }
         ],
         rows: [],
@@ -59,7 +65,7 @@ export class SchoolStudentManagementScreen extends Component {
   }
 
   getDashData(){
-    SchoolService.get_all_students('1')
+    SchoolService.get_all_students('2')
     .then((response) => {
       this.setState({ rows: response })
     });

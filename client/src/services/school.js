@@ -14,6 +14,9 @@ export const SchoolService = {
   post_new_teachers,
   get_all_teachers,
   get_all_students,
+  post_new_course,
+  get_courses
+  
 };
 const pageArraySplit = (array, pagingOptions) => {
   const currentPageNumber = pagingOptions.currentPageNumber;
@@ -22,6 +25,7 @@ const pageArraySplit = (array, pagingOptions) => {
   const endingIndex = startingIndex + perPage;
   return array.slice(startingIndex, endingIndex);
 };
+
 // course functions
 async function get_subscribed_courses(school_id, currentPageNumber, lim) {
   try {
@@ -97,6 +101,41 @@ async function unsubscribe_course(school_id, course_id) {
 
 
 
+// Create Courses
+
+async function post_new_course(data) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/add_class`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function get_courses(id) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/get_classes/${id}`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data.classes;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 
 // teacher functions
 async function get_all_teachers(id) {
@@ -109,7 +148,6 @@ async function get_all_teachers(id) {
         "Content-Type": "application/json",
       },
     });
-   console.log(res.data.data.teachers)
     return res.data.data.teachers;
   } catch (err) {
     console.error(err);
@@ -146,15 +184,11 @@ async function get_all_students(id) {
         "Content-Type": "application/json",
       },
     });
-    console.log(res.data.data.students)
     return res.data.data.students;
 
   } catch (err) {
     console.error(err);
   }
 }
-
-
-
 
 export default SchoolService;
