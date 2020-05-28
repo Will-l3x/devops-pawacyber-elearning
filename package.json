@@ -6,7 +6,7 @@
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node ./app.js",
-    "postinstall": "cd client && npm run build "
+    "postinstall": "cd client && npm install && npm run build "
   },
   "description": "newschool",
   "author": {
