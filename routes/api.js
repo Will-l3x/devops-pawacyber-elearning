@@ -41,11 +41,11 @@ router.post("/add_school", _systemadmin.add_school);
 router.put("/update_school/:id", _systemadmin.update_school);
 router.delete("/del_school/:id", _systemadmin.del_school);
 
-router.get('/subscriptions', _systemadmin.subscriptions);
-router.post('/add_subscription', _systemadmin.add_subscription);
-router.delete('/del_subscription/:id', _systemadmin.del_subscription);
-router.get('/subscription/:id', _systemadmin.subscription);
-router.get('/update_subcription', _systemadmin.update_subscription);
+router.get("/subscriptions", _systemadmin.subscriptions);
+router.post("/add_subscription", _systemadmin.add_subscription);
+router.delete("/del_subscription/:id", _systemadmin.del_subscription);
+router.get("/subscription/:id", _systemadmin.subscription);
+router.get("/update_subcription", _systemadmin.update_subscription);
 //////////////////////mediaplayer//////////////////////////////////////////////
 router.get("/playvideo", _media_server.playvideo);
 
@@ -87,13 +87,13 @@ router.post("/student/new_submission", _student.newSubmission);
 //////////////////////schooladmin//////////////////////////////////////////////
 router.get("/schooladmin/teacher/:id", _schooladmin.teacher);
 router.get("/schooladmin/teachers/:id", _schooladmin.teachers);
-router.post("/schooladmin/add_teacher", _schooladmin.add_teacher);
+router.post("/schooladmin/add_teacher", _auth.register);
 router.delete("/schooladmin/del_teacher/:id", _schooladmin.del_teacher);
 router.put("/schooladmin/update_teacher", _schooladmin.update_teacher);
 
 router.get("/schooladmin/student/:id", _schooladmin.student);
 router.get("/schooladmin/students/:id", _schooladmin.students);
-//router.post("/schooladmin/add_student", _schooladmin.add_student);
+router.post("/schooladmin/add_student", _auth.register);
 router.delete("/schooladmin/del_student/:id", _schooladmin.del_student);
 router.put("/schooladmin/update_student", _schooladmin.update_student);
 
