@@ -49,11 +49,16 @@ export class LoginScreen extends Component {
         } else {
             document.getElementById("contactForm").reset();
             var id;
-            
-            if(response.roleid === 3){
-               id = response.User.studentId;
-            }else{
-               id = response.userid;
+            if (response.roleid === 3) {
+              id = response.User.studentId;
+            } else if (response.roleid === 1) {
+              id = response.User.teacherId;
+            } else if (response.roleid === 5) {
+              id = response.User.SystemAdminId;
+            }else if (response.roleid === 4) {
+              id = response.User.saId;
+            } else {
+              id = response.User.parentId;
             }
 
             const roleid = response.roleid;

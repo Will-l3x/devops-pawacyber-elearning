@@ -6,46 +6,43 @@ import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import {SchoolService} from '../../services/school';
-import {AuthService} from '../../services/authServices';
+import {TeacherService} from '../../services/teacher';
+import {StudentService} from '../../services/student';
 
-export class SchoolTeacherManagementScreen extends Component {
+export class UploadMaterial extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title:"Mr",
+      
         columns: [
           {
-            label: "ID",
-            field: "teacherId",
+            label: "Class ID",
+            field: "classid",
             sort: "asc",
             width: "20%",
           },
           {
-            label: "Teacher Name",
-            field: "firstname",
+            label: "Resource Name",
+            field: "materialname",
             sort: "asc",
             width: "30%",
           },
           {
-            label: "Teacher Surname",
-            field: "lastname",
+            label: " Link",
+            field: "file",
             sort: "asc",
             width: "30%",
           },
-          {
-            label: "Date Joined",
-            field: "datejoined",
-            sort: "asc",
-            width: "20%",
-          }
         ],
         rows: [],
+        courses:[]
     };
-    this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
   }
-  
+
   user = {};
+  courseId = "1";
+  fileData;
+
   componentDidMount() {
     this.user= JSON.parse(localStorage.getItem("user"));
     this.getDashData();
@@ -55,43 +52,58 @@ export class SchoolTeacherManagementScreen extends Component {
   }
 
   getDashData(){
-    // SchoolService.get_all_teachers('2') 
-    SchoolService.get_all_teachers(this.user.schoolid) 
+
+    StudentService.get_all_courses(this.user.userid) 
     .then((response) => {
-      this.setState({ rows: response })
+      this.setState({ courses: response })
     });
+    if(this.state.courses.length>0){
+        this.courseId = this.state.courses[0].classId;
+        alert(this.courseId);
+        TeacherService.get_materials(this.courseId) //get by course id 
+        .then((response) => {
+          this.setState({ rows: response })
+        });
+    }
   }
 
-  handleTitleDropdownChange(event) {
-    this.setState({title: event.target.value });
-  }
 
   handleSubmit = (event) => {
     event.preventDefault()
-
-    var registerAdmin = {
-      roleid: 1,
-      email: event.target.email.value,
-      password: 'pass@123',
-      grade: event.target.grade.value,
-      firstname: event.target.personName.value,
-      lastname: event.target.surname.value,
-      title: this.state.title,
-      vpassword: 'pass@123',
-      dob: event.target.dob.value
+    this.fileData = event.target.file.value;
+    var data = {
+        teacherid: this.user.userid,
+        schoolid: this.user.schoolid,
+        materialname: event.target.materialname.value,
+        file: true,
+        classid: this.courseId
     }
 
-    AuthService.register(registerAdmin).then((response) => {
-      if (response === undefined) {
-        alert("Teacher Registration Failed")
-      } else if (response.success === false) {
-        alert(response.message);
-      } else {
-        document.getElementById("sibs").reset();
-        this.getDashData();
-        alert(response.message);
-      }
-    });
+    TeacherService.post_material(data).then((response)=>{
+       
+        if(response === undefined){
+          alert('Resource Upload failed');
+        }else if(response.err){
+            alert(response.err)
+        }else if(response.success === true){
+
+          const uploadData = new FormData() 
+          uploadData.append('file', this.fileData)
+          uploadData.append('uploadType',response.uploadType)
+          uploadData.append('uploadType',response.uploadId)
+
+          TeacherService.post_file(uploadData).then((response)=>{
+            console.log(response);
+          });
+
+          document.getElementById("sibs").reset();
+          this.getDashData();
+        }else{
+          alert(response.message)
+        }
+
+        
+    })
   }
 
   render() {
@@ -114,7 +126,7 @@ export class SchoolTeacherManagementScreen extends Component {
                 >
                   <div className="nav-content">
                     <p style={{ padding: "10px",fontSize:"16px" }} >
-                      Teacher Management
+                      Resource Management
                     </p>
                   </div>
                 </nav>
@@ -134,48 +146,26 @@ export class SchoolTeacherManagementScreen extends Component {
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
-                      <h4 className="header2">Add Teacher</h4>
+                      <h4 className="header2">Upload Resource</h4>
                       <form onSubmit={this.handleSubmit} id="sibs">
                       <div className="row">
                         <div className="col s12">
-                        <div className="row">
-                            <div className="input-field col s2">
-                            <select name="title" defaultValue={this.state.title}   onChange={this.handleTitleDropdownChange} required>                              
-                                <option value="Mr">Mr</option> 
-                                <option value="Mr">Mrs</option> 
-                                <option value="Mr">Rev</option> 
-                                <option value="Mr">Dr</option> 
-                            </select>
+                          <div className="row">
+
+                            <div className="input-field col s4">
+                              <input id="materialname" type="text" name="materialname" required></input>
+                              <label htmlFor="materialname">Material Name</label>
                             </div>
-                            <div className="input-field col s5">
-                              <input id="personName" type="text" name="personName" required></input>
-                              <label htmlFor="personName">First Name</label>
+                            <div className="input-field col s8">
+                              <input id="file" type="file" name="file" required></input>
                             </div>
-                            <div className="input-field col s5">
-                              <input id="surname" type="text" name="surname" required></input>
-                              <label htmlFor="surname">Surname</label>
                             </div>
 
-                          </div>
-                          <div className="Row">
-                          <div className="input-field col s4">
-                              <input id="email" type="email" name="email" required></input>
-                              <label htmlFor="email">Email</label>
-                            </div>
-                            <div className="input-field col s4">
-                              <input id="dob" type="date" name="dob" required></input>
-                              <label htmlFor="dob">DOB</label>
-                            </div>
-                            <div className="input-field col s4">
-                              <input id="grade" type="number" name="grade" required></input>
-                              <label htmlFor="grade">Grade</label>
-                            </div>
-                          </div>
                         </div>
                           <div className="row">
                             <div className="input-field col s6 offset-s6">
                               <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                                Submit
+                                Upload
                                 <i className="material-icons right">send</i>
                               </button>
                             </div>
@@ -207,4 +197,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SchoolTeacherManagementScreen);
+)(UploadMaterial);

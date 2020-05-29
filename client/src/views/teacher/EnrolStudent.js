@@ -7,6 +7,7 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import {TeacherService} from '../../services/teacher';
+import {StudentService} from '../../services/student';
 
 export class EnrolStudent extends Component {
   constructor(props) {
@@ -40,10 +41,12 @@ export class EnrolStudent extends Component {
           },
         ],
         rows: [],
+        courses:[]
     };
   }
 
   user = {};
+  courseId = "";
   
   componentDidMount() {
     this.user= JSON.parse(localStorage.getItem("user"));
@@ -54,10 +57,17 @@ export class EnrolStudent extends Component {
   }
 
   getDashData(){
-    TeacherService.get_all_students('2') //get by course id 
+    StudentService.get_all_courses(this.user.userid) 
     .then((response) => {
-      this.setState({ rows: response })
+      this.setState({ courses: response })
     });
+    if(this.state.courses.length>0){
+        this.courseId = this.state.courses[0].classId;
+        TeacherService.get_all_students(this.courseId) //get by course id 
+        .then((response) => {
+          this.setState({ rows: response })
+        });
+    }
   }
 
   handleSubmit = (event) => {
@@ -66,7 +76,7 @@ export class EnrolStudent extends Component {
     var data = {
         teacherid: this.user.userid,
         studentid: event.target.studentid.value,
-        classid: event.target.classid.value,
+        classid: this.courseId
     }
 
     TeacherService.enrol_student(data).then((response)=>{
@@ -74,7 +84,7 @@ export class EnrolStudent extends Component {
         if(response === undefined){
           alert('Student Enrolment failed');
         }else{
-          alert(response.message);
+          // alert(response.message);
           document.getElementById("sibs").reset();
           this.getDashData();
         }
@@ -101,7 +111,7 @@ export class EnrolStudent extends Component {
                 >
                   <div className="nav-content">
                     <p style={{ padding: "10px",fontSize:"16px" }} >
-                      Teacher Management
+                      Student Management
                     </p>
                   </div>
                 </nav>
@@ -131,19 +141,17 @@ export class EnrolStudent extends Component {
                               <label htmlFor="studentid">Student ID</label>
                             </div>
                             <div className="input-field col s6">
-                              <input id="classid" type="text" name="classid" required></input>
-                              <label htmlFor="classid">Course ID</label>
-                            </div>
-                        </div>
-                        </div>
-                          <div className="row">
-                            <div className="input-field col s6 offset-s6">
                               <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
                                 Enrol
                                 <i className="material-icons right">send</i>
                               </button>
                             </div>
-                          </div>
+                        </div>
+                        
+                        </div>
+                          {/* <div className="row">
+
+                          </div> */}
                         </div>
                         </form>
                       </div>
