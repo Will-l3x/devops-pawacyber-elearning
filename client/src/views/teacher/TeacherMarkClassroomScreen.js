@@ -137,7 +137,7 @@ export class TeacherMarkClassroomScreen extends Component {
 
                       <div className="row">
                         <div className="input-field col s12">
-                          <FileDropZone />
+                          <FileDropZone input_id="file1"/>
                         </div>
                         <div className="row">
                           <div className="input-field col s12">
@@ -183,7 +183,7 @@ export class TeacherMarkClassroomScreen extends Component {
 
                       <div className="row">
                         <div className="input-field col s12">
-                          <FileDropZone />
+                          <FileDropZone input_id="file2" />
                         </div>
                         <div className="row">
                           <div className="input-field col s12">
@@ -225,7 +225,7 @@ export class TeacherMarkClassroomScreen extends Component {
 
                       <div className="row">
                         <div className="input-field col s12">
-                          <FileDropZone />
+                          <FileDropZone input_id="file3"/>
                         </div>
                         <div className="row">
                           <div className="input-field col s12">

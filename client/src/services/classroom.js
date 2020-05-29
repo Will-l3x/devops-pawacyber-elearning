@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "http://localhost:3001/api";
 
 export const ClassroomService = {
   get_all_classwork,
@@ -17,15 +17,15 @@ export const ClassroomService = {
 };
 
 // classroom functions
-async function get_all_classwork() {
-   try {
+async function get_all_classwork(id) {
+  try {
     let res = await axios({
-      url: `${apiUrl}/classroom/get-all-classwork`,
+      url: `${apiUrl}/teacher/get_materials/${id}`,
       method: "get",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
@@ -33,14 +33,14 @@ async function get_all_classwork() {
   }
 }
 async function get_all_test_folders(classroom_id) {
-   try {
+  try {
     let res = await axios({
       url: `${apiUrl}/classroom/get-all-test-folder/${classroom_id}`,
       method: "get",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
@@ -48,65 +48,63 @@ async function get_all_test_folders(classroom_id) {
   }
 }
 async function get_all_assignment_folders(classroom_id) {
-   try {
+  try {
     let res = await axios({
       url: `${apiUrl}/classroom/get-all-assignment-folders/${classroom_id}`,
       method: "get",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
-async function get_all_test_files(classroom_id,test_id) {
-    /** details about location of student's file and the test it was uploaded for */
-   try {
+async function get_all_test_files(classroom_id, test_id) {
+  /** details about location of student's file and the test it was uploaded for */
+  try {
     let res = await axios({
       url: `${apiUrl}/classroom/get-all-test-files/${classroom_id}/${test_id}`,
       method: "get",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
-async function get_all_assignment_files(classroom_id,assignment_id) {
-   try {
+async function get_all_assignment_files(classroom_id, assignment_id) {
+  try {
     let res = await axios({
       url: `${apiUrl}/classroom/get-all-assignment-files/${classroom_id}/${assignment_id}`,
       method: "get",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
-async function post_new_classroom_material(classroom_id, data) {
-    /**
-     * test, assignment etc
-     */
+async function post_new_classroom_material(data) {
   try {
     let res = await axios({
-      url: `${apiUrl}/classroom/add-classroom-naterial/${classroom_id}`,
+      url: `${apiUrl}/teacher/new_${data.type}`,
       method: "post",
       data,
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
+    console.log(res.data)
     return res.data;
   } catch (err) {
     console.error(err);
@@ -119,8 +117,8 @@ async function delete_classwork(classroom_id, material_id) {
       method: "delete",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
@@ -128,15 +126,15 @@ async function delete_classwork(classroom_id, material_id) {
   }
 }
 async function post_teacher_to_classroom(classroom_id, teacher_id) {
-    /** add teacher-id to classroom */
+  /** add teacher-id to classroom */
   try {
     let res = await axios({
       url: `${apiUrl}/classroom/add-teacher/${classroom_id}/${teacher_id}`,
       method: "post",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
@@ -144,15 +142,15 @@ async function post_teacher_to_classroom(classroom_id, teacher_id) {
   }
 }
 async function post_student_to_classroom(classroom_id, student_id) {
-    /** add student-id to classroom */
+  /** add student-id to classroom */
   try {
     let res = await axios({
       url: `${apiUrl}/classroom/add-student/${classroom_id}/${student_id}`,
       method: "post",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
@@ -166,8 +164,8 @@ async function update_student_marks(classroom_id, student_id) {
       method: "post",
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
@@ -182,12 +180,11 @@ async function upload_marked_classwork(classroom_id, classwork_id, data) {
       data,
       timeout: 8000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
-

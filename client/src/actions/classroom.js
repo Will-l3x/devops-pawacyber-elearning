@@ -2,10 +2,10 @@
 
 import { ClassroomService } from "../services/classroom";
 import { ClassroomConstants } from "../constants/classroom";
-import  AlertActions  from "./alert";
+import AlertActions from "./alert";
 
-export const get_all_classwork = () => (dispatch) => {
-  ClassroomService.get_all_classwork()
+export const get_all_classwork = (id) => (dispatch) => {
+  ClassroomService.get_all_classwork(id)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
       dispatch({
@@ -14,11 +14,12 @@ export const get_all_classwork = () => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const post_new_classroom_material = (classroom_id, data) => (dispatch) => {
-  ClassroomService.post_new_classroom_material(classroom_id, data)
+export const post_new_classroom_material = (data) => (dispatch) => {
+  ClassroomService.post_new_classroom_material(data)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
       dispatch({
@@ -27,7 +28,8 @@ export const post_new_classroom_material = (classroom_id, data) => (dispatch) =>
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
 export const delete_classwork = (classroom_id, classwork_id) => (dispatch) => {
@@ -40,10 +42,13 @@ export const delete_classwork = (classroom_id, classwork_id) => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const post_teacher_to_classroom = (classroom_id, teacher_id) => (dispatch) => {
+export const post_teacher_to_classroom = (classroom_id, teacher_id) => (
+  dispatch
+) => {
   ClassroomService.post_teacher_to_classroom(classroom_id, teacher_id)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -53,10 +58,13 @@ export const post_teacher_to_classroom = (classroom_id, teacher_id) => (dispatch
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const post_student_to_classroom = (classroom_id, student_id) => (dispatch) => {
+export const post_student_to_classroom = (classroom_id, student_id) => (
+  dispatch
+) => {
   ClassroomService.post_student_to_classroom(classroom_id, student_id)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -66,10 +74,13 @@ export const post_student_to_classroom = (classroom_id, student_id) => (dispatch
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const update_student_marks = (classroom_id, student_id) => (dispatch) => {
+export const update_student_marks = (classroom_id, student_id) => (
+  dispatch
+) => {
   ClassroomService.update_student_marks(classroom_id, student_id)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -79,10 +90,13 @@ export const update_student_marks = (classroom_id, student_id) => (dispatch) => 
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const upload_marked_classwork = (classroom_id, classwork_id, data) => (dispatch) => {
+export const upload_marked_classwork = (classroom_id, classwork_id, data) => (
+  dispatch
+) => {
   ClassroomService.upload_marked_classwork(classroom_id, classwork_id, data)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -92,7 +106,8 @@ export const upload_marked_classwork = (classroom_id, classwork_id, data) => (di
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
 export const get_all_test_folders = (classroom_id) => (dispatch) => {
@@ -105,7 +120,8 @@ export const get_all_test_folders = (classroom_id) => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
 export const get_all_test_files = (classroom_id, test_id) => (dispatch) => {
@@ -118,7 +134,8 @@ export const get_all_test_files = (classroom_id, test_id) => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
 export const get_all_assignment_folders = (classroom_id) => (dispatch) => {
@@ -131,10 +148,13 @@ export const get_all_assignment_folders = (classroom_id) => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
-export const get_all_assignment_files = (classroom_id, assignment_id) => (dispatch) => {
+export const get_all_assignment_files = (classroom_id, assignment_id) => (
+  dispatch
+) => {
   ClassroomService.get_all_assignment_files(classroom_id, assignment_id)
     .then((response) => {
       dispatch(AlertActions.success("Success"));
@@ -144,7 +164,8 @@ export const get_all_assignment_files = (classroom_id, assignment_id) => (dispat
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
 const ClassroomActions = {

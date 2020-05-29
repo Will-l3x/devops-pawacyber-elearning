@@ -1,11 +1,9 @@
 import UploadContants from "../constants/upload";
 
 const initialState = {
-  fileProgress: {
-    fileToUpload: {
-      progress: 0,
-      status: 0,
-    },
+  fileToUpload: {
+    progress: 0,
+    status: 0,
   },
 };
 
@@ -14,46 +12,38 @@ export default (state = initialState, { type, payload }) => {
     case UploadContants.SET_UPLOAD_FILE:
       return {
         ...state,
-        fileProgress: {
-          fileToUpload: payload,
-        },
+        fileToUpload: payload,
       };
     case UploadContants.SET_UPLOAD_PROGRESS:
       return {
         ...state,
-        fileProgress: {
-          fileToUpload: payload,
-        },
+        fileToUpload: payload,
       };
 
     case UploadContants.SUCCESS_UPLOAD_FILE:
-      let fileToUpload = Object.assign(state.fileProgress.fileToUpload, {
+      let fileToUpload = Object.assign(state.fileToUpload, {
         status: 1,
       });
 
       return {
         ...state,
-        fileProgress: {
-          fileToUpload,
-        },
+        fileToUpload,
       };
 
     case UploadContants.FAILURE_UPLOAD_FILE:
-      fileToUpload = Object.assign(state.fileProgress.fileToUpload, {
+      fileToUpload = {
         progress: 0,
         status: 0,
-      });
+      };
 
       return {
         ...state,
-        fileProgress: {
-          fileToUpload,
-        },
+        fileToUpload,
       };
     case UploadContants.UPLOAD_FILE_CLEAR:
       return {
         ...state,
-        fileProgress: initialState.fileProgress,
+        fileToUpload: initialState.fileToUpload,
       };
 
     default:

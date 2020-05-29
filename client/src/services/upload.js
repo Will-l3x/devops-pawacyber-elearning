@@ -27,6 +27,10 @@ async function upload(
       },
     });
     dispatch(successUploadFile(file.id));
+    //res.data {
+    //  --------after upload of file this is required ----------
+    //          path : "path/to/file",
+    //}
     return res;
   } catch (error) {
     dispatch(failureUploadFile(file.id));

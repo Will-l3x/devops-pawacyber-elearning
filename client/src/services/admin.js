@@ -34,7 +34,6 @@ export const AdminService = {
 
   get_subscription_info,
   update_subscription_info,
-
 };
 
 const pageArraySplit = (array, pagingOptions) => {

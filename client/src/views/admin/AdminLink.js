@@ -47,7 +47,7 @@ class AdminLink extends Component {
             <span className="nav-text">Subcription Plans</span>
           </Link>
         </li>
-        <li className="bold">
+        {/* <li className="bold">
           <Link
             to="/roles"
             className="waves-effect waves-cyan"
@@ -56,7 +56,7 @@ class AdminLink extends Component {
             <i className="material-icons">people</i>
             <span className="nav-text">User Roles</span>
           </Link>
-        </li>
+        </li> */}
       </ul>
     );
   }

@@ -4,7 +4,6 @@ import $ from "jquery";
 import M from "materialize-css";
 import "../assets/css/dropify.min.css";
 import Dropzone from "react-dropzone";
-import { toArray } from "lodash";
 import UploadActions from "../actions/upload";
 
 class FileDropZone extends Component {
@@ -16,11 +15,14 @@ class FileDropZone extends Component {
       fileIcon: "",
     };
     this.onDrop.bind(this);
+    this.handleFileClear.bind(this);
   }
   componentDidMount() {
     M.AutoInit();
   }
   onDrop = async (files) => {
+    $(".dropify-clear").removeClass("display-none");
+    $(".dropify-preview").removeClass("display-none");
     function getExtension(filename) {
       var parts = filename.split(".");
       return parts[parts.length - 1];
@@ -62,7 +64,7 @@ class FileDropZone extends Component {
       }
     }
 
-    var file = $("#input-file");
+    var file = $(`#${this.props.input_id}`);
 
     if (isValidFile(file.val()).isValid === false) {
       $(".file-upload").addClass("upload-disabled");
@@ -85,12 +87,15 @@ class FileDropZone extends Component {
       progress: 0,
     };
     await this.props.setUploadFile(fileToUpload);
-    await this.props.uploadFile(fileToUpload);
-    this.setState({ files: toArray(this.props.uploadState.fileProgress) });
+    this.setState({ files: [this.props.uploadState.fileToUpload] });
+  };
+  handleFileClear = () => {
+    this.setState({ files: [] });
+    this.props.fileClear();
+    $(".dropify-clear").addClass("display-none");
+    $(".dropify-preview").addClass("display-none");
   };
   render() {
-    console.log(this.props);
-
     const preview = {
       display: "inline",
     };
@@ -113,15 +118,12 @@ class FileDropZone extends Component {
                 {" "}
                 <p>Drag and drop a file here or click</p>
               </div>
-              <input id="input-file" {...getInputProps()}></input>
+              <input id={this.props.input_id} {...getInputProps()}></input>
               <button
-                className="dropify-clear"
-                onClick={() => {
-                  this.setState({ files: [] });
-                  this.props.fileClear();
-                }}
+                className="dropify-clear display-none"
+                onClick={this.handleFileClear}
                 style={
-                  toArray(this.props.uploadState.fileProgress).length > 0
+                  [this.props.uploadState.fileToUpload].length > 0
                     ? preview
                     : {}
                 }
@@ -129,9 +131,9 @@ class FileDropZone extends Component {
                 Remove
               </button>
               <div
-                className="dropify-preview"
+                className="dropify-preview display-none"
                 style={
-                  toArray(this.props.uploadState.fileProgress).length > 0
+                  [this.props.uploadState.fileToUpload].length > 0
                     ? preview
                     : {}
                 }
@@ -140,7 +142,7 @@ class FileDropZone extends Component {
                   <i
                     className="file-icon material-icons large"
                     style={
-                      toArray(this.props.uploadState.fileProgress).length > 0
+                      [this.props.uploadState.fileToUpload].length > 0
                         ? preview
                         : {}
                     }
@@ -149,22 +151,29 @@ class FileDropZone extends Component {
                   </i>
                 </span>
                 <div className="dropify-infos">
-                  <ul className="dropify-infos-inner">
-                    {files}
-                    <div className="progress">
-                      <div
-                        className="determinate"
-                        style={{
-                          width: this.props.uploadState.fileProgress
-                            .fileToUpload.progress
-                            ? this.props.uploadState.fileProgress.fileToUpload
-                                .progress + "%"
-                            : 0 + "%",
-                        }}
-                      ></div>
-                    </div>
-                  </ul>
+                  <ul className="dropify-infos-inner">{files}</ul>
                 </div>
+              </div>
+            </div>
+            <div
+              className={
+                this.props.uploadState.fileToUpload.progress === 0
+                  ? "dispaly-none"
+                  : "progress "
+              }
+              style={{ height: 20 }}
+            >
+              <div
+                className="determinate white-text"
+                style={{
+                  width: this.props.uploadState.fileToUpload.progress
+                    ? this.props.uploadState.fileToUpload.progress + "%"
+                    : 0 + "%",
+                }}
+              >
+                <span className="right">
+                  {this.props.uploadState.fileToUpload.progress + "%"}
+                </span>
               </div>
             </div>
           </section>
