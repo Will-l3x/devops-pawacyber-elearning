@@ -238,7 +238,7 @@ let add_school = (req, res) => {
 
     password = bcrypt.hashSync(password, process.env.bcrypt_salt);
 
-    var roleid = 6; //schooladmin
+    var roleid = 4; //schooladmin
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var otpexpiry = moment().add(31, 'day').format('YYYY-MM- DD');
