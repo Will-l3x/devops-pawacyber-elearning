@@ -16,7 +16,7 @@ export class SchoolManagement extends Component {
        
         subId: "",
         roleId:"",
-        title:"",
+        title:"Mr",
         columns: [
           {
             label: "School Name",
@@ -111,11 +111,12 @@ handleRoleDropdownChange(event) {
       email: event.target.email.value,
       password:"pass@123",
       vpassword:"pass@123",
-      roleId:this.state.roleId,
+      roleid:this.state.roleId,
       firstname: event.target.personName.value,
       lastname: event.target.surname.value,
       title:this.state.title,
-      grade:'All'
+      grade:'All',
+      dob:event.target.dob.value,
     }
 
     AdminService.post_new_school(data).then((response)=>{
@@ -242,11 +243,15 @@ handleRoleDropdownChange(event) {
                               <input id="email" type="email" name="email" required></input>
                               <label htmlFor="email">Email</label>
                             </div>
-                          <div className="input-field col s6" >
+                          <div className="input-field col s4" >
                             <select name="sub" value={this.state.roleId}   onChange={this.handleRoleDropdownChange} required>   
                             {this.state.userRoles.map((role,i) => <option key={i} value={role.roleId}>{role.rolename}</option>)}                           
                             </select>
                             <label htmlFor="sub">User Role</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="dob" type="date" name="dob" required></input>
+                              <label htmlFor="dob">DOB</label>
                             </div>
                           </div>
                         </div>

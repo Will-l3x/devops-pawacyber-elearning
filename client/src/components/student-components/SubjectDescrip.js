@@ -28,13 +28,10 @@ export default class SubjectDescrip extends Component {
        console.log(response)
        this.setState({ resources: response })
      });
-
     }
 
     render() {
-       
         return this.state.resources.map((resource, i) => (
-     
             <div key={i}  className="col s12 m8 l4">
               <div className="card min-height-100 white-text designed-dots" style={{borderRadius:"5px"}}>
                 <div className="padding-4">

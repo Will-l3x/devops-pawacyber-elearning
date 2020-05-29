@@ -28,24 +28,21 @@ export class StudentScreen extends Component {
   }
 
   getDashData(){
-
    this.user= JSON.parse(localStorage.getItem("user"));
-
-    StudentService.get_all_courses(1) // by student id
+    StudentService.get_all_courses(this.user.userid) // by student id
     .then((response) => {
-      console.log(response)
       this.setState({ courses: response })
     });
 
-    StudentService.get_student_marked_classwork(1) // Course Id
-    .then((response) => {
-      this.setState({ markedWork: response })
-    });
+    // StudentService.get_student_marked_classwork(1) // Course Id
+    // .then((response) => {
+    //   this.setState({ markedWork: response })
+    // });
 
-    StudentService.get_student_pending_classwork(1) // Course Id
-    .then((response) => {
-      this.setState({ pendingWork: response })
-    });
+    // StudentService.get_student_pending_classwork(1) // Course Id
+    // .then((response) => {
+    //   this.setState({ pendingWork: response })
+    // });
   }
 
   render() {

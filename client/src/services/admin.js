@@ -7,8 +7,10 @@ import blog_4 from "../assets/images/blog_4.jpg";
 import blog_5 from "../assets/images/blog_5.jpg";
 import blog_6 from "../assets/images/blog_6.jpg";
 
-// const apiUrl = "http://cybers.azurewebsites.net/api";
-const apiUrl = "http://localhost:3001/api";
+const qs = require('qs');
+
+const apiUrl = "http://cybers.azurewebsites.net/api";
+// const apiUrl = "http://localhost:3001/api";
 
 export const AdminService = {
   post_new_school,
@@ -43,19 +45,17 @@ const pageArraySplit = (array, pagingOptions) => {
   return array.slice(startingIndex, endingIndex);
 };
 
+
+
 //POST new School
 async function post_new_school(data) {
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
   try {
-
-    let res = await axios({
-      url: `${apiUrl}/add_school`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res= await axios.post(`${apiUrl}/add_school`,qs.stringify(data),config);
     return res.data;
   } catch (err) {
     console.error(err);
