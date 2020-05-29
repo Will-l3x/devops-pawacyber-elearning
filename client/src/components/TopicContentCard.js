@@ -144,7 +144,7 @@ export class TopicContentCard extends Component {
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
-                    <FileDropZone />
+                    <FileDropZone  input_id="file1"/>
                   </div>
                 </div>
                 <div className="row">
@@ -175,7 +175,7 @@ export class TopicContentCard extends Component {
                 </div>
                 <div className="row">
                   <div className="input-field col s12">
-                    <FileDropZone />
+                    <FileDropZone input_id="file2" />
                   </div>
                 </div>
                 <div className="row">

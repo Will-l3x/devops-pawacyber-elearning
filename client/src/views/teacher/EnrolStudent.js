@@ -21,12 +21,6 @@ export class EnrolStudent extends Component {
             width: "20%",
           },
           {
-            label: "Course ID",
-            field: "classid",
-            sort: "asc",
-            width: "20%",
-          },
-          {
             label: "Student Name",
             field: "firstname",
             sort: "asc",
@@ -37,7 +31,13 @@ export class EnrolStudent extends Component {
             field: "lastname",
             sort: "asc",
             width: "30%",
-          }
+          },
+          {
+            label: "DOB",
+            field: "dob",
+            sort: "asc",
+            width: "20%",
+          },
         ],
         rows: [],
     };

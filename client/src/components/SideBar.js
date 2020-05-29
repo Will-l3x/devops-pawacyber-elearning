@@ -49,16 +49,16 @@ class SideBar extends Component {
     //should just use user role to change links
     let Links;
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user.username === "admin") {
+    if (user.roleid === 5) {
       Links = AdminLink;
     }
-    else if  (user.username === "school") {
+    else if  (user.roleid === 4) {
       Links = SchoolLink;
     }
-    else if  (user.username === "teacher") {
+    else if  (user.roleid === 1) {
       Links = TeacherLink;
     }
-    else if  (user.username === "student") {
+    else if  (user.roleid === 3) {
       Links = StudentLink;
     }
     

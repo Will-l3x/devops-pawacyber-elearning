@@ -20,21 +20,21 @@ export class CourseSubscriptionScreen extends Component {
   handleUnsubscribe = () => {
     this.setState({ unsubscribe: true });
   };
+
+  user = {};
  
   componentDidMount() {
+    this.user= JSON.parse(localStorage.getItem("user"));
     this.getDashData();
   }
 
   getDashData(){
-    SchoolService.get_courses('2') //Get by school id
+    SchoolService.get_courses('1') //Get by school id
     .then((response) => {
-      console.log(response)
       if(response===undefined){
-        
       }else{
         this.setState({ courses: response })
       }
-      
     });
   }
 
@@ -43,14 +43,18 @@ export class CourseSubscriptionScreen extends Component {
     var data = {
         teacherid: event.target.teacherId.value,
         classname: event.target.courseName.value,
+        enrolmentkey:"123ABC",
         status: "active",
+        createdby: this.user.userid
         
     }
     SchoolService.post_new_course(data).then((response)=>{
         if(response === undefined){
           alert('Apologies. Course addition failed. Please contact admin');
-        }else{
+        }else if(response.success === false){
           alert(response.message);
+        }else{
+          alert('successfully added');
           document.getElementById("sibs").reset();
           this.getDashData();
         }
@@ -128,7 +132,7 @@ export class CourseSubscriptionScreen extends Component {
                 
         <div className="row">
           { this.state.courses.length!==0?this.state.courses.map((course, i) => (
-            <div key={course.id} className="col l3">
+            <div key={course.classId} className="col l3">
               <div className="card">
                 <div className="card-content">
                   <Link

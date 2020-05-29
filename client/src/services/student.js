@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const apiUrl = "http://localhost:3001/api/student";
+const apiUrl = "http://cybers.azurewebsites.net/api/student";
+// const apiUrl = "http://localhost:3001/api/student";
 
 export const StudentService = {
   get_all_courses,
@@ -28,7 +29,7 @@ async function get_all_courses(student_id) {
   } catch (err) {
     console.error(err);
     return [{
-      classId: 0,
+      classId: 2,
       classname: "Check connection...",
       numberOfTopics: null,
       courseCode: null,
@@ -65,7 +66,7 @@ async function get_course_downloadables(course_id) {
 async function get_course_video_resources(course_id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/get-all-unmarked/${course_id}`,
+      url: `${apiUrl}/get_videos/${course_id}`,
       method: "get",
       timeout: 8000,
       headers: {
@@ -77,24 +78,51 @@ async function get_course_video_resources(course_id) {
   } catch (err) {
     console.error(err);
 
-    return [{
-      id: 1,
-      title: "Check Connection...",
-      videoLink: ""
-    }, ];
+    return [];
+
+    // return [{
+    //   id: 1,
+    //   title: "Check Connection...",
+    //   videoLink: ""
+    // }, ];
 
   }
 }
 
+//per course
+async function get_student_all_classwork(course_id) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/get_assignments/${course_id}`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+    return [
+    {
+      assignmentId: 3,
+      classid: "Checking connection...",
+      duedate: "null",
+      score: "",
+      assignmentname: "",
+      file: "",
+      assignmentStatus: "Submitted",
+    },
+  ];
+  }
+}
 
 
-
-// Student class work services
-
+// get pending assignments all undone
 async function get_student_pending_classwork(student_id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/get_assignments/${student_id}`,
+      url: `${apiUrl}/get_pending_assignments/${student_id}`,
       method: "get",
       timeout: 8000,
       headers: {
@@ -108,7 +136,7 @@ async function get_student_pending_classwork(student_id) {
     return [{
       assignmentId: 1,
       courseName: "Check connection...",
-      dueDate: "13 May 2020",
+      dueDate: "null",
       score: "null",
       assignmentTitle: "null",
       assignmentLink: "null",
@@ -117,6 +145,7 @@ async function get_student_pending_classwork(student_id) {
   }
 }
 
+//all graded assigments
 async function get_student_marked_classwork(student_id) {
   try {
     let res = await axios({
@@ -134,7 +163,7 @@ async function get_student_marked_classwork(student_id) {
     return [{
       assignmentId: 1,
       courseName: "Check connection...",
-      dueDate: "13 May 2020",
+      dueDate: "null",
       score: null,
       assignmentTitle: "null",
       assignmentLink: "null",
@@ -143,29 +172,3 @@ async function get_student_marked_classwork(student_id) {
   }
 }
 
-async function get_student_all_classwork(student_id) {
-  try {
-    let res = await axios({
-      url: `${apiUrl}/student/get-all-unmarked/${student_id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return res.data;
-  } catch (err) {
-    console.error(err);
-    return [
-    {
-      assignmentId: 3,
-      courseName: "Check connection...",
-      dueDate: "13 May 2020",
-      score: "",
-      assignmentTitle: "",
-      assignmentLink: "",
-      assignmentStatus: "Submitted",
-    },
-  ];
-  }
-}

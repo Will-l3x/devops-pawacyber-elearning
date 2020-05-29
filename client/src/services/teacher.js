@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const apiUrl = "http://localhost:3001/api/teacher";
+const apiUrl = "http://cybers.azurewebsites.net/api/teacher";
+// const apiUrl = "http://localhost:3001/api/teacher";
 
 export const TeacherService = {
   get_all_courses,
@@ -57,10 +58,11 @@ async function enrol_student(data) {
   }
 }
 
+//Getting by class ID
 async function get_all_students(id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/get_students/{id}/${id}`,
+      url: `${apiUrl}/get_students/${id}`, 
       method: "get",
       timeout: 8000,
       headers: {

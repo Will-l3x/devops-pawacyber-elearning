@@ -188,6 +188,7 @@ class App extends Component {
             />
 
             <Route exact path="/student" component={StudentScreen} />
+            
             <Route exact path="/subject-content" component={SubjectContent} />
             <Route
               exact

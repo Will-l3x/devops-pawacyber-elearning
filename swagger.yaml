@@ -445,7 +445,6 @@ paths:
       responses:
         "405":
           description: "Invalid input"
-
   /student/get_materials/{id}:
     get:
       tags:

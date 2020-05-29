@@ -1,25 +1,41 @@
 import axios from "axios";
+const qs = require('qs');
+// const querystring = require('querystring');
 
-// const apiUrl = "http://cybers.azurewebsites.net/api";
-const apiUrl = "http://localhost:3001/api";
+const apiUrl = "http://cybers.azurewebsites.net/api";
+// const apiUrl = "http://localhost:3001/api";
 
 export const AuthService = {
   register,
+  login
 };
 
 //Register New User
 async function register(data) {
-  try {
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
 
-    let res = await axios({
-      url: `${apiUrl}/register`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  try {
+    let res = await axios.post(`${apiUrl}/register`,qs.stringify(data),config);
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+//Register New User
+async function login(data) {
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
+  try {
+    let res = await axios.post(`${apiUrl}/login`,qs.stringify(data),config);
     return res.data;
   } catch (err) {
     console.error(err);
