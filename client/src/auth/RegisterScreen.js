@@ -6,6 +6,7 @@ import OuterFooter from "../components/outerFooter";
 import img from "../assets/images/details-2-office-team-work.svg"
 import {AuthService} from '../services/authServices';
 import { Redirect } from "react-router-dom";
+import M from "materialize-css";
 
 export class RegisterScreen extends Component {
 
@@ -15,6 +16,10 @@ export class RegisterScreen extends Component {
             title:"Mr"
         };
         this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
+      }
+
+      componentDidMount() {
+        M.AutoInit();
       }
     
     handleTitleDropdownChange(event) {
@@ -45,7 +50,7 @@ export class RegisterScreen extends Component {
                 alert(response.message);
             } else {
                 alert(response.message);
-                // document.getElementById("contactForm").reset();
+                document.getElementById("contactForm").reset();
                 return <Redirect to="/login"/>;
             }
         });

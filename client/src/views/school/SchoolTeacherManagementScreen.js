@@ -43,7 +43,9 @@ export class SchoolTeacherManagementScreen extends Component {
     };
   }
   
+  user = {};
   componentDidMount() {
+    this.user= JSON.parse(localStorage.getItem("user"));
     this.getDashData();
     M.AutoInit();
     $(".custom-select.custom-select-sm").addClass("display-none");
@@ -51,7 +53,8 @@ export class SchoolTeacherManagementScreen extends Component {
   }
 
   getDashData(){
-    SchoolService.get_all_teachers('2')
+    // SchoolService.get_all_teachers('2') 
+    SchoolService.get_all_teachers(this.user.schoolid) 
     .then((response) => {
       this.setState({ rows: response })
     });
@@ -61,7 +64,7 @@ export class SchoolTeacherManagementScreen extends Component {
     event.preventDefault()
 
     var data = {
-        schoolId: "2",
+        schoolId: this.user.schoolid,
         firstname: event.target.firstName.value,
         lastname: event.target.lastName.value,
     }

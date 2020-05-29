@@ -13,23 +13,29 @@ export class SchoolScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
+     
       students:[],
       teachers:[]
     };
   }
 
+  user = {};
+
   componentDidMount() {
     M.AutoInit();
+    this.user= JSON.parse(localStorage.getItem("user"));
     this.getDashData();
   }
 
   getDashData(){
-    SchoolService.get_all_teachers('2')
+    // SchoolService.get_all_teachers('2')
+    SchoolService.get_all_teachers(this.user.schoolid)
     .then((response) => {
+      console.log(response)
       this.setState({ teachers: response })
     });
-    SchoolService.get_all_students('2')
+    // SchoolService.get_all_students('2')
+    SchoolService.get_all_students(this.user.schoolid)
     .then((response) => {
       this.setState({ students: response })
     });

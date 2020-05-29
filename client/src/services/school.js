@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const apiUrl = "http://cybers.azurewebsites.net/api/schooladmin";
-const apiUrl = "http://localhost:3001/api/schooladmin";
+const apiUrl = "http://cybers.azurewebsites.net/api/schooladmin";
+// const apiUrl = "http://localhost:3001/api/schooladmin";
 
 export const SchoolService = {
   post_new_teachers,
@@ -11,13 +11,7 @@ export const SchoolService = {
   get_courses
   
 };
-const pageArraySplit = (array, pagingOptions) => {
-  const currentPageNumber = pagingOptions.currentPageNumber;
-  const perPage = pagingOptions.perPage;
-  const startingIndex = (currentPageNumber - 1) * perPage;
-  const endingIndex = startingIndex + perPage;
-  return array.slice(startingIndex, endingIndex);
-};
+
 
 // Create Courses
 
@@ -54,8 +48,8 @@ async function get_courses(id) {
   }
 }
 
-// teacher functions
-async function get_all_teachers(id) {
+// teacher functions by schoolid
+async function get_all_teachers(id) { 
   try {
     let res = await axios({
       url: `${apiUrl}/teacher/${id}`,

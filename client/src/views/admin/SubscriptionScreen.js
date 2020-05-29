@@ -39,7 +39,7 @@ export class SubscriptionScreen extends Component {
             width: "15%",
           },
           {
-            label: "Expiration Date",
+            label: "Description",
             field: "subscriptiondesc",
             sort: "asc",
             width: "15%",
@@ -125,13 +125,13 @@ export class SubscriptionScreen extends Component {
                           <div className="row">
                             <div className="col s12">
                               <div className="row">
-                                <div className="input-field col s6">
+                                <div className="input-field col s4">
                                   <input id="subscriptionname" type="text" name="subscriptionname"></input>
                                   <label htmlFor="subscriptionname">Package Name</label>
                                 </div>
-                                <div className="input-field col s4">
-                                  <input id="subscriptiondesc" type="date" name="subscriptiondesc"></input>
-                                  <label htmlFor="subscriptiondesc">Expiration Date</label>
+                                <div className="input-field col s8">
+                                  <input id="subscriptiondesc" type="text" name="subscriptiondesc"></input>
+                                  <label htmlFor="subscriptiondesc">Short Description</label>
                                 </div>
                             </div>
                             <div className="row">
