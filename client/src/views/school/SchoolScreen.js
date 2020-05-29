@@ -13,7 +13,6 @@ export class SchoolScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-     
       students:[],
       teachers:[]
     };

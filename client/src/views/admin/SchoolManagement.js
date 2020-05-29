@@ -84,15 +84,16 @@ handleTitleDropdownChange(event) {
     AdminService.post_new_school(data).then((response)=>{
         if(response === undefined){
           alert('School creation failed');
-        }else if(response.success===true || response.status==="201"|| response.status==="200"){
+        }else if(response.success===true || response.message==='S'){
           document.getElementById("sibs").reset();
           this.getDashData();
-          console.log(response.password);
+            console.log(response.password);
             alert(response.message+'\nSchool Admin password is : '+ response.password);
           }else{
             document.getElementById("sibs").reset();
             this.getDashData();
-            alert(response.message);
+            alert(response.message+'\nSchool Admin password is : '+ response.password);
+            console.log(response.password);
           }
       }
     );  

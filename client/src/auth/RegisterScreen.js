@@ -26,11 +26,8 @@ export class RegisterScreen extends Component {
         this.setState({title: event.target.value });
       }
 
-      
-
       handleSubmit = (event) => {
         event.preventDefault();
-
         var registerAdmin = {
             roleid: 3,
             email: event.target.email.value,

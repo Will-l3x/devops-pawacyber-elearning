@@ -9,7 +9,6 @@ export const SchoolService = {
   get_all_students,
   post_new_course,
   get_courses
-  
 };
 
 
@@ -78,6 +77,7 @@ async function post_new_teachers(data) {
     });
     return res.data;
   } catch (err) {
+    console.log('cant link teacher to school')
     console.error(err);
   }
 }

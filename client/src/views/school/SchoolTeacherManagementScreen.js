@@ -7,12 +7,13 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import {SchoolService} from '../../services/school';
+import {AuthService} from '../../services/authServices';
 
 export class SchoolTeacherManagementScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      title:"Mr",
         columns: [
           {
             label: "ID",
@@ -41,6 +42,7 @@ export class SchoolTeacherManagementScreen extends Component {
         ],
         rows: [],
     };
+    this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
   }
   
   user = {};
@@ -60,24 +62,50 @@ export class SchoolTeacherManagementScreen extends Component {
     });
   }
 
+  handleTitleDropdownChange(event) {
+    this.setState({title: event.target.value });
+  }
+
   handleSubmit = (event) => {
     event.preventDefault()
 
     var data = {
         schoolId: this.user.schoolid,
-        firstname: event.target.firstName.value,
-        lastname: event.target.lastName.value,
+        firstname: event.target.personName.value,
+        lastname: event.target.surname.value,
     }
+
+    var registerAdmin = {
+      roleid: 1,
+      email: event.target.email.value,
+      password:  'pass@123',
+      grade: event.target.grade.value,
+      firstname: event.target.personName.value,
+      lastname: event.target.surname.value,
+      title: this.state.title,
+      vpassword:  'pass@123',
+      dob: event.target.dob.value             
+  }
+
+
     SchoolService.post_new_teachers(data).then((response)=>{
         console.log(response);
         if(response === undefined){
           alert('Teacher addition failed');
         }else{
-          alert(response.message);
+          AuthService.register(registerAdmin).then((response) => {
+            if (response === undefined) {
+                alert("Teacher Registration Failed")
+            } else if (response.success === false) {
+                alert(response.message);
+            } else {
+                alert(response.message);
+            }
+        });
           document.getElementById("sibs").reset();
           this.getDashData();
         }
-    })
+    });
   }
 
   render() {
@@ -106,7 +134,7 @@ export class SchoolTeacherManagementScreen extends Component {
                 </nav>
               </div>
               <section className = "row" id="content" style={{ paddingTop: "7%" }}>
-                <div className="container col s8">
+                <div className="container col s6">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12" style={{padding:"20px"}}>
@@ -116,7 +144,7 @@ export class SchoolTeacherManagementScreen extends Component {
                   </div>
                 </div>
 
-                <div className="container col s4">
+                <div className="container col s6">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
@@ -124,16 +152,39 @@ export class SchoolTeacherManagementScreen extends Component {
                       <form onSubmit={this.handleSubmit} id="sibs">
                       <div className="row">
                         <div className="col s12">
-                          <div className="row">
-                            <div className="input-field col s6">
-                              <input id="firstName" type="text" name="firstName" required></input>
-                              <label htmlFor="firstName">Teacher First Name</label>
+                        <div className="row">
+                            <div className="input-field col s2">
+                            <select name="title" defaultValue={this.state.title}   onChange={this.handleTitleDropdownChange} required>                              
+                                <option value="Mr">Mr</option> 
+                                <option value="Mr">Mrs</option> 
+                                <option value="Mr">Rev</option> 
+                                <option value="Mr">Dr</option> 
+                            </select>
                             </div>
-                            <div className="input-field col s6">
-                              <input id="lastName" type="text" name="lastName" required></input>
-                              <label htmlFor="lastName">Teacher Surname</label>
+                            <div className="input-field col s5">
+                              <input id="personName" type="text" name="personName" required></input>
+                              <label htmlFor="personName">First Name</label>
                             </div>
-                        </div>
+                            <div className="input-field col s5">
+                              <input id="surname" type="text" name="surname" required></input>
+                              <label htmlFor="surname">Surname</label>
+                            </div>
+
+                          </div>
+                          <div className="Row">
+                          <div className="input-field col s4">
+                              <input id="email" type="email" name="email" required></input>
+                              <label htmlFor="email">Email</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="dob" type="date" name="dob" required></input>
+                              <label htmlFor="dob">DOB</label>
+                            </div>
+                            <div className="input-field col s4">
+                              <input id="grade" type="number" name="grade" required></input>
+                              <label htmlFor="grade">Grade</label>
+                            </div>
+                          </div>
                         </div>
                           <div className="row">
                             <div className="input-field col s6 offset-s6">
