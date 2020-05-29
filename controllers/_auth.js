@@ -76,7 +76,7 @@ let checkToken = (req, res, next) => {
         next();
     }
 };
-
+ 
 let profile = (req, res) => {
     var id = req.decoded.userid;
     var role = req.decoded.roleid;
@@ -114,11 +114,11 @@ let profile = (req, res) => {
             status: 400,
             success: false,
             message: "Something went wrong"
-         
+
         });
     }
 
-  
+
     var request = new sql.Request();
 
     request
@@ -143,7 +143,7 @@ let profile = (req, res) => {
                 });
             }
         });
-}
+};
 
 let resetpassword = (req, res) => {
 
@@ -646,29 +646,37 @@ let register = (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
     var vpassword = req.body.vpassword;
+    var userid = 0;
+
+    var grade = req.body.grade;
 
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var title = req.body.title;
-    var activefrom = moment().format('YYYY-MM-DD');
+    var activefrom = Date();
+    var dob = Date();
+    dob = req.body.dob;
+    activefrom = moment().format('YYYY-MM-DD');
     var enrolmentkey  = generator.generate({
         length: 5,
         numbers: true
     });
-    var otpexpiry = moment().add(31, 'day').format();
+
+    var otpexpiry = Date();
+    otpexpiry = moment().add(31, 'day').format('YYYY-MM-DD');
     var pin = gen();
 
 
-    let query = "INSERT INTO [users] (email,password,roleid,OtpPin,OtpExpiry,activefrom) VALUES(@email,@password,@roleid,@otppin,@otpexpiry,@activefrom)";
+    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom ))";
     query = query + ';select @@IDENTITY AS \'identity\'';
 
     let query_email = "SELECT * FROM [users] WHERE email = @email";
 
-    var  query_teacher = "INSERT INTO [teachers] (firstame,lastname,datejoined,userid) VALUES(@firstname,@lastname,@dj,@userid)";
+    var query_teacher = "INSERT INTO [teachers] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, Convert(datetime, @dj ) ),@userid)";
 
-    var query_parent = "INSERT INTO [parents] (firstame,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,@dj,@userid,@title)";
+    var query_parent = "INSERT INTO [parents] (firstname,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,@title)";
 
-    var query_student = "INSERT INTO [employees] (firstame,lastname,datejoined,userid,dob,enrolmentkey) VALUES(@firstname,@lastname,@dj,@userid,@dob,@enrolmentkey)";
+    var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,grade) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade)";
 
 
     var schema = new passwordValidator();
@@ -697,8 +705,17 @@ let register = (req, res) => {
                     message: 'Passwords do not match'
                 });
             } else {
-                var request = new sql.Request(transaction);
-
+                var transaction = new sql.Transaction();
+                transaction.begin(function (err) {
+                    if (err) {
+                        console.log(err.message);
+                        return res.json({
+                            status: 400,
+                            success: false,
+                            message: 'Internal server error'
+                        });
+                    }
+                 var request = new sql.Request(transaction);
                 request
                     .input('email', email)
                     .query(query_email, function (err, recordset) {
@@ -721,16 +738,18 @@ let register = (req, res) => {
                                     message: email + ' is already taken'
                                 });
                             } else {
+
+
                                 password = bcrypt.hashSync(password, process.env.bcrypt_salt);
                                 //  var SubscriptionEndDate = moment().format();
 
                                 request
                                     .input('password', password)
-                                    .input('email', email)
+                                    .input('femail', email)
                                     .input('roleid', roleid)
-                                    .input('otppin', pin)
+                                    .input('otp', pin)
                                     .input('otpexpiry', otpexpiry)
-
+                                    .input('activefrom', activefrom)
                                     .query(query, function (err, recordset) {
 
                                         if (err) {
@@ -745,18 +764,23 @@ let register = (req, res) => {
                                         } else {
 
                                             if (recordset.rowsAffected[0] > 0) {
-                                                var lastid = recordset.recordset[0].identity;
+                                                userid = recordset.recordset[0].identity; 
+                                                console.log(userid);
                                                 var q = "";
-                                                if (roleid === 1) {
+                                                if (roleid === "1") {
                                                     //teacher
                                                     q = query_teacher;
+                                                    console.log("teacher");
 
-                                                } else if (roleid === 2) {
+                                                } else if (roleid === "2") {
+                                                    console.log("parent");
                                                     //parent
                                                     q = query_parent;
-                                                } else if (roleid === 3) {
+                                                } else if (roleid === "3") {
+                                                    
                                                     //student
                                                     q = query_student;
+                                                    console.log("student");
                                                 }
 
                                                 request
@@ -764,10 +788,10 @@ let register = (req, res) => {
                                                     .input('title', title)
                                                     .input('lastname', lastname)
                                                     .input('dob', dob)
-                                                    .input('userid', lastid)
+                                                    .input('userid', userid)
                                                     .input('ek', enrolmentkey)
                                                     .input('dj', activefrom)
-
+                                                    .input('grade', grade)
                                                     .query(q, function (err, recordset) {
 
                                                         if (err) {
@@ -779,55 +803,63 @@ let register = (req, res) => {
                                                                 message: 'Database error',
                                                                 error: err.message
                                                             });
-                                                        }
+                                                        } else {
+                                                            console.log(recordset);
+                                                            if (recordset.rowsAffected[0] > 0) {
+                                                                console.log("done sending email");
+                                                                transaction.commit();
 
-                                                        if (recordset.rowsAffected[0] > 0) {
-                                                            transaction.commit();
+                                                                var message = {
+                                                                    from: 'noreply@newschool.com',
+                                                                    to: email,
+                                                                    subject: "Activate your newschool account",
+                                                                    text: "Your newschool activation code is " + pin,
+                                                                    html: "<h3>Welcome to newschool</h3><hr><p>Your activation pin is <b>" + pin + "</b>."
+                                                                };
 
-                                                            var message = {
-                                                                from: 'noreply@newschool.com',
-                                                                to: email,
-                                                                subject: "Activate your newschool account",
-                                                                text: "Your newschool activation code is " + pin,
-                                                                html: "<h3>Welcome to newschool</h3><hr><p>Your activation pin is <b>" + pin + "</b>."
-                                                            };
+                                                                transporter.sendMail(message, (error, info) => {
+                                                                    if (error) {
+                                                                        console.log('Error occurred');
+                                                                        console.log(error.message);
 
-                                                            transporter.sendMail(message, (error, info) => {
-                                                                if (error) {
-                                                                    console.log('Error occurred');
-                                                                    console.log(error.message);
+                                                                        return res.json({
+                                                                            status: 201,
+                                                                            success: true,
+                                                                            message: 'Account Registered',
+                                                                            error: 'Failed to send authorization pin'
+                                                                        });
+                                                                        //    return res.status(400).json({ message: 'Account Registration succeded but failed to send verification pin' });
+
+                                                                        //try again to send pin
+                                                                    }
+
+                                                                    console.log('Message sent successfully!');
+                                                                    console.log(nodemailer.getTestMessageUrl(info));
+
+                                                                    // only needed when using pooled connections
+                                                                    transporter.close();
+                                                                    //  return res.status(201).json({ message: 'Registration successfull' });
 
                                                                     return res.json({
-                                                                        status: 400,
-                                                                        success: false,
-                                                                        message: 'Account Registered with some errors',
-                                                                        error: 'Failed to send authorization pin'
+                                                                        status: 201,
+                                                                        success: true,
+                                                                        message: 'Account Created'
                                                                     });
-                                                                    //    return res.status(400).json({ message: 'Account Registration succeded but failed to send verification pin' });
-
-                                                                    //try again to send pin
-                                                                }
-
-                                                                console.log('Message sent successfully!');
-                                                                console.log(nodemailer.getTestMessageUrl(info));
-
-                                                                // only needed when using pooled connections
-                                                                transporter.close();
-                                                                //  return res.status(201).json({ message: 'Registration successfull' });
-
-                                                                return res.json({
-                                                                    status: 201,
-                                                                    success: true,
-                                                                    message: 'Account Created'
                                                                 });
-                                                            });
-                                                        } else {
-                                                            transaction.rollback();
-                                                        }
+                                                            } else {
+                                                                transaction.rollback();
+                                                                return res.json({
+                                                                    status: 400,
+                                                                    success: false,
+                                                                    message: 'Failed to register'
+                                                                });
 
+                                                            }
+                                                        }
                                                     });
 
                                             } else {
+                                                transaction.rollback();
                                                 return res.json({
                                                     status: 400,
                                                     success: false,
@@ -841,7 +873,7 @@ let register = (req, res) => {
                             }
                         }
                     });
-
+                });
             }
 
         } else {
@@ -864,16 +896,15 @@ let register = (req, res) => {
             erro: 'error'
         });
     }
-};
+}; 
 
 //login
 let login = (req, res) => {
   
-
         let email = req.body.email;
         let password = req.body.password;
         let lastpassword = password;
-
+      
         if (email && password) {
             if (!validator.isEmail(email)) {
                 return res.json({
@@ -887,11 +918,12 @@ let login = (req, res) => {
 
             var query = "select * from[users] where email=@email and password=@password";
 
-            var request = new sql.Request(sqlConn);
+            var request = new sql.Request();
             request
                 .input('email', email)
                 .input('password', password)
                 .query(query, function (err, recordset) {
+                    console.log(recordset.recordsets[0]);
 
                     if (err) {
 
@@ -905,8 +937,35 @@ let login = (req, res) => {
                     } else {
 
                         if (recordset.recordset.length > 0) {
-
+                           
                             var result = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
+                            var userid = 0;
+                            var roleid = 0;
+
+                            for (let prop in result) {
+                                console.log(prop);
+                                if (prop === "userId") {
+                                    userid = result[prop];
+                                    console.log(userid);
+                                }
+
+                                if (prop === "roleid") {
+                                    roleid = result[prop];
+                                    console.log(roleid);
+                                }
+                            }
+
+                            var p = "";
+                            if (roleid === 3) {
+                                p = "students";
+                            } else if (roleid === 2) {
+                                p = "parents";
+                            } else if (roleid === 1) {
+                                p = "teachers";
+                            }
+
+                            var q = "select * from[" + p + "] where userid = @id";
+                            var resp = "";
 
                             //verify password hash
                             if (!bcrypt.compareSync(lastpassword, result.password)) {
@@ -923,16 +982,41 @@ let login = (req, res) => {
                                         expiresIn: '48h' // expires in 2 days
                                     }
                                 );
+                                //////////////////////////////
 
-                                return res.json({
-                                    status: 200,
-                                    success: true,
-                                    message: 'Login successful',
-                                    token: token
-                                });
+                                request
+                                    .input("id",userid)
+                                    .query(q, function (err, recordset) {
+                                        
+                                        if (err) {
+
+                                            console.log(err.message);
+                                            return res.json({
+                                                status: 500,
+                                                success: false,
+                                                message: 'something went wrong',
+                                                error: err.message
+                                            });
+                                        } else {
+
+                                            if (recordset.recordset.length > 0) {
+
+                                                resp = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
+
+                                                return res.json({
+                                                    status: 200,
+                                                    roleid: roleid,
+                                                    success: true,
+                                                    message: 'Login successful',
+                                                    token: token,
+                                                    User:resp
+                                                });
+
+                                            }
+                                        }
+                                    });
                             }
-
-                        } else {
+                        }else {
 
                             return res.json({
                                 status: 401,

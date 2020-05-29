@@ -35,6 +35,16 @@ class TeacherLink extends Component {
         </li>
         <li className="bold">
           <Link
+            to="/enrol-student"
+            className="dash-link waves-effect waves-cyan"
+            onClick={() => this.dashClick("teacher")}
+          >
+            <i className="material-icons">people</i>
+            <span className="nav-text">Student Enrolments</span> 
+          </Link>
+        </li>
+        <li className="bold">
+          <Link
             to="/teacher-calendar"
             className="dash-link waves-effect waves-cyan"
             onClick={() => this.dashClick("teacher")}

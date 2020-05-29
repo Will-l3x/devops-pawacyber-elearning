@@ -33,7 +33,7 @@ export class StudentCourseCard extends Component {
             style={{ boxShadow: "100px", borderRadius: "5px" }}
           >
             <div className="col s11 m7  sub-card ">
-              <p className="white-text```">{course.courseName}</p>
+              <p className="white-text```">{course.classname}</p>
             </div>
             <div
                 className="col s1"
@@ -49,8 +49,8 @@ export class StudentCourseCard extends Component {
                 to="/subject-content"
                 onClick={() => {
                   this.props.course_data({course:{
-                    name: course.courseName,
-                    courseId: course.id,
+                    name: course.classname,
+                    courseId: course.classId,
                     color:this.colors(i)}
                   });
                 }}

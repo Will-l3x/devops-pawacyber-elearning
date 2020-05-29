@@ -6,7 +6,7 @@
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node ./app.js",
-    "postinstall": "cd client && npm run build "
+    "postinstall": "cd client && npm install && npm run build "
   },
   "description": "newschool",
   "author": {
@@ -46,6 +46,7 @@
     "random-number": "0.0.9",
     "read-excel-file": "^4.0.6",
     "redis": "2.8.0",
+    "sequelize-cli": "^5.5.1",
     "serve-favicon": "^2.3.0",
     "tedious": "^8.3.0",
     "underscore": "^1.10.2",

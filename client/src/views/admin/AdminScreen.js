@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import {AdminService} from '../../services/admin';
+import {SchoolService} from '../../services/school';
 
 export class AdminScreen extends Component {
   constructor(props) {
@@ -13,6 +13,7 @@ export class AdminScreen extends Component {
       schools: [],
       packages: [],
       students: [],
+      teachers:[],
     };
   }
 
@@ -30,8 +31,16 @@ export class AdminScreen extends Component {
      });
  
      AdminService.get_subs_plans()
-     .then((response) => { console.log(response)
+     .then((response) => {
        this.setState({ packages: response })
+     });
+     SchoolService.get_all_teachers(2)
+     .then((response) => { 
+       this.setState({ teachers: response })
+     });
+     SchoolService.get_all_students(2)
+     .then((response) => { 
+       this.setState({ students: response })
      });
    }
 
@@ -77,7 +86,7 @@ export class AdminScreen extends Component {
                             <p className="white-text">Students</p>
                           </div>
                           <div className="col s5 m5 right-align white-text">
-                            <h5 className="mb-0 white-text">0</h5>
+                            <h5 className="mb-0 white-text">{this.state.teachers.length}</h5>
                             <p className="no-margin white-text">Total</p>
                             
                           </div>
@@ -152,7 +161,7 @@ export class AdminScreen extends Component {
                             <p className="white-text">Teachers Available</p>
                           </div>
                           <div className="col s5 m5 right-align white-text">
-                            <h5 className="mb-0 white-text">0</h5>
+                            <h5 className="mb-0 white-text">{this.state.teachers.length}</h5>
                             <p className="no-margin white-text">Total</p>
                           </div>
                         </div>

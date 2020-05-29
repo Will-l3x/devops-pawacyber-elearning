@@ -49,12 +49,12 @@ class AdminLink extends Component {
         </li>
         {/* <li className="bold">
           <Link
-            to="/courses"
+            to="/roles"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
-            <i className="fa fa-book"></i>
-            <span className="nav-text">Courses</span>
+            <i className="material-icons">people</i>
+            <span className="nav-text">User Roles</span>
           </Link>
         </li> */}
       </ul>

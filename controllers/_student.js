@@ -226,7 +226,7 @@ let newSubmission = (req, res) => {
     if (!obj.file) {
       let o = JSON.stringify(obj.obj);
       q = `insert into student_assignments \
-        (classid, teacherid, assid, studentid, obj) \
+        (classid, teacherid, assignmentid, studentid, obj) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assid}','${studentid}', ${o})`;
     } else {
       uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/${obj.assid}/`;
@@ -238,7 +238,7 @@ let newSubmission = (req, res) => {
         fs.mkdirSync(uploadPath, { recursive: true });
       }
       q = `insert into student_assignments \
-        (classid, teacherid, assid, studentid, [file]) \
+        (classid, teacherid, assignmentid, studentid, [file]) \
          values (${obj.classid}, ${obj.teacherid}, ${obj.assid}, ${obj.studentid}, '${obj.file}'); \
         select * FROM student_assignments where student_assignments.assignmentID = SCOPE_IDENTITY(); `;
     }
@@ -274,6 +274,45 @@ let newSubmission = (req, res) => {
     });
   }
 };
+
+//Get all assignments for one class for a student
+let getAssignments = (req, res) => {
+  console.log("Student : Getting all assignments...");
+  //Expects classid
+  if (!req.params.id) {
+    res.send({
+      err: "Missing a parameter, expects classid",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.params.id;
+    let q = `select * from [assignments] \
+    where assignments.classid = ${p};`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Reminders not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
+};
 module.exports = {
   newMsg: newMsg,
   getMsgs: getMsgs,
@@ -281,4 +320,5 @@ module.exports = {
   getCourseMaterials: getCourseMaterials,
   getReminders: getReminders,
   newSubmission: newSubmission,
+  getAssignments: getAssignments,
 };

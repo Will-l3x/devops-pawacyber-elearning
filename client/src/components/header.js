@@ -38,7 +38,7 @@ class Header extends Component {
     this.setState({ logout: true });
     localStorage.setItem(
       "user",
-      JSON.stringify({ username: "", password: "" })
+      JSON.stringify({ username: ""})
     );
   };
   render() {
@@ -131,11 +131,11 @@ class Header extends Component {
                   <i className="material-icons">face</i> Profile
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="#" className="grey-text text-darken-1">
                   <i className="material-icons">live_help</i> Help
                 </Link>
-              </li>
+              </li> */}
               <li className="divider"></li>
               <li>
                 <Link

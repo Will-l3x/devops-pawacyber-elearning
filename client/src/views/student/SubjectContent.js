@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import SubjectDescrip from "../../components/student-components/SubjectDescrip";
+import ShowAllAssignments from "../../components/student-components/showAllAssignments";
 import store from "../../config/store";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
@@ -20,11 +21,12 @@ export class SubjectContent extends Component {
   }
 
   componentDidMount() {
-    this.assignmentData();
+    this.videoresources();
   }
 
-  assignmentData(){
+  videoresources(){
     const course_id = store.getState().student.courseId;
+    
     StudentService.get_course_video_resources(course_id)
     .then((response) => {
       this.setState({ topics: response })
@@ -32,12 +34,19 @@ export class SubjectContent extends Component {
   }
 
   videoSelected = false;
+  showAssignments = false
   videoAddress = "";
   previewTitle = "";
+
   selectedTopic(title, video) {
     this.videoAddress = video;
     this.previewTitle = title;
     this.videoSelected = true;
+  }
+
+  showAss(){
+    this.showAssignments = true;
+    this.previewTitle = "DOWNLOAD ASSIGNMENTS"
   }
 
   render() {
@@ -62,6 +71,26 @@ export class SubjectContent extends Component {
                     <div className="row">
                       <div className="col s12 m2 l3">
                         <div className="column">
+                        <ul className="task-card collection with-header">
+                            <li className={`collection-header ${course.color} `} >
+                              <p className="task-card-title">
+                                {course.name} ASSIGNMENTS
+                              </p>
+                            </li>
+                            <li
+                               
+                                className="collection-item dismissable"
+                              >
+                            <label htmlFor="task1">
+                                  All Assingments
+                                  <Link to="#" onClick={() => this.showAss()} className="secondary-content">
+                                    <span style={{ fontSize: "11px" }}>
+                                      View
+                                    </span>
+                                  </Link>
+                                </label>
+                          </li>
+                          </ul>
                           <ul className="task-card collection with-header">
                             <li
                               className={`collection-header ${course.color} `}
@@ -102,7 +131,7 @@ export class SubjectContent extends Component {
                             >
                               {this.videoSelected
                                 ? this.previewTitle
-                                : "DOWNLOADABLE RESOURCES"}
+                                : this.showAssignments? this.previewTitle:"DOWNLOADABLE RESOURCES"}
                             </p>
                           </div>
                           {this.videoSelected ? (
@@ -110,7 +139,19 @@ export class SubjectContent extends Component {
                               <VideoPriview videoLink={this.videoAddress}>
                            </VideoPriview>
                             
-                          ) : (
+                          ) : this.showAssignments?(
+                            <div
+                              className="row mt-1"
+                              style={{
+                                paddingLeft: "10px",
+                                paddingRight: "10px",
+                              }}
+                            >
+                              <ShowAllAssignments
+                                content={course.courseId}
+                              ></ShowAllAssignments>
+                            </div>
+                          ):(
                             <div
                               className="row mt-1"
                               style={{

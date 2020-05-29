@@ -26,18 +26,20 @@ router.get("/roles", _systemadmin.roles);
 router.get("/role/:id", _systemadmin.role);
 router.delete("/del_role/:id", _systemadmin.del_role);
 router.post("/add_role", _systemadmin.add_role);
-router.put("/update_role", _systemadmin.update_role);
+router.put("/update_role/:id", _systemadmin.update_role);
 
 router.get("/subscriptions", _systemadmin.subscriptions);
 router.post("/add_subscription", _systemadmin.add_subscription);
 router.delete("/del_subscription/:id", _systemadmin.del_subscription);
 router.get("/subscription/:id", _systemadmin.subscription);
-router.get("/update_subcription", _systemadmin.update_subscription);
+router.put("/update_subscription/:id", _systemadmin.update_subscription);
+router.put("/subscribe", _systemadmin.subscribe);
 
 router.get("/schools", _systemadmin.schools);
 router.get("/school/:id", _systemadmin.school);
 router.post("/add_school", _systemadmin.add_school);
-router.put("/update_school", _systemadmin.update_school);
+router.put("/update_school/:id", _systemadmin.update_school);
+router.delete("/del_school/:id", _systemadmin.del_school);
 
 router.get('/subscriptions', _systemadmin.subscriptions);
 router.post('/add_subscription', _systemadmin.add_subscription);
@@ -79,21 +81,27 @@ router.get("/student/get_materials/:id", _student.getCourseMaterials);
 
 router.get("/student/get_reminders/:id", _student.getReminders);
 
+router.get("/student/get_assignments/:id", _student.getAssignments);
 router.post("/student/new_submission", _student.newSubmission);
 
 //////////////////////schooladmin//////////////////////////////////////////////
-
 router.get("/schooladmin/teacher/:id", _schooladmin.teacher);
 router.get("/schooladmin/teachers/:id", _schooladmin.teachers);
 router.post("/schooladmin/add_teacher", _schooladmin.add_teacher);
 router.delete("/schooladmin/del_teacher/:id", _schooladmin.del_teacher);
 router.put("/schooladmin/update_teacher", _schooladmin.update_teacher);
 
-//router.get("/schooladmin/class/:id", _schooladmin.class);
-//router.get("/schooladmin/classes", _schooladmin.classes);
-//router.post("/schooladmin/add_class", _schooladmin.add_class);
-//router.delete("/schooladmin/del_class", _schooladmin.del_class);
-//router.put("/schooladmin/update_class", _schooladmin.update_class);
+router.get("/schooladmin/student/:id", _schooladmin.student);
+router.get("/schooladmin/students/:id", _schooladmin.students);
+//router.post("/schooladmin/add_student", _schooladmin.add_student);
+router.delete("/schooladmin/del_student/:id", _schooladmin.del_student);
+router.put("/schooladmin/update_student", _schooladmin.update_student);
+
+router.get("/schooladmin/get_class/:id", _schooladmin.get_class);
+router.get("/schooladmin/get_classes/:id", _schooladmin.get_classes);
+router.post("/schooladmin/add_class", _schooladmin.add_class);
+router.delete("/schooladmin/del_class", _schooladmin.del_class);
+router.put("/schooladmin/update_class", _schooladmin.update_class);
 
 //router.get("/schooladmin/syllabus/:id", _schooladmin.syllabus);
 //router.get("/schooladmin/syllabi", _schooladmin.syllabi);

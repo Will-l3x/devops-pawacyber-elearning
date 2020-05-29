@@ -13,6 +13,9 @@ import { AdminTeacherManagementScreen } from "./views/admin/AdminTeacherManageme
 import { SchoolManagement } from "./views/admin/SchoolManagement";
 import { SubscriptionScreen } from "./views/admin/SubscriptionScreen";
 import { CourseListScreen } from "./views/admin/CourseListScreen";
+import { RolesScreen } from "./views/admin/Roles";
+import {EnrolStudent} from "./views/teacher/EnrolStudent";
+
 import { CourseOutlineScreen } from "./components/CourseOutlineScreen";
 import { ClassroomScreen } from "./components/classroom/ClassroomScreen";
 import { SubjectContent } from "./views/student/SubjectContent";
@@ -134,6 +137,7 @@ class App extends Component {
               path="/admin-calendar"
               component={AdminCalendarScreen}
             />
+            <Route exact path="/roles" component={RolesScreen} />
             <Route exact path="/courses" component={CourseListScreen} />
             <Route
               exact
@@ -153,6 +157,7 @@ class App extends Component {
             />
 
             <Route exact path="/subscriptions" component={SubscriptionScreen} />
+            <Route exact path="/enrol-student" component={EnrolStudent} />
 
             <Route exact path="/teacher" component={TeacherScreen} />
             <Route
@@ -183,6 +188,7 @@ class App extends Component {
             />
 
             <Route exact path="/student" component={StudentScreen} />
+            
             <Route exact path="/subject-content" component={SubjectContent} />
             <Route
               exact

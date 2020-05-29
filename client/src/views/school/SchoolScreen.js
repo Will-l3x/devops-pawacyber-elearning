@@ -7,17 +7,35 @@ import M from "materialize-css";
 import { Calendar } from "../../components/calendar";
 import store from "../../config/store";
 import { Link } from "react-router-dom";
+import {SchoolService} from '../../services/school';
 
 export class SchoolScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: {},
+      students:[],
+      teachers:[]
     };
   }
+
   componentDidMount() {
     M.AutoInit();
+    this.getDashData();
   }
+
+  getDashData(){
+    SchoolService.get_all_teachers('2')
+    .then((response) => {
+      this.setState({ teachers: response })
+    });
+    SchoolService.get_all_students('2')
+    .then((response) => {
+      this.setState({ students: response })
+    });
+  }
+
+
   render() {
     const eventState = store.getState().events;
     return (
@@ -43,9 +61,8 @@ export class SchoolScreen extends Component {
                               <p className="white-text">Students</p>
                             </div>
                             <div className="col s5 m5 right-align white-text">
-                              <h5 className="mb-0 white-text">200</h5>
-                              <p className="no-margin white-text">New</p>
-                              <p className="white-text">2,900</p>
+                              <h5 className="mb-0 white-text">{this.state.students.length}</h5>
+                              <p className="no-margin white-text">Total</p>
                             </div>
                           </div>
                         </div>
@@ -60,9 +77,8 @@ export class SchoolScreen extends Component {
                               <p className="white-text">Teachers</p>
                             </div>
                             <div className="col s5 m5 right-align white-text">
-                              <h5 className="mb-0 white-text">24</h5>
-                              <p className="no-margin white-text">New</p>
-                              <p className="white-text">120</p>
+                              <h5 className="mb-0 white-text">{this.state.teachers.length}</h5>
+                              <p className="no-margin white-text">Total</p>
                             </div>
                           </div>
                         </div>

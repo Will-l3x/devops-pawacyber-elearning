@@ -26,7 +26,7 @@ let enrolStudent = async (req, res) => {
     let q = `select users.email \
       from users \
       where users.userID in \
-      (select students.userid from students where students.userid = ${obj.studentid});`;
+      (select students.userid from students where students.studentId = ${obj.studentid});`;
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
@@ -178,7 +178,7 @@ let getCourseMaterial = (req, res) => {
     let p = req.params.id;
     let q = `select * \
       from materials \
-      where materials.mId = ${p}`;
+      where materials.materialID = ${p}`;
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
@@ -742,4 +742,3 @@ module.exports = {
   getStudents: getStudents,
   getSubmissions: getSubmissions,
 };
-
