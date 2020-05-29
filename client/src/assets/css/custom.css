@@ -308,26 +308,34 @@ a {
     opacity: 0.7;
 }
 
+.height-0 {
+    height: 30px !important;
+}
+
 .dataTables_length label,
 .dataTables_paginate .pagination {
-    float: right;
+    float: right !important;
 }
 
 .dataTables_filter label {
-    float: left;
-    margin-left: 20px;
+    float: left !important;
+    margin-left: 20px !important;
+}
+
+.mdb-datatable-filter.flex-row {
+    transform: translateY(-15px) !important;
 }
 
 .dataTables_length label {
-    margin-right: 20px;
+    margin-right: 20px !important;
 }
 
 .dataTables_length label .select-wrapper {
-    max-width: 50px;
+    max-width: 50px !important;
 }
 
 .dataTables_filter label input {
-    max-width: 250px;
+    max-width: 250px !important;
 }
 
 .btn-classroom {
@@ -365,7 +373,9 @@ a {
 .display-block {
     display: block !important;
 }
-.display-none {
+
+.display-none,
+.bs-select select {
     display: none !important;
 }
 
@@ -648,15 +658,16 @@ h3 {
     overflow-y: scroll;
 }
 
-.image-container{
+.image-container {
     margin-top: -70px;
-    
+
 }
-.image-container{
+
+.image-container {
     width: 100%;
     height: auto;
 }
 
-i{
+i {
     padding-right: 5px;
 }

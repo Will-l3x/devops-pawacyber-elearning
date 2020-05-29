@@ -7,9 +7,15 @@ import blog_4 from "../assets/images/blog_4.jpg";
 import blog_5 from "../assets/images/blog_5.jpg";
 import blog_6 from "../assets/images/blog_6.jpg";
 
-const apiUrl = "http://localhost:3001/api";
+//const apiUrl = "http://localhost:3001/api";
+const apiUrl = "http://cybers.azurewebsites.net/api";
 
 export const AdminService = {
+  post_new_school,
+  get_all_schools,
+  post_new_plan,
+  get_subs_plans,
+
   get_all_courses,
   post_new_course,
   post_course_topic,
@@ -20,8 +26,10 @@ export const AdminService = {
   delete_course_topic,
   get_all_teachers,
   confirm_teacher,
+
   get_subscription_info,
   update_subscription_info,
+  
 };
 
 const pageArraySplit = (array, pagingOptions) => {
@@ -31,6 +39,110 @@ const pageArraySplit = (array, pagingOptions) => {
   const endingIndex = startingIndex + perPage;
   return array.slice(startingIndex, endingIndex);
 };
+
+//POST new School
+async function post_new_school(data) {
+  try {
+
+    let res = await axios({
+      url: `${apiUrl}/add_school`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Get all schools
+async function get_all_schools() {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/schools`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data.schools;
+  } catch (err) {
+    console.error(err);
+    return [{
+        schoolName: "Error Connecting",
+        address: "null",
+        contacts: "null",
+        contactPerson: "null",
+      }];
+
+  }
+}
+
+
+//POST Subscription Plan
+async function post_new_plan(data) {
+  try {
+
+    let res = await axios({
+      url: `${apiUrl}/add_subscription`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function get_subs_plans() {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/subscriptions`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if(res.data.success){
+      return res.data.data.subscriptions;
+    }else{
+      return [{
+        "subscriptionId": 1,
+        "subscriptionname": "null",
+        "subscriptiondesc": "null",
+        "mingrade": 0,
+        "maxgrade": 0,
+        "price": 0
+    }];
+    }
+   
+  } catch (err) {
+    console.error(err);
+
+    return [{
+        "subscriptionId": 0,
+        "subscriptionname": "connection failed",
+        "subscriptiondesc": "null",
+        "mingrade": 0,
+        "maxgrade": 0,
+        "price": 0
+    },
+  ];
+
+  }
+}
+
+
 
 // course functions
 async function get_all_courses(currentPageNumber) {
@@ -51,8 +163,7 @@ async function get_all_courses(currentPageNumber) {
      */
 
     let res = {
-      data: [
-        {
+      data: [{
           id: "1",
           title: "Course Name 1",
           subscribed: false,
@@ -101,11 +212,15 @@ async function get_all_courses(currentPageNumber) {
       currentPageNumber,
       perPage,
     });
-    return { courses, pages };
+    return {
+      courses,
+      pages
+    };
   } catch (err) {
     console.error(err);
   }
 }
+
 async function post_new_course(data) {
   try {
     let res = await axios({
@@ -122,6 +237,7 @@ async function post_new_course(data) {
     console.error(err);
   }
 }
+
 async function get_course_material(course_id) {
   try {
     let res = await axios({
@@ -187,21 +303,21 @@ async function update_course_material(course_id, topic_id, data) {
 }
 async function delete_course(course_id) {
   try {
-   /**
-    * 
-    * 
-    * let res = await axios({
-      url: `${apiUrl}/course/delete-course/${course_id}`,
-      method: "delete",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    * 
-    *  return res.data;
-    * 
-     */ 
+    /**
+     * 
+     * 
+     * let res = await axios({
+       url: `${apiUrl}/course/delete-course/${course_id}`,
+       method: "delete",
+       timeout: 8000,
+       headers: {
+         "Content-Type": "application/json",
+       },
+     });
+     * 
+     *  return res.data;
+     * 
+      */
     console.log(course_id);
     return true
   } catch (err) {
