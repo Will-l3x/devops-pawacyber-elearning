@@ -20,10 +20,7 @@ export default class SubjectDescrip extends Component {
   }
 
   getDashData(){
-
-    // this.user= JSON.parse(localStorage.getItem("user"));
- 
-     StudentService.get_course_downloadables(this.data) // by student id
+     StudentService.get_course_downloadables(this.data)
      .then((response) => {
        console.log(response)
        this.setState({ resources: response })

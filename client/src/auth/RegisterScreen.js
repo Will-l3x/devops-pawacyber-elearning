@@ -5,6 +5,7 @@ import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
 import img from "../assets/images/details-2-office-team-work.svg"
 import {AuthService} from '../services/authServices';
+import { Redirect } from "react-router-dom";
 
 export class RegisterScreen extends Component {
 
@@ -34,8 +35,7 @@ export class RegisterScreen extends Component {
             lastname: event.target.lastname.value,
             title: this.state.title,
             vpassword:  event.target.vpassword.value,
-            dob: event.target.dob.value
-                       
+            dob: event.target.dob.value             
         }
 
         AuthService.register(registerAdmin).then((response) => {
@@ -45,7 +45,8 @@ export class RegisterScreen extends Component {
                 alert(response.message);
             } else {
                 alert(response.message);
-                document.getElementById("contactForm").reset();
+                // document.getElementById("contactForm").reset();
+                return <Redirect to="/login"/>;
             }
         });
     }
