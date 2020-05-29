@@ -962,6 +962,10 @@ let login = (req, res) => {
                                 p = "parents";
                             } else if (roleid === 1) {
                                 p = "teachers";
+                            } else if (roleid === 5) {
+                                p = "systemadmins";
+                            } else if (roleid === 4) {
+                                p = "schooladmins";
                             }
 
                             var q = "select * from[" + p + "] where userid = @id";
