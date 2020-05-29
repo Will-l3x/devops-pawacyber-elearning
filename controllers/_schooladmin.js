@@ -514,14 +514,6 @@ let update_student = (req, res) => {
 };
 
 module.exports = {
-<<<<<<< HEAD
-	teacher,
-	teachers,
-	add_teacher,
-	del_teacher,
-	update_teacher
-};
-=======
   teacher,
   teachers,
   add_teacher,
@@ -539,4 +531,3 @@ module.exports = {
   update_student,
 };
 
->>>>>>> 3e7695e7a5411c6472be901edbdb0183e03c484c
