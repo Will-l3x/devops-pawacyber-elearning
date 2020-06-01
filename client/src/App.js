@@ -45,6 +45,7 @@ import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
+import {PackagePayment} from "./views/student/PackagePayment";
 
 const history = createBrowserHistory();
 
@@ -139,6 +140,7 @@ class App extends Component {
               component={AdminCalendarScreen}
             />
             <Route exact path="/roles" component={RolesScreen} />
+            <Route exact path="/package-selection" component={PackagePayment} />
             <Route exact path="/upload" component={UploadMaterial} />
             <Route exact path="/courses" component={CourseListScreen} />
             <Route

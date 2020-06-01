@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import OuterHeader from "../components/outerHeader";
-import OuterFooter from "../components/outerFooter";
-import img from "../assets/images/details-2-office-team-work.svg"
+import OuterHeader from "../../components/outerHeader";
+import OuterFooter from "../../components/outerFooter";
+import img from "../../assets/images/details-2-office-team-work.svg"
 
-import RegistrationForm from '../components/student-components/RegistrationForms';
+import CoursePackages from '../../components/student-components/CoursePackages';
 
-export class RegisterScreen extends Component {
+export class PackagePayment extends Component {
 
     render() {
         return (
@@ -14,7 +14,7 @@ export class RegisterScreen extends Component {
                 <OuterHeader></OuterHeader>
                     <div className="content-pawa" >
                         <div className="ex-basic-1">
-                            <h4>CREATE A STUDENT ACCOUNT</h4>
+                            <h4>SELECT PACKAGE</h4>
                         </div>
                         <div className="form-2" style={{marginBottom:"-50px"}}>
                             <div className="container" style={{marginTop:"-100px"}}>
@@ -24,7 +24,7 @@ export class RegisterScreen extends Component {
                                             <img className="img-fluid" src={img} alt="alternative"/>
                                         </div>
                                     </div> 
-                                    <RegistrationForm></RegistrationForm>
+                                    <CoursePackages></CoursePackages>
                                 </div> 
                             </div> 
                         </div>
@@ -42,4 +42,4 @@ const mapDispatchToProps = {
     
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(PackagePayment)
