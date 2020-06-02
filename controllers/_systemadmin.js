@@ -258,7 +258,7 @@ let add_school = (req, res) => {
     (firstname,lastname,activefrom,userid,schoolid) \
     VALUES(@firstname,@lastname,Convert(datetime, @dj3 ),@userid,@schoolid)";
 
-    let query_email = "SELECT * FROM [schools] WHERE email = @email";
+    let query_email = "SELECT * FROM [schools] WHERE email = @email"; 
 
     var transaction = new sql.Transaction();
     transaction.begin(function (err) {
