@@ -7,7 +7,6 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import {AdminService} from '../../services/admin';
-import {AuthService} from '../../services/authServices';
 
 export class SchoolManagement extends Component {
   constructor(props) {
@@ -15,7 +14,7 @@ export class SchoolManagement extends Component {
     this.state = {
        
         subId: "",
-        roleId:"",
+    
         title:"Mr",
         columns: [
           {
@@ -44,28 +43,18 @@ export class SchoolManagement extends Component {
           },
         ],
         rows: [],
-        options: [],
-        userRoles:[]
+        options: []
     };
 
-    this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
-    this.handleRoleDropdownChange = this.handleRoleDropdownChange.bind(this);
   }
 
-  handleDropdownChange(event) {
-    this.setState({subId: event.target.value });
-    console.log(this.state.subId);
-}
+
 
 handleTitleDropdownChange(event) {
   this.setState({title: event.target.value });
 }
 
-handleRoleDropdownChange(event) {
-    this.setState({roleId: event.target.value });
-    console.log(this.state.roleId);
-}
   
   componentDidMount() {
     this.getDashData();
@@ -75,25 +64,16 @@ handleRoleDropdownChange(event) {
   }
 
   getDashData(){
-    AdminService.get_subs_plans()
-    .then((response) => {
-      this.setState({ options: response});
-    });
     AdminService.get_all_schools()
     .then((response) => {
       this.setState({ rows: response })
-    });
-    AdminService.get_roles()
-    .then((response) => {
-      console.log(response)
-      this.setState({ userRoles: response })
     });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
     var data = {
-        schoolName: event.target.schoolName.value,
+        schoolname: event.target.schoolName.value,
         address: event.target.schoolAddress.value,
         contacts: event.target.schoolContactNumber.value,
         firstname: event.target.personName.value,
@@ -101,55 +81,24 @@ handleRoleDropdownChange(event) {
         email: event.target.email.value,
     }
 
-    var subData ={
-      schoolId:"2",
-      subscriptionid:this.state.subId,
-      subscriptiondate:Date.now()
-    }
-
-    var registerAdmin ={
-      email: event.target.email.value,
-      password:"pass@123",
-      vpassword:"pass@123",
-      roleid:this.state.roleId,
-      firstname: event.target.personName.value,
-      lastname: event.target.surname.value,
-      title:this.state.title,
-      grade:'All',
-      dob:event.target.dob.value,
-    }
-
     AdminService.post_new_school(data).then((response)=>{
         if(response === undefined){
           alert('School creation failed');
-        }else{
-          if(response.success){
-            AdminService.subscribe_school(subData).then((response)=>{
-              if(response === undefined){
-                alert('School subscription failed');
-              }else if(response.success===false){
-                alert(response.message);
-              }else{
-                AuthService.register(registerAdmin).then((response)=>{
-                  if(response === undefined){
-                    alert("School onboarded but Failed to register school admin.")
-                  }else if(response.success===false){
-                    alert(response.message);
-                  }else{
-                    alert(response.message);
-                    document.getElementById("sibs").reset();
-                    this.getDashData();
-                  }
-                });
-              }
-          });
+        }else if(response.success===true || response.message==='S'){
+          document.getElementById("sibs").reset();
+          this.getDashData();
+            console.log(response.password);
+            alert(response.message+'\nSchool Admin password is : '+ response.password);
           }else{
-            alert(response.message)
+            document.getElementById("sibs").reset();
+            this.getDashData();
+            alert(response.message+'\nSchool Admin password is : '+ response.password);
+            console.log(response.password);
           }
       }
-    });  
+    );  
   }
-
+  DI7WvP0U
   render() {
     return (
       <div>
@@ -208,14 +157,6 @@ handleRoleDropdownChange(event) {
                               <input id="schoolContactNumber" type="number" name="schoolContactNumber" required></input>
                               <label htmlFor="schoolContactNumber">Contact Number</label>
                             </div>
-                            <div className="input-field col s6" >
-                            <select name="sub" defaultValue={this.state.subId}   onChange={this.handleDropdownChange}>                              
-                              {this.state.options.map((optionField, i) =>  (
-                                <option key={i} value={optionField.subscriptionId}>{optionField.subscriptionname}</option> 
-                              ))}
-                            </select>
-                            <label htmlFor="sub">Subcription Package</label>
-                            </div>
                         </div>
                      
                         <h4 className="header2"><b>School Admin Details</b></h4>
@@ -239,19 +180,9 @@ handleRoleDropdownChange(event) {
 
                           </div>
                           <div className="Row">
-                          <div className="input-field col s4">
+                          <div className="input-field col s6">
                               <input id="email" type="email" name="email" required></input>
                               <label htmlFor="email">Email</label>
-                            </div>
-                          <div className="input-field col s4" >
-                            <select name="sub" value={this.state.roleId}   onChange={this.handleRoleDropdownChange} required>   
-                            {this.state.userRoles.map((role,i) => <option key={i} value={role.roleId}>{role.rolename}</option>)}                           
-                            </select>
-                            <label htmlFor="sub">User Role</label>
-                            </div>
-                            <div className="input-field col s4">
-                              <input id="dob" type="date" name="dob" required></input>
-                              <label htmlFor="dob">DOB</label>
                             </div>
                           </div>
                         </div>

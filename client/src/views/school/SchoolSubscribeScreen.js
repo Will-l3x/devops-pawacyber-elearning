@@ -42,7 +42,6 @@ export class SchoolSubscribeScreen extends Component {
   }
   componentDidMount() {
     M.AutoInit();
-    console.log(store.getState().school.course);
   }
 
   render() {

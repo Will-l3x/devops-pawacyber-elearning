@@ -7,10 +7,67 @@ export const TeacherService = {
   get_all_courses,
   get_teacher_pending_classwork,
   get_teacher_unmarked_classwork,
+  post_material,
+  get_materials,
+  post_file,
 
   enrol_student,
   get_all_students
 };
+
+
+async function post_material(data) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/new_material`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function post_file(data) {
+  try {
+    let res = await axios({
+      url: `http://cybers.azurewebsites.net/api/upload/new`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function get_materials(id) { //by class id
+  try {
+    let res = await axios({
+      url: `${apiUrl}/get_materials/${id}`,  
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data.materials;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
 
 // classroom
 async function get_all_courses(teacher_id) {

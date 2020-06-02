@@ -28,13 +28,7 @@ async function get_all_courses(student_id) {
     return res.data.data;
   } catch (err) {
     console.error(err);
-    return [{
-      classId: 2,
-      classname: "Check connection...",
-      numberOfTopics: null,
-      courseCode: null,
-    },
-  ];
+    return [];
   }
 }
 

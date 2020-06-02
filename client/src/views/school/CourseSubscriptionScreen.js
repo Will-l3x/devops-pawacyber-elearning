@@ -22,14 +22,14 @@ export class CourseSubscriptionScreen extends Component {
   };
 
   user = {};
- 
   componentDidMount() {
     this.user= JSON.parse(localStorage.getItem("user"));
     this.getDashData();
   }
 
   getDashData(){
-    SchoolService.get_courses('1') //Get by school id
+    // SchoolService.get_courses('2')
+    SchoolService.get_courses(this.user.schoolid)
     .then((response) => {
       if(response===undefined){
       }else{
