@@ -520,9 +520,10 @@ let update_student = (req, res) => {
 let add_packages = (req, res) => {
   console.log("School Admin : Init Packages");
   packages.forEach((package) => {
+    console.log(package);
     let query = `insert into [school_packages] \
     (educationlevel, mingrade, maxgrade, numberofsubjects) \
-    values(${package.educationlevel}, ${package.mingrade}, ${package.maxgrade}, ${package.numberofsubjects});`;
+    values('${package.educationlevel}', ${package.mingrade}, ${package.maxgrade}, ${package.numberofsubjects});`;
     let request = new sql.Request();
 
     request.query(query, function (err, recordset) {
