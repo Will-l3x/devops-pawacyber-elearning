@@ -117,8 +117,10 @@ let newCourseMaterial = (req, res) => {
       let o = JSON.stringify(obj.obj);
       q = `insert into materials \
         (classid, teacherid, materialname, obj) \
-         values (${obj.classid}, ${obj.studentid}, ${obj.materialname}, ${o})`;
+         values (${obj.classid}, ${obj.studentid}, '${obj.materialname}', '${o}')`;
     } else {
+      let o = JSON.stringify(obj.obj);
+
       uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/`;
       obj.file = `/uploads/${obj.schoolid}/${obj.classid}/`;
       console.log("Checking upload path..."); //dev
@@ -128,8 +130,8 @@ let newCourseMaterial = (req, res) => {
         fs.mkdirSync(uploadPath, { recursive: true });
       }
       q = `insert into materials \
-        (classid, teacherid, materialname, [file]) \
-         values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}'); \
+        (classid, teacherid, materialname, [file], obj) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}', '${o}'); \
          select * FROM materials where materials.mID = SCOPE_IDENTITY();`;
     }
     console.log(q); //dev

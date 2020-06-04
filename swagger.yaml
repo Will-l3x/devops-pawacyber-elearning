@@ -536,6 +536,150 @@ paths:
         "405":
           description: "Invalid input"
 
+  /student/active_packages/{id}:
+    get:
+      tags:
+        - "Student"
+      summary: "Gets all active packages for a school..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "SchoolID of (package)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /student/classes_grade:
+    post:
+      tags:
+        - "Student"
+      summary: "Get all grade classes for a school..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              schoolid:
+                type: "integer"
+              grade:
+                type: "integer"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /student/select_package_class:
+    post:
+      tags:
+        - "Student"
+      summary: "select a class under a package..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              schoolid:
+                type: "integer"
+              classid:
+                type: "integer"
+              sapid:
+                type: "integer"
+              studentid:
+                type: "integer"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/packages:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets all default packages in the system..."
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/add_packages:
+    get:
+      tags:
+        - "School Admin"
+      summary: "DO NOT USE : Adds default packages in the system..."
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/active_packages/{id}:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets all active packages for a school..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "SchoolID of (package)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/activate_package:
+    post:
+      tags:
+        - "School Admin"
+      summary: "Activates a default package for a school..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              schoolid:
+                type: "integer"
+              packageid:
+                type: "integer"
+      responses:
+        "405":
+          description: "Invalid input"
+
   /schooladmin/teacher/{id}:
     get:
       tags:

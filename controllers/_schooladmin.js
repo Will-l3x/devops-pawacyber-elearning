@@ -2,6 +2,7 @@ let sql = require("mssql");
 let fs = require("fs");
 let nodemailer = require("nodemailer");
 let moment = require("moment");
+let packages = require("../providers/packages.js");
 
 /*-------------------------------------------------------------------------------------*/
 /*teachers------------------------------------------------------------------------------*/
@@ -247,12 +248,14 @@ let add_class = (req, res) => {
   let classname = req.body.classname;
   let createdby = req.body.createdby;
   let status = req.body.status;
+  let grade = req.body.grade;
+  let schoolid = req.body.schoolid;
   let createdon = moment().format("YYYY-MM-DD");
   let enrolmentkey;
 
   var query = `insert into [classes] \
-    (teacherid, classname, createdby, createdon, status) \
-    values(${teacherid}, '${classname}', ${createdby}, ${createdon}, '${status}'); \
+    (teacherid, classname, createdby, createdon, status, grade) \
+    values(${teacherid}, '${classname}', ${createdby}, ${createdon}, '${status}', ${grade}); \
     select * from classes where classes.classId = SCOPE_IDENTITY(); `;
 
   let request = new sql.Request();
@@ -512,6 +515,121 @@ let update_student = (req, res) => {
     }
   });
 };
+//This is supposed to run as a cron job or whatever
+//or if custom packages become a feature
+let add_packages = (req, res) => {
+  console.log("School Admin : Init Packages");
+  packages.forEach((package) => {
+    let query = `insert into [school_packages] \
+    (educationlevel, mingrade, maxgrade, numberofsubjects) \
+    values(${package.educationlevel}, ${package.mingrade}, ${package.maxgrade}, ${package.numberofsubjects});`;
+    let request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+      if (err) {
+        console.log(err);
+        console.log(err.stack);
+        return res.json({
+          status: 500,
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Package added...");
+      }
+    });
+  });
+
+  return res.json({
+    status: 200,
+    success: true,
+    message: "Added default packages...",
+  });
+};
+
+let get_packages = (req, res) => {
+  let query = `select * from [school_packages]`;
+  let request = new sql.Request();
+
+  request.query(query, function (err, recordset) {
+    let packages = recordset.recordset;
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ packages })),
+      });
+    }
+  });
+};
+
+let activate_package = (req, res) => {
+  let schoolid = req.body.schoolid;
+  let packageid = req.body.packageid;
+
+  var query = `insert into [school_active_packages] \
+    (schoolid, packageid) \
+    values(${schoolid}, ${packageid}); \
+    select * from school_active_packages \
+    where school_active_packages.sapId = SCOPE_IDENTITY(); `;
+
+  request.query(query, function (err, recordset) {
+    let activatedPackage = recordset.recordset;
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ activatedPackage })),
+      });
+    }
+  });
+};
+
+let active_packages = (req, res) => {
+  let schoolid = req.params.id;
+  let query = `select * from [school_active_packages]\
+    where school_active_packages.schoolid = ${schoolid} `;
+  let request = new sql.Request();
+
+  request.query(query, function (err, recordset) {
+    let activePackages = recordset.recordset;
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ activePackages })),
+      });
+    }
+  });
+};
 
 module.exports = {
   teacher,
@@ -529,5 +647,8 @@ module.exports = {
   add_student,
   del_student,
   update_student,
+  add_packages,
+  get_packages,
+  activate_package,
+  active_packages,
 };
-

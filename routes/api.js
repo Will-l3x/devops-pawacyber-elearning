@@ -84,6 +84,9 @@ router.get("/student/get_reminders/:id", _student.getReminders);
 router.get("/student/get_assignments/:id", _student.getAssignments);
 router.post("/student/new_submission", _student.newSubmission);
 
+router.get("/student/active_packages/:id", _student.active_packages);
+router.post("/student/classes_grade", _student.classes_grade);
+router.post("/student/select_package_class", _student.select_package_class);
 //////////////////////schooladmin//////////////////////////////////////////////
 router.get("/schooladmin/teacher/:id", _schooladmin.teacher);
 router.get("/schooladmin/teachers/:id", _schooladmin.teachers);
@@ -102,6 +105,13 @@ router.get("/schooladmin/get_classes/:id", _schooladmin.get_classes);
 router.post("/schooladmin/add_class", _schooladmin.add_class);
 router.delete("/schooladmin/del_class", _schooladmin.del_class);
 router.put("/schooladmin/update_class", _schooladmin.update_class);
+
+router.get("/schooladmin/packages", _schooladmin.get_packages);
+// ---
+router.get("/schooladmin/add_packages", _schooladmin.add_packages); // not production
+// ---
+router.post("/schooladmin/activate_package", _schooladmin.activate_package);
+router.get("/schooladmin/active_packages/:id", _schooladmin.active_packages);
 
 //router.get("/schooladmin/syllabus/:id", _schooladmin.syllabus);
 //router.get("/schooladmin/syllabi", _schooladmin.syllabi);

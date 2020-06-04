@@ -313,6 +313,95 @@ let getAssignments = (req, res) => {
     });
   }
 };
+//Get all active packages for a school
+let active_packages = (req, res) => {
+  let schoolid = req.params.id;
+  let query = `select * from [school_active_packages]\
+    where school_active_packages.schoolid = ${schoolid} `;
+  let request = new sql.Request();
+
+  request.query(query, function (err, recordset) {
+    let activePackages = recordset.recordset;
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ activePackages })),
+      });
+    }
+  });
+};
+//Get all classes for a grade
+let classes_grade = (req, res) => {
+  let grade = req.body.grade;
+  let schoolid = req.body.schoolid;
+  let query = `select * from [classes]\
+    where classes.grade = ${grade} and classes.schoolid = ${schoolid}`;
+  let request = new sql.Request();
+
+  request.query(query, function (err, recordset) {
+    let classes = recordset.recordset;
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ classes })),
+      });
+    }
+  });
+};
+//Select Package and Classes
+let select_package_class = (req, res) => {
+  let sapid = req.body.sapId;
+  let schoolid = req.body.schoolid;
+  let classid = req.body.classid;
+  let studentid = req.body.studentid;
+  let query = `insert into [student_package_class]\
+   (schoolid, sapid, classid, studentid) \
+    values(${schoolid}, ${sapid}, ${classid}, ${studentid}); \
+    select * from student_package_class \
+    where student_package_class.spId = SCOPE_IDENTITY(); `;
+  let request = new sql.Request();
+
+  request.query(query, function (err, recordset) {
+    let package_class = recordset.recordset;
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ package_class })),
+      });
+    }
+  });
+};
+
 module.exports = {
   newMsg: newMsg,
   getMsgs: getMsgs,
@@ -321,4 +410,7 @@ module.exports = {
   getReminders: getReminders,
   newSubmission: newSubmission,
   getAssignments: getAssignments,
+  active_packages,
+  classes_grade,
+  select_package_class,
 };
