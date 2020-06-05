@@ -600,6 +600,237 @@ let subscriptions = (req, res) => {
     });
 };
 
+let student_packages = (req, res) => {
+    var query = "select * from [subscriptions]";
+    var request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message
+            });
+        } else {
+
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ subscriptions: recordset.recordset }))
+            });
+        }
+    });
+};
+
+let add_subadmin = (req, res) => {
+    var subscriptionname = req.body.subscriptionname;
+    var subscriptiondesc = req.body.subscriptiondesc;
+    var mingrade = req.body.mingrade;
+    var maxgrade = req.body.maxgrade;
+    var price = req.body.price;
+
+    var query = "INSERT INTO [subscriptions] \
+    (subscriptionname,subscriptiondesc,mingrade,maxgrade,price) \
+    VALUES(@name,@desc,@min,@max,@price)";
+    var request = new sql.Request();
+
+    request
+        .input("name", subscriptionname)
+        .input("desc", subscriptiondesc)
+        .input("min", mingrade)
+        .input("max", maxgrade)
+        .input("price", price)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                if (recordset.rowsAffected[0] > 0) {
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Subscription Added"
+                    });
+
+                } else {
+
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to add subscription'
+
+                    });
+                }
+
+            }
+        });
+};
+
+let subadmins = (req, res) => {
+    var schoolid = req.params.id;
+    var school_obj, admin_obj, subscriptions_obj;
+
+    var query_school = "select * from [schools] \
+    where schoolId =@id1";
+
+    var query_subscriptions = "select * from [school_subscriptions] \
+    LEFT OUTER JOIN schools ON schools.schoolId = school_subscriptions.schoolid \
+    LEFT OUTER JOIN subscriptions ON subscriptions.subscriptionId = school_subscriptions.subscriptionid \
+    where school_subscriptions.schoolid =@id2";
+
+    var query_admin = "select * from [schooladmins] \
+    where schoolid =@id3";
+
+    var request = new sql.Request();
+
+    request
+        .input("id1", schoolid)
+        .query(query_school, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                school_obj = recordset.recordset;
+
+                request
+                    .input("id2", schoolid)
+                    .query(query_subscriptions, function (err, recordset) {
+
+                        if (err) {
+                            console.log(err);
+                            return res.json({
+                                status: 500,
+                                success: false,
+                                message: "An error occured",
+                                error: err.message
+                            });
+                        } else {
+                            subscriptions_obj = recordset.recordset;
+
+                            request
+                                .input("id3", schoolid)
+                                .query(query_admin, function (err, recordset) {
+
+                                    if (err) {
+                                        console.log(err);
+                                        return res.json({
+                                            status: 500,
+                                            success: false,
+                                            message: "An error occured",
+                                            error: err.message
+                                        });
+                                    } else {
+                                        admin_obj = recordset.recordset;
+
+                                        return res.json({
+                                            status: 200,
+                                            success: true,
+                                            school: JSON.parse(JSON.stringify({ school_obj, subscriptions_obj, admin_obj }))
+
+                                        });
+                                    }
+                                });
+                        }
+                    });
+            }
+        });
+};
+
+let subadmin = (req, res) => {
+    var schoolid = req.params.id;
+    var school_obj, admin_obj, subscriptions_obj;
+
+    var query_school = "select * from [schools] \
+    where schoolId =@id1";
+
+    var query_subscriptions = "select * from [school_subscriptions] \
+    LEFT OUTER JOIN schools ON schools.schoolId = school_subscriptions.schoolid \
+    LEFT OUTER JOIN subscriptions ON subscriptions.subscriptionId = school_subscriptions.subscriptionid \
+    where school_subscriptions.schoolid =@id2";
+
+    var query_admin = "select * from [schooladmins] \
+    where schoolid =@id3";
+
+    var request = new sql.Request();
+
+    request
+        .input("id1", schoolid)
+        .query(query_school, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                school_obj = recordset.recordset;
+
+                request
+                    .input("id2", schoolid)
+                    .query(query_subscriptions, function (err, recordset) {
+
+                        if (err) {
+                            console.log(err);
+                            return res.json({
+                                status: 500,
+                                success: false,
+                                message: "An error occured",
+                                error: err.message
+                            });
+                        } else {
+                            subscriptions_obj = recordset.recordset;
+
+                            request
+                                .input("id3", schoolid)
+                                .query(query_admin, function (err, recordset) {
+
+                                    if (err) {
+                                        console.log(err);
+                                        return res.json({
+                                            status: 500,
+                                            success: false,
+                                            message: "An error occured",
+                                            error: err.message
+                                        });
+                                    } else {
+                                        admin_obj = recordset.recordset;
+
+                                        return res.json({
+                                            status: 200,
+                                            success: true,
+                                            school: JSON.parse(JSON.stringify({ school_obj, subscriptions_obj, admin_obj }))
+
+                                        });
+                                    }
+                                });
+                        }
+                    });
+            }
+        });
+};
+
 let add_subscription = (req, res) => {
     var subscriptionname = req.body.subscriptionname;
     var subscriptiondesc = req.body.subscriptiondesc;

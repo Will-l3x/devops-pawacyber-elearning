@@ -576,7 +576,7 @@ let verifyacc = (req, res) => {
                                             let token = jwt.sign({ email: result.Email, role: result.Role, userid: result.UserId, 'enddate': subscriptionenddate },
                                                 process.env.jwt_secret,
                                                 {
-                                                    expiresIn: '678h' // expires in 28 days
+                                                    expiresIn: '36h' // expires in 1.5 days
                                                 }
                                             );
 
@@ -903,7 +903,8 @@ let login = (req, res) => {
   
         let email = req.body.email;
         let password = req.body.password;
-        let lastpassword = password;
+    let lastpassword = password;
+    var currdate = moment().format('YYYY-MM-DD');
       
         if (email && password) {
             if (!validator.isEmail(email)) {
@@ -941,34 +942,102 @@ let login = (req, res) => {
                             var result = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
                             var userid = 0;
                             var roleid = 0;
+                            var activesubscriptions = 0;
+                            var grade = "";
 
                             for (let prop in result) {
-                                console.log(prop);
+                               
                                 if (prop === "userId") {
                                     userid = result[prop];
-                                    console.log(userid);
+                                    
                                 }
 
                                 if (prop === "roleid") {
                                     roleid = result[prop];
-                                    console.log(roleid);
+                                   
                                 }
                             }
 
                             var p = "";
                             if (roleid === 3) {
                                 p = "students";
+                                ///////////////////////////
+                                var p2 = "select * from[student_subscriptions]  \
+                                         LEFT OUTER JOIN students ON students.studentId = student_subscriptions.studentid  \
+                                         LEFT OUTER JOIN users ON students.userid = users.userId  \
+                                         where users.userId =@id AND Convert(datetime, @cd) < student_subscriptions.enddate";
+
+                                request
+                                    .input("id", userid)
+                                    .input("cd", currdate)
+                                    .query(p2, function (err, recordset) {
+
+                                        if (err) {
+
+                                            console.log(err.message);
+                                            return res.json({
+                                                status: 500,
+                                                success: false,
+                                                message: 'something went wrong sub',
+                                                error: err.message
+                                            });
+                                        } else {
+
+                                            if (recordset.recordset.length > 0) {
+                                                activesubscriptions = 1;
+                                            }
+                                        }
+                                    });
+
+                                ////////////////////////////
+
                             } else if (roleid === 2) {
                                 p = "parents";
+                                ////////////////////////////////////////////////////////
+                                //var p3 = "select * from[student_subscriptions]  \
+                                //          LEFT OUTER JOIN students ON students.studentId = student_subscriptions.studentid  \
+                                //          LEFT OUTER JOIN parents ON parents.userid = users.userId  \
+                                //          LEFT OUTER JOIN student_parents ON student_parents.userid = users.userId  \
+
+
+                                         
+                                //         LEFT OUTER JOIN users ON students.userid = users.userId  \
+                                //         where users.userId =@id AND Convert(datetime, @cd) < student_subscriptions.enddate";
+
+                                request
+                                    .input("id", userid)
+                                    .input("cd", currdate)
+                                    .query(p2, function (err, recordset) {
+
+                                        if (err) {
+                                            console.log(err.message);
+                                            return res.json({
+                                                status: 500,
+                                                success: false,
+                                                message: 'something went wrong sub',
+                                                error: err.message
+                                            });
+                                        } else {
+
+                                            if (recordset.recordset.length > 0) {
+                                                activesubscriptions = 1;
+                                            }
+                                        }
+                                    });
+
+
+                                ////////////////////////////////////////////////////////////
+
                             } else if (roleid === 1) {
                                 p = "teachers";
                             } else if (roleid === 5) {
                                 p = "systemadmins";
+                                activesubscriptions = 1;
                             } else if (roleid === 4) {
                                 p = "schooladmins";
                             }
 
-                            var q = "select * from[" + p + "] where userid = @id";
+                            var q = "select * from[" + p + "] where userid = @id2";
                             var resp = "";
 
                             //verify password hash
@@ -980,16 +1049,16 @@ let login = (req, res) => {
                                 });
                             } else {
 
-                                let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId },
+                                let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId, activesubscriptions: activesubscriptions },
                                     process.env.jwt_secret,
                                     {
-                                        expiresIn: '48h' // expires in 2 days
+                                        expiresIn: '36h' // expires in 1.5 days
                                     }
                                 );
                                 //////////////////////////////
 
                                 request
-                                    .input("id",userid)
+                                    .input("id2",userid)
                                     .query(q, function (err, recordset) {
                                         
                                         if (err) {
@@ -1009,11 +1078,12 @@ let login = (req, res) => {
 
                                                 return res.json({
                                                     status: 200,
-                                                    roleid: roleid,
                                                     success: true,
                                                     message: 'Login successful',
+                                                    roleid: roleid,
                                                     token: token,
-                                                    User:resp
+                                                    User: resp,
+                                                    activesubscriptions: activesubscriptions
                                                 });
 
                                             }
