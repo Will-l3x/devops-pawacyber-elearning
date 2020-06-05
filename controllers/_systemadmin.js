@@ -600,6 +600,149 @@ let subscriptions = (req, res) => {
     });
 };
 
+let student_packages = (req, res) => {
+    var query = "select * from [subscriptions]";
+    var request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message
+            });
+        } else {
+
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ subscriptions: recordset.recordset }))
+            });
+        }
+    });
+};
+
+let add_subadmin = (req, res) => {
+    var subscriptionname = req.body.subscriptionname;
+    var subscriptiondesc = req.body.subscriptiondesc;
+    var mingrade = req.body.mingrade;
+    var maxgrade = req.body.maxgrade;
+    var price = req.body.price;
+
+    var query = "INSERT INTO [subscriptions] \
+    (subscriptionname,subscriptiondesc,mingrade,maxgrade,price) \
+    VALUES(@name,@desc,@min,@max,@price)";
+    var request = new sql.Request();
+
+    request
+        .input("name", subscriptionname)
+        .input("desc", subscriptiondesc)
+        .input("min", mingrade)
+        .input("max", maxgrade)
+        .input("price", price)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                if (recordset.rowsAffected[0] > 0) {
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Subscription Added"
+                    });
+
+                } else {
+
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to add subscription'
+
+                    });
+                }
+
+            }
+        });
+};
+
+let subadmins = (req, res) => {
+  
+    var query = "select * from [subadmins]";
+   
+    var request = new sql.Request();
+
+    request
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+               
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ subadmins: recordset.recordset }))
+
+                });
+                                   
+            }
+        });
+};
+
+let subadmin = (req, res) => {
+
+    var id = req.params.id;
+    var query = "select * from [subadmins] where subadminId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id",id)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ subadmin:recordset.recordset }))
+
+                });
+
+            }
+        });
+};
+
 let add_subscription = (req, res) => {
     var subscriptionname = req.body.subscriptionname;
     var subscriptiondesc = req.body.subscriptiondesc;
@@ -885,6 +1028,8 @@ module.exports = {
     update_subscription: update_subscription,
     subscribe: subscribe,
     schools: schools,
+    subadmins: subadmins,
+    subadmin: subadmin,
     school: school,
     update_school:update_school,
     add_school:add_school

@@ -35,6 +35,9 @@ router.get("/subscription/:id", _systemadmin.subscription);
 router.put("/update_subscription/:id", _systemadmin.update_subscription);
 router.put("/subscribe", _systemadmin.subscribe);
 
+router.get("/subadmins", _systemadmin.subadmins);
+router.get("/subadmin/:id", _systemadmin.subadmin);
+
 router.get("/schools", _systemadmin.schools);
 router.get("/school/:id", _systemadmin.school);
 router.post("/add_school", _systemadmin.add_school);
