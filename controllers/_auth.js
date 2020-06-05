@@ -992,23 +992,20 @@ let login = (req, res) => {
                                 ////////////////////////////
 
                             } else if (roleid === 2) {
+                                console.log("test");
                                 p = "parents";
                                 ////////////////////////////////////////////////////////
-                                //var p3 = "select * from[student_subscriptions]  \
-                                //          LEFT OUTER JOIN students ON students.studentId = student_subscriptions.studentid  \
-                                //          LEFT OUTER JOIN parents ON parents.userid = users.userId  \
-                                //          LEFT OUTER JOIN student_parents ON student_parents.userid = users.userId  \
-
-
-                                         
-                                //         LEFT OUTER JOIN users ON students.userid = users.userId  \
-                                //         where users.userId =@id AND Convert(datetime, @cd) < student_subscriptions.enddate";
+                                var p3 = "select * from [student_subscriptions]  \
+                                         LEFT OUTER JOIN student_parents ON student_parents.studentid = student_subscriptions.studentid  \
+                                         LEFT OUTER JOIN parents ON parents.parentid = student_parents.parentid  \
+                                         LEFT OUTER JOIN users ON users.userId = parents.userid  \
+                                         where users.userId =@id3 AND Convert(datetime, @cd3) < enddate";
 
                                 request
-                                    .input("id", userid)
-                                    .input("cd", currdate)
-                                    .query(p2, function (err, recordset) {
-
+                                    .input("id3", userid)
+                                    .input("cd3", currdate)
+                                    .query(p3, function (err, recordset) {
+                                        console.log(recordset.recordset);
                                         if (err) {
                                             console.log(err.message);
                                             return res.json({
@@ -1018,13 +1015,13 @@ let login = (req, res) => {
                                                 error: err.message
                                             });
                                         } else {
-
                                             if (recordset.recordset.length > 0) {
                                                 activesubscriptions = 1;
                                             }
                                         }
                                     });
 
+                               
 
                                 ////////////////////////////////////////////////////////////
 
