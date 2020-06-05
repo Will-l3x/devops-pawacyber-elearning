@@ -50,6 +50,7 @@ router.get("/update_subcription", _systemadmin.update_subscription);
 router.get("/playvideo", _media_server.playvideo);
 
 //////////////////////teacher//////////////////////////////////////////////
+
 router.post("/teacher/enrol_student", _teacher.enrolStudent);
 
 router.post("/teacher/new_material", _teacher.newCourseMaterial);
@@ -73,6 +74,7 @@ router.get("/teacher/get_students/:id", _teacher.getStudents);
 router.get("/teacher/get_submissions/:id", _teacher.getSubmissions);
 
 //////////////////////student//////////////////////////////////////////////
+
 router.post("/student/new_msg", _student.newMsg);
 router.get("/student/get_msgs/:id", _student.getMsgs);
 
@@ -87,7 +89,9 @@ router.post("/student/new_submission", _student.newSubmission);
 router.get("/student/active_packages/:id", _student.active_packages);
 router.post("/student/classes_grade", _student.classes_grade);
 router.post("/student/select_package_class", _student.select_package_class);
+
 //////////////////////schooladmin//////////////////////////////////////////////
+
 router.get("/schooladmin/teacher/:id", _schooladmin.teacher);
 router.get("/schooladmin/teachers/:id", _schooladmin.teachers);
 router.post("/schooladmin/add_teacher", _auth.register);
@@ -113,6 +117,16 @@ router.get("/schooladmin/add_packages", _schooladmin.add_packages); // not produ
 router.post("/schooladmin/activate_package", _schooladmin.activate_package);
 router.get("/schooladmin/active_packages/:id", _schooladmin.active_packages);
 
+router.post("/schooladmin/shared_classes", _schooladmin.shared_classes);//by grade
+router.get("/schooladmin/shared_topics/:id", _schooladmin.shared_topics); //classid
+router.post("/schooladmin/shared_materials", _schooladmin.shared_materials); //by topic & class
+router.get("/schooladmin/shared_materials_topic/:id", _schooladmin.shared_materials_topic); //topicid
+router.get("/schooladmin/shared_materials_class/:id", _schooladmin.shared_materials_class); //classid
+router.post("/schooladmin/add_shared_class", _schooladmin.add_shared_class);
+router.post("/schooladmin/add_shared_topic", _schooladmin.add_shared_topic);
+router.post("/schooladmin/add_shared_material", _schooladmin.add_shared_material);
+
+
 //router.get("/schooladmin/syllabus/:id", _schooladmin.syllabus);
 //router.get("/schooladmin/syllabi", _schooladmin.syllabi);
 //router.post("/schooladmin/add_syllabus", _schooladmin.add_syllabus);
@@ -120,6 +134,7 @@ router.get("/schooladmin/active_packages/:id", _schooladmin.active_packages);
 //router.put("/schooladmin/update_syllabus", _schooladmin.update_syllabus);
 
 //////////////////////uploads//////////////////////////////////////////////
+
 router.post("/upload/new", _uploads.upload);
 
 module.exports = router;

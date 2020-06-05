@@ -1075,3 +1075,202 @@ paths:
       responses:
         "405":
           description: "Invalid input"
+
+  /schooladmin/shared_classes:
+    post:
+      tags:
+        - "School Admin"
+      summary: "Gets all shared classes by grade..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              grade:
+                type: "integer"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/shared_topics/{id}:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets all shared topics for a shared class..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ClassID on (topics)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/shared_materials:
+    post:
+      tags:
+        - "School Admin"
+      summary: "Gets all shared materials by topic and class..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              classid:
+                type: "integer"
+              topicid:
+                type: "integer"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/shared_materials_topic/{id}:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets all shared materials by topic..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "TopicID on (material)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/shared_materials_class/{id}:
+    get:
+      tags:
+        - "School Admin"
+      summary: "Gets all shared materials by class..."
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ClassID on (material)records to return..."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/add_shared_class:
+    post:
+      tags:
+        - "School Admin"
+      summary: "Add shared class..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              description:
+                type: "string"
+              grade:
+                type: "integer"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/add_shared_topic:
+    post:
+      tags:
+        - "School Admin"
+      summary: "Adds shared topic for a class..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              classid:
+                type: "integer"
+              name:
+                type: "string"
+              description:
+                type: "string"
+      responses:
+        "405":
+          description: "Invalid input"
+
+  /schooladmin/add_shared_material:
+    post:
+      tags:
+        - "School Admin"
+      summary: "Adds shared material by topic and class..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              classid:
+                type: "integer"
+              topicid:
+                type: "integer"
+              name:
+                type: "string"
+              description:
+                type: "string"
+              materialtype:
+                type: "string"
+              obj:
+                type: "string"
+              file:
+                type: "boolean"
+      responses:
+        "405":
+          description: "Invalid input"

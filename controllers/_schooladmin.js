@@ -631,6 +631,288 @@ let active_packages = (req, res) => {
     }
   });
 };
+/*-------------------------------------------------------------------------------------*/
+/*Global Materials---------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------*/
+//Get shared materials by shared class
+let shared_materials_class = (req, res) => {
+  let classid = req.params.id;
+
+  let query = `select * from [shared_materials] \
+    where classid = ${classid}`;
+
+  var request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let materials = recordset.recordset;
+
+          return res.json({
+            status: 200,
+            success: true,
+            data: JSON.parse(JSON.stringify({ materials })),
+          });
+     
+    }
+  });
+};
+//Get all shared materials by topic
+let shared_materials_topic = (req, res) => {
+  let topicid = req.params.id;
+
+  let query = `select * from [shared_materials] \
+    where topicid = ${topicid}`;
+
+  var request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let materials = recordset.recordset;
+
+          return res.json({
+            status: 200,
+            success: true,
+            data: JSON.parse(JSON.stringify({ materials })),
+          });
+     
+    }
+  });
+};
+//Get all shared materials by topic and class
+let shared_materials = (req, res) => {
+  let topicid = req.body.topicid;
+  let classid = req.body.classid;
+
+  let query = `select * from [shared_materials] \
+    where topicid = ${topicid} and classid = ${classid}`;
+
+  var request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let materials = recordset.recordset;
+
+          return res.json({
+            status: 200,
+            success: true,
+            data: JSON.parse(JSON.stringify({ materials })),
+          });
+     
+    }
+  });
+};
+//Get all shared materials topics by classid
+let shared_topics = (req, res) => {
+  let classid = req.params.id;
+
+  let query = `select * from [shared_topics] \
+    where classid = ${classid}`;
+
+  var request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let topics = recordset.recordset;
+
+          return res.json({
+            status: 200,
+            success: true,
+            data: JSON.parse(JSON.stringify({ topics })),
+          });
+     
+    }
+  });
+};
+//Get all shared classes by grade
+let shared_classes = (req, res) => {
+  let grade = req.body.grade;
+
+  let query = `select * from [shared_classes] \
+    where grade = ${grade}`;
+
+  var request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let classes = recordset.recordset;
+
+          return res.json({
+            status: 200,
+            success: true,
+            data: JSON.parse(JSON.stringify({ classes })),
+          });
+     
+    }
+  });
+};
+//Create new shared class
+let add_shared_class = (req, res) => {
+  let name = req.body.name;
+  let description = req.body.description;
+  let grade = req.body.grade;
+
+
+  var query = `insert into [shared_classes] \
+    (name, description, grade) \
+    values('${name}', '${description}', ${grade}); \
+    select * from [shared_classes] where shared_classes.classId = SCOPE_IDENTITY(); `;
+
+  request.query(query, function (err, recordset) {
+    let shared_class = recordset.recordset;
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ shared_class })),
+      });
+    }
+  });
+};
+//Create new topic for class
+let add_shared_topic = (req, res) => {
+  let name = req.body.name;
+  let description = req.body.description;
+  let classid = req.body.classid;
+
+
+  var query = `insert into [shared_topics] \
+    (name, description, classid) \
+    values('${name}', '${description}', ${classid}); \
+    select * from [shared_topics] where shared_topics.topicId = SCOPE_IDENTITY(); `;
+
+  request.query(query, function (err, recordset) {
+    let shared_topic = recordset.recordset;
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ shared_topic })),
+      });
+    }
+  });
+};
+//Create new material for class/topic
+let add_shared_material = (req, res) => {
+  console.log("Admin : creating new shared material...");
+  //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
+  let obj = req.body;
+
+  if (!obj.topicid || !obj.classid ) {
+    res.send({
+      err:
+        "Missing a parameter, expects classid and topicid on request object",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let uploadPath;
+    let q;
+    let o = JSON.stringify(obj.obj);
+
+      uploadPath = `${__dirname}/../uploads/shared/${obj.classid}/${obj.topicid}/`;
+      obj.file = `/uploads/shared/${obj.classid}/${obj.topicid}/`;
+      console.log("Checking upload path..."); //dev
+      if (!fs.existsSync(uploadPath)) {
+        console.log("Creating upload path..."); //dev
+        console.log(uploadPath); //dev
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+      q = `insert into [shared_materials] \
+        (classid, topicid, name, materialtype, [file], obj, description) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
+         select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
+    
+    
+    let ms_req = new sql.Request();
+
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          let sharedMaterialId = data.recordset[0].sharedMaterialId;
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added shared material...",
+            uploadId: sharedMaterialId,
+            uploadType: "shared_materials",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add material...",
+          });
+        }
+      }
+    });
+  }
+};
 
 module.exports = {
   teacher,
@@ -652,4 +934,12 @@ module.exports = {
   get_packages,
   activate_package,
   active_packages,
+  add_shared_material,
+  add_shared_topic,
+  add_shared_class,
+  shared_classes,
+  shared_topics,
+  shared_materials,
+  shared_materials_topic,
+  shared_materials_class,
 };
