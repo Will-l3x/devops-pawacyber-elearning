@@ -762,7 +762,7 @@ let shared_classes = (req, res) => {
   let query = `select * from [shared_classes] \
     where grade = ${grade}`;
 
-  var request = new sql.Request();
+  let request = new sql.Request();
 
   request.query(query, (err, recordset) => {
     if (err) {
@@ -797,6 +797,8 @@ let add_shared_class = (req, res) => {
     values('${name}', '${description}', ${grade}); \
     select * from [shared_classes] where shared_classes.classId = SCOPE_IDENTITY(); `;
 
+   let request = new sql.Request();
+
   request.query(query, function (err, recordset) {
     let shared_class = recordset.recordset;
     if (err) {
@@ -828,6 +830,8 @@ let add_shared_topic = (req, res) => {
     (name, description, classid) \
     values('${name}', '${description}', ${classid}); \
     select * from [shared_topics] where shared_topics.topicId = SCOPE_IDENTITY(); `;
+    
+    let request = new sql.Request();
 
   request.query(query, function (err, recordset) {
     let shared_topic = recordset.recordset;
