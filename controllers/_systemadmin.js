@@ -702,7 +702,7 @@ let subadmins = (req, res) => {
                 return res.json({
                     status: 200,
                     success: true,
-                    school: JSON.parse(JSON.stringify({ subadmins: recordset.recordset }))
+                    data: JSON.parse(JSON.stringify({ subadmins: recordset.recordset }))
 
                 });
                                    
@@ -711,25 +711,15 @@ let subadmins = (req, res) => {
 };
 
 let subadmin = (req, res) => {
-    var schoolid = req.params.id;
-    var school_obj, admin_obj, subscriptions_obj;
 
-    var query_school = "select * from [schools] \
-    where schoolId =@id1";
-
-    var query_subscriptions = "select * from [school_subscriptions] \
-    LEFT OUTER JOIN schools ON schools.schoolId = school_subscriptions.schoolid \
-    LEFT OUTER JOIN subscriptions ON subscriptions.subscriptionId = school_subscriptions.subscriptionid \
-    where school_subscriptions.schoolid =@id2";
-
-    var query_admin = "select * from [schooladmins] \
-    where schoolid =@id3";
+    var id = req.params.id;
+    var query = "select * from [subadmins] where subadminId = @id";
 
     var request = new sql.Request();
 
     request
-        .input("id1", schoolid)
-        .query(query_school, function (err, recordset) {
+        .input("id",id)
+        .query(query, function (err, recordset) {
 
             if (err) {
                 console.log(err);
@@ -740,48 +730,15 @@ let subadmin = (req, res) => {
                     error: err.message
                 });
             } else {
-                school_obj = recordset.recordset;
 
-                request
-                    .input("id2", schoolid)
-                    .query(query_subscriptions, function (err, recordset) {
 
-                        if (err) {
-                            console.log(err);
-                            return res.json({
-                                status: 500,
-                                success: false,
-                                message: "An error occured",
-                                error: err.message
-                            });
-                        } else {
-                            subscriptions_obj = recordset.recordset;
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ subadmin:recordset.recordset }))
 
-                            request
-                                .input("id3", schoolid)
-                                .query(query_admin, function (err, recordset) {
+                });
 
-                                    if (err) {
-                                        console.log(err);
-                                        return res.json({
-                                            status: 500,
-                                            success: false,
-                                            message: "An error occured",
-                                            error: err.message
-                                        });
-                                    } else {
-                                        admin_obj = recordset.recordset;
-
-                                        return res.json({
-                                            status: 200,
-                                            success: true,
-                                            school: JSON.parse(JSON.stringify({ school_obj, subscriptions_obj, admin_obj }))
-
-                                        });
-                                    }
-                                });
-                        }
-                    });
             }
         });
 };
@@ -1072,6 +1029,7 @@ module.exports = {
     subscribe: subscribe,
     schools: schools,
     subadmins: subadmins,
+    subadmin: subadmin,
     school: school,
     update_school:update_school,
     add_school:add_school
