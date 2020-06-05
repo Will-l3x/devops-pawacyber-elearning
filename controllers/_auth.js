@@ -678,6 +678,8 @@ let register = (req, res) => {
 
     var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,grade) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade)";
 
+    var query_subadmin = "INSERT INTO [subadmins] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid)";
+
 
     var schema = new passwordValidator();
 
@@ -777,10 +779,13 @@ let register = (req, res) => {
                                                     //parent
                                                     q = query_parent;
                                                 } else if (roleid === "3") {
-                                                    
                                                     //student
                                                     q = query_student;
                                                     console.log("student");
+                                                } else if (roleid === "6") {
+                                                    //student
+                                                    q = query_subadmin;
+                                                    console.log("subadmin");
                                                 }
 
                                                 request
@@ -834,12 +839,9 @@ let register = (req, res) => {
                                                                     }
 
                                                                     console.log('Message sent successfully!');
-                                                                    console.log(nodemailer.getTestMessageUrl(info));
-
-                                                                    // only needed when using pooled connections
+                                                                    
                                                                     transporter.close();
-                                                                    //  return res.status(201).json({ message: 'Registration successfull' });
-
+                                                                    
                                                                     return res.json({
                                                                         status: 201,
                                                                         success: true,
@@ -992,7 +994,7 @@ let login = (req, res) => {
                                 ////////////////////////////
 
                             } else if (roleid === 2) {
-                                console.log("test");
+                              
                                 p = "parents";
                                 ////////////////////////////////////////////////////////
                                 var p3 = "select * from [student_subscriptions]  \
@@ -1032,6 +1034,8 @@ let login = (req, res) => {
                                 activesubscriptions = 1;
                             } else if (roleid === 4) {
                                 p = "schooladmins";
+                            } else if (roleid === 6) {
+                                p = "subadmins";
                             }
 
                             var q = "select * from[" + p + "] where userid = @id2";
