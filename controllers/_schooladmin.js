@@ -830,7 +830,7 @@ let add_shared_topic = (req, res) => {
     (name, description, classid) \
     values('${name}', '${description}', ${classid}); \
     select * from [shared_topics] where shared_topics.topicId = SCOPE_IDENTITY(); `;
-    
+
     let request = new sql.Request();
 
   request.query(query, function (err, recordset) {
@@ -869,6 +869,7 @@ let add_shared_material = (req, res) => {
     let uploadPath;
     let q;
     let o = JSON.stringify(obj.obj);
+    obj.materialtype = 'shared_materials';
 
       uploadPath = `${__dirname}/../uploads/shared/${obj.classid}/${obj.topicid}/`;
       obj.file = `/uploads/shared/${obj.classid}/${obj.topicid}/`;
@@ -880,7 +881,7 @@ let add_shared_material = (req, res) => {
       }
       q = `insert into [shared_materials] \
         (classid, topicid, name, materialtype, [file], obj, description) \
-         values (${obj.classid}, ${obj.teacherid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
+         values (${obj.classid}, ${obj.topicid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
          select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
     
     
