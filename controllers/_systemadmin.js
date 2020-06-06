@@ -5,8 +5,6 @@ var rn = require('random-number');
 var moment = require('moment');
 var bcrypt = require('bcryptjs');
 
-
-
 var gen = rn.generator({
     min: 10000009,
     max: 99999909,
@@ -679,6 +677,37 @@ let add_subadmin = (req, res) => {
         });
 };
 
+let del_subadmin = (req, res) => {
+    var id = req.params.id;
+    var query = "DELETE from [subadmins] where subadminId=@id";
+    var query_user = "DELETE from [users] where permissionId=@id";
+    var query_permissions = "DELETE from [user_permissions] where permissionId=@id";
+
+    var request = new sql.Request();
+    request
+        .input("id", id)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    message: "Deleted"
+                });
+            }
+        });
+};
+
 let subadmins = (req, res) => {
   
     var query = "select * from [subadmins]";
@@ -706,6 +735,274 @@ let subadmins = (req, res) => {
 
                 });
                                    
+            }
+        });
+};
+
+let genders = (req, res) => {
+
+    var query = "select * from [genders]";
+
+    var request = new sql.Request();
+
+    request
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ genders: recordset.recordset }))
+
+                });
+
+            }
+        });
+};
+
+let permissions = (req, res) => {
+
+    var query = "select * from [permissions]";
+
+    var request = new sql.Request();
+
+    request
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ permissions: recordset.recordset }))
+
+                });
+
+            }
+        });
+};
+
+let permission = (req, res) => {
+    var id = req.params.id;
+    var query = "select * from [permissions] where permmisionId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id",id)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ permission: recordset.recordset }))
+
+                });
+
+            }
+        });
+};
+
+let add_permmission = (req, res) => {
+    var subscriptionname = req.body.subscriptionname;
+    var subscriptiondesc = req.body.subscriptiondesc;
+    var mingrade = req.body.mingrade;
+    var maxgrade = req.body.maxgrade;
+    var price = req.body.price;
+
+    var query = "INSERT INTO [subscriptions] \
+    (subscriptionname,subscriptiondesc,mingrade,maxgrade,price) \
+    VALUES(@name,@desc,@min,@max,@price)";
+    var request = new sql.Request();
+
+    request
+        .input("name", subscriptionname)
+        .input("desc", subscriptiondesc)
+        .input("min", mingrade)
+        .input("max", maxgrade)
+        .input("price", price)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                if (recordset.rowsAffected[0] > 0) {
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Subscription Added"
+                    });
+
+                } else {
+
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to add subscription'
+
+                    });
+                }
+
+            }
+        });
+};
+
+let del_permission = (req, res) => {
+    var id = req.params.id;
+    var query = "DELETE from [permissions] where permissionId=@id";
+
+    var request = new sql.Request();
+    request
+        .input("id", id)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    message: "Deleted"
+                });
+            }
+        });
+};
+
+let assign_permissions = (req, res) => {
+    var subscriptionid = req.params.id;
+    var subscriptionname = req.body.subscriptionname;
+    var subscriptiondesc = req.body.subscriptiondesc;
+    var mingrade = req.body.mingrade;
+    var maxgrade = req.body.maxgrade;
+    var price = req.body.price;
+
+    let query = "UPDATE [subscriptions] \
+      SET price=@price , subscriptionname=@name, subscriptiondesc=@desc, mingrade=@min,maxgrade=@max \
+      WHERE subscriptionId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", subscriptionid)
+        .input("name", subscriptionname)
+        .input("desc", subscriptiondesc)
+        .input("min", mingrade)
+        .input("max", maxgrade)
+        .input("price", price)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update'
+                    });
+                }
+            }
+        });
+};
+
+let update_permission = (req, res) => {
+    var id = req.params.id;
+    var name = req.body.permissionname;
+
+    let query = "UPDATE [permissions] \
+      SET permissionname=@name \
+      WHERE permissionId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", id)
+        .input("name",name)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update'
+                    });
+                }
             }
         });
 };
@@ -1014,7 +1311,114 @@ let subscribe = (req, res) => {
         });
 };
 
+let subscribestudent = (req, res) => {
+    var studentid = req.body.studentid;
+    var subscriptionid = req.body.subscriptionid;
+    var sed = Date();
+    sed = req.body.enddate;
+
+    var query1 = "select * from [student_subscriptions] \
+    where studentid=@student";
+
+    var query2 = "INSERT INTO [student_subscriptions] \
+    (subscriptionid,studentid,enddate) \
+    VALUES(@subscription2,@student2,Convert(datetime, @enddate2 ))";
+
+    let query3 = "UPDATE [student_subscriptions] \
+    SET enddate=Convert(datetime, @enddate1 ) ,subscriptionid=@subscription1 \
+    where studentid=@student1";
+
+
+    var request = new sql.Request();
+    request
+        .input('student', studentid)
+        .input('subscription', subscriptionid)
+        .query(query1, function (err, recordset) {
+
+            if (err) {
+
+                console.log(err.message);
+                return res.json({
+                    status: 400,
+                    success: false,
+                    message: 'Internal server error',
+                    error: err.message
+                });
+            } else {
+
+                if (recordset.recordset.length > 0) {
+                    request
+                        .input('student1', studentid)
+                        .input('subscription1', subscriptionid)
+                        .input('enddate1', sed)
+                        .query(query3, function (err, recordset) {
+
+                            if (err) {
+
+                                console.log(err.message);
+                                return res.json({
+                                    status: 400,
+                                    success: false,
+                                    message: 'Internal server error',
+                                    error: err.message
+                                });
+                            } else {
+
+                                if (recordset.rowsAffected[0] > 0) {
+                                    return res.json({
+                                        status: 200,
+                                        success: true,
+                                        message: 'Subscription added'
+                                    });
+                                } else {
+                                    return res.json({
+                                        status: 400,
+                                        success: false,
+                                        message: 'failed to subscribe'
+                                    });
+                                }
+                            }
+                        });
+                } else {
+                    request
+                        .input('student2', studentid)
+                        .input('subscription2', subscriptionid)
+                        .input('enddate2', sed)
+                        .query(query2, function (err, recordset) {
+
+                            if (err) {
+
+                                console.log(err.message);
+                                return res.json({
+                                    status: 400,
+                                    success: false,
+                                    message: 'Internal server error',
+                                    error: err.message
+                                });
+                            } else {
+
+                                if (recordset.rowsAffected[0] > 0) {
+                                    return res.json({
+                                        status: 200,
+                                        success: true,
+                                        message: 'Subscription added'
+                                    });
+                                } else {
+                                    return res.json({
+                                        status: 400,
+                                        success: false,
+                                        message: 'failed to subscribe'
+                                    });
+                                }
+                            }
+                        });
+                }
+            }
+        });
+};
+
 module.exports = {
+    genders: genders,
     roles: roles,
     role: role,
     del_role: del_role,
@@ -1027,6 +1431,7 @@ module.exports = {
     del_subscription: del_subscription,
     update_subscription: update_subscription,
     subscribe: subscribe,
+    subscribestudent: subscribestudent,
     schools: schools,
     subadmins: subadmins,
     subadmin: subadmin,

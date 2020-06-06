@@ -17,16 +17,15 @@ router.post("/login", _auth.login); //done
 //router.post('/test', _auth.test);//done
 router.put("/changepw", _auth.changepassword);
 router.post("/register", _auth.register);
-//router.post('/verify', _auth.verifyacc);
+router.post('/verify', _auth.verifyacc);
 router.get("/profile", _auth.profile);
 router.put("/resetpassword", _auth.resetpassword);
+router.put("/refreshotp", _auth.refreshotp);
 
 //////////////////////systemadmin//////////////////////////////////////////////
+router.get("/genders", _systemadmin.genders);
 router.get("/roles", _systemadmin.roles);
-router.get("/role/:id", _systemadmin.role);
-router.delete("/del_role/:id", _systemadmin.del_role);
-router.post("/add_role", _systemadmin.add_role);
-router.put("/update_role/:id", _systemadmin.update_role);
+
 
 router.get("/subscriptions", _systemadmin.subscriptions);
 router.post("/add_subscription", _systemadmin.add_subscription);
@@ -34,6 +33,7 @@ router.delete("/del_subscription/:id", _systemadmin.del_subscription);
 router.get("/subscription/:id", _systemadmin.subscription);
 router.put("/update_subscription/:id", _systemadmin.update_subscription);
 router.put("/subscribe", _systemadmin.subscribe);
+router.put("/subscribestudent", _systemadmin.subscribestudent);
 
 router.get("/subadmins", _systemadmin.subadmins);
 router.get("/subadmin/:id", _systemadmin.subadmin);

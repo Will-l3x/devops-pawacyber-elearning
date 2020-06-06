@@ -78,34 +78,50 @@ let checkToken = (req, res, next) => {
 };
  
 let profile = (req, res) => {
-    var id = req.decoded.userid;
-    var role = req.decoded.roleid;
+    var id = 31;//= req.decoded.userid;
+    var role = 5;//req.decoded.roleid;
 
     var query = "";
 
-    if (role === 1) { //students
-        query = "select * from [users] \
+    if (role === 3) { //students
+        query = "select users.email,activefrom,schoolname,activated,gendername,users.userId,studentid,firstname,lastname,dob,grade,elevel,rolename from [users] \
             LEFT OUTER JOIN students ON users.userId = students.userid \
+            LEFT OUTER JOIN schools ON schools.schoolId = students.schoolid \
+            LEFT OUTER JOIN genders ON users.genderid = genders.genderId \
+            LEFT OUTER JOIN grades ON grades.gradeId = students.gradeid \
+            LEFT OUTER JOIN elevels ON grades.gradeId = students.gradeid \
             LEFT OUTER JOIN roles ON roles.roleId = users.roleid\
             WHERE users.userId=@id";
-    } else if (role === 2) {//teachers
-        query = "select * from [users] \
+    } else if (role === 1) {//teachers
+        query = "select users.email,activefrom,activated,genders.gendername,schoolname,users.userId,teacherid,firstname,lastname,rolename from [users] \
             LEFT OUTER JOIN teachers ON users.userId = teachers.userid \
+            LEFT OUTER JOIN genders ON users.genderid = genders.genderId \
+            LEFT OUTER JOIN schools ON schools.schoolId = teachers.schoolid \
             LEFT OUTER JOIN roles ON roles.roleId = users.roleid\
             WHERE users.userId=@id";
-    } else if (role === 3) {//parents
-        query = "select * from [users] \
+    } else if (role === 2) {//parents
+        query = "select users.email,activefrom,activated,genders.gendername,users.userId,parentid,firstname,lastname,rolename from [users] \
             LEFT OUTER JOIN parents ON users.userId = parents.userid \
             LEFT OUTER JOIN roles ON roles.roleId = users.roleid\
+            LEFT OUTER JOIN genders ON users.genderid = genders.genderId \
             WHERE users.userId=@id";
     } else if (role === 4) {//schooladmins
-        query = "select * from [users] \
+        query = "select users.email,activefrom,activated,genders.gendername,users.userId,systemadminid,firstname,lastname,rolename,schoolname from [users] \
             LEFT OUTER JOIN schooladmins ON users.userId = schooladmins.userId \
+            LEFT OUTER JOIN genders ON users.genderid = genders.genderId \
+            LEFT OUTER JOIN schools ON schools.schoolId = teachers.schoolid \
             LEFT OUTER JOIN roles ON roles.roleId = users.roleid\
             WHERE users.userId=@id";
     } else if (role === 5) {//system admins
-        query = "select * from [users] \
+        query = "select users.email,activefrom,activated,genders.gendername,users.userId,systemadminid,firstname,lastname,rolename from [users] \
             LEFT OUTER JOIN systemadmins ON users.userId = systemadmins.userid \
+            LEFT OUTER JOIN genders ON users.genderid = genders.genderId \
+            LEFT OUTER JOIN roles ON roles.roleId = users.roleid\
+            WHERE users.userId=@id";
+    } else if (role === 6) {//sub system admins
+        query = "select users.email,activefrom,activated,genders.gendername,users.userId,subdminid,firstname,lastname,rolename from [users] \
+            LEFT OUTER JOIN subadmins ON users.userId = subadmins.userid \
+            LEFT OUTER JOIN genders ON users.genderid = genders.genderId \
             LEFT OUTER JOIN roles ON roles.roleId = users.roleid\
             WHERE users.userId=@id";
     } else {
@@ -407,10 +423,10 @@ let refreshotp = (req, res) => {
         }
 
 
-        var otpexpiry = moment().add(1, 'day').format();
+        var otpexpiry = moment().add(1, 'day').format('YYYY-MM- DD');
         var pin = gen();
 
-        var query = 'UPDATE [users] SET otp=@pin,otpexpiry=@otpexpiry WHERE email=@email';
+        var query = 'UPDATE [users] SET otp=@pin,otpexpiry=Convert(datetime, @otpexpiry) WHERE email=@email';
         var request = new sql.Request();
 
         request
@@ -432,7 +448,7 @@ let refreshotp = (req, res) => {
 
 
                         var message = {
-                            from: 'Nrw school',
+                            from: 'Cyberschool school',
                             to: email,
                             subject: "Activate your newschool account",
                             text: "Your activation code is " + pin + " which expires in 24hrs.",
@@ -446,15 +462,11 @@ let refreshotp = (req, res) => {
                                 return res.json({
                                     status: 400,
                                     success: false,
-                                    message: 'Account registration completed with errors',
-                                    error: 'Could not send verification pin '
+                                    message: 'Could not send verification pin'
                                 });
                             }
 
-                            console.log('Message sent successfully!');
-                            console.log(nodemailer.getTestMessageUrl(info));
-
-                            // only needed when using pooled connections
+                          
                             transporter.close();
                             return res.json({
                                 status: 200,
@@ -513,34 +525,32 @@ let verifyacc = (req, res) => {
                 error: 'error'
             });
         }
-
-        if (pin.length !== 6) {
+        console.log(pin.length);
+        if (pin.length !== 8) {
             return res.json({
                 status: 400,
                 success: false,
-                message: 'Invalid pin',
+                message: 'Invalid pin1',
                 error: 'error'
             });
         }
 
-        var query = "select * from [users] where Email=@email and Otp=@pin";
+        var query = "select * from [users] where email=@email and otp=@pin";
         var request = new sql.Request();
-        var subscriptionenddate = moment().add(7, 'day').format();
+        //var expdate = moment().format('YYYY-MM-DD');
 
         request
             .input('email', email)
             .input('pin', pin)
-            .input('subscriptionenddate', subscriptionenddate)
             .query(query, function (err, recordset) {
 
                 if (err) {
-
                     console.log(err.message);
                     return res.json({
                         status: 500,
                         success: false,
                         message: 'Internal server error',
-                        error: errr.message
+                        error: err.message
                     });
                 } else {
                     if (recordset.recordset.length > 0) {
@@ -548,18 +558,18 @@ let verifyacc = (req, res) => {
                         var result = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
 
                         var currentDate, expirydate = Date();
-                        currentDate = moment().format();
-                        expirydate = moment().format(result.OtpExpiry);
+                        currentDate = moment().format('YYYY-MM-DD');
+                        expirydate = moment().format(result.otpexpiry);
                         console.log('cur ' + currentDate);
                         console.log('ex ' + expirydate);
 
 
                         if (expirydate >= currentDate) {
 
-                            query = 'UPDATE [strimai_users] SET Activated = 1, OtpPin=0 ,SubscriptionEndDate = @subscriptionenddate WHERE Email=@email';
+                            query = 'UPDATE [users] SET activated = 1, otp=0 WHERE email=@email2';
 
                             request
-                                .input('email', email)
+                                .input('email2', email)
                                 .query(query, function (err, recordset) {
                                     if (err) {
 
@@ -568,26 +578,14 @@ let verifyacc = (req, res) => {
                                             status: 500,
                                             success: false,
                                             message: 'Internal server error',
-                                            error: errr.message
+                                            error: err.message
                                         });
                                     } else {
                                         if (recordset.rowsAffected[0] > 0) {
-
-                                            let token = jwt.sign({ email: result.Email, role: result.Role, userid: result.UserId, 'enddate': subscriptionenddate },
-                                                process.env.jwt_secret,
-                                                {
-                                                    expiresIn: '36h' // expires in 1.5 days
-                                                }
-                                            );
-
-                                            console.log(token);
-
-                                            // return res.status(200).json({ message: 'account verified successfuly', token: token });
                                             return res.json({
                                                 status: 200,
                                                 success: true,
-                                                message: 'account verified successfuly',
-                                                token: token
+                                                message: 'account verified successfuly'
                                             });
                                         } else {
 
@@ -646,6 +644,7 @@ let register = (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
     var vpassword = req.body.vpassword;
+    var gender = req.body.gender;
     var userid = 0;
 
     var grade = req.body.grade;
@@ -653,6 +652,7 @@ let register = (req, res) => {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var title = req.body.title;
+    var schoolid = req.body.schoolid;
     var activefrom = Date();
     var dob = Date();
     dob = req.body.dob;
@@ -667,7 +667,7 @@ let register = (req, res) => {
     var pin = gen();
 
 
-    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom ))";
+    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom,gender) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom,@gender ))";
     query = query + ';select @@IDENTITY AS \'identity\'';
 
     let query_email = "SELECT * FROM [users] WHERE email = @email";
@@ -676,10 +676,9 @@ let register = (req, res) => {
 
     var query_parent = "INSERT INTO [parents] (firstname,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,@title)";
 
-    var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,grade) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade)";
+    var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,grade,schoolid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade,@schoolid)";
 
     var query_subadmin = "INSERT INTO [subadmins] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid)";
-
 
     var schema = new passwordValidator();
 
@@ -741,7 +740,6 @@ let register = (req, res) => {
                                 });
                             } else {
 
-
                                 password = bcrypt.hashSync(password, process.env.bcrypt_salt);
                                 //  var SubscriptionEndDate = moment().format();
 
@@ -752,6 +750,7 @@ let register = (req, res) => {
                                     .input('otp', pin)
                                     .input('otpexpiry', otpexpiry)
                                     .input('activefrom', activefrom)
+                                    .input('gender', gender)
                                     .query(query, function (err, recordset) {
 
                                         if (err) {
@@ -773,7 +772,6 @@ let register = (req, res) => {
                                                     //teacher
                                                     q = query_teacher;
                                                     console.log("teacher");
-
                                                 } else if (roleid === "2") {
                                                     console.log("parent");
                                                     //parent
@@ -787,7 +785,6 @@ let register = (req, res) => {
                                                     q = query_subadmin;
                                                     console.log("subadmin");
                                                 }
-
                                                 request
                                                     .input('firstname', firstname)
                                                     .input('title', title)
@@ -797,6 +794,7 @@ let register = (req, res) => {
                                                     .input('ek', enrolmentkey)
                                                     .input('dj', activefrom)
                                                     .input('grade', grade)
+                                                    .input('schoolid', schoolid)
                                                     .query(q, function (err, recordset) {
 
                                                         if (err) {
@@ -815,11 +813,11 @@ let register = (req, res) => {
                                                                 transaction.commit();
 
                                                                 var message = {
-                                                                    from: 'noreply@newschool.com',
+                                                                    from: 'noreply@cyberchool.com',
                                                                     to: email,
-                                                                    subject: "Activate your newschool account",
+                                                                    subject: "Activate your cyberschool account",
                                                                     text: "Your newschool activation code is " + pin,
-                                                                    html: "<h3>Welcome to newschool</h3><hr><p>Your activation pin is <b>" + pin + "</b>."
+                                                                    html: "<h3>Welcome to cyberschool</h3><hr><p>Your activation pin is <b>" + pin + "</b>."
                                                                 };
 
                                                                 transporter.sendMail(message, (error, info) => {
@@ -865,7 +863,7 @@ let register = (req, res) => {
                                                 return res.json({
                                                     status: 400,
                                                     success: false,
-                                                    message: 'Faled to register account',
+                                                    message: 'Failed to register account',
                                                     error: 'error'
                                                 });
                                             }
@@ -899,13 +897,18 @@ let register = (req, res) => {
         });
     }
 }; 
-
 //login
 let login = (req, res) => {
   
-        let email = req.body.email;
-        let password = req.body.password;
+    let email = req.body.email;
+    let password = req.body.password;
     let lastpassword = password;
+
+    var userid = 0;
+    var roleid = 0;
+    var noschoolid = 1;
+    var activesubscriptions = 0;
+
     var currdate = moment().format('YYYY-MM-DD');
       
         if (email && password) {
@@ -942,21 +945,17 @@ let login = (req, res) => {
                         if (recordset.recordset.length > 0) {
                            
                             var result = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
-                            var userid = 0;
-                            var roleid = 0;
-                            var activesubscriptions = 0;
+
                             var grade = "";
 
                             for (let prop in result) {
                                
                                 if (prop === "userId") {
-                                    userid = result[prop];
-                                    
+                                    userid = result[prop]; 
                                 }
 
                                 if (prop === "roleid") {
                                     roleid = result[prop];
-                                   
                                 }
                             }
 
@@ -987,6 +986,37 @@ let login = (req, res) => {
 
                                             if (recordset.recordset.length > 0) {
                                                 activesubscriptions = 1;
+                                                console.log("success - " + activesubscriptions);
+                                            } else {
+                                                
+                                                var p22 = "select * from[students]  \
+                                                 where students.userid =@uid AND  students.schoolid = @sid";
+
+                                                request
+                                                    .input("uid", userid)
+                                                    .input("sid", noschoolid)
+                                                    .query(p22, function (err, recordset) {
+
+                                                        if (err) {
+
+                                                            console.log(err.message);
+                                                            return res.json({
+                                                                status: 500,
+                                                                success: false,
+                                                                message: 'something went wrong p22.',
+                                                                error: err.message
+                                                            });
+                                                        } else {
+                                                            if (recordset.recordset.length > 0) {
+
+                                                                activesubscriptions = 1;
+                                                                console.log("icho 3 " + activesubscriptions);
+                                                            } else {
+                                                                activesubscriptions = 0;
+                                                    
+                                                            }
+                                                        }
+                                                    });
                                             }
                                         }
                                     });
@@ -997,36 +1027,8 @@ let login = (req, res) => {
                               
                                 p = "parents";
                                 ////////////////////////////////////////////////////////
-                                var p3 = "select * from [student_subscriptions]  \
-                                         LEFT OUTER JOIN student_parents ON student_parents.studentid = student_subscriptions.studentid  \
-                                         LEFT OUTER JOIN parents ON parents.parentid = student_parents.parentid  \
-                                         LEFT OUTER JOIN users ON users.userId = parents.userid  \
-                                         where users.userId =@id3 AND Convert(datetime, @cd3) < enddate";
-
-                                request
-                                    .input("id3", userid)
-                                    .input("cd3", currdate)
-                                    .query(p3, function (err, recordset) {
-                                        console.log(recordset.recordset);
-                                        if (err) {
-                                            console.log(err.message);
-                                            return res.json({
-                                                status: 500,
-                                                success: false,
-                                                message: 'something went wrong sub',
-                                                error: err.message
-                                            });
-                                        } else {
-                                            if (recordset.recordset.length > 0) {
-                                                activesubscriptions = 1;
-                                            }
-                                        }
-                                    });
-
-                               
-
-                                ////////////////////////////////////////////////////////////
-
+                                activesubscriptions = 1;
+                                
                             } else if (roleid === 1) {
                                 p = "teachers";
                             } else if (roleid === 5) {
@@ -1036,8 +1038,9 @@ let login = (req, res) => {
                                 p = "schooladmins";
                             } else if (roleid === 6) {
                                 p = "subadmins";
+                                activesubscriptions = 1;
                             }
-
+                            console.log("icho2 -" + activesubscriptions);
                             var q = "select * from[" + p + "] where userid = @id2";
                             var resp = "";
 
@@ -1049,7 +1052,7 @@ let login = (req, res) => {
                                     message: 'Invalid credentials'
                                 });
                             } else {
-
+                                console.log("icho -" + activesubscriptions);
                                 let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId, activesubscriptions: activesubscriptions },
                                     process.env.jwt_secret,
                                     {
@@ -1118,6 +1121,7 @@ module.exports = {
     checktoken: checkToken,
     changepassword: changepassword,
     refreshotp: refreshotp,
+    verifyacc: verifyacc,
     register: register,
     login:login
 };
