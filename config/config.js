@@ -11,7 +11,7 @@
 //       encrypt: true,
 //       stream: true
 //   }
-//};
+//}; 
 
 var config = {
    user: "cyberadmin",
