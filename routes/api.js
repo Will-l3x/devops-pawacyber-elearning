@@ -120,6 +120,9 @@ router.get("/schooladmin/add_packages", _schooladmin.add_packages); // not produ
 router.post("/schooladmin/activate_package", _schooladmin.activate_package);
 router.get("/schooladmin/active_packages/:id", _schooladmin.active_packages);
 
+router.post("/schooladmin/add_shared_class_cover", _schooladmin.add_shared_class_cover);
+router.get("/schooladmin/get_shared_classes_with_cover", _schooladmin.get_shared_classes_with_cover);
+
 router.post("/schooladmin/shared_classes", _schooladmin.shared_classes);//by grade
 router.post("/schooladmin/get_all_shared_classes", _schooladmin.all_shared_classes);
 router.get("/schooladmin/shared_topics/:id", _schooladmin.shared_topics); //classid
@@ -130,7 +133,9 @@ router.post("/schooladmin/add_shared_class", _schooladmin.add_shared_class);
 router.post("/schooladmin/add_shared_topic", _schooladmin.add_shared_topic);
 router.post("/schooladmin/add_shared_material", _schooladmin.add_shared_material);
 
-router.get("/schooladmin/add_syllabi/", _schooladmin.add_syllabi);
+// ---
+router.get("/schooladmin/add_syllabi/", _schooladmin.add_syllabi); // not production
+// ---
 router.get("/schooladmin/syllabus/:id", _schooladmin.syllabus);
 router.get("/schooladmin/syllabi", _schooladmin.get_syllabi);
 router.post("/schooladmin/add_syllabus", _schooladmin.add_syllabus);

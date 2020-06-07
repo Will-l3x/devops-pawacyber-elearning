@@ -786,6 +786,60 @@ let shared_classes = (req, res) => {
     }
   });
 };
+//Get all shared classes with cover
+let get_shared_classes_with_cover = (req, res) => {
+
+  let query = `select * from [shared_classes] \
+    where grade = ${grade}`;
+  
+  let request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let classes = recordset.recordset;
+      let classesWithCover = [];
+      let classesLen = classes.length;
+      let count = 0;
+      classes.forEach((classObj) => {
+        count++;
+        let q = `select * from [shared_materials]\
+        where shared_materials.classid = ${classObj.classid}\
+        and shared_materials.name = 'Cover'`;
+        request.query(q, (err, recordset) =>{
+          if(err){
+            console.log(err);
+          
+            return res.json({
+              status: 500,
+              success: false,
+              message: "An error occured",
+              error: err.message,
+            });
+          } else {
+            let cover = recordset.recordset;
+            classObj.cover = cover;
+            classesWithCover.push(classObj);
+            if(count == classesLen){
+               return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ classesWithCover })),
+              });
+            }
+          }
+        });
+      });
+    }
+  });
+};
 //Get all shared classes
 let all_shared_classes = (req, res) => {
   
@@ -848,6 +902,73 @@ let add_shared_class = (req, res) => {
       });
     }
   });
+};
+//Create new shared class cover pic
+let add_shared_class_cover = (req, res) => {
+console.log("Admin : creating new shared class cover...");
+  //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
+  let obj = req.body;
+
+  if (!obj.classid ) {
+    res.send({
+      err:
+        "Missing a parameter, expects classid or topicid on request object",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let uploadPath;
+    let q;
+    let o = JSON.stringify(obj.obj);
+    obj.materialtype = 'shared_materials';
+
+      uploadPath = `${__dirname}/../uploads/shared/${obj.classid}/`;
+      obj.file = `/uploads/shared/${obj.classid}/`;
+      obj.name = 'Cover';
+      console.log("Checking upload path..."); //dev
+      if (!fs.existsSync(uploadPath)) {
+        console.log("Creating upload path..."); //dev
+        console.log(uploadPath); //dev
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+      
+      q = `insert into [shared_materials] \
+        (classid, topicid, name, materialtype, [file], obj, description) \
+         values (${obj.classid},'${obj.name}', '${obj.materialtype}', '${obj.file}'); \
+         select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
+      
+    
+    let ms_req = new sql.Request();
+
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          let sharedMaterialId = data.recordset[0].sharedMaterialId;
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added shared material...",
+            uploadId: sharedMaterialId,
+            uploadType: "shared_materials",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add material...",
+          });
+        }
+      }
+    });
+  }
 };
 //Create new topic for class
 let add_shared_topic = (req, res) => {
@@ -1245,6 +1366,8 @@ module.exports = {
   add_shared_material,
   add_shared_topic,
   add_shared_class,
+  add_shared_class_cover,
+  get_shared_classes_with_cover,
   shared_classes,
   all_shared_classes,
   shared_topics,
