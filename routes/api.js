@@ -121,6 +121,7 @@ router.post("/schooladmin/activate_package", _schooladmin.activate_package);
 router.get("/schooladmin/active_packages/:id", _schooladmin.active_packages);
 
 router.post("/schooladmin/shared_classes", _schooladmin.shared_classes);//by grade
+router.post("/schooladmin/get_all_shared_classes", _schooladmin.all_shared_classes);
 router.get("/schooladmin/shared_topics/:id", _schooladmin.shared_topics); //classid
 router.post("/schooladmin/shared_materials", _schooladmin.shared_materials); //by topic & class
 router.get("/schooladmin/shared_materials_topic/:id", _schooladmin.shared_materials_topic); //topicid

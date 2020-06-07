@@ -786,6 +786,35 @@ let shared_classes = (req, res) => {
     }
   });
 };
+//Get all shared classes
+let all_shared_classes = (req, res) => {
+  
+
+  let query = `select * from [shared_classes]`;
+
+  let request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let classes = recordset.recordset;
+
+          return res.json({
+            status: 200,
+            success: true,
+            data: JSON.parse(JSON.stringify({ classes })),
+          });
+     
+    }
+  });
+};
 //Create new shared class
 let add_shared_class = (req, res) => {
   let name = req.body.name;
@@ -860,10 +889,10 @@ let add_shared_material = (req, res) => {
   //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
   let obj = req.body;
 
-  if (!obj.topicid || !obj.classid ) {
+  if (!obj.topicid && !obj.classid ) {
     res.send({
       err:
-        "Missing a parameter, expects classid and topicid on request object",
+        "Missing a parameter, expects classid or topicid on request object",
     });
     console.log("Missing parameter..."); //dev
   } else {
@@ -880,11 +909,22 @@ let add_shared_material = (req, res) => {
         console.log(uploadPath); //dev
         fs.mkdirSync(uploadPath, { recursive: true });
       }
+      if(!obj.topicid){
+        q = `insert into [shared_materials] \
+        (classid, name, materialtype, [file], obj, description) \
+         values (${obj.classid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
+         select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
+      }else if(!obj.classid){
+        q = `insert into [shared_materials] \
+        (topicid, name, materialtype, [file], obj, description) \
+         values (${obj.topicid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
+         select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
+      }else {
       q = `insert into [shared_materials] \
         (classid, topicid, name, materialtype, [file], obj, description) \
          values (${obj.classid}, ${obj.topicid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
          select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
-    
+      }
     
     let ms_req = new sql.Request();
 
@@ -1206,6 +1246,7 @@ module.exports = {
   add_shared_topic,
   add_shared_class,
   shared_classes,
+  all_shared_classes,
   shared_topics,
   shared_materials,
   shared_materials_topic,
