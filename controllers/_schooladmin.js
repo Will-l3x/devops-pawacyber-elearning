@@ -3,6 +3,7 @@ let fs = require("fs");
 let nodemailer = require("nodemailer");
 let moment = require("moment");
 let packages = require("../providers/packages.js");
+let syllabi = require("../providers/syllabi.js")();
 
 /*-------------------------------------------------------------------------------------*/
 /*teachers------------------------------------------------------------------------------*/
@@ -315,9 +316,9 @@ let update_class = (req, res) => {
 
   let query = `UPDATE [classes] \
     SET teacherid=${teacherid} \
-    SET classname=${classname} \
-    SET status=${status} \
-    SET enrolmentkey=${enrolmentkey} \
+    SET classname='${classname}' \
+    SET status='${status}' \
+    SET enrolmentkey='${enrolmentkey}' \
     WHERE classId = ${classid}`;
 
   var request = new sql.Request();
@@ -420,7 +421,7 @@ let add_student = (req, res) => {
 
   var query = `insert into [students] \
     (schoolid, firstname, lastname, userid, dob, enrolmentkey, datejoined) \
-    values(${schoolid}, ${firstname}, ${lastname}, ${userid}, ${dob}, ${enrolmentkey}, ${datejoined}); \
+    values(${schoolid}, '${firstname}', '${lastname}', ${userid}, ${dob}, '${enrolmentkey}', ${datejoined}); \
     select * from students where students.studentId = SCOPE_IDENTITY(); `;
 
   request.query(query, function (err, recordset) {
@@ -479,10 +480,10 @@ let update_student = (req, res) => {
 
   let query = `UPDATE [students] \
     SET schoolid=${schoolid} \
-    SET firstname=${firstname} \
-    SET lastname=${lastname} \
+    SET firstname='${firstname}' \
+    SET lastname='${lastname}' \
     SET userid=${userid} \
-    SET enrolmentkey=${enrolmentkey} \
+    SET enrolmentkey='${enrolmentkey}' \
     SET dob=${dob} \
     WHERE studentId = ${studentid}`;
 
@@ -918,7 +919,269 @@ let add_shared_material = (req, res) => {
     });
   }
 };
+/*-------------------------------------------------------------------------------------*/
+/*Syllabi---------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------*/
+//This is supposed to run as a cron job or whatever
+let add_syllabi = (req, res) => {
+  console.log("School Admin : Init Syllabi");
 
+  syllabi.jp.forEach((syllabus) => {
+    syllabus = '/syllabi/jp/' + syllabus;
+    console.log(syllabus);
+    let query = `insert into [syllabi] \
+    ([file]) \
+    values('${syllabus}');`;
+    let request = new sql.Request();
+
+    
+    request.query(query, function (err, recordset) {
+      if (err) {
+        console.log(err);
+        console.log(err.stack);
+        return res.json({
+          status: 500,
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("syllabus added...");
+      }
+    });
+    
+  });
+
+  syllabi.js.forEach((syllabus) => {
+    syllabus = '/syllabi/js/' + syllabus; 
+    console.log(syllabus);
+    let query = `insert into [syllabi] \
+    ([file]) \
+    values('${syllabus}');`;
+    let request = new sql.Request();
+    
+    request.query(query, function (err, recordset) {
+      if (err) {
+        console.log(err);
+        console.log(err.stack);
+        return res.json({
+          status: 500,
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Package added...");
+      }
+    });
+    
+  });
+
+  syllabi.ss.forEach((syllabus) => {
+    syllabus = '/syllabi/ss/' + syllabus; 
+    console.log(syllabus);
+    let query = `insert into [syllabi] \
+    ([file]) \
+    values('${syllabus}');`;
+    let request = new sql.Request();
+    
+    request.query(query, function (err, recordset) {
+      if (err) {
+        console.log(err);
+        console.log(err.stack);
+        return res.json({
+          status: 500,
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Package added...");
+      }
+    });
+    
+  });
+
+  return res.json({
+    status: 200,
+    success: true,
+    message: "Added default syllabi...",
+  });
+};
+//Get all syllabi
+let get_syllabi = (req, res) => {
+  
+
+  let query = `select * from [syllabi]`;
+
+  var request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let syllabi = recordset.recordset;
+
+          return res.json({
+            status: 200,
+            success: true,
+            data: JSON.parse(JSON.stringify({ syllabi })),
+          });
+     
+    }
+  });
+};
+//Get syllabus by id
+let syllabus = (req, res) => {
+  let syllabusid = req.params.id;
+
+  let query = `select * from [syllabi] \
+    where syllabusId = ${syllabusid}`;
+
+  var request = new sql.Request();
+
+  request.query(query, (err, recordset) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      let syllabus = recordset.recordset;
+
+          return res.json({
+            status: 200,
+            success: true,
+            data: JSON.parse(JSON.stringify({ syllabus })),
+          });
+     
+    }
+  });
+};
+//Create new syllabus
+let add_syllabus = (req, res) => {
+  console.log("Admin : creating new syllabus...");
+  let obj = req.body;
+
+  if (!obj.grade || !obj.subject ) {
+    res.send({
+      err:
+        "Missing a parameter, expects grade and subject on request object",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    
+    let q;
+    obj.file = `/syllabi/`;
+      q = `insert into [syllabi] \
+        ([file], grade, subject) \
+         values ('${obj.file}', '${obj.grade}', '${obj.subject}'); \
+         select * FROM [syllabi] where syllabi.syllabusID = SCOPE_IDENTITY();`;
+    
+    
+    let ms_req = new sql.Request();
+
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.rowsAffected[0] > 0) {
+          let syllabusId = data.recordset[0].syllabusId;
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added syllabus...",
+            uploadId: syllabusId,
+            uploadType: "syllabi",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add material...",
+          });
+        }
+      }
+    });
+  }
+};
+let del_syllabus = (req, res) => {
+  var id = req.params.id;
+  var query = `delete from [syllabi] where syllabusId= ${id}`;
+
+  request.query(query, function (err, recordset) {
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      return res.json({
+        status: 200,
+        success: true,
+        message: "Deleted",
+      });
+    }
+  });
+};
+
+let update_syllabus = (req, res) => {
+  let syllabusid = req.body.syllabusId;
+  let grade = req.body.grade;
+  let subject = req.body.subject;
+
+  let query = `UPDATE [syllabi] \
+    SET grade=${grade} \
+    SET subject='${subject}' \
+    WHERE syllabusId = ${syllabusid}`;
+
+  var request = new sql.Request();
+
+  request.query(query, function (err, recordset) {
+    if (err) {
+      console.log(err);
+      console.log(err.stack);
+      return res.json({
+        status: 500,
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      if (recordset.rowsAffected[0] > 0) {
+        return res.json({
+          status: 202,
+          success: true,
+          message: "Updated",
+        });
+      } else {
+        return res.json({
+          status: 400,
+          success: false,
+          message: "Failed to update",
+        });
+      }
+    }
+  });
+};
 module.exports = {
   teacher,
   teachers,
@@ -947,4 +1210,10 @@ module.exports = {
   shared_materials,
   shared_materials_topic,
   shared_materials_class,
+  add_syllabi,
+  get_syllabi,
+  syllabus,
+  add_syllabus,
+  del_syllabus,
+  update_syllabus,
 };

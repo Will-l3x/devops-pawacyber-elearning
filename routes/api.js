@@ -129,12 +129,12 @@ router.post("/schooladmin/add_shared_class", _schooladmin.add_shared_class);
 router.post("/schooladmin/add_shared_topic", _schooladmin.add_shared_topic);
 router.post("/schooladmin/add_shared_material", _schooladmin.add_shared_material);
 
-
-//router.get("/schooladmin/syllabus/:id", _schooladmin.syllabus);
-//router.get("/schooladmin/syllabi", _schooladmin.syllabi);
-//router.post("/schooladmin/add_syllabus", _schooladmin.add_syllabus);
-//router.delete("/schooladmin/del_syllabus", _schooladmin.del_syllabus);
-//router.put("/schooladmin/update_syllabus", _schooladmin.update_syllabus);
+router.get("/schooladmin/add_syllabi/", _schooladmin.add_syllabi);
+router.get("/schooladmin/syllabus/:id", _schooladmin.syllabus);
+router.get("/schooladmin/syllabi", _schooladmin.get_syllabi);
+router.post("/schooladmin/add_syllabus", _schooladmin.add_syllabus);
+router.delete("/schooladmin/del_syllabus", _schooladmin.del_syllabus);
+router.put("/schooladmin/update_syllabus", _schooladmin.update_syllabus);
 
 //////////////////////uploads//////////////////////////////////////////////
 
