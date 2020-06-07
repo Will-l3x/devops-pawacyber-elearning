@@ -12,7 +12,7 @@ import { TeacherScreen } from "./views/teacher/TeacherScreen";
 import { AdminTeacherManagementScreen } from "./views/admin/AdminTeacherManagementScreen";
 import { SchoolManagement } from "./views/admin/SchoolManagement";
 import { SubscriptionScreen } from "./views/admin/SubscriptionScreen";
-import { CourseListScreen } from "./views/admin/CourseListScreen";
+import CourseListScreen from "./views/admin/CourseListScreen";
 import { RolesScreen } from "./views/admin/Roles";
 import {UploadMaterial} from "./views/teacher/TeacherUploadMaterial";
 import {EnrolStudent} from "./views/teacher/EnrolStudent";
