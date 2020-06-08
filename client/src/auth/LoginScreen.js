@@ -127,7 +127,7 @@ export class LoginScreen extends Component {
                     </div>
 
                     <div className="form-group" style={{marginTop:"30px"}}>
-                        <button type="submit" className="form-control-submit-button" onClick={this.handleLogin}>LOGIN</button>
+                        <button type="submit" className="form-control-submit-button" >LOGIN</button>
                     </div>
                     <div className="form-group" style={{marginTop:"10px", textAlign:"center"}}>
                         <Link to="#">Forgot Password</Link>
