@@ -1,44 +1,62 @@
 import React, { Component } from 'react'
 import {AuthService} from '../../services/authServices';
-import { Redirect } from "react-router-dom";
 import M from "materialize-css";
-
+import {reactLocalStorage} from 'reactjs-localstorage';
+import { Redirect } from "react-router-dom";
 
 export default class RegistrationForm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            title:"Mr"
+            title:"Mr",
+            grade:"",
+            gender:"1"
         };
         this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
+        this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
       }
 
-      componentDidMount() {
+    componentDidMount() {
         M.AutoInit();
-      }
+    }
     
     handleTitleDropdownChange(event) {
-        this.setState({title: event.target.value });
-      }
+        if(event.target.value==="1"){
+            this.setState({title: "Mr" });
+            this.setState({genderid: event.target.value });
+        }else{
+            this.setState({title: "Miss" });
+            this.setState({genderid: event.target.value });
+        }
+        
+    }
 
-      handleSubmit = (event) => {
+    handleGradeDropdownChange(event){
+        this.setState({grade:event.target.value});
+    }
+
+    handleSubmit = (event) => {
         event.preventDefault();
         var registerAdmin = {
             roleid: 3,
             email: event.target.email.value,
             password:  event.target.password.value,
-            grade: event.target.grade.value,
             firstname: event.target.firstname.value,
             lastname: event.target.lastname.value,
-            title: this.state.title,
             vpassword:  event.target.vpassword.value,
-            dob: event.target.dob.value             
+            dob: event.target.dob.value,
+            schoolid: event.target.schoolId,
+            grade: this.state.grade,
+            title: this.state.title,
+            genderid: this.state.gender        
         }
         
+        reactLocalStorage.setObject('registrationData', registerAdmin);
+
         AuthService.register(registerAdmin).then((response) => {
             if (response === undefined) {
-                alert("Registration Failed")
+                alert("Registration Failed");
             } else if (response.success === false) {
                 alert(response.message);
             } else {
@@ -56,11 +74,12 @@ export default class RegistrationForm extends Component {
                 <div className="row mt-1">
                 <div className="col s12 m3">     
                  <div className="input-field">
-                        <select name="title" defaultValue={this.state.title}  onChange={this.handleTitleDropdownChange} required>                              
-                            <option value="Mr">Male</option> 
-                            <option value="Miss">Female</option> 
+                        <select name="gender" onChange={this.handleTitleDropdownChange} required>                              
+                            <option value="1">Male</option> 
+                            <option value="2">Female</option> 
+                            {/* <option value="3">Other</option>  */}
                         </select>
-                        <label htmlFor="title">Gender* </label>
+                        <label htmlFor="gender">Gender* </label>
                     </div>
                     </div>
                     <div className="col s12 m5">  
@@ -78,16 +97,35 @@ export default class RegistrationForm extends Component {
                 </div>
                 
                 <div className="row mt-1">
-                    <div className="col s12 m6">     
+                    <div className="col s12 m5">     
                         <div className="input-field">
                             <input id="dob" type="date" className="validate" name="dob"required/>
                             <label htmlFor="dob">Date of Birth *</label>
                         </div>
                     </div>
-                    <div className="col s12 m6">  
+                    <div className="col s12 m2">  
                         <div className="input-field">
-                            <input id="grade" type="number" className="validate" name="grade" required></input>
-                            <label htmlFor="grade">Select Grade *</label>
+                        <select name="grade" defaultValue={this.state.grade}  onChange={this.handleGradeDropdownChange} required>                              
+                            <option value="1">1</option> 
+                            <option value="2">2</option> 
+                            <option value="3">3</option> 
+                            <option value="4">4</option> 
+                            <option value="5">5</option> 
+                            <option value="6">6</option> 
+                            <option value="7">7</option> 
+                            <option value="8">8</option> 
+                            <option value="9">9</option> 
+                            <option value="10">10</option> 
+                            <option value="11">11</option> 
+                            <option value="12">12</option> 
+                        </select>
+                            <label htmlFor="grade">Grade *</label>
+                        </div>
+                    </div>
+                    <div className="col s12 m5">  
+                        <div className="input-field">
+                            <input id="schoolId" type="text" className="validate" name="schoolId" required></input>
+                            <label htmlFor="schoolId">Enter School ID *</label>
                         </div>
                     </div>
                 </div>
@@ -114,7 +152,7 @@ export default class RegistrationForm extends Component {
                 </div>
            
                 <div className="form-group">
-                    <button type="submit" className="form-control-submit-button disabled">PROCEED</button>
+                    <button type="submit" className="form-control-submit-button">PROCEED</button>
                 </div>
                 <div className="form-message">
                     <div id="cmsgSubmit" className="h3 text-center hidden"></div>

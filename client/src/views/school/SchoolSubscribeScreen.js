@@ -5,7 +5,6 @@ import M from "materialize-css";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import Pricing from "../../components/pricing";
-import store from "../../config/store";
 
 export class SchoolSubscribeScreen extends Component {
   constructor(props) {
