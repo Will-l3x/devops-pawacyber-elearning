@@ -8,7 +8,7 @@ import FileDropZone from "./dropzone";
 import TopicContentCard from "./TopicContentCard";
 import Footer from "./footer";
 import Header from "./header";
-import store from "../config/store";
+// import store from "../config/store";
 
 import AdminActions from "../actions/admin";
 import { AdminService } from "../services/admin";
