@@ -14,20 +14,16 @@ import { SchoolManagement } from "./views/admin/SchoolManagement";
 import { SubscriptionScreen } from "./views/admin/SubscriptionScreen";
 import CourseListScreen from "./views/admin/CourseListScreen";
 import { RolesScreen } from "./views/admin/Roles";
-import {UploadMaterial} from "./views/teacher/TeacherUploadMaterial";
-import {EnrolStudent} from "./views/teacher/EnrolStudent";
+import { UploadMaterial } from "./views/teacher/TeacherUploadMaterial";
+import { EnrolStudent } from "./views/teacher/EnrolStudent";
 
 import { CourseOutlineScreen } from "./components/CourseOutlineScreen";
-import { ClassroomScreen } from "./components/classroom/ClassroomScreen";
+import ClassroomScreen from "./components/classroom/ClassroomScreen";
 import { SubjectContent } from "./views/student/SubjectContent";
 import { StudentAssignments } from "./views/student/StudentAssignments";
 import { TeacherCalendarScreen } from "./views/teacher/TeacherCalendarScreen";
 import { AdminCalendarScreen } from "./views/admin/AdminCalendarScreen";
 import { LoginScreen } from "./auth/LoginScreen";
-import { TeacherMarkGradeScreen } from "./views/teacher/TeacherMarkGradeScreen";
-import { TeacherMarkClassroomScreen } from "./views/teacher/TeacherMarkClassroomScreen";
-import { StudentAssignmentScreen } from "./components/teacher-mark/StudentAssignmentScreen";
-import { StudentTestScreen } from "./components/teacher-mark/StudentTestScreen";
 import { RegisterScreen } from "./auth/RegisterScreen";
 
 import { SchoolScreen } from "./views/school/SchoolScreen";
@@ -45,7 +41,7 @@ import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
-import {PackagePayment} from "./views/student/PackagePayment";
+import { PackagePayment } from "./views/student/PackagePayment";
 
 const history = createBrowserHistory();
 
@@ -164,35 +160,16 @@ class App extends Component {
             <Route exact path="/enrol-student" component={EnrolStudent} />
 
             <Route exact path="/teacher" component={TeacherScreen} />
-            <Route
-              exact
-              path="/teacher-mark"
-              component={TeacherMarkGradeScreen}
-            />
+         
             <Route
               exact
               path="/teacher-calendar"
               component={TeacherCalendarScreen}
             />
             <Route exact path="/classroom" component={ClassroomScreen} />
-            <Route
-              exact
-              path="/classroom-mark"
-              component={TeacherMarkClassroomScreen}
-            />
-            <Route
-              exact
-              path="/classroom-mark-test"
-              component={StudentTestScreen}
-            />
-            <Route
-              exact
-              path="/classroom-mark-assignment"
-              component={StudentAssignmentScreen}
-            />
-
+        
             <Route exact path="/student" component={StudentScreen} />
-            
+
             <Route exact path="/subject-content" component={SubjectContent} />
             <Route
               exact

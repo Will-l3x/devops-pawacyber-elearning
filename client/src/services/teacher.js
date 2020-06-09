@@ -134,11 +134,6 @@ async function get_all_students(id) {
 
 
 
-
-
-
-
-
 async function get_teacher_pending_classwork(teacher_id, classroom_id) {
   try {
     let res = await axios({

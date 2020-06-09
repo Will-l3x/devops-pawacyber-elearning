@@ -32,6 +32,9 @@ class TeacherCourseCard extends Component {
     this.props.course_data({
       course,
     });
+    this.props.get_course_details({
+      course,
+    });
     this.setState({
       redirect: true,
     });
@@ -68,13 +71,13 @@ class TeacherCourseCard extends Component {
                 <i className="material-icons medium white-text">school</i>
               </div>
               <p className="white-text">{course.courseName}</p>
-              <p className="white-text">Students</p>
+              <p className="white-text"></p>
             </div>
             <div className="col s5 m5 right-align">
               <h5 className="mb-0 white-text">{course.courseCode}</h5>
               <p className="no-margin white-text">Code</p>
-              <p className="white-text">4a</p>
-              <p className="white-text">26</p>
+              <p className="white-text"></p>
+              <p className="white-text"></p>
             </div>
           </div>
         </div>

@@ -1,97 +1,105 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-export class ClassroomScreen extends Component {
+import { ClassroomService } from "../../services/classroom";
+import avatar from "../../assets/images/gallary/not_found.gif";
+import $ from "jquery";
+class ClassroomScreen extends Component {
   constructor() {
     super();
     this.state = {
-      redirect: false,
-      to: "",
-      students: [
+      subjectId: "5ed4d101e487992f0c06f7e2",
+      students: [],
+      columns: [
         {
-          id: "H163898D",
-          name: "Shingie Bishi",
-          class: "Comp Scie",
+          label: "ID",
+          field: "teacherId",
+          sort: "asc",
+          width: "20%",
         },
         {
-          id: "2",
-          name: "Nu J Twork",
-          class: "URL",
+          label: "Teacher Name",
+          field: "firstname",
+          sort: "asc",
+          width: "30%",
         },
         {
-          id: "H12213D",
-          name: "Will Zhira",
-          class: "Comp Scie 4",
+          label: "Teacher Surname",
+          field: "lastname",
+          sort: "asc",
+          width: "30%",
         },
         {
-          id: "H16038H",
-          name: "Kelvin Chelenje",
-          class: "Comp Scie 4",
-        },
-        {
-          id: "H150335Y",
-          name: "Rum Nitty",
-          class: "URL",
+          label: "Date Joined",
+          field: "datejoined",
+          sort: "asc",
+          width: "20%",
         },
       ],
+      rows: [],
     };
+    this.get_students.bind(this);
   }
   componentDidMount() {
-    this.setState({
-      students: [
-        {
-          id: "H163898D",
-          name: "Shingie Bishi",
-          class: "Comp Scie",
-        },
-        {
-          id: "2",
-          name: "Nu J Twork",
-          class: "URL",
-        },
-        {
-          id: "H12213D",
-          name: "Will Zhira",
-          class: "Comp Scie 4",
-        },
-        {
-          id: "H16038H",
-          name: "Kelvin Chelenje",
-          class: "Comp Scie 4",
-        },
-        {
-          id: "H150335Y",
-          name: "Rum Nitty",
-          class: "URL",
-        },
-      ],
-    });
-   
+    this.get_students();
+    $(".custom-select.bs-select select").addClass("display-none");
+    $(".col-sm-12.col-md-6").addClass("height-0");
+    $(".dataTables_length.bs-select").addClass("translateY-10");
   }
+
+  get_students = () => {
+    ClassroomService.get_students(this.props.teacherState.course.courseId)
+      .then((res) => {
+        this.setState({
+          students: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ students: [] });
+      });
+  };
   render() {
     return (
-      <ul
-        id="task-card2"
-        className="collection task-card"
-        style={{ display: "none", marginTop: "3%" }}
-      >
-        {this.state.students.map((st, i) => (
-          <li key={i} className="collection-item">
-            <label>
-              {st.name}
-              <Link to="" className="secondary-content">
-                <span className="ultra-small">Class {st.class}</span>
-              </Link>
-            </label>
-            <span className="task-cat cyan">{st.id}</span>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <ul
+          id="task-card2"
+          className="collection task-card"
+          style={{ display: "none", marginTop: "3%" }}
+        >
+          {this.state.students.length < 1 ? (
+            <div className="row">
+              <p style={{ textAlign: "center", fontSize: "20px" }}>
+                There Are No Students In This Class!
+                <br />{" "}
+                <img
+                  src={avatar}
+                  alt="Avatar"
+                  style={{ maxWidth: "100%", maxHeight: "150px" }}
+                ></img>
+              </p>
+            </div>
+          ) : (
+            this.state.students.map((st, i) => (
+              <li key={i} className="collection-item avatar">
+                <i className={`material-icons circle`}>person</i>
+                <span className="title">
+                  {st.firstname} {st.lastname}
+                </span>
+                <p style={{ marginLeft: 15 }}>
+                  Id: {st.id}
+                  <br />
+                </p>
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
     );
   }
 }
-
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  teacherState: state.teacher,
+});
 
 const mapDispatchToProps = {};
 
