@@ -3,7 +3,19 @@ import { HashLink as Link } from 'react-router-hash-link';
 import ReactPlayer from "react-player";
 import {AdminService} from '../../services/admin';
 
+import M from "materialize-css";
+import $ from "jquery";
 import "../../assets/css/styles.css";
+
+import carousel1 from "../../assets/images/carousel-1.png";
+import carousel2 from "../../assets/images/carousel-2.png";
+import carousel3 from "../../assets/images/carousel-3.png";
+import carousel4 from "../../assets/images/carousel-4.png";
+import carousel5 from "../../assets/images/carousel-5.png";
+import carousel6 from "../../assets/images/carousel-6.png";
+import previewmp4 from "../../assets/videos/preview.mp4";
+import previewogg from "../../assets/videos/preview.ogg";
+import previewwebm from "../../assets/videos/preview.webm";
 
 import headerImg from "../../assets/images/girl.png";
 import kigsImg from "../../assets/images/gids.png";
@@ -22,6 +34,31 @@ export class HomeScreen extends Component {
 
   componentDidMount() {
     this.getDashData();
+
+    $(".js-height-full").height($(window).height() - 70);
+    $(".js-height-parent").each(function () {
+      $(this).height($(this).parent().first().height());
+    });
+
+    
+    // CAROUSEL
+
+    let elems = document.querySelector(".carousel");
+    var instance = M.Carousel.init(elems, {
+      dist: 0,
+      padding: 0,
+      indicators: true,
+      duration: 100,
+      fullWidth: true,
+    });
+    autoplay();
+    function autoplay() {
+      instance.next();
+      setTimeout(autoplay, 4500);
+    }
+
+    var pushpin = document.querySelectorAll(".pushpin");
+    M.Pushpin.init(pushpin);
   }
 
   getDashData(){
@@ -32,13 +69,12 @@ export class HomeScreen extends Component {
     });
   }
 
-
   render() {
     return (
       <div>
-<OuterHeader></OuterHeader>
+      <OuterHeader></OuterHeader>
 
-<div className="content-pawa">
+      <div className="content-pawa">
         <header id="welcome" className="header">
           <div className="header-content">
             <div className="container">
@@ -143,28 +179,44 @@ export class HomeScreen extends Component {
           </div>
         </div>
 
-        <div className="basic-2 sect-learn" >
+        <div className="basic-2 sect-learn" style={{marginTop:"2px"}} >
           <div className="container">
-          <div className="row mt-1">
-                <div className="col s12 m6">
+            <div className="row mt-1">
+              <div className="col s12 m6">
                 <div className="image-container">
-                  <img
-                    className="img-fluid"
-                    src={kigsImg}
-                    alt="alternative"
-                  />
+                  <div className="carousel carousel-slider" data-indicators="true" >
+                      <div className="carousel-item " href="#one!">
+                        <img className="img-fluid img-carousel" src={carousel1} alt="alternative"/>
+                      </div>
+
+                      <div className="carousel-item " href="#two!">
+                        <img className="img-fluid img-carousel" src={carousel2} alt="alternative" />
+                      </div>
+
+                      <div className="carousel-item " href="#three!">
+                        <img className="img-fluid img-carousel" src={carousel3} alt="alternative" />
+                      </div>
+
+                      <div className="carousel-item " href="#four!">
+                        <img className="img-fluid img-carousel" src={carousel4} alt="alternative"/>
+                      </div>
+                      <div className="carousel-item " href="#five!">
+                        <img className="img-fluid img-carousel" src={carousel5} alt="alternative"/>
+                      </div>
+                      <div className="carousel-item " href="#six!">
+                        <img className="img-fluid img-carousel" src={carousel6} alt="alternative"/>
+                      </div>
+                    </div>
                 </div>
               </div>
               <div className="col s12 m6">
-                <div className="text-container" style={{paddingLeft:"0px"}}>
+                <div className="text-container" >
                   <h2  style={{fontSize:"28px",fontWeight:"bold"}}>Learning Resources<br/>Wherever You are</h2>
                   <ul className="list-unstyled li-space-lg">
                     <li className="media">
                       <i className="fas fa-check"></i>
-                   
                         For sure we know you know what's best for your brilliant
                         child
-                    
                     </li>
                     <li className="media">
                       <i className="fas fa-check"></i>
@@ -186,20 +238,20 @@ export class HomeScreen extends Component {
           </div>
         </div>
 
-        <div className="basic-2 sect-learn" >
+        <div className="basic-2 sect-learn" style={{marginTop:"3px"}}>
           <div className="container">
-          <div className="row mt-1">
-              <div className="col s12 m6">
-                <div className="text-container" style={{paddingLeft:"0px"}}>
-                  <h2  style={{fontSize:"28px",fontWeight:"bold", textAlign:"right"}}>Video Preview <br/>HD Visuals for everyone</h2>
-                  <ul className="list-unstyled li-space-lg" style={{textAlign:"right"}}>
-                    <li className="media">
-                      <i className="fas fa-check"></i>
-                        HD Quality videos, auudible, compressed you name it
-                    </li>
-                  </ul>
+            <div className="row mt-1">
+                <div className="col s12 m6">
+                  <div className="text-container" style={{paddingLeft:"0px"}}>
+                    <div className="card-panel">
+                      <blockquote className="flow-text">
+                        Some motivational text. Some motivational text. Some
+                        motivational text. Some motivational text. Some motivational
+                        text. Some motivational text. Some motivational text.
+                      </blockquote>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
               <div className="col s12 m6">
                 <div className="image-container">
