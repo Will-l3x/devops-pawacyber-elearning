@@ -6,11 +6,11 @@ import "../../assets/css/styles.css";
 
 import carousel1 from "../../assets/images/carousel-1.png";
 import carousel2 from "../../assets/images/carousel-2.png";
+import carousel3 from "../../assets/images/carousel-3.png";
 import carousel4 from "../../assets/images/carousel-4.png";
 import carousel5 from "../../assets/images/carousel-5.png";
+import carousel6 from "../../assets/images/carousel-6.png";
 import headerImg from "../../assets/images/girl.png";
-import kigsImg from "../../assets/images/gids.png";
-//import carousel6 from "../../assets/images/carousel-6.png";
 import previewmp4 from "../../assets/videos/preview.mp4";
 import previewogg from "../../assets/videos/preview.ogg";
 import previewwebm from "../../assets/videos/preview.webm";
@@ -80,67 +80,8 @@ export class HomeScreen extends Component {
         <OuterHeader></OuterHeader>
 
         <div className="content-pawa">
-          <header id="welcome">
-            <div
-              className="carousel carousel-slider  js-height-full"
-              data-indicators="true"
-            >
-              <div className="carousel-fixed-item">
-                <div className="container center-align text-container-translate">
-                  <h1 className="white-text">Welcome To PawaCyber</h1>
-                  <Link
-                    className="btn-solid-lg page-scroll"
-                    rel="noopener noreferrer"
-                    to="/login"
-                  >
-                    GET STARTED
-                  </Link>
-                </div>
-              </div>
-              <div className="carousel-item " href="#one!">
-                <img
-                  className="img-fluid img-carousel"
-                  src={carousel1}
-                  alt="alternative"
-                />
-              </div>
-              {/*
-                * <div className="container text-carousel">
-                <h2>First Slide</h2>
-                <p className="">
-                  Etiam porta sem malesuada magna mollis euismod.
-                </p>
-              </div>
-                */}
-              <div className="carousel-item " href="#two!">
-                <img
-                  className="img-fluid img-carousel"
-                  src={carousel2}
-                  alt="alternative"
-                />
-              </div>
-
-              <div className="carousel-item " href="#three!">
-                <img
-                  className="img-fluid img-carousel"
-                  src={carousel5}
-                  alt="alternative"
-                />
-              </div>
-
-              <div className="carousel-item " href="#four!">
-                <img
-                  className="img-fluid img-carousel"
-                  src={carousel4}
-                  alt="alternative"
-                />
-              </div>
-            </div>
-          </header>
-          <hr className="invis" />
-          <hr className="invis" />
           <div className="row">
-            <div id="welcome" className="header col m8 offset-m2 card">
+            <div id="welcome" className="header">
               <div className="header-content">
                 <div className="container">
                   <div className="row">
@@ -162,7 +103,7 @@ export class HomeScreen extends Component {
                           rel="noopener noreferrer"
                           to="/login"
                         >
-                          SIGN IN
+                          GET STARTED
                         </Link>
                       </div>
                     </div>
@@ -249,22 +190,68 @@ export class HomeScreen extends Component {
 
           <div className="basic-2 sect-learn row">
             <div className="col m8 offset-m2 card">
-              <div className="row">
+              <div className="row marginBtm-0">
                 <div className="col s12 m6">
-                  <div className="image-contain">
-                    <img
-                      width="100%"
-                      className="img-fluid"
-                      src={kigsImg}
-                      alt="alternative"
-                    />
-                  </div>
+                    <div
+                      className="carousel carousel-slider"
+                      data-indicators="true"
+                    >
+                      <div className="carousel-item " href="#one!">
+                        <img
+                          className="img-fluid img-carousel"
+                          src={carousel1}
+                          alt="alternative"
+                        />
+                      </div>
+                      {/*
+                * <div className="container text-carousel">
+                <h2>First Slide</h2>
+                <p className="">
+                  Etiam porta sem malesuada magna mollis euismod.
+                </p>
+              </div>
+                */}
+                      <div className="carousel-item " href="#two!">
+                        <img
+                          className="img-fluid img-carousel"
+                          src={carousel2}
+                          alt="alternative"
+                        />
+                      </div>
+
+                      <div className="carousel-item " href="#three!">
+                        <img
+                          className="img-fluid img-carousel"
+                          src={carousel3}
+                          alt="alternative"
+                        />
+                      </div>
+
+                      <div className="carousel-item " href="#four!">
+                        <img
+                          className="img-fluid img-carousel"
+                          src={carousel4}
+                          alt="alternative"
+                        />
+                      </div>
+                      <div className="carousel-item " href="#five!">
+                        <img
+                          className="img-fluid img-carousel"
+                          src={carousel5}
+                          alt="alternative"
+                        />
+                      </div>
+                      <div className="carousel-item " href="#six!">
+                        <img
+                          className="img-fluid img-carousel"
+                          src={carousel6}
+                          alt="alternative"
+                        />
+                      </div>
+                    </div>
                 </div>
                 <div className="col s12 m6">
-                  <div
-                    style={{paddingTop: "10%"}}
-                    className="center-align"
-                  >
+                  <div style={{ paddingTop: "10%" }} className="center-align">
                     <h2 style={{ fontSize: "28px", fontWeight: "bold" }}>
                       Learning Resources
                       <br />

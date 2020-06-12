@@ -88,6 +88,9 @@
     padding-top: 10%;
     height: 100%;
 }
+.marginBtm-0{
+    margin-bottom: 0px !important;
+}
 
 .text-carousel {
     transform: translate(20%, -200%) !important;
