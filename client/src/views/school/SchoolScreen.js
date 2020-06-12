@@ -7,14 +7,14 @@ import M from "materialize-css";
 import { Calendar } from "../../components/calendar";
 import store from "../../config/store";
 import { Link } from "react-router-dom";
-import { SchoolService } from "../../services/school";
+import {SchoolService} from '../../services/school';
 
 export class SchoolScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      students: [],
-      teachers: [],
+      students:[],
+      teachers:[]
     };
   }
 
@@ -22,21 +22,24 @@ export class SchoolScreen extends Component {
 
   componentDidMount() {
     M.AutoInit();
-    this.user = JSON.parse(localStorage.getItem("user"));
+    this.user= JSON.parse(localStorage.getItem("user"));
     this.getDashData();
   }
 
-  getDashData() {
+  getDashData(){
     // SchoolService.get_all_teachers('2')
-    SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
-      console.log(response);
-      this.setState({ teachers: response });
+    SchoolService.get_all_teachers(this.user.schoolid)
+    .then((response) => {
+      console.log(response)
+      this.setState({ teachers: response })
     });
     // SchoolService.get_all_students('2')
-    SchoolService.get_all_students(this.user.schoolid).then((response) => {
-      this.setState({ students: response });
+    SchoolService.get_all_students(this.user.schoolid)
+    .then((response) => {
+      this.setState({ students: response })
     });
   }
+
 
   render() {
     const eventState = store.getState().events;
@@ -63,11 +66,7 @@ export class SchoolScreen extends Component {
                               <p className="white-text">Students</p>
                             </div>
                             <div className="col s5 m5 right-align white-text">
-                              <h5 className="mb-0 white-text">
-                                {this.state.students === undefined
-                                  ? 0
-                                  : this.state.students.length}
-                              </h5>
+                              <h5 className="mb-0 white-text">{this.state.students.length}</h5>
                               <p className="no-margin white-text">Total</p>
                             </div>
                           </div>
@@ -83,11 +82,7 @@ export class SchoolScreen extends Component {
                               <p className="white-text">Teachers</p>
                             </div>
                             <div className="col s5 m5 right-align white-text">
-                              <h5 className="mb-0 white-text">
-                                {this.state.teachers === undefined
-                                  ? 0
-                                  : this.state.teachers.length}
-                              </h5>
+                              <h5 className="mb-0 white-text">{this.state.teachers.length}</h5>
                               <p className="no-margin white-text">Total</p>
                             </div>
                           </div>

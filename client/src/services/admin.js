@@ -170,14 +170,98 @@ async function post_new_course(data) {
 }
 async function get_courses() {
   try {
-    let res = await axios({
-      url: `${apiUrl}/schooladmin/syllabis`,
+    /**
+     * let res = await axios({
+      url: `${apiUrl}/schooladmin/shared_class`,
       method: "get",
       timeout: 8000,
       headers: {
         "Content-Type": "application/json",
       },
     });
+     */
+    let res = {
+      data: [
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+      ],
+    };
     return res;
   } catch (err) {
     console.error(err);

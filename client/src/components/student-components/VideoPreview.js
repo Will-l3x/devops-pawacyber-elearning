@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
-import { Player } from 'video-react';
+import ReactPlayer from "react-player";
 
 export default class VideoPriview extends Component {
     link = this.props.videoLink;
     render(){
         return (
-            <Player
-            playsInline
-            autoPlay
-            poster="/assets/poster.png"
-            src={this.link}
-            />
+            <ReactPlayer url={this.link} controls={true} />
         );
 }};

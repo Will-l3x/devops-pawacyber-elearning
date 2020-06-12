@@ -79,101 +79,8 @@
     font-weight: bold
 }
 
-.img-carousel {
-    width: 100%;
-    height: 100%;
-}
-.image-contain {
-    width: 100%;
-    padding-top: 10%;
-    height: 100%;
-}
-.marginBtm-0{
-    margin-bottom: 0px !important;
-}
-
-.text-carousel {
-    transform: translate(20%, -200%) !important;
-}
-
-.carousel .indicators .indicator-item {
-    background-color: #e0e0e0;
-}
-
-.carousel .indicators .indicator-item.active {
-    background-color: #686f7a;
-}
-
-.video-section {
-    position: relative;
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-.home-text-wrapper {
-    display: table;
-    width: 100%;
-    height: 100%;
-    max-width: 900px;
-    position: relative;
-    text-align: center;
-    z-index: 11;
-}
-
-.home-content {
-    position: relative;
-}
-
-.home-message {
-    display: table-cell;
-    height: 100%;
-    vertical-align: middle;
-}
-
-.home-message p {
-    font-size: 54px;
-    color: #ffffff;
-    padding: 0;
-    margin: 0;
-    font-weight: 700;
-}
-
-.home-message small {
-    font-size: 16px;
-    font-family: 'Droid Serif', sans-serif;
-    font-style: italic;
-    display: block;
-    padding: 20px 0 35px;
-    margin: 0;
-}
-
-
-
 .modal {
     max-height: 100% !important;
-}
-
-
-.modal-fullscreen {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.nav-content {
-    width: 100% !important;
-}
-
-.pdf-options {
-    font-size: 16px !important;
-    height: 32px !important;
-    line-height: 32px !important;
 }
 
 .modal-width-30 {
@@ -719,32 +626,8 @@ h3 {
     margin-right: 50px;
 }
 
-.text-container-translate {
-    transform: translateY(-150%);
-}
 .text-container {
-    padding-left: 70px;
-}
-
-.custom-module h2 {
-    font-size: 28px;
-    font-weight: bold;
-    margin: 20px 0 30px;
-    padding: 0;
-}
-
-.custom-module mark {
-    line-height: 1;
-    color: #ffffff;
-    padding: 0 10px;
-}
-
-.custom-module p {
-    padding: 0;
-    margin: 0;
-}
-.p40l {
-    padding-left: 4rem;
+    padding-left: 50px;
 }
 
 .sect-learn {

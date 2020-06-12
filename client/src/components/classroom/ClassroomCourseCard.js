@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import TopicContentCard from "../TopicContentCard";
-import store from "../../config/store";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import store from "../../config/store"
 
-class ClassroomCourseCard extends Component {
+export class ClassroomCourseCard extends Component {
   state = {
     topics: [
       {
@@ -38,6 +38,10 @@ class ClassroomCourseCard extends Component {
 
   render() {
     const course = store.getState().student.course;
+    const link = store.getState().dashLink.link;
+    if (course.courseName === "" || course.courseName === undefined) {
+      return <Redirect to={`/${link}`} />;
+    }
     return (
       <div
         id="task-card3"

@@ -10,8 +10,6 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
-import avatar from "../../assets/images/gallary/not_found.gif";
-
 class CourseListScreen extends Component {
   constructor() {
     super();
@@ -34,7 +32,6 @@ class CourseListScreen extends Component {
     this.handleNextClick.bind(this);
     this.handlePageClick.bind(this);
     this.handlePrevClick.bind(this);
-    this.removeItemHandler.bind(this);
   }
   componentDidMount() {
     M.AutoInit();
@@ -44,7 +41,6 @@ class CourseListScreen extends Component {
 
   get_courses = () => {
     AdminService.get_courses().then((response) => {
-      console.log(response)
       if (response === undefined) {
         this.setState({
           courses: [],
@@ -73,22 +69,6 @@ class CourseListScreen extends Component {
     });
   };
 
-  removeItemHandler = async (id) => {
-    await this.props.delete_course(id);
-    await this.props.get_all_courses(parseInt(this.props.currentPageNumber));
-    console.log(this.props.adminState.courses);
-    if (this.props.adminState.deleted_course_info) {
-      M.toast({
-        html: `Course successfully removed!`,
-        classes: "green accent-3",
-      });
-    } else {
-      M.toast({
-        html: `Course removal failed!`,
-        classes: "red accent-2",
-      });
-    }
-  };
   handleValidation = () => {
     let fields = this.state.fields;
     let errors = {};
@@ -253,6 +233,11 @@ class CourseListScreen extends Component {
         </p>
       </li>
     ));
+    /*
+    if(school is regestering ) redirect to course register else course out line;
+    when school registers see more detailed content about couse, allowed to wiew maybe first topic only
+    click register they see subcripion prices and register
+   */
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -329,81 +314,67 @@ class CourseListScreen extends Component {
                 <div id="overviews" className="section wb">
                   <div className="container">
                     <div className="row">
-                      {this.state.courses.length < 1 ? (
-                        <div className="row">
-                          <p style={{ textAlign: "center", fontSize: "20px" }}>
-                            No Courses Found!
-                            <br />{" "}
-                            <img
-                              src={avatar}
-                              alt="Avatar"
-                              style={{ maxWidth: "100%", maxHeight: "150px" }}
-                            ></img>
-                          </p>
-                        </div>
-                      ) : (
-                        this.state.courses.map((course, i) => (
-                          <div key={i} className="col m6 l4">
-                            <div className="card">
-                              <div className="card-image waves-effect waves-block waves-light">
-                                <img src={course.img} alt="alt" />
-                              </div>
-                              <div className="card-content">
-                                <Link
-                                  to="#"
-                                  className="card-title grey-text text-darken-4"
-                                  style={{ cursor: "unset" }}
+                      {this.state.courses.map((course, i) => (
+                        <div key={i} className="col m6 l4">
+                          <div className="card">
+                            <div className="card-image waves-effect waves-block waves-light">
+                              <img src={course.img} alt="alt" />
+                            </div>
+                            <div className="card-content">
+                              <Link
+                                to="#"
+                                className="card-title grey-text text-darken-4"
+                                style={{ cursor: "unset" }}
+                              >
+                                {course.title}
+                                <i
+                                  className="material-icons red-text right remove-content"
+                                  data-position="right"
+                                  onClick={() => {
+                                    this.removeItemHandler(course.id);
+                                  }}
                                 >
-                                  {course.title}
-                                  <i
-                                    className="material-icons red-text right remove-content"
-                                    data-position="right"
-                                    onClick={() => {
-                                      this.removeItemHandler(course.id);
-                                    }}
-                                  >
-                                    delete_forever
-                                  </i>
+                                  delete_forever
+                                </i>
+                              </Link>
+                              <p>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit.
+                              </p>
+                              <hr className="invis"></hr>
+                              <p>
+                                <Link
+                                  onClick={() =>
+                                    this.handleCourseViewClick(course)
+                                  }
+                                  className="cyan-text"
+                                  to="#"
+                                >
+                                  View Content
                                 </Link>
-                                <p>
-                                  Lorem ipsum dolor sit amet consectetur
-                                  adipisicing elit.
-                                </p>
-                                <hr className="invis"></hr>
-                                <p>
-                                  <Link
-                                    onClick={() =>
-                                      this.handleCourseViewClick(course)
-                                    }
-                                    className="cyan-text"
-                                    to="#"
-                                  >
-                                    View Content
-                                  </Link>
-                                </p>
-                              </div>
-                              <div className="card-action course-meta">
-                                <ul>
-                                  <li>
-                                    <i
-                                      className="fa fa-youtube-play"
-                                      aria-hidden="true"
-                                    ></i>{" "}
-                                    56 Video Tutorials
-                                  </li>
-                                  <li>
-                                    <i
-                                      className="fa fa-book"
-                                      aria-hidden="true"
-                                    ></i>{" "}
-                                    7 Topics
-                                  </li>
-                                </ul>
-                              </div>
+                              </p>
+                            </div>
+                            <div className="card-action course-meta">
+                              <ul>
+                                <li>
+                                  <i
+                                    className="fa fa-youtube-play"
+                                    aria-hidden="true"
+                                  ></i>{" "}
+                                  56 Video Tutorials
+                                </li>
+                                <li>
+                                  <i
+                                    className="fa fa-book"
+                                    aria-hidden="true"
+                                  ></i>{" "}
+                                  7 Topics
+                                </li>
+                              </ul>
                             </div>
                           </div>
-                        ))
-                      )}
+                        </div>
+                      ))}
                     </div>
                     <div className="divider" style={{ marginTop: 30 }}></div>
                     <div className="row">

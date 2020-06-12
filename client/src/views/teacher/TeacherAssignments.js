@@ -7,37 +7,35 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import {TeacherService} from '../../services/teacher';
-import {StudentService} from '../../services/student';
 
-export class UploadMaterial extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      
-        columns: [
-          {
-            label: "Class ID",
-            field: "classid",
-            sort: "asc",
-            width: "20%",
-          },
-          {
-            label: "Resource Name",
-            field: "materialname",
-            sort: "asc",
-            width: "30%",
-          },
-          {
-            label: " Link",
-            field: "file",
-            sort: "asc",
-            width: "30%",
-          },
-        ],
-        rows: [],
-        courses:[]
-    };
-  }
+export class UploadNewAssignment extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                {
+                    label: "Assingment Name",
+                    field: "assignmentname",
+                    sort: "asc",
+                    width: "30%",
+                },
+                {
+                    label: "Upload Date",
+                    field: "file",
+                    sort: "asc",
+                    width: "30%",
+                },
+                {
+                    label: "Download",
+                    field: "file",
+                    sort: "asc",
+                    width: "30%",
+                },
+            ],
+            rows: [],
+            courses: []
+        };
+    }
 
   user = {};
   courseId = "1";
@@ -52,33 +50,34 @@ export class UploadMaterial extends Component {
   }
 
   getDashData(){
+      
     TeacherService.get_all_courses(this.user.userid) 
     .then((response) => {
       this.setState({ courses: response })
     });
+
     if(this.state.courses.length>0){
         this.courseId = this.state.courses[0].classId;
-        TeacherService.get_materials(this.courseId) //get by course id 
+        TeacherService.get_assignments(this.courseId)
         .then((response) => {
           this.setState({ rows: response })
         });
     }
   }
 
-
   handleSubmit = (event) => {
     event.preventDefault()
     this.fileData = event.target.file.value;
-    alert('You are uploading for class id: '+this.classId);
+    alert('You are uploading for class id: '+this.courseId);
     var data = {
+        classid: event.target.classid.value,
         teacherid: this.user.userid,
         schoolid: this.user.schoolid,
-        materialname: event.target.materialname.value,
-        file: true,
-        classid: event.target.classid.value
+        assignmentname: event.target.assignmentname.value,
+        file: true
     }
 
-    TeacherService.post_material(data).then((response)=>{
+    TeacherService.post_assignment(data).then((response)=>{
         if(response === undefined){
           alert('Resource Upload failed');
         }else if(response.err){
@@ -122,7 +121,7 @@ export class UploadMaterial extends Component {
                 >
                   <div className="nav-content">
                     <p style={{ padding: "10px",fontSize:"16px" }} >
-                      Resource Management
+                      Manage Assignments
                     </p>
                   </div>
                 </nav>
@@ -142,20 +141,22 @@ export class UploadMaterial extends Component {
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
-                      <h4 className="header2">Upload Resource</h4>
+                      <h4 className="header2">Upload Assignment</h4>
                       <form onSubmit={this.handleSubmit} id="sibs">
                       <div className="row">
                         <div className="col s12">
                           <div className="row">
 
                             <div className="input-field col s6">
-                              <input id="materialname" type="text" name="materialname" required></input>
-                              <label htmlFor="materialname">Material Name</label>
+                              <input id="assignmentname" type="text" name="assignmentname" required></input>
+                              <label htmlFor="assignmentname">Assignment Title</label>
                             </div>
+                            
                             <div className="input-field col s6">
                               <input id="classid" type="text" name="classid" required></input>
                               <label htmlFor="classid">Course ID</label>
                             </div>
+
                             <div className="input-field col s12">
                               <input id="file" type="file" name="file" required></input>
                             </div>
@@ -197,4 +198,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UploadMaterial);
+)(UploadNewAssignment);
