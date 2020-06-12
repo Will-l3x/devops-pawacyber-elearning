@@ -14,11 +14,7 @@ import carousel4 from "../../assets/images/carousel-4.png";
 import carousel5 from "../../assets/images/carousel-5.png";
 import carousel6 from "../../assets/images/carousel-6.png";
 import previewmp4 from "../../assets/videos/preview.mp4";
-import previewogg from "../../assets/videos/preview.ogg";
-import previewwebm from "../../assets/videos/preview.webm";
-
 import headerImg from "../../assets/images/girl.png";
-import kigsImg from "../../assets/images/gids.png";
 import servicesImg1 from "../../assets/images/services-icon-1.svg";
 import servicesImg2 from "../../assets/images/services-icon-2.svg";
 import servicesImg3 from "../../assets/images/services-icon-3.svg";
@@ -29,7 +25,7 @@ import OuterFooter from "../../components/outerFooter";
 export class HomeScreen extends Component {
   state = {
     plans: [],
-    url:"https://youtu.be/HUEFHTDqbqo"
+    url:previewmp4
   };
 
   componentDidMount() {
@@ -39,9 +35,6 @@ export class HomeScreen extends Component {
     $(".js-height-parent").each(function () {
       $(this).height($(this).parent().first().height());
     });
-
-    
-    // CAROUSEL
 
     let elems = document.querySelector(".carousel");
     var instance = M.Carousel.init(elems, {
