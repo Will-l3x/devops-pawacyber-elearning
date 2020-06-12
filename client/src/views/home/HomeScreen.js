@@ -85,9 +85,9 @@ export class HomeScreen extends Component {
               className="carousel carousel-slider  js-height-full"
               data-indicators="true"
             >
-              <div class="carousel-fixed-item">
-                <div class="container center-align text-container-translate">
-                  <h1 class="white-text">Welcome To PawaCyber</h1>
+              <div className="carousel-fixed-item">
+                <div className="container center-align text-container-translate">
+                  <h1 className="white-text">Welcome To PawaCyber</h1>
                   <Link
                     className="btn-solid-lg page-scroll"
                     rel="noopener noreferrer"
