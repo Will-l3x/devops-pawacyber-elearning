@@ -251,8 +251,9 @@ export class HomeScreen extends Component {
             <div className="col m8 offset-m2 card">
               <div className="row">
                 <div className="col s12 m6">
-                  <div className="image-container">
+                  <div className="image-contain">
                     <img
+                      width="100%"
                       className="img-fluid"
                       src={kigsImg}
                       alt="alternative"
@@ -261,8 +262,8 @@ export class HomeScreen extends Component {
                 </div>
                 <div className="col s12 m6">
                   <div
-                    className="text-container"
-                    style={{ paddingLeft: "0px" }}
+                    style={{paddingTop: "10%"}}
+                    className="center-align"
                   >
                     <h2 style={{ fontSize: "28px", fontWeight: "bold" }}>
                       Learning Resources
