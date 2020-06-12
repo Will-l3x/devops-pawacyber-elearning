@@ -292,7 +292,7 @@ export class HomeScreen extends Component {
               <div className="col s8 offset-s2">
                 <div className="card">
                   <div className="card-image waves-effect waves-block waves-light">
-                    <video width="100%" loop autoPlay>
+                    <video width="100%" loop={true} autoPlay={true} controls={true}>
                       <source src={previewmp4} type="video/mp4" />
                       Your browser does not support the video tag. I suggest you
                       upgrade your browser.
