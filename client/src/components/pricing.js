@@ -5,42 +5,41 @@ class Pricing extends Component {
   pricingPlan = this.props.plan;
   render() {
     return (
+      <div className="col s12 m3">
       <div className="card">
-        {this.pricingPlan.bestOffer ? (
+        {/* {this.pricingPlan.bestOffer ? (
           <div className="label">
             <p className="best-value">Best Value</p>
           </div>
         ) : (
           ""
-        )}
+        )} */}
 
         <div className="card-body">
-          <div className="card-title">{this.pricingPlan.title}</div>
-          <div className="card-subtitle">{this.pricingPlan.description}</div>
+          <div className="card-title" style={{fontSize:"16px"}}>{this.pricingPlan.subscriptionname}</div>
+          <div className="card-subtitle">{this.pricingPlan.subscriptiondesc}</div>
           <hr className="cell-divide-hr" />
-          <div className="price">
-            <span className="currency">$</span>
-            <span className="value">{this.pricingPlan.price}</span>
-            <div className="frequency">{this.pricingPlan.frequency}</div>
+          <div className="price" >
+            <span className="currency" style={{fontSize:"17px"}}>ZK</span>
+            <span className="value"  >{this.pricingPlan.price}</span>
+            {/* <div className="frequency">{this.pricingPlan.frequency}</div> */}
           </div>
           <hr className="cell-divide-hr" />
           <ul className="list-unstyled li-space-lg">
-            {this.pricingPlan.features.map((feature, i) => (
-              <li key={i} className="media">
+              <li className="media">
                 <i className="fas fa-check" style={{ paddingRight: "5px" }}></i>
-                {feature}
+                Starting Grade: {this.pricingPlan.mingrade}
               </li>
-            ))}
+              <li className="media">
+                <i className="fas fa-check" style={{ paddingRight: "5px" }}></i>
+                Ending Grade: {this.pricingPlan.maxgrade}
+              </li>
           </ul>
-          <Link
-            className="btn-solid-reg page-scroll"
-            rel="noopener noreferrer"
-            to="#"
-          >
+          <Link className="btn-solid-reg page-scroll" rel="noopener noreferrer" to="#" >
             ENQUIRE
           </Link>
         </div>
-      </div>
+      </div></div>
     );
   }
 }

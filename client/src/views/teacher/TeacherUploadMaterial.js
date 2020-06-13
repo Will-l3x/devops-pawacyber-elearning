@@ -52,14 +52,12 @@ export class UploadMaterial extends Component {
   }
 
   getDashData(){
-
-    StudentService.get_all_courses(this.user.userid) 
+    TeacherService.get_all_courses(this.user.userid) 
     .then((response) => {
       this.setState({ courses: response })
     });
     if(this.state.courses.length>0){
         this.courseId = this.state.courses[0].classId;
-        alert(this.courseId);
         TeacherService.get_materials(this.courseId) //get by course id 
         .then((response) => {
           this.setState({ rows: response })
@@ -71,16 +69,16 @@ export class UploadMaterial extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     this.fileData = event.target.file.value;
+    alert('You are uploading for class id: '+this.classId);
     var data = {
         teacherid: this.user.userid,
         schoolid: this.user.schoolid,
         materialname: event.target.materialname.value,
         file: true,
-        classid: this.courseId
+        classid: event.target.classid.value
     }
 
     TeacherService.post_material(data).then((response)=>{
-       
         if(response === undefined){
           alert('Resource Upload failed');
         }else if(response.err){
@@ -101,8 +99,6 @@ export class UploadMaterial extends Component {
         }else{
           alert(response.message)
         }
-
-        
     })
   }
 
@@ -132,7 +128,7 @@ export class UploadMaterial extends Component {
                 </nav>
               </div>
               <section className = "row" id="content" style={{ paddingTop: "7%" }}>
-                <div className="container col s6">
+                <div className="container col s8">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12" style={{padding:"20px"}}>
@@ -142,7 +138,7 @@ export class UploadMaterial extends Component {
                   </div>
                 </div>
 
-                <div className="container col s6">
+                <div className="container col s4">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
@@ -152,11 +148,15 @@ export class UploadMaterial extends Component {
                         <div className="col s12">
                           <div className="row">
 
-                            <div className="input-field col s4">
+                            <div className="input-field col s6">
                               <input id="materialname" type="text" name="materialname" required></input>
                               <label htmlFor="materialname">Material Name</label>
                             </div>
-                            <div className="input-field col s8">
+                            <div className="input-field col s6">
+                              <input id="classid" type="text" name="classid" required></input>
+                              <label htmlFor="classid">Course ID</label>
+                            </div>
+                            <div className="input-field col s12">
                               <input id="file" type="file" name="file" required></input>
                             </div>
                             </div>

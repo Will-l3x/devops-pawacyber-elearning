@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import SideBar from "./SideBar";
 //import $ from "jquery";
 import M from "materialize-css";
@@ -8,101 +8,103 @@ import FileDropZone from "./dropzone";
 import TopicContentCard from "./TopicContentCard";
 import Footer from "./footer";
 import Header from "./header";
-import store from "../config/store";
+// import store from "../config/store";
 
 import AdminActions from "../actions/admin";
+import { AdminService } from "../services/admin";
 
 export class CourseOutlineScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      redirect: false,
       course: {
         id: "1",
         title: "Course Name",
-        topics: [
-          {
-            id: "1.1",
-            title: "Topic 1",
-            content: {
-              id: 1,
-              topic: "Databases",
-              videoLink: "somewhere",
-              topicContent:
-                "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
-            },
-            material: [
-              {
-                id: "1",
-                title: "Course Intro",
-                period: "week 1",
-                doc_path: "path/to/file",
-                video_path: "path/to/file",
-              },
-              {
-                id: "11",
-                title: "Course Intro",
-                period: "week 2",
-                doc_path: "path/to/file",
-                video_path: "path/to/file",
-              },
-            ],
-          },
-          {
-            id: "1.2",
-            title: "Topic 2",
-            content: {
-              id: 1,
-              topic: "Databases",
-              videoLink: "somewhere",
-              topicContent:
-                "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
-            },
-            material: [
-              {
-                id: "2",
-                title: "Course Intro",
-                period: "week 3 & 4",
-                doc_path: "path/to/file",
-                video_path: "path/to/file",
-              },
-              {
-                id: "12",
-                title: "Course Intro",
-                period: "week 5",
-                doc_path: "path/to/file",
-                video_path: "path/to/file",
-              },
-            ],
-          },
-          {
-            id: "1.3",
-            title: "Topic 3",
-            content: {
-              id: 1,
-              topic: "Databases",
-              videoLink: "somewhere",
-              topicContent:
-                "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
-            },
-            material: [
-              {
-                id: "3",
-                title: "Course Intro",
-                period: "week 6-9",
-                doc_path: "path/to/file",
-                video_path: "path/to/file",
-              },
-              {
-                id: "13",
-                title: "Course Intro",
-                period: "week 10",
-                doc_path: "path/to/file",
-                video_path: "path/to/file",
-              },
-            ],
-          },
-        ],
       },
+      topics: [
+        {
+          id: "1.1",
+          title: "Topic 1",
+          content: {
+            id: 1,
+            topic: "Databases",
+            videoLink: "somewhere",
+            topicContent:
+              "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
+          },
+          material: [
+            {
+              id: "1",
+              title: "Course Intro",
+              period: "week 1",
+              doc_path: "path/to/file",
+              video_path: "path/to/file",
+            },
+            {
+              id: "11",
+              title: "Course Intro",
+              period: "week 2",
+              doc_path: "path/to/file",
+              video_path: "path/to/file",
+            },
+          ],
+        },
+        {
+          id: "1.2",
+          title: "Topic 2",
+          content: {
+            id: 1,
+            topic: "Databases",
+            videoLink: "somewhere",
+            topicContent:
+              "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
+          },
+          material: [
+            {
+              id: "2",
+              title: "Course Intro",
+              period: "week 3 & 4",
+              doc_path: "path/to/file",
+              video_path: "path/to/file",
+            },
+            {
+              id: "12",
+              title: "Course Intro",
+              period: "week 5",
+              doc_path: "path/to/file",
+              video_path: "path/to/file",
+            },
+          ],
+        },
+        {
+          id: "1.3",
+          title: "Topic 3",
+          content: {
+            id: 1,
+            topic: "Databases",
+            videoLink: "somewhere",
+            topicContent:
+              "The quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dlshe quick brown fox jumped over the lazy dogs kdkdkd  dkdkkdkdkkdkdkdkd djd kd wos cne   dls",
+          },
+          material: [
+            {
+              id: "3",
+              title: "Course Intro",
+              period: "week 6-9",
+              doc_path: "path/to/file",
+              video_path: "path/to/file",
+            },
+            {
+              id: "13",
+              title: "Course Intro",
+              period: "week 10",
+              doc_path: "path/to/file",
+              video_path: "path/to/file",
+            },
+          ],
+        },
+      ],
     };
     this.handleDeleteContent.bind(this);
   }
@@ -123,28 +125,87 @@ export class CourseOutlineScreen extends Component {
   disabled = true;
   componentDidMount() {
     M.AutoInit();
-    AdminActions.get_topic_content({ id: 1 });
-
-    console.log(store.getState().school.course);
-    /*
-    function toggleCourseListIcon() {
-      $(".collapsible-header").each(function () {
-        if ($(this).hasClass("active")) {
-          $(".active .material-icons").text("remove");
-        } else {
-          $(".active .material-icons").text("remove");
-        }
-      });
-    }
-    $(".collapsible-header").click(function () {
-      $(this).toggleClass("active");
-      toggleCourseListIcon();
-    });*/
+    const course = JSON.parse(sessionStorage.getItem("course"));
+    this.setState({ course });
+    this.get_topics(course.id);
   }
+  get_topics = (id) => {
+    AdminService.get_courses(id).then((response) => {
+      if (response === undefined) {
+        this.setState({
+          courses: [],
+        });
+      } else {
+        let pages = [];
+        let perPage = 6;
+        const totalPageCount = Math.ceil(response.data.length / perPage);
 
+        for (var i = 1; i <= totalPageCount; i++) {
+          pages.push(i);
+          this.setState({ pages });
+        }
+
+        const courses = this.pageArraySplit(response.data, {
+          currentPageNumber: this.state.currentPageNumber,
+          perPage,
+        });
+        this.setState({ courses });
+      }
+    });
+  };
+
+  handleValidation = () => {
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+
+    if (!fields["title"]) {
+      formIsValid = false;
+      errors["title"] = "Cannot be empty!";
+    }
+    if (!fields["description"]) {
+      formIsValid = false;
+      errors["description"] = "Cannot be empty!";
+    }
+    this.setState({ errors: errors });
+    return formIsValid;
+  };
+  handleAddTopic = (event) => {
+    event.preventDefault();
+    let fileData = this.state.files;
+    var data = {
+      classid: this.state.course.id,
+      name: event.target.name.value,
+      description: event.target.description.value,
+    };
+
+    AdminService.post_new_topic(data).then((response) => {
+      if (response === undefined) {
+        alert("Resource Upload failed");
+      } else if (response.err) {
+        alert(response.err);
+      } else if (response.success === true) {
+        const uploadData = new FormData();
+        uploadData.append("file", fileData.file);
+        uploadData.append("uploadType", response.uploadType);
+        uploadData.append("uploadType", response.uploadId);
+
+        AdminService.post_file(uploadData).then((response) => {
+          this.props.get_all_courses(1);
+          this.handleFileClear();
+        });
+
+        document.getElementById("sibs").reset();
+        this.getDashData();
+      } else {
+        alert(response.message);
+      }
+    });
+  };
   selectedTopic() {
     this.topicSelected = true;
   }
+
   handleDeleteContent = (e) => {
     const topic = e.target.value;
 
@@ -154,7 +215,7 @@ export class CourseOutlineScreen extends Component {
         classes: "red accent-2",
       });
     } else {
-      for (const topik of this.state.course.topics) {
+      for (const topik of this.state.topics) {
         if (topik.title === topic) {
           AdminActions.get_topic_content(topik);
         }
@@ -164,6 +225,13 @@ export class CourseOutlineScreen extends Component {
   };
 
   render() {
+    if (
+      this.state.redirect ||
+      this.state.course === undefined ||
+      this.state.course === null
+    ) {
+      return <Redirect to="/courses" />;
+    }
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -194,7 +262,7 @@ export class CourseOutlineScreen extends Component {
                           <li>
                             <Link to="/courses">Course List</Link>
                           </li>
-                          <li className="active">{this.state.course.title}</li>
+                          <li className="active">{this.state.course.name}</li>
                         </ol>
                       </div>
                       <div className="col s2 m6 l6">
@@ -241,7 +309,7 @@ export class CourseOutlineScreen extends Component {
                       </li>
                       <li>
                         <i className="fa fa-book" aria-hidden="true"></i>
-                        {this.state.course.topics.length}
+                        {this.state.topics.length}
                         Topics
                       </li>
                     </ul>
@@ -256,14 +324,14 @@ export class CourseOutlineScreen extends Component {
                             {this.state.course.title} TOPICS
                           </p>
                         </li>
-                        {this.state.course.topics.map((topic, i) => (
+                        {this.state.topics.map((topic, i) => (
                           <li key={i} className="collection-item dismissable">
                             <label htmlFor="task1">
                               {topic.title}
                               {/* Click to view the content by seting state of Topic Name and the content */}
                               <Link
                                 to="#"
-                                onClick={() => this.selectedTopic()}
+                                onClick={() => this.selectedTopic(topic)}
                                 className="secondary-content"
                               >
                                 <span className="ultra-small">VIEW</span>

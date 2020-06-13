@@ -13,82 +13,91 @@ export class EnrolStudent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
-        columns: [
-          {
-            label: "ID",
-            field: "studentid",
-            sort: "asc",
-            width: "20%",
-          },
-          {
-            label: "Student Name",
-            field: "firstname",
-            sort: "asc",
-            width: "30%",
-          },
-          {
-            label: "Student Surname",
-            field: "lastname",
-            sort: "asc",
-            width: "30%",
-          },
-          {
-            label: "DOB",
-            field: "dob",
-            sort: "asc",
-            width: "20%",
-          },
-        ],
-        rows: [],
-        courses:[]
+
+      columns: [{
+          label: "ID",
+          field: "studentid",
+          sort: "asc",
+          width: "20%",
+        },
+        {
+          label: "Student Name",
+          field: "firstname",
+          sort: "asc",
+          width: "30%",
+        },
+        {
+          label: "Student Surname",
+          field: "lastname",
+          sort: "asc",
+          width: "30%",
+        },
+        {
+          label: "DOB",
+          field: "dob",
+          sort: "asc",
+          width: "20%",
+        },
+      ],
+      rows: [],
+      courses: []
     };
   }
 
   user = {};
   courseId = "";
-  
+
   componentDidMount() {
-    this.user= JSON.parse(localStorage.getItem("user"));
+    this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
     M.AutoInit();
     $(".custom-select.custom-select-sm").addClass("display-none");
     $(".col-sm-12.col-md-6").addClass("height-0");
   }
 
-  getDashData(){
-    StudentService.get_all_courses(this.user.userid) 
-    .then((response) => {
-      this.setState({ courses: response })
-    });
-    if(this.state.courses.length>0){
-        this.courseId = this.state.courses[0].classId;
-        TeacherService.get_all_students(this.courseId) //get by course id 
+  getDashData() {
+    StudentService.get_all_courses(this.user.userid)
+      .then((response) => {
+        this.setState({
+          courses: response
+        })
+      });
+    if (this.state.courses.length > 0) {
+      this.courseId = this.state.courses[0].classId;
+      alert(this.courseId)
+      TeacherService.get_all_students(this.courseId) //get all students by course id 
         .then((response) => {
-          this.setState({ rows: response })
+          this.setState({
+            rows: response
+          })
         });
+    }else{
+      alert('failed')
     }
   }
 
   handleSubmit = (event) => {
     event.preventDefault()
-
-    var data = {
+    if (event.target.classid.value === this.courseId) {
+      var data = {
         teacherid: this.user.userid,
         studentid: event.target.studentid.value,
-        classid: this.courseId
-    }
+        classid: event.target.classid.value,
+      }
 
-    TeacherService.enrol_student(data).then((response)=>{
+      TeacherService.enrol_student(data).then((response) => {
         console.log(response);
-        if(response === undefined){
+        if (response === undefined) {
           alert('Student Enrolment failed');
-        }else{
+        } else {
           // alert(response.message);
           document.getElementById("sibs").reset();
           this.getDashData();
         }
-    })
+      })
+    }else{
+      alert('You do not have permissions to add materials to this course. Please contact school admin for permissions');
+    }
   }
 
   render() {
@@ -140,6 +149,12 @@ export class EnrolStudent extends Component {
                               <input id="studentid" type="text" name="studentid" required></input>
                               <label htmlFor="studentid">Student ID</label>
                             </div>
+                            <div className="input-field col s6">
+                              <input id="classid" type="text" name="classid" required></input>
+                              <label htmlFor="classid">Class ID</label>
+                            </div>
+                        </div>
+                        <div className="row">
                             <div className="input-field col s6">
                               <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
                                 Enrol

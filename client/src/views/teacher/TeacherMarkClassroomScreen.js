@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
-import FileDropZone from "../../components/dropzone";
 import $ from "jquery";
 import M from "materialize-css";
 
 import TestFolderCard from "../../components/teacher-mark/TestFolderCard";
-import AssignmentFolderCard from "../../components/teacher-mark/AssignmentFolderCard";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
+
 export class TeacherMarkClassroomScreen extends Component {
   constructor() {
     super();
@@ -60,12 +59,15 @@ export class TeacherMarkClassroomScreen extends Component {
       });
     });
   }
+
   removeMaterialHandler = () => {
     $(".remove-content").css({
       display: "inline",
     });
   };
+
   removeItemHandler = () => {};
+
   render() {
     return (
       <div>
@@ -75,36 +77,18 @@ export class TeacherMarkClassroomScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-
-              <SideBar/>
-
+            <SideBar/>
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
-                <nav
-                  className="navbar nav-extended"
-                  style={{ position: "fixed"}}
-                >
-                  <div className="nav-content">
+                <nav className="navbar nav-extended" style={{ position: "fixed"}}>
+                  <div className="nav-content"> 
                     <Link to="#" className="brand-logo">
                       Classroom Mark/Grade
                     </Link>
                     <ul className="tabs">
                       <li className="tab">
-                        <Link
-                          to="#"
-                          data-target="task-card1"
-                          className="tabs-trigger active"
-                        >
-                          Test/Exercise
-                        </Link>
-                      </li>
-                      <li className="tab">
-                        <Link
-                          to="#"
-                          data-target="task-card2"
-                          className="tabs-trigger"
-                        >
-                          Assignment
+                        <Link to="#" data-target="task-card1" className="tabs-trigger active">
+                          Tests - Assignments - Exercises
                         </Link>
                       </li>
                     </ul>
@@ -115,128 +99,6 @@ export class TeacherMarkClassroomScreen extends Component {
                 <div className="row" style={{ paddingTop: 85, width: "90%" }}>
                   <div className="col s12">
                     <TestFolderCard />
-                    <AssignmentFolderCard />
-                  </div>
-                </div>
-              </div>
-              <div
-                id="modal1"
-                className="modal"
-                style={{ overflowY: "hidden" }}
-              >
-                <div className="modal-content">
-                  <h4 className="header2">Add Course Material</h4>
-                  <div className="row">
-                    <div className="col s12">
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <input id="title" type="text"></input>
-                          <label htmlFor="title">Title</label>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <FileDropZone input_id="file1"/>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                              Submit
-                              <i className="material-icons right">send</i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                id="modal2"
-                className="modal"
-                style={{ overflowY: "hidden" }}
-              >
-                <div className="modal-content">
-                  <h4 className="header2">Add Test/Exercise</h4>
-                  <div className="row">
-                    <div className="col s12">
-                      <div className="row">
-                        <div className="input-field col s4">
-                          <input id="title2" type="text"></input>
-                          <label htmlFor="title2">Title</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input
-                            type="text"
-                            name="due_date"
-                            className="datepicker"
-                          ></input>
-                          <label htmlFor="due_date">Due</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input id="duration" type="text"></input>
-                          <label htmlFor="duration">Duration(mins)</label>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <FileDropZone input_id="file2" />
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                              Submit
-                              <i className="material-icons right">send</i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                id="modal3"
-                className="modal"
-                style={{ overflowY: "hidden" }}
-              >
-                <div className="modal-content">
-                  <h4 className="header2">Add Assignment</h4>
-                  <div className="row">
-                    <div className="col s12">
-                      <div className="row">
-                        <div className="input-field col s4">
-                          <input id="title3" type="text"></input>
-                          <label htmlFor="title3">Title</label>
-                        </div>
-                        <div className="input-field col s4">
-                          <input
-                            type="text"
-                            name="due_date"
-                            className="datepicker"
-                          ></input>
-                          <label htmlFor="due_date">Due</label>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <FileDropZone input_id="file3"/>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                              Submit
-                              <i className="material-icons right">send</i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

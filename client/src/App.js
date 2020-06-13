@@ -12,7 +12,7 @@ import { TeacherScreen } from "./views/teacher/TeacherScreen";
 import { AdminTeacherManagementScreen } from "./views/admin/AdminTeacherManagementScreen";
 import { SchoolManagement } from "./views/admin/SchoolManagement";
 import { SubscriptionScreen } from "./views/admin/SubscriptionScreen";
-import { CourseListScreen } from "./views/admin/CourseListScreen";
+import CourseListScreen from "./views/admin/CourseListScreen";
 import { RolesScreen } from "./views/admin/Roles";
 import {UploadMaterial} from "./views/teacher/TeacherUploadMaterial";
 import {EnrolStudent} from "./views/teacher/EnrolStudent";
@@ -46,6 +46,7 @@ import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
 import {PackagePayment} from "./views/student/PackagePayment";
+import { UploadNewAssignment } from "./views/teacher/TeacherAssignments";
 
 const history = createBrowserHistory();
 
@@ -142,7 +143,9 @@ class App extends Component {
             <Route exact path="/roles" component={RolesScreen} />
             <Route exact path="/package-selection" component={PackagePayment} />
             <Route exact path="/upload" component={UploadMaterial} />
+            <Route exact path="/assignments" component={UploadNewAssignment} />
             <Route exact path="/courses" component={CourseListScreen} />
+            
             <Route
               exact
               path="/course-outline"

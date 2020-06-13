@@ -5,7 +5,7 @@ import SideBar from "../../components/SideBar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 
-import {SchoolService} from '../../services/school';
+import { SchoolService } from "../../services/school";
 import avatar from "../../assets/images/gallary/not_found.gif";
 
 export class CourseSubscriptionScreen extends Component {
@@ -13,7 +13,7 @@ export class CourseSubscriptionScreen extends Component {
     super(props);
     this.state = {
       unsubscribe: false,
-      courses:[]
+      courses: [],
     };
     this.handleUnsubscribe.bind(this);
   }
@@ -23,43 +23,41 @@ export class CourseSubscriptionScreen extends Component {
 
   user = {};
   componentDidMount() {
-    this.user= JSON.parse(localStorage.getItem("user"));
+    this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
   }
 
-  getDashData(){
+  getDashData() {
     // SchoolService.get_courses('2')
-    SchoolService.get_courses(this.user.schoolid)
-    .then((response) => {
-      if(response===undefined){
-      }else{
-        this.setState({ courses: response })
+    SchoolService.get_courses(this.user.schoolid).then((response) => {
+      if (response === undefined) {
+      } else {
+        this.setState({ courses: response });
       }
     });
   }
 
   handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     var data = {
-        teacherid: event.target.teacherId.value,
-        classname: event.target.courseName.value,
-        enrolmentkey:"123ABC",
-        status: "active",
-        createdby: this.user.userid
-        
-    }
-    SchoolService.post_new_course(data).then((response)=>{
-        if(response === undefined){
-          alert('Apologies. Course addition failed. Please contact admin');
-        }else if(response.success === false){
-          alert(response.message);
-        }else{
-          alert('successfully added');
-          document.getElementById("sibs").reset();
-          this.getDashData();
-        }
-    })
-  }
+      teacherid: event.target.teacherId.value,
+      classname: event.target.courseName.value,
+      enrolmentkey: "123ABC",
+      status: "active",
+      createdby: this.user.userid,
+    };
+    SchoolService.post_new_course(data).then((response) => {
+      if (response === undefined) {
+        alert("Apologies. Course addition failed. Please contact admin");
+      } else if (response.success === false) {
+        alert(response.message);
+      } else {
+        alert("successfully added");
+        document.getElementById("sibs").reset();
+        this.getDashData();
+      }
+    });
+  };
 
   render() {
     return (
@@ -124,81 +122,104 @@ export class CourseSubscriptionScreen extends Component {
               </div>
 
               <section id="content">
-                <div
-                  id="overviews"
-                  className="section wb"
-                  
-                >
-                
-        <div className="row">
-          { this.state.courses.length!==0?this.state.courses.map((course, i) => (
-            <div key={course.classId} className="col l3">
-              <div className="card">
-                <div className="card-content">
-                  <Link
-                    to="#"
-                    className="card-title grey-text text-darken-4"
-                    style={{ cursor: "unset" }}
-                  >
-                    {course.classname}
-                  </Link>
-                  <p>
-                    {course.status}
-                  </p>
-                  <hr className="invis"></hr>
-                  <p> 
-                     Enrolment Key: {course.enrolmentkey} Teacher: {course.teacherid}
-                    <i className="material-icons left">subscriptions</i>
-                  </p>
-                </div>
-                <div className="card-action course-meta">
-                  <ul>
-                    <li>
-                      <i className="fa fa-calendar" aria-hidden="true"></i>{course.createdon}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )):(<div className="row"><p style={{textAlign:"center", fontSize:"20px"}}>No Courses Found<br/> <img src={avatar} alt="Avatar"  style={{maxWidth: '100%',maxHeight: '150px'}}></img></p></div>)}
-        </div>
+                <div id="overviews" className="section wb">
+                  <div className="row">
+                    {this.state.courses.length !== 0 ? (
+                      this.state.courses.map((course, i) => (
+                        <div key={course.classId} className="col l3">
+                          <div className="card">
+                            <div className="card-content">
+                              <Link
+                                to="#"
+                                className="card-title grey-text text-darken-4"
+                                style={{ cursor: "unset" }}
+                              >
+                                {course.classname}
+                              </Link>
+                              <p>{course.status}</p>
+                              <hr className="invis"></hr>
+                              <p>
+                                Enrolment Key: {course.enrolmentkey} Teacher:{" "}
+                                {course.teacherid}
+                                <i className="material-icons left">
+                                  subscriptions
+                                </i>
+                              </p>
+                            </div>
+                            <div className="card-action course-meta">
+                              <ul>
+                                <li>
+                                  <i
+                                    className="fa fa-calendar"
+                                    aria-hidden="true"
+                                  ></i>
+                                  {course.createdon}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="row">
+                        <p style={{ textAlign: "center", fontSize: "20px" }}>
+                          No Courses Found
+                          <br />{" "}
+                          <img
+                            src={avatar}
+                            alt="Avatar"
+                            style={{ maxWidth: "100%", maxHeight: "150px" }}
+                          ></img>
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div id="modal1" className="modal">
                   <div className="modal-content">
                     <h4 className="header2">Add Course</h4>
                     <form onSubmit={this.handleSubmit} id="sibs">
-                    <div className="row">
-                      <div className="col s12">
-                        <div className="row">
-                          <div className="input-field col s6">
-                            <input id="courseName" type="text" name="courseName" required></input>
-                            <label htmlFor="courseName">Course Name</label>
+                      <div className="row">
+                        <div className="col s12">
+                          <div className="row">
+                            <div className="input-field col s6">
+                              <input
+                                id="courseName"
+                                type="text"
+                                name="courseName"
+                                required
+                              ></input>
+                              <label htmlFor="courseName">Course Name</label>
+                            </div>
+                            <div className="input-field col s6">
+                              <input
+                                type="text"
+                                id="teacherId"
+                                name="teacherId"
+                                required
+                                placeholder="Enter Teacher ID"
+                              ></input>
+                              <label htmlFor="teacherId">Teacher ID</label>
+                            </div>
                           </div>
-                          <div className="input-field col s6">
-                            <input type="text" id="teacherId" name="teacherId" required placeholder="Enter Teacher ID"></input>
-                            <label htmlFor="teacherId">
-                              Teacher ID
-                            </label>
+                          <div className="row">
+                            <div className="input-field col s12">
+                              <input type="text" id="short_descrip"></input>
+                              <label htmlFor="short_descrip">
+                                Course Description
+                              </label>
+                            </div>
                           </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <input type="text" id="short_descrip"></input>
-                            <label htmlFor="short_descrip">
-                              Course Description
-                            </label>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s12">
-                            <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                              Submit
-                              <i className="material-icons right">send</i>
-                            </button>
+                          <div className="row">
+                            <div className="input-field col s12">
+                              <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
+                                Submit
+                                <i className="material-icons right">send</i>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
                     </form>
                   </div>
                 </div>

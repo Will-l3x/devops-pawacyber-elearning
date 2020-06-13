@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
 
+import alert from "./alert";
 import admin from "./admin";
 import classroom from "./classroom";
 import events from "./events";
@@ -15,6 +16,7 @@ export default combineReducers({
   routing: routerReducer,
   dashLink,
   admin,
+  alert,
   student,
   school,
   teacher,
