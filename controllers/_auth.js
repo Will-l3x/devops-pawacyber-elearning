@@ -681,7 +681,7 @@ let register = (req, res) => {
     var query_subadmin = "INSERT INTO [subadmins] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid)";
 
     var schema = new passwordValidator();
-
+     
     schema
         .is().min(8)                                    // Minimum length 8                                 
         .has().letters()
