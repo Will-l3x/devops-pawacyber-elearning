@@ -78,7 +78,7 @@ let checkToken = (req, res, next) => {
 };
  
 let profile = (req, res) => {
-    var id = = req.decoded.userid;
+    var id = req.decoded.userid;
     var role = req.decoded.roleid;
 
     var query = "";
