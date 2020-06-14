@@ -667,7 +667,7 @@ let register = (req, res) => {
     var pin = gen();
 
 
-    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom,gender) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom),@gender )";
+    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom,genderid) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom),@gender )";
     query = query + ';select @@IDENTITY AS \'identity\'';
 
     let query_email = "SELECT * FROM [users] WHERE email = @email";
