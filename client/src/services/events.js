@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const apiUrl = "http://cybers.azurewebsites.net/api";
-const apiUrl = "http://localhost:3001/api";
+const apiUrl = "http://cybers.azurewebsites.net/api";
+// const apiUrl = "http://localhost:3001/api";
 
 export const EventService = {
   get_events,

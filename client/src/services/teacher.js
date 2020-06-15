@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const apiUrl = "http://cybers.azurewebsites.net/api/teacher";
-const apiUrl = "http://localhost:3001/api/teacher";
+const apiUrl = "http://cybers.azurewebsites.net/api/teacher";
+// const apiUrl = "http://localhost:3001/api/teacher";
 
 export const TeacherService = {
   get_all_courses,

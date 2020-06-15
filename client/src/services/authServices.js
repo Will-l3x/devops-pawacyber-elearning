@@ -2,8 +2,8 @@ import axios from "axios";
 const qs = require('qs');
 // const querystring = require('querystring');
 
-// const apiUrl = "http://cybers.azurewebsites.net/api";
-const apiUrl = "http://localhost:3001/api";
+const apiUrl = "http://cybers.azurewebsites.net/api";
+// const apiUrl = "http://localhost:3001/api";
 
 export const AuthService = {
   register,

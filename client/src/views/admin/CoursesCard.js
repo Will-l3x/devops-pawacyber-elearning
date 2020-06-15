@@ -35,6 +35,7 @@ export class CoursesCard extends Component {
       parseInt(this.props.currentPageNumber)
     );
   };
+  
   handlePrevClick = async () => {
     await this.props.prevClick(parseInt(this.props.currentPageNumber));
     this.setState({ currentPageNumber: this.props.currentPageNumber });
