@@ -758,7 +758,7 @@ input[type='checkbox'] {
 }
 
 .header .header-content {
-	padding-top: 8rem;
+	/* padding-top: 4rem; */
 	padding-bottom: 4rem;
 	text-align: center;
 }
@@ -1601,10 +1601,9 @@ input[type='checkbox'] {
 	}
 	/* end of general styles */
 
-
 	/* Header */
 	.header .header-content {
-		padding-top: 10.5rem;
+		padding-top: 4.5rem;
 	}
 
 	.header h1 {
@@ -1824,18 +1823,18 @@ input[type='checkbox'] {
 
 
 	/* Header */
-	.header {
+	/* .header {
 		background: url('../images/header-background.jpg') center center no-repeat;
 		background-size: cover; 
-	}
+	} */
 
 	.header .header-content {
-		padding-top: 11.5rem;
+		/* padding-top: 3.5rem; */
 		text-align: left;
 	}
 
 	.header .text-container {
-		margin-top: 3rem;
+		/* margin-top: 3rem; */
 		margin-bottom: 0;
 	}
 	/* end of header */
@@ -2001,9 +2000,6 @@ input[type='checkbox'] {
 
 
 	/* Header */
-	.header .header-content {
-		padding-top: 12.5rem;
-	}
 
 	.header .text-container {
 		margin-top: 5.375rem;

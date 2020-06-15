@@ -29,7 +29,6 @@ export default class RegistrationForm extends Component {
             this.setState({title: "Miss" });
             this.setState({genderid: event.target.value });
         }
-        
     }
 
     handleGradeDropdownChange(event){
@@ -42,14 +41,14 @@ export default class RegistrationForm extends Component {
             roleid: 3,
             email: event.target.email.value,
             password:  event.target.password.value,
+            gradeid: this.state.grade,
             firstname: event.target.firstname.value,
             lastname: event.target.lastname.value,
+            title: this.state.title,
             vpassword:  event.target.vpassword.value,
             dob: event.target.dob.value,
-            schoolid: event.target.schoolId,
-            grade: this.state.grade,
-            title: this.state.title,
-            genderid: this.state.gender        
+            genderid: this.state.gender,
+            schoolid: event.target.schoolId                  
         }
         
         reactLocalStorage.setObject('registrationData', registerAdmin);

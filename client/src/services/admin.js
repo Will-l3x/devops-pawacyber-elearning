@@ -2,8 +2,8 @@ import axios from "axios";
 import img from "../assets/images/blog_1.jpg";
 const qs = require("qs");
 
-const apiUrl = "http://cybers.azurewebsites.net/api";
-// const apiUrl = "http://localhost:3001/api";
+// const apiUrl = "http://cybers.azurewebsites.net/api";
+const apiUrl = "http://localhost:3001/api";
 
 export const AdminService = {
   post_new_school,

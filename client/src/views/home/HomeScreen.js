@@ -7,14 +7,16 @@ import M from "materialize-css";
 import $ from "jquery";
 import "../../assets/css/styles.css";
 
-import carousel1 from "../../assets/images/carousel-1.png";
+import carousel1 from "../../assets/images/carousel-1.jpg";
 import carousel2 from "../../assets/images/carousel-2.png";
 import carousel3 from "../../assets/images/carousel-3.png";
 import carousel4 from "../../assets/images/carousel-4.png";
 import carousel5 from "../../assets/images/carousel-5.png";
 import carousel6 from "../../assets/images/carousel-6.png";
+
 import previewmp4 from "../../assets/videos/preview.mp4";
-import headerImg from "../../assets/images/girl.png";
+
+import headerImg from "../../assets/images/welcome-img.jpg";
 import servicesImg1 from "../../assets/images/services-icon-1.svg";
 import servicesImg2 from "../../assets/images/services-icon-2.svg";
 import servicesImg3 from "../../assets/images/services-icon-3.svg";
@@ -71,7 +73,10 @@ export class HomeScreen extends Component {
         <header id="welcome" className="header">
           <div className="header-content">
             <div className="container">
+              
               <div className="row mt-1">
+
+
                 <div className="col s12 m6">
                   <div className="text-container">
                     <h1>
@@ -91,9 +96,11 @@ export class HomeScreen extends Component {
                       GET STARTED
                     </Link>
                   </div>
+
+
                 </div>
                 <div className="col s12 m6">
-                  <div className="image-container">
+                  <div className="">
                     <img
                       className="img-fluid"
                       src={headerImg}
@@ -102,6 +109,7 @@ export class HomeScreen extends Component {
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </header>

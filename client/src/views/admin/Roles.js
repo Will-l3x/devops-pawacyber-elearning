@@ -25,7 +25,10 @@ export class RolesScreen extends Component {
             field: "rolename",
             sort: "asc",
             width: "10%",
-          }
+          },
+          {
+            label: "Action",
+          },
         ],
         rows: [],
       

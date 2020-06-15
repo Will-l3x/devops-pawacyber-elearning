@@ -41,6 +41,10 @@ export class SchoolManagement extends Component {
             sort: "asc",
             width: "50%",
           },
+          {
+            label: "Action",
+
+          },
         ],
         rows: [],
         options: []

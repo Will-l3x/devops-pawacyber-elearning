@@ -5,7 +5,7 @@ import { MDBDataTable } from "mdbreact";
 const DatatablePage = (dat) => {
   
  const data = dat.data
-  return <MDBDataTable striped hover data={data} />;
+  return <MDBDataTable striped hover dark data={data} />;
 };
 
 export default DatatablePage;
