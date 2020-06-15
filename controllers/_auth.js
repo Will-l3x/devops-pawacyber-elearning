@@ -76,10 +76,10 @@ let checkToken = (req, res, next) => {
         next();
     }
 };
- 
+  
 let profile = (req, res) => {
-    var id = 31;//= req.decoded.userid;
-    var role = 5;//req.decoded.roleid;
+    var id = req.decoded.userid;
+    var role = req.decoded.roleid;
 
     var query = "";
 
@@ -647,7 +647,7 @@ let register = (req, res) => {
     var gender = req.body.gender;
     var userid = 0;
 
-    var grade = req.body.grade;
+    var grade = req.body.gradeid;
 
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
@@ -667,7 +667,7 @@ let register = (req, res) => {
     var pin = gen();
 
 
-    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom,gender) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom,@gender ))";
+    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom,genderid) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom),@gender )";
     query = query + ';select @@IDENTITY AS \'identity\'';
 
     let query_email = "SELECT * FROM [users] WHERE email = @email";
@@ -676,12 +676,12 @@ let register = (req, res) => {
 
     var query_parent = "INSERT INTO [parents] (firstname,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,@title)";
 
-    var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,grade,schoolid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade,@schoolid)";
+    var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,gradeid,schoolid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade,@schoolid)";
 
     var query_subadmin = "INSERT INTO [subadmins] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid)";
 
     var schema = new passwordValidator();
-
+     
     schema
         .is().min(8)                                    // Minimum length 8                                 
         .has().letters()
@@ -906,7 +906,7 @@ let login = (req, res) => {
 
     var userid = 0;
     var roleid = 0;
-    var noschoolid = 1;
+    var noschoolid = 0;
     var activesubscriptions = 0;
 
     var currdate = moment().format('YYYY-MM-DD');
