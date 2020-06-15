@@ -27,9 +27,7 @@ class AdminLink extends Component {
             <span className="nav-text">Dashboard</span>
           </Link>
         </li>
-        {/**
-         * 
-         * <li className="bold">
+        <li className="bold">
           <Link
             to="/courses"
             className="waves-effect waves-cyan"
@@ -39,8 +37,6 @@ class AdminLink extends Component {
             <span className="nav-text">Course Management</span>
           </Link>
         </li>
-         */}
-
         <li className="bold">
           <Link
             to="/school-management"

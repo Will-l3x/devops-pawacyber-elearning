@@ -18,6 +18,12 @@ export const AdminService = {
   get_courses,
   post_new_topic,
   get_topics,
+  update_school,
+  update_plan,
+  update_roles,
+  delete_school,
+  delete_roles,
+  delete_plan
 };
 
 const config = {
@@ -39,6 +45,21 @@ async function post_new_school(data) {
     console.error(err);
   }
 }
+
+async function update_school(id,data) {
+  try {
+    let res = await axios.put(
+      `${apiUrl}/update_school/${id}`,
+      qs.stringify(data),
+      config
+    );
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 
 // Get all schools
 async function get_all_schools() {
@@ -65,11 +86,47 @@ async function get_all_schools() {
   }
 }
 
-//POST Subscription Plan
+
+// DELETE A SCHOOL
+async function delete_school(id) {
+  try {
+    let res = await axios.delete({
+      url: `${apiUrl}/del_school/${id}`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data.schools;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
+
+
+// Subscription Plans
 async function post_new_plan(data) {
   try {
     let res = await axios.post(
       `${apiUrl}/add_subscription`,
+      qs.stringify(data),
+      config
+    );
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function update_plan(id,data) {
+  try {
+    let res = await axios.put(
+      `${apiUrl}/update_subscription/${id}`,
       qs.stringify(data),
       config
     );
@@ -101,6 +158,28 @@ async function get_subs_plans() {
   }
 }
 
+async function delete_plan(id) {
+  try {
+    let res = await axios.delete({
+      url: `${apiUrl}/del_subscription/${id}`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.data.success) {
+      return res.data.data.subscriptions;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+
 //Subscribe School
 async function subscribe_school(data) {
   try {
@@ -119,10 +198,31 @@ async function subscribe_school(data) {
   }
 }
 
+
+
+
+//ROLES
 async function post_new_role(data) {
   try {
     let res = await axios({
       url: `${apiUrl}/add_role`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function update_roles(id,data) {
+  try {
+    let res = await axios.put({
+      url: `${apiUrl}/update_role/${id}`,
       method: "post",
       data,
       timeout: 8000,
@@ -151,6 +251,25 @@ async function get_roles() {
     console.error(err);
   }
 }
+
+async function delete_roles(id) {
+  try {
+    let res = await axios.delete({
+      url: `${apiUrl}/del_role/${id}`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data.roles;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+//COURSE
 async function post_new_course(data) {
   console.log(data);
   try {
@@ -170,19 +289,35 @@ async function post_new_course(data) {
 }
 async function get_courses() {
   try {
-    let res = await axios({
-      url: `${apiUrl}/schooladmin/syllabis`,
+    /**
+     * let res = await axios({
+      url: `${apiUrl}/schooladmin/shared_class`,
       method: "get",
       timeout: 8000,
       headers: {
         "Content-Type": "application/json",
       },
     });
+     */
+    let res = {
+      data: [
+        {
+          name: "name",
+          description: "...",
+          img,
+          grade: 0,
+        },
+
+      ],
+    };
     return res;
   } catch (err) {
     console.error(err);
   }
 }
+
+
+
 async function post_file(data) {
   try {
     let res = await axios({
@@ -217,6 +352,7 @@ async function post_new_topic(data) {
     console.error(err);
   }
 }
+
 async function get_topics(id) {
   try {
     /**
@@ -237,79 +373,7 @@ async function get_topics(id) {
           description: "...",
           img,
           grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
-        {
-          name: "name",
-          description: "...",
-          img,
-          grade: 0,
-        },
+        }
       ],
     };
     return res;

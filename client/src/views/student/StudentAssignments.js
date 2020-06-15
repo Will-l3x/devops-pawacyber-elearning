@@ -230,7 +230,7 @@ user = {};
                                             <p className="no-margin">
                                               {this.assignmentCategory ===
                                               "Submit New Assignment"
-                                                ? "UPLOAD"
+                                                ? (<a href="#" target="blank">UPLOAD NOW</a>)
                                                 : (<a href={assigment.assignmentLink} target="blank">DOWNLOAD</a>)}
                                             </p>
                                           </div>
@@ -240,7 +240,7 @@ user = {};
                                   );
                                 }
                               }
-                              return 1;
+                        
                             })}
                           </div>
                         </div>

@@ -44,6 +44,9 @@ export class SubscriptionScreen extends Component {
             sort: "asc",
             width: "15%",
           },
+          {
+            label: "Action",
+          },
         ],
         rows: [],
       

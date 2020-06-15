@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import bg_img from "../assets/images/details-1-office-worker.svg";
+// import bg_img from "../assets/images/details-1-office-worker.svg";
 // import bg_img from "../assets/images/details-lightbox-1.svg";
+
+import headerImg from "../assets/images/wall.png";
 import { Redirect } from "react-router";
 import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
@@ -42,6 +44,21 @@ export class LoginScreen extends Component {
 
     AuthService.login(registerAdmin).then((response) => {
       
+
+      //remove
+      // const roleid = 3;
+      // const username =  "Kelvin";
+      // const userid = "655";
+      // const schoolid= "1";
+      // this.setState({
+      //   roleid,
+      //   username,
+      //   userid,
+      //   schoolid
+      // });
+
+
+
         if (response === undefined) {
             alert("Login Failed")
         } else if (response.success === false) {
@@ -65,6 +82,7 @@ export class LoginScreen extends Component {
             const username =  response.User.firstname + ' ' + response.User.lastname;
             const userid = id;
             const schoolid= response.User.schoolid;
+
             
             this.setState({
               roleid,
@@ -104,7 +122,7 @@ export class LoginScreen extends Component {
 
               <div className="col s12 m5">
                   <div className="image-container" style={{paddingTop:"90px"}}>
-                      <img className="img-fluid" src={bg_img} alt="alternative"/>
+                      <img className="img-fluid" src={headerImg} alt="alternative"/>
                   </div>
                 </div> 
 
@@ -127,7 +145,7 @@ export class LoginScreen extends Component {
                     </div>
 
                     <div className="form-group" style={{marginTop:"30px"}}>
-                        <button type="submit" className="form-control-submit-button" >LOGIN</button>
+                        <button type="submit" className="form-control-submit-button" onClick={this.handleLogin}>LOGIN</button>
                     </div>
                     <div className="form-group" style={{marginTop:"10px", textAlign:"center"}}>
                         <Link to="#">Forgot Password</Link>

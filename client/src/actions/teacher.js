@@ -47,17 +47,8 @@ export const get_teacher_unmarked_classwork = (teacher_id, classroom_id) => (
       console.log(error); dispatch(AlertActions.error(error));
     });
 };
-export const get_course_details = (payload) => (
-  dispatch
-) => {
-   dispatch({
-     type: TeacherConstants.GET_COURSE_DETAILS,
-     payload,
-   });
-};
 const TeacherActions = {
   get_all_courses,
-  get_course_details,
   get_teacher_pending_classwork,
   get_teacher_unmarked_classwork,
 };

@@ -7,9 +7,15 @@ export const TeacherService = {
   get_all_courses,
   get_teacher_pending_classwork,
   get_teacher_unmarked_classwork,
+  get_submissions,
+
   post_material,
-  get_materials,
+  post_assignment,
   post_file,
+
+  get_assignments,
+
+  get_materials,
 
   enrol_student,
   get_all_students
@@ -20,6 +26,23 @@ async function post_material(data) {
   try {
     let res = await axios({
       url: `${apiUrl}/new_material`,
+      method: "post",
+      data,
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function post_assignment(data) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/new_assignment`,
       method: "post",
       data,
       timeout: 8000,
@@ -53,7 +76,7 @@ async function post_file(data) {
 async function get_materials(id) { //by class id
   try {
     let res = await axios({
-      url: `${apiUrl}/get_materials/${id}`,  
+      url: `${apiUrl}/get_materials/${id}`,
       method: "get",
       timeout: 8000,
       headers: {
@@ -66,37 +89,61 @@ async function get_materials(id) { //by class id
   }
 }
 
-
-
-
-// classroom
-async function get_all_courses(teacher_id) {
+async function get_submissions(id) { //by Assingment ID
   try {
-    /* 
     let res = await axios({
-      url: `${apiUrl}/patients`,
+      url: `${apiUrl}/get_submissions/${id}`,
       method: "get",
       timeout: 8000,
       headers: {
         "Content-Type": "application/json",
       },
-    });*/
-    console.log("teacher service")
-    return [
-      {
-        courseId: 1,
-        courseName: "Mathematics",
-        numberOfTopics: 5,
-        courseCode: 1234,
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// classroom
+async function get_assignments(course_id) {
+  try {
+
+    let res = await axios({
+      url: `${apiUrl}/get_assignment/${course_id}`, //Get all assignments by courseid
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
       },
-    ];
-    //return res.data;
+    });
+
+    return res.data.data;
   } catch (err) {
     console.error(err);
   }
 }
 
 
+
+// get all courses the teacher teaches
+async function get_all_courses(teacherid) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/get_classes/${teacherid}`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return res.data.data;
+  } catch (err) {
+    
+    console.error(err);
+  }
+}
 
 async function enrol_student(data) {
   try {
@@ -119,7 +166,7 @@ async function enrol_student(data) {
 async function get_all_students(id) {
   try {
     let res = await axios({
-      url: `${apiUrl}/get_students/${id}`, 
+      url: `${apiUrl}/get_students/${id}`,
       method: "get",
       timeout: 8000,
       headers: {
@@ -131,6 +178,18 @@ async function get_all_students(id) {
     console.error(err);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

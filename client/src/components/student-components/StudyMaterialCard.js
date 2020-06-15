@@ -10,14 +10,14 @@ export default class StudyMaterialCard extends Component {
                 </div>
                 <div className="col s6 card-title">
                         <div style={{fontSize:'16px',marginTop:'10px', marginBottom:'10px'}}>
-                          Anytime is study time! View your learning resources library!
+                          Anytime is study time! Enrol for as many classes as you can to enjoy the full benefits of elearning
                         </div>
                      
                 </div>
 
                 <div className="col s4" style={{paddingTop:'1.4%', paddingBottom:'1.3%'}}>
                     <div className="right-align">
-                      <div className="card btn" style={{maxWidth:'150px'}}>Study Center</div>
+                      <div className="card btn" style={{maxWidth:'150px'}}>Enrol Now</div>
                     </div>
                   </div>
               </div>

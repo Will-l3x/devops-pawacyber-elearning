@@ -78,12 +78,15 @@
     width: 10%;
     font-weight: bold
 }
+
 .padding-left-0 {
     padding-left: 0px !important;
 }
+
 .btn-outline-white {
     border: 2px solid #fff;
 }
+
 .btn-outline-black {
     border: 2px solid #000;
 }
@@ -178,22 +181,6 @@
 
 .modal {
     max-height: 100% !important;
-}
-
-
-.modal-fullscreen {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.nav-content {
-    width: 100% !important;
-}
-
-.pdf-options {
-    font-size: 16px !important;
-    height: 32px !important;
-    line-height: 32px !important;
 }
 
 .modal-width-30 {
@@ -767,6 +754,10 @@ h3 {
 
 .p40l {
     padding-left: 4rem;
+}
+
+.text-container {
+    padding-left: 50px;
 }
 
 .sect-learn {
