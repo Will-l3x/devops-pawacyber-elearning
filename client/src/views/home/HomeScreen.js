@@ -4,13 +4,11 @@ import M from "materialize-css";
 import $ from "jquery";
 import "../../assets/css/styles.css";
 
-import carousel1 from "../../assets/images/carousel-1.png";
-import carousel2 from "../../assets/images/carousel-2.png";
-import carousel3 from "../../assets/images/carousel-3.png";
-import carousel4 from "../../assets/images/carousel-4.png";
-import carousel5 from "../../assets/images/carousel-5.png";
-import carousel6 from "../../assets/images/carousel-6.png";
-import headerImg from "../../assets/images/girl.png";
+import carousel1 from "../../assets/images/elearning1.jpg";
+import carousel2 from "../../assets/images/elearning5.jpg";
+import carousel3 from "../../assets/images/elearning6.jpg";
+import carousel4 from "../../assets/images/elearning4.jpg";
+//import headerImg from "../../assets/images/girl.png";
 import previewmp4 from "../../assets/videos/preview.mp4";
 import previewogg from "../../assets/videos/preview.ogg";
 import previewwebm from "../../assets/videos/preview.webm";
@@ -23,6 +21,10 @@ import OuterHeader from "../../components/outerHeader";
 import OuterFooter from "../../components/outerFooter";
 
 export class HomeScreen extends Component {
+  constructor() {
+    super();
+    this.pauseVideo.bind(this);
+  }
   state = {
     plans: [
       {
@@ -56,7 +58,10 @@ export class HomeScreen extends Component {
     $(".js-height-parent").each(function () {
       $(this).height($(this).parent().first().height());
     });
-
+    let elem = document.getElementById("modal-demo1");
+    new M.Modal(elem, {
+      dismissible: false,
+    });
     // CAROUSEL
     let elems = document.querySelector(".carousel");
     var instance = M.Carousel.init(elems, {
@@ -71,9 +76,11 @@ export class HomeScreen extends Component {
       instance.next();
       setTimeout(autoplay, 4500);
     }
-    var pushpin = document.querySelectorAll(".pushpin");
-    M.Pushpin.init(pushpin);
   }
+  pauseVideo = () => {
+    var video = document.querySelector("video");
+    video.pause();
+  };
   render() {
     return (
       <div>
@@ -108,13 +115,15 @@ export class HomeScreen extends Component {
                       </div>
                     </div>
                     <div className="col m6">
-                      <div className="image-container">
+                      {/***
+                       * <div className="image-container">
                         <img
                           className="img-fluid"
                           src={headerImg}
                           alt="alternative"
                         />
                       </div>
+                       */}
                     </div>
                   </div>
                 </div>
@@ -191,64 +200,104 @@ export class HomeScreen extends Component {
           <div className="basic-2 sect-learn row">
             <div className="col m8 offset-m2 card">
               <div className="row marginBtm-0">
-                <div className="col s12 m6">
+                <div className="col s12 m6 padding-left-0">
+                  <div
+                    className="carousel carousel-slider"
+                    data-indicators="true"
+                  >
                     <div
-                      className="carousel carousel-slider"
-                      data-indicators="true"
+                      className="carousel-item "
+                      href="#one!"
+                      style={{
+                        background: `url(${carousel1}) `,
+                        backgroundSize: "auto (default)",
+                      }}
                     >
-                      <div className="carousel-item " href="#one!">
-                        <img
-                          className="img-fluid img-carousel"
-                          src={carousel1}
-                          alt="alternative"
-                        />
-                      </div>
-                      {/*
-                * <div className="container text-carousel">
-                <h2>First Slide</h2>
-                <p className="">
-                  Etiam porta sem malesuada magna mollis euismod.
-                </p>
-              </div>
-                */}
-                      <div className="carousel-item " href="#two!">
-                        <img
-                          className="img-fluid img-carousel"
-                          src={carousel2}
-                          alt="alternative"
-                        />
-                      </div>
-
-                      <div className="carousel-item " href="#three!">
-                        <img
-                          className="img-fluid img-carousel"
-                          src={carousel3}
-                          alt="alternative"
-                        />
-                      </div>
-
-                      <div className="carousel-item " href="#four!">
-                        <img
-                          className="img-fluid img-carousel"
-                          src={carousel4}
-                          alt="alternative"
-                        />
-                      </div>
-                      <div className="carousel-item " href="#five!">
-                        <img
-                          className="img-fluid img-carousel"
-                          src={carousel5}
-                          alt="alternative"
-                        />
-                      </div>
-                      <div className="carousel-item " href="#six!">
-                        <img
-                          className="img-fluid img-carousel"
-                          src={carousel6}
-                          alt="alternative"
-                        />
+                      <div className="container text-carousel center-align">
+                        <h2 className="white-text">
+                          Develop skills your skills
+                        </h2>
+                        <a
+                          className="btn transparent waves-effect waves-light btn-outline-white white-text bold modal-trigger"
+                          data-target="modal-demo1"
+                          href="#!"
+                        >
+                          Watch Demo
+                        </a>
                       </div>
                     </div>
+
+                    <div
+                      className="carousel-item "
+                      href="#two!"
+                      style={{
+                        background: `url(${carousel2}) `,
+                        backgroundSize: "auto (default)",
+                      }}
+                    >
+                      <div className="container text-carousel center-align">
+                        <h2 className="white-text">
+                          Develop skills your skills
+                        </h2>
+                        <a
+                          className="btn transparent waves-effect waves-light btn-outline-white white-text bold modal-trigger"
+                          data-target="modal-demo1"
+                          href="#!"
+                        >
+                          Watch Demo
+                        </a>
+                      </div>
+                    </div>
+
+                    <div
+                      className="carousel-item "
+                      href="#three!"
+                      style={{
+                        background: `url(${carousel3}) `,
+                        backgroundSize: "auto (default)",
+                      }}
+                    >
+                      <div className="container text-carousel center-align">
+                        <h2 className="white-text">
+                          Develop skills your skills
+                        </h2>
+                        <a
+                          className="btn transparent waves-effect waves-light btn-outline-white white-text bold modal-trigger"
+                          data-target="modal-demo1"
+                          href="#!"
+                        >
+                          Watch Demo
+                        </a>
+                      </div>
+                    </div>
+
+                    <div
+                      className="carousel-item "
+                      href="#four!"
+                      style={{
+                        background: `url(${carousel4}) `,
+                        backgroundSize: "auto (default)",
+                      }}
+                    >
+                      <img
+                        className="img-fluid img-carousel"
+                        src={carousel4}
+                        alt="alternative"
+                      />
+                      <div className="container text-carousel center-align">
+                        <h2 className="white-text">
+                          Develop skills your skills
+                        </h2>
+                        <a
+                          className="btn transparent waves-effect waves-light btn-outline-white white-text bold modal-trigger"
+                          data-target="modal-demo1"
+                          href="#!"
+                        >
+                          Watch Demo
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="col s12 m6">
                   <div style={{ paddingTop: "10%" }} className="center-align">
@@ -287,42 +336,6 @@ export class HomeScreen extends Component {
             </div>
           </div>
 
-          <div className="container">
-            <div className="row">
-              <div className="col s8 offset-s2">
-                <div className="card">
-                  <div className="card-image waves-effect waves-block waves-light">
-                    <video width="100%" loop={true} autoPlay={true} controls={true}>
-                      <source src={previewmp4} type="video/mp4" />
-                      Your browser does not support the video tag. I suggest you
-                      upgrade your browser.
-                      <source src={previewogg} type="video/ogg" />
-                      Your browser does not support the video tag. I suggest you
-                      upgrade your browser.
-                      <source src={previewwebm} type="video/webm" />
-                      Your browser does not support the video tag. I suggest you
-                      upgrade your browser.
-                    </video>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="container">
-            <div className="row">
-              <div className="col s8 offset-s2">
-                <div className="card-panel">
-                  <blockquote className="flow-text">
-                    Some motivational text. Some motivational text. Some
-                    motivational text. Some motivational text. Some motivational
-                    text. Some motivational text. Some motivational text.
-                  </blockquote>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div id="pricing" className="cards-2 sect-learn">
             <div className="container">
               <div className="row">
@@ -342,6 +355,40 @@ export class HomeScreen extends Component {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div id="modal-demo1" className="modal">
+            <a
+              href="#!"
+              className="modal-close right z-index-1"
+              onClick={this.pauseVideo}
+            >
+              <i className="material-icons">cancel</i>
+            </a>
+            <div>
+              <video
+                className="responsive-video"
+                width="100%"
+                loop={true}
+                autoPlay={true}
+                controls={true}
+              >
+                <source src={previewmp4} type="video/mp4" />
+                Your browser does not support the video tag. I suggest you
+                upgrade your browser.
+                <source src={previewogg} type="video/ogg" />
+                Your browser does not support the video tag. I suggest you
+                upgrade your browser.
+                <source src={previewwebm} type="video/webm" />
+                Your browser does not support the video tag. I suggest you
+                upgrade your browser.
+              </video>
+            </div>
+            <blockquote>
+              Some motivational text. Some motivational text. Some motivational
+              text. Some motivational text. Some motivational text. Some
+              motivational text. Some motivational text.
+            </blockquote>
           </div>
 
           <OuterFooter></OuterFooter>
