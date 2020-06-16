@@ -27,7 +27,37 @@ export class HomeScreen extends Component {
     this.state = {
       plans: [],
       url: previewmp4,
+      quotes: [
+        {
+          first: {
+            quote:
+              "Education is the passport to the future, for tomorrow belongs to thode who prepare for it today.",
+            author: "Malcom X",
+          },
+          second: {
+            quote:
+              "If we teach today as we taught yesterday, we rob our children of tomorrow",
+            author: "John Dewey",
+          },
+        },
+        {
+          first: {
+            quote:
+              "We need technology in every classroom and in every student and teacher’s hand, because it is the pen and paper of our time, and it is the lens through which we experience much of our world.",
+            author: "David Warlick",
+          },
+          second: {
+            quote:
+              "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.",
+            author: "Christian D. Larson",
+          },
+        },
+      ],
+      currentPageNumber: 1,
     };
+
+    this.handleNextClick.bind(this);
+    this.handlePrevClick.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +95,15 @@ export class HomeScreen extends Component {
       this.setState({ plans: response });
     });
   }
+  handlePrevClick = () => {
+    const pageNumber = this.state.currentPageNumber - 1;
+    this.setState({ currentPageNumber: pageNumber });
+  };
+  handleNextClick = () => {
+    const pageNumber = this.state.currentPageNumber + 1;
+    console.log(pageNumber);
+    this.setState({ currentPageNumber: pageNumber });
+  };
 
   render() {
     return (
@@ -267,41 +306,100 @@ export class HomeScreen extends Component {
             </div>
           </div>
 
-          <div className="basic-2 sect-learn" style={{ marginTop: "3px" }}>
+          <div className="basic-2 sect-learn">
             <div className="container">
-              <div className="row mt-1">
+              <div className="row">
                 <div className="col s12 m6">
                   <div
                     className="text-container"
-                    style={{ paddingLeft: "0px" }}
+                    style={{ paddingLeft: "0px", marginTop: "0px" }}
                   >
-                    <div className="card-panel">
-                      <blockquote className="flow-text">
-                        Some motivational text. Some motivational text. Some
-                        motivational text. Some motivational text. Some
-                        motivational text. Some motivational text. Some
-                        motivational text.
-                      </blockquote>
+                    <div style={{ marginLeft: "-10%" }} className="notepaper">
+                      <figure className="quote">
+                        <blockquote className="curly-quotes">
+                          {
+                            this.state.quotes[this.state.currentPageNumber - 1]
+                              .first.quote
+                          }
+                        </blockquote>
+                        <figcaption className="quote-by">
+                          —
+                          {
+                            this.state.quotes[this.state.currentPageNumber - 1]
+                              .first.author
+                          }
+                        </figcaption>
+                      </figure>
+                    </div>
+                    <div style={{ marginLeft: "2%" }} className="notepaper">
+                      <figure className="quote">
+                        <blockquote className="curly-quotes">
+                          {
+                            this.state.quotes[this.state.currentPageNumber - 1]
+                              .second.quote
+                          }
+                        </blockquote>
+                        <figcaption className="quote-by">
+                          —
+                          {
+                            this.state.quotes[this.state.currentPageNumber - 1]
+                              .first.author
+                          }
+                        </figcaption>
+                      </figure>
+                    </div>
+                    <div className="center-align">
+                      <ul className="pagination">
+                        <li
+                          className={
+                            this.state.currentPageNumber === 1
+                              ? "disabled"
+                              : "waves-effect"
+                          }
+                        >
+                          <a
+                            className={
+                              this.state.currentPageNumber === 1
+                                ? "pointer-events-none"
+                                : ""
+                            }
+                            onClick={this.handlePrevClick}
+                            rel="noopener noreferer"
+                            href="#!"
+                          >
+                            <i className="material-icons">chevron_left</i>
+                          </a>
+                        </li>
+                        <li
+                          className={
+                            this.state.currentPageNumber ===
+                            this.state.quotes.length
+                              ? "disabled"
+                              : "waves-effect"
+                          }
+                        >
+                          <a
+                            onClick={this.handleNextClick}
+                            className={
+                              this.state.currentPageNumber ===
+                              this.state.quotes.length
+                                ? "pointer-events-none"
+                                : ""
+                            }
+                            rel="noopener noreferer"
+                            href="#!"
+                          >
+                            <i className="material-icons">chevron_right</i>
+                          </a>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
 
                 <div className="col s12 m6">
-                  <div className="image-container">
-                    <div className="cards-1 sect-learn">
-                      <div className="container">
-                        <div className="row">
-                          <div className="col s12">
-                            <div className="card-body">
-                              <ReactPlayer
-                                url={this.state.url}
-                                controls={true}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="card-body">
+                    <ReactPlayer url={this.state.url} controls={true} />
                   </div>
                 </div>
               </div>

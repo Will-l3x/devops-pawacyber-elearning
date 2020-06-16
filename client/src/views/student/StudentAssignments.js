@@ -5,10 +5,9 @@ import SideBar from "../../components/SideBar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 
-import {StudentService} from '../../services/student';
+import { StudentService } from "../../services/student";
 
 export class StudentAssignments extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -19,13 +18,13 @@ export class StudentAssignments extends Component {
   componentDidMount() {
     this.assignmentData();
   }
-user = {};
-  assignmentData(){
-    this.user= JSON.parse(localStorage.getItem("user"));
+  user = {};
+  assignmentData() {
+    this.user = JSON.parse(localStorage.getItem("user"));
     StudentService.get_student_all_classwork(1) //course id
-    .then((response) => {
-      this.setState({ assignment: response })
-    });
+      .then((response) => {
+        this.setState({ assignment: response });
+      });
   }
 
   assignmentCategory = "ALL ASSIGNMENTS";
@@ -45,7 +44,7 @@ user = {};
         <main id="main">
           {" "}
           <div className="wrapper">
-              <SideBar/>     
+            <SideBar />
             <section id="content">
               <div className="container">
                 <div style={{ marginTop: "15px" }}>
@@ -129,60 +128,10 @@ user = {};
                               paddingRight: "10px",
                             }}
                           >
-                            {this.state.assignment.map((assigment, i) => {
-                              if (this.status === "All") {
-                                return (
-                                  <div key={i} className="col s12 m8 l4">
-                                    <div
-                                      className="card min-height-100 white-text designed-dots"
-                                      style={{ borderRadius: "5px" }}
-                                    >
-                                      <div className="padding-4">
-                                        <div className="col s12 m12">
-                                          <p
-                                            className="no-margin"
-                                            style={{ color: "teal" }}
-                                          >
-                                            <b>{assigment.courseName}<br/>{assigment.assignmentTitle}</b>
-                                          </p>
-                                          <p
-                                            className="no-margin"
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "grey",
-                                            }}
-                                          >
-                                            {assigment.dueDate}
-                                          </p>
-                                          <p
-                                            className={
-                                              assigment.assignmentStatus ===
-                                              "Pending"
-                                                ? "red"
-                                                : "gradient-45deg-light-blue-cyan"
-                                            }
-                                            style={{ paddingLeft: "5px", color:"white" }}
-                                          >
-                                            {assigment.score !== ""
-                                              ? `Graded: ${assigment.score}`
-                                              : `${assigment.assignmentStatus}`}
-                                          </p>
-                                        </div>
-                                        <div
-                                          className="right-align"
-                                          style={{
-                                            marginTop: "70px",
-                                            color: "black",
-                                          }}
-                                        >
-                                          <p className="no-margin"><a href={assigment.assignmentLink} target="blank">DOWNLOAD</a></p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                );
-                              } else {
-                                if (assigment.assignmentStatus === this.status) {
+                            {
+                              // eslint-disable-next-line array-callback-return
+                              this.state.assignment.map((assigment, i) => {
+                                if (this.status === "All") {
                                   return (
                                     <div key={i} className="col s12 m8 l4">
                                       <div
@@ -195,7 +144,11 @@ user = {};
                                               className="no-margin"
                                               style={{ color: "teal" }}
                                             >
-                                              <b>{assigment.courseName}<br/>{assigment.assignmentTitle}</b>
+                                              <b>
+                                                {assigment.courseName}
+                                                <br />
+                                                {assigment.assignmentTitle}
+                                              </b>
                                             </p>
                                             <p
                                               className="no-margin"
@@ -213,7 +166,10 @@ user = {};
                                                   ? "red"
                                                   : "gradient-45deg-light-blue-cyan"
                                               }
-                                              style={{ paddingLeft: "5px", color:"white" }}
+                                              style={{
+                                                paddingLeft: "5px",
+                                                color: "white",
+                                              }}
                                             >
                                               {assigment.score !== ""
                                                 ? `Graded: ${assigment.score}`
@@ -228,20 +184,99 @@ user = {};
                                             }}
                                           >
                                             <p className="no-margin">
-                                              {this.assignmentCategory ===
-                                              "Submit New Assignment"
-                                                ? (<a href="#" target="blank">UPLOAD NOW</a>)
-                                                : (<a href={assigment.assignmentLink} target="blank">DOWNLOAD</a>)}
+                                              <a
+                                                href={assigment.assignmentLink}
+                                                target="blank"
+                                              >
+                                                DOWNLOAD
+                                              </a>
                                             </p>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   );
+                                } else {
+                                  if (
+                                    assigment.assignmentStatus === this.status
+                                  ) {
+                                    return (
+                                      <div key={i} className="col s12 m8 l4">
+                                        <div
+                                          className="card min-height-100 white-text designed-dots"
+                                          style={{ borderRadius: "5px" }}
+                                        >
+                                          <div className="padding-4">
+                                            <div className="col s12 m12">
+                                              <p
+                                                className="no-margin"
+                                                style={{ color: "teal" }}
+                                              >
+                                                <b>
+                                                  {assigment.courseName}
+                                                  <br />
+                                                  {assigment.assignmentTitle}
+                                                </b>
+                                              </p>
+                                              <p
+                                                className="no-margin"
+                                                style={{
+                                                  fontSize: "12px",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                {assigment.dueDate}
+                                              </p>
+                                              <p
+                                                className={
+                                                  assigment.assignmentStatus ===
+                                                  "Pending"
+                                                    ? "red"
+                                                    : "gradient-45deg-light-blue-cyan"
+                                                }
+                                                style={{
+                                                  paddingLeft: "5px",
+                                                  color: "white",
+                                                }}
+                                              >
+                                                {assigment.score !== ""
+                                                  ? `Graded: ${assigment.score}`
+                                                  : `${assigment.assignmentStatus}`}
+                                              </p>
+                                            </div>
+                                            <div
+                                              className="right-align"
+                                              style={{
+                                                marginTop: "70px",
+                                                color: "black",
+                                              }}
+                                            >
+                                              <p className="no-margin">
+                                                {this.assignmentCategory ===
+                                                "Submit New Assignment" ? (
+                                                  <a href="#!" target="blank">
+                                                    UPLOAD NOW
+                                                  </a>
+                                                ) : (
+                                                  <a
+                                                    href={
+                                                      assigment.assignmentLink
+                                                    }
+                                                    target="blank"
+                                                  >
+                                                    DOWNLOAD
+                                                  </a>
+                                                )}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    );
+                                  }
                                 }
-                              }
-                        
-                            })}
+                              })
+                            }
                           </div>
                         </div>
                       </div>
