@@ -10,7 +10,6 @@ import "../../assets/css/styles.css";
 import carousel1 from "../../assets/images/elearning5.jpg";
 import carousel2 from "../../assets/images/elearning6.jpg";
 import carousel3 from "../../assets/images/elearning4.jpg";
-
 import previewmp4 from "../../assets/videos/preview.mp4";
 
 import headerImg from "../../assets/images/welcome-img.jpg";
@@ -29,28 +28,24 @@ export class HomeScreen extends Component {
       url: previewmp4,
       quotes: [
         {
-          first: {
-            quote:
-              "Education is the passport to the future, for tomorrow belongs to thode who prepare for it today.",
-            author: "Malcom X",
-          },
-          second: {
-            quote:
-              "If we teach today as we taught yesterday, we rob our children of tomorrow",
-            author: "John Dewey",
-          },
+          quote:
+            "Education is the passport to the future, for tomorrow belongs to thode who prepare for it today.",
+          author: "Malcom X",
         },
         {
-          first: {
-            quote:
-              "We need technology in every classroom and in every student and teacher’s hand, because it is the pen and paper of our time, and it is the lens through which we experience much of our world.",
-            author: "David Warlick",
-          },
-          second: {
-            quote:
-              "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.",
-            author: "Christian D. Larson",
-          },
+          quote:
+            "If we teach today as we taught yesterday, we rob our children of tomorrow",
+          author: "John Dewey",
+        },
+        {
+          quote:
+            "We need technology in every classroom and in every student and teacher’s hand, because it is the pen and paper of our time, and it is the lens through which we experience much of our world.",
+          author: "David Warlick",
+        },
+        {
+          quote:
+            "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.",
+          author: "Christian D. Larson",
         },
       ],
       currentPageNumber: 1,
@@ -74,8 +69,16 @@ export class HomeScreen extends Component {
       });
       modal.open();
     });
-    let elems = document.querySelector(".carousel");
-    var instance = M.Carousel.init(elems, {
+    let carousel1 = document.querySelector(".carousel-1");
+    let carousel2 = document.querySelector(".carousel-2");
+    var instance1 = M.Carousel.init(carousel1, {
+      dist: 0,
+      padding: 0,
+      indicators: true,
+      duration: 100,
+      fullWidth: true,
+    });
+    var instance2 = M.Carousel.init(carousel2, {
       dist: 0,
       padding: 0,
       indicators: true,
@@ -84,8 +87,9 @@ export class HomeScreen extends Component {
     });
     autoplay();
     function autoplay() {
-      instance.next();
-      setTimeout(autoplay, 4500);
+      instance1.next();
+      instance2.next();
+      setTimeout(autoplay, 5000);
     }
   }
 
@@ -101,7 +105,6 @@ export class HomeScreen extends Component {
   };
   handleNextClick = () => {
     const pageNumber = this.state.currentPageNumber + 1;
-    console.log(pageNumber);
     this.setState({ currentPageNumber: pageNumber });
   };
 
@@ -223,7 +226,7 @@ export class HomeScreen extends Component {
                 <div className="col s12 m6">
                   <div className="image-container">
                     <div
-                      className="carousel carousel-slider"
+                      className="carousel carousel-slider carousel-1"
                       data-indicators="true"
                     >
                       <div className="carousel-fixed-item">
@@ -311,88 +314,66 @@ export class HomeScreen extends Component {
               <div className="row">
                 <div className="col s12 m6">
                   <div
-                    className="text-container"
-                    style={{ paddingLeft: "0px", marginTop: "0px" }}
+                    className="carousel carousel-slider carousel-2"
+                    data-indicators="true"
                   >
-                    <div style={{ marginLeft: "-10%" }} className="notepaper">
-                      <figure className="quote">
-                        <blockquote className="curly-quotes">
-                          {
-                            this.state.quotes[this.state.currentPageNumber - 1]
-                              .first.quote
-                          }
-                        </blockquote>
-                        <figcaption className="quote-by">
-                          —
-                          {
-                            this.state.quotes[this.state.currentPageNumber - 1]
-                              .first.author
-                          }
-                        </figcaption>
-                      </figure>
+                    <div className="carousel-item padding-5" href="#one!">
+                      <div className="content">
+                        <div className="notepaper">
+                          <figure className="quote">
+                            <blockquote className="curly-quotes">
+                              {this.state.quotes[0].quote}
+                            </blockquote>
+                            <figcaption className="quote-by">
+                              —{this.state.quotes[0].author}
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </div>
                     </div>
-                    <div style={{ marginLeft: "2%" }} className="notepaper">
-                      <figure className="quote">
-                        <blockquote className="curly-quotes">
-                          {
-                            this.state.quotes[this.state.currentPageNumber - 1]
-                              .second.quote
-                          }
-                        </blockquote>
-                        <figcaption className="quote-by">
-                          —
-                          {
-                            this.state.quotes[this.state.currentPageNumber - 1]
-                              .first.author
-                          }
-                        </figcaption>
-                      </figure>
+
+                    <div className="carousel-item padding-5 " href="#two!">
+                      <div className="content">
+                        <div className="notepaper">
+                          <figure className="quote">
+                            <blockquote className="curly-quotes">
+                              {this.state.quotes[1].quote}
+                            </blockquote>
+                            <figcaption className="quote-by">
+                              —{this.state.quotes[1].author}
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </div>
                     </div>
-                    <div className="center-align">
-                      <ul className="pagination">
-                        <li
-                          className={
-                            this.state.currentPageNumber === 1
-                              ? "disabled"
-                              : "waves-effect"
-                          }
-                        >
-                          <a
-                            className={
-                              this.state.currentPageNumber === 1
-                                ? "pointer-events-none"
-                                : ""
-                            }
-                            onClick={this.handlePrevClick}
-                            rel="noopener noreferer"
-                            href="#!"
-                          >
-                            <i className="material-icons">chevron_left</i>
-                          </a>
-                        </li>
-                        <li
-                          className={
-                            this.state.currentPageNumber ===
-                            this.state.quotes.length
-                              ? "disabled"
-                              : "waves-effect"
-                          }
-                        >
-                          <a
-                            onClick={this.handleNextClick}
-                            className={
-                              this.state.currentPageNumber ===
-                              this.state.quotes.length
-                                ? "pointer-events-none"
-                                : ""
-                            }
-                            rel="noopener noreferer"
-                            href="#!"
-                          >
-                            <i className="material-icons">chevron_right</i>
-                          </a>
-                        </li>
-                      </ul>
+
+                    <div className="carousel-item padding-5 " href="#three!">
+                      <div className="content">
+                        <div className="notepaper">
+                          <figure className="quote">
+                            <blockquote className="curly-quotes">
+                              {this.state.quotes[2].quote}
+                            </blockquote>
+                            <figcaption className="quote-by">
+                              —{this.state.quotes[2].author}
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="carousel-item padding-5 " href="#four!">
+                      <div className="content">
+                        <div className="notepaper">
+                          <figure className="quote">
+                            <blockquote className="curly-quotes">
+                              {this.state.quotes[3].quote}
+                            </blockquote>
+                            <figcaption className="quote-by">
+                              —{this.state.quotes[3].author}
+                            </figcaption>
+                          </figure>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

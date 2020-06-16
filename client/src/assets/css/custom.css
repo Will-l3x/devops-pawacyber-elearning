@@ -804,6 +804,7 @@ h3 {
     padding: 0px 20px 0px 45px;
     width: 100%;
     line-height: 30px;
+    transform: translateY(5%);
     color: #6a5f49;
     text-shadow: 0 1px 1px white;
     background-color: #f2f6c1;
@@ -888,3 +889,19 @@ h3 {
     padding: 15px 25px;
 }
 
+#myVideo {
+    position: fixed;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+/* Add some content at the bottom of the video/page */
+.content {
+    position: fixed;
+    color: #f1f1f1;
+    min-height: 300px;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    padding: 20px;
+}
