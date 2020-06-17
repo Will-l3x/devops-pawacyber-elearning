@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import folderIcon from "../../assets/images/icon/folder.svg";
 import {TeacherService} from '../../services/teacher';
-import { resolveContent } from "nodemailer/lib/shared";
+//import { resolveContent } from "nodemailer/lib/shared";
 
 export class TestFolderCard extends Component {
   constructor() {
