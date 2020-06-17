@@ -18,6 +18,7 @@ import servicesImg1 from "../../assets/images/services-icon-1.svg";
 import servicesImg2 from "../../assets/images/services-icon-2.svg";
 import servicesImg3 from "../../assets/images/services-icon-3.svg";
 import Pricing from "../../components/pricing";
+
 import OuterHeader from "../../components/outerHeader";
 import OuterFooter from "../../components/outerFooter";
 
