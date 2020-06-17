@@ -234,7 +234,7 @@ export class HomeScreen extends Component {
                       <div className="carousel-fixed-item">
                         <div className="container">
                           <h4 className="white-text">
-                            Join Our Online Courses.
+                            Join Our Online School.
                           </h4>
                           <a
                             id="video-modal-trigger"
