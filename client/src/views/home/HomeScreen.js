@@ -7,9 +7,10 @@ import M from "materialize-css";
 import $ from "jquery";
 import "../../assets/css/styles.css";
 
-import carousel1 from "../../assets/images/elearning5.jpg";
-import carousel2 from "../../assets/images/elearning6.jpg";
-import carousel3 from "../../assets/images/elearning4.jpg";
+import carousel1 from "../../assets/images/carousel-2.png";
+import carousel2 from "../../assets/images/carousel-3.png";
+import carousel3 from "../../assets/images/carousel-4.png";
+import carousel4 from "../../assets/images/carousel-5.png";
 import previewmp4 from "../../assets/videos/preview.mp4";
 
 import headerImg from "../../assets/images/welcome-img.jpg";
@@ -244,29 +245,33 @@ export class HomeScreen extends Component {
                         </div>
                       </div>
                       <div
-                        className="carousel-item "
+                        className="carousel-item carousel-bg-img"
                         href="#one!"
                         style={{
                           background: `url(${carousel1}) `,
-                          backgroundSize: "auto (default)",
                         }}
                       ></div>
 
                       <div
-                        className="carousel-item "
+                        className="carousel-item carousel-bg-img"
                         href="#two!"
                         style={{
                           background: `url(${carousel2}) `,
-                          backgroundSize: "auto (default)",
                         }}
                       ></div>
 
                       <div
-                        className="carousel-item "
+                        className="carousel-item carousel-bg-img"
                         href="#three!"
                         style={{
                           background: `url(${carousel3}) `,
-                          backgroundSize: "auto (default)",
+                        }}
+                      ></div>
+                      <div
+                        className="carousel-item carousel-bg-img"
+                        href="#four!"
+                        style={{
+                          background: `url(${carousel4}) `,
                         }}
                       ></div>
                     </div>
