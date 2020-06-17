@@ -109,7 +109,7 @@ export class SubscriptionScreen extends Component {
               </div>
               <div>
               <section  className = "row" id="content" style={{ paddingTop: "7%" }}>
-                <div className="container  col s12 m6 6">
+                <div className="container  col s12 m7">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12" style={{padding:"20px"}}>
@@ -118,7 +118,7 @@ export class SubscriptionScreen extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="container col s12 m6 6">
+                <div className="container col s12 m5">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">

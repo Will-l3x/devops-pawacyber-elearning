@@ -24,10 +24,10 @@ export default class RegistrationForm extends Component {
     handleTitleDropdownChange(event) {
         if(event.target.value==="1"){
             this.setState({title: "Mr" });
-            this.setState({genderid: event.target.value });
+            this.setState({gender: event.target.value });
         }else{
             this.setState({title: "Miss" });
-            this.setState({genderid: event.target.value });
+            this.setState({gender: event.target.value });
         }
     }
 
@@ -76,7 +76,7 @@ export default class RegistrationForm extends Component {
                         <select name="gender" onChange={this.handleTitleDropdownChange} required>                              
                             <option value="1">Male</option> 
                             <option value="2">Female</option> 
-                            {/* <option value="3">Other</option>  */}
+                            <option value="3">Other</option> 
                         </select>
                         <label htmlFor="gender">Gender* </label>
                     </div>
