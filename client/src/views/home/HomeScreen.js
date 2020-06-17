@@ -7,10 +7,10 @@ import M from "materialize-css";
 import $ from "jquery";
 import "../../assets/css/styles.css";
 
-import carousel1 from "../../assets/images/carousel-2.png";
-import carousel2 from "../../assets/images/carousel-3.png";
-import carousel3 from "../../assets/images/carousel-4.png";
-import carousel4 from "../../assets/images/carousel-5.png";
+import carousel1 from "../../assets/images/carousel-5.png";
+import carousel2 from "../../assets/images/carousel-4.png";
+import carousel3 from "../../assets/images/carousel-3.png";
+import carousel4 from "../../assets/images/carousel-2.png";
 import previewmp4 from "../../assets/videos/preview.mp4";
 
 import headerImg from "../../assets/images/welcome-img.jpg";
@@ -18,6 +18,7 @@ import servicesImg1 from "../../assets/images/services-icon-1.svg";
 import servicesImg2 from "../../assets/images/services-icon-2.svg";
 import servicesImg3 from "../../assets/images/services-icon-3.svg";
 import Pricing from "../../components/pricing";
+
 import OuterHeader from "../../components/outerHeader";
 import OuterFooter from "../../components/outerFooter";
 
