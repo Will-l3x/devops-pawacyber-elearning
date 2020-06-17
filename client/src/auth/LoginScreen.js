@@ -45,17 +45,17 @@ export class LoginScreen extends Component {
     AuthService.login(registerAdmin).then((response) => {
       
 
-      //remove
-      // const roleid = 3;
-      // const username =  "Kelvin";
-      // const userid = "655";
-      // const schoolid= "1";
-      // this.setState({
-      //   roleid,
-      //   username,
-      //   userid,
-      //   schoolid
-      // });
+      // remove
+      const roleid = 5;
+      const username =  "Kelvin";
+      const userid = "655";
+      const schoolid= "1";
+      this.setState({
+        roleid,
+        username,
+        userid,
+        schoolid
+      });
 
 
 
@@ -118,10 +118,10 @@ export class LoginScreen extends Component {
         <div className="container content-pawa" style={{ paddingTop: "2%" }}>
           <div className="row">
             <div className="col s8 offset-s2">
-              <div className="card card-login row mt-1" style={{padding:"10px",}}>
+              <div className="card card-login row mt-1" style={{padding:"10px"}}>
 
               <div className="col s12 m5">
-                  <div className="image-container" style={{paddingTop:"90px"}}>
+                  <div className="image-container" style={{paddingTop:"80px"}}>
                       <img className="img-fluid" src={headerImg} alt="alternative"/>
                   </div>
                 </div> 
@@ -156,13 +156,6 @@ export class LoginScreen extends Component {
                   </form>
                 </div>
                 </div>
-
-
-
-
-
-
-
               </div>
             </div>
           </div>
