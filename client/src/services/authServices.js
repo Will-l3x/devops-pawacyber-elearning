@@ -17,7 +17,7 @@ async function register(data) {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   }
-
+  console.log(data);
   try {
     let res = await axios.post(`${apiUrl}/register`,qs.stringify(data),config);
     return res.data;
