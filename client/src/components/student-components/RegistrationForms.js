@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {AuthService} from '../../services/authServices';
 import M from "materialize-css";
-import {reactLocalStorage} from 'reactjs-localstorage';
 import { Redirect } from "react-router-dom";
 
 export default class RegistrationForm extends Component {
@@ -51,8 +50,6 @@ export default class RegistrationForm extends Component {
             schoolid: event.target.schoolId                  
         }
         
-        reactLocalStorage.setObject('registrationData', registerAdmin);
-
         AuthService.register(registerAdmin).then((response) => {
             if (response === undefined) {
                 alert("Registration Failed");

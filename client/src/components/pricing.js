@@ -20,7 +20,7 @@ class Pricing extends Component {
           <div className="card-subtitle">{this.pricingPlan.subscriptiondesc}</div>
           <hr className="cell-divide-hr" />
           <div className="price" >
-            <span className="currency" style={{fontSize:"17px"}}>ZK</span>
+            <span className="currency" style={{fontSize:"17px"}}>N$</span>
             <span className="value"  >{this.pricingPlan.price}</span>
             {/* <div className="frequency">{this.pricingPlan.frequency}</div> */}
           </div>
@@ -35,9 +35,6 @@ class Pricing extends Component {
                 Ending Grade: {this.pricingPlan.maxgrade}
               </li>
           </ul>
-          <Link className="btn-solid-reg page-scroll" rel="noopener noreferrer" to="#" >
-            ENQUIRE
-          </Link>
         </div>
       </div></div>
     );
