@@ -15,17 +15,23 @@ class Pricing extends Component {
           ""
         )} */}
 
-        <div className="card-body">
-          <div className="card-title" style={{fontSize:"16px"}}>{this.pricingPlan.subscriptionname}</div>
-          <div className="card-subtitle">{this.pricingPlan.subscriptiondesc}</div>
-          <hr className="cell-divide-hr" />
-          <div className="price" >
-            <span className="currency" style={{fontSize:"17px"}}>N$</span>
-            <span className="value"  >{this.pricingPlan.price}</span>
-            {/* <div className="frequency">{this.pricingPlan.frequency}</div> */}
-          </div>
-          <hr className="cell-divide-hr" />
-          <ul className="list-unstyled li-space-lg">
+          <div className="card-body min-height-370">
+            <div className="card-title" style={{ fontSize: "16px" }}>
+              {this.pricingPlan.subscriptionname}
+            </div>
+            <div className="card-subtitle">
+              {this.pricingPlan.subscriptiondesc}
+            </div>
+            <hr className="cell-divide-hr" />
+            <div className="price">
+              <span className="currency" style={{ fontSize: "17px" }}>
+                N$
+              </span>
+              <span className="value">{this.pricingPlan.price}</span>
+              {/* <div className="frequency">{this.pricingPlan.frequency}</div> */}
+            </div>
+            <hr className="cell-divide-hr" />
+            <ul className="list-unstyled li-space-lg">
               <li className="media">
                 <i className="fas fa-check" style={{ paddingRight: "5px" }}></i>
                 Starting Grade: {this.pricingPlan.mingrade}
@@ -34,9 +40,9 @@ class Pricing extends Component {
                 <i className="fas fa-check" style={{ paddingRight: "5px" }}></i>
                 Ending Grade: {this.pricingPlan.maxgrade}
               </li>
-          </ul>
+            </ul>
+          </div>
         </div>
-      </div>
       </div>
     );
   }
