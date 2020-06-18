@@ -52,10 +52,21 @@ export default class RegistrationForm extends Component {
 
     AuthService.register(registerAdmin).then((response) => {
       if (response === undefined) {
-        alert("Registration Failed");
+        M.toast({
+          html: "Registration Failed",
+          classes: "red accent-2",
+        });
       } else if (response.success === false) {
         alert(response.message);
+         M.toast({
+           html: "Registration Failed",
+           classes: "red accent-2",
+         });
       } else {
+        M.toast({
+          html: "Registration successful",
+          classes: "green accent-3",
+        });
         document.getElementById("contactForm").reset();
         this.setState({ redirect: true });
       }
