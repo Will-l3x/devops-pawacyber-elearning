@@ -6,8 +6,8 @@ class Pricing extends Component {
   render() {
     return (
       <div className="col s12 m3">
-      <div className="card">
-        {/* {this.pricingPlan.bestOffer ? (
+        <div className="card">
+          {/* {this.pricingPlan.bestOffer ? (
           <div className="label">
             <p className="best-value">Best Value</p>
           </div>
@@ -36,7 +36,8 @@ class Pricing extends Component {
               </li>
           </ul>
         </div>
-      </div></div>
+      </div>
+      </div>
     );
   }
 }
