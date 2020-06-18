@@ -98,6 +98,10 @@ app.use("/api", api);
 
 //uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+//syllabi
+app.use("/syllabi", express.static(path.join(__dirname, "syllabi")));
+//fe_assets
+app.use("/fe_assets", express.static(path.join(__dirname, "fe_assets")));
 //Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -117,7 +121,7 @@ if (app.get("env") === "development") {
     res.status(err.status || 500);
     res.render("error", {
       message: err.message,
-      error: err
+      error: err,
     });
   });
 }
@@ -128,7 +132,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error", {
     message: err.message,
-    error: {}
+    error: {},
   });
 });
 
