@@ -120,22 +120,33 @@ export class AboutScreen extends Component {
                                   contact form message
                                 </li>
                                 <li>
-                                  <i class="fas fa-map-marker-alt"></i> Harare
-                                  Zimbabwe
+                                  <i class="fas fa-map-marker-alt"></i> Unit 2, Sun Square Mall, Ondangwa
+                                  Namibia
                                 </li>
+                                <br/>
                                 <li>
                                   <i class="fas fa-phone"></i>
-                                  <a class="turquoise" href="tel:+263785302628">
-                                    +263 78 530 2628
+                                  <a class="turquoise" href="tel:+264851247976">
+                                  +264 85 124 7976
                                   </a>
                                 </li>
                                 <li>
+                                  <i class="fas fa-phone"></i>
+                                  <a class="turquoise" href="tel:+264812901126">
+                                  +264 81 290 1126
+                                  </a>
+                                </li>
+                                <li>
+                                  <i class="fas fa-fax"></i>
+                                  <a class="turquoise" href="fax:+26465246412">
+                                  +264 65 246 412
+                                  </a>
+                                </li>
+                                <br/>
+                                <li>
                                   <i class="fas fa-envelope"></i>
-                                  <a
-                                    class="turquoise"
-                                    href="mailto:keptac/flutter@gmail.com"
-                                  >
-                                    email@email.com
+                                  <a class="turquoise" href="mailto:esser@pawacyberschool.com" >
+                                    esser@pawacyberschool.com
                                   </a>
                                 </li>
                               </ul>
@@ -144,11 +155,7 @@ export class AboutScreen extends Component {
                           <div class="row mt-1">
                             <div class="col s12 m6">
                               <div class="map-responsive">
-                                <iframe
-                                    title="iframe1"
-                                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d486204.0276277509!2d31.0568583!3d-17.8166376!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1931a4ee1bdddb35%3A0xa5143b9be5134f2f!2sHarare!5e0!3m2!1sen!2szw!4v1589938207271!5m2!1sen!2szw"
-                                  allowfullscreen
-                                ></iframe>
+                              <iframe   title="iframe1" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60746.325427046104!2d15.938672078129471!3d-17.902029842582213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1b931025b0e8c757%3A0x7b9eb2be2e8e0ad5!2sOndangwa%2C%20Namibia!5e0!3m2!1sen!2szw!4v1592357207135!5m2!1sen!2szw" allowfullscreen></iframe>
                               </div>
                             </div>
                             <div class="col s12 m6">

@@ -122,7 +122,6 @@ export class CalendarComp extends Component {
             interactionPlugin,
           ]}
           editable={true}
-          dateClick={this.onDateClick}
           events={this.state.events}
         />
         <div id="event-details" className="modal">

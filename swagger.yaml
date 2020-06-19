@@ -6,7 +6,7 @@ info:
   license:
     name: "Github Repo"
     url: "https://github.com/Will-l3x/devops"
-host: "localhost:3001"
+host: "cybers.azurewebsites.net"
 basePath: "/api"
 tags:
   - name: "Teacher"

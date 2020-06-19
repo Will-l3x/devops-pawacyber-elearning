@@ -41,6 +41,10 @@ export class SchoolManagement extends Component {
             sort: "asc",
             width: "50%",
           },
+          {
+            label: "Action",
+            field:"action"
+          }
         ],
         rows: [],
         options: []
@@ -49,13 +53,10 @@ export class SchoolManagement extends Component {
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
   }
 
-
-
 handleTitleDropdownChange(event) {
   this.setState({title: event.target.value });
 }
 
-  
   componentDidMount() {
     this.getDashData();
     M.AutoInit();
@@ -67,6 +68,14 @@ handleTitleDropdownChange(event) {
     AdminService.get_all_schools()
     .then((response) => {
       this.setState({ rows: response })
+    });
+
+    this.state.rows.forEach(item => {
+        item.action = (
+          <div>
+            <button className="btn ">Delete</button> <button  className="btn">Update</button>
+          </div>
+        );
     });
   }
 

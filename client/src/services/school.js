@@ -25,6 +25,7 @@ async function post_new_course(data) {
         "Content-Type": "application/json",
       },
     });
+    console.log(res)
     return res.data;
   } catch (err) {
     console.error(err);
