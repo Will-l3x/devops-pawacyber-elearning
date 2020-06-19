@@ -1042,19 +1042,17 @@ let subadmin = (req, res) => {
 
 let add_subscription = (req, res) => {
     var subscriptionname = req.body.subscriptionname;
-    var subscriptiondesc = req.body.subscriptiondesc;
     var mingrade = req.body.mingrade;
     var maxgrade = req.body.maxgrade;
     var price = req.body.price;
 
     var query = "INSERT INTO [subscriptions] \
-    (subscriptionname,subscriptiondesc,mingrade,maxgrade,price) \
-    VALUES(@name,@desc,@min,@max,@price)";
+    (subscriptionname,mingrade,maxgrade,price) \
+    VALUES(@name,@min,@max,@price)";
     var request = new sql.Request();
 
     request
         .input("name", subscriptionname)
-        .input("desc", subscriptiondesc)
         .input("min", mingrade)
         .input("max", maxgrade)
         .input("price", price)

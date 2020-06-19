@@ -122,7 +122,7 @@ let profile = (req, res) => {
         query = "select users.email,activefrom,activated,genders.gendername,users.userId,subdminid,firstname,lastname,rolename from [users] \
             LEFT OUTER JOIN subadmins ON users.userId = subadmins.userid \
             LEFT OUTER JOIN genders ON users.genderid = genders.genderId \
-            LEFT OUTER JOIN roles ON roles.roleId = users.roleid\
+            LEFT OUTER JOIN roles   ON roles.roleId = users.roleid\
             WHERE users.userId=@id";
     } else {
         console.log("error role not exists");
