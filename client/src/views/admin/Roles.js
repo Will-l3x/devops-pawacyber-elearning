@@ -6,65 +6,144 @@ import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import {AdminService} from '../../services/admin';
+import { AdminService } from "../../services/admin";
+//import RoleOptions from "./RoleOptions";
 
 export class RolesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
-        columns: [
-          {
-            label: "Role Id ",
-            field: "roleId",
-            sort: "asc",
-            width: "24%",
-          },
-          {
-            label: "Role Name",
-            field: "rolename",
-            sort: "asc",
-            width: "10%",
-          },
-          {
-            label: "Action",
-          },
-        ],
-        rows: [],
-      
+      selectedOption: "",
+      columns: [
+        {
+          label: "Role Id ",
+          field: "roleId",
+          sort: "asc",
+          width: "5%",
+        },
+        {
+          label: "Role Name",
+          field: "rolename",
+          sort: "asc",
+          width: "35%",
+        },
+        {
+          label: "User's Name",
+          field: "name",
+          sort: "asc",
+          width: "30%",
+        },
+        {
+          label: "Actions",
+          field: "actions",
+          sort: "asc",
+          width: "30%",
+        },
+      ],
+      rows: [],
+      rowId: "",
     };
+    this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
   }
-  
+
+  user = {};
   componentDidMount() {
+    this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
     M.AutoInit();
     $(".custom-select.custom-select-sm").addClass("display-none");
     $(".col-sm-12.col-md-6").addClass("height-0");
   }
+  handleTitleDropdownChange(event) {
+    this.setState({ title: event.target.value });
+  }
 
-  getDashData(){
-    AdminService.get_roles()
-    .then((response) => {
-        console.log(response);
-      this.setState({ rows: response});
+  getDashData() {
+    const roles = [];
+    AdminService.get_roles().then((response) => {
+      for (const role of response) {
+        role.actions = (
+          <ul className="card-action-buttons2">
+            <li>
+              <a
+                href="#!"
+                className="btn-floating waves-effect waves-light modal-trigger light-blue"
+                data-target="modal2"
+                onClick={this.setState({ rowId: role.id })}
+              >
+                <i className="material-icons">create</i>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#!"
+                className="btn-floating waves-effect waves-light modal-trigger red accent-2"
+                data-target="areyousure"
+                onClick={this.setState({ rowId: role.id })}
+              >
+                <i className="material-icons">delete</i>
+              </a>
+            </li>
+          </ul>
+        );
+        roles.push(role);
+      }
+
+      this.setState({ rows: roles });
     });
   }
 
   handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     var data = {
       rolename: event.target.rolename.value,
-    }
-    AdminService.post_new_role(data).then((response)=>{
-      if(response===undefined){
+    };
+    AdminService.post_new_role(data).then((response) => {
+      if (response === undefined) {
         alert(response.message);
-      }else{
+      } else {
         alert(response.message);
         document.getElementById("sibs").reset();
         this.getDashData();
       }
-    })
-  }
+    });
+  };
+  handleEdit = (event) => {
+    event.preventDefault();
+
+    var registerAdmin = {
+      roleid: this.state.rowId,
+      email: event.target.email.value,
+      password: "pass@123",
+      firstname: event.target.personName.value,
+      lastname: event.target.surname.value,
+      title: this.state.title,
+      vpassword: "pass@123",
+      dob: event.target.dob.value,
+    };
+    console.log(registerAdmin);
+    /**AdminService.register(registerAdmin).then((response) => {
+      if (response === undefined) {
+        alert("Teacher Registration Failed");
+      } else if (response.success === false) {
+        alert(response.message);
+      } else {
+        document.getElementById("sibs").reset();
+        this.getDashData();
+        alert(response.message);
+      }
+    }); */
+  };
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(this.state.selectedOption)
+    );
+  };
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(this.state.selectedOption)
+    );
+  };
 
   render() {
     return (
@@ -77,55 +156,152 @@ export class RolesScreen extends Component {
             <SideBar />
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
-                <nav className="navbar nav-extended" style={{ position: "fixed"}} >
+                <nav
+                  className="navbar nav-extended"
+                  style={{ position: "fixed" }}
+                >
                   <div className="nav-content">
-                    <p style={{padding:"10px", fontSize:"16px"}} >
+                    <p style={{ padding: "10px", fontSize: "16px" }}>
                       Manage Roles
                     </p>
                   </div>
                 </nav>
               </div>
               <div>
-              <section  className = "row" id="content" style={{ paddingTop: "7%" }}>
-                <div className="container  col s12 m6 6">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m6 l12" style={{padding:"20px"}}>
+                <section
+                  className="row"
+                  id="content"
+                  style={{ paddingTop: 75 }}
+                >
+                  <div className="container  col s12 m6">
+                    <div className="card padding-5">
+                      <div className="col s12" style={{ padding: "20px" }}>
                         <DatatablePage data={this.state} />
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="container col s12 m6 6">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m6 l12">
-                      <div className="modal-content">
+                  <div className="container col s12 m6">
+                    <div className="row">
+                      <div className="col s12 card padding-3">
                         <h4 className="header2">Add New Role</h4>
                         <form onSubmit={this.handleSubmit} id="sibs">
                           <div className="row">
                             <div className="col s12">
                               <div className="row">
                                 <div className="input-field col s6">
-                                  <input id="rolename" type="text" name="rolename"></input>
+                                  <input
+                                    id="rolename"
+                                    type="text"
+                                    name="rolename"
+                                  ></input>
                                   <label htmlFor="rolename">Role Name</label>
                                 </div>
                                 <div className="input-field col s4">
-                                <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
+                                  <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
                                     Submit
                                     <i className="material-icons right">send</i>
                                   </button>
                                 </div>
+                              </div>
                             </div>
-                            </div>
-                            </div>
-                          </form>
-                        </div>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
-                </div>
-              </section>
+                  <div id="modal2" className="modal">
+                    <div className="modal-content">
+                      <h4 className="header2">Add User To Role</h4>
+                      <form onSubmit={this.handleEdit} id="sibs2">
+                        <div className="row">
+                          <div className="col s12">
+                            <div className="row">
+                              <div className="input-field col s2">
+                                <select
+                                  name="title"
+                                  defaultValue={this.state.title}
+                                  onChange={this.handleTitleDropdownChange}
+                                  required
+                                >
+                                  <option value="Mr">Mr</option>
+                                  <option value="Mr">Mrs</option>
+                                  <option value="Mr">Rev</option>
+                                  <option value="Mr">Dr</option>
+                                </select>
+                              </div>
+                              <div className="input-field col s5">
+                                <input
+                                  id="personName"
+                                  type="text"
+                                  name="personName"
+                                  required
+                                ></input>
+                                <label htmlFor="personName">First Name</label>
+                              </div>
+                              <div className="input-field col s5">
+                                <input
+                                  id="surname"
+                                  type="text"
+                                  name="surname"
+                                  required
+                                ></input>
+                                <label htmlFor="surname">Surname</label>
+                              </div>
+                            </div>
+                            <div className="Row">
+                              <div className="input-field col s4">
+                                <input
+                                  id="email"
+                                  type="email"
+                                  name="email"
+                                  required
+                                ></input>
+                                <label htmlFor="email">Email</label>
+                              </div>
+                              <div className="input-field col s4">
+                                <input
+                                  id="dob"
+                                  type="date"
+                                  name="dob"
+                                  required
+                                ></input>
+                                <label htmlFor="dob">DOB</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="input-field col s6 offset-s6">
+                              <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
+                                Submit
+                                <i className="material-icons right">send</i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div id="areyousure" className="modal width-250">
+                    <div className="modal-content">
+                      <h4 className="header2">Are you sure?</h4>
+                    </div>
+                    <div className="modal-footer">
+                      <a
+                        href="#!"
+                        style={{ marginRight: 10 }}
+                        className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
+                      >
+                        Yes
+                      </a>
+                      <a
+                        href="#!"
+                        className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
+                      >
+                        No
+                      </a>
+                    </div>
+                  </div>
+                </section>
               </div>
             </div>
           </div>
@@ -140,7 +316,4 @@ export class RolesScreen extends Component {
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = {};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RolesScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RolesScreen);

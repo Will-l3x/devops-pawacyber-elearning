@@ -34,7 +34,7 @@ import { SchoolScreen } from "./views/school/SchoolScreen";
 import { SchoolStudentManagementScreen } from "./views/school/SchoolStudentManagementScreen";
 import { SchoolTeacherManagementScreen } from "./views/school/SchoolTeacherManagementScreen";
 import { SchoolSubscribeScreen } from "./views/school/SchoolSubscribeScreen";
-import { CourseSubscriptionScreen } from "./views/school/CourseSubscriptionScreen";
+import { ClassesScreen } from "./views/school/ClassesScreen";
 import { SchoolCalendarScreen } from "./views/school/SchoolCalendarScreen";
 import { SchoolAddCourseScreen } from "./views/school/SchoolAddCourseScreen";
 
@@ -216,7 +216,7 @@ class App extends Component {
             <Route
               exact
               path="/school-subscriptions"
-              component={CourseSubscriptionScreen}
+              component={ClassesScreen}
             />
             <Route
               exact

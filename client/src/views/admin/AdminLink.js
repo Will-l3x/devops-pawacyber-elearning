@@ -29,16 +29,6 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/courses"
-            className="waves-effect waves-cyan"
-            onClick={this.onClick}
-          >
-            <i className="material-icons">subtitles</i>
-            <span className="nav-text">Course Management</span>
-          </Link>
-        </li>
-        <li className="bold">
-          <Link
             to="/school-management"
             className="waves-effect waves-cyan"
             onClick={this.onClick}

@@ -33,8 +33,8 @@ class SchoolLink extends Component {
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
-            <i className="material-icons">subscriptions</i>
-            <span className="nav-text">Courses</span>
+            <i className="material-icons">class</i>
+            <span className="nav-text">CLassrooms</span>
           </Link>
         </li>
 
