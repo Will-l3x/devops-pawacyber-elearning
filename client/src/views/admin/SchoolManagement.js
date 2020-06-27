@@ -13,7 +13,7 @@ export class SchoolManagement extends Component {
     super(props);
     this.state = {
       schoolId: "",
-
+      selectedSchool: {},
       title: "Mr",
       columns: [
         {
@@ -50,6 +50,7 @@ export class SchoolManagement extends Component {
     };
 
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleTitleDropdownChange(event) {
@@ -65,40 +66,46 @@ export class SchoolManagement extends Component {
 
   getDashData() {
     const schools = [];
-    AdminService.get_all_schools().then((response) => {
-      for (const school of response) {
-        school.actions = (
-          <ul className="card-action-buttons2">
-            <li>
-              <a
-                href="#!"
-                className="btn-floating waves-effect waves-light modal-trigger light-blue"
-                data-target="modaledit"
-                onClick={this.setState({
-                  schoolId: school.id,
-                })}
-              >
-                <i className="material-icons">create</i>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#!"
-                className="btn-floating waves-effect waves-light modal-trigger red accent-2"
-                data-target="areyousure"
-                onClick={this.setState({
-                  schoolId: school.id,
-                })}
-              >
-                <i className="material-icons">delete</i>
-              </a>
-            </li>
-          </ul>
-        );
-        schools.push(school);
-      }
-      this.setState({ rows: schools });
-    });
+    AdminService.get_all_schools()
+      .then((response) => {
+        for (const school of response) {
+          school.actions = (
+            <ul className="card-action-buttons2">
+              <li>
+                <a
+                  href="#!"
+                  className="btn-floating waves-effect waves-light modal-trigger light-blue"
+                  data-target="modaledit"
+                  onClick={this.setState({
+                    schoolId: school.id,
+                    selectedSchool: school,
+                  })}
+                >
+                  <i className="material-icons">create</i>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#!"
+                  className="btn-floating waves-effect waves-light modal-trigger red accent-2"
+                  data-target="areyousure"
+                  onClick={this.setState({
+                    schoolId: school.id,
+                  })}
+                >
+                  <i className="material-icons">delete</i>
+                </a>
+              </li>
+            </ul>
+          );
+          schools.push(school);
+        }
+        this.setState({ rows: schools });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ rows: [] });
+      });
   }
 
   handleSubmit = (event) => {
@@ -132,6 +139,48 @@ export class SchoolManagement extends Component {
       }
     });
   };
+  handleSave = (event) => {
+    event.preventDefault();
+    var data = {
+      schoolname: event.target.editschoolName.value,
+      address: event.target.editschoolAddress.value,
+      contacts: event.target.editschoolContactNumber.value,
+      firstname: event.target.editpersonName.value,
+      lastname: event.target.editsurname.value,
+      email: event.target.editemail.value,
+    };
+
+    AdminService.update_school(this.state.schoolId, data).then((response) => {
+      if (response === undefined) {
+        alert("School creation failed");
+      } else if (response.success === true || response.message === "S") {
+        document.getElementById("sibs").reset();
+        this.getDashData();
+        console.log(response.password);
+        alert(
+          response.message + "\nSchool Admin password is : " + response.password
+        );
+      } else {
+        document.getElementById("sibs").reset();
+        this.getDashData();
+        alert(
+          response.message + "\nSchool Admin password is : " + response.password
+        );
+        console.log(response.password);
+      }
+    });
+  };
+  handleDelete = () => {
+    AdminService.delete_school(this.state.schoolId)
+      .then((response) => {
+        console.log(response);
+        this.getDashData();
+      })
+      .catch((error) => {
+        console.log(error);
+        this.getDashData();
+      });
+  };
   render() {
     return (
       <div>
@@ -156,11 +205,7 @@ export class SchoolManagement extends Component {
                   </div>
                 </nav>
               </div>
-              <section
-                className="row"
-                id="content"
-                style={{ paddingTop: 80 }}
-              >
+              <section className="row" id="content" style={{ paddingTop: 80 }}>
                 <div className="container col s7">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
@@ -258,7 +303,7 @@ export class SchoolManagement extends Component {
                                   <label htmlFor="surname">Surname</label>
                                 </div>
                               </div>
-                              <div className="Row">
+                              <div className="row">
                                 <div className="input-field col s6">
                                   <input
                                     id="email"
@@ -289,7 +334,7 @@ export class SchoolManagement extends Component {
                     <h4 className="header2">
                       <b>Edit School Details</b>
                     </h4>
-                    <form onSubmit={this.handleSubmit} id="sibs2">
+                    <form onSubmit={this.handleSave} id="sibs2">
                       <div className="row">
                         <div className="col s12">
                           <div className="row">
@@ -300,7 +345,9 @@ export class SchoolManagement extends Component {
                                 name="editschoolName"
                                 required
                               ></input>
-                              <label htmlFor="editschoolName">School Name</label>
+                              <label htmlFor="editschoolName">
+                                School Name
+                              </label>
                             </div>
                             <div className="input-field col s7">
                               <input
@@ -364,11 +411,11 @@ export class SchoolManagement extends Component {
                               <label htmlFor="editsurname">Surname</label>
                             </div>
                           </div>
-                          <div className="Row">
+                          <div className="row">
                             <div className="input-field col s6">
                               <input
                                 id="editemail"
-                                type="editemail"
+                                type="email"
                                 name="editemail"
                                 required
                               ></input>
@@ -379,8 +426,8 @@ export class SchoolManagement extends Component {
                         <div className="row">
                           <div className="input-field col s6 offset-s6">
                             <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                              Submit
-                              <i className="material-icons right">send</i>
+                              Save
+                              <i className="material-icons right">save</i>
                             </button>
                           </div>
                         </div>
@@ -397,6 +444,7 @@ export class SchoolManagement extends Component {
                       href="#!"
                       style={{ marginRight: 10 }}
                       className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
+                      onClick={this.handleDelete}
                     >
                       Yes
                     </a>

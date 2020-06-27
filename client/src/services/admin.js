@@ -23,7 +23,9 @@ export const AdminService = {
   update_roles,
   delete_school,
   delete_roles,
-  delete_plan
+  delete_plan,
+  get_subadmin,
+  get_subadmins,
 };
 
 const config = {
@@ -92,13 +94,13 @@ async function delete_school(id) {
   try {
     let res = await axios.delete({
       url: `${apiUrl}/del_school/${id}`,
-      method: "get",
+      method: "delete",
       timeout: 8000,
       headers: {
         "Content-Type": "application/json",
       },
     });
-    return res.data.data.schools;
+    return res.data;
   } catch (err) {
     console.error(err);
   }
@@ -123,7 +125,7 @@ async function post_new_plan(data) {
   }
 }
 
-async function update_plan(id,data) {
+async function update_plan(id, data) {
   try {
     let res = await axios.put(
       `${apiUrl}/update_subscription/${id}`,
@@ -198,7 +200,37 @@ async function subscribe_school(data) {
   }
 }
 
-
+//SUBADMINS
+async function get_subadmins() {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/subadmins`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data.subadmins;
+  } catch (err) {
+    console.error(err);
+  }
+}
+async function get_subadmin(id) {
+  try {
+    let res = await axios({
+      url: `${apiUrl}/subadmin/${id}`,
+      method: "get",
+      timeout: 8000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 
 //ROLES
@@ -219,11 +251,11 @@ async function post_new_role(data) {
   }
 }
 
-async function update_roles(id,data) {
+async function update_roles(id, data) {
   try {
-    let res = await axios.put({
+    let res = await axios({
       url: `${apiUrl}/update_role/${id}`,
-      method: "post",
+      method: "put",
       data,
       timeout: 8000,
       headers: {
@@ -381,3 +413,5 @@ async function get_topics(id) {
     console.error(err);
   }
 }
+
+

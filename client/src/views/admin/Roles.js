@@ -27,18 +27,6 @@ export class RolesScreen extends Component {
           sort: "asc",
           width: "35%",
         },
-        {
-          label: "User's Name",
-          field: "name",
-          sort: "asc",
-          width: "30%",
-        },
-        {
-          label: "Actions",
-          field: "actions",
-          sort: "asc",
-          width: "30%",
-        },
       ],
       rows: [],
       rowId: "",
@@ -59,8 +47,14 @@ export class RolesScreen extends Component {
   }
 
   getDashData() {
-    const roles = [];
+    let roles = [];
     AdminService.get_roles().then((response) => {
+      if (response === undefined) {
+        console.log(response);
+      } else {
+        roles = response;
+      }
+      /** 
       for (const role of response) {
         role.actions = (
           <ul className="card-action-buttons2">
@@ -88,8 +82,10 @@ export class RolesScreen extends Component {
         );
         roles.push(role);
       }
-
-      this.setState({ rows: roles });
+      */
+      this.setState({
+        rows: roles,
+      });
     });
   }
 
@@ -100,7 +96,7 @@ export class RolesScreen extends Component {
     };
     AdminService.post_new_role(data).then((response) => {
       if (response === undefined) {
-        alert(response.message);
+        alert(response);
       } else {
         alert(response.message);
         document.getElementById("sibs").reset();
@@ -134,11 +130,7 @@ export class RolesScreen extends Component {
       }
     }); */
   };
-  onSelectOption = (selectedOption) => {
-    this.setState({ selectedOption }, () =>
-      console.log(this.state.selectedOption)
-    );
-  };
+
   onSelectOption = (selectedOption) => {
     this.setState({ selectedOption }, () =>
       console.log(this.state.selectedOption)
@@ -173,39 +165,10 @@ export class RolesScreen extends Component {
                   id="content"
                   style={{ paddingTop: 75 }}
                 >
-                  <div className="container  col s12 m6">
+                  <div className="container  col s12 m6 offset-m3">
                     <div className="card padding-5">
                       <div className="col s12" style={{ padding: "20px" }}>
                         <DatatablePage data={this.state} />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="container col s12 m6">
-                    <div className="row">
-                      <div className="col s12 card padding-3">
-                        <h4 className="header2">Add New Role</h4>
-                        <form onSubmit={this.handleSubmit} id="sibs">
-                          <div className="row">
-                            <div className="col s12">
-                              <div className="row">
-                                <div className="input-field col s6">
-                                  <input
-                                    id="rolename"
-                                    type="text"
-                                    name="rolename"
-                                  ></input>
-                                  <label htmlFor="rolename">Role Name</label>
-                                </div>
-                                <div className="input-field col s4">
-                                  <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                                    Submit
-                                    <i className="material-icons right">send</i>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
                       </div>
                     </div>
                   </div>

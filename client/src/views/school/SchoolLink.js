@@ -34,7 +34,7 @@ class SchoolLink extends Component {
             onClick={this.onClick}
           >
             <i className="material-icons">class</i>
-            <span className="nav-text">CLassrooms</span>
+            <span className="nav-text">Classes</span>
           </Link>
         </li>
 

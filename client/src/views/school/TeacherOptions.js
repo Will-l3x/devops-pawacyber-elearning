@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import M from "materialize-css";
 import Select from "react-select";
-import { AdminService } from "../../services/admin";
+import { SchoolService } from "../../services/school";
 
 let options = [];
- AdminService.get_roles()
+const user = JSON.parse(localStorage.getItem("user"));
+ SchoolService.get_all_teachers(user.schoolid)
   .then((response) => {
-    for (const role of response) {
-      role.value = role.roleId;
-      role.label = role.rolename;
-      options.push(role);
+    for (const teacher of response) {
+      teacher.value = teacher.id;
+      teacher.label = teacher.teachername;
+      options.push(teacher);
     }
   })
   .catch((error) => {

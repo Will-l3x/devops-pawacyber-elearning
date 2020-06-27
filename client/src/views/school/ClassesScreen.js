@@ -18,12 +18,15 @@ import bg30 from "../../assets/images/gallary/30.png";
 import bg31 from "../../assets/images/gallary/31.png";
 import bg32 from "../../assets/images/gallary/32.png";
 import bg33 from "../../assets/images/gallary/33.png";
+import TeacherOptions from "./TeacherOptions";
 
 export class ClassesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       unsubscribe: false,
+      selectedOption: "",
+      classId: "",
       courses: [],
       teachers: [],
       bgimage: {
@@ -38,7 +41,7 @@ export class ClassesScreen extends Component {
         bg8: bg31,
         bg9: bg32,
         bg10: bg33,
-      }
+      },
     };
     this.handleUnsubscribe.bind(this);
   }
@@ -55,18 +58,17 @@ export class ClassesScreen extends Component {
 
   getDashData() {
     // SchoolService.get_courses('2')
-    SchoolService.get_courses(this.user.schoolid).then((response) => {
-      if (response === undefined) {
-      } else {
-        this.setState({ courses: response });
-      }
-      this.setState({
-        courses: [{ classId: "1", classname: "Mathematics 4", bgimage: 'bg4'}],
+    SchoolService.get_courses(this.user.schoolid)
+      .then((response) => {
+        if (response === undefined) {
+        } else {
+          this.setState({ courses: response });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ courses: [] });
       });
-    });
-    SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
-      this.setState({ teachers: response });
-    });
   }
 
   handleSubmit = (event) => {
@@ -75,7 +77,7 @@ export class ClassesScreen extends Component {
     const modal = new M.Modal(elem);
     modal.close();
     var data = {
-      teacherid: event.target.teacherId.value,
+      teacherid: this.state.selectedOption,
       classname: event.target.classname.value,
       enrolmentkey: "123ABC",
       status: "active",
@@ -99,13 +101,13 @@ export class ClassesScreen extends Component {
     const modal = new M.Modal(elem);
     modal.close();
     var data = {
-      teacherid: event.target.teacherId.value,
+      teacherid: this.state.selectedOption,
       classname: event.target.classname.value,
       enrolmentkey: "123ABC",
       status: "active",
       createdby: this.user.userid,
     };
-    SchoolService.post_new_course(data).then((response) => {
+    SchoolService.update_course(data).then((response) => {
       if (response === undefined) {
         alert("Apologies. Course addition failed. Please contact admin");
       } else if (response.success === false) {
@@ -117,7 +119,22 @@ export class ClassesScreen extends Component {
       }
     });
   };
-
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(this.state.selectedOption)
+    );
+  };
+  handleDelete = () => {
+    SchoolService.delete_course(this.state.classId)
+      .then((response) => {
+        console.log(response);
+        this.getDashData();
+      })
+      .catch((error) => {
+        console.log(error);
+        this.getDashData();
+      });
+  };
   render() {
     return (
       <div>
@@ -165,7 +182,13 @@ export class ClassesScreen extends Component {
                 <div className="row">
                   {this.state.courses.length === 0 ? (
                     <div className="row">
-                      <p style={{ textAlign: "center", fontSize: "20px" }}>
+                      <p
+                        style={{
+                          textAlign: "center",
+                          fontSize: "20px",
+                          transform: "translateY(100%)",
+                        }}
+                      >
                         No Courses Found
                         <br />{" "}
                         <img
@@ -174,7 +197,6 @@ export class ClassesScreen extends Component {
                           style={{
                             maxWidth: "100%",
                             maxHeight: "150px",
-                            transform: "translateY(100%)",
                           }}
                         ></img>
                       </p>
@@ -189,11 +211,11 @@ export class ClassesScreen extends Component {
                               alt="user bg"
                             />
                           </div>
-                          <ul class="card-action-buttons">
+                          <ul className="card-action-buttons">
                             {/**
                              * <li>
                               <a
-                                class="btn-floating waves-effect waves-light green accent-4 tooltipped"
+                                className="btn-floating waves-effect waves-light green accent-4 tooltipped"
                                 data-tooltip="Generate new enrolment key"
                                 data-position="top"
                               >
@@ -204,8 +226,11 @@ export class ClassesScreen extends Component {
                             <li>
                               <a
                                 href="#!"
-                                class="btn-floating waves-effect waves-light modal-trigger light-blue"
+                                className="btn-floating waves-effect waves-light modal-trigger light-blue"
                                 data-target="modal2"
+                                onClick={() => {
+                                  this.setState({ classId: course.id });
+                                }}
                               >
                                 <i className="material-icons">create</i>
                               </a>
@@ -213,8 +238,11 @@ export class ClassesScreen extends Component {
                             <li>
                               <a
                                 href="#!"
-                                class="btn-floating waves-effect waves-light modal-trigger red accent-2"
+                                className="btn-floating waves-effect waves-light modal-trigger red accent-2"
                                 data-target="areyousure"
+                                onClick={() => {
+                                  this.setState({ classId: course.id });
+                                }}
                               >
                                 <i className="material-icons">delete</i>
                               </a>
@@ -251,15 +279,19 @@ export class ClassesScreen extends Component {
                             <label htmlFor="classname">Class Name</label>
                           </div>
                           <div className="input-field col s3">
-                            <select id="teacherId" name="teacherId" required>
-                              <option value="">Select Teacher</option>
-                              {this.state.teachers.map((teacher, i) => (
-                                <option key={i} value={teacher.id}>
-                                  {teacher.firstname} {teacher.lastname}
-                                </option>
-                              ))}
-                            </select>
-                            <label htmlFor="teacherId">Class Teacher</label>
+                            <label
+                              htmlFor="teacherId"
+                              style={{
+                                transform: "translateY(-15px)",
+                                fontSize: "12px",
+                              }}
+                            >
+                              Class Teacher
+                            </label>
+                            <TeacherOptions
+                              onSelectOption={this.onSelectOption}
+                            />
+                            <div className="my-divider"></div>
                           </div>
                           <div className="input-field col s4">
                             <select className="icons modal-width-230">
@@ -324,15 +356,19 @@ export class ClassesScreen extends Component {
                             <label htmlFor="classname">Class Name</label>
                           </div>
                           <div className="input-field col s3">
-                            <select id="teacherId" name="teacherId" required>
-                              <option value="">Select Teacher</option>
-                              {this.state.teachers.map((teacher, i) => (
-                                <option key={i} value={teacher.id}>
-                                  {teacher.firstname} {teacher.lastname}
-                                </option>
-                              ))}
-                            </select>
-                            <label htmlFor="teacherId">Class Teacher</label>
+                            <label
+                              htmlFor="teacherId"
+                              style={{
+                                transform: "translateY(-15px)",
+                                fontSize: "12px",
+                              }}
+                            >
+                              Class Teacher
+                            </label>
+                            <TeacherOptions
+                              onSelectOption={this.onSelectOption}
+                            />
+                            <div className="my-divider"></div>
                           </div>
                           <div className="input-field col s4">
                             <select className="icons modal-width-230">
@@ -389,6 +425,7 @@ export class ClassesScreen extends Component {
                   <a
                     href="#!"
                     style={{ marginRight: 10 }}
+                    onClick={this.handleDelete}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
                   >
                     Yes

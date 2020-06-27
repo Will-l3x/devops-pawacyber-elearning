@@ -4,31 +4,34 @@ import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 import $ from "jquery";
 import M from "materialize-css";
+import moment from "moment";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import { SchoolService } from "../../services/school";
+import { AdminService } from "../../services/admin";
 import { AuthService } from "../../services/authServices";
+import RoleOptions from "./RoleOptions";
 
-export class SchoolTeacherManagementScreen extends Component {
+class SubadminScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedOption: "",
       title: "Mr",
       columns: [
         {
           label: "ID",
-          field: "teacherId",
+          field: "subadminId",
           sort: "asc",
           width: "20%",
         },
         {
-          label: "Teacher Name",
+          label: "Firstname",
           field: "firstname",
           sort: "asc",
           width: "30%",
         },
         {
-          label: "Teacher Surname",
+          label: "Lastname",
           field: "lastname",
           sort: "asc",
           width: "30%",
@@ -55,10 +58,21 @@ export class SchoolTeacherManagementScreen extends Component {
   }
 
   getDashData() {
-    // SchoolService.get_all_teachers('2')
-    SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
-      console.log(response)
-      this.setState({ rows: response });
+    const subadmins = [];
+    AdminService.get_subadmins().then((response) => {
+      if (response === undefined) {
+        console.log(response);
+      } else {
+        for (const subadmin of response) {
+          subadmin.datejoined = moment(subadmin.datejoined).format(
+            "DD/MM/YYYY"
+          );
+          subadmins.push(subadmin);
+        }
+      }
+      this.setState({
+        rows: subadmins,
+      });
     });
   }
 
@@ -70,21 +84,18 @@ export class SchoolTeacherManagementScreen extends Component {
     event.preventDefault();
 
     var registerAdmin = {
-      roleid: 1,
-      schoolid: this.user.schoolid,
+      roleid: this.state.selectedOption.value,
       email: event.target.email.value,
       password: "pass@123",
-      grade: event.target.grade.value,
       firstname: event.target.personName.value,
       lastname: event.target.surname.value,
       title: this.state.title,
       vpassword: "pass@123",
       dob: event.target.dob.value,
     };
-
     AuthService.register(registerAdmin).then((response) => {
       if (response === undefined) {
-        alert("Teacher Registration Failed");
+        alert("Subadmin Registration Failed");
       } else if (response.success === false) {
         alert(response.message);
       } else {
@@ -93,8 +104,13 @@ export class SchoolTeacherManagementScreen extends Component {
         alert(response.message);
       }
     });
+  
   };
-
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(this.state.selectedOption)
+    );
+  };
   render() {
     return (
       <div>
@@ -115,7 +131,7 @@ export class SchoolTeacherManagementScreen extends Component {
                 >
                   <div className="nav-content">
                     <p style={{ padding: "10px", fontSize: "16px" }}>
-                      Teacher Management
+                      Subadmin Management
                     </p>
                   </div>
                 </nav>
@@ -142,7 +158,7 @@ export class SchoolTeacherManagementScreen extends Component {
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
                       <div className="col s12 m6 l12">
-                        <h4 className="header2">Add Teacher</h4>
+                        <h4 className="header2">Add Subadmin</h4>
                         <form onSubmit={this.handleSubmit} id="sibs">
                           <div className="row">
                             <div className="col s12">
@@ -179,7 +195,21 @@ export class SchoolTeacherManagementScreen extends Component {
                                   <label htmlFor="surname">Surname</label>
                                 </div>
                               </div>
-                              <div className="Row">
+                              <div className="row">
+                                <div className="input-field col s4">
+                                  <label
+                                    style={{
+                                      transform: "translateY(-15px)",
+                                      fontSize: "12px",
+                                    }}
+                                  >
+                                    Role
+                                  </label>
+                                  <RoleOptions
+                                    onSelectOption={this.onSelectOption}
+                                  />
+                                  <div className="my-divider"></div>
+                                </div>
                                 <div className="input-field col s4">
                                   <input
                                     id="email"
@@ -197,15 +227,6 @@ export class SchoolTeacherManagementScreen extends Component {
                                     required
                                   ></input>
                                   <label htmlFor="dob">DOB</label>
-                                </div>
-                                <div className="input-field col s4">
-                                  <input
-                                    id="grade"
-                                    type="number"
-                                    name="grade"
-                                    required
-                                  ></input>
-                                  <label htmlFor="grade">Grade</label>
                                 </div>
                               </div>
                             </div>
@@ -239,7 +260,4 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SchoolTeacherManagementScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SubadminScreen);

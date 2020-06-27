@@ -46,7 +46,11 @@ export class SubscriptionScreen extends Component {
       ],
       rows: [],
       subId: "",
+      selectedSub: {},
     };
+    this.handleSave = this.handleSave.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -67,7 +71,10 @@ export class SubscriptionScreen extends Component {
                 href="#!"
                 className="btn-floating waves-effect waves-light modal-trigger light-blue"
                 data-target="modaledit"
-                onClick={this.setState({ subId: subscription.id })}
+                onClick={this.setState({
+                  subId: subscription.id,
+                  selectedSub: subscription,
+                })}
               >
                 <i className="material-icons">create</i>
               </a>
@@ -108,6 +115,55 @@ export class SubscriptionScreen extends Component {
         this.getDashData();
       }
     });
+  };
+  handleSave = (event) => {
+    event.preventDefault();
+    var data = {
+      subscriptionname: event.target.subscriptionname.value,
+      subscriptiondesc: event.target.subscriptiondesc.value,
+      mingrade: event.target.mingrade.value,
+      maxgrade: event.target.maxgrade.value,
+      price: event.target.price.value,
+    };
+    AdminService.update_plan(this.state.subId, data).then((response) => {
+      if (response === undefined) {
+        alert(response.message);
+      } else {
+        alert(response.message);
+        document.getElementById("sibs").reset();
+        this.getDashData();
+      }
+    });
+  };
+  handleSave = (event) => {
+    event.preventDefault();
+    var data = {
+      subscriptionname: event.target.editsubscriptionname.value,
+      subscriptiondesc: event.target.editsubscriptiondesc.value,
+      mingrade: event.target.editmingrade.value,
+      maxgrade: event.target.editmaxgrade.value,
+      price: event.target.editprice.value,
+    };
+    AdminService.update_plan(this.state.subId, data).then((response) => {
+      if (response === undefined) {
+        alert(response.message);
+      } else {
+        alert(response.message);
+        document.getElementById("sibs").reset();
+        this.getDashData();
+      }
+    });
+  };
+  handleDelete = () => {
+    AdminService.delete_plan(this.state.subId)
+      .then((response) => {
+        console.log(response);
+        this.getDashData();
+      })
+      .catch((error) => {
+        console.log(error);
+        this.getDashData();
+      });
   };
 
   render() {
@@ -228,7 +284,7 @@ export class SubscriptionScreen extends Component {
                   <div id="modaledit" className="modal">
                     <div className="modal-content">
                       <h4 className="header2">Edit Subscription Plan</h4>
-                      <form onSubmit={this.handleSubmit} id="sibs2">
+                      <form onSubmit={this.handleSave} id="sibs2">
                         <div className="row">
                           <div className="col s12">
                             <div className="row">
@@ -260,7 +316,9 @@ export class SubscriptionScreen extends Component {
                                   type="number"
                                   name="editmingrade"
                                 ></input>
-                                <label htmlFor="editmingrade">Starting Grade</label>
+                                <label htmlFor="editmingrade">
+                                  Starting Grade
+                                </label>
                               </div>
                               <div className="input-field col s4">
                                 <input
@@ -268,7 +326,9 @@ export class SubscriptionScreen extends Component {
                                   type="number"
                                   name="editmaxgrade"
                                 ></input>
-                                <label htmlFor="editmaxgrade">Ending Grade</label>
+                                <label htmlFor="editmaxgrade">
+                                  Ending Grade
+                                </label>
                               </div>
                               <div className="input-field col s4">
                                 <input
@@ -283,8 +343,8 @@ export class SubscriptionScreen extends Component {
                           <div className="row">
                             <div className="input-field col s6 offset-s6">
                               <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                                Submit
-                                <i className="material-icons right">send</i>
+                                Save
+                                <i className="material-icons right">save</i>
                               </button>
                             </div>
                           </div>
@@ -301,6 +361,7 @@ export class SubscriptionScreen extends Component {
                         href="#!"
                         style={{ marginRight: 10 }}
                         className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
+                        onClick= {this.handleDelete}
                       >
                         Yes
                       </a>
