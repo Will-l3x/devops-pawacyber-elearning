@@ -198,6 +198,7 @@ class SubadminScreen extends Component {
                               <div className="row">
                                 <div className="input-field col s4">
                                   <label
+                                    className="teal-text"
                                     style={{
                                       transform: "translateY(-15px)",
                                       fontSize: "12px",

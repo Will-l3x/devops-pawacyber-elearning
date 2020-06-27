@@ -957,7 +957,10 @@ ul.card-action-buttons2 li {
     font-size: 16px !important;
 }
 .custom-options__placeholder{
-    top: 70% !important;
+    top: 65% !important;
+}
+.custom-options__indicator-separator {
+    display: none !important;
 }
 .my-divider {
     height: 0.5px;

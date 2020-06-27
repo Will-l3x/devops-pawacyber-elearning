@@ -57,16 +57,6 @@ class AdminLink extends Component {
             <span className="nav-text">Subadmins</span>
           </Link>
         </li>
-        <li className="bold">
-          <Link
-            to="/roles"
-            className="waves-effect waves-cyan"
-            onClick={this.onClick}
-          >
-            <i className="material-icons">people</i>
-            <span className="nav-text">User Roles</span>
-          </Link>
-        </li>
       </ul>
     );
   }

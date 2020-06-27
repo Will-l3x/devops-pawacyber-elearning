@@ -25,7 +25,7 @@ export class ClassesScreen extends Component {
     super(props);
     this.state = {
       unsubscribe: false,
-      selectedOption: "",
+      selectedOption: null,
       classId: "",
       courses: [],
       teachers: [],
@@ -77,7 +77,10 @@ export class ClassesScreen extends Component {
     const modal = new M.Modal(elem);
     modal.close();
     var data = {
-      teacherid: this.state.selectedOption,
+      teacherid:
+        this.state.selectedOption === null
+          ? ""
+          : this.state.selectedOption.value,
       classname: event.target.classname.value,
       enrolmentkey: "123ABC",
       status: "active",
@@ -101,7 +104,10 @@ export class ClassesScreen extends Component {
     const modal = new M.Modal(elem);
     modal.close();
     var data = {
-      teacherid: this.state.selectedOption,
+      teacherid:
+        this.state.selectedOption === null
+          ? ""
+          : this.state.selectedOption.value,
       classname: event.target.classname.value,
       enrolmentkey: "123ABC",
       status: "active",
