@@ -31,6 +31,7 @@ async function post_new_course(data) {
         "Content-Type": "application/json",
       },
     });
+    console.log(res)
     return res.data;
   } catch (err) {
     console.error(err);
@@ -88,7 +89,7 @@ async function get_courses(id) {
 async function get_all_teachers(id) { 
   try {
     let res = await axios({
-      url: `${apiUrl}/teacher/${id}`,
+      url: `${apiUrl}/teachers/${id}`,
       method: "get",
       timeout: 8000,
       headers: {

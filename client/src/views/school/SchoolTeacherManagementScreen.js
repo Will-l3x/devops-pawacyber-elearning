@@ -55,7 +55,6 @@ export class SchoolTeacherManagementScreen extends Component {
   }
 
   getDashData() {
-    // SchoolService.get_all_teachers('2')
     SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
       console.log(response)
       this.setState({ rows: response });

@@ -9,8 +9,8 @@ const user = JSON.parse(localStorage.getItem("user"));
  SchoolService.get_all_teachers(user.schoolid)
   .then((response) => {
     for (const teacher of response) {
-      teacher.value = teacher.id;
-      teacher.label = teacher.teachername;
+      teacher.value = teacher.teacherId;
+      teacher.label = teacher.lastname + ' '+ teacher.firstname;
       options.push(teacher);
     }
   })
@@ -44,6 +44,7 @@ class RoleOptions extends Component {
         value={selectedOption}
         onChange={this.handleChange}
         options={options}
+        
       />
     );
   }

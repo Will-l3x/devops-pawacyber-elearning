@@ -108,7 +108,6 @@ async function get_submissions(id) { //by Assingment ID
 // classroom
 async function get_assignments(course_id) {
   try {
-
     let res = await axios({
       url: `${apiUrl}/get_assignment/${course_id}`, //Get all assignments by courseid
       method: "get",

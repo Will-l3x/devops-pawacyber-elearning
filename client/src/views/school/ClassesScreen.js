@@ -86,6 +86,7 @@ export class ClassesScreen extends Component {
       status: "active",
       createdby: this.user.userid,
     };
+    
     SchoolService.post_new_course(data).then((response) => {
       if (response === undefined) {
         alert("Apologies. Course addition failed. Please contact admin");
@@ -98,6 +99,7 @@ export class ClassesScreen extends Component {
       }
     });
   };
+
   handleSave = (event) => {
     event.preventDefault();
     const elem = document.getElementById("modal2");
@@ -115,7 +117,7 @@ export class ClassesScreen extends Component {
     };
     SchoolService.update_course(data).then((response) => {
       if (response === undefined) {
-        alert("Apologies. Course addition failed. Please contact admin");
+        alert("Apologies. Update. Please contact admin");
       } else if (response.success === false) {
         alert(response.message);
       } else {

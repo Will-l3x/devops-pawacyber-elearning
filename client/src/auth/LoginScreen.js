@@ -46,17 +46,16 @@ export class LoginScreen extends Component {
       
 
       // // remove
-      // const roleid = 5;
+      // const roleid = 4;
       // const username =  "Kelvin";
       // const userid = "655";
-      // const schoolid= "1";
+      // const schoolid= "4";
       // this.setState({
       //   roleid,
       //   username,
       //   userid,
       //   schoolid
       // });
-
 
 
         if (response === undefined) {

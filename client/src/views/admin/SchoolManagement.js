@@ -73,11 +73,11 @@ export class SchoolManagement extends Component {
             <ul className="card-action-buttons2">
               <li>
                 <a
-                  href="#!"
+                  // href="#!"
                   className="btn-floating waves-effect waves-light modal-trigger light-blue"
                   data-target="modaledit"
                   onClick={this.setState({
-                    schoolId: school.id,
+                    schoolId: school.schoolId,
                     selectedSchool: school,
                   })}
                 >
@@ -89,8 +89,10 @@ export class SchoolManagement extends Component {
                   href="#!"
                   className="btn-floating waves-effect waves-light modal-trigger red accent-2"
                   data-target="areyousure"
-                  onClick={this.setState({
-                    schoolId: school.id,
+                  onClick={
+                  
+                    this.setState({
+                    schoolId: school.schoolId,
                   })}
                 >
                   <i className="material-icons">delete</i>
@@ -171,8 +173,10 @@ export class SchoolManagement extends Component {
     });
   };
   handleDelete = () => {
+ 
     AdminService.delete_school(this.state.schoolId)
       .then((response) => {
+        alert(this.response)
         console.log(response);
         this.getDashData();
       })
