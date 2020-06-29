@@ -5,12 +5,15 @@ import Select from "react-select";
 import { SchoolService } from "../../services/school";
 
 let options = [];
+
 const user = JSON.parse(localStorage.getItem("user"));
- SchoolService.get_all_teachers(user.schoolid)
+const schoolid = user === null ? "" : user.schoolid;
+
+SchoolService.get_all_teachers(schoolid)
   .then((response) => {
     for (const teacher of response) {
       teacher.value = teacher.teacherId;
-      teacher.label = teacher.lastname + ' '+ teacher.firstname;
+      teacher.label = teacher.lastname + " " + teacher.firstname;
       options.push(teacher);
     }
   })
@@ -44,7 +47,6 @@ class RoleOptions extends Component {
         value={selectedOption}
         onChange={this.handleChange}
         options={options}
-        
       />
     );
   }

@@ -73,7 +73,7 @@ export class SchoolManagement extends Component {
             <ul className="card-action-buttons2">
               <li>
                 <a
-                  // href="#!"
+                  href="#!"
                   className="btn-floating waves-effect waves-light modal-trigger light-blue"
                   data-target="modaledit"
                   onClick={this.setState({
