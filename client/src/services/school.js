@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://cybers.azurewebsites.net/api/schooladmin";
+const apiUrl = "https://cybers.azurewebsites.net/api/schooladmin";
 // const apiUrl = "http://localhost:3001/api/schooladmin";
 
 export const SchoolService = {

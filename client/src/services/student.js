@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://cybers.azurewebsites.net/api/student";
+const apiUrl = "https://cybers.azurewebsites.net/api/student";
 // const apiUrl = "http://localhost:3001/api/student";
 
 export const StudentService = {

@@ -26,7 +26,7 @@ export class HomeScreen extends Component {
     super();
     this.state = {
       plans: [],
-      url: "http://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
       quotes: [
         {
           quote:

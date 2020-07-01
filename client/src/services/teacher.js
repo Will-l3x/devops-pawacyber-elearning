@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://cybers.azurewebsites.net/api/teacher";
+const apiUrl = "https://cybers.azurewebsites.net/api/teacher";
 // const apiUrl = "http://localhost:3001/api/teacher";
 
 export const TeacherService = {
@@ -59,7 +59,7 @@ async function post_assignment(data) {
 async function post_file(data) {
   try {
     let res = await axios({
-      url: `http://cybers.azurewebsites.net/api/upload/new`,
+      url: `https://cybers.azurewebsites.net/api/upload/new`,
       method: "post",
       data,
       timeout: 8000,

@@ -2,7 +2,7 @@ import axios from "axios";
 import img from "../assets/images/blog_1.jpg";
 const qs = require("qs");
 
-const apiUrl = "http://cybers.azurewebsites.net/api";
+const apiUrl = "https://cybers.azurewebsites.net/api";
 // const apiUrl = "http://localhost:3001/api";
 
 export const AdminService = {
@@ -353,7 +353,7 @@ async function get_courses() {
 async function post_file(data) {
   try {
     let res = await axios({
-      url: `http://cybers.azurewebsites.net/api/upload/new`,
+      url: `https://cybers.azurewebsites.net/api/upload/new`,
       method: "post",
       data,
       timeout: 8000,
