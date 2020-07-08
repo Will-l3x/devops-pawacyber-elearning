@@ -30,7 +30,7 @@ export class HomeScreen extends Component {
       quotes: [
         {
           quote:
-            "Education is the passport to the future, for tomorrow belongs to thode who prepare for it today.",
+            "Education is the passport to the future, for tomorrow belongs to those who prepare for it today.",
           author: "Malcom X",
         },
         {
@@ -122,7 +122,7 @@ export class HomeScreen extends Component {
                   <div className="col s12 m6">
                     <div className="text-container">
                       <h1>
-                        <span className="turquoise">PawaCyber School</span>
+                        <span className="turquoise">Pawa Cyber School</span>
                       </h1>
                       <h5 style={{ marginTop: "-5px" }}>
                         Learn Practice Achieve
