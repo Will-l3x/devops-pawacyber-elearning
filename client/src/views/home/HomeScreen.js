@@ -129,7 +129,7 @@ export class HomeScreen extends Component {
                       </h5>
                       <p className="p-large">
                         Get
-                        started now with PawaCyber School e-learning to
+                        started now with Pawa Cyber School e-learning to
                         experience next gen education!
                       </p>
                       <Link
