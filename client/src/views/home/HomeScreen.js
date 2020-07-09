@@ -176,7 +176,7 @@ export class HomeScreen extends Component {
                       alt="alternative"
                     />
                     <div className="card-body">
-                      <h4 className="card-title">Learners</h4>
+                      <h4 className="card-title">Virtual Classroom</h4>
                       <p>
                         Learners can access their learning materials, homeworks
                         and tests through a well designed easy to use students
@@ -192,7 +192,7 @@ export class HomeScreen extends Component {
                       alt="alternative"
                     />
                     <div className="card-body">
-                      <h4 className="card-title">Teachers</h4>
+                      <h4 className="card-title">3D Animated, Sketch & Video Lessons</h4>
                       <p>
                         Teachers through their elite forum can send and receive
                         student work. The service comes with an automated way to
@@ -208,7 +208,7 @@ export class HomeScreen extends Component {
                       alt="alternative"
                     />
                     <div className="card-body">
-                      <h4 className="card-title">Educational Solutions</h4>
+                      <h4 className="card-title">E-Library</h4>
                       <p>
                         You are so much loved and your experience is what
                         matters the most. We can develop any educational
