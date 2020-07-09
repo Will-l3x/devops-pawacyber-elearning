@@ -396,13 +396,13 @@ export class HomeScreen extends Component {
             <div className="container">
               <div className="row">
                 <div className="col s12">
-                  <h4>Multiple Pricing Options</h4>
+                  <h4 style = {{fontWeight: 'bold', fontSize: 30}}>Multiple Pricing Options</h4>
                   <p className="p-heading p-large">
                     We've prepared pricing plans for all budgets so you can get
                     started right away. They're great for absolutely everyone
                   </p>
                 </div>
-              </div>
+              </div>s
               <div className="row">
                 <div className="col s12">
                   {this.state.plans.map((plan, i) => (
