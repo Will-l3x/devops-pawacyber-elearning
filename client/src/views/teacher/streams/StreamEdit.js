@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchStream, editStream } from '../../actions';
+import TeacherActions from '../../../actions/teacher'
+
 import StreamForm from './StreamForm';
 
 class StreamEdit extends React.Component {
@@ -33,5 +34,5 @@ const mapStatetoProps = (state, onwProps) => {
 
 export default connect(
     mapStatetoProps,
-    { fetchStream, editStream }
+    TeacherActions
 )(StreamEdit);

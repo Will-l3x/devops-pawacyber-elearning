@@ -12,7 +12,7 @@ export class AboutScreen extends Component {
             <OuterHeader></OuterHeader>
             <div className="content-pawa">
               <div className="ex-basic-1">
-                <h4>About Pawa Cyber</h4>
+                <h4>About Pawa Cyber School</h4>
               </div>
 
               <div
@@ -123,6 +123,7 @@ export class AboutScreen extends Component {
                                   <i class="fas fa-map-marker-alt"></i> Unit 2,
                                   Sun Square Mall, Ondangwa Namibia
                                 </li>
+
                                 <br />
                                 <li>
                                   <i class="fas fa-mobile-alt"></i>
@@ -136,7 +137,14 @@ export class AboutScreen extends Component {
                                 <li>
                                   <i class="fas fa-phone"></i>
                                   <a class="turquoise" href="tel:+264851247976">
-                                    +264 85 124 7976
+                                    +264 85 224 7976
+                                  </a>
+                                </li>
+                                <li>
+                                  <i class = "fas fa-email"></i>
+                                  <a class = "turquoise" href = "email: info@pawacyberschool.net">
+                                    info@pawacyberschool.net
+
                                   </a>
                                 </li>
                               </ul>
