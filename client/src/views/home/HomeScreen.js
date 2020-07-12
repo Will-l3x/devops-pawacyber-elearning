@@ -16,6 +16,8 @@ import headerImg from "../../assets/images/welcome-img.jpg";
 import servicesImg1 from "../../assets/images/services-icon-1.svg";
 import servicesImg2 from "../../assets/images/services-icon-2.svg";
 import servicesImg3 from "../../assets/images/services-icon-3.svg";
+import srvcimage4 from "../../assets/images/srvcimage4.svg"
+import newService from "../../assets/images/retest.jpg"
 import Pricing from "../../components/pricing";
 
 import OuterHeader from "../../components/outerHeader";
@@ -122,7 +124,7 @@ export class HomeScreen extends Component {
                   <div className="col s12 m6">
                     <div className="text-container">
                       <h1>
-                        <span className="turquoise">Pawa Cyber</span>
+                        <span className="turquoise">Pawa Cyber School</span>
                       </h1>
                       <h5 style={{ marginTop: "-5px" }}>
                         Learn.Practice.Achieve
@@ -178,9 +180,9 @@ export class HomeScreen extends Component {
                     <div className="card-body">
                       <h4 className="card-title">Virtual Classroom</h4>
                       <p>
-                        Learners can access their learning materials, homeworks
-                        and tests through a well designed easy to use students
-                        portal. Videos too are available!
+                      Online classrooms that allows students to communicate with their teachers, 
+                      view presentations or videos, interact with other students, 
+                      and engage with resources in work groups
                       </p>
                     </div>
                   </div>
@@ -194,9 +196,9 @@ export class HomeScreen extends Component {
                     <div className="card-body">
                       <h4 className="card-title">3D Animated, Sketch & Video Lessons</h4>
                       <p>
-                        Teachers through their elite forum can send and receive
-                        student work. The service comes with an automated way to
-                        view perfomance and capture remedal records
+                        The system provides a range of content for students to interact with,
+                        this goes from Video lessons, to sketch drawings and 3D animated content. 
+                        this is one of our targets to establish a range of material that helps the student understand the content much more.
                       </p>
                     </div>
                   </div>
@@ -210,11 +212,28 @@ export class HomeScreen extends Component {
                     <div className="card-body">
                       <h4 className="card-title">E-Library</h4>
                       <p>
-                        You are so much loved and your experience is what
-                        matters the most. We can develop any educational
-                        solution that you may thing of for you.
+                        Pawa Cyber offers a resource repository which has a range of books and materials.
+                        e-books, past exam papers, study guides etc. this is all found at a convenient one stop click
+                        inside the system. Access and convenience made easier
                       </p>
                     </div>
+                    
+                  </div>
+                  <div className="card">
+                    <img
+                      className="card-image"
+                      src={servicesImg3}
+                      alt="alternative"
+                    />
+                    <div className="card-body">
+                      <h4 className="card-title">Learning Management System </h4>
+                      <p>
+                        Here at Pawa Cyber We make to make sure that the principals
+                        are included in the operations of their school so we give them a platform
+                        that makes them in involved in setting activities and managing them.
+                      </p>
+                    </div>
+                    
                   </div>
                 </div>
               </div>
@@ -397,7 +416,7 @@ export class HomeScreen extends Component {
               <div className="row">
                 <div className="col s12">
                   <h4 >Multiple Pricing Options</h4>
-                  <p className="p-heading p-large" style = {{fontWeight: 'bold', fontSize: 30}}>
+                  <p className="p-heading p-large" style = {{fontSize: 25}}>
                     We've prepared pricing plans for all budgets so you can get
                     started right away. They're great for absolutely everyone
                   </p>
@@ -424,9 +443,7 @@ export class HomeScreen extends Component {
               <ReactPlayer width="100%" url={this.state.url} controls={true} />
             </div>
             <blockquote style={{ marginTop: "7%" }}>
-              Some motivational text. Some motivational text. Some motivational
-              text. Some motivational text. Some motivational text. Some
-              motivational text. Some motivational text.
+              
             </blockquote>
           </div>
 
