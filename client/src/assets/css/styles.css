@@ -754,7 +754,7 @@ input[type='checkbox'] {
 /*    04. Header     */
 /*********************/
 .header {
-	background-color: #fff;
+	background-color: #edf2f4 !important;
 }
 
 .header .header-content {
@@ -1823,8 +1823,9 @@ input[type='checkbox'] {
 
 
 	/* Header */
-	/* .header {
-		background: url('../images/header-background.jpg') center center no-repeat;
+	 /* .header {
+		background: url('../images/header-background-2.jpg') center center no-repeat;
+
 		background-size: cover; 
 	} */
 
@@ -2002,7 +2003,6 @@ input[type='checkbox'] {
 	/* Header */
 
 	.header .text-container {
-		margin-top: 5.375rem;
 		margin-left: 1rem;
 		margin-right: 2rem;
 	}

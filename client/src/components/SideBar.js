@@ -6,7 +6,7 @@ import AdminLink from "../views/admin/AdminLink";
 import SchoolLink from "../views/school/SchoolLink";
 import StudentLink from "../views/student/StudentLink";
 import TeacherLink from "../views/teacher/TeacherLink";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import $ from "jquery";
 import M from "materialize-css";
 

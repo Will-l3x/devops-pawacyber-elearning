@@ -127,6 +127,4 @@ class StudentLiveClass extends Component {
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = {};
-
 export default connect(mapStateToProps, StudentActions)(StudentLiveClass);

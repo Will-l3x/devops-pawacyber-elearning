@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Router, Route, Switch } from "react-router-dom";
-import { createBrowserHistory } from "history";
+//import { Router, Route, Switch } from "react-router-dom";
+//import { createBrowserHistory } from "history";
 
 import SideBar from "../../components/SideBar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import VideoPlayer from "../../components/VideoPlayer";
-import StreamCreate from "./streams/StreamCreate";
-import StreamEdit from "./streams/StreamEdit";
-import StreamDelete from "./streams/StreamDelete";
-import StreamList from "./streams/StreamList";
-import StreamShow from "./streams/StreamShow";
+// import StreamCreate from "./streams/StreamCreate";
+// import StreamEdit from "./streams/StreamEdit";
+// import StreamDelete from "./streams/StreamDelete";
+// import StreamList from "./streams/StreamList";
+// import StreamShow from "./streams/StreamShow";
 
-const history = createBrowserHistory();
+//const history = createBrowserHistory();
 
 class TeacherLivePlayer extends Component {
   constructor() {
@@ -42,7 +42,7 @@ class TeacherLivePlayer extends Component {
                   <VideoPlayer />
                 </div>
               </div>
-              <div className="col s4">
+              {/* <div className="col s4">
                 <Router history={history}>
                   <Switch>
                     <Route path="/" exact component={StreamList} />
@@ -60,7 +60,7 @@ class TeacherLivePlayer extends Component {
                     <Route path="/streams/:id" exact component={StreamShow} />
                   </Switch>
                 </Router>
-              </div>
+              </div> */}
             </div>
           </div>
         </main>
