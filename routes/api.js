@@ -51,6 +51,11 @@ router.get("/subscription/:id", _systemadmin.subscription);
 router.get("/update_subcription", _systemadmin.update_subscription);
 //////////////////////mediaplayer//////////////////////////////////////////////
 router.get("/playvideo", _media_server.playvideo);
+router.post("/create_meeting", _media_server.create_meeting);
+router.get("/get_meetings", _media_server.get_meetings);
+router.get("/get_meeting/:id", _media_server.get_meeting);
+router.put("/start_meeting/:id", _media_server.start_meeting);
+router.put("/stop_meeting/:id", _media_server.stop_meeting);
 
 //////////////////////teacher//////////////////////////////////////////////
 

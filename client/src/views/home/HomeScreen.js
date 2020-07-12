@@ -120,7 +120,7 @@ export class HomeScreen extends Component {
         <OuterHeader></OuterHeader>
 
         <div className="content-pawa">
-          <header id="welcome" className="header">
+          <header id="welcome" className="header z-depth-5">
             <div className="">
               <div className="container">
                 <div
@@ -266,7 +266,7 @@ export class HomeScreen extends Component {
               </div>
             </div>
           </div>
-          <div className="basic-2 z-index-1" style={{ marginTop: "2px" }}>
+          <div className="basic-2 z-index-1">
             <div className="container">
               <div className="row mt-1">
                 <div className="col s12 m6">
