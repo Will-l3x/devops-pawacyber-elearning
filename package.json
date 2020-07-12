@@ -13,6 +13,8 @@
     "name": " "
   },
   "dependencies": {
+    "protoo": "0.3.1",
+    "mediasoup": "3.6.1",
     "acorn": "^6.4.1",
     "bcryptjs": "2.4.3",
     "body-parser": "^1.15.0",
