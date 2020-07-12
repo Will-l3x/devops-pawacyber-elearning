@@ -122,14 +122,14 @@ export class HomeScreen extends Component {
                   <div className="col s12 m6">
                     <div className="text-container">
                       <h1>
-                        <span className="turquoise">PawaCyber School</span>
+                        <span className="turquoise">Pawa Cyber School</span>
                       </h1>
                       <h5 style={{ marginTop: "-5px" }}>
                         Learn Practice Achieve
                       </h5>
                       <p className="p-large">
                         Just the virtual classroom you were looking for!. Get
-                        started now with PawaCyber School e-learning to
+                        started now with Pawa Cyber School e-learning to
                         experience next gen education!
                       </p>
                       <Link

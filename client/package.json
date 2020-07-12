@@ -48,6 +48,7 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "simple-react-video-thumbnail": "0.0.7",
     "video-react": "^0.14.1"
   },
   "scripts": {

@@ -5,7 +5,7 @@ class OuterHeader extends Component {
   render() {
     return (
         <nav className="nav-wrapper gradient-45deg-light-blue-cyan head-pawa">
-        <Link className="brand-logo" rel="noopener noreferrer"  to="#welcome">PawaCyber</Link>
+        <Link className="brand-logo" rel="noopener noreferrer"  to="#welcome">Pawa Cyber</Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li className="nav-item">
                 <Link

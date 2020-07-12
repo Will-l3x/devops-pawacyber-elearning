@@ -12,7 +12,7 @@ export class AboutScreen extends Component {
             <OuterHeader></OuterHeader>
             <div className="content-pawa">
               <div className="ex-basic-1">
-                <h4>About PawaCyber</h4>
+                <h4>About Pawa Cyber</h4>
               </div>
 
               <div
@@ -24,7 +24,7 @@ export class AboutScreen extends Component {
                     <div className="text-container">
                       <h5>Private Data We Receive And Collect</h5>
                       <p>
-                        PawaCyber School eLearning also automatically collects
+                        Pawa Cyber School eLearning also automatically collects
                         and receives certain information from your computer or
                         mobile device, including the activities you perform on
                         our Website, the Platforms, and the Applications, the
@@ -39,7 +39,7 @@ export class AboutScreen extends Component {
                         applicable).
                       </p>
                       <p>
-                        When you first register for a PawaCyber School eLearning
+                        When you first register for a Pawa Cyber School eLearning
                         account, and when you use the Services, we collect some{" "}
                         <Link
                           className="turquoise"
