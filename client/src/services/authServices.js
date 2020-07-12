@@ -2,7 +2,7 @@ import axios from "axios";
 const qs = require('qs');
 // const querystring = require('querystring');
 
-const apiUrl = "http://cybers.azurewebsites.net/api";
+const apiUrl = "https://cybers.azurewebsites.net/api";
 // const apiUrl = "http://localhost:3001/api";
 
 export const AuthService = {
@@ -17,7 +17,7 @@ async function register(data) {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   }
-  console.log(data);
+
   try {
     let res = await axios.post(`${apiUrl}/register`,qs.stringify(data),config);
     return res.data;

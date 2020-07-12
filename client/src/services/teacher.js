@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "http://cybers.azurewebsites.net/api/teacher";
+const apiUrl = "https://cybers.azurewebsites.net/api/teacher";
 // const apiUrl = "http://localhost:3001/api/teacher";
 
 export const TeacherService = {
@@ -59,7 +59,7 @@ async function post_assignment(data) {
 async function post_file(data) {
   try {
     let res = await axios({
-      url: `http://cybers.azurewebsites.net/api/upload/new`,
+      url: `https://cybers.azurewebsites.net/api/upload/new`,
       method: "post",
       data,
       timeout: 8000,
@@ -108,7 +108,6 @@ async function get_submissions(id) { //by Assingment ID
 // classroom
 async function get_assignments(course_id) {
   try {
-
     let res = await axios({
       url: `${apiUrl}/get_assignment/${course_id}`, //Get all assignments by courseid
       method: "get",
@@ -208,6 +207,7 @@ async function get_teacher_pending_classwork(teacher_id, classroom_id) {
     console.error(err);
   }
 }
+
 async function get_teacher_unmarked_classwork(teacher_id, classroom_id) {
   try {
     let res = await axios({

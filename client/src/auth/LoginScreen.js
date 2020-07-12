@@ -45,18 +45,17 @@ export class LoginScreen extends Component {
     AuthService.login(registerAdmin).then((response) => {
       
 
-      // // remove
-      // const roleid = 5;
+      // remove
+      // const roleid = 3;
       // const username =  "Kelvin";
       // const userid = "655";
-      // const schoolid= "1";
+      // const schoolid= "4";
       // this.setState({
       //   roleid,
       //   username,
       //   userid,
       //   schoolid
       // });
-
 
 
         if (response === undefined) {

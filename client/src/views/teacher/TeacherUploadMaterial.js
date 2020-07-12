@@ -42,6 +42,7 @@ export class UploadMaterial extends Component {
   user = {};
   courseId = "1";
   fileData;
+  teacherid = "";
 
   componentDidMount() {
     this.user= JSON.parse(localStorage.getItem("user"));
@@ -52,7 +53,8 @@ export class UploadMaterial extends Component {
   }
 
   getDashData(){
-    TeacherService.get_all_courses(this.user.userid) 
+    this.teacherid = this.user.userid;
+    TeacherService.get_all_courses(this.teacherid)
     .then((response) => {
       this.setState({ courses: response })
     });
@@ -62,18 +64,20 @@ export class UploadMaterial extends Component {
         .then((response) => {
           this.setState({ rows: response })
         });
+    }else{
+      alert("Couldn't find any subject linked to your account");
     }
   }
-
 
   handleSubmit = (event) => {
     event.preventDefault()
     this.fileData = event.target.file.value;
-    alert('You are uploading for class id: '+this.classId);
+    alert('You are uploading for class id: '+ event.target.classid.value);
     var data = {
-        teacherid: this.user.userid,
+        teacherid: this.teacherid,
         schoolid: this.user.schoolid,
         materialname: event.target.materialname.value,
+        materialtype:"file",
         file: true,
         classid: event.target.classid.value
     }

@@ -9,7 +9,6 @@ import { AboutScreen } from "./views/about/AboutScreen";
 import { AdminScreen } from "./views/admin/AdminScreen";
 import { StudentScreen } from "./views/student/StudentScreen";
 import { TeacherScreen } from "./views/teacher/TeacherScreen";
-import { AdminTeacherManagementScreen } from "./views/admin/AdminTeacherManagementScreen";
 import { SchoolManagement } from "./views/admin/SchoolManagement";
 import { SubscriptionScreen } from "./views/admin/SubscriptionScreen";
 import CourseListScreen from "./views/admin/CourseListScreen";
@@ -22,7 +21,6 @@ import { ClassroomScreen } from "./components/classroom/ClassroomScreen";
 import { SubjectContent } from "./views/student/SubjectContent";
 import { StudentAssignments } from "./views/student/StudentAssignments";
 import { TeacherCalendarScreen } from "./views/teacher/TeacherCalendarScreen";
-import { AdminCalendarScreen } from "./views/admin/AdminCalendarScreen";
 import { LoginScreen } from "./auth/LoginScreen";
 import { TeacherMarkGradeScreen } from "./views/teacher/TeacherMarkGradeScreen";
 import { TeacherMarkClassroomScreen } from "./views/teacher/TeacherMarkClassroomScreen";
@@ -34,7 +32,7 @@ import { SchoolScreen } from "./views/school/SchoolScreen";
 import { SchoolStudentManagementScreen } from "./views/school/SchoolStudentManagementScreen";
 import { SchoolTeacherManagementScreen } from "./views/school/SchoolTeacherManagementScreen";
 import { SchoolSubscribeScreen } from "./views/school/SchoolSubscribeScreen";
-import { CourseSubscriptionScreen } from "./views/school/CourseSubscriptionScreen";
+import { ClassesScreen } from "./views/school/ClassesScreen";
 import { SchoolCalendarScreen } from "./views/school/SchoolCalendarScreen";
 import { SchoolAddCourseScreen } from "./views/school/SchoolAddCourseScreen";
 
@@ -47,6 +45,7 @@ import M from "materialize-css";
 import store from "./config/store";
 import {PackagePayment} from "./views/student/PackagePayment";
 import { UploadNewAssignment } from "./views/teacher/TeacherAssignments";
+import SubadminScreen from "./views/admin/SubadminScreen";
 
 const history = createBrowserHistory();
 
@@ -135,26 +134,17 @@ class App extends Component {
             <Route exact path="/about" component={AboutScreen} />
 
             <Route exact path="/admin" component={AdminScreen} />
-            <Route
-              exact
-              path="/admin-calendar"
-              component={AdminCalendarScreen}
-            />
+            <Route exact path="/subadmins" component={SubadminScreen} />
             <Route exact path="/roles" component={RolesScreen} />
             <Route exact path="/package-selection" component={PackagePayment} />
             <Route exact path="/upload" component={UploadMaterial} />
             <Route exact path="/assignments" component={UploadNewAssignment} />
             <Route exact path="/courses" component={CourseListScreen} />
-            
+
             <Route
               exact
               path="/course-outline"
               component={CourseOutlineScreen}
-            />
-            <Route
-              exact
-              path="/admin-teacher-management"
-              component={AdminTeacherManagementScreen}
             />
 
             <Route
@@ -195,7 +185,7 @@ class App extends Component {
             />
 
             <Route exact path="/student" component={StudentScreen} />
-            
+
             <Route exact path="/subject-content" component={SubjectContent} />
             <Route
               exact
@@ -216,7 +206,7 @@ class App extends Component {
             <Route
               exact
               path="/school-subscriptions"
-              component={CourseSubscriptionScreen}
+              component={ClassesScreen}
             />
             <Route
               exact

@@ -12,7 +12,7 @@ export class AboutScreen extends Component {
             <OuterHeader></OuterHeader>
             <div className="content-pawa">
               <div className="ex-basic-1">
-                <h4>About PawaCyber</h4>
+                <h4>About Pawa Cyber School</h4>
               </div>
 
               <div
@@ -120,33 +120,31 @@ export class AboutScreen extends Component {
                                   contact form message
                                 </li>
                                 <li>
-                                  <i class="fas fa-map-marker-alt"></i> Unit 2, Sun Square Mall, Ondangwa
-                                  Namibia
+                                  <i class="fas fa-map-marker-alt"></i> Unit 2,
+                                  Sun Square Mall, Ondangwa Namibia
                                 </li>
-                                <br/>
+
+                                <br />
+                                <li>
+                                  <i class="fas fa-mobile-alt"></i>
+                                  <a
+                                    class="turquoise"
+                                    href="tel:+264812247137"
+                                  >
+                                    +264 81 224 7137
+                                  </a>
+                                </li>
                                 <li>
                                   <i class="fas fa-phone"></i>
                                   <a class="turquoise" href="tel:+264851247976">
-                                  +264 85 124 7976
+                                    +264 85 224 7976
                                   </a>
                                 </li>
                                 <li>
-                                  <i class="fas fa-phone"></i>
-                                  <a class="turquoise" href="tel:+264812901126">
-                                  +264 81 290 1126
-                                  </a>
-                                </li>
-                                <li>
-                                  <i class="fas fa-fax"></i>
-                                  <a class="turquoise" href="fax:+26465246412">
-                                  +264 65 246 412
-                                  </a>
-                                </li>
-                                <br/>
-                                <li>
-                                  <i class="fas fa-envelope"></i>
-                                  <a class="turquoise" href="mailto:esser@pawacyberschool.com" >
-                                    esser@pawacyberschool.com
+                                  <i class = "fas fa-email"></i>
+                                  <a class = "turquoise" href = "email: info@pawacyberschool.net">
+                                    info@pawacyberschool.net
+
                                   </a>
                                 </li>
                               </ul>
@@ -155,7 +153,11 @@ export class AboutScreen extends Component {
                           <div class="row mt-1">
                             <div class="col s12 m6">
                               <div class="map-responsive">
-                              <iframe   title="iframe1" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60746.325427046104!2d15.938672078129471!3d-17.902029842582213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1b931025b0e8c757%3A0x7b9eb2be2e8e0ad5!2sOndangwa%2C%20Namibia!5e0!3m2!1sen!2szw!4v1592357207135!5m2!1sen!2szw" allowfullscreen></iframe>
+                                <iframe
+                                  title="iframe1"
+                                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60746.325427046104!2d15.938672078129471!3d-17.902029842582213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1b931025b0e8c757%3A0x7b9eb2be2e8e0ad5!2sOndangwa%2C%20Namibia!5e0!3m2!1sen!2szw!4v1592357207135!5m2!1sen!2szw"
+                                  allowfullscreen
+                                ></iframe>
                               </div>
                             </div>
                             <div class="col s12 m6">

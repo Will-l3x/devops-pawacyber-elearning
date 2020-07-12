@@ -40,6 +40,7 @@ export class SchoolScreen extends Component {
 
   render() {
     const eventState = store.getState().events;
+  
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -99,7 +100,7 @@ export class SchoolScreen extends Component {
                             <h4 className="task-card-title white-text">
                               School Events
                             </h4>
-                            <p className="task-card-date ">Sept 16, 2017</p>
+                           
                           </li>
                           {eventState.events.map((event) => (
                             <li className="collection-item dismissable">
@@ -113,52 +114,7 @@ export class SchoolScreen extends Component {
                               <span className="task-cat cyan">Event</span>
                             </li>
                           ))}
-                          <li className="collection-item dismissable">
-                            <input type="checkbox" id="task1" />
-                            <label htmlFor="task1">
-                              Consultation Day.
-                              <Link to="#" className="secondary-content">
-                                <span className="ultra-small">Today</span>
-                              </Link>
-                            </label>
-                            <span className="task-cat cyan">Event</span>
-                          </li>
-                          <li className="collection-item dismissable">
-                            <input type="checkbox" id="task2" />
-                            <label htmlFor="task2">
-                              Examination Start.
-                              <Link to="#" className="secondary-content">
-                                <span className="ultra-small">Monday</span>
-                              </Link>
-                            </label>
-                            <span className="task-cat red accent-2">
-                              Examination
-                            </span>
-                          </li>
-                          <li className="collection-item">
-                            <input type="checkbox" id="task3" />
-                            <label htmlFor="task3">
-                              School Closing Day
-                              <Link to="#" className="secondary-content">
-                                <span className="ultra-small">Thursay</span>
-                              </Link>
-                            </label>
-                            <span className="task-cat teal accent-4">
-                              Closing Day
-                            </span>
-                          </li>
-                          <li className="collection-item">
-                            <input type="checkbox" id="task4" />
-                            <label htmlFor="task4">
-                              School Openning Day
-                              <Link to="#" className="secondary-content">
-                                <span className="ultra-small">Thursay</span>
-                              </Link>
-                            </label>
-                            <span className="task-cat teal accent-4">
-                              Openning Day
-                            </span>
-                          </li>
+
                         </ul>
                       </div>
                     </div>
