@@ -30,14 +30,8 @@ var gen = rn.generator({
 });
 
 let checkToken = (req, res, next) => {
-  
- console.log(req.url)
-  
-    if (req.url !== '/api/login' && 
-        req.url !== '/multi_upload/' && req.url !== '/multi_upload/min/dropzone.min.js'
-        && req.url !== '/multi_upload/min/dropzone.min.css' && req.url !== '/multi_upload/min/chota.min.css'
-        && req.url !== '/api/upload/multi'
-        && req.url !== '/api/register'  && req.url !== '/api/resetpassword' && req.url.indexOf('/api/verify') < 0 && req.url !== '/api/refreshotp') {
+
+    if (req.url !== '/api/login' && req.url !== '/api/register'  && req.url !== '/api/resetpassword' && req.url.indexOf('/api/verify') < 0 && req.url !== '/api/refreshotp') {
 
         let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
 
