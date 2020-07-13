@@ -11,7 +11,7 @@ class OuterFooter extends Component {
               <p className="p-small">
                 Copyright © 2020{" "}
                 <Link rel="noopener noreferrer" to="#">
-                  PawaCyber
+                  Pawa Cyber
                 </Link>{" "}
                 - All rights reserved
               </p>

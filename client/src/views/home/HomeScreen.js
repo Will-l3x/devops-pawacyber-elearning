@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { HashLink as Link } from "react-router-hash-link";
 import ReactPlayer from "react-player";
+import { toWords } from "number-to-words";
 import { AdminService } from "../../services/admin";
 
 import M from "materialize-css";
@@ -12,12 +13,14 @@ import carousel2 from "../../assets/images/carousel-4.png";
 import carousel3 from "../../assets/images/carousel-3.png";
 import carousel4 from "../../assets/images/carousel-2.png";
 
+import logo from "../../assets/images/logo/logo.png";
+
 import headerImg from "../../assets/images/welcome-img.jpg";
 import servicesImg1 from "../../assets/images/services-icon-1.svg";
 import servicesImg2 from "../../assets/images/services-icon-2.svg";
 import servicesImg3 from "../../assets/images/services-icon-3.svg";
-import srvcimage4 from "../../assets/images/srvcimage4.svg"
-import newService from "../../assets/images/retest.jpg"
+//import srvcimage4 from "../../assets/images/srvcimage4.svg";
+//import newService from "../../assets/images/retest.jpg";
 import Pricing from "../../components/pricing";
 
 import OuterHeader from "../../components/outerHeader";
@@ -117,11 +120,21 @@ export class HomeScreen extends Component {
         <OuterHeader></OuterHeader>
 
         <div className="content-pawa">
-          <header id="welcome" className="header">
-            <div className="header-content">
+          <header id="welcome" className="header z-depth-5">
+            <div className="">
               <div className="container">
-                <div className="row mt-1">
+                <div
+                  className="row"
+                  style={{ paddingBottom: 70, paddingTop: 70 }}
+                >
                   <div className="col s12 m6">
+                    <img
+                      className="img-fluid"
+                      style={{ paddingLeft: 50 }}
+                      width="50%"
+                      src={logo}
+                      alt="alternative"
+                    />
                     <div className="text-container">
                       <h1>
                         <span className="turquoise">Pawa Cyber School</span>
@@ -130,12 +143,11 @@ export class HomeScreen extends Component {
                         Learn.Practice.Achieve
                       </h5>
                       <p className="p-large">
-                        Get
-                        started now with Pawa Cyber School e-learning to
+                        Get started now with Pawa Cyber School e-learning to
                         experience next gen education!
                       </p>
                       <Link
-                        className="btn-solid-lg page-scroll"
+                        className="btn-solid-lg page-scroll z-depth-5"
                         rel="noopener noreferrer"
                         to="/login"
                       >
@@ -146,9 +158,12 @@ export class HomeScreen extends Component {
                   <div className="col s12 m6">
                     <div className="">
                       <img
-                        className="img-fluid"
+                        className="img-fluid z-depth-5"
                         src={headerImg}
                         alt="alternative"
+                        style={{
+                          borderRadius: 10,
+                        }}
                       />
                     </div>
                   </div>
@@ -161,8 +176,8 @@ export class HomeScreen extends Component {
             <div className="row container">
               <div className="row">
                 <div className="col s12">
-                  <h4>Valued Services</h4>
-                  <p className="p-heading p-large">
+                  <h4 style={{ fontWeight: "bold" }}>Valued Services</h4>
+                  <p className="p-heading p-large text-18">
                     We serve both teachers and learners in Primary and Secondary
                     education sectors by allowing timeous sharing of learning
                     resources between the learners and the teachers
@@ -171,76 +186,87 @@ export class HomeScreen extends Component {
               </div>
               <div className="row">
                 <div className="col s12 card-services">
-                  <div className="card ">
+                  <div className="card" style={{ height: 475 }}>
                     <img
                       className="card-image"
                       src={servicesImg1}
                       alt="alternative"
                     />
                     <div className="card-body">
-                      <h4 className="card-title">Virtual Classroom</h4>
-                      <p>
-                      Online classrooms that allows students to communicate with their teachers, 
-                      view presentations or videos, interact with other students, 
-                      and engage with resources in work groups
+                      <h4 className="card-title" style={{ fontWeight: "bold" }}>
+                        Virtual Classroom
+                      </h4>
+                      <p className="text-18">
+                        Online classrooms that allows students to communicate
+                        with their teachers, view presentations or videos,
+                        interact with other students, and engage with resources
+                        in work groups
                       </p>
                     </div>
                   </div>
 
-                  <div className="card">
+                  <div className="card" style={{ height: 475 }}>
                     <img
                       className="card-image"
                       src={servicesImg2}
                       alt="alternative"
                     />
                     <div className="card-body">
-                      <h4 className="card-title">3D Animated, Sketch & Video Lessons</h4>
-                      <p>
-                        The system provides a range of content for students to interact with,
-                        this goes from Video lessons, to sketch drawings and 3D animated content. 
-                        this is one of our targets to establish a range of material that helps the student understand the content much more.
+                      <h4 className="card-title" style={{ fontWeight: "bold" }}>
+                        3D Animated, Sketch & Video Lessons
+                      </h4>
+                      <p className="text-18">
+                        The system provides a range of content for students to
+                        interact with, this goes from Video lessons, to sketch
+                        drawings and 3D animated content. this is one of our
+                        targets to establish a range of material that helps the
+                        student understand the content much more.
                       </p>
                     </div>
                   </div>
 
-                  <div className="card">
+                  <div className="card" style={{ height: 475 }}>
                     <img
                       className="card-image"
                       src={servicesImg3}
                       alt="alternative"
                     />
                     <div className="card-body">
-                      <h4 className="card-title">E-Library</h4>
-                      <p>
-                        Pawa Cyber offers a resource repository which has a range of books and materials.
-                        e-books, past exam papers, study guides etc. this is all found at a convenient one stop click
-                        inside the system. Access and convenience made easier
+                      <h4 className="card-title" style={{ fontWeight: "bold" }}>
+                        E-Library
+                      </h4>
+                      <p className="text-18">
+                        Pawa Cyber offers a resource repository which has a
+                        range of books and materials. e-books, past exam papers,
+                        study guides etc. this is all found at a convenient one
+                        stop click inside the system. Access and convenience
+                        made easier
                       </p>
                     </div>
-                    
                   </div>
-                  <div className="card">
+                  <div className="card" style={{ height: 475 }}>
                     <img
                       className="card-image"
                       src={servicesImg3}
                       alt="alternative"
                     />
                     <div className="card-body">
-                      <h4 className="card-title">Learning Management System </h4>
-                      <p>
-                        Here at Pawa Cyber We make to make sure that the principals
-                        are included in the operations of their school so we give them a platform
-                        that makes them in involved in setting activities and managing them.
+                      <h4 className="card-title" style={{ fontWeight: "bold" }}>
+                        Learning Management System{" "}
+                      </h4>
+                      <p className="text-18">
+                        Here at Pawa Cyber We make to make sure that the
+                        principals are included in the operations of their
+                        school so we give them a platform that makes them in
+                        involved in setting activities and managing them.
                       </p>
                     </div>
-                    
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="basic-2 sect-learn" style={{ marginTop: "2px" }}>
+          <div className="basic-2 z-index-1">
             <div className="container">
               <div className="row mt-1">
                 <div className="col s12 m6">
@@ -304,24 +330,24 @@ export class HomeScreen extends Component {
                       Wherever You are
                     </h2>
                     <ul className="list-unstyled li-space-lg">
-                      <li className="media">
+                      <li className="media text-18">
                         <i className="fas fa-check"></i>
                         For sure we know you know what's best for your brilliant
                         child
                       </li>
-                      <li className="media">
+                      <li className="media text-18">
                         <i className="fas fa-check"></i>
                         We are here for one purpose, to deliver that best to
                         your child
                       </li>
-                      <li className="media">
+                      <li className="media text-18">
                         <i className="fas fa-check"></i>
                         Everyone will be pleased from students to teachers to
                         parents
                       </li>
                     </ul>
                     <Link
-                      className="btn-solid-reg"
+                      className="btn-solid-reg z-depth-5"
                       rel="noopener noreferrer"
                       to="/register"
                     >
@@ -333,7 +359,7 @@ export class HomeScreen extends Component {
             </div>
           </div>
 
-          <div className="basic-2 sect-learn">
+          <div className="basic-2 card z-depth-5 header">
             <div className="container">
               <div className="row">
                 <div className="col s12 m6">
@@ -341,20 +367,26 @@ export class HomeScreen extends Component {
                     className="carousel carousel-slider carousel-2"
                     data-indicators="true"
                   >
-                    <div className="carousel-item padding-5" href="#one!">
-                      <div className="content">
-                        <div className="notepaper">
-                          <figure className="quote">
-                            <blockquote className="curly-quotes">
-                              {this.state.quotes[0].quote}
-                            </blockquote>
-                            <figcaption className="quote-by">
-                              —{this.state.quotes[0].author}
-                            </figcaption>
-                          </figure>
+                    {this.state.quotes.map((quote, i) => (
+                      <div
+                        key={i}
+                        className="carousel-item padding-5"
+                        href={`#${toWords(i + 1)}!`}
+                      >
+                        <div className="content">
+                          <div className="notepaper">
+                            <figure className="quote">
+                              <blockquote className="curly-quotes">
+                                {quote.quote}
+                              </blockquote>
+                              <figcaption className="quote-by">
+                                —{quote.author}
+                              </figcaption>
+                            </figure>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ))}
 
                     <div className="carousel-item padding-5 " href="#two!">
                       <div className="content">
@@ -410,18 +442,26 @@ export class HomeScreen extends Component {
               </div>
             </div>
           </div>
-
-          <div id="pricing" className="cards-2 sect-learn">
+          <hr className="invis" />
+          <div id="pricing" className="cards-2">
             <div className="container">
               <div className="row">
                 <div className="col s12">
-                  <h4 >Multiple Pricing Options</h4>
-                  <p className="p-heading p-large" style = {{fontSize: 25}}>
+                  <h3
+                    className="flow-text"
+                    style={{ fontSize: 44, fontWeight: "bold" }}
+                  >
+                    Multiple Pricing Options
+                  </h3>
+                  <p
+                    className="p-heading p-large  flow-text"
+                    style={{ fontSize: 25 }}
+                  >
                     We've prepared pricing plans for all budgets so you can get
                     started right away. They're great for absolutely everyone
                   </p>
                 </div>
-              </div>s
+              </div>
               <div className="row">
                 <div className="col s12">
                   {this.state.plans.map((plan, i) => (
@@ -442,9 +482,7 @@ export class HomeScreen extends Component {
             <div>
               <ReactPlayer width="100%" url={this.state.url} controls={true} />
             </div>
-            <blockquote style={{ marginTop: "7%" }}>
-              
-            </blockquote>
+            <blockquote style={{ marginTop: "7%" }}></blockquote>
           </div>
 
           <OuterFooter></OuterFooter>

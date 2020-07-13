@@ -42,7 +42,6 @@ export class StudentAssignments extends Component {
           <Header />
         </header>
         <main id="main">
-          {" "}
           <div className="wrapper">
             <SideBar />
             <section id="content">

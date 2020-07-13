@@ -6,7 +6,7 @@ import img from "../../assets/images/details-2-office-team-work.svg"
 
 import CoursePackages from '../../components/student-components/CoursePackages';
 
-export class PackagePayment extends Component {
+class PackagePayment extends Component {
 
     render() {
         return (

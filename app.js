@@ -88,13 +88,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build")));
 
-//app.use(_auth.checkToken);
+app.use(_auth.checktoken);
 //app.use(_auth.authorize);
 //app.use(subscriptions.checkSubscription);
 
 app.use("/", routes);
 app.use("/users", users);
 app.use("/api", api);
+
+//Multi file upload
+app.use("/multi_upload", express.static(path.join(__dirname, "uploads_page")));
 
 //uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

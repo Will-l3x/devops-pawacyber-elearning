@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import avatar from "../assets/images/avatar/avatar-7.png";
+import $ from "jquery";
 class Header extends Component {
   constructor() {
     super();
     this.state = {
       logout: false,
+      sidenav_trigger: true,
     };
     this.toggleFullScreen.bind(this);
     this.handleLogout.bind(this);
@@ -36,14 +38,24 @@ class Header extends Component {
   };
   handleLogout = () => {
     this.setState({ logout: true });
-    localStorage.setItem(
-      "user",
-      JSON.stringify({ username: ""})
-    );
+    localStorage.setItem("user", JSON.stringify({ username: "" }));
   };
+
+  toggleSidenav() {
+    const thiss = this;
+    function triggerOn() {
+      $(".toggle-ls-bar").removeClass("sidenav-translate");
+      thiss.setState({ sidenav_trigger: true });
+    }
+    function triggerOff() {
+      $(".toggle-ls-bar").addClass("sidenav-translate");
+      thiss.setState({ sidenav_trigger: false });
+    }
+    this.state.sidenav_trigger ? triggerOff() : triggerOn();
+  }
   render() {
     if (this.state.logout) {
-      console.log("logged out")
+      console.log("logged out");
       return <Redirect to="/login" />;
     }
     return (
@@ -53,9 +65,17 @@ class Header extends Component {
             <ul className="left">
               <li>
                 <h1 className="logo-wrapper">
-                  <Link to="#" className="brand-logo darken-1">
+                  <Link
+                    to="#!"
+                    data-target="slide-out"
+                    onClick={this.toggleSidenav.bind(this)}
+                    className="white-text waves-effect sidenav-trigger-2 waves-light hide-on-large-only"
+                  >
+                    <i className="material-icons">format_indent_increase</i>
+                  </Link>
+                  <Link to="#" className="brand-logo">
                     <span className="logo-text hide-on-med-and-down">
-                      PawaCyber eLearning
+                      Pawa Cyber eLearning
                     </span>
                   </Link>
                 </h1>

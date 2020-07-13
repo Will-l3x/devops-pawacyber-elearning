@@ -5,6 +5,13 @@
     src: local("Material Icons"), local("MaterialIcons-Regular"), url("../fonts/material-design-icons/MaterialIcons-Regular.ttf") format("truetype"), url("../fonts/material-design-icons/MaterialIcons-Regular.woff2") format("woff2"), url("../fonts/material-design-icons/MaterialIcons-Regular.woff") format("woff"), url("../fonts/material-design-icons/MaterialIcons-Regular.eot");
 }
 
+@import url("https://fonts.googleapis.com/css?family=Exo:400,600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Teko:400,600&display=swap");
+
+:root {
+    --font-family: 'Exo', sans-serif;
+}
+
 .card0 {
     box-shadow: 0px 4px 8px 0px #757575;
     border-radius: 0px
@@ -42,7 +49,11 @@
 }
 
 .sidenav-trigger-2 {
-    transform: translate(-105%, 1%) !important;
+    transform: translate(25%, -15%) !important;
+}
+
+.sidenav-translate {
+    transform: translate(-250px, 10px) !important;
 }
 
 .twitter {
@@ -112,6 +123,10 @@
 
 .marginBtm-0 {
     margin-bottom: 0px !important;
+}
+
+.margin-btm-50 {
+    margin-bottom: 50px !important;
 }
 
 .text-carousel {
@@ -395,10 +410,6 @@ a {
     text-align: right;
     white-space: nowrap;
     width: 40%;
-}
-
-.page-footer {
-    margin-top: 20px;
 }
 
 .upload-disabled {
@@ -807,7 +818,7 @@ h3 {
     transform: translateY(5%);
     color: #6a5f49;
     text-shadow: 0 1px 1px white;
-    background-color: #f2f6c1;
+    /* background-color: #fbfddd; */
     background-image: -webkit-radial-gradient(center, cover, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 90%), -webkit-repeating-linear-gradient(top, transparent 0%, transparent 29px, rgba(239, 207, 173, 0.7) 29px, rgba(239, 207, 173, 0.7) 30px);
     background-image: -moz-radial-gradient(center, cover, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 90%), -moz-repeating-linear-gradient(top, transparent 0%, transparent 29px, rgba(239, 207, 173, 0.7) 29px, rgba(239, 207, 173, 0.7) 30px);
     background-image: -o-radial-gradient(center, cover, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 90%), -o-repeating-linear-gradient(top, transparent 0%, transparent 29px, rgba(239, 207, 173, 0.7) 29px, rgba(239, 207, 173, 0.7) 30px);
@@ -816,8 +827,11 @@ h3 {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), inset 0 0 5px #d8e071, 0 0 1px rgba(0, 0, 0, 0.1), 0 2px rgba(0, 0, 0, 0.02);
-    box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), inset 0 0 5px #d8e071, 0 0 1px rgba(0, 0, 0, 0.1), 0 2px rgba(0, 0, 0, 0.02);
+    /* -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), inset 0 0 5px #d6daab, 0 0 1px rgba(0, 0, 0, 0.1), 0 2px rgba(0, 0, 0, 0.02);
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0.5),
+        inset 0 0 5px #d6daab,
+        0 0 1px rgba(0, 0, 0, 0.1),
+        0 2px rgba(0, 0, 0, 0.02); */
 }
 
 .notepaper:before,
@@ -840,13 +854,13 @@ h3 {
     z-index: -1;
     left: 0;
     right: 0;
-    background: rgba(242, 246, 193, 0.9);
-    border: 1px solid rgba(170, 157, 134, 0.7);
-    -webkit-transform: rotate(2deg);
-    -moz-transform: rotate(2deg);
-    -ms-transform: rotate(2deg);
-    -o-transform: rotate(2deg);
-    transform: rotate(2deg);
+    background: rgba(246, 250, 203, 0.7);
+    border: 1px solid rgba(192, 178, 154, 0.7);
+    -webkit-transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -ms-transform: rotate(3deg);
+    -o-transform: rotate(3deg);
+    transform: rotate(3deg);
 }
 
 .quote {
@@ -956,14 +970,52 @@ ul.card-action-buttons2 li {
     top: 60% !important;
     font-size: 16px !important;
 }
-.custom-options__placeholder{
+
+.custom-options__placeholder {
     top: 65% !important;
 }
+
 .custom-options__indicator-separator {
     display: none !important;
 }
+
 .my-divider {
     height: 0.5px;
     overflow: hidden;
     background-color: #9e9e9e;
+}
+
+.show-rs-bar {
+    transform: translateX(0px);
+}
+
+.hide-rs-bar {
+    transform: translateX(100%);
+}
+
+.video-class-title {
+    color: #000000;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.margin-0 {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.text-16{
+    font-size: 16px !important;
+    font-weight: 200 !important;
+}
+.text-18{
+    font-size: 18px !important;
+    font-weight: 200 !important;
+}
+.text-20{
+    font-size: 20px !important;
+    font-weight: 200 !important;
+}
+.text-24{
+    font-size: 24px !important;
+    font-weight: 200 !important;
 }
