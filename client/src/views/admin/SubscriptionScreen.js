@@ -46,11 +46,19 @@ export class SubscriptionScreen extends Component {
       ],
       rows: [],
       subId: "",
-      selectedSub: {},
+      selectedSub: {
+        maxgrade: 3,
+        mingrade: 0,
+        price: 0,
+        subscriptiondesc: "",
+        subscriptionname: "",
+      },
     };
     this.handleSave = this.handleSave.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
@@ -63,6 +71,7 @@ export class SubscriptionScreen extends Component {
   getDashData() {
     const subscriptions = [];
     AdminService.get_subs_plans().then((response) => {
+      console.log(response);
       for (const subscription of response) {
         subscription.actions = (
           <ul className="card-action-buttons2">
@@ -71,10 +80,7 @@ export class SubscriptionScreen extends Component {
                 href="#!"
                 className="btn-floating waves-effect waves-light modal-trigger light-blue"
                 data-target="modaledit"
-                onClick={this.setState({
-                  subId: subscription.id,
-                  selectedSub: subscription,
-                })}
+                onClick={() => this.handleEdit(subscription)}
               >
                 <i className="material-icons">create</i>
               </a>
@@ -96,15 +102,35 @@ export class SubscriptionScreen extends Component {
       this.setState({ rows: subscriptions });
     });
   }
-
+  handleEdit = (subscription) => {
+    const selectedSub = {
+      maxgrade: subscription.maxgrade,
+      mingrade: subscription.mingrade,
+      price: subscription.price,
+      subscriptiondesc: subscription.subscriptiondesc,
+      subscriptionname: subscription.subscriptionname,
+    };
+    this.setState(
+      {
+        subId: subscription.subscriptionId,
+        selectedSub,
+      },
+      () => {
+        const elem = document.getElementById("modaledit");
+        const modal = M.Modal.init(elem);
+        this.modal = modal;
+        modal.open();
+      }
+    );
+  };
   handleSubmit = (event) => {
     event.preventDefault();
     var data = {
-      subscriptionname: event.target.subscriptionname.value,
-      subscriptiondesc: event.target.subscriptiondesc.value,
-      mingrade: event.target.mingrade.value,
-      maxgrade: event.target.maxgrade.value,
-      price: event.target.price.value,
+      subscriptionname: event.target.addsubscriptionname.value,
+      subscriptiondesc: event.target.addsubscriptiondesc.value,
+      mingrade: event.target.addmingrade.value,
+      maxgrade: event.target.addmaxgrade.value,
+      price: event.target.addprice.value,
     };
     AdminService.post_new_plan(data).then((response) => {
       if (response === undefined) {
@@ -125,47 +151,74 @@ export class SubscriptionScreen extends Component {
       maxgrade: event.target.maxgrade.value,
       price: event.target.price.value,
     };
-    AdminService.update_plan(this.state.subId, data).then((response) => {
-      if (response === undefined) {
-        alert(response.message);
-      } else {
-        alert(response.message);
-        document.getElementById("sibs").reset();
-        this.getDashData();
-      }
-    });
-  };
-  handleSave = (event) => {
-    event.preventDefault();
-    var data = {
-      subscriptionname: event.target.editsubscriptionname.value,
-      subscriptiondesc: event.target.editsubscriptiondesc.value,
-      mingrade: event.target.editmingrade.value,
-      maxgrade: event.target.editmaxgrade.value,
-      price: event.target.editprice.value,
-    };
-    AdminService.update_plan(this.state.subId, data).then((response) => {
-      if (response === undefined) {
-        alert(response.message);
-      } else {
-        alert(response.message);
-        document.getElementById("sibs").reset();
-        this.getDashData();
-      }
-    });
-  };
-  handleDelete = () => {
-    AdminService.delete_plan(this.state.subId)
+    console.log(data);
+    AdminService.update_plan(this.state.subId, data)
       .then((response) => {
-        console.log(response);
-        this.getDashData();
+        if (response.message === "An error occured") {
+          M.toast({
+            html: `An error occured, update failed!`,
+            classes: "red accent-2",
+          });
+          this.getDashData();
+        } else if (response.message === "Failed to update") {
+          M.toast({
+            html: `Failed to update, update failed!`,
+            classes: "red accent-2",
+          });
+          this.getDashData();
+        } else {
+          M.toast({
+            html: "Update Successfull",
+            classes: "green accent-3",
+          });
+          document.getElementById("sibs").reset();
+          this.getDashData();
+        }
       })
       .catch((error) => {
-        console.log(error);
+        M.toast({
+          html: `An error occured, update failed!`,
+          classes: "red accent-2",
+        });
         this.getDashData();
       });
   };
 
+  handleDelete = () => {
+    AdminService.delete_plan(this.state.subId)
+      .then((response) => {
+        if (response.message === "An error occured") {
+          M.toast({
+            html: `An error occured, update failed!`,
+            classes: "red accent-2",
+          });
+          this.getDashData();
+        } else {
+          M.toast({
+            html: `${response.message}, delete successfull`,
+            classes: "green accent-3",
+          });
+          document.getElementById("sibs").reset();
+          this.getDashData();
+        }
+        this.getDashData();
+      })
+      .catch((error) => {
+        M.toast({
+          html: `${error.message}, delete failed`,
+          classes: "red accent-2",
+        });
+        this.getDashData();
+      });
+  };
+  onChange = (e) => {
+    e.preventDefault();
+    const selectedSub = this.state.selectedSub;
+    selectedSub[e.target.name] = e.target.value;
+    this.setState({
+      selectedSub,
+    });
+  };
   render() {
     return (
       <div>
@@ -217,21 +270,21 @@ export class SubscriptionScreen extends Component {
                                 <div className="row">
                                   <div className="input-field col s4">
                                     <input
-                                      id="subscriptionname"
+                                      id="addsubscriptionname"
                                       type="text"
-                                      name="subscriptionname"
+                                      name="addsubscriptionname"
                                     ></input>
-                                    <label htmlFor="subscriptionname">
+                                    <label htmlFor="addsubscriptionname">
                                       Package Name
                                     </label>
                                   </div>
                                   <div className="input-field col s8">
                                     <input
-                                      id="subscriptiondesc"
+                                      id="addsubscriptiondesc"
                                       type="text"
-                                      name="subscriptiondesc"
+                                      name="addsubscriptiondesc"
                                     ></input>
-                                    <label htmlFor="subscriptiondesc">
+                                    <label htmlFor="addsubscriptiondesc">
                                       Short Description
                                     </label>
                                   </div>
@@ -239,31 +292,31 @@ export class SubscriptionScreen extends Component {
                                 <div className="row">
                                   <div className="input-field col s4">
                                     <input
-                                      id="mingrade"
+                                      id="addmingrade"
                                       type="number"
-                                      name="mingrade"
+                                      name="addmingrade"
                                     ></input>
-                                    <label htmlFor="mingrade">
+                                    <label htmlFor="addmingrade">
                                       Starting Grade
                                     </label>
                                   </div>
                                   <div className="input-field col s4">
                                     <input
-                                      id="maxgrade"
+                                      id="addmaxgrade"
                                       type="number"
-                                      name="maxgrade"
+                                      name="addmaxgrade"
                                     ></input>
-                                    <label htmlFor="maxgrade">
+                                    <label htmlFor="addmaxgrade">
                                       Ending Grade
                                     </label>
                                   </div>
                                   <div className="input-field col s4">
                                     <input
-                                      id="price"
+                                      id="addprice"
                                       type="number"
-                                      name="price"
+                                      name="addprice"
                                     ></input>
-                                    <label htmlFor="price">Price</label>
+                                    <label htmlFor="addprice">Price</label>
                                   </div>
                                 </div>
                               </div>
@@ -290,21 +343,29 @@ export class SubscriptionScreen extends Component {
                             <div className="row">
                               <div className="input-field col s4">
                                 <input
-                                  id="editsubscriptionname"
+                                  id="subscriptionname"
                                   type="text"
-                                  name="editsubscriptionname"
+                                  name="subscriptionname"
+                                  onChange={this.onChange}
+                                  value={
+                                    this.state.selectedSub.subscriptionname
+                                  }
                                 ></input>
-                                <label htmlFor="editsubscriptionname">
+                                <label htmlFor="subscriptionname">
                                   Package Name
                                 </label>
                               </div>
                               <div className="input-field col s8">
                                 <input
-                                  idedit="subscriptiondesc"
+                                  id="subscriptiondesc"
                                   type="text"
-                                  name="editsubscriptiondesc"
+                                  name="subscriptiondesc"
+                                  onChange={this.onChange}
+                                  value={
+                                    this.state.selectedSub.subscriptiondesc
+                                  }
                                 ></input>
-                                <label htmlFor="editsubscriptiondesc">
+                                <label htmlFor="subscriptiondesc">
                                   Short Description
                                 </label>
                               </div>
@@ -312,31 +373,33 @@ export class SubscriptionScreen extends Component {
                             <div className="row">
                               <div className="input-field col s4">
                                 <input
-                                  id="editmingrade"
+                                  id="mingrade"
                                   type="number"
-                                  name="editmingrade"
+                                  name="mingrade"
+                                  onChange={this.onChange}
+                                  value={this.state.selectedSub.mingrade}
                                 ></input>
-                                <label htmlFor="editmingrade">
-                                  Starting Grade
-                                </label>
+                                <label htmlFor="mingrade">Starting Grade</label>
                               </div>
                               <div className="input-field col s4">
                                 <input
-                                  id="editmaxgrade"
+                                  id="maxgrade"
                                   type="number"
-                                  name="editmaxgrade"
+                                  name="maxgrade"
+                                  onChange={this.onChange}
+                                  value={this.state.selectedSub.maxgrade}
                                 ></input>
-                                <label htmlFor="editmaxgrade">
-                                  Ending Grade
-                                </label>
+                                <label htmlFor="maxgrade">Ending Grade</label>
                               </div>
                               <div className="input-field col s4">
                                 <input
-                                  id="editprice"
+                                  id="price"
                                   type="number"
-                                  name="editprice"
+                                  name="price"
+                                  onChange={this.onChange}
+                                  value={this.state.selectedSub.price}
                                 ></input>
-                                <label htmlFor="editprice">Price</label>
+                                <label htmlFor="price">Price</label>
                               </div>
                             </div>
                           </div>
@@ -361,7 +424,7 @@ export class SubscriptionScreen extends Component {
                         href="#!"
                         style={{ marginRight: 10 }}
                         className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                        onClick= {this.handleDelete}
+                        onClick={this.handleDelete}
                       >
                         Yes
                       </a>

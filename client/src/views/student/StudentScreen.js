@@ -9,7 +9,7 @@ import PendingAssignments from "../../components/student-components/Assignments"
 import MarkedAssignments from "../../components/student-components/MarkedAssignmentsCard";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
-import {StudentService} from '../../services/student';
+import { StudentService } from "../../services/student";
 
 export class StudentScreen extends Component {
   constructor(props) {
@@ -27,12 +27,12 @@ export class StudentScreen extends Component {
     this.getDashData();
   }
 
-  getDashData(){
-   this.user= JSON.parse(localStorage.getItem("user"));
+  getDashData() {
+    this.user = JSON.parse(localStorage.getItem("user"));
     StudentService.get_all_courses(this.user.userid) // by student id
-    .then((response) => {
-      this.setState({ courses: response })
-    });
+      .then((response) => {
+        this.setState({ courses: response === undefined ? [] : response });
+      });
 
     // StudentService.get_student_marked_classwork(1) // Course Id
     // .then((response) => {

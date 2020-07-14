@@ -57,7 +57,7 @@ class TeacherLiveClass extends Component {
   }
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/teacher-video-player" />;
+      return <Redirect to="video-player" />;
     }
     return (
       <div>

@@ -30,6 +30,8 @@ export class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
+      logoPos: 0,
+      logoEnd: false,
       plans: [],
       url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
       quotes: [
@@ -63,7 +65,6 @@ export class HomeScreen extends Component {
 
   componentDidMount() {
     this.getDashData();
-
     $(".js-height-full").height($(window).height() - 70);
     $(".js-height-parent").each(function () {
       $(this).height($(this).parent().first().height());
@@ -128,13 +129,26 @@ export class HomeScreen extends Component {
                   style={{ paddingBottom: 70, paddingTop: 70 }}
                 >
                   <div className="col s12 m6">
-                    <img
-                      className="img-fluid"
-                      style={{ paddingLeft: 50 }}
-                      width="50%"
-                      src={logo}
-                      alt="alternative"
-                    />
+                    <div
+                      style={{
+                        width: "50%",
+                        marginLeft: 50,
+                        borderTopLeftRadius: 50,
+                        borderBottomRightRadius: 50,
+                      }}
+                    >
+                      <img
+                        className="img-fluid z-depth-5"
+                        style={{
+                          borderTopLeftRadius: 50,
+                          borderBottomRightRadius: 50,
+                        }}
+                        width="100%"
+                        src={logo}
+                        alt="alternative"
+                      />
+                    </div>
+
                     <div className="text-container">
                       <h1>
                         <span className="turquoise">Pawa Cyber School</span>
@@ -330,20 +344,35 @@ export class HomeScreen extends Component {
                       Wherever You are
                     </h2>
                     <ul className="list-unstyled li-space-lg">
-                      <li className="media text-18">
-                        <i className="fas fa-check"></i>
-                        For sure we know you know what's best for your brilliant
-                        child
+                      <li>
+                        <i
+                          className="fas fa-check"
+                          style={{ paddingRight: 10 }}
+                        ></i>
+                        <span className="media text-18">
+                          For sure we know you know what's best for your
+                          brilliant child
+                        </span>
                       </li>
-                      <li className="media text-18">
-                        <i className="fas fa-check"></i>
-                        We are here for one purpose, to deliver that best to
-                        your child
+                      <li>
+                        <i
+                          className="fas fa-check"
+                          style={{ paddingRight: 10 }}
+                        ></i>
+                        <span className="media text-18">
+                          We are here for one purpose, to deliver that best to
+                          your child
+                        </span>
                       </li>
-                      <li className="media text-18">
-                        <i className="fas fa-check"></i>
-                        Everyone will be pleased from students to teachers to
-                        parents
+                      <li>
+                        <i
+                          className="fas fa-check"
+                          style={{ paddingRight: 10 }}
+                        ></i>
+                        <span className="media text-18">
+                          Everyone will be pleased from students to teachers to
+                          parents
+                        </span>
                       </li>
                     </ul>
                     <Link

@@ -1,7 +1,16 @@
-import axios from 'axios';
-
-const apiUrl = "https://cybers.azurewebsites.net/api";
+import axios from "axios";
+const qs = require("qs");
+const token = JSON.parse(localStorage.getItem("token"));
 // const apiUrl = "http://localhost:3001/api";
+
+var config = {
+  baseURL: "https://cybers.azurewebsites.net/api",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+    Authorization: `Bearer ${token}`,
+  },
+  
+};
 
 export const EventService = {
   get_events,
@@ -12,61 +21,45 @@ export const EventService = {
 //events
 async function get_events(user_id) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/events/get-user-events/${user_id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+    let res = await axios(
+      `/events/get-user-events/${user_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function post_events(user_id, data) {
- try {
-    let res = await axios({
-      url: `${apiUrl}/events/add-user-events/${user_id}`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+  try {
+    let res = await axios.post(
+      `/events/add-user-events/${user_id}`,
+      qs.stringify(data),
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function update_events(user_id, data) {
- try {
-    let res = await axios({
-      url: `${apiUrl}/events/update-user-events/${user_id}`,
-      method: "put",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+  try {
+    let res = await axios.put(
+      `/events/update-user-events/${user_id}`,
+      qs.stringify(data),
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function delete_events(user_id, event_id) {
- try {
-    let res = await axios({
-      url: `${apiUrl}/events/delete-user-events/${user_id}/${event_id}`,
-      method: "delete",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+  try {
+    let res = await axios.delete(
+      `/events/delete-user-events/${user_id}/${event_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);

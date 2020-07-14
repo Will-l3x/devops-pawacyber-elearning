@@ -1,9 +1,15 @@
 import axios from "axios";
 import img from "../assets/images/blog_1.jpg";
 const qs = require("qs");
-
-const apiUrl = "https://cybers.azurewebsites.net/api";
-// const apiUrl = "http://localhost:3001/api";
+const token = JSON.parse(localStorage.getItem("token"));
+var config = {
+  baseURL: "https://cybers.azurewebsites.net/api",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+    Authorization: `Bearer ${token}`,
+  },
+  
+};
 
 export const AdminService = {
   post_new_school,
@@ -28,30 +34,20 @@ export const AdminService = {
   get_subadmins,
 };
 
-const config = {
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-};
-
 //POST new School
 async function post_new_school(data) {
   try {
-    let res = await axios.post(
-      `${apiUrl}/add_school`,
-      qs.stringify(data),
-      config
-    );
+    let res = await axios.post(`add_school`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 
-async function update_school(id,data) {
+async function update_school(id, data) {
   try {
     let res = await axios.put(
-      `${apiUrl}/update_school/${id}`,
+      `update_school/${id}`,
       qs.stringify(data),
       config
     );
@@ -62,18 +58,11 @@ async function update_school(id,data) {
   }
 }
 
-
 // Get all schools
 async function get_all_schools() {
   try {
-    let res = await axios({
-      url: `${apiUrl}/schools`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`/schools`, config);
+    console.log(res);
     return res.data.data.schools;
   } catch (err) {
     console.error(err);
@@ -88,36 +77,20 @@ async function get_all_schools() {
   }
 }
 
-
 // DELETE A SCHOOL
 async function delete_school(id) {
   try {
-    let res = await axios.delete({
-      url: `${apiUrl}/del_school/${id}`,
-      method: "delete",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.delete(`del_school/${id}`, config);
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 
-
-
-
-
 // Subscription Plans
 async function post_new_plan(data) {
   try {
-    let res = await axios.post(
-      `${apiUrl}/add_subscription`,
-      qs.stringify(data),
-      config
-    );
+    let res = await axios.post(`add_subscription`, qs.stringify(data), config);
     console.log(res.data);
     return res.data;
   } catch (err) {
@@ -126,13 +99,13 @@ async function post_new_plan(data) {
 }
 
 async function update_plan(id, data) {
+  console.log(data)
   try {
     let res = await axios.put(
-      `${apiUrl}/update_subscription/${id}`,
+      `update_subscription/${id}`,
       qs.stringify(data),
       config
     );
-    console.log(res.data);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -141,14 +114,7 @@ async function update_plan(id, data) {
 
 async function get_subs_plans() {
   try {
-    let res = await axios({
-      url: `${apiUrl}/subscriptions`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`subscriptions`, config);
     if (res.data.success) {
       return res.data.data.subscriptions;
     } else {
@@ -162,14 +128,7 @@ async function get_subs_plans() {
 
 async function delete_plan(id) {
   try {
-    let res = await axios.delete({
-      url: `${apiUrl}/del_subscription/${id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.delete(`del_subscription/${id}`, config);
     if (res.data.success) {
       return res.data.data.subscriptions;
     } else {
@@ -181,19 +140,10 @@ async function delete_plan(id) {
   }
 }
 
-
 //Subscribe School
 async function subscribe_school(data) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/subscribe`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(`subscribe`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -203,14 +153,7 @@ async function subscribe_school(data) {
 //SUBADMINS
 async function get_subadmins() {
   try {
-    let res = await axios({
-      url: `${apiUrl}/subadmins`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`subadmins`, config);
     return res.data.data.subadmins;
   } catch (err) {
     console.error(err);
@@ -218,33 +161,17 @@ async function get_subadmins() {
 }
 async function get_subadmin(id) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/subadmin/${id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`subadmin/${id}`, config);
     return res.data.data;
   } catch (err) {
     console.error(err);
   }
 }
 
-
 //ROLES
 async function post_new_role(data) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/add_role`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios(`add_role`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -253,15 +180,7 @@ async function post_new_role(data) {
 
 async function update_roles(id, data) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/update_role/${id}`,
-      method: "put",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.put(`update_role/${id}`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -270,14 +189,7 @@ async function update_roles(id, data) {
 
 async function get_roles() {
   try {
-    let res = await axios({
-      url: `${apiUrl}/roles`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`roles`, config);
     return res.data.data.roles;
   } catch (err) {
     console.error(err);
@@ -286,34 +198,21 @@ async function get_roles() {
 
 async function delete_roles(id) {
   try {
-    let res = await axios.delete({
-      url: `${apiUrl}/del_role/${id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.delete(`del_role/${id}`, config);
     return res.data.data.roles;
   } catch (err) {
     console.error(err);
   }
 }
 
-
 //COURSE
 async function post_new_course(data) {
-  console.log(data);
   try {
-    let res = await axios({
-      url: `${apiUrl}/schooladmin/add_shared_class`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios(
+      `schooladmin/add_shared_class`,
+      qs.stringify(data),
+      config
+    );
     return res;
   } catch (err) {
     console.error(err);
@@ -321,16 +220,9 @@ async function post_new_course(data) {
 }
 async function get_courses() {
   try {
-    /**
-     * let res = await axios({
-      url: `${apiUrl}/schooladmin/shared_class`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-     */
+    /*
+         let res = await axios.get(schooladmin/shared_class`, config);
+         */
     let res = {
       data: [
         {
@@ -339,7 +231,6 @@ async function get_courses() {
           img,
           grade: 0,
         },
-
       ],
     };
     return res;
@@ -348,19 +239,13 @@ async function get_courses() {
   }
 }
 
-
-
 async function post_file(data) {
   try {
-    let res = await axios({
-      url: `https://cybers.azurewebsites.net/api/upload/new`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(
+      `https://cybers.azurewebsites.net/api/upload/new`,
+      qs.stringify(data),
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
@@ -368,17 +253,12 @@ async function post_file(data) {
 }
 
 async function post_new_topic(data) {
-  console.log(data);
   try {
-    let res = await axios({
-      url: `${apiUrl}/schooladmin/add_shared_topic`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(
+      `schooladmin/add_shared_topic`,
+      qs.stringify(data),
+      config
+    );
     return res;
   } catch (err) {
     console.error(err);
@@ -387,16 +267,7 @@ async function post_new_topic(data) {
 
 async function get_topics(id) {
   try {
-    /**
-     * let res = await axios({
-      url: `${apiUrl}/schooladmin/shared_class`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-     */
+    /* let res = await axios(.get`schooladmin/shared_class`, config)*/
 
     let res = {
       data: [
@@ -405,7 +276,7 @@ async function get_topics(id) {
           description: "...",
           img,
           grade: 0,
-        }
+        },
       ],
     };
     return res;
@@ -413,5 +284,3 @@ async function get_topics(id) {
     console.error(err);
   }
 }
-
-

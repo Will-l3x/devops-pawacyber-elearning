@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
-import VideoPlayer from "../../components/VideoPlayer";
+import SideBar from "./SideBar";
+import Header from "./header";
+import Footer from "./footer";
+import VideoPlayer from "./VideoPlayer";
 
-class StudentLivePlayer extends Component {
+class LivePlayer extends Component {
   constructor() {
     super();
     this.state = {
@@ -43,4 +43,4 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentLivePlayer);
+export default connect(mapStateToProps, mapDispatchToProps)(LivePlayer);

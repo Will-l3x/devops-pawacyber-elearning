@@ -11,7 +11,8 @@ const schoolid = user === null ? "" : user.schoolid;
 
 SchoolService.get_all_teachers(schoolid)
   .then((response) => {
-    for (const teacher of response) {
+    const data = response === undefined ? [] : response;
+    for (const teacher of data) {
       teacher.value = teacher.teacherId;
       teacher.label = teacher.lastname + " " + teacher.firstname;
       options.push(teacher);
@@ -21,7 +22,7 @@ SchoolService.get_all_teachers(schoolid)
     console.log(error);
     options = [];
   });
-class RoleOptions extends Component {
+class TeacherOptions extends Component {
   constructor() {
     super();
     this.state = {
@@ -52,4 +53,4 @@ class RoleOptions extends Component {
   }
 }
 
-export default connect(null, null)(RoleOptions);
+export default connect(null, null)(TeacherOptions);

@@ -21,7 +21,7 @@ class UploadNewAssignment extends Component {
                 },
                 {
                     label: "Upload Date",
-                    field: "file",
+                    field: "upload",
                     sort: "asc",
                     width: "30%",
                 },

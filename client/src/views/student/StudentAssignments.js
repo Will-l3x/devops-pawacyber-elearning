@@ -23,7 +23,7 @@ export class StudentAssignments extends Component {
     this.user = JSON.parse(localStorage.getItem("user"));
     StudentService.get_student_all_classwork(1) //course id
       .then((response) => {
-        this.setState({ assignment: response });
+        this.setState({ assignment: response === undefined ? [] : response });
       });
   }
 
