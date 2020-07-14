@@ -150,5 +150,6 @@ router.put("/schooladmin/update_syllabus", _schooladmin.update_syllabus);
 //////////////////////uploads//////////////////////////////////////////////
 
 router.post("/upload/new", _uploads.upload);
+router.post("/upload/multi", _uploads.multiUpload);
 
 module.exports = router;
