@@ -138,7 +138,7 @@ export class HomeScreen extends Component {
                       }}
                     >
                       <img
-                        className="img-fluid z-depth-5"
+                        className="img-fluid"
                         style={{
                           borderTopLeftRadius: 50,
                           borderBottomRightRadius: 50,
@@ -151,7 +151,7 @@ export class HomeScreen extends Component {
 
                     <div className="text-container">
                       <h1>
-                        <span className="turquoise">Pawa Cyber School</span>
+                        <span className="turquoise text-shadow-2">Pawa Cyber School</span>
                       </h1>
                       <h5 style={{ marginTop: "-5px" }}>
                         Learn.Practice.Achieve

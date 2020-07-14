@@ -929,10 +929,12 @@ h3 {
 .min-height-370 {
     min-height: 370px !important;
 }
+
 .max-height-600 {
     max-height: 600px !important;
 }
-.conference{
+
+.conference {
     margin: auto;
     width: 100%;
 }
@@ -1010,19 +1012,29 @@ ul.card-action-buttons2 li {
     margin: 0px !important;
     padding: 0px !important;
 }
-.text-16{
+
+.text-16 {
     font-size: 16px !important;
     font-weight: 400 !important;
 }
-.text-18{
+
+.text-18 {
     font-size: 18px !important;
     font-weight: 400 !important;
 }
-.text-20{
+
+.text-20 {
     font-size: 20px !important;
     font-weight: 400 !important;
 }
-.text-24{
+
+.text-24 {
     font-size: 24px !important;
     font-weight: 400 !important;
+}
+
+.text-shadow-2 {
+    text-shadow: 0 13.36px 8.896px #a2b1b4,
+        0 -2px 1px #fff !important;
+        
 }
