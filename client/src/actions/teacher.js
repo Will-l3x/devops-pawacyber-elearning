@@ -14,7 +14,8 @@ export const get_all_courses = (teacher_id) => (dispatch) => {
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
 export const get_teacher_pending_classwork = (teacher_id, classroom_id) => (
@@ -29,7 +30,8 @@ export const get_teacher_pending_classwork = (teacher_id, classroom_id) => (
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
 export const get_teacher_unmarked_classwork = (teacher_id, classroom_id) => (
@@ -44,12 +46,21 @@ export const get_teacher_unmarked_classwork = (teacher_id, classroom_id) => (
       });
     })
     .catch((error) => {
-      console.log(error); dispatch(AlertActions.error(error));
+      console.log(error);
+      dispatch(AlertActions.error(error));
     });
 };
+export const live_course = (payload) => (dispatch) => {
+  dispatch({
+    type: TeacherConstants.GET_LIVE_COURSE,
+    payload,
+  });
+};
+
 const TeacherActions = {
   get_all_courses,
   get_teacher_pending_classwork,
   get_teacher_unmarked_classwork,
+  live_course,
 };
-export default TeacherActions; 
+export default TeacherActions;

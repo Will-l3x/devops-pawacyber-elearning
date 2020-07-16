@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import M from "materialize-css";
 import Select from "react-select";
-import { SchoolService } from "../../services/school";
+//import { SchoolService } from "../../services/school";
 import { AdminService } from "../../services/admin";
 
 let options = [];
 
-const user = JSON.parse(localStorage.getItem("user"));
+//const user = JSON.parse(localStorage.getItem("user"));
 
 AdminService.get_subs_plans()
   .then((response) => {

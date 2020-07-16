@@ -96,6 +96,9 @@ app.use("/", routes);
 app.use("/users", users);
 app.use("/api", api);
 
+//Multi file upload
+app.use("/multi_upload", express.static(path.join(__dirname, "uploads_page")));
+
 //uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 //syllabi

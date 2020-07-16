@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { Router, Route, Switch } from "react-router";
-import { createBrowserHistory } from "history";
-
 /** Screens */
 import { HomeScreen } from "./views/home/HomeScreen";
 import { AboutScreen } from "./views/about/AboutScreen";
@@ -13,8 +11,8 @@ import { SchoolManagement } from "./views/admin/SchoolManagement";
 import { SubscriptionScreen } from "./views/admin/SubscriptionScreen";
 import CourseListScreen from "./views/admin/CourseListScreen";
 import { RolesScreen } from "./views/admin/Roles";
-import {UploadMaterial} from "./views/teacher/TeacherUploadMaterial";
-import {EnrolStudent} from "./views/teacher/EnrolStudent";
+import { UploadMaterial } from "./views/teacher/TeacherUploadMaterial";
+import { EnrolStudent } from "./views/teacher/EnrolStudent";
 
 import { CourseOutlineScreen } from "./components/CourseOutlineScreen";
 import { ClassroomScreen } from "./components/classroom/ClassroomScreen";
@@ -36,6 +34,13 @@ import { ClassesScreen } from "./views/school/ClassesScreen";
 import { SchoolCalendarScreen } from "./views/school/SchoolCalendarScreen";
 import { SchoolAddCourseScreen } from "./views/school/SchoolAddCourseScreen";
 
+import PackagePayment from "./views/student/PackagePayment";
+import UploadNewAssignment from "./views/teacher/TeacherAssignments";
+import SubadminScreen from "./views/admin/SubadminScreen";
+import StudentLiveClass from "./views/student/StudentLiveClass";
+import TeacherLiveClass from "./views/teacher/TeacherLiveClass";
+import LivePlayer from "./components/LivePlayer";
+
 import $ from "jquery";
 import "materialize-css/dist/css/materialize.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -43,11 +48,8 @@ import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
-import {PackagePayment} from "./views/student/PackagePayment";
-import { UploadNewAssignment } from "./views/teacher/TeacherAssignments";
-import SubadminScreen from "./views/admin/SubadminScreen";
-
-const history = createBrowserHistory();
+import history from "./history";
+import TeacherConferenceRoom from "./views/teacher/TeacherConferenceRoom";
 
 class App extends Component {
   componentDidMount() {
@@ -185,6 +187,27 @@ class App extends Component {
             />
 
             <Route exact path="/student" component={StudentScreen} />
+
+            <Route
+              exact
+              path="/student-video-class"
+              component={StudentLiveClass}
+            />
+            <Route
+              exact
+              path="/video-conference"
+              component={ TeacherConferenceRoom}
+            />
+            <Route                  
+              exact
+              path="/video-player"
+              component={LivePlayer}
+            />
+            <Route
+              exact
+              path="/teacher-video-class"
+              component={TeacherLiveClass}
+            />
 
             <Route exact path="/subject-content" component={SubjectContent} />
             <Route

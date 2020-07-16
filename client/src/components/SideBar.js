@@ -6,7 +6,7 @@ import AdminLink from "../views/admin/AdminLink";
 import SchoolLink from "../views/school/SchoolLink";
 import StudentLink from "../views/student/StudentLink";
 import TeacherLink from "../views/teacher/TeacherLink";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import $ from "jquery";
 import M from "materialize-css";
 
@@ -71,7 +71,7 @@ class SideBar extends Component {
         {" "}
         <ul
           id="slide-out"
-          className={`side-nav ${this.state.sidenav_trigger} z-depth-2 fixed leftside-navigation`}
+          className={`side-nav toggle-ls-bar z-depth-2 fixed leftside-navigation`}
         >
           {/* <li className="user-details cyan darken-2">
           <div className="row">
@@ -101,14 +101,6 @@ class SideBar extends Component {
             <Links />
           </li>
         </ul>
-        <Link
-          to="#"
-          data-target="slide-out"
-          onClick={this.toggleSidenav.bind(this)}
-          className="sidebar-collapse sidenav-trigger white-text waves-effect waves-light hide-on-large-only"
-        >
-          <i className="material-icons">format_indent_increase</i>
-        </Link>
       </aside>
     );
   }

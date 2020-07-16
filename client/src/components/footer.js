@@ -6,7 +6,7 @@ class Footer extends Component {
       <div className="footer-copyright">
         <div className="container">
           <span>
-            Copyright © {new Date().getFullYear()} PawaCyber.
+            Copyright © {new Date().getFullYear()} Pawa Cyber.
           </span>
           <span className="right hide-on-small-only">
             Design and Developed by Shingirirai Bishi and Kelvin Chelenje

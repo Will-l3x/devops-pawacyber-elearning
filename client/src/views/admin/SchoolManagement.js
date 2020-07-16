@@ -13,7 +13,12 @@ export class SchoolManagement extends Component {
     super(props);
     this.state = {
       schoolId: "",
-      selectedSchool: {},
+      selectedSchool: {
+        schoolname: "",
+        address: "",
+        contacts: "",
+        email: "",
+      },
       title: "Mr",
       columns: [
         {
@@ -51,7 +56,10 @@ export class SchoolManagement extends Component {
 
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
+  modal;
 
   handleTitleDropdownChange(event) {
     this.setState({ title: event.target.value });
@@ -74,12 +82,8 @@ export class SchoolManagement extends Component {
               <li>
                 <a
                   href="#!"
-                  className="btn-floating waves-effect waves-light modal-trigger light-blue"
-                  data-target="modaledit"
-                  onClick={this.setState({
-                    schoolId: school.schoolId,
-                    selectedSchool: school,
-                  })}
+                  className="btn-floating waves-effect waves-light light-blue"
+                  onClick={() => this.handleEdit(school)}
                 >
                   <i className="material-icons">create</i>
                 </a>
@@ -89,9 +93,7 @@ export class SchoolManagement extends Component {
                   href="#!"
                   className="btn-floating waves-effect waves-light modal-trigger red accent-2"
                   data-target="areyousure"
-                  onClick={
-                  
-                    this.setState({
+                  onClick={this.setState({
                     schoolId: school.schoolId,
                   })}
                 >
@@ -109,6 +111,29 @@ export class SchoolManagement extends Component {
         this.setState({ rows: [] });
       });
   }
+  handleEdit = (school) => {
+    this.setState(
+      {
+        schoolId: school.schoolId,
+        selectedSchool: {
+          address: school.address,
+          contacts: school.contacts,
+          datejoined: school.datejoined,
+          email: school.email,
+          enrolmentkey: school.enrolmentkey,
+          schoolId: school.schoolId,
+          schoolname: school.schoolname,
+        },
+      },
+      () => {
+        const elem = document.getElementById("modaledit");
+        const modal = M.Modal.init(elem);
+        this.modal = modal;
+        console.log(this.state.selectedSchool);
+        modal.open();
+      }
+    );
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -118,12 +143,15 @@ export class SchoolManagement extends Component {
       contacts: event.target.schoolContactNumber.value,
       firstname: event.target.personName.value,
       lastname: event.target.surname.value,
-      email: event.target.email.value,
+      email: event.target.addemail.value,
     };
 
     AdminService.post_new_school(data).then((response) => {
       if (response === undefined) {
-        alert("School creation failed");
+         M.toast({
+           html: "School creation failed",
+           classes: "red accent-2",
+         });
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
@@ -143,40 +171,36 @@ export class SchoolManagement extends Component {
   };
   handleSave = (event) => {
     event.preventDefault();
+    this.modal.close();
     var data = {
-      schoolname: event.target.editschoolName.value,
-      address: event.target.editschoolAddress.value,
-      contacts: event.target.editschoolContactNumber.value,
-      firstname: event.target.editpersonName.value,
-      lastname: event.target.editsurname.value,
-      email: event.target.editemail.value,
+      schoolname: event.target.schoolname.value,
+      address: event.target.address.value,
+      contacts: event.target.contacts.value,
     };
 
     AdminService.update_school(this.state.schoolId, data).then((response) => {
       if (response === undefined) {
-        alert("School creation failed");
+        M.toast({
+          html: "Update Failed",
+          classes: "red accent-2",
+        });
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
-        console.log(response.password);
-        alert(
-          response.message + "\nSchool Admin password is : " + response.password
-        );
+        M.toast({
+          html: "Update Successfull",
+          classes: "green accent-3",
+        });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        alert(
-          response.message + "\nSchool Admin password is : " + response.password
-        );
-        console.log(response.password);
       }
     });
   };
   handleDelete = () => {
- 
     AdminService.delete_school(this.state.schoolId)
       .then((response) => {
-        alert(this.response)
+        alert(this.response);
         console.log(response);
         this.getDashData();
       })
@@ -184,6 +208,14 @@ export class SchoolManagement extends Component {
         console.log(error);
         this.getDashData();
       });
+  };
+  onChange = (e) => {
+    e.preventDefault();
+    const selectedSchool = this.state.selectedSchool;
+    selectedSchool[e.target.name] = e.target.value;
+    this.setState({
+      selectedSchool,
+    });
   };
   render() {
     return (
@@ -261,7 +293,7 @@ export class SchoolManagement extends Component {
                                 <div className="input-field col s4">
                                   <input
                                     id="schoolContactNumber"
-                                    type="number"
+                                    type="text"
                                     name="schoolContactNumber"
                                     required
                                   ></input>
@@ -310,18 +342,18 @@ export class SchoolManagement extends Component {
                               <div className="row">
                                 <div className="input-field col s6">
                                   <input
-                                    id="email"
+                                    id="addemail"
                                     type="email"
-                                    name="email"
+                                    name="addemail"
                                     required
                                   ></input>
-                                  <label htmlFor="email">Email</label>
+                                  <label htmlFor="addemail">Email</label>
                                 </div>
                               </div>
                             </div>
                             <div className="row">
                               <div className="input-field col s6 offset-s6">
-                                <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
+                                <button className="btn gradient-45deg-light-blue-cyan waves-effect waves-light right">
                                   Submit
                                   <i className="material-icons right">send</i>
                                 </button>
@@ -344,94 +376,60 @@ export class SchoolManagement extends Component {
                           <div className="row">
                             <div className="input-field col s5">
                               <input
-                                id="editschoolName"
+                                id="schoolname"
                                 type="text"
-                                name="editschoolName"
+                                name="schoolname"
+                                onChange={this.onChange}
+                                value={this.state.selectedSchool.schoolname}
                                 required
                               ></input>
-                              <label htmlFor="editschoolName">
-                                School Name
-                              </label>
+                              <label htmlFor="schoolname">School Name</label>
                             </div>
                             <div className="input-field col s7">
                               <input
-                                id="editschoolAddress"
+                                id="address"
                                 type="text"
-                                name="editschoolAddress"
+                                name="address"
+                                onChange={this.onChange}
+                                value={this.state.selectedSchool.address}
                                 required
                               ></input>
-                              <label htmlFor="editschoolAddress">
-                                School Address
-                              </label>
+                              <label htmlFor="address">School Address</label>
                             </div>
                           </div>
                           <div className="row">
                             <div className="input-field col s4">
                               <input
-                                id="editschoolContactNumber"
-                                type="number"
-                                name="editschoolContactNumber"
-                                required
-                              ></input>
-                              <label htmlFor="editschoolContactNumber">
-                                Contact Number
-                              </label>
-                            </div>
-                          </div>
-
-                          <h4 className="header2">
-                            <b>School Admin Details</b>
-                          </h4>
-                          <div className="row">
-                            <div className="input-field col s2">
-                              <select
-                                name="edittitle"
-                                defaultValue={this.state.title}
-                                onChange={this.handleTitleDropdownChange}
-                                required
-                              >
-                                <option value="Mr">Mr</option>
-                                <option value="Mr">Mrs</option>
-                                <option value="Mr">Rev</option>
-                                <option value="Mr">Dr</option>
-                              </select>
-                            </div>
-                            <div className="input-field col s5">
-                              <input
-                                id="editpersonName"
+                                id="contacts"
                                 type="text"
-                                name="editpersonName"
+                                name="contacts"
+                                onChange={this.onChange}
+                                value={
+                                  this.state.selectedSchool.contacts === null
+                                    ? ""
+                                    : this.state.selectedSchool.contacts
+                                }
                                 required
                               ></input>
-                              <label htmlFor="editpersonName">First Name</label>
-                            </div>
-                            <div className="input-field col s5">
-                              <input
-                                id="editsurname"
-                                type="text"
-                                name="editsurname"
-                                required
-                              ></input>
-                              <label htmlFor="editsurname">Surname</label>
-                            </div>
-                          </div>
-                          <div className="row">
-                            <div className="input-field col s6">
-                              <input
-                                id="editemail"
-                                type="email"
-                                name="editemail"
-                                required
-                              ></input>
-                              <label htmlFor="editemail">Email</label>
+                              <label htmlFor="contacts">Contact Number</label>
                             </div>
                           </div>
                         </div>
                         <div className="row">
                           <div className="input-field col s6 offset-s6">
-                            <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
+                            <button className="btn gradient-45deg-light-blue-cyan waves-effect waves-light right">
                               Save
                               <i className="material-icons right">save</i>
+                            </button>
+                            <button
+                              onClick={(event) => {
+                                event.preventDefault();
+                                this.modal.close();
+                              }}
+                              className="btn red accent-2 waves-effect waves-light right"
+                            >
+                              Cancel
+                              <i className="material-icons right">cancel</i>
                             </button>
                           </div>
                         </div>

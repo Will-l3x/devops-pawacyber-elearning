@@ -23,7 +23,7 @@ export class StudentAssignments extends Component {
     this.user = JSON.parse(localStorage.getItem("user"));
     StudentService.get_student_all_classwork(1) //course id
       .then((response) => {
-        this.setState({ assignment: response });
+        this.setState({ assignment: response === undefined ? [] : response });
       });
   }
 
@@ -42,7 +42,6 @@ export class StudentAssignments extends Component {
           <Header />
         </header>
         <main id="main">
-          {" "}
           <div className="wrapper">
             <SideBar />
             <section id="content">

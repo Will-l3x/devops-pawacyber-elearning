@@ -1,8 +1,16 @@
 import axios from "axios";
+const qs = require("qs");
+const token = JSON.parse(localStorage.getItem("token"));
+// const apiUrl = "http://localhost:3001/api";
 
-const apiUrl = "https://cybers.azurewebsites.net/api/teacher";
-// const apiUrl = "http://localhost:3001/api/teacher";
-
+var config = {
+  baseURL: "https://cybers.azurewebsites.net/api/teacher",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+    Authorization: `Bearer ${token}`,
+  },
+  
+};
 export const TeacherService = {
   get_all_courses,
   get_teacher_pending_classwork,
@@ -18,21 +26,12 @@ export const TeacherService = {
   get_materials,
 
   enrol_student,
-  get_all_students
+  get_all_students,
 };
-
 
 async function post_material(data) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/new_material`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(`/new_material`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -41,15 +40,7 @@ async function post_material(data) {
 
 async function post_assignment(data) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/new_assignment`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(`/new_assignment`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -58,47 +49,37 @@ async function post_assignment(data) {
 
 async function post_file(data) {
   try {
-    let res = await axios({
-      url: `https://cybers.azurewebsites.net/api/upload/new`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(
+      `https://cybers.azurewebsites.net/api/upload/new`,
+      qs.stringify(data),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+        
+      }
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 
-async function get_materials(id) { //by class id
+async function get_materials(id) {
+  //by class id
   try {
-    let res = await axios({
-      url: `${apiUrl}/get_materials/${id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`/get_materials/${id}`, config);
     return res.data.data.materials;
   } catch (err) {
     console.error(err);
   }
 }
 
-async function get_submissions(id) { //by Assingment ID
+async function get_submissions(id) {
+  //by Assingment ID
   try {
-    let res = await axios({
-      url: `${apiUrl}/get_submissions/${id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`/get_submissions/${id}`, config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -108,14 +89,7 @@ async function get_submissions(id) { //by Assingment ID
 // classroom
 async function get_assignments(course_id) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/get_assignment/${course_id}`, //Get all assignments by courseid
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`/get_assignment/${course_id}`, config);
 
     return res.data.data;
   } catch (err) {
@@ -123,40 +97,23 @@ async function get_assignments(course_id) {
   }
 }
 
-
-
 // get all courses the teacher teaches
 async function get_all_courses(teacherid) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/get_classes/${teacherid}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`/get_classes/${teacherid}`, config);
 
     return res.data.data;
   } catch (err) {
-    
     console.error(err);
   }
 }
 
 async function enrol_student(data) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/enrol_student`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.put(`/enrol_student`, qs.stringify(data), config);
     return res.data;
-  } catch (err) {
+  } catch (err) { 
+
     console.error(err);
   }
 }
@@ -164,44 +121,22 @@ async function enrol_student(data) {
 //Getting by class ID
 async function get_all_students(id) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/get_students/${id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(
+      `/get_students/${id}`,
+      config
+    );
     return res.data.data.students;
   } catch (err) {
     console.error(err);
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 async function get_teacher_pending_classwork(teacher_id, classroom_id) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/teacher/get-all-pending/${teacher_id}/${classroom_id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(
+      `/teacher/get-all-pending/${teacher_id}/${classroom_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
@@ -210,14 +145,10 @@ async function get_teacher_pending_classwork(teacher_id, classroom_id) {
 
 async function get_teacher_unmarked_classwork(teacher_id, classroom_id) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/teacher/get-all-unmarked/${teacher_id}/${classroom_id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(
+      `/teacher/get-all-unmarked/${teacher_id}/${classroom_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);

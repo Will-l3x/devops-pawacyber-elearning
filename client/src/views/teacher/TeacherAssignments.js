@@ -8,7 +8,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import {TeacherService} from '../../services/teacher';
 
-export class UploadNewAssignment extends Component {
+class UploadNewAssignment extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +21,7 @@ export class UploadNewAssignment extends Component {
                 },
                 {
                     label: "Upload Date",
-                    field: "file",
+                    field: "upload",
                     sort: "asc",
                     width: "30%",
                 },

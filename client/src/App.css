@@ -2474,12 +2474,6 @@ body.layout-light #main .nav-expanded .brand-sidebar {
     background: #fff !important;
 }
 
-body.layout-light .page-footer {
-    border-top: 1px solid #d2d2d2 !important;
-    color: rgba(0, 0, 0, 0.87);
-    background: #fff;
-}
-
 body.layout-light .footer-copyright {
     color: rgba(0, 0, 0, 0.87);
     background: #fff;
@@ -2668,7 +2662,7 @@ footer {
 }
 
 footer.page-footer {
-    padding-top: 1px;
+    padding-top: 5px;
 }
 
 select {
@@ -6363,7 +6357,7 @@ h1 span.logo-text {
 }
 
 header .brand-logo {
-    margin: 1px 0px;
+    margin: 8px 0px;
     padding: 22px 20px;
     line-height: 0;
 }
@@ -6622,7 +6616,6 @@ nav ul li.no-hover:hover {
 .side-nav {
     width: 240px;
     position: fixed;
-    left: 180;
     top: 0;
     margin: 0;
     transform: translateX(-100%);
@@ -6954,20 +6947,6 @@ ul.side-nav .collapsible-header.active:after {
 
 .border-bottom-1 {
     border-bottom: 1px solid #f5f5f5;
-}
-
-.activity::before {
-    position: absolute;
-    top: 0;
-    height: 100vh;
-    margin-top: 130px;
-    bottom: 0;
-    left: 16%;
-    width: 1px;
-    margin-left: -1px;
-    content: "";
-    background-color: #e0e0e0;
-    z-index: -1;
 }
 
 
