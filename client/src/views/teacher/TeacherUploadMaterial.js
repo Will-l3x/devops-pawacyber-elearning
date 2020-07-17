@@ -135,7 +135,7 @@ export class UploadMaterial extends Component {
                 <div className="container col s8">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
-                      <div className="col s12 m6 l12" style={{padding:"20px"}}>
+                      <div className="col s12 m12" style={{padding:"20px"}}>
                         <DatatablePage data={this.state} />
                       </div>
                     </div>
@@ -145,7 +145,7 @@ export class UploadMaterial extends Component {
                 <div className="container col s4">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
-                      <div className="col s12 m6 l12">
+                      <div className="col s12 m12">
                       <h4 className="header2">Upload Resource</h4>
                       <form onSubmit={this.handleSubmit} id="sibs">
                       <div className="row">
