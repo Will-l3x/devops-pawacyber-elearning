@@ -12,6 +12,8 @@ let _student = require("../controllers/_student.js");
 let _schooladmin = require("../controllers/_schooladmin.js");
 let _uploads = require("../controllers/_uploads.js");
 
+router.use(_auth.checktoken);
+
 ////////////////////////auth/////////////////////////////////// all users
 router.post("/login", _auth.login); //done
 //router.post('/test', _auth.test);//done

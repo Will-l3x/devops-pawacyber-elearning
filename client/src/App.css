@@ -7966,3 +7966,13 @@ hr.invis1 {
     background-image: url("./assets/images/gallary/black-dots.png");
     background-size: contain;
 }
+
+.many-files{
+    height: 120px;
+    border-color: blue;
+    border-width: 1px;
+    border-radius: 5px;
+    padding-top: auto;
+    padding-bottom: auto;
+    background-color: rgba(48, 149, 180, 0.1);
+}

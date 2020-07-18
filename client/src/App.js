@@ -33,6 +33,7 @@ import { SchoolSubscribeScreen } from "./views/school/SchoolSubscribeScreen";
 import { ClassesScreen } from "./views/school/ClassesScreen";
 import { SchoolCalendarScreen } from "./views/school/SchoolCalendarScreen";
 import { SchoolAddCourseScreen } from "./views/school/SchoolAddCourseScreen";
+import { UploadContent} from "./views/admin/UploadContent";
 
 import PackagePayment from "./views/student/PackagePayment";
 import UploadNewAssignment from "./views/teacher/TeacherAssignments";
@@ -142,12 +143,8 @@ class App extends Component {
             <Route exact path="/upload" component={UploadMaterial} />
             <Route exact path="/assignments" component={UploadNewAssignment} />
             <Route exact path="/courses" component={CourseListScreen} />
-
-            <Route
-              exact
-              path="/course-outline"
-              component={CourseOutlineScreen}
-            />
+            <Route exact path="/content-upload" component={UploadContent} />
+            <Route exact path="/course-outline"component={CourseOutlineScreen} />
 
             <Route
               exact

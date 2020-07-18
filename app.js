@@ -88,7 +88,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build")));
 
-app.use(_auth.checktoken);
+//api.use(_auth.checktoken);
 //app.use(_auth.authorize);
 //app.use(subscriptions.checkSubscription);
 
