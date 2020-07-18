@@ -99,7 +99,6 @@ async function post_new_plan(data) {
 }
 
 async function update_plan(id, data) {
-  console.log(data)
   try {
     let res = await axios.put(
       `update_subscription/${id}`,

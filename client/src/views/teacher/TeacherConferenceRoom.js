@@ -5,6 +5,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 
 class TeacherConferenceRoom extends Component {
+  
   constructor() {
     super();
     this.state = {
@@ -12,25 +13,30 @@ class TeacherConferenceRoom extends Component {
       url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
     };
   }
+  api;
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ user });
-    const domain = "meet.jit.si";
-    const options = {
-      roomName: "JitsiMeetAPIExample",
-      width: "100%",
-      height: 550,
-      parentNode: document.querySelector("#meet"),
-    };
-
-    const JitsiMeetExternalAPI =
-      window.JitsiMeetExternalAPI || window.exports.JitsiMeetExternalAPI;
-    const api = new JitsiMeetExternalAPI(domain, options);
-    api.executeCommand(
-      "avatarUrl",
-      "https://avatars0.githubusercontent.com/u/3671647"
-    );
+    this.initJisti(user)
+   
   }
+  
+  initJisti = (user) =>{
+     const domain = "cybers.azurewebsites.net";
+     const options = {
+       roomName: "testroom",
+       width: "100%",
+       jwt: user.token,
+       height: 550,
+       parentNode: document.querySelector("#meet"),
+     };
+
+     const JitsiMeetExternalAPI =
+       window.JitsiMeetExternalAPI || window.exports.JitsiMeetExternalAPI;
+     const api = new JitsiMeetExternalAPI(domain, options);
+     this.api = api;
+  }
+
   render() {
     return (
       <div>
@@ -40,8 +46,9 @@ class TeacherConferenceRoom extends Component {
         <main id="main">
           <div className="wrapper">
             <SideBar />
-
-            <div id="meet" className="conference padding-2"></div>
+            <div className="container">
+              <div id="meet" className="conference padding-2"></div>
+            </div>
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan footer-fixed z-depth-1">

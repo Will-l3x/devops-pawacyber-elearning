@@ -60,7 +60,6 @@ export class LoginScreen extends Component {
         alert(response.message);
       } else {
         document.getElementById("contactForm").reset();
-        console.log(response);
         var id;
         if (response.roleid === 3) {
           id = response.User.studentId;

@@ -37,8 +37,6 @@ class VideoPlayer extends Component {
       let volumeValue = 1;
       let volumePercentage = 100;
 
-      console.log(eleVideoObj);
-
       /*-------------- HIDE / SHOW CONTROLS -----------*/
       $(videoPlayer).hover(
         () => $(videoPlayer).removeClass("hide-controls"),
@@ -193,11 +191,13 @@ class VideoPlayer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="vid-containa">
         <div className="video-player">
-          <div className="video-topbar">Title</div>
+          <div className="video-topbar gradient-45deg-semi-dark">
+            Title
+          </div>
           <video src="https://www.videvo.net/videvo_files/converted/2018_07/videos/180607_A_101.mp466981_jw.mp4"></video>
-          <div className="video-controls">
+          <div className="video-controls gradient-45deg-semi-dark">
             <div className="video-top-controls">
               <div className="video-seekbar seekbar">
                 <span className="progress"></span>

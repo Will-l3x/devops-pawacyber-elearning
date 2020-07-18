@@ -9,7 +9,6 @@ var config = {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
   },
-  
 };
 
 export const SchoolService = {
@@ -56,10 +55,11 @@ async function delete_course(id) {
 
 async function get_courses(id) {
   try {
-    if(id === undefined){
-      return []
+    if (id === undefined) {
+      return [];
     }
     let res = await axios.get(`/get_classes/${id}`, config);
+    console.log(res);
     return res.data.data.classes;
   } catch (err) {
     console.log(err);
@@ -69,13 +69,18 @@ async function get_courses(id) {
 // teacher functions by schoolid
 async function get_all_teachers(id) {
   try {
-    let res = await axios.get(`/teachers/${id}`, config);
-    console.log(res);
-    const data = res.data === undefined ? [] : res.data.data.teacher;
-    return data;
+    let res =
+      id === undefined
+        ? {
+            data: { data: { teacher: [] } },
+            error: { message: "undefined schoolId" },
+          }
+        : await axios.get(`/teachers/${id}`, config);
+    return res.data.data.teacher;
   } catch (err) {
     console.log(err);
-  }
+    return [];
+  } 
 }
 
 async function update_teacher(data) {

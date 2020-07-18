@@ -228,7 +228,7 @@ class App extends Component {
             />
             <Route
               exact
-              path="/school-subscriptions"
+              path="/school-classes"
               component={ClassesScreen}
             />
             <Route

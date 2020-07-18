@@ -9,25 +9,78 @@ var config = {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
   },
-  
 };
 export const TeacherService = {
   get_all_courses,
   get_teacher_pending_classwork,
   get_teacher_unmarked_classwork,
   get_submissions,
-
   post_material,
   post_assignment,
   post_file,
-
   get_assignments,
-
   get_materials,
-
   enrol_student,
   get_all_students,
+  create_meeting,
+  start_meeting,
+  stop_meeting,
+  get_meetings,
+  get_meeting,
 };
+
+async function create_meeting(data) {
+  try {
+    let res = await axios.post(`/create_meeting`, qs.stringify(data), config);
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+async function start_meeting(id, data) {
+  try {
+    let res = await axios.put(
+      `/start_meeting/${id}`,
+      qs.stringify(data),
+      config
+    );
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+async function stop_meeting(id, data) {
+  try {
+    let res = await axios.put(
+      `/stop_meeting/${id}`,
+      qs.stringify(data),
+      config
+    );
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function get_meetings() {
+  //by class id
+  try {
+    let res = await axios.get(`/get_meetings`, config);
+    return res.data.data.materials;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function get_meeting(id) {
+  //by class id
+  try {
+    let res = await axios.get(`/get_meeting/${id}`, config);
+    return res.data.data.materials;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 async function post_material(data) {
   try {
@@ -57,7 +110,6 @@ async function post_file(data) {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
         },
-        
       }
     );
     return res.data;
@@ -112,8 +164,7 @@ async function enrol_student(data) {
   try {
     let res = await axios.put(`/enrol_student`, qs.stringify(data), config);
     return res.data;
-  } catch (err) { 
-
+  } catch (err) {
     console.error(err);
   }
 }
@@ -121,10 +172,7 @@ async function enrol_student(data) {
 //Getting by class ID
 async function get_all_students(id) {
   try {
-    let res = await axios.get(
-      `/get_students/${id}`,
-      config
-    );
+    let res = await axios.get(`/get_students/${id}`, config);
     return res.data.data.students;
   } catch (err) {
     console.error(err);

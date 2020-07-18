@@ -60,7 +60,6 @@ export class AddCourseCard extends Component {
     }
 
     courses.sort(compare);
-    console.log(courses);
     this.setState({ courses });
   };
 
