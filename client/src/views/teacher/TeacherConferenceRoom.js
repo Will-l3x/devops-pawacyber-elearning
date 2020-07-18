@@ -21,12 +21,11 @@ class TeacherConferenceRoom extends Component {
    
   }
   
-  initJisti = (user) =>{
-     const domain = "cybers.azurewebsites.net";
+  initJisti = () =>{
+     const domain = "meet.jit.si";
      const options = {
        roomName: "testroom",
        width: "100%",
-       jwt: user.token,
        height: 550,
        parentNode: document.querySelector("#meet"),
      };

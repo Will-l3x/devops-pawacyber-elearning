@@ -1079,6 +1079,7 @@ ul.card-action-buttons2 li {
     display: block;
     padding: .5rem .75rem;
     width: 100%;
+    height: 100%;
     font-size: 1rem;
     line-height: 1.25;
     color: #55595c;
@@ -1087,7 +1088,7 @@ ul.card-action-buttons2 li {
     background-clip: padding-box;
     border-top: 0;
     border-right: 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #9e9e9e;
     border-left: 0;
     border-radius: 3px;
     -webkit-transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
@@ -1097,7 +1098,8 @@ ul.card-action-buttons2 li {
 .input-meeting:focus,
 .textarea-meeting:focus {
     outline: 0;
-    border-bottom-color: #ffab00;
+    border: none;
+    border-bottom: 1px solid #9e9e9e;
 }
 
 .textarea-meeting {
@@ -1135,6 +1137,7 @@ ul.card-action-buttons2 li {
 .btn-meeting:focus {
     outline: 0;
 }
-.modal-meeting{
+
+.modal-meeting {
     width: 400px;
 }

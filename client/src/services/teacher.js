@@ -22,65 +22,7 @@ export const TeacherService = {
   get_materials,
   enrol_student,
   get_all_students,
-  create_meeting,
-  start_meeting,
-  stop_meeting,
-  get_meetings,
-  get_meeting,
 };
-
-async function create_meeting(data) {
-  try {
-    let res = await axios.post(`/create_meeting`, qs.stringify(data), config);
-    return res.data;
-  } catch (err) {
-    console.error(err);
-  }
-}
-async function start_meeting(id, data) {
-  try {
-    let res = await axios.put(
-      `/start_meeting/${id}`,
-      qs.stringify(data),
-      config
-    );
-    return res.data;
-  } catch (err) {
-    console.error(err);
-  }
-}
-async function stop_meeting(id, data) {
-  try {
-    let res = await axios.put(
-      `/stop_meeting/${id}`,
-      qs.stringify(data),
-      config
-    );
-    return res.data;
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-async function get_meetings() {
-  //by class id
-  try {
-    let res = await axios.get(`/get_meetings`, config);
-    return res.data.data.materials;
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-async function get_meeting(id) {
-  //by class id
-  try {
-    let res = await axios.get(`/get_meeting/${id}`, config);
-    return res.data.data.materials;
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 async function post_material(data) {
   try {

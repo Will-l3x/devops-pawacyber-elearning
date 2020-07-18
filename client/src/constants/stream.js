@@ -1,0 +1,9 @@
+export const StreamContants = {
+  GET_ALL_MEETINGS: "GET_ALL_MEETINGS",
+  GET_MEETING: "GET_MEETING",
+  START_MEETING: "START_MEETING",
+  STOP_MEETING: "STOP_MEETING",
+  CREATE_MEETING: "CREATE_MEETING",
+};
+
+export default StreamContants;

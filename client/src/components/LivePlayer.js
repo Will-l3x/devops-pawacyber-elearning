@@ -4,8 +4,9 @@ import SideBar from "./SideBar";
 import Header from "./header";
 import Footer from "./footer";
 import VideoPlayer from "./VideoPlayer";
-import { TeacherService } from "../services/teacher";
+import StreamActions from "../actions/stream";
 import { Link } from "react-router-dom";
+import MeetingOptions from "../views/teacher/MeetingOptions";
 
 class LivePlayer extends Component {
   constructor() {
@@ -20,30 +21,56 @@ class LivePlayer extends Component {
           ? {}
           : JSON.parse(localStorage.getItem("liveclass")),
       url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      meetings: [],
+      meeting: {},
+      selectedOption: "",
     };
+    this.create_meeting = this.create_meeting.bind(this);
+    this.start_meeting = this.start_meeting.bind(this);
+    this.stop_meeting = this.stop_meeting.bind(this);
+    this.get_meeting = this.get_meeting.bind(this);
+    this.get_meetings = this.get_meetings.bind(this);
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.get_meetings();
+  }
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(this.state.selectedOption)
+    );
+  };
 
   create_meeting = (e) => {
     e.preventDefault();
     const data = {
       createdby: this.state.user.userid,
       date: e.target.date.value,
-      classid: this.state.classid,
-      notes: e.target.notes.val,
+      // roomname: e.target.roomname.value,
+      classid: 1,
+      notes: e.target.notes.value,
     };
 
-    TeacherService.create_meeting(data)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    this.props.create_meeting(data);
   };
 
-  start_meeting = (id, data) => {};
-  stop_meeting = (id, data) => {};
+  start_meeting = (e) => {
+    e.preventDefault();
+    const data = {
+      password: e.target.password.value,
+    };
+    this.props.start_meeting(this.state.selectedOption.value, data);
+  };
+  stop_meeting = () => {
+    this.props.stop_meeting(this.state.selectedOption.value);
+  };
 
-  get_meetings = () => {};
+  get_meetings = () => {
+    this.props.get_meetings();
+  };
 
-  get_meeting = (id) => {};
+  get_meeting = (id) => {
+    this.props.get_meeting(id);
+  };
   render() {
     return (
       <div>
@@ -53,7 +80,10 @@ class LivePlayer extends Component {
         <main id="main">
           <div className="wrapper">
             <SideBar />{" "}
-            <div style={{ position: "relative", zIndex: 50 }}>
+            <div
+              className="z-depth-5"
+              style={{ position: "relative", zIndex: 50 }}
+            >
               <nav
                 className="navbar nav-extended"
                 style={{
@@ -72,7 +102,7 @@ class LivePlayer extends Component {
                     data-target="create-meeting"
                     className="modal-trigger tooltipped waves-effect right"
                     data-tooltip="Add Class"
-                    data-position="bottom"
+                    data-position="top"
                     style={{
                       marginTop: "1%",
                       marginRight: "2%",
@@ -80,6 +110,42 @@ class LivePlayer extends Component {
                     }}
                   >
                     <i className="material-icons">video_call</i>
+                  </Link>
+                  <Link
+                    to="#!"
+                    data-target="start-meeting"
+                    className={`modal-trigger tooltipped waves-effect right green-text accent-3 ${
+                      this.props.streamState.startstop_meeting_res.started
+                        ? "display-none"
+                        : ""
+                    }`}
+                    data-tooltip="Start Meeting"
+                    data-position="top"
+                    style={{
+                      marginTop: "1%",
+                      marginRight: "2%",
+                      color: "#626262",
+                    }}
+                  >
+                    <i className="material-icons">videocam</i>
+                  </Link>
+                  <Link
+                    to="#!"
+                    className={`tooltipped waves-effect right red-text accent-2 ${
+                      this.props.streamState.startstop_meeting_res.started
+                        ? ""
+                        : "display-none"
+                    }`}
+                    onClick={() => this.stop_meeting()}
+                    data-tooltip="Stop Meeting"
+                    data-position="top"
+                    style={{
+                      marginTop: "1%",
+                      marginRight: "2%",
+                      color: "#626262",
+                    }}
+                  >
+                    <i className="material-icons">videocam_off</i>
                   </Link>
                 </div>
               </nav>
@@ -104,12 +170,16 @@ class LivePlayer extends Component {
               onSubmit={this.create_meeting}
             >
               <h1 className="h1-meeting">
-                <i className="material-icons">video_call</i>Create
-                Meeting!
+                <i
+                  className="material-icons"
+                  style={{ transform: "translate(-3px, 4px)" }}
+                >
+                  video_call
+                </i>
+                Create Meeting!
               </h1>
               <fieldset className="form-group">
                 <ReactFormLabel htmlFor="roomname" title="Room Name:" />
-
                 <input
                   id="roomname"
                   className="form-input input-meeting"
@@ -123,9 +193,9 @@ class LivePlayer extends Component {
 
                 <input
                   id="date"
-                  className="form-input datepicker input-meeting"
+                  className="form-input input-meeting"
                   name="date"
-                  type="text"
+                  type="date"
                   required
                 />
               </fieldset>
@@ -137,6 +207,7 @@ class LivePlayer extends Component {
                   id="notes"
                   className="form-textarea textarea-meeting"
                   name="notes"
+                  rows="3"
                   required
                 ></textarea>
               </fieldset>
@@ -144,9 +215,51 @@ class LivePlayer extends Component {
               <div className="form-group">
                 <input
                   id="formButton"
-                  className="btn gradient-45deg-light-blue-cyan"
+                  className="btn modal-close gradient-45deg-light-blue-cyan"
                   type="submit"
                   placeholder="Send message"
+                />
+              </div>
+            </form>
+          </div>
+
+          <div id="start-meeting" className="modal modal-meeting">
+            <form
+              className="react-form form-meeting"
+              onSubmit={this.start_meeting}
+            >
+              <h1 className="h1-meeting">
+                <i
+                  className="material-icons"
+                  style={{ transform: "translate(-3px, 4px)" }}
+                >
+                  videocam
+                </i>
+                Start Meeting!
+              </h1>
+              <fieldset className="form-group">
+                <ReactFormLabel htmlFor="roomname" title="Room Name:" />
+                <MeetingOptions onSelectOption={this.onSelectOption} />
+                <div className="my-divider"></div>
+              </fieldset>
+              <fieldset className="form-group">
+                <ReactFormLabel htmlFor="password" title="Password:" />
+
+                <input
+                  id="password"
+                  className="form-input input-meeting"
+                  name="password"
+                  type="password"
+                  required
+                />
+              </fieldset>
+
+              <div className="form-group">
+                <input
+                  id="start"
+                  className="btn modal-close gradient-45deg-light-blue-cyan"
+                  type="submit"
+                  value="Start"
                 />
               </div>
             </form>
@@ -160,10 +273,6 @@ class LivePlayer extends Component {
   }
 }
 class ReactFormLabel extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <label className="label-meeting" htmlFor={this.props.htmlFor}>
@@ -173,8 +282,8 @@ class ReactFormLabel extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  streamState: state.stream,
+});
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LivePlayer);
+export default connect(mapStateToProps, StreamActions)(LivePlayer);

@@ -8,6 +8,7 @@ import events from "./events";
 import teacher from "./teacher";
 import dashLink from "./navlink";
 import school from "./school";
+import stream from "./stream";
 import student from "./student";
 import counter from "./counter";
 import upload from "./upload";
@@ -23,5 +24,6 @@ export default combineReducers({
   events,
   classroom,
   upload,
+  stream,
   counter,
 });

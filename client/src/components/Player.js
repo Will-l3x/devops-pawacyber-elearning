@@ -1,25 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import $ from "jquery";
-import moment from "moment";
-import "../assets/css/video-player.css";
-import CommentBox from "./CommentBox";
 import StreamActions from "../actions/stream";
 
-class VideoPlayer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      source: [],
-      live: false,
-    };
-  }
+class Player extends Component {
   componentDidMount() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    this.setState({ user });
-    this.videoPlayer();
-  }
-  videoPlayer() {
     $(".video-player").each(function (_, videoPlayer) {
       /**
        * get all the controls
@@ -46,12 +31,8 @@ class VideoPlayer extends Component {
       $(videoPlayer).hover(
         () => $(videoPlayer).removeClass("hide-controls"),
         () => {
-          if (eleVideoObj["0"] === undefined) {
+          if (!eleVideoObj["0"].paused)
             $(videoPlayer).addClass("hide-controls");
-          } else {
-            if (!eleVideoObj["0"].paused)
-              $(videoPlayer).addClass("hide-controls");
-          }
         }
       );
       /*--------------- HIDE / SHOW CONTROLS --------*/
@@ -197,122 +178,54 @@ class VideoPlayer extends Component {
       }
     };
   }
-  initJisti = () => {
-    const res = this.props.streamState.startstop_meeting_res;
-    console.log(res);
-    const domain =
-      "meet.jit.si/RIFqhR13UEsVBUfqKvpZ8ijJCGkMhkCuONOSZ0OJc6fQF7m58cxCL";
-    const options = {
-      width: "100%",
-      height: 450,
-      parentNode: document.querySelector("#meet"),
-    };
-
-    const JitsiMeetExternalAPI =
-      window.JitsiMeetExternalAPI || window.exports.JitsiMeetExternalAPI;
-    const api = new JitsiMeetExternalAPI(domain, options);
-    this.api = api;
-    return "";
-  };
 
   render() {
     return (
-      <div className="vid-containa">
-        <div
-          className={`video-player ${
-            this.props.streamState.startstop_meeting_res.started
-              ? this.initJisti()
-              : "display-none"
-          }`}
-        >
-          <div id="meet" className="conference padding-2"></div>
-        </div>
+      <div
+        className={`video-player ${
+          this.props.streamState.startstop_meeting_res.started
+            ? "display-none"
+            : ""
+        }`}
+      >
+        <div className="video-topbar gradient-45deg-semi-dark">Title</div>
+        <video src="https://www.videvo.net/videvo_files/converted/2018_07/videos/180607_A_101.mp466981_jw.mp4"></video>
+        <div className="video-controls gradient-45deg-semi-dark">
+          <div className="video-top-controls">
+            <div className="video-seekbar seekbar">
+              <span className="progress"></span>
+            </div>
+          </div>
 
-        <div
-          className={`video-player ${
-            this.props.streamState.startstop_meeting_res.started
-              ? "display-none"
-              : ""
-          }`}
-        >
-          <div className="video-topbar gradient-45deg-semi-dark">Title</div>
-          <video src="https://www.videvo.net/videvo_files/converted/2018_07/videos/180607_A_101.mp466981_jw.mp4"></video>
-          <div className="video-controls gradient-45deg-semi-dark">
-            <div className="video-top-controls">
-              <div className="video-seekbar seekbar">
+          <div className="video-playback-controls">
+            <button className="control-btn toggle-play-pause play">
+              <i className="fas fa-play play-icon icon translate-icon"></i>
+              <i className="fas fa-pause pause-icon icon translate-icon"></i>
+            </button>
+            <div className="video-volume-control">
+              <button className="control-btn toggle-volume on">
+                <i className="fas fa-volume-up icon volume-on translate-icon"></i>
+                <i className="fas fa-volume-mute icon volume-off translate-icon"></i>
+              </button>
+              <div className="volume-seekbar seekbar">
                 <span className="progress"></span>
               </div>
             </div>
-
-            <div className="video-playback-controls">
-              <button className="control-btn toggle-play-pause play">
-                <i className="fas fa-play play-icon icon translate-icon"></i>
-                <i className="fas fa-pause pause-icon icon translate-icon"></i>
-              </button>
-              <div className="video-volume-control">
-                <button className="control-btn toggle-volume on">
-                  <i className="fas fa-volume-up icon volume-on translate-icon"></i>
-                  <i className="fas fa-volume-mute icon volume-off translate-icon"></i>
-                </button>
-                <div className="volume-seekbar seekbar">
-                  <span className="progress"></span>
-                </div>
-              </div>
-              <div className="video-timings">
-                <div className="start-time time">00:00:00</div>/
-                <div className="end-time time">00:00:00</div>
-                <div
-                  className={`red-text cursor-pointer`}
-                  style={{ paddingRight: 10 }}
+            <div className="video-timings">
+              <div className="start-time time">00:00:00</div>/
+              <div className="end-time time">00:00:00</div>
+              <div
+                className={`red-text cursor-pointer`}
+                style={{ paddingRight: 10 }}
+              >
+                <i
+                  className="material-icons margin-0 tiny left"
+                  style={{ transform: "translateY(2px)" }}
                 >
-                  <i
-                    className="material-icons margin-0 tiny left"
-                    style={{ transform: "translateY(2px)" }}
-                  >
-                    fiber_manual_record
-                  </i>
-                  <span className="left">Live</span>
-                </div>
+                  fiber_manual_record
+                </i>
+                <span className="left">Live</span>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="video-info">
-          <div className="video-comments padding-025">
-            <hr className="hr5" />
-            <div className="description padding-010">
-              <h6 className="center-align">DESCRIPTION</h6>
-              <p>Description</p>
-            </div>
-            <hr className="hr5" />
-            <div className="description">
-              <h6 className="center-align padding-010">COMMENTS</h6>
-              <CommentBox
-                url="https://codepen.io/Kikoku/pen/Qbwmpb.js"
-                pollInterval={2000}
-              />
-            </div>
-          </div>
-          <div className="video-activity padding-025">
-            <hr className="hr5" />
-            <h6 className="center-align padding-020">ACTIVITY</h6>
-            <div className="activity">
-              {this.props.streamState.meetings.map((meeting, i) => (
-                <div
-                  key={i}
-                  className="recent-activity-list chat-out-list row mb-0"
-                >
-                  <div className="col s12 recent-activity-list-text">
-                    <a href="#!" className="cyan-text medium-small">
-                      Meeting {moment(meeting.date).fromNow()}
-                    </a>
-                    <p className="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">
-                      {meeting.notes}
-                    </p>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -326,4 +239,4 @@ const mapStateToProps = (state) => ({
   streamState: state.stream,
 });
 
-export default connect(mapStateToProps, StreamActions)(VideoPlayer);
+export default connect(mapStateToProps, StreamActions)(Player);
