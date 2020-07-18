@@ -2,13 +2,15 @@ swagger: "2.0"
 info:
   description: "CyberSchool API Doc...✌🏾"
   version: "1.0.0"
-  title: "CyberSchool"
+  title: "CyberSchool cybers.azurewebsites.net"
   license:
     name: "Github Repo"
     url: "https://github.com/Will-l3x/devops"
-host: "cybers.azurewebsites.net"
+host: "localhost:3001"
 basePath: "/api"
 tags:
+  - name: "Auth"
+    description: "Get authentication/authorization key"
   - name: "Teacher"
     description: "All teacher-account related endpoints"
   - name: "Student"
@@ -19,7 +21,39 @@ tags:
     description: "All schooladmin-account related endpoints"
 schemes:
   - "http"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - Bearer: []
 paths:
+  /login:
+    post:
+      tags:
+        - "Auth"
+      summary: "Logs user in, get auth token..."
+      description: ""
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Object required for route..."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              email:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        "405":
+          description: "Invalid input"
   /teacher/enrol_student:
     post:
       tags:
@@ -76,6 +110,8 @@ paths:
                 type: "string"
               file:
                 type: "boolean"
+      security:
+        JWT: []
       responses:
         "405":
           description: "Invalid input"
