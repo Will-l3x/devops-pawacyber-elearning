@@ -1,39 +1,47 @@
 import axios from "axios";
+const qs = require("qs");
 
-const apiUrl = "https://cybers.azurewebsites.net/api";
-// const apiUrl = "http://localhost:3001/api";
+const token = JSON.parse(localStorage.getItem("token"));
+
+var config = {
+  baseURL: "https://cybers.azurewebsites.net/api/teacher",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+    Authorization: `Bearer ${token}`,
+  },
+  
+};
+
 
 export const UploadService = {
   upload,
+  post_material
 };
 
-async function upload(
-  file,
-  data,
-  dispatch,
-  setUploadProgress,
-  successUploadFile,
-  failureUploadFile
-) {
+async function post_material(data) {
   try {
-    let res = await axios({
-      url: `${apiUrl}/file-upload`,
-      method: "post",
-      data,
-      onUploadProgress: (progress) => {
-        const { loaded, total } = progress;
+    let res = await axios.post(`/new_material`, qs.stringify(data), config);
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-        const percentageProgress = Math.floor((loaded / total) * 100);
-        dispatch(setUploadProgress(file.id, percentageProgress));
-      },
-    });
-    dispatch(successUploadFile(file.id));
-    //res.data {
-    //  --------after upload of file this is required ----------
-    //          path : "path/to/file",
-    //}
-    return res;
-  } catch (error) {
-    dispatch(failureUploadFile(file.id));
+async function upload(data) {
+  try {
+    let res = await axios.post(
+      `https://cybers.azurewebsites.net/api/upload/new`,
+      qs.stringify(data),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+        
+      }
+    );
+    return res.data;
+  } catch (err) {
+    console.error(err);
   }
 }

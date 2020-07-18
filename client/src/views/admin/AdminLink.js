@@ -49,6 +49,17 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
+            to="/content-upload"
+            className="waves-effect waves-cyan"
+            onClick={this.onClick}
+          >
+            <i className="material-icons">backup</i>
+            <span className="nav-text">Upload Resources</span>
+          </Link>
+          
+        </li>
+        <li className="bold">
+          <Link
             to="/subadmins"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
@@ -57,6 +68,7 @@ class AdminLink extends Component {
             <span className="nav-text">Subadmins</span>
           </Link>
         </li>
+
       </ul>
     );
   }
