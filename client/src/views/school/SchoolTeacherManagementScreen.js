@@ -89,7 +89,6 @@ export class SchoolTeacherManagementScreen extends Component {
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        console.log(response);
         alert(response.message);
       }
     });
