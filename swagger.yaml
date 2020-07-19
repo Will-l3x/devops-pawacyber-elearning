@@ -897,6 +897,8 @@ paths:
                 type: "integer"
               classname:
                 type: "string"
+              grade:
+                type: "integer"
               status:
                 type: "string"
               enrolmentkey:
