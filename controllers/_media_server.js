@@ -42,11 +42,12 @@ let create_meeting = (req, res) => {
     var date = req.body.date;
     var classid = req.body.classid;
     var notes = req.body.notes;
+    var name = req.body.name;
     var status = "Waiting for ";
 
     var query = "INSERT INTO [meetings] \
-    (createdby,date , classid,notes,status) \
-    VALUES(@cb,@date,@cid,@notes,@status)";
+    (createdby,date , classid,notes,status,meetingname) \
+    VALUES(@cb,@date,@cid,@notes,@status,@name)";
     var request = new sql.Request();
 
     request
@@ -55,6 +56,7 @@ let create_meeting = (req, res) => {
         .input("cid", classid)
         .input("notes", notes)
         .input("status", status)
+        .input("name", name)
         .query(query, function (err, recordset) {
 
             if (err) {
@@ -276,6 +278,44 @@ let get_meetings = (req, res) => {
     }
 };
 
+let get_class_meetings = (req, res) => {
+
+    var id = req.params.id;
+ 
+    var request = new sql.Request();
+
+        var query = "select * from [meetings] \
+         Where meetings.classid = @id \
+         ";
+
+        request
+            .input("id", id)
+            .query(query, function (err, recordset) {
+
+                if (err) {
+                    console.log(err);
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: "An error occured",
+                        error: err.message
+                    });
+                } else {
+
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        data: JSON.parse(JSON.stringify({ meetings: recordset.recordset }))
+
+                    });
+
+                }
+            });
+
+    
+};
+
 let get_meeting = (req, res) => {
 
     var id = req.decoded.userid;
@@ -355,6 +395,7 @@ module.exports = {
     playvideo: playvideo,
     create_meeting: create_meeting,
     get_meetings: get_meetings,
+    get_class_meetings: get_class_meetings,
     get_meeting: get_meeting,
     stop_meeting: stop_meeting,
     start_meeting:start_meeting
