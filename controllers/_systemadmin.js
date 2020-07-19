@@ -679,11 +679,21 @@ let add_subadmin = (req, res) => {
 
 let del_subadmin = (req, res) => {
     var id = req.params.id;
-    var query = "DELETE from [subadmins] where subadminId=@id";
-    var query_user = "DELETE from [users] where permissionId=@id";
-    var query_permissions = "DELETE from [user_permissions] where permissionId=@id";
+    var query = "DELETE from [subadmins] where userid=@id";
+    var query_user = "DELETE from [users] where userId=@id2";
 
-    var request = new sql.Request();
+    var transaction = new sql.Transaction();
+    transaction.begin(function (err) {
+        if (err) {
+            console.log(err.message);
+            return res.json({
+                status: 400,
+                success: false,
+                message: 'Internal server error'
+            });
+        }
+
+    var request = new sql.Request(transaction);
     request
         .input("id", id)
         .query(query, function (err, recordset) {
@@ -691,6 +701,7 @@ let del_subadmin = (req, res) => {
             if (err) {
                 console.log(err);
                 console.log(err.stack);
+                transaction.rollback();
                 return res.json({
                     status: 500,
                     success: false,
@@ -699,13 +710,33 @@ let del_subadmin = (req, res) => {
                 });
             } else {
 
-                return res.json({
-                    status: 200,
-                    success: true,
-                    message: "Deleted"
-                });
+                request
+                    .input("id2", id)
+                    .query(query_user, function (err, recordset) {
+
+                        if (err) {
+                            transaction.rollback();
+                            console.log(err);
+                            console.log(err.stack);
+                            return res.json({
+                                status: 500,
+                                success: false,
+                                message: "An error occured",
+                                error: err.message
+                            });
+                        } else {
+                            transaction.commit();
+                            return res.json({
+                                status: 200,
+                                success: true,
+                                message: "Deleted"
+                            });
+                        }
+                    });
+
             }
         });
+    });
 };
 
 let subadmins = (req, res) => {
@@ -1427,6 +1458,7 @@ module.exports = {
     roles: roles,
     role: role,
     del_role: del_role,
+    del_subadmin: del_subadmin,
     del_school: del_school,
     add_role: add_role,
     update_role: update_role,
