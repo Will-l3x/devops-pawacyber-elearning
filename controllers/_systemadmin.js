@@ -1199,7 +1199,7 @@ let update_subscription = (req, res) => {
     var price = req.body.price;
 
     let query = "UPDATE [subscriptions] \
-      SET price=@price , subscriptionname=@name, subscriptiondesc=@desc, mingrade=@min,maxgrade=@max \
+      SET price=@price , subscriptionname=@name, mingrade=@min,maxgrade=@max \
       WHERE subscriptionId = @id";
 
     var request = new sql.Request();
