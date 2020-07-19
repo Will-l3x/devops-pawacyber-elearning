@@ -29,7 +29,7 @@ class SchoolLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/school-subscriptions"
+            to="/school-classes"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >

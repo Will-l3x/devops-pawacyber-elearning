@@ -111,7 +111,6 @@ class CommentForm extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-    console.log(this.state);
   }
 
   onChange(e) {
@@ -137,7 +136,7 @@ class CommentForm extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col s2 center-align white-text">
+        <div className="col s1 center-align white-text">
           <StyledBadge
             overlap="circle"
             anchorOrigin={{
@@ -152,7 +151,7 @@ class CommentForm extends Component {
         <form
           id="commentForm"
           onSubmit={this.handleSubmit}
-          className="col s10 Container"
+          className="col s11 Container"
         >
           <div className="col s12">
             <input
@@ -210,12 +209,12 @@ class Comment extends Component {
   render() {
     return (
       <div key={this.props.key} className="row">
-        <div className="col s2 center-align recent-activity-list-icon">
+        <div className="col s1 center-align recent-activity-list-icon">
           <Avatar>
             {this.getNamePrefix(this.props.author, " " /*lastname*/)}
           </Avatar>
         </div>
-        <div className="col s10 Container">
+        <div className="col s11 Container">
           <div className="col s12">
             {/* <span className="close right" onClick={this.handleDelete}>
               <i className="fa fa-trash" />

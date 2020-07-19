@@ -8,23 +8,20 @@ var config = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true,
   },
-  
 };
 export const TeacherService = {
   get_all_courses,
   get_teacher_pending_classwork,
   get_teacher_unmarked_classwork,
   get_submissions,
-
   post_material,
   post_assignment,
   post_file,
-
   get_assignments,
-
   get_materials,
-
   enrol_student,
   get_all_students,
 };
@@ -57,7 +54,6 @@ async function post_file(data) {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
         },
-        
       }
     );
     return res.data;
@@ -112,8 +108,7 @@ async function enrol_student(data) {
   try {
     let res = await axios.put(`/enrol_student`, qs.stringify(data), config);
     return res.data;
-  } catch (err) { 
-
+  } catch (err) {
     console.error(err);
   }
 }
@@ -121,10 +116,7 @@ async function enrol_student(data) {
 //Getting by class ID
 async function get_all_students(id) {
   try {
-    let res = await axios.get(
-      `/get_students/${id}`,
-      config
-    );
+    let res = await axios.get(`/get_students/${id}`, config);
     return res.data.data.students;
   } catch (err) {
     console.error(err);

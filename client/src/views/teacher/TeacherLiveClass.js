@@ -53,6 +53,8 @@ class TeacherLiveClass extends Component {
   }
   liveClassHandle(course) {
     this.props.live_course(course);
+    console.log(course);
+    localStorage.setItem("liveclass", JSON.stringify(course));
     this.setState({ redirect: true });
   }
   render() {

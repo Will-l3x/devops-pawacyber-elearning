@@ -2,30 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import M from "materialize-css";
 import Select from "react-select";
-import { SchoolService } from "../../services/school";
+import { StreamService } from "../../services/stream";
 
 let options = [];
-
-const user = JSON.parse(localStorage.getItem("user"));
-if (user === null) {
-  options = [];
-} else {
-  SchoolService.get_all_teachers(1)//user.schoolId)
-    .then((response) => {
-      const data = response === undefined ? [] : response;
-      for (const teacher of data) {
-        teacher.value = teacher.teacherId;
-        teacher.label = teacher.lastname + " " + teacher.firstname;
-        options.push(teacher);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      options = [];
-    });
-}
-
-class TeacherOptions extends Component {
+ StreamService.get_meetings()
+  .then((response) => {
+    for (const meeting of response.data.data.meetings) {
+      meeting.value = meeting.meetingId;
+      meeting.label = meeting.meetingId;
+      options.push(meeting);
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+    options = [];
+  });
+class MeetingOptions extends Component {
   constructor() {
     super();
     this.state = {
@@ -48,6 +40,7 @@ class TeacherOptions extends Component {
     return (
       <Select
         classNamePrefix="custom-options"
+        className="form-input"
         value={selectedOption}
         onChange={this.handleChange}
         options={options}
@@ -56,4 +49,4 @@ class TeacherOptions extends Component {
   }
 }
 
-export default connect(null, null)(TeacherOptions);
+export default connect(null, null)(MeetingOptions);
