@@ -756,11 +756,11 @@ export default class RegistrationForm extends Component {
                             eLearning account, and when you use the Services, we
                             collect some
                             <a
-                              href="http://cybers.azurewebsites.net/about"
+                              href="https://cybers.azurewebsites.net/about"
                               target="_blank"
                               rel="noopener noreferrer"
-                            ></a>
-                            Personal Information about you such as:
+                            >Personal Information</a>
+                             about you such as:
                           </p>
                           <ol>
                             <li>

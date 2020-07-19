@@ -52,13 +52,13 @@ export class ClassesScreen extends Component {
     const elem = document.getElementById("modal1");
     const modal = new M.Modal(elem);
     modal.close();
+    console.log(this.user);
     var data = {
-      teacherid:
-        this.state.selectedOption === null
+      teacherid:this.state.selectedOption === null
           ? ""
           : this.state.selectedOption.value,
+      schoolid: this.user.schoolid,
       classname: event.target.classname.value,
-      enrolmentkey: "123ABC",
       grade: event.target.grade.value,
       status: "active",
       createdby: this.user.userid,

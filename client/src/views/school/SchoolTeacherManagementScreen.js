@@ -56,7 +56,7 @@ export class SchoolTeacherManagementScreen extends Component {
 
   getDashData() {
     SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
-      console.log(response)
+      console.log(response);
       this.setState({ rows: response });
     });
   }
@@ -89,6 +89,7 @@ export class SchoolTeacherManagementScreen extends Component {
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
+        console.log(response);
         alert(response.message);
       }
     });
@@ -140,7 +141,7 @@ export class SchoolTeacherManagementScreen extends Component {
                 <div className="container col s6">
                   <div className="card-stats z-depth-5 padding-3">
                     <div className="row mt-1">
-                      <div className="col s12 m6 l12">
+                      <div className="col s12">
                         <h4 className="header2">Add Teacher</h4>
                         <form onSubmit={this.handleSubmit} id="sibs">
                           <div className="row">

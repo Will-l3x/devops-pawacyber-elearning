@@ -90,7 +90,7 @@ export class SubscriptionScreen extends Component {
                 href="#!"
                 className="btn-floating waves-effect waves-light modal-trigger red accent-2"
                 data-target="areyousure"
-                onClick={this.setState({ subId: subscription.id })}
+                onClick={this.setState({ subId: subscription.subscriptionId })}
               >
                 <i className="material-icons">delete</i>
               </a>
@@ -151,9 +151,18 @@ export class SubscriptionScreen extends Component {
       maxgrade: event.target.maxgrade.value,
       price: event.target.price.value,
     };
-    console.log(data);
+    this.setState({
+      selectedSub: {
+        maxgrade: 0,
+        mingrade: 0,
+        price: 0,
+        subscriptiondesc: "",
+        subscriptionname: "",
+      },
+    });
     AdminService.update_plan(this.state.subId, data)
       .then((response) => {
+        console.log(response);
         if (response.message === "An error occured") {
           M.toast({
             html: `An error occured, update failed!`,
@@ -334,86 +343,106 @@ export class SubscriptionScreen extends Component {
                       </div>
                     </div>
                   </div>
-                  <div id="modaledit" className="modal">
-                    <div className="modal-content">
-                      <h4 className="header2">Edit Subscription Plan</h4>
-                      <form onSubmit={this.handleSave} id="sibs2">
-                        <div className="row">
-                          <div className="col s12">
-                            <div className="row">
-                              <div className="input-field col s4">
-                                <input
-                                  id="subscriptionname"
-                                  type="text"
-                                  name="subscriptionname"
-                                  onChange={this.onChange}
-                                  value={
-                                    this.state.selectedSub.subscriptionname
-                                  }
-                                ></input>
-                                <label htmlFor="subscriptionname">
-                                  Package Name
-                                </label>
-                              </div>
-                              <div className="input-field col s8">
-                                <input
-                                  id="subscriptiondesc"
-                                  type="text"
-                                  name="subscriptiondesc"
-                                  onChange={this.onChange}
-                                  value={
-                                    this.state.selectedSub.subscriptiondesc
-                                  }
-                                ></input>
-                                <label htmlFor="subscriptiondesc">
-                                  Short Description
-                                </label>
-                              </div>
-                            </div>
-                            <div className="row">
-                              <div className="input-field col s4">
-                                <input
-                                  id="mingrade"
-                                  type="number"
-                                  name="mingrade"
-                                  onChange={this.onChange}
-                                  value={this.state.selectedSub.mingrade}
-                                ></input>
-                                <label htmlFor="mingrade">Starting Grade</label>
-                              </div>
-                              <div className="input-field col s4">
-                                <input
-                                  id="maxgrade"
-                                  type="number"
-                                  name="maxgrade"
-                                  onChange={this.onChange}
-                                  value={this.state.selectedSub.maxgrade}
-                                ></input>
-                                <label htmlFor="maxgrade">Ending Grade</label>
-                              </div>
-                              <div className="input-field col s4">
-                                <input
-                                  id="price"
-                                  type="number"
-                                  name="price"
-                                  onChange={this.onChange}
-                                  value={this.state.selectedSub.price}
-                                ></input>
-                                <label htmlFor="price">Price</label>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="row">
-                            <div className="input-field col s6 offset-s6">
-                              <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                                Save
-                                <i className="material-icons right">save</i>
-                              </button>
-                            </div>
-                          </div>
+                  <div id="modaledit" className="modal modal-meeting">
+                    <form
+                      className="react-form form-meeting"
+                      onSubmit={this.handleSave}
+                      id="sibs2"
+                    >
+                      <h1 className="h1-meeting">
+                        <i
+                          className="material-icons"
+                          style={{ transform: "translate(-3px, 4px)" }}
+                        >
+                          create
+                        </i>
+                        Subscription Plan!
+                      </h1>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="subscriptionname"
+                          title="Subscription Name:"
+                        />
+                        <input
+                          id="subscriptionname"
+                          className="form-input input-meeting"
+                          name="subscriptionname"
+                          onChange={this.onChange}
+                          value={this.state.selectedSub.subscriptionname}
+                          type="text"
+                          required
+                        />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="subscriptiondesc"
+                          title="Description: "
+                        />
+
+                        <textarea
+                          id="subscriptiondesc"
+                          className="form-textarea textarea-meeting"
+                          name="subscriptiondesc"
+                          rows="3"
+                          onChange={this.onChange}
+                          value={this.state.selectedSub.subscriptiondesc}
+                          required
+                        ></textarea>
+                      </fieldset>
+                      <fieldset className="form-group row">
+                        <div className="col s6">
+                          <ReactFormLabel htmlFor="date" title="Min Grade:" />
+
+                          <input
+                            id="mingrade"
+                            className="form-input input-meeting"
+                            type="number"
+                            min="0"
+                            max="12"
+                            name="mingrade"
+                            onChange={this.onChange}
+                            value={this.state.selectedSub.mingrade}
+                            required
+                          />
                         </div>
-                      </form>
-                    </div>
+                        <div className="col s6">
+                          <ReactFormLabel htmlFor="date" title="Max Grade:" />
+
+                          <input
+                            id="maxgrade"
+                            className="form-input input-meeting"
+                            type="number"
+                            min="0"
+                            max="12"
+                            name="maxgrade"
+                            onChange={this.onChange}
+                            value={this.state.selectedSub.maxgrade}
+                            required
+                          />
+                        </div>
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel htmlFor="date" title="Price:" />
+                        <input
+                          id="price"
+                          className="form-input input-meeting"
+                          type="number"
+                          name="price"
+                          onChange={this.onChange}
+                          value={this.state.selectedSub.price}
+                          required
+                        />
+                      </fieldset>
+
+                      <div className="form-group">
+                        <input
+                          id="formButton"
+                          className="btn modal-close gradient-45deg-light-blue-cyan"
+                          type="submit"
+                          value="Save"
+                        />
+                      </div>
+                    </form>
                   </div>
                   <div id="areyousure" className="modal width-250">
                     <div className="modal-content">
@@ -445,6 +474,16 @@ export class SubscriptionScreen extends Component {
           <Footer />
         </footer>
       </div>
+    );
+  }
+}
+
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
     );
   }
 }
