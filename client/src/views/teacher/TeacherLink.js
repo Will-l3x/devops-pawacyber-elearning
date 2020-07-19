@@ -55,7 +55,7 @@ class TeacherLink extends Component {
             <span className="nav-text">Upload New Assignment</span>
           </Link>
         </li>
-        <li className="bold">
+        {/* <li className="bold">
           <Link
             to="/video-player"
             className="dash-link waves-effect waves-cyan"
@@ -64,7 +64,7 @@ class TeacherLink extends Component {
             <i className="material-icons">live_tv</i>
             <span className="nav-text">Video Class</span>
           </Link>
-        </li>
+        </li> */}
 
         <li className="bold">
           <Link
