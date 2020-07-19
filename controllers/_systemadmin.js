@@ -1110,12 +1110,19 @@ let del_subscription = (req, res) => {
                     error: err.message
                 });
             } else {
-
-                return res.json({
-                    status: 200,
-                    success: true,
-                    message: "Deleted"
-                });
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Deleted"
+                    });
+                } else {
+                    return res.json({
+                        status: 404,
+                        success: false,
+                        message: "Record not found"
+                    });
+                }
             }
         });
 };
