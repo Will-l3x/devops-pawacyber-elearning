@@ -8,6 +8,8 @@ var config = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true,
   },
 };
 
@@ -15,8 +17,10 @@ export const StreamService = {
   create_meeting,
   start_meeting,
   stop_meeting,
-  get_meetings,
   get_meeting,
+  get_meetings,
+  get_meetings_by_classid,
+  get_meetings_by_creatorid,
 };
 
 async function create_meeting(data) {
@@ -49,8 +53,16 @@ async function stop_meeting(id) {
   }
 }
 
+async function get_meeting(id) {
+  try {
+    let res = await axios.get(`/get_meeting/${id}`, config);
+    return res;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 async function get_meetings() {
-  //by class id
   try {
     let res = await axios.get(`/get_meetings`, config);
     return res;
@@ -58,11 +70,17 @@ async function get_meetings() {
     console.error(err);
   }
 }
-
-async function get_meeting(id) {
-  //by class id
+async function get_meetings_by_classid(id) {
   try {
-    let res = await axios.get(`/get_meeting/${id}`, config);
+    let res = await axios.get(`/get_meetings/${id}`, config);
+    return res;
+  } catch (err) {
+    console.error(err);
+  }
+}
+async function get_meetings_by_creatorid(id) {
+  try {
+    let res = await axios.get(`/get_meetings/${id}`, config);
     return res;
   } catch (err) {
     console.error(err);

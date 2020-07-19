@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import $ from "jquery";
+import M from "materialize-css";
 import moment from "moment";
 import "../assets/css/video-player.css";
+
+import carousel1 from "../assets/images/conference/live-chat.svg";
+import carousel2 from "../assets/images/conference/video-call.svg";
+import carousel3 from "../assets/images/conference/interview.svg";
+
 import CommentBox from "./CommentBox";
 import StreamActions from "../actions/stream";
 
@@ -17,6 +23,20 @@ class VideoPlayer extends Component {
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ user });
+
+    let carousel = document.querySelector(".carousel");
+    var instance = M.Carousel.init(carousel, {
+      dist: 0,
+      padding: 0,
+      indicators: true,
+      duration: 100,
+      fullWidth: true,
+    });
+    autoplay();
+    function autoplay() {
+      instance.next();
+      setTimeout(autoplay, 5000);
+    }
     this.videoPlayer();
   }
   videoPlayer() {
@@ -199,7 +219,7 @@ class VideoPlayer extends Component {
   }
   initJisti = () => {
     const res = this.props.streamState.startstop_meeting_res;
-    console.log(res);
+    localStorage.setItem("meetingId", res.meetingId);
     const domain =
       "meet.jit.si/RIFqhR13UEsVBUfqKvpZ8ijJCGkMhkCuONOSZ0OJc6fQF7m58cxCL";
     const options = {
@@ -225,7 +245,13 @@ class VideoPlayer extends Component {
               : "display-none"
           }`}
         >
-          <div id="meet" className="conference padding-2"></div>
+          <div className="video-topbar gradient-45deg-semi-dark">Title</div>
+          <div id="meet" className="conference"></div>
+
+          <div
+            className="video-controls gradient-45deg-semi-dark"
+            style={{ height: 50 }}
+          ></div>
         </div>
 
         <div
@@ -235,46 +261,16 @@ class VideoPlayer extends Component {
               : ""
           }`}
         >
-          <div className="video-topbar gradient-45deg-semi-dark">Title</div>
-          <video src="https://www.videvo.net/videvo_files/converted/2018_07/videos/180607_A_101.mp466981_jw.mp4"></video>
-          <div className="video-controls gradient-45deg-semi-dark">
-            <div className="video-top-controls">
-              <div className="video-seekbar seekbar">
-                <span className="progress"></span>
-              </div>
-            </div>
-
-            <div className="video-playback-controls">
-              <button className="control-btn toggle-play-pause play">
-                <i className="fas fa-play play-icon icon translate-icon"></i>
-                <i className="fas fa-pause pause-icon icon translate-icon"></i>
-              </button>
-              <div className="video-volume-control">
-                <button className="control-btn toggle-volume on">
-                  <i className="fas fa-volume-up icon volume-on translate-icon"></i>
-                  <i className="fas fa-volume-mute icon volume-off translate-icon"></i>
-                </button>
-                <div className="volume-seekbar seekbar">
-                  <span className="progress"></span>
-                </div>
-              </div>
-              <div className="video-timings">
-                <div className="start-time time">00:00:00</div>/
-                <div className="end-time time">00:00:00</div>
-                <div
-                  className={`red-text cursor-pointer`}
-                  style={{ paddingRight: 10 }}
-                >
-                  <i
-                    className="material-icons margin-0 tiny left"
-                    style={{ transform: "translateY(2px)" }}
-                  >
-                    fiber_manual_record
-                  </i>
-                  <span className="left">Live</span>
-                </div>
-              </div>
-            </div>
+          <div className="carousel carousel-slider" data-indicators="true">
+            <a class="carousel-item center" href="#one!">
+              <img alt="carousel" className="carsel" src={`${carousel1}`} />
+            </a>
+            <a class="carousel-item center" href="#two!">
+              <img alt="carousel" className="carsel" src={`${carousel2}`} />
+            </a>
+            <a class="carousel-item center" href="#three!">
+              <img alt="carousel" className="carsel" src={`${carousel3}`} />
+            </a>
           </div>
         </div>
 

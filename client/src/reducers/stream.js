@@ -24,6 +24,10 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, meeting: payload };
     case "GET_ALL_MEETINGS":
       return { ...state, meetings: payload };
+    case "GET_ALL_MEETINGS_BY_CLASSID":
+      return { ...state, meetings: payload };
+    case "GET_ALL_MEETINGS_BY_CREATORID":
+      return { ...state, meetings: payload };
 
     default:
       return state;

@@ -8,16 +8,6 @@ import M from "materialize-css";
 
 import { SchoolService } from "../../services/school";
 import avatar from "../../assets/images/gallary/not_found.gif";
-import bg4 from "../../assets/images/gallary/4.png";
-import bg5 from "../../assets/images/gallary/5.png";
-import bg8 from "../../assets/images/gallary/8.png";
-import bg11 from "../../assets/images/gallary/11.png";
-import bg12 from "../../assets/images/gallary/12.png";
-import bg25 from "../../assets/images/gallary/25.png";
-import bg30 from "../../assets/images/gallary/30.png";
-import bg31 from "../../assets/images/gallary/31.png";
-import bg32 from "../../assets/images/gallary/32.png";
-import bg33 from "../../assets/images/gallary/33.png";
 import TeacherOptions from "./TeacherOptions";
 
 export class ClassesScreen extends Component {
@@ -29,19 +19,6 @@ export class ClassesScreen extends Component {
       classId: "",
       courses: [],
       teachers: [],
-      bgimage: {
-        default: bg4,
-        bg1: bg4,
-        bg2: bg5,
-        bg3: bg8,
-        bg4: bg11,
-        bg5: bg12,
-        bg6: bg25,
-        bg7: bg30,
-        bg8: bg31,
-        bg9: bg32,
-        bg10: bg33,
-      },
     };
     this.handleUnsubscribe.bind(this);
   }
@@ -57,8 +34,7 @@ export class ClassesScreen extends Component {
   }
 
   getDashData() {
-    // SchoolService.get_courses('2')
-    SchoolService.get_courses(this.user.schoolid)
+    SchoolService.get_courses(1) //this.user.schoolid)
       .then((response) => {
         if (response === undefined) {
         } else {
@@ -83,10 +59,11 @@ export class ClassesScreen extends Component {
           : this.state.selectedOption.value,
       classname: event.target.classname.value,
       enrolmentkey: "123ABC",
+      grade: event.target.grade.value,
       status: "active",
       createdby: this.user.userid,
     };
-    
+
     SchoolService.post_new_course(data).then((response) => {
       if (response === undefined) {
         alert("Apologies. Course addition failed. Please contact admin");
@@ -111,6 +88,7 @@ export class ClassesScreen extends Component {
           ? ""
           : this.state.selectedOption.value,
       classname: event.target.classname.value,
+      grade: event.target.grade.value,
       enrolmentkey: "123ABC",
       status: "active",
       createdby: this.user.userid,
@@ -270,159 +248,111 @@ export class ClassesScreen extends Component {
                   )}
                 </div>
               </div>
-              <div id="modal1" className="modal">
-                <div className="modal-content">
-                  <h4 className="header2">Add Class</h4>
-                  <form onSubmit={this.handleSubmit} id="sibs">
-                    <div className="row">
-                      <div className="col s12">
-                        <div className="row">
-                          <div className="input-field col s5">
-                            <input
-                              id="classname"
-                              type="text"
-                              name="classname"
-                              required
-                            ></input>
-                            <label htmlFor="classname">Class Name</label>
-                          </div>
-                          <div className="input-field col s3">
-                            <label
-                              htmlFor="teacherId"
-                              style={{
-                                transform: "translateY(-15px)",
-                                fontSize: "12px",
-                              }}
-                            >
-                              Class Teacher
-                            </label>
-                            <TeacherOptions
-                              onSelectOption={this.onSelectOption}
-                            />
-                            <div className="my-divider"></div>
-                          </div>
-                          <div className="input-field col s4">
-                            <select className="icons modal-width-230">
-                              <option value="default">Default</option>
-                              <option value="bg1" data-icon={bg4}>
-                                Background 1
-                              </option>
-                              <option value="bg2" data-icon={bg5}>
-                                Background 2
-                              </option>
-                              <option value="bg3" data-icon={bg8}>
-                                Background 3
-                              </option>
-                              <option value="bg4" data-icon={bg11}>
-                                Background 4
-                              </option>
-                              <option value="bg5" data-icon={bg12}>
-                                Background 5
-                              </option>
-                              <option value="bg6" data-icon={bg25}>
-                                Background 6
-                              </option>
-                              <option value="bg7" data-icon={bg30}>
-                                Background 7
-                              </option>
-                              <option value="bg8" data-icon={bg31}>
-                                Background 8
-                              </option>
-                              <option value="bg9" data-icon={bg32}>
-                                Background 9
-                              </option>
-                              <option value="bg10" data-icon={bg33}>
-                                Background 10
-                              </option>
-                            </select>
-                            <label>Image Background</label>
-                          </div>
-                        </div>
-                        <button className="btn gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                          Submit
-                          <i className="material-icons right">send</i>
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+              <div id="modal1" className="modal modal-meeting">
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSubmit}
+                  id="sibs"
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      class
+                    </i>
+                    Add Class!
+                  </h1>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="classname" title="Class Name:" />
+
+                    <input
+                      id="classname"
+                      className="form-input input-meeting"
+                      name="classname"
+                      type="text"
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="grade" title="Grade:" />
+                    <input
+                      id="grade"
+                      className="form-input input-meeting"
+                      name="grade"
+                      type="number"
+                      min="0"
+                      max="12"
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="teacher" title="Teacher:" />
+                    <TeacherOptions onSelectOption={this.onSelectOption} />
+                    <div className="my-divider"></div>
+                  </fieldset>
+                  <div className="form-group" style={{ marginTop: 50 }}>
+                    <input
+                      id="submit"
+                      className="btn modal-close gradient-45deg-light-blue-cyan"
+                      type="submit"
+                      value="Submit"
+                    />
+                  </div>
+                </form>
               </div>
-              <div id="modal2" className="modal">
-                <div className="modal-content">
-                  <h4 className="header2">Edit Class</h4>
-                  <form onSubmit={this.handleSave} id="sibs2">
-                    <div className="row">
-                      <div className="col s12">
-                        <div className="row">
-                          <div className="input-field col s5">
-                            <input
-                              id="classname"
-                              type="text"
-                              name="classname"
-                              required
-                            ></input>
-                            <label htmlFor="classname">Class Name</label>
-                          </div>
-                          <div className="input-field col s3">
-                            <label
-                              htmlFor="teacherId"
-                              style={{
-                                transform: "translateY(-15px)",
-                                fontSize: "12px",
-                              }}
-                            >
-                              Class Teacher
-                            </label>
-                            <TeacherOptions
-                              onSelectOption={this.onSelectOption}
-                            />
-                            <div className="my-divider"></div>
-                          </div>
-                          <div className="input-field col s4">
-                            <select className="icons modal-width-230">
-                              <option value="default">Default</option>
-                              <option value="bg1" data-icon={bg4}>
-                                Background 1
-                              </option>
-                              <option value="bg2" data-icon={bg5}>
-                                Background 2
-                              </option>
-                              <option value="bg3" data-icon={bg8}>
-                                Background 3
-                              </option>
-                              <option value="bg4" data-icon={bg11}>
-                                Background 4
-                              </option>
-                              <option value="bg5" data-icon={bg12}>
-                                Background 5
-                              </option>
-                              <option value="bg6" data-icon={bg25}>
-                                Background 6
-                              </option>
-                              <option value="bg7" data-icon={bg30}>
-                                Background 7
-                              </option>
-                              <option value="bg8" data-icon={bg31}>
-                                Background 8
-                              </option>
-                              <option value="bg9" data-icon={bg32}>
-                                Background 9
-                              </option>
-                              <option value="bg10" data-icon={bg33}>
-                                Background 10
-                              </option>
-                            </select>
-                            <label>Image Background</label>
-                          </div>
-                          <button className="btn gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                            Save
-                            <i className="material-icons right">save</i>
-                          </button>{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+              <div id="modal2" className="modal modal-meeting">
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSave}
+                  id="sibs2"
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      class
+                    </i>
+                    Edit Class!
+                  </h1>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="classname" title="Class Name:" />
+
+                    <input
+                      id="classname"
+                      className="form-input input-meeting"
+                      name="classname"
+                      type="text"
+                      required
+                    />
+                  </fieldset>
+
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="grad" title="Grade:" />
+                    <input
+                      id="grad"
+                      className="form-input input-meeting"
+                      name=""
+                      type="text"
+                      required
+                    />
+                  </fieldset>
+
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="teacher" title="Teacher:" />
+                    <TeacherOptions onSelectOption={this.onSelectOption} />
+                    <div className="my-divider"></div>
+                  </fieldset>
+                  <div className="form-group">
+                    <input
+                      id="save"
+                      className="btn modal-close gradient-45deg-light-blue-cyan"
+                      type="submit"
+                      value="Save"
+                    />
+                  </div>
+                </form>
               </div>
 
               <div id="areyousure" className="modal width-250">
@@ -453,6 +383,15 @@ export class ClassesScreen extends Component {
           <Footer />
         </footer>
       </div>
+    );
+  }
+}
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
     );
   }
 }

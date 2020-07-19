@@ -33,6 +33,11 @@ class LivePlayer extends Component {
   }
   componentDidMount() {
     this.get_meetings();
+    const meetingId = localStorage.getItem("meetingId");
+    if (meetingId === null) {
+    } else {
+      this.get_meeting(meetingId);
+    }
   }
   onSelectOption = (selectedOption) => {
     this.setState({ selectedOption }, () =>
@@ -49,8 +54,9 @@ class LivePlayer extends Component {
       classid: 1,
       notes: e.target.notes.value,
     };
-
     this.props.create_meeting(data);
+
+    document.getElementById("create-meeting-form").reset();
   };
 
   start_meeting = (e) => {
@@ -58,9 +64,14 @@ class LivePlayer extends Component {
     const data = {
       password: e.target.password.value,
     };
+    localStorage.setItem("meeting", "MEETING_STARTED");
     this.props.start_meeting(this.state.selectedOption.value, data);
+
+    document.getElementById("start-meeting-form").reset();
   };
   stop_meeting = () => {
+    localStorage.setItem("meeting", "MEETING_STOPPED");
+    localStorage.removeItem("meetingId");
     this.props.stop_meeting(this.state.selectedOption.value);
   };
 
@@ -71,6 +82,7 @@ class LivePlayer extends Component {
   get_meeting = (id) => {
     this.props.get_meeting(id);
   };
+
   render() {
     return (
       <div>
@@ -166,6 +178,7 @@ class LivePlayer extends Component {
           </div>
           <div id="create-meeting" className="modal modal-meeting">
             <form
+              id="create-meeting-form"
               className="react-form form-meeting"
               onSubmit={this.create_meeting}
             >
@@ -226,6 +239,7 @@ class LivePlayer extends Component {
           <div id="start-meeting" className="modal modal-meeting">
             <form
               className="react-form form-meeting"
+              id="start-meeting-form"
               onSubmit={this.start_meeting}
             >
               <h1 className="h1-meeting">

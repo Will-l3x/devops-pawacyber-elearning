@@ -8,6 +8,8 @@ var config = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true,
   },
 };
 
@@ -29,6 +31,8 @@ export const SchoolService = {
 
 async function post_new_course(data) {
   try {
+    console.log(data);
+
     let res = await axios.post(`/add_class`, qs.stringify(data), config);
     console.log(res);
     return res.data;
@@ -80,7 +84,7 @@ async function get_all_teachers(id) {
   } catch (err) {
     console.log(err);
     return [];
-  } 
+  }
 }
 
 async function update_teacher(data) {

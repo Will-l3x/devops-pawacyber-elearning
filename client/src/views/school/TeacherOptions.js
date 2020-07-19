@@ -10,7 +10,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 if (user === null) {
   options = [];
 } else {
-  SchoolService.get_all_teachers(user.schoolId)
+  SchoolService.get_all_teachers(1)//user.schoolId)
     .then((response) => {
       const data = response === undefined ? [] : response;
       for (const teacher of data) {

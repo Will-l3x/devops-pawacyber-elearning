@@ -38,8 +38,6 @@ import { UploadContent} from "./views/admin/UploadContent";
 import PackagePayment from "./views/student/PackagePayment";
 import UploadNewAssignment from "./views/teacher/TeacherAssignments";
 import SubadminScreen from "./views/admin/SubadminScreen";
-import StudentLiveClass from "./views/student/StudentLiveClass";
-import TeacherLiveClass from "./views/teacher/TeacherLiveClass";
 import LivePlayer from "./components/LivePlayer";
 
 import $ from "jquery";
@@ -50,7 +48,6 @@ import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
 import history from "./history";
-import TeacherConferenceRoom from "./views/teacher/TeacherConferenceRoom";
 
 class App extends Component {
   componentDidMount() {
@@ -185,25 +182,10 @@ class App extends Component {
 
             <Route exact path="/student" component={StudentScreen} />
 
-            <Route
-              exact
-              path="/student-video-class"
-              component={StudentLiveClass}
-            />
-            <Route
-              exact
-              path="/video-conference"
-              component={ TeacherConferenceRoom}
-            />
             <Route                  
               exact
               path="/video-player"
               component={LivePlayer}
-            />
-            <Route
-              exact
-              path="/teacher-video-class"
-              component={TeacherLiveClass}
             />
 
             <Route exact path="/subject-content" component={SubjectContent} />

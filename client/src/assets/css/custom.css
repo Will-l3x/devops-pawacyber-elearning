@@ -1141,3 +1141,7 @@ ul.card-action-buttons2 li {
 .modal-meeting {
     width: 400px;
 }
+
+.carsel {
+    width: 250px !important;
+}

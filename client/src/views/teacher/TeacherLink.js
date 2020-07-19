@@ -57,22 +57,12 @@ class TeacherLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/teacher-video-class"
+            to="/video-player"
             className="dash-link waves-effect waves-cyan"
             onClick={() => this.dashClick("student")}
           >
             <i className="material-icons">live_tv</i>
             <span className="nav-text">Video Class</span>
-          </Link>
-        </li>
-        <li className="bold">
-          <Link
-            to="/video-conference"
-            className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick("student")}
-          >
-            <i className="material-icons">video_call</i>
-            <span className="nav-text">Go Live</span>
           </Link>
         </li>
 
