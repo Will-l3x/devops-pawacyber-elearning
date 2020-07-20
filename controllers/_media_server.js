@@ -134,7 +134,7 @@ let start_meeting = (req, res) => {
                         status: 200,
                         success: true,
                         message: "Meeting Started",
-                        room: "https://meet.jit.si/" + room
+                        room: "meet.jit.si/" + room
                     });
 
                 } else {
