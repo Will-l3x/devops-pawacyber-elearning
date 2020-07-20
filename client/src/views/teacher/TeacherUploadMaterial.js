@@ -92,7 +92,7 @@ export class UploadMaterial extends Component {
           const uploadData = new FormData() 
           uploadData.append('file', this.fileData)
           uploadData.append('uploadType',response.uploadType)
-          uploadData.append('uploadType',response.uploadId)
+          uploadData.append('uploadId',response.uploadId)
 
           TeacherService.post_file(uploadData).then((response)=>{
             console.log(response);

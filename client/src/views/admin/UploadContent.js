@@ -6,7 +6,7 @@ import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-// import {TeacherService} from '../../services/teacher';
+import { UploadService } from '../../services/upload';
 //import {StudentService} from '../../services/student';
 
 export class UploadContent extends Component {
@@ -41,14 +41,62 @@ export class UploadContent extends Component {
   user = {};
   courseId = "1";
   fileData;
-  teacherid = "";
+  loggedUserId = "";
+  schoolid = "";
 
   componentDidMount() {
     this.user = JSON.parse(localStorage.getItem("user"));
+    this.loggedUserId = this.user.userid;
+    this.schoolid = this.user.schoolid;
     M.AutoInit();
     $(".custom-select.custom-select-sm").addClass("display-none");
     $(".col-sm-12.col-md-6").addClass("height-0");
   }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    this.fileData = event.target.file.value;
+    alert('You are uploading for class id: ' + event.target.subject.value);
+    var data = {
+      teacherid: this.loggedUserId,
+      schoolid: this.schoolid,
+      materialname: event.target.materialname.value,
+      materialtype: "file",
+      file: true,
+      classid: event.target.subject.value,
+      grade: event.target.grade.value
+    }
+
+    UploadService.post_material(data).then((response) => {
+      if (response === undefined) {
+        alert('Resource Upload failed');
+      } else if (response.err) {
+        alert(response.err)
+      } else if (response.success === true) {
+
+        const uploadData = new FormData()
+        uploadData.append('file', this.fileData)
+        uploadData.append('uploadType', response.uploadType)
+        uploadData.append('uploadId', response.uploadId)
+        UploadService.upload(uploadData).then((response) => {
+          console.log('-------------------------------------------------------');
+          console.log(response);
+          console.log('-------------------------------------------------------');
+
+          if (response.sucess === true) {
+            alert(response.message);
+          } else {
+            alert("Failed to complete upload");
+          }
+        });
+
+      } else {
+        alert(response.message)
+      }
+    })
+  }
+
+
 
   render() {
     return (
@@ -102,16 +150,16 @@ export class UploadContent extends Component {
                                 name="subject"
                                 required
                               ></input>
-                              <label htmlFor="subject">Subject</label>
+                              <label htmlFor="subject">Class ID</label>
                             </div>
                             <div className="input-field col s5">
                               <input
-                                id="resourceName"
+                                id="materialname"
                                 type="text"
-                                name="resourceName"
+                                name="materialname"
                                 required
                               ></input>
-                              <label htmlFor="resourceName">
+                              <label htmlFor="materialname">
                                 Resource Name
                               </label>
                             </div>
