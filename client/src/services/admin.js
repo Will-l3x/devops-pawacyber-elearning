@@ -128,9 +128,10 @@ async function get_subs_plans() {
 
 async function delete_plan(id) {
   try {
+    console.log(id);
     let res = await axios.delete(`del_subscription/${id}`, config);
     if (res.data.success) {
-      return res.data.data.subscriptions;
+      return res.data;
     } else {
       return [];
     }

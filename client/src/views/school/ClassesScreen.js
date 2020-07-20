@@ -19,6 +19,7 @@ export class ClassesScreen extends Component {
       classId: "",
       courses: [],
       teachers: [],
+      enrolmentkey: "",
     };
     this.handleUnsubscribe.bind(this);
   }
@@ -57,13 +58,14 @@ export class ClassesScreen extends Component {
         this.state.selectedOption === null
           ? ""
           : this.state.selectedOption.value,
+      schoolid: this.user.schoolid,
       classname: event.target.classname.value,
-      enrolmentkey: "123ABC",
       grade: event.target.grade.value,
+      enrolmentkey: Math.random().toString(36).substring(7),
       status: "active",
       createdby: this.user.userid,
     };
-
+    this.setState({ enrolmentkey: data.enrolmentkey });
     SchoolService.post_new_course(data).then((response) => {
       if (response === undefined) {
         alert("Apologies. Course addition failed. Please contact admin");
@@ -88,11 +90,13 @@ export class ClassesScreen extends Component {
           ? ""
           : this.state.selectedOption.value,
       classname: event.target.classname.value,
-      grade: event.target.grade.value,
-      enrolmentkey: "123ABC",
+      enrolmentkey: Math.random().toString(36).substring(7),
       status: "active",
       createdby: this.user.userid,
     };
+
+    this.setState({ enrolmentkey: data.enrolmentkey });
+
     SchoolService.update_course(data).then((response) => {
       if (response === undefined) {
         alert("Apologies. Update. Please contact admin");
@@ -114,10 +118,25 @@ export class ClassesScreen extends Component {
     SchoolService.delete_course(this.state.classId)
       .then((response) => {
         console.log(response);
+        if (response.message === "An error occured") {
+          M.toast({
+            html: `An error occured, update failed!`,
+            classes: "red accent-2",
+          });
+        } else {
+          M.toast({
+            html: `${response.message}, delete successfull`,
+            classes: "green accent-3",
+          });
+          document.getElementById("sibs").reset();
+        }
         this.getDashData();
       })
       .catch((error) => {
-        console.log(error);
+        M.toast({
+          html: `${error.message}, delete failed`,
+          classes: "red accent-2",
+        });
         this.getDashData();
       });
   };
@@ -317,23 +336,15 @@ export class ClassesScreen extends Component {
                     Edit Class!
                   </h1>
                   <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="classname" title="Class Name:" />
+                    <ReactFormLabel
+                      htmlFor="edit-classname"
+                      title="Class Name:"
+                    />
 
                     <input
-                      id="classname"
+                      id="edit-classname"
                       className="form-input input-meeting"
                       name="classname"
-                      type="text"
-                      required
-                    />
-                  </fieldset>
-
-                  <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="grad" title="Grade:" />
-                    <input
-                      id="grad"
-                      className="form-input input-meeting"
-                      name=""
                       type="text"
                       required
                     />

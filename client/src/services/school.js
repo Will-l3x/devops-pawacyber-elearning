@@ -34,7 +34,7 @@ async function post_new_course(data) {
     console.log(data);
 
     let res = await axios.post(`/add_class`, qs.stringify(data), config);
-    console.log(res);
+    console.log(res); 
     return res.data;
   } catch (err) {
     console.log(err);

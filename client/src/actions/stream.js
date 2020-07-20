@@ -137,5 +137,7 @@ const StreamActions = {
   stop_meeting,
   get_meeting,
   get_meetings,
+  get_meetings_by_creatorid,
+  get_meetings_by_classid,
 };
 export default StreamActions;

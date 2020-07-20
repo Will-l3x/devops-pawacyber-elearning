@@ -35,6 +35,7 @@ class LivePlayer extends Component {
     this.get_meetings();
     const meetingId = localStorage.getItem("meetingId");
     if (meetingId === null) {
+      localStorage.setItem("meeting", "MEETING_STOPPED");
     } else {
       this.get_meeting(meetingId);
     }
@@ -50,7 +51,7 @@ class LivePlayer extends Component {
     const data = {
       createdby: this.state.user.userid,
       date: e.target.date.value,
-      // roomname: e.target.roomname.value,
+      name: e.target.roomname.value,
       classid: 1,
       notes: e.target.notes.value,
     };
@@ -65,6 +66,7 @@ class LivePlayer extends Component {
       password: e.target.password.value,
     };
     localStorage.setItem("meeting", "MEETING_STARTED");
+    localStorage.setItem("meetingId", this.state.selectedOption.value);
     this.props.start_meeting(this.state.selectedOption.value, data);
 
     document.getElementById("start-meeting-form").reset();
