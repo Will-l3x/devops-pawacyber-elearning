@@ -6,7 +6,7 @@ import Footer from "../../components/footer";
 import Header from "../../components/header";
 import Pricing from "../../components/pricing";
 
-export class SchoolSubscribeScreen extends Component {
+class SchoolSubscribeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {

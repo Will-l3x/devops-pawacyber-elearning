@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import { Link } from "react-router-dom";
-import { Calendar } from "../../components/calendar";
+import Calendar from "../../components/calendar";
 //import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 
-export class TeacherTodoScreen extends Component {
+class TeacherTodoScreen extends Component {
   constructor() {
     super();
     this.state = {

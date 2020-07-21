@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import folderIcon from "../../assets/images/icon/folder.svg";
 import { Redirect } from "react-router";
 
-export class AssignmentFolderCard extends Component {
+class AssignmentFolderCard extends Component {
   constructor() {
     super();
     this.state = {

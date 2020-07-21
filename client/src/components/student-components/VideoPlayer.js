@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import $ from "jquery";
 
-import carousel1 from "../assets/images/conference/live-chat.svg";
+import carousel1 from "../../assets/images/conference/live-chat.svg";
 
-// import M from "materialize-css";
+//import M from "materialize-css";
 import moment from "moment";
-import "../assets/css/video-player.css";
+import "../../assets/css/video-player.css";
 
-import StreamActions from "../actions/stream";
+import StreamActions from "../../actions/stream";
 
 class VideoPlayer extends Component {
   constructor() {
@@ -344,7 +344,8 @@ class VideoPlayer extends Component {
 
         <div
           className={`${
-            this.props.streamState.startstop_meeting_res.started
+            this.props.streamState.startstop_meeting_res.started ||
+            this.props.streamState.meetings.length < 1
               ? "display-none"
               : "video-info-2"
           }`}
@@ -360,7 +361,7 @@ class VideoPlayer extends Component {
           <hr className="invis" />
 
           <div className="row margin-0">
-            {this.props.streamState.meetings.map((meeting, i) => (
+            {this.state.meetings.map((meeting, i) => (
               <div
                 key={i}
                 data-target="start-meeting"

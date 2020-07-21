@@ -5,7 +5,7 @@ import OuterHeader from "../../components/outerHeader";
 import OuterFooter from "../../components/outerFooter";
 
 
-export class AboutScreen extends Component {
+class AboutScreen extends Component {
     render() {
         return (
           <div>

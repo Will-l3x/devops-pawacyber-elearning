@@ -10,41 +10,30 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case UploadContants.SET_UPLOAD_FILE:
-      return {
-        ...state,
-        fileToUpload: payload,
-      };
+      state.fileToUpload = payload;
+      return state;
     case UploadContants.SET_UPLOAD_PROGRESS:
-      return {
-        ...state,
-        fileToUpload: payload,
-      };
+      state.fileToUpload = payload;
+      return state;
 
     case UploadContants.SUCCESS_UPLOAD_FILE:
       let fileToUpload = Object.assign(state.fileToUpload, {
         status: 1,
       });
-
-      return {
-        ...state,
-        fileToUpload,
-      };
+      state.fileToUpload = fileToUpload;
+      return state;
 
     case UploadContants.FAILURE_UPLOAD_FILE:
       fileToUpload = {
         progress: 0,
         status: 0,
       };
+      state.fileToUpload = fileToUpload;
+      return state;
 
-      return {
-        ...state,
-        fileToUpload,
-      };
     case UploadContants.UPLOAD_FILE_CLEAR:
-      return {
-        ...state,
-        fileToUpload: initialState.fileToUpload,
-      };
+      state.fileToUpload = initialState.fileToUpload;
+      return state;
 
     default:
       return state;

@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import SideBar from "./SideBar";
 import Header from "./header";
 import Footer from "./footer";
-import VideoPlayer from "./VideoPlayer";
+import TeVideoPlayer from "./VideoPlayer";
+import StVideoPlayer from "./student-components/VideoPlayer";
 import StreamActions from "../actions/stream";
 import { Link } from "react-router-dom";
 import MeetingOptions from "../views/teacher/MeetingOptions";
@@ -111,71 +112,69 @@ class LivePlayer extends Component {
                       Video Room
                     </p>
                   </div>
-                  <Link
-                    to="#!"
-                    data-target="create-meeting"
-                    className="modal-trigger tooltipped waves-effect right"
-                    data-tooltip="Add Class"
-                    data-position="top"
-                    style={{
-                      marginTop: "1%",
-                      marginRight: "2%",
-                      color: "#626262",
-                    }}
-                  >
-                    <i className="material-icons">video_call</i>
-                  </Link>
-                  <Link
-                    to="#!"
-                    data-target="start-meeting"
-                    className={`modal-trigger tooltipped waves-effect right green-text accent-3 ${
-                      this.props.streamState.startstop_meeting_res.started
-                        ? "display-none"
-                        : ""
-                    }`}
-                    data-tooltip="Start Meeting"
-                    data-position="top"
-                    style={{
-                      marginTop: "1%",
-                      marginRight: "2%",
-                      color: "#626262",
-                    }}
-                  >
-                    <i className="material-icons">videocam</i>
-                  </Link>
-                  <Link
-                    to="#!"
-                    className={`tooltipped waves-effect right red-text accent-2 ${
-                      this.props.streamState.startstop_meeting_res.started
-                        ? ""
-                        : "display-none"
-                    }`}
-                    onClick={() => this.stop_meeting()}
-                    data-tooltip="Stop Meeting"
-                    data-position="top"
-                    style={{
-                      marginTop: "1%",
-                      marginRight: "2%",
-                      color: "#626262",
-                    }}
-                  >
-                    <i className="material-icons">videocam_off</i>
-                  </Link>
+                  {this.state.user.roleid === 1 ? (
+                    <div>
+                      <Link
+                        to="#!"
+                        data-target="create-meeting"
+                        className="modal-trigger tooltipped waves-effect right"
+                        data-tooltip="Add Class"
+                        data-position="top"
+                        style={{
+                          marginTop: "1%",
+                          marginRight: "2%",
+                          color: "#626262",
+                        }}
+                      >
+                        <i className="material-icons">video_call</i>
+                      </Link>
+                      <Link
+                        to="#!"
+                        data-target="start-meeting"
+                        className={`modal-trigger tooltipped waves-effect right green-text accent-3 ${
+                          this.props.streamState.startstop_meeting_res.started
+                            ? "display-none"
+                            : ""
+                        }`}
+                        data-tooltip="Start Meeting"
+                        data-position="top"
+                        style={{
+                          marginTop: "1%",
+                          marginRight: "2%",
+                          color: "#626262",
+                        }}
+                      >
+                        <i className="material-icons">videocam</i>
+                      </Link>
+                      <Link
+                        to="#!"
+                        className={`tooltipped waves-effect right red-text accent-2 ${
+                          this.props.streamState.startstop_meeting_res.started
+                            ? ""
+                            : "display-none"
+                        }`}
+                        onClick={() => this.stop_meeting()}
+                        data-tooltip="Stop Meeting"
+                        data-position="top"
+                        style={{
+                          marginTop: "1%",
+                          marginRight: "2%",
+                          color: "#626262",
+                        }}
+                      >
+                        <i className="material-icons">videocam_off</i>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </nav>
             </div>
-            <VideoPlayer />
             {this.state.user.roleid === 1 ? (
-              <div className="fixed-action-btn">
-                <a
-                  href="#!"
-                  className="btn-floating gradient-45deg-light-blue-cyan"
-                >
-                  <i className="large material-icons">video_call</i>
-                </a>
-              </div>
+              <TeVideoPlayer />
             ) : (
-              <div></div>
+              <StVideoPlayer />
             )}
           </div>
           <div id="create-meeting" className="modal modal-meeting">

@@ -8,21 +8,24 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case SchoolConstants.GET_SUBSCRIBED_COURSES:
-      return {
-        ...state,
-        subscribed_courses: payload.subscribed_courses,
-        pages: payload.pages,
-      };
+      state.subscribed_courses = payload.subscribed_courses;
+      state.pages = payload.pages;
+      return state;
     case SchoolConstants.GET_SUBSCRIBE_COURSE:
-      return { ...state, course: payload };
+      state.course = payload;
+      return state;
     case SchoolConstants.SUBSCRIBE_COURSE:
-      return { ...state, new_course: payload };
+      state.new_course = payload;
+      return state;
     case SchoolConstants.UNSUBSCRIBE_COURSE:
-      return { ...state, new_course: payload };
+      state.new_course = payload;
+      return state;
     case SchoolConstants.GET_ALL_TEACHERS:
-      return { ...state, teachers: payload };
+      state.teachers = payload;
+      return state;
     case SchoolConstants.GET_ALL_STUDENTS:
-      return { ...state, students: payload };
+      state.students = payload;
+      return state;
     default:
       return state;
   }

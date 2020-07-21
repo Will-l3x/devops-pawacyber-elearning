@@ -10,7 +10,7 @@ import OuterFooter from "../components/outerFooter";
 import { Link } from "react-router-dom";
 import { AuthService } from "../services/authServices";
 
-export class LoginScreen extends Component {
+class LoginScreen extends Component {
   salutations = "Good day";
   today = new Date();
   curHr = this.today.getHours();

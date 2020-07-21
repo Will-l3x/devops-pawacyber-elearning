@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import DatatablePage from "../DatatablePage";
 import $ from "jquery";
 
-export class ClassroomStudentAssessment extends Component {
+class ClassroomStudentAssessment extends Component {
   constructor() {
     super();
     this.state = {

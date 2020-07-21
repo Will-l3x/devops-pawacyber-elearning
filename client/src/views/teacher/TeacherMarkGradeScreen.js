@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import M from "materialize-css";
 import SideBar from "../../components/SideBar";
-import { TeacherFolderCard } from "./TeacherFolderCard";
+import TeacherFolderCard from "./TeacherFolderCard";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 
-export class TeacherMarkGradeScreen extends Component {
+class TeacherMarkGradeScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -71,7 +71,6 @@ export class TeacherMarkGradeScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
 });
 
 const mapDispatchToProps = {};

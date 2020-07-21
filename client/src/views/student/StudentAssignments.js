@@ -7,7 +7,7 @@ import Header from "../../components/header";
 
 import { StudentService } from "../../services/student";
 
-export class StudentAssignments extends Component {
+class StudentAssignments extends Component {
   constructor(props) {
     super(props);
     this.state = {

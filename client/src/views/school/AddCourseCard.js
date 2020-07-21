@@ -7,7 +7,7 @@ import AdminActions from "../../actions/admin";
 import CounterActions from "../../actions/counter";
 import { Link, Redirect } from "react-router-dom";
 
-export class AddCourseCard extends Component {
+class AddCourseCard extends Component {
   constructor() {
     super();
     this.state = {

@@ -14,7 +14,6 @@ let options = [];
     }
   })
   .catch((error) => {
-    console.log(error);
     options = [];
   });
 class MeetingOptions extends Component {

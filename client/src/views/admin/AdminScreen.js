@@ -6,7 +6,7 @@ import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
 import { SchoolService } from "../../services/school";
 
-export class AdminScreen extends Component {
+class AdminScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {

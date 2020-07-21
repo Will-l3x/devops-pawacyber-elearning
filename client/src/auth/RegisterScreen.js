@@ -6,7 +6,7 @@ import img from "../assets/images/details-2-office-team-work.svg"
 
 import RegistrationForm from '../components/student-components/RegistrationForms';
 
-export class RegisterScreen extends Component {
+class RegisterScreen extends Component {
 
     render() {
         return (

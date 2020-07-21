@@ -6,7 +6,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import AddCourseCard from "./AddCourseCard";
 
-export class SchoolAddCourseScreen extends Component {
+class SchoolAddCourseScreen extends Component {
   componentDidMount() {
     M.AutoInit();
   }
