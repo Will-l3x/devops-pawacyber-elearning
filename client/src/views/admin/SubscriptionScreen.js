@@ -130,6 +130,11 @@ class SubscriptionScreen extends Component {
       maxgrade: event.target.addmaxgrade.value,
       price: event.target.addprice.value,
     };
+
+    let elem = document.getElementById("modaladd");
+    let modal = new M.Modal(elem);
+    modal.close();
+
     AdminService.post_new_plan(data).then((response) => {
       if (response === undefined) {
         alert(response.message);
@@ -157,6 +162,11 @@ class SubscriptionScreen extends Component {
         subscriptionname: "",
       },
     });
+
+    let elem = document.getElementById("modaledit");
+    let modal = new M.Modal(elem);
+    modal.close();
+
     AdminService.update_plan(this.state.subId, data)
       .then((response) => {
         console.log(response);
@@ -236,7 +246,11 @@ class SubscriptionScreen extends Component {
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
                   className="navbar nav-extended"
-                  style={{ position: "fixed" }}
+                  style={{
+                    position: "fixed",
+                    borderBottomLeftRadius: 5,
+                    borderBottomRightRadius: 5,
+                  }}
                 >
                   <div className="nav-content">
                     <div className="left">
@@ -265,7 +279,7 @@ class SubscriptionScreen extends Component {
                 <section
                   className="row"
                   id="content"
-                  style={{ paddingTop: 80 }}
+                  style={{ paddingTop: 85 }}
                 >
                   <div className="container  col s12">
                     <div className="card-stats z-depth-5 padding-5 border-radius-10">
@@ -348,7 +362,7 @@ class SubscriptionScreen extends Component {
                       <div className="form-group">
                         <input
                           id="formButton"
-                          className="btn modal-close gradient-45deg-light-blue-cyan"
+                          className="btn gradient-45deg-light-blue-cyan"
                           type="submit"
                           value="Save"
                         />
@@ -439,8 +453,8 @@ class SubscriptionScreen extends Component {
 
                       <div className="form-group">
                         <input
-                          id="formButton"
-                          className="btn modal-close gradient-45deg-light-blue-cyan"
+                          id="formButton2"
+                          className="btn gradient-45deg-light-blue-cyan"
                           type="submit"
                           value="Save"
                         />

@@ -148,6 +148,11 @@ class SchoolManagement extends Component {
       email: event.target.email.value,
     };
 
+    
+    let elem = document.getElementById("modaladd");
+    let modal = new M.Modal(elem);
+    modal.close();
+
     AdminService.post_new_school(data).then((response) => {
       if (response === undefined) {
         M.toast({
@@ -179,38 +184,63 @@ class SchoolManagement extends Component {
       address: event.target.address.value,
       contacts: event.target.contacts.value,
     };
+    
+    let elem = document.getElementById("modaledit");
+    let modal = new M.Modal(elem);
+    modal.close();
 
-    AdminService.update_school(this.state.schoolId, data).then((response) => {
-      if (response === undefined) {
+    AdminService.update_school(this.state.schoolId, data)
+      .then((response) => {
+        if (response === undefined) {
+          M.toast({
+            html: `An error occured, update failed!`,
+            classes: "red accent-2",
+          });
+        } else if (response.success === true || response.message === "S") {
+          document.getElementById("sibs").reset();
+          this.getDashData();
+          M.toast({
+            html: "Update Successfull",
+            classes: "green accent-3",
+          });
+        } else {
+          document.getElementById("sibs").reset();
+          this.getDashData();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
         M.toast({
-          html: "Update Failed",
+          html: `An error occured, update failed!`,
           classes: "red accent-2",
         });
-      } else if (response.success === true || response.message === "S") {
-        document.getElementById("sibs").reset();
         this.getDashData();
-        M.toast({
-          html: "Update Successfull",
-          classes: "green accent-3",
-        });
-      } else {
-        document.getElementById("sibs").reset();
-        this.getDashData();
-      }
-    });
+      });
   };
   handleDelete = () => {
     AdminService.delete_school(this.state.schoolId)
       .then((response) => {
-         M.toast({
-           html: "Delete Successfull",
-           classes: "green accent-3",
-         });
-        console.log(response);
+        if (response.data.message === "An error occured") {
+          M.toast({
+            html: `An error occured, delete failed!`,
+            classes: "red accent-2",
+          });
+          this.getDashData();
+        } else {
+          M.toast({
+            html: `${response.data.message}, delete successfull`,
+            classes: "green accent-3",
+          });
+          this.getDashData();
+        }
         this.getDashData();
       })
       .catch((error) => {
         console.log(error);
+        M.toast({
+          html: `An error occured, delete failed!`,
+          classes: "red accent-2",
+        });
         this.getDashData();
       });
   };
@@ -242,6 +272,8 @@ class SchoolManagement extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
+                    borderBottomLeftRadius: 5,
+                    borderBottomRightRadius: 5,
                   }}
                 >
                   <div className="nav-content">
@@ -267,7 +299,7 @@ class SchoolManagement extends Component {
                   </div>
                 </nav>
               </div>
-              <section className="row" id="content" style={{ paddingTop: 80 }}>
+              <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
                   <div className="card-stats z-depth-5 padding-5 border-radius-10">
                     <DatatablePage data={this.state} />
@@ -291,7 +323,7 @@ class SchoolManagement extends Component {
                       </i>
                       School!
                     </h1>
-                    <hr className="hr5" style={ { marginBottom: 30 }}/>
+                    <hr className="hr5" style={{ marginBottom: 30 }} />
                     <h4 className="header2">
                       <b>School Details</b>
                     </h4>
@@ -379,7 +411,7 @@ class SchoolManagement extends Component {
                     <div className="form-group">
                       <input
                         id="formButton"
-                        className="btn modal-close gradient-45deg-light-blue-cyan"
+                        className="btn gradient-45deg-light-blue-cyan"
                         type="submit"
                         value="Submit"
                       />
@@ -449,8 +481,8 @@ class SchoolManagement extends Component {
 
                     <div className="form-group">
                       <input
-                        id="formButton"
-                        className="btn modal-close gradient-45deg-light-blue-cyan"
+                        id="formButton2"
+                        className="btn gradient-45deg-light-blue-cyan"
                         type="submit"
                         value="Save"
                       />

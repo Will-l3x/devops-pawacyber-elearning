@@ -63,7 +63,6 @@ async function update_school(id, data) {
 async function get_all_schools() {
   try {
     let res = await axios.get(`/schools`, config);
-    console.log(res);
     return res.data.data.schools;
   } catch (err) {
     console.error(err);
@@ -73,6 +72,7 @@ async function get_all_schools() {
         address: "null",
         contacts: "null",
         enrolmentkey: "null",
+        err,
       },
     ];
   }
@@ -82,7 +82,7 @@ async function get_all_schools() {
 async function delete_school(id) {
   try {
     let res = await axios.delete(`del_school/${id}`, config);
-    return res.data;
+    return res;
   } catch (err) {
     console.error(err);
   }

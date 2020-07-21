@@ -83,7 +83,7 @@ class SubadminScreen extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    var registerAdmin = {
+    const registerAdmin = {
       roleid: this.state.selectedOption.value,
       email: event.target.email.value,
       password: "pass@123",
@@ -93,6 +93,11 @@ class SubadminScreen extends Component {
       vpassword: "pass@123",
       dob: event.target.dob.value,
     };
+
+    let elem = document.getElementById("modaladd");
+    let modal = new M.Modal(elem);
+    modal.close();
+
     AuthService.register(registerAdmin).then((response) => {
       if (response === undefined) {
         alert("Subadmin Registration Failed");
@@ -104,7 +109,6 @@ class SubadminScreen extends Component {
         alert(response.message);
       }
     });
-  
   };
   onSelectOption = (selectedOption) => {
     this.setState({ selectedOption }, () =>
@@ -127,125 +131,116 @@ class SubadminScreen extends Component {
                   className="navbar nav-extended"
                   style={{
                     position: "fixed",
+                    borderBottomLeftRadius: 5,
+                    borderBottomRightRadius: 5,
                   }}
                 >
                   <div className="nav-content">
-                    <p style={{ padding: "10px", fontSize: "16px" }}>
-                      Subadmin Management
-                    </p>
+                    <div className="left">
+                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                        Subadmin Management
+                      </p>
+                    </div>
+                    <a
+                      href="#!"
+                      data-target="modaladd"
+                      className="modal-trigger tooltipped waves-effect right"
+                      data-tooltip="Add New Subadmin"
+                      data-position="bottom"
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">add_circle_outline</i>
+                    </a>
                   </div>
                 </nav>
               </div>
-              <section
-                className="row"
-                id="content"
-                style={{ paddingTop: "7%" }}
-              >
-                <div className="container col s6">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div
-                        className="col s12 m6 l12"
-                        style={{ padding: "20px" }}
-                      >
-                        <DatatablePage data={this.state} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="container col s6">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m6 l12">
-                        <h4 className="header2">Add Subadmin</h4>
-                        <form onSubmit={this.handleSubmit} id="sibs">
-                          <div className="row">
-                            <div className="col s12">
-                              <div className="row">
-                                <div className="input-field col s2">
-                                  <select
-                                    name="title"
-                                    defaultValue={this.state.title}
-                                    onChange={this.handleTitleDropdownChange}
-                                    required
-                                  >
-                                    <option value="Mr">Mr</option>
-                                    <option value="Mr">Mrs</option>
-                                    <option value="Mr">Rev</option>
-                                    <option value="Mr">Dr</option>
-                                  </select>
-                                </div>
-                                <div className="input-field col s5">
-                                  <input
-                                    id="personName"
-                                    type="text"
-                                    name="personName"
-                                    required
-                                  ></input>
-                                  <label htmlFor="personName">First Name</label>
-                                </div>
-                                <div className="input-field col s5">
-                                  <input
-                                    id="surname"
-                                    type="text"
-                                    name="surname"
-                                    required
-                                  ></input>
-                                  <label htmlFor="surname">Surname</label>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div className="input-field col s4">
-                                  <label
-                                    className="teal-text"
-                                    style={{
-                                      transform: "translateY(-15px)",
-                                      fontSize: "12px",
-                                    }}
-                                  >
-                                    Role
-                                  </label>
-                                  <RoleOptions
-                                    onSelectOption={this.onSelectOption}
-                                  />
-                                  <div className="my-divider"></div>
-                                </div>
-                                <div className="input-field col s4">
-                                  <input
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    required
-                                  ></input>
-                                  <label htmlFor="email">Email</label>
-                                </div>
-                                <div className="input-field col s4">
-                                  <input
-                                    id="dob"
-                                    type="date"
-                                    name="dob"
-                                    required
-                                  ></input>
-                                  <label htmlFor="dob">DOB</label>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row">
-                              <div className="input-field col s6 offset-s6">
-                                <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                                  Submit
-                                  <i className="material-icons right">send</i>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+              <section className="row" id="content" style={{ paddingTop: 85 }}>
+                <div className="container  col s12">
+                  <div className="card-stats z-depth-5 padding-5 border-radius-10">
+                    <DatatablePage data={this.state} />
                   </div>
                 </div>
               </section>
+              <div id="modaladd" className="modal modal-meeting min-width-800">
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSubmit}
+                  id="sibs"
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      add_circle_outline
+                    </i>
+                    Sub-Administator!
+                  </h1>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="personName" title="Lastname:" />
+                    <input
+                      className="form-input input-meeting"
+                      id="personName"
+                      type="text"
+                      name="personName"
+                      required
+                    />
+                  </fieldset>
+
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="surname" title="Lastname:" />
+
+                    <input
+                      className="form-input input-meeting"
+                      id="surname"
+                      type="text"
+                      name="surname"
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group row">
+                    <div className="col s6">
+                      <ReactFormLabel htmlFor="dob" title="Date of Birth:" />
+                      <input
+                        className="form-input input-meeting"
+                        id="dob"
+                        type="date"
+                        name="dob"
+                        required
+                      />
+                    </div>
+                    <div className="col s6">
+                      <ReactFormLabel htmlFor="role" title="Role:" />
+                      <RoleOptions onSelectOption={this.onSelectOption} />
+                      <div className="my-divider"></div>
+                    </div>
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="email" title="Email:" />
+                    <input
+                      className="form-input input-meeting"
+                      id="email"
+                      type="email"
+                      name="email"
+                      required
+                    />
+                  </fieldset>
+
+                  <div className="form-group">
+                    <input
+                      id="formButton"
+                      className="btn gradient-45deg-light-blue-cyan"
+                      type="submit"
+                      value="Submit"
+                    />
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </main>
@@ -257,6 +252,15 @@ class SubadminScreen extends Component {
   }
 }
 
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
+    );
+  }
+}
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
