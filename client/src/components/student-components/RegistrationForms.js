@@ -249,14 +249,15 @@ export default class RegistrationForm extends Component {
           <form id="contact" data-toggle="validator" data-focus="false" onSubmit={this.handleSubmit}>
             <div className="row mt-1">
               <div className="col s12 m3">
-                <div className="input-field">
-                  <select name="gender" onChange={this.handleTitleDropdownChange}>
+                {/* <div className="input-field">
+                  <select name="gender" defaultValue={this.state.gender}onChange={this.handleTitleDropdownChange} required  >
                     <option value="1">Male</option>
                     <option value="2">Female</option>
                   </select>
                   <label htmlFor="gender">Gender * </label>
-                </div>
+                </div> */}
               </div>
+              
               <div className="col s12 m5">
                 <div className="input-field">
                   <input id="lastname" type="text" className="validate" name="lastname" required></input>
@@ -1015,7 +1016,7 @@ export default class RegistrationForm extends Component {
           <div className="ex-basic-1">
             <h4>Subscription Options</h4>
           </div>
-          <form  onSubmit={this.handlePayment} >
+          <form onSubmit={this.handlePayment} >
             <div className="row mt-1">
               <div className="col s12 m8">
                 <div className="input-field">

@@ -63,7 +63,6 @@ async function update_school(id, data) {
 async function get_all_schools() {
   try {
     let res = await axios.get(`/schools`, config);
-    console.log(res);
     return res.data.data.schools;
   } catch (err) {
     console.error(err);
@@ -73,6 +72,7 @@ async function get_all_schools() {
         address: "null",
         contacts: "null",
         enrolmentkey: "null",
+        err,
       },
     ];
   }
@@ -81,8 +81,8 @@ async function get_all_schools() {
 // DELETE A SCHOOL
 async function delete_school(id) {
   try {
-    let res = await axios.delete(`del_school/${id}`, config);
-    return res.data;
+    let res = await axios.delete(`/del_school/${id}`, config);
+    return res;
   } catch (err) {
     console.error(err);
   }
@@ -91,7 +91,7 @@ async function delete_school(id) {
 // Subscription Plans
 async function post_new_plan(data) {
   try {
-    let res = await axios.post(`add_subscription`, qs.stringify(data), config);
+    let res = await axios.post(`/add_subscription`, qs.stringify(data), config);
     console.log(res.data);
     return res.data;
   } catch (err) {
@@ -102,7 +102,7 @@ async function post_new_plan(data) {
 async function update_plan(id, data) {
   try {
     let res = await axios.put(
-      `update_subscription/${id}`,
+      `/update_subscription/${id}`,
       qs.stringify(data),
       config
     );
@@ -114,7 +114,7 @@ async function update_plan(id, data) {
 
 async function get_subs_plans() {
   try {
-    let res = await axios.get(`subscriptions`, config);
+    let res = await axios.get(`/subscriptions`, config);
     if (res.data.success) {
       return res.data.data.subscriptions;
     } else {
@@ -129,7 +129,7 @@ async function get_subs_plans() {
 async function delete_plan(id) {
   try {
     console.log(id);
-    let res = await axios.delete(`del_subscription/${id}`, config);
+    let res = await axios.delete(`/del_subscription/${id}`, config);
     if (res.data.success) {
       return res.data;
     } else {
@@ -144,7 +144,7 @@ async function delete_plan(id) {
 //Subscribe School
 async function subscribe_school(data) {
   try {
-    let res = await axios.post(`subscribe`, qs.stringify(data), config);
+    let res = await axios.post(`/subscribe`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -154,7 +154,7 @@ async function subscribe_school(data) {
 //SUBADMINS
 async function get_subadmins() {
   try {
-    let res = await axios.get(`subadmins`, config);
+    let res = await axios.get(`/subadmins`, config);
     return res.data.data.subadmins;
   } catch (err) {
     console.error(err);
@@ -162,7 +162,7 @@ async function get_subadmins() {
 }
 async function get_subadmin(id) {
   try {
-    let res = await axios.get(`subadmin/${id}`, config);
+    let res = await axios.get(`/subadmin/${id}`, config);
     return res.data.data;
   } catch (err) {
     console.error(err);
@@ -172,7 +172,7 @@ async function get_subadmin(id) {
 //ROLES
 async function post_new_role(data) {
   try {
-    let res = await axios(`add_role`, qs.stringify(data), config);
+    let res = await axios(`/add_role`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -181,7 +181,7 @@ async function post_new_role(data) {
 
 async function update_roles(id, data) {
   try {
-    let res = await axios.put(`update_role/${id}`, qs.stringify(data), config);
+    let res = await axios.put(`/update_role/${id}`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -190,7 +190,7 @@ async function update_roles(id, data) {
 
 async function get_roles() {
   try {
-    let res = await axios.get(`roles`, config);
+    let res = await axios.get(`/roles`, config);
     return res.data.data.roles;
   } catch (err) {
     console.error(err);
@@ -199,7 +199,7 @@ async function get_roles() {
 
 async function delete_roles(id) {
   try {
-    let res = await axios.delete(`del_role/${id}`, config);
+    let res = await axios.delete(`/del_role/${id}`, config);
     return res.data.data.roles;
   } catch (err) {
     console.error(err);
@@ -210,7 +210,7 @@ async function delete_roles(id) {
 async function post_new_course(data) {
   try {
     let res = await axios(
-      `schooladmin/add_shared_class`,
+      `/schooladmin/add_shared_class`,
       qs.stringify(data),
       config
     );
@@ -256,7 +256,7 @@ async function post_file(data) {
 async function post_new_topic(data) {
   try {
     let res = await axios.post(
-      `schooladmin/add_shared_topic`,
+      `/schooladmin/add_shared_topic`,
       qs.stringify(data),
       config
     );

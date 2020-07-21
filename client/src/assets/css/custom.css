@@ -1173,3 +1173,8 @@ ul.card-action-buttons2 li {
         /* seeting back to initial size */
     }
 }
+
+.min-width-800 {
+    min-width: 800px !important;
+    transform: translateY(-50px) !important;
+}
