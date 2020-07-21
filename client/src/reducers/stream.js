@@ -1,4 +1,5 @@
 const initialState = {
+  pages: [],
   meetings: [],
   meeting: {},
   create_meeting_res: {},
@@ -27,7 +28,8 @@ export default (state = initialState, { type, payload }) => {
       state.meeting = payload;
       return state;
     case "GET_ALL_MEETINGS":
-      state.meetings = payload;
+      state.meetings = payload.meetings;
+      state.pages = payload.pages;
       return state;
     case "GET_ALL_MEETINGS_BY_CLASSID":
       state.meetings = payload;

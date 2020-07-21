@@ -48,6 +48,31 @@
     transition: all ease 0.5s;
 }
 
+.video-topbar-2 {
+    height: 44px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: var(--player-background);
+    color: var(--player-foreGround);
+    text-transform: uppercase;
+    font-weight: 600;
+    z-index: 2;
+    -webkit-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
 .video-player {
     background-color: #000000;
 }
@@ -93,6 +118,19 @@
     margin: auto;
     background-color: var(--player-background);
     z-index: 2;
+    -webkit-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
+.video-controls-2 {
+    height: 44px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: var(--player-background);
+    z-index: 1;
     -webkit-transition: all ease 0.5s;
     transition: all ease 0.5s;
 }
@@ -329,7 +367,7 @@ input {
     margin-bottom: 25px;
 }
 
-.stretch-card> .card {
+.stretch-card>.card {
     width: 100%;
     min-width: 100%;
 }

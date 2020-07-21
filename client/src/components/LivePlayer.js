@@ -8,6 +8,7 @@ import StVideoPlayer from "./student-components/VideoPlayer";
 import StreamActions from "../actions/stream";
 import { Link } from "react-router-dom";
 import MeetingOptions from "../views/teacher/MeetingOptions";
+import { StreamService } from "../services/stream";
 
 class LivePlayer extends Component {
   constructor() {
@@ -22,25 +23,22 @@ class LivePlayer extends Component {
           ? {}
           : JSON.parse(localStorage.getItem("liveclass")),
       url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      selectedOption: "",
+      pages: [],
       meetings: [],
       meeting: {},
-      selectedOption: "",
+      create_meeting_res: {},
+      startstop_meeting_res: {
+        started: false,
+        stopped: true,
+      },
+      refresh: 0,
     };
     this.create_meeting = this.create_meeting.bind(this);
     this.start_meeting = this.start_meeting.bind(this);
     this.stop_meeting = this.stop_meeting.bind(this);
-    this.get_meeting = this.get_meeting.bind(this);
-    this.get_meetings = this.get_meetings.bind(this);
   }
-  componentDidMount() {
-    this.get_meetings();
-    const meetingId = localStorage.getItem("meetingId");
-    if (meetingId === null) {
-      localStorage.setItem("meeting", "MEETING_STOPPED");
-    } else {
-      this.get_meeting(meetingId);
-    }
-  }
+
   onSelectOption = (selectedOption) => {
     this.setState({ selectedOption }, () =>
       console.log(this.state.selectedOption)
@@ -56,9 +54,14 @@ class LivePlayer extends Component {
       classid: 1,
       notes: e.target.notes.value,
     };
-    this.props.create_meeting(data);
-
-    document.getElementById("create-meeting-form").reset();
+    StreamService.create_meeting(data)
+      .then((response) => {
+        this.setState({ create_meeting_res: response });
+        document.getElementById("create-meeting-form").reset();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   start_meeting = (e) => {
@@ -68,22 +71,31 @@ class LivePlayer extends Component {
     };
     localStorage.setItem("meeting", "MEETING_STARTED");
     localStorage.setItem("meetingId", this.state.selectedOption.value);
-    this.props.start_meeting(this.state.selectedOption.value, data);
 
-    document.getElementById("start-meeting-form").reset();
+    StreamService.start_meeting(this.state.selectedOption.value, data)
+      .then((response) => {
+        response.started = true;
+        response.stopped = false;
+        this.setState({ startstop_meeting_res: response });
+        document.getElementById("start-meeting-form").reset();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   stop_meeting = () => {
     localStorage.setItem("meeting", "MEETING_STOPPED");
     localStorage.removeItem("meetingId");
-    this.props.stop_meeting(this.state.selectedOption.value);
-  };
-
-  get_meetings = () => {
-    this.props.get_meetings();
-  };
-
-  get_meeting = (id) => {
-    this.props.get_meeting(id);
+    StreamService.stop_meeting(this.state.selectedOption.value)
+      .then((response) => {
+        response.started = false;
+        response.stopped = true;
+        this.setState({ startstop_meeting_res: response });
+        document.getElementById("start-meeting-form").reset();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   render() {
@@ -132,7 +144,7 @@ class LivePlayer extends Component {
                         to="#!"
                         data-target="start-meeting"
                         className={`modal-trigger tooltipped waves-effect right green-text accent-3 ${
-                          this.props.streamState.startstop_meeting_res.started
+                          this.state.startstop_meeting_res.started
                             ? "display-none"
                             : ""
                         }`}
@@ -149,7 +161,7 @@ class LivePlayer extends Component {
                       <Link
                         to="#!"
                         className={`tooltipped waves-effect right red-text accent-2 ${
-                          this.props.streamState.startstop_meeting_res.started
+                          this.state.startstop_meeting_res.started
                             ? ""
                             : "display-none"
                         }`}
@@ -164,6 +176,24 @@ class LivePlayer extends Component {
                       >
                         <i className="material-icons">videocam_off</i>
                       </Link>
+                      <Link
+                        to="#!"
+                        className={`tooltipped waves-effect right blue-text accent-2`}
+                        data-tooltip="Refresh"
+                        data-position="top"
+                        onClick={() => {
+                          let refresh = this.state.refresh;
+                          refresh++;
+                          this.setState({ refresh });
+                        }}
+                        style={{
+                          marginTop: "1%",
+                          marginRight: "2%",
+                          color: "#626262",
+                        }}
+                      >
+                        <i className="material-icons">refresh</i>
+                      </Link>
                     </div>
                   ) : (
                     <div></div>
@@ -172,9 +202,9 @@ class LivePlayer extends Component {
               </nav>
             </div>
             {this.state.user.roleid === 1 ? (
-              <TeVideoPlayer />
+              <TeVideoPlayer meetingData={this.state} />
             ) : (
-              <StVideoPlayer />
+              <StVideoPlayer meetingData={this.state} />
             )}
           </div>
           <div id="create-meeting" className="modal modal-meeting">

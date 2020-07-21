@@ -5,11 +5,14 @@ import Select from "react-select";
 import { StreamService } from "../../services/stream";
 
 let options = [];
- StreamService.get_meetings()
+StreamService.get_meetings()
   .then((response) => {
     for (const meeting of response.data.data.meetings) {
       meeting.value = meeting.meetingId;
-      meeting.label = meeting.meetingId;
+      meeting.label =
+        meeting.meetingname === null
+          ? `Meeting ${meeting.meetingId}`
+          : meeting.meetingname;
       options.push(meeting);
     }
   })

@@ -2,14 +2,41 @@ import { StreamService } from "../services/stream";
 import StreamConstants from "../constants/stream";
 import AlertActions from "./alert";
 
-export const get_meetings = () => (dispatch) => {
+const pageArraySplit = (array, pagingOptions) => {
+  const currentPageNumber = pagingOptions.currentPageNumber;
+  const perPage = pagingOptions.perPage;
+  const startingIndex = (currentPageNumber - 1) * perPage;
+  const endingIndex = startingIndex + perPage;
+  return array.slice(startingIndex, endingIndex);
+};
+
+export const get_meetings = (currentPageNumber) => (dispatch) => {
   StreamService.get_meetings()
     .then((response) => {
-      const meetings = response.data.data.meetings;
+      const meetingz =
+        response === undefined ? [] : response.data.data.meetings;
+      meetingz.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      let pages = [];
+      let perPage = 6;
+      const totalPageCount = Math.ceil(meetingz.length / perPage);
+
+      for (var i = 1; i <= totalPageCount; i++) {
+        pages.push(i);
+      }
+
+      const meetings = pageArraySplit(meetingz, {
+        currentPageNumber,
+        perPage,
+      });
+
       dispatch(AlertActions.success("Success"));
       dispatch({
         type: StreamConstants.GET_ALL_MEETINGS,
-        payload: meetings.sort((a, b) => new Date(b.date) - new Date(a.date)),
+        payload: {
+          pages,
+          meetings,
+        },
       });
     })
     .catch((error) => {
