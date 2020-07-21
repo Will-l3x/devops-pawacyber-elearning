@@ -42,7 +42,7 @@ class LoginScreen extends Component {
     };
 
     AuthService.login(registerAdmin).then((response) => {
-      
+
       // const roleid = 1;  //5
       // const username =  "Kelvin";
       // const userid = "655";
@@ -61,22 +61,28 @@ class LoginScreen extends Component {
       } else {
         document.getElementById("contactForm").reset();
         var id;
+        var schoolid;
         if (response.roleid === 3) {
           id = response.User.studentId;
+          schoolid = response.User.schoolid;
         } else if (response.roleid === 1) {
           id = response.User.teacherId;
+          schoolid = response.User.schoolid;
         } else if (response.roleid === 5) {
-          id = response.User.SystemAdminId;
+          id = response.User.systemadminId;
+          schoolid = 10;
         } else if (response.roleid === 4) {
           id = response.User.saId;
+          schoolid = response.User.schoolid;
         } else {
           id = response.User.parentId;
+          schoolid = response.User.schoolid;
         }
 
         const roleid = response.roleid;
         const username = response.User.firstname + " " + response.User.lastname;
         const userid = id;
-        const schoolid = response.User.schoolid;
+
         const token = response.token;
         localStorage.setItem("token", JSON.stringify(token));
         this.setState({
