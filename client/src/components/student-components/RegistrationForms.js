@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { AuthService } from "../../services/authServices";
+import { PaymentService } from "../../services/paymentService";
 import $ from "jquery";
 import M from "materialize-css";
 import "../../assets/css/terms.css";
@@ -18,7 +19,17 @@ export default class RegistrationForm extends Component {
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
   }
 
+  getDashData() {
+    PaymentService.createToken().then((response) => {
+      console.log('oooooooooooooooooooooooooooooooooooooooooooooooo');
+      console.log(response);
+      console.log('oooooooooooooooooooooooooooooooooooooooooooooooo');
+     alert('api hit');
+    });
+  }
+
   componentDidMount() {
+this.getDashData();
     M.AutoInit();
     function legalTerms() {
       var totalLegalRules = $(".legal__rule").length;
