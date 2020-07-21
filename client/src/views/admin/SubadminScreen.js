@@ -15,7 +15,7 @@ class SubadminScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: "",
+      selectedOption: {},
       title: "Mr",
       columns: [
         {

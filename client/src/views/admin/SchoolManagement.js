@@ -7,12 +7,15 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
+//import TitleOptions from "../../components/TitleOptions";
 
 class SchoolManagement extends Component {
   constructor(props) {
     super(props);
     this.state = {
       schoolId: "",
+
+      selectedTitle: {},
       selectedSchool: {
         schoolname: "",
         address: "",
@@ -53,8 +56,7 @@ class SchoolManagement extends Component {
       rows: [],
       options: [],
     };
-
-    this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
+    this.onSelectTitle = this.onSelectTitle.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
@@ -143,15 +145,15 @@ class SchoolManagement extends Component {
       contacts: event.target.schoolContactNumber.value,
       firstname: event.target.personName.value,
       lastname: event.target.surname.value,
-      email: event.target.addemail.value,
+      email: event.target.email.value,
     };
 
     AdminService.post_new_school(data).then((response) => {
       if (response === undefined) {
-         M.toast({
-           html: "School creation failed",
-           classes: "red accent-2",
-         });
+        M.toast({
+          html: "School creation failed",
+          classes: "red accent-2",
+        });
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
@@ -200,7 +202,10 @@ class SchoolManagement extends Component {
   handleDelete = () => {
     AdminService.delete_school(this.state.schoolId)
       .then((response) => {
-        alert(this.response);
+         M.toast({
+           html: "Delete Successfull",
+           classes: "green accent-3",
+         });
         console.log(response);
         this.getDashData();
       })
@@ -216,6 +221,11 @@ class SchoolManagement extends Component {
     this.setState({
       selectedSchool,
     });
+  };
+  onSelectTitle = (selectedTitle) => {
+    this.setState({ selectedTitle }, () =>
+      console.log(this.state.selectedTitle)
+    );
   };
   render() {
     return (
@@ -235,208 +245,219 @@ class SchoolManagement extends Component {
                   }}
                 >
                   <div className="nav-content">
-                    <p style={{ padding: "10px", fontSize: "16px" }}>
-                      School Management
-                    </p>
+                    <div className="left">
+                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                        School Management
+                      </p>
+                    </div>
+                    <a
+                      href="#!"
+                      data-target="modaladd"
+                      className="modal-trigger tooltipped waves-effect right"
+                      data-tooltip="Add New School"
+                      data-position="bottom"
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">add_circle_outline</i>
+                    </a>
                   </div>
                 </nav>
               </div>
               <section className="row" id="content" style={{ paddingTop: 80 }}>
-                <div className="container col s7">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div
-                        className="col s12 m6 l12"
-                        style={{ padding: "20px" }}
+                <div className="container  col s12">
+                  <div className="card-stats z-depth-5 padding-5 border-radius-10">
+                    <DatatablePage data={this.state} />
+                  </div>
+                </div>
+                <div
+                  id="modaladd"
+                  className="modal modal-meeting min-width-800"
+                >
+                  <form
+                    className="react-form form-meeting"
+                    onSubmit={this.handleSubmit}
+                    id="sibs"
+                  >
+                    <h1 className="h1-meeting">
+                      <i
+                        className="material-icons"
+                        style={{ transform: "translate(-3px, 4px)" }}
                       >
-                        <DatatablePage data={this.state} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="container col s5">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m6 l12">
-                        <h4 className="header2">
-                          <b>Add School Details</b>
-                        </h4>
-                        <form onSubmit={this.handleSubmit} id="sibs">
-                          <div className="row">
-                            <div className="col s12">
-                              <div className="row">
-                                <div className="input-field col s5">
-                                  <input
-                                    id="schoolName"
-                                    type="text"
-                                    name="schoolName"
-                                    required
-                                  ></input>
-                                  <label htmlFor="schoolName">
-                                    School Name
-                                  </label>
-                                </div>
-                                <div className="input-field col s7">
-                                  <input
-                                    id="schoolAddress"
-                                    type="text"
-                                    name="schoolAddress"
-                                    required
-                                  ></input>
-                                  <label htmlFor="schoolAddress">
-                                    School Address
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div className="input-field col s4">
-                                  <input
-                                    id="schoolContactNumber"
-                                    type="text"
-                                    name="schoolContactNumber"
-                                    required
-                                  ></input>
-                                  <label htmlFor="schoolContactNumber">
-                                    Contact Number
-                                  </label>
-                                </div>
-                              </div>
-
-                              <h4 className="header2">
-                                <b>School Admin Details</b>
-                              </h4>
-                              <div className="row">
-                                <div className="input-field col s2">
-                                  <select
-                                    name="title"
-                                    defaultValue={this.state.title}
-                                    onChange={this.handleTitleDropdownChange}
-                                    required
-                                  >
-                                    <option value="Mr">Mr</option>
-                                    <option value="Mr">Mrs</option>
-                                    <option value="Mr">Rev</option>
-                                    <option value="Mr">Dr</option>
-                                  </select>
-                                </div>
-                                <div className="input-field col s5">
-                                  <input
-                                    id="personName"
-                                    type="text"
-                                    name="personName"
-                                    required
-                                  ></input>
-                                  <label htmlFor="personName">First Name</label>
-                                </div>
-                                <div className="input-field col s5">
-                                  <input
-                                    id="surname"
-                                    type="text"
-                                    name="surname"
-                                    required
-                                  ></input>
-                                  <label htmlFor="surname">Surname</label>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div className="input-field col s6">
-                                  <input
-                                    id="addemail"
-                                    type="email"
-                                    name="addemail"
-                                    required
-                                  ></input>
-                                  <label htmlFor="addemail">Email</label>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="row">
-                              <div className="input-field col s6 offset-s6">
-                                <button className="btn gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                                  Submit
-                                  <i className="material-icons right">send</i>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div id="modaledit" className="modal">
-                  <div className="modal-content">
+                        add_circle_outline
+                      </i>
+                      School!
+                    </h1>
+                    <hr className="hr5" style={ { marginBottom: 30 }}/>
                     <h4 className="header2">
-                      <b>Edit School Details</b>
+                      <b>School Details</b>
                     </h4>
-                    <form onSubmit={this.handleSave} id="sibs2">
-                      <div className="row">
-                        <div className="col s12">
-                          <div className="row">
-                            <div className="input-field col s5">
-                              <input
-                                id="schoolname"
-                                type="text"
-                                name="schoolname"
-                                onChange={this.onChange}
-                                value={this.state.selectedSchool.schoolname}
-                                required
-                              ></input>
-                              <label htmlFor="schoolname">School Name</label>
-                            </div>
-                            <div className="input-field col s7">
-                              <input
-                                id="address"
-                                type="text"
-                                name="address"
-                                onChange={this.onChange}
-                                value={this.state.selectedSchool.address}
-                                required
-                              ></input>
-                              <label htmlFor="address">School Address</label>
-                            </div>
-                          </div>
-                          <div className="row">
-                            <div className="input-field col s4">
-                              <input
-                                id="contacts"
-                                type="text"
-                                name="contacts"
-                                onChange={this.onChange}
-                                value={
-                                  this.state.selectedSchool.contacts === null
-                                    ? ""
-                                    : this.state.selectedSchool.contacts
-                                }
-                                required
-                              ></input>
-                              <label htmlFor="contacts">Contact Number</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="input-field col s6 offset-s6">
-                            <button className="btn gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                              Save
-                              <i className="material-icons right">save</i>
-                            </button>
-                            <button
-                              onClick={(event) => {
-                                event.preventDefault();
-                                this.modal.close();
-                              }}
-                              className="btn red accent-2 waves-effect waves-light right"
-                            >
-                              Cancel
-                              <i className="material-icons right">cancel</i>
-                            </button>
-                          </div>
-                        </div>
+                    <fieldset className="form-group row">
+                      <div className="col s7">
+                        <ReactFormLabel
+                          htmlFor="schoolName"
+                          title="School Name:"
+                        />
+                        <input
+                          className="form-input input-meeting"
+                          id="schoolName"
+                          type="text"
+                          name="schoolName"
+                          required
+                        />
                       </div>
-                    </form>
-                  </div>
+                      <div className="col s5">
+                        <ReactFormLabel
+                          htmlFor="schoolContactNumber"
+                          title="Contact Number:"
+                        />
+                        <input
+                          className="form-input input-meeting"
+                          id="schoolContactNumber"
+                          type="text"
+                          name="schoolContactNumber"
+                          required
+                        />
+                      </div>
+                    </fieldset>
+                    <fieldset className="form-group">
+                      <ReactFormLabel
+                        htmlFor="schoolAddress"
+                        title="Address:"
+                      />
+                      <textarea
+                        id="schoolAddress"
+                        name="schoolAddress"
+                        className="form-textarea textarea-meeting"
+                        rows="3"
+                        required
+                      ></textarea>
+                    </fieldset>
+                    <h4 className="header2">
+                      <b>School Admin Details</b>
+                    </h4>
+
+                    <fieldset className="form-group row">
+                      <div className="col s6">
+                        <ReactFormLabel
+                          htmlFor="personName"
+                          title="Lastname:"
+                        />
+                        <input
+                          className="form-input input-meeting"
+                          id="personName"
+                          type="text"
+                          name="personName"
+                          required
+                        />
+                      </div>
+                      <div className="col s6">
+                        <ReactFormLabel htmlFor="surname" title="Lastname:" />
+
+                        <input
+                          className="form-input input-meeting"
+                          id="surname"
+                          type="text"
+                          name="surname"
+                          required
+                        />
+                      </div>
+                      <div className="col s6">
+                        <ReactFormLabel htmlFor="email" title="Email:" />
+                        <input
+                          className="form-input input-meeting"
+                          id="email"
+                          type="email"
+                          name="email"
+                          required
+                        />
+                      </div>
+                    </fieldset>
+                    <div className="form-group">
+                      <input
+                        id="formButton"
+                        className="btn modal-close gradient-45deg-light-blue-cyan"
+                        type="submit"
+                        value="Submit"
+                      />
+                    </div>
+                  </form>
                 </div>
+
+                <div id="modaledit" className="modal modal-meeting">
+                  <form
+                    className="react-form form-meeting"
+                    onSubmit={this.handleSave}
+                    id="sibs2"
+                  >
+                    <h1 className="h1-meeting">
+                      <i
+                        className="material-icons"
+                        style={{ transform: "translate(-3px, 4px)" }}
+                      >
+                        create
+                      </i>
+                      Edit School Details!
+                    </h1>
+                    <fieldset className="form-group">
+                      <ReactFormLabel
+                        htmlFor="schoolname"
+                        title="School Name:"
+                      />
+                      <input
+                        id="schoolname"
+                        type="text"
+                        className="form-input input-meeting"
+                        name="schoolname"
+                        onChange={this.onChange}
+                        value={this.state.selectedSchool.schoolname}
+                        required
+                      />
+                    </fieldset>
+                    <fieldset className="form-group">
+                      <ReactFormLabel htmlFor="address" title="Address:" />
+
+                      <textarea
+                        id="address"
+                        name="address"
+                        className="form-textarea textarea-meeting"
+                        onChange={this.onChange}
+                        value={this.state.selectedSchool.address}
+                        rows="3"
+                        required
+                      ></textarea>
+                    </fieldset>
+                    <fieldset className="form-group">
+                      <ReactFormLabel htmlFor="contact" title="Contacts:" />
+                      <input
+                        id="contacts"
+                        type="text"
+                        name="contacts"
+                        className="form-input input-meeting"
+                        onChange={this.onChange}
+                        value={
+                          this.state.selectedSchool.contacts === null
+                            ? ""
+                            : this.state.selectedSchool.contacts
+                        }
+                        required
+                      />
+                    </fieldset>
+
+                    <div className="form-group">
+                      <input
+                        id="formButton"
+                        className="btn modal-close gradient-45deg-light-blue-cyan"
+                        type="submit"
+                        value="Save"
+                      />
+                    </div>
+                  </form>
+                </div>
+
                 <div id="areyousure" className="modal width-250">
                   <div className="modal-content">
                     <h4 className="header2">Are you sure?</h4>
@@ -466,6 +487,16 @@ class SchoolManagement extends Component {
           <Footer />
         </footer>
       </div>
+    );
+  }
+}
+
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
     );
   }
 }

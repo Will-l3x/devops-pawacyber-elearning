@@ -107,7 +107,6 @@ class SubscriptionScreen extends Component {
       maxgrade: subscription.maxgrade,
       mingrade: subscription.mingrade,
       price: subscription.price,
-      subscriptiondesc: subscription.subscriptiondesc,
       subscriptionname: subscription.subscriptionname,
     };
     this.setState(
@@ -127,7 +126,6 @@ class SubscriptionScreen extends Component {
     event.preventDefault();
     var data = {
       subscriptionname: event.target.addsubscriptionname.value,
-      subscriptiondesc: event.target.addsubscriptiondesc.value,
       mingrade: event.target.addmingrade.value,
       maxgrade: event.target.addmaxgrade.value,
       price: event.target.addprice.value,
@@ -146,7 +144,6 @@ class SubscriptionScreen extends Component {
     event.preventDefault();
     var data = {
       subscriptionname: event.target.subscriptionname.value,
-      subscriptiondesc: event.target.subscriptiondesc.value,
       mingrade: event.target.mingrade.value,
       maxgrade: event.target.maxgrade.value,
       price: event.target.price.value,
@@ -180,7 +177,6 @@ class SubscriptionScreen extends Component {
             html: "Update Successfull",
             classes: "green accent-3",
           });
-          document.getElementById("sibs").reset();
           this.getDashData();
         }
       })
@@ -207,7 +203,6 @@ class SubscriptionScreen extends Component {
             html: `${response.message}, delete successfull`,
             classes: "green accent-3",
           });
-          document.getElementById("sibs").reset();
           this.getDashData();
         }
         this.getDashData();
@@ -244,9 +239,25 @@ class SubscriptionScreen extends Component {
                   style={{ position: "fixed" }}
                 >
                   <div className="nav-content">
-                    <p style={{ padding: "10px", fontSize: "16px" }}>
-                      Manage Subscriptions Plans
-                    </p>
+                    <div className="left">
+                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                        Manage Subscriptions Plans
+                      </p>
+                    </div>
+                    <a
+                      href="#!"
+                      data-target="modaladd"
+                      className="modal-trigger tooltipped waves-effect right"
+                      data-tooltip="Add New Plan"
+                      data-position="bottom"
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">add_circle_outline</i>
+                    </a>
                   </div>
                 </nav>
               </div>
@@ -256,93 +267,95 @@ class SubscriptionScreen extends Component {
                   id="content"
                   style={{ paddingTop: 80 }}
                 >
-                  <div className="container  col s12 m7">
-                    <div className="card-stats z-depth-5 padding-3">
-                      <div className="row mt-1">
-                        <div
-                          className="col s12 m6 l12"
-                          style={{ padding: "20px" }}
+                  <div className="container  col s12">
+                    <div className="card-stats z-depth-5 padding-5 border-radius-10">
+                      <DatatablePage data={this.state} />
+                    </div>
+                  </div>
+                  <div id="modaladd" className="modal modal-meeting">
+                    <form
+                      className="react-form form-meeting"
+                      onSubmit={this.handleSubmit}
+                      id="sibs"
+                    >
+                      <h1 className="h1-meeting">
+                        <i
+                          className="material-icons"
+                          style={{ transform: "translate(-3px, 4px)" }}
                         >
-                          <DatatablePage data={this.state} />
+                          add_circle_outline
+                        </i>
+                        Subscription Plan!
+                      </h1>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="addsubscriptionname"
+                          title="Subscription Name:"
+                        />
+                        <input
+                          id="addsubscriptionname"
+                          className="form-input input-meeting"
+                          name="addsubscriptionname"
+                          type="text"
+                          required
+                        />
+                      </fieldset>
+                      <fieldset className="form-group row">
+                        <div className="col s6">
+                          <ReactFormLabel
+                            htmlFor="addmingrade"
+                            title="Min Grade:"
+                          />
+
+                          <input
+                            id="addmingrade"
+                            className="form-input input-meeting"
+                            type="number"
+                            min="0"
+                            max="12"
+                            name="addmingrade"
+                            required
+                          />
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="container col s12 m5">
-                    <div className="card-stats z-depth-5 padding-3">
-                      <div className="row mt-1">
-                        <div className="col s12 m6 l12">
-                          <h4 className="header2">Add Subscription Plan</h4>
-                          <form onSubmit={this.handleSubmit} id="sibs">
-                            <div className="row">
-                              <div className="col s12">
-                                <div className="row">
-                                  <div className="input-field col s4">
-                                    <input
-                                      id="addsubscriptionname"
-                                      type="text"
-                                      name="addsubscriptionname"
-                                    ></input>
-                                    <label htmlFor="addsubscriptionname">
-                                      Package Name
-                                    </label>
-                                  </div>
-                                  <div className="input-field col s8">
-                                    <input
-                                      id="addsubscriptiondesc"
-                                      type="text"
-                                      name="addsubscriptiondesc"
-                                    ></input>
-                                    <label htmlFor="addsubscriptiondesc">
-                                      Short Description
-                                    </label>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="input-field col s4">
-                                    <input
-                                      id="addmingrade"
-                                      type="number"
-                                      name="addmingrade"
-                                    ></input>
-                                    <label htmlFor="addmingrade">
-                                      Starting Grade
-                                    </label>
-                                  </div>
-                                  <div className="input-field col s4">
-                                    <input
-                                      id="addmaxgrade"
-                                      type="number"
-                                      name="addmaxgrade"
-                                    ></input>
-                                    <label htmlFor="addmaxgrade">
-                                      Ending Grade
-                                    </label>
-                                  </div>
-                                  <div className="input-field col s4">
-                                    <input
-                                      id="addprice"
-                                      type="number"
-                                      name="addprice"
-                                    ></input>
-                                    <label htmlFor="addprice">Price</label>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div className="input-field col s6 offset-s6">
-                                  <button className="btn file-upload gradient-45deg-light-blue-cyan modal-close waves-effect waves-light right">
-                                    Submit
-                                    <i className="material-icons right">send</i>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </form>
+                        <div className="col s6">
+                          <ReactFormLabel
+                            htmlFor="addmaxgrade"
+                            title="Max Grade:"
+                          />
+
+                          <input
+                            id="addmaxgrade"
+                            className="form-input input-meeting"
+                            type="number"
+                            min="0"
+                            max="12"
+                            name="addmaxgrade"
+                            required
+                          />
                         </div>
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel htmlFor="addprice" title="Price:" />
+                        <input
+                          id="addprice"
+                          className="form-input input-meeting"
+                          type="number"
+                          name="addprice"
+                          required
+                        />
+                      </fieldset>
+
+                      <div className="form-group">
+                        <input
+                          id="formButton"
+                          className="btn modal-close gradient-45deg-light-blue-cyan"
+                          type="submit"
+                          value="Save"
+                        />
                       </div>
-                    </div>
+                    </form>
                   </div>
+
                   <div id="modaledit" className="modal modal-meeting">
                     <form
                       className="react-form form-meeting"
@@ -373,25 +386,12 @@ class SubscriptionScreen extends Component {
                           required
                         />
                       </fieldset>
-                      <fieldset className="form-group">
-                        <ReactFormLabel
-                          htmlFor="subscriptiondesc"
-                          title="Description: "
-                        />
-
-                        <textarea
-                          id="subscriptiondesc"
-                          className="form-textarea textarea-meeting"
-                          name="subscriptiondesc"
-                          rows="3"
-                          onChange={this.onChange}
-                          value={this.state.selectedSub.subscriptiondesc}
-                          required
-                        ></textarea>
-                      </fieldset>
                       <fieldset className="form-group row">
                         <div className="col s6">
-                          <ReactFormLabel htmlFor="date" title="Min Grade:" />
+                          <ReactFormLabel
+                            htmlFor="mingrade"
+                            title="Min Grade:"
+                          />
 
                           <input
                             id="mingrade"
@@ -406,7 +406,10 @@ class SubscriptionScreen extends Component {
                           />
                         </div>
                         <div className="col s6">
-                          <ReactFormLabel htmlFor="date" title="Max Grade:" />
+                          <ReactFormLabel
+                            htmlFor="maxgrade"
+                            title="Max Grade:"
+                          />
 
                           <input
                             id="maxgrade"
@@ -422,7 +425,7 @@ class SubscriptionScreen extends Component {
                         </div>
                       </fieldset>
                       <fieldset className="form-group">
-                        <ReactFormLabel htmlFor="date" title="Price:" />
+                        <ReactFormLabel htmlFor="price" title="Price:" />
                         <input
                           id="price"
                           className="form-input input-meeting"
