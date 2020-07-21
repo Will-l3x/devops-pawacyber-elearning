@@ -22,8 +22,8 @@ let createToken = (req, res) => {
     <PaymentAmount>${paymentAmount}</PaymentAmount>
     <PaymentCurrency>NAD</PaymentCurrency>
     <CompanyRef>49FKEOA</CompanyRef>
-    <RedirectURL>http://www.domain.com/payurl.php</RedirectURL>
-    <BackURL>http://www.domain.com/backurl.php </BackURL>
+    <RedirectURL>https://cybers.azurewebsites.net/payment-confirmed</RedirectURL>
+    <BackURL>https://cybers.azurewebsites.net/canceled </BackURL>
     <CompanyRefUnique>0</CompanyRefUnique>
     <PTL>5</PTL>
     <customerEmail>${customerEmail}</customerEmail>
