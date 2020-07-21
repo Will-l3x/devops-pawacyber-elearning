@@ -1,4 +1,3 @@
-import _ from "lodash";
 import TeacherConstants from "../constants/teacher";
 const initialState = {
   courses: [],
@@ -9,23 +8,17 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case TeacherConstants.GET_ALL_COURSES:
-      return { ...state, courses: payload };
+      state.courses = payload;
+      return state;
     case TeacherConstants.GET_ALL_PENDING:
-      return { ...state, pending: payload };
+      state.pending = payload;
+      return state;
     case TeacherConstants.GET_ALL_UNMARKED:
-      return { ...state, unmarked: payload };
+      state.unmarked = payload;
+      return state;
     case TeacherConstants.GET_LIVE_COURSE:
-      return { ...state, live_course: payload };
-    case TeacherConstants.FETCH_STREAMS:
-      return { ...state.streams, ..._.mapKeys(payload, "id") };
-    case TeacherConstants.FETCH_STREAM:
-      return { ...state.streams, [payload.id]: payload };
-    case TeacherConstants.CREATE_STREAM:
-      return { ...state.streams, [payload.id]: payload };
-    case TeacherConstants.EDIT_STREAM:
-      return { ...state.streams, [payload.id]: payload };
-    case TeacherConstants.DELETE_STREAM:
-      return _.omit(state.streams, payload);
+      state.live_course = payload;
+      return state;
     default:
       return state;
   }

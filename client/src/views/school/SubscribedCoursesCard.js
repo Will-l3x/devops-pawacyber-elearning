@@ -6,7 +6,7 @@ import SchoolActions from "../../actions/school";
 import CounterActions from "../../actions/counter";
 import { Link, Redirect } from "react-router-dom";
 
-export class SubscribedCoursesCard extends Component {
+class SubscribedCoursesCard extends Component {
   constructor() {
     super();
     this.state = {

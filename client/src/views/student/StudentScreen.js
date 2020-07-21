@@ -11,7 +11,7 @@ import Footer from "../../components/footer";
 import Header from "../../components/header";
 import { StudentService } from "../../services/student";
 
-export class StudentScreen extends Component {
+class StudentScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +29,7 @@ export class StudentScreen extends Component {
 
   getDashData() {
     this.user = JSON.parse(localStorage.getItem("user"));
+    console.log(this.user);
     StudentService.get_all_courses(this.user.userid) // by student id
       .then((response) => {
         this.setState({ courses: response === undefined ? [] : response });

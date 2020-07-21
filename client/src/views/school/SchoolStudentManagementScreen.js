@@ -8,7 +8,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import {SchoolService} from '../../services/school';
 
-export class SchoolStudentManagementScreen extends Component {
+class SchoolStudentManagementScreen extends Component {
   constructor() {
     super();
     this.state = {

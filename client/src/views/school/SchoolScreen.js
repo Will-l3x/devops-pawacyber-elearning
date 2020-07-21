@@ -4,12 +4,12 @@ import Footer from "../../components/footer";
 import SideBar from "../../components/SideBar";
 import Header from "../../components/header";
 import M from "materialize-css";
-import { Calendar } from "../../components/calendar";
+import Calendar from "../../components/calendar";
 import store from "../../config/store";
 import { Link } from "react-router-dom";
 import { SchoolService } from "../../services/school";
 
-export class SchoolScreen extends Component {
+class SchoolScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +29,6 @@ export class SchoolScreen extends Component {
   getDashData() {
     // SchoolService.get_all_teachers('2')
     SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
-      console.log(response);
       this.setState({ teachers: response });
     });
     // SchoolService.get_all_students('2')

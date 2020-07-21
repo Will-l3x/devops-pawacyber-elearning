@@ -7,7 +7,7 @@ import { navClick } from "../../actions/navlink";
 class StudentLink extends Component {
   dashClick = (dash) => {
     this.props.navClick(dash);
-  }
+  };
 
   render() {
     return (
@@ -35,7 +35,7 @@ class StudentLink extends Component {
         </li>
         {/* <li className="bold">
           <Link
-            to="/student-video-class"
+            to="/video-player"
             className="dash-link waves-effect waves-cyan"
             onClick={() => this.dashClick("student")}
           >
@@ -56,6 +56,5 @@ StudentLink.propTypes = {
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
 });
-
 
 export default connect(mapStateToProps, { navClick })(StudentLink);

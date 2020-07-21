@@ -5,14 +5,14 @@ import SideBar from "../SideBar";
 import $ from "jquery";
 import M from "materialize-css";
 
-import { ClassroomClassworkCard } from "./ClassroomClassworkCard";
+import ClassroomClassworkCard from "./ClassroomClassworkCard";
 import ClassroomStudentsCard from "./ClassroomStudentsCard";
-import { ClassroomCourseCard } from "./ClassroomCourseCard";
-import { ClassroomStudentAssessment } from "./ClassroomStudentAssessment";
+import ClassroomCourseCard from "./ClassroomCourseCard";
+import ClassroomStudentAssessment from "./ClassroomStudentAssessment";
 import Footer from "../footer";
 import Header from "../header";
 
-export class ClassroomScreen extends Component {
+class ClassroomScreen extends Component {
   constructor() {
     super();
     this.removeMaterialHandler.bind(this);
@@ -177,7 +177,6 @@ export class ClassroomScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
   files: state.fileUpload,
 });
 

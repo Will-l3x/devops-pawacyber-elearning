@@ -9,7 +9,7 @@ import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
 //import RoleOptions from "./RoleOptions";
 
-export class RolesScreen extends Component {
+class RolesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {

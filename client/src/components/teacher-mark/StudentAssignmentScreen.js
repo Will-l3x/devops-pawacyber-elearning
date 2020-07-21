@@ -8,7 +8,7 @@ import M from "materialize-css";
 import Footer from "../footer";
 import Header from "../header";
 
-export class StudentAssignmentScreen extends Component {
+class StudentAssignmentScreen extends Component {
   constructor() {
     super();
     this.state = {

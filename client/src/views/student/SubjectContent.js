@@ -12,7 +12,7 @@ import VideoPriview from "../../components/student-components/VideoPreview";
 import {StudentService} from '../../services/student';
 
 // Receives subject code and Name only from main screen and retrieves from endpoint the topics of that.
-export class SubjectContent extends Component {
+class SubjectContent extends Component {
   constructor(props) {
     super(props);
     this.state = {

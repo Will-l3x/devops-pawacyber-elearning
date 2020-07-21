@@ -45,7 +45,10 @@ async function start_meeting(id, data) {
 }
 async function stop_meeting(id) {
   try {
-    let res = await axios.put(`/stop_meeting/${id}`, config);
+    const data = {
+      status: "Meeting Ended",
+    };
+    let res = await axios.put(`/stop_meeting/${id}`, data, config);
     console.log(res);
     return res;
   } catch (err) {

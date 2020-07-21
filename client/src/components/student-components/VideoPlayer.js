@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 //import $ from "jquery";
-import carousel1 from "../assets/images/conference/live-chat.svg";
+import carousel1 from "../../assets/images/conference/live-chat.svg";
 // import M from "materialize-css";
 import moment from "moment";
-import "../assets/css/video-player.css";
+import "../../assets/css/video-player.css";
 
-import { StreamService } from "../services/stream";
+import { StreamService } from "../../services/stream";
 
 class VideoPlayer extends Component {
   constructor() {
@@ -17,10 +17,8 @@ class VideoPlayer extends Component {
       currentPageNumber: 1,
       meetings: [],
       pages: [],
-      refresh: 0,
     };
   }
-  refresh = 0;
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ user });
@@ -45,7 +43,6 @@ class VideoPlayer extends Component {
     const api = new JitsiMeetExternalAPI(domain, options);
     this.api = api;
   };
-
   disposeJitsi = () => {
     this.api.dispose() === undefined
       ? localStorage.removeItem("meetingId")
@@ -120,11 +117,6 @@ class VideoPlayer extends Component {
   };
 
   render() {
-    if (this.props.meetingData.refresh > this.refresh) {
-      this.get_meetings();
-      this.refresh = this.props.meetingData.refresh;
-      console.log("reload");
-    }
     return (
       <div className="vid-containa">
         <div
@@ -148,7 +140,6 @@ class VideoPlayer extends Component {
 
           <div className="video-controls-2 gradient-45deg-semi-dark"></div>
         </div>
-
         <div
           className={`video-player ${
             this.props.meetingData.startstop_meeting_res.started
@@ -157,17 +148,10 @@ class VideoPlayer extends Component {
           }`}
           style={{ height: 44 }}
         >
-          <div
-            data-target="start-meeting"
-            className="video-topbar-2 gradient-45deg-semi-dark cursor-pointer modal-trigger"
-          >
-            <i className="material-icons" style={{ marginRight: 7 }}>
-              videocam
-            </i>{" "}
-            Start a Meeting
+          <div className="video-topbar-2 gradient-45deg-semi-dark">
+            Join a Meeting
           </div>
         </div>
-
         <div
           className={`${
             this.props.meetingData.startstop_meeting_res.started
@@ -181,7 +165,6 @@ class VideoPlayer extends Component {
             <a
               href="#!"
               className="btn waves waves-effect gradient-45deg-semi-dark width-250"
-              onClick={() => this.get_meetings()}
             >
               Activity
             </a>

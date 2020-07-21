@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import { Link } from "react-router-dom";
-import { Calendar } from "../../components/calendar";
+import Calendar from "../../components/calendar";
 //import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 
-export class TeacherCalendarScreen extends Component {
+class TeacherCalendarScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -22,7 +22,7 @@ export class TeacherCalendarScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar/>
+            <SideBar />
 
             <div className="section" style={{ paddingBottom: 0 }}>
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -75,4 +75,7 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeacherCalendarScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TeacherCalendarScreen);

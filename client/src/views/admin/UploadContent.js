@@ -9,7 +9,7 @@ import Footer from "../../components/footer";
 import { UploadService } from '../../services/upload';
 //import {StudentService} from '../../services/student';
 
-export class UploadContent extends Component {
+class UploadContent extends Component {
   constructor(props) {
     super(props);
     this.state = {

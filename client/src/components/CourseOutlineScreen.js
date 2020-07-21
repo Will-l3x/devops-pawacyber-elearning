@@ -13,7 +13,7 @@ import Header from "./header";
 import AdminActions from "../actions/admin";
 import { AdminService } from "../services/admin";
 
-export class CourseOutlineScreen extends Component {
+class CourseOutlineScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -410,7 +410,6 @@ export class CourseOutlineScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
 });
 
 const mapDispatchToProps = Object.assign({}, AdminActions);

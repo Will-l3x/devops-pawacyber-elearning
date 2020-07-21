@@ -9,7 +9,7 @@ import TestFolderCard from "../../components/teacher-mark/TestFolderCard";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 
-export class TeacherMarkClassroomScreen extends Component {
+class TeacherMarkClassroomScreen extends Component {
   constructor() {
     super();
     this.removeMaterialHandler.bind(this);

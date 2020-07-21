@@ -5,7 +5,7 @@ import folderIcon from "../../assets/images/icon/folder.svg";
 import {TeacherService} from '../../services/teacher';
 //import { resolveContent } from "nodemailer/lib/shared";
 
-export class TestFolderCard extends Component {
+class TestFolderCard extends Component {
   constructor() {
     super();
     this.state = {

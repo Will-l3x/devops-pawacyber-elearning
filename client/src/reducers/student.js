@@ -6,9 +6,11 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case "GET_COURSE":
-      return { ...state, course: payload };
+      state.course = payload;
+      return state;
     case "GET_LIVE_COURSE":
-      return { ...state, live_course: payload };
+      state.live_course = payload;
+      return state;
 
     default:
       return state;

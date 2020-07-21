@@ -26,7 +26,7 @@ import Pricing from "../../components/pricing";
 import OuterHeader from "../../components/outerHeader";
 import OuterFooter from "../../components/outerFooter";
 
-export class HomeScreen extends Component {
+class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {

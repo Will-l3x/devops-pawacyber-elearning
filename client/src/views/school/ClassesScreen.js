@@ -10,10 +10,14 @@ import { SchoolService } from "../../services/school";
 import avatar from "../../assets/images/gallary/not_found.gif";
 import TeacherOptions from "./TeacherOptions";
 
-export class ClassesScreen extends Component {
+class ClassesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:
+        JSON.parse(localStorage.getItem("user")) === null
+          ? { roleid: 3 }
+          : JSON.parse(localStorage.getItem("user")),
       unsubscribe: false,
       selectedOption: null,
       classId: "",
@@ -35,8 +39,9 @@ export class ClassesScreen extends Component {
   }
 
   getDashData() {
-    SchoolService.get_courses(1) //this.user.schoolid)
+    SchoolService.get_courses(this.state.user.schoolid)
       .then((response) => {
+        console.log(response);
         if (response === undefined) {
         } else {
           this.setState({ courses: response });
@@ -54,10 +59,7 @@ export class ClassesScreen extends Component {
     const modal = new M.Modal(elem);
     modal.close();
     var data = {
-      teacherid:
-        this.state.selectedOption === null
-          ? ""
-          : this.state.selectedOption.value,
+      teacherid: 14,
       schoolid: this.user.schoolid,
       classname: event.target.classname.value,
       grade: event.target.grade.value,

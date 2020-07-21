@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { navClick } from "../../actions/navlink";
 
 class TeacherLink extends Component {
-  
   dashClick = (dash) => {
     this.props.navClick(dash);
   };
@@ -55,7 +54,7 @@ class TeacherLink extends Component {
             <span className="nav-text">Upload New Assignment</span>
           </Link>
         </li>
-        {/* <li className="bold">
+        <li className="bold">
           <Link
             to="/video-player"
             className="dash-link waves-effect waves-cyan"
@@ -64,7 +63,7 @@ class TeacherLink extends Component {
             <i className="material-icons">live_tv</i>
             <span className="nav-text">Video Class</span>
           </Link>
-        </li> */}
+        </li>
 
         <li className="bold">
           <Link

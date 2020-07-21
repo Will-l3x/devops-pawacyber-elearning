@@ -31,10 +31,7 @@ export const SchoolService = {
 
 async function post_new_course(data) {
   try {
-    console.log(data);
-
     let res = await axios.post(`/add_class`, qs.stringify(data), config);
-    console.log(res); 
     return res.data;
   } catch (err) {
     console.log(err);
@@ -45,7 +42,7 @@ async function update_course(data) {
     let res = await axios.put(`/update_class`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
-    console.log(err);
+    console.log(err.data);
   }
 }
 async function delete_course(id) {
@@ -63,7 +60,6 @@ async function get_courses(id) {
       return [];
     }
     let res = await axios.get(`/get_classes/${id}`, config);
-    console.log(res);
     return res.data.data.classes;
   } catch (err) {
     console.log(err);
@@ -73,13 +69,7 @@ async function get_courses(id) {
 // teacher functions by schoolid
 async function get_all_teachers(id) {
   try {
-    let res =
-      id === undefined
-        ? {
-            data: { data: { teacher: [] } },
-            error: { message: "undefined schoolId" },
-          }
-        : await axios.get(`/teachers/${id}`, config);
+    let res = await axios.get(`/teachers/${id}`, config);
     return res.data.data.teacher;
   } catch (err) {
     console.log(err);
