@@ -8,6 +8,8 @@ import RegistrationForm from '../components/student-components/RegistrationForms
 
 export class RegisterScreen extends Component {
 
+    
+
     render() {
         return (
             <div>
