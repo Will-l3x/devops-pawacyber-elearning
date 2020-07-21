@@ -33,7 +33,7 @@ class StudentLink extends Component {
             <span className="nav-text">My Assignments</span>
           </Link>
         </li>
-        <li className="bold">
+        {/* <li className="bold">
           <Link
             to="/video-player"
             className="dash-link waves-effect waves-cyan"
@@ -42,7 +42,7 @@ class StudentLink extends Component {
             <i className="material-icons">live_tv</i>
             <span className="nav-text">Video Class</span>
           </Link>
-        </li>
+        </li> */}
       </ul>
     );
   }
