@@ -20,7 +20,7 @@ let createToken = (req, res) => {
     <Request>createToken</Request>
     <Transaction>
     <PaymentAmount>${paymentAmount}</PaymentAmount>
-    <PaymentCurrency>USD</PaymentCurrency>
+    <PaymentCurrency>NAD</PaymentCurrency>
     <CompanyRef>49FKEOA</CompanyRef>
     <RedirectURL>http://www.domain.com/payurl.php</RedirectURL>
     <BackURL>http://www.domain.com/backurl.php </BackURL>
