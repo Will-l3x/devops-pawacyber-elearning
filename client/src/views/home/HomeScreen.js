@@ -211,10 +211,8 @@ class HomeScreen extends Component {
                         Virtual Classroom
                       </h4>
                       <p className="text-18">
-                        Online classrooms that allows students to communicate
-                        with their teachers, view presentations or videos,
-                        interact with other students, and engage with resources
-                        in work groups
+                      Live streaming classes - 
+                      Teachers are able to have live online classes with their learners, anytime and anywhere.
                       </p>
                     </div>
                   </div>
@@ -227,14 +225,10 @@ class HomeScreen extends Component {
                     />
                     <div className="card-body">
                       <h4 className="card-title" style={{ fontWeight: "bold" }}>
-                        3D Animated, Sketch & Video Lessons
+                        Animated Lessons
                       </h4>
                       <p className="text-18">
-                        The system provides a range of content for students to
-                        interact with, this goes from Video lessons, to sketch
-                        drawings and 3D animated content. this is one of our
-                        targets to establish a range of material that helps the
-                        student understand the content much more.
+                      The platform includes state of the art 3D animated and sketch video lessons designed according to the Namibian curriculum. Learners will be able to visit the lessons anytime, anywhere making studying flexible.
                       </p>
                     </div>
                   </div>
@@ -250,11 +244,8 @@ class HomeScreen extends Component {
                         E-Library
                       </h4>
                       <p className="text-18">
-                        Pawa Cyber offers a resource repository which has a
-                        range of books and materials. e-books, past exam papers,
-                        study guides etc. this is all found at a convenient one
-                        stop click inside the system. Access and convenience
-                        made easier
+                      The platform has a built in eLibrary with recommended ebooks and past examination papers. 
+                      It gives the learners an equal opportunity to have access to essential books and other print material.
                       </p>
                     </div>
                   </div>
@@ -269,10 +260,8 @@ class HomeScreen extends Component {
                         Learning Management System{" "}
                       </h4>
                       <p className="text-18">
-                        Here at Pawa Cyber We make to make sure that the
-                        principals are included in the operations of their
-                        school so we give them a platform that makes them in
-                        involved in setting activities and managing them.
+                      The educational platform includes a complete academic management system where teachers, principals and learners can interact. Teachers can create own content, send and receive learners work.
+                       The service comes with an automated way to view performance and capture remedial records.
                       </p>
                     </div>
                   </div>

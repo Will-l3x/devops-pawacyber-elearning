@@ -12,7 +12,7 @@ class AboutScreen extends Component {
             <OuterHeader></OuterHeader>
             <div className="content-pawa">
               <div className="ex-basic-1">
-                <h4>About Pawa Cyber School</h4>
+                <h4>Pawa Cyber School</h4>
               </div>
 
               <div
@@ -22,21 +22,13 @@ class AboutScreen extends Component {
                 <div className="container">
                   <div className="row mt-1">
                     <div className="text-container">
-                      <h5>Private Data We Receive And Collect</h5>
+                      <h5>About Us</h5>
                       <p>
-                        Pawa Cyber School eLearning also automatically collects
-                        and receives certain information from your computer or
-                        mobile device, including the activities you perform on
-                        our Website, the Platforms, and the Applications, the
-                        type of hardware and software you are using (for
-                        example, your operating system or browser), and
-                        information obtained from cookies. For example, each
-                        time you visit the Website or otherwise use the
-                        Services, we automatically collect your IP address,
-                        browser and device type, access times, the web page from
-                        which you came, the regions from which you navigate the
-                        web page, and the web page(s) you access (as
-                        applicable).
+                      Welcome to PAWA Cyber School E-Learning, a leading provider of education technology to schools, and students. Our solutions address the critical needs of educators, students, parents and individuals. They help improve the quality of education, support continuous school improvement and help all students achieve academic and career success. 
+                      Pawa Cyber School e-Learning is based in Ondangwa, Namibia.It was established in 2018 by Esser Pawa Naukosho. Mrs Naukosho is a retired school principal who has a wealth of expertise as teacher.
+                      The e-learning platform aims to provide schools and learners with state of the art educational content accordance with the Namibian school curriculum, a learning management system, mobile application, and a built in elibrary. 
+                      Pawa Cyber School eLearning has an active involvement in education in the country through networks and partnerships. Some of these are with teachers, schools and learners. 
+                      Our products and services help students develop and apply foundational technology skills, provide teachers with resources to integrate technology across the curriculum. We strive to make a difference in the lives of learners as they upgrade their skills, increase their self-esteem, discover successful employment, and become better, more self-sufficient students, employees, and citizens.
                       </p>
                       <p>
                         When you first register for a Pawa Cyber School eLearning
@@ -129,15 +121,16 @@ class AboutScreen extends Component {
                                   <i class="fas fa-mobile-alt"></i>
                                   <a
                                     class="turquoise"
-                                    href="tel:+264812247137"
+                                    href="tel:+264852247137"
                                   >
-                                    +264 81 224 7137
+                                    +264 85 224 7137
+                                    
                                   </a>
                                 </li>
                                 <li>
                                   <i class="fas fa-phone"></i>
-                                  <a class="turquoise" href="tel:+264851247976">
-                                    +264 85 224 7976
+                                  <a class="turquoise" href="tel:+264812247137">
+                                  +264 81 224 7137
                                   </a>
                                 </li>
                                 <li>
