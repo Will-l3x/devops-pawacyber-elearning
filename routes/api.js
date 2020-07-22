@@ -11,6 +11,7 @@ let _teacher = require("../controllers/_teacher.js");
 let _student = require("../controllers/_student.js");
 let _schooladmin = require("../controllers/_schooladmin.js");
 let _uploads = require("../controllers/_uploads.js");
+let _storage = require("../controllers/_storage.js");
 const _paymentDpo = require("../controllers/_paymentDpo.js");
 
 router.use(_auth.checktoken);
@@ -154,7 +155,8 @@ router.put("/schooladmin/update_syllabus", _schooladmin.update_syllabus);
 
 //////////////////////uploads//////////////////////////////////////////////
 
-router.post("/upload/new", _uploads.upload);
+router.post("/upload/new", _storage.upload);
+router.post("/upload/get", _storage.download);
 router.post("/upload/multi", _uploads.multiUpload);
 
 //////////////////////////////DPO PAYMENTS/////////////////////////////////

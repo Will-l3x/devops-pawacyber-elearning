@@ -167,6 +167,67 @@ let newCourseMaterial = (req, res) => {
     });
   }
 };
+let newCourseMaterialv2 = (req, res) => {
+  console.log("Teacher : creating new course material...");
+  //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
+  let obj = req.body;
+
+  if (!obj.materialname || !obj.classid || !obj.teacherid || !obj.schoolid) {
+    res.send({
+      err:
+        "Missing a parameter, expects classid, materialtype, teacherid on request object",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let uploadPath;
+    let q;
+    if (!obj.file) {
+      let o = JSON.stringify(obj.obj);
+      q = `insert into materials \
+        (classid, teacherid, materialname, obj) \
+         values (${obj.classid}, ${obj.studentid}, '${obj.materialname}', '${o}')`;
+    } else {
+      let o = JSON.stringify(obj.obj);
+      obj.file = `${obj.materialname}`;
+    
+      q = `insert into materials \
+        (classid, teacherid, materialname, [file], obj) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}', '${o}'); \
+         select * FROM materials where materials.mID = SCOPE_IDENTITY();`;
+    }
+    console.log(q); //dev
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          let mId = data.recordset[0].mId;
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added material...",
+            uploadId: mId,
+            uploadType: "materials",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add material...",
+          });
+        }
+      }
+    });
+  }
+};
 //--Gets course material, single row
 let getCourseMaterial = (req, res) => {
   console.log("Teacher : Getting course material...");
@@ -729,7 +790,7 @@ let getSubmissions = (req, res) => {
 };
 module.exports = {
   enrolStudent: enrolStudent,
-  newCourseMaterial: newCourseMaterial,
+  newCourseMaterial: newCourseMaterialv2,
   getCourseMaterial: getCourseMaterial,
   getCourseMaterials: getCourseMaterials,
   newAssignment: newAssignment,
