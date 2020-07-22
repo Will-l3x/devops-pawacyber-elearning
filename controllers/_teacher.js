@@ -134,7 +134,7 @@ let newCourseMaterial = (req, res) => {
          values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}', '${o}'); \
          select * FROM materials where materials.mID = SCOPE_IDENTITY();`;
     }
-    console.log(q); //dev
+    //console.log(q); //dev
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
@@ -327,14 +327,9 @@ let newAssignment = (req, res) => {
         (classid, teacherid, assignmentname, obj) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', ${o})`;
     } else {
-      uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/`;
-      obj.file = `/uploads/${obj.schoolid}/${obj.classid}/`;
-      console.log("Checking upload path..."); //dev
-      if (!fs.existsSync(uploadPath)) {
-        console.log("Creating upload path..."); //dev
-        console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
-      }
+      
+      obj.file = `${obj.assignmentname}`;
+      
       q = `insert into assignments \
         (classid, teacherid, assignmentname, [file]) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', '${obj.file}'); \

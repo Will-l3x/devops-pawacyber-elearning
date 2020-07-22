@@ -44,7 +44,7 @@ const getBlobName = (originalName, uploadId) => {
 
 
 let upload = async (req, res) => {
-  console.log(req)
+ 
   let obj;
   if(!req.body.exForm){
     obj = req.body;
@@ -184,8 +184,6 @@ let upload = async (req, res) => {
 
             }
             
-            
-            //console.log(tempFile); //dev
             console.log(blobName);
             console.log(blobData);
 
@@ -203,7 +201,6 @@ let upload = async (req, res) => {
 };
 
 let multiUpload = async (req, res) => {
-console.log(req)
   let obj;
   if(!req.body.exForm){
     obj = req.body;
@@ -331,8 +328,6 @@ if (!obj.uploadType) {
 
             }
             
-            
-            //console.log(tempFile); //dev
             console.log(blobName);
             console.log(blobData);
 
@@ -350,8 +345,7 @@ if (!obj.uploadType) {
 
 
 let download = async (req, res) => {
-  //const aborter = Aborter.timeout(30 * 60000);
-  //console.log(Aborter)
+
   if (!req.body.files) {
     return res.status(400).send({
       success: false,
@@ -364,7 +358,6 @@ let download = async (req, res) => {
     let name = r[1].trim();
     let encoding = r[2].trim();
     let mimetype = r[3].trim();
-    console.log(name);
 
     containerClient = blobServiceClient.getContainerClient(
           container
@@ -380,9 +373,6 @@ let download = async (req, res) => {
       
       let fileContents = downloadBlockBlobResponse.readableStreamBody;
       //fileContents.setEncoding(encoding);
-    
-      //var readStream = new stream.PassThrough();
-      //readStream.end(fileContents);
 
       res.set('Content-disposition', 'attachment; filename=' + name);
       res.set('Content-Type', mimetype);
@@ -393,8 +383,6 @@ let download = async (req, res) => {
       fileContents.on('end', (data) => {
           res.status(200).send();
       });
-
-      //fileContents.pipe(res);
 
 
     } catch(err) {
