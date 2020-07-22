@@ -70,7 +70,7 @@ async function get_courses(id) {
 async function get_all_teachers(id) {
   try {
     let res = await axios.get(`/teachers/${id}`, config);
-    return res.data.data.teacher;
+    return res.data.data.teachers;
   } catch (err) {
     console.log(err);
     return [];

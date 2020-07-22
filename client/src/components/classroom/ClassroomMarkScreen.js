@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import folderIcon from "../../assets/images/icon/folder.svg";
-import $ from "jquery";
+// /import $ from "jquery";
 import avatar from "../../assets/images/gallary/not_found.gif";
 import { ClassroomService } from "../../services/classroom";
 
@@ -19,9 +19,9 @@ class ClassroomMarkScreen extends Component {
   }
   componentDidMount() {
     this.get_assignments();
-    $(".custom-select.bs-select select").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
-    $(".dataTables_length.bs-select").addClass("translateY-10");
+    // $(".custom-select.bs-select select").addClass("display-none");
+    // $(".col-sm-12.col-md-6").addClass("height-0");
+    // $(".dataTables_length.bs-select").addClass("translateY-10");
   }
 
   get_assignments = async () => {

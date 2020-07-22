@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
-import $ from "jquery";
+//import $ from "jquery";
 import M from "materialize-css";
 import moment from "moment";
 import Header from "../../components/header";
@@ -53,8 +53,6 @@ class SubadminScreen extends Component {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
     M.AutoInit();
-    $(".custom-select.custom-select-sm").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
   }
 
   getDashData() {
@@ -160,12 +158,15 @@ class SubadminScreen extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-5 border-radius-10">
+                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
                     <DatatablePage data={this.state} />
                   </div>
                 </div>
               </section>
-              <div id="modaladd" className="modal modal-meeting min-width-800">
+              <div
+                id="modaladd"
+                className="modal modal-meeting min-width-500 border-radius-10"
+              >
                 <form
                   className="react-form form-meeting"
                   onSubmit={this.handleSubmit}
@@ -234,7 +235,7 @@ class SubadminScreen extends Component {
                   <div className="form-group">
                     <input
                       id="formButton"
-                      className="btn gradient-45deg-light-blue-cyan"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
                       type="submit"
                       value="Submit"
                     />

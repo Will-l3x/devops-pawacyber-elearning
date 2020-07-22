@@ -54,7 +54,7 @@ class SchoolScreen extends Component {
                   <div className="row mt-1">
                     <div className="col s12 m6 l6">
                       <div className="col s12 m6 l6">
-                        <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text">
+                        <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text border-radius-5">
                           <div className="padding-4">
                             <div className="col s7 m7">
                               <i className="material-icons background-round mt-5 white-text">
@@ -74,7 +74,7 @@ class SchoolScreen extends Component {
                         </div>
                       </div>
                       <div className="col s12 m6 l6">
-                        <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text">
+                        <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text border-radius-5">
                           <div className="padding-4">
                             <div className="col s7 m7">
                               <i className="material-icons background-round mt-5 white-text">
@@ -94,7 +94,7 @@ class SchoolScreen extends Component {
                         </div>
                       </div>
                       <div className="col s12">
-                        <ul className="task-card collection with-header">
+                        <ul className="task-card collection with-header border-radius-7">
                           <li className="collection-header teal accent-4">
                             <h4 className="task-card-title white-text">
                               School Events
@@ -118,7 +118,7 @@ class SchoolScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l6">
-                      <div className="card padding-1">
+                      <div className="card padding-3 border-radius-10">
                         <Calendar />
                       </div>
                     </div>

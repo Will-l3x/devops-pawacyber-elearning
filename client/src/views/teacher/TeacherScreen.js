@@ -66,151 +66,121 @@ class TeacherScreen extends Component {
           {" "}
           <div className="wrapper">
             <SideBar data={this.props} />
-
-            <div className="section" style={{ paddingBottom: 0 }}>
-              <div style={{ position: "relative", zIndex: 50 }}>
-                <nav
-                  className="navbar nav-extended"
-                  style={{
-                    position: "fixed",
-
-                    minHeight: 70,
-                    transform: "translateY(-100%)",
-                  }}
-                >
-                  <div className="nav-content">
-                    <Link
-                      style={{ marginTop: "3%", marginBottom: "1%" }}
-                      to="#"
-                      className="brand-logo"
-                    >
-                      Dashboard
-                    </Link>
-                  </div>
-                </nav>
-                <div className="progress display-none">
-                  <div className="indeterminate"></div>
-                </div>
-              </div>
-
-              <section id="content" style={{ paddingTop: "1%" }}>
-                <div className="container">
-                  <div className="card-stats">
-                    <div className="row">
-                      {this.state.courses.map((course, i) => (
-                        <div key={i} className="col s12 m6 l3">
+            <section id="content" style={{ paddingTop: 20 }}>
+              <div className="container">
+                <div className="card-stats">
+                  <div className="row">
+                    {this.state.courses.map((course, i) => (
+                      <div key={i} className="col s12 m6 l3">
+                        <div
+                          className={`card border-radius-10 ${this.colors(
+                            i
+                          )} white-text hovCard`}
+                          style={{
+                            boxShadow: "100px",
+                            borderRadius: "5px",
+                          }}
+                        >
                           <div
-                            className={`card ${this.colors(
-                              i
-                            )} white-text hovCard`}
+                            className="col s9 sub-card center min-height-100"
                             style={{
-                              boxShadow: "100px",
-                              borderRadius: "5px",
+                              margin: "auto",
+                              paddingTop: "25px",
                             }}
                           >
-                            <div
-                              className="col s9 sub-card center min-height-100"
-                              style={{
-                                margin: "auto",
-                                paddingTop: "25px",
-                              }}
-                            >
-                              <h5 className="white-text">{course.classname}</h5>
-                            </div>
-                            <div
-                              className="col s2 min-height-100"
-                              style={{
-                                margin: "auto",
-                                paddingTop: "30px",
-                              }}
-                            >
-                              <a href="#!">
-                                <i
-                                  className={`material-icons background-round`}
-                                  style={{ padding: "10px", color: "white" }}
-                                >
-                                  link
-                                </i>
-                              </a>
-                            </div>
+                            <h5 className="white-text">{course.classname}</h5>
+                          </div>
+                          <div
+                            className="col s2 min-height-100"
+                            style={{
+                              margin: "auto",
+                              paddingTop: "30px",
+                            }}
+                          >
+                            <a href="#!">
+                              <i
+                                className={`material-icons background-round`}
+                                style={{ padding: "10px", color: "white" }}
+                              >
+                                link
+                              </i>
+                            </a>
                           </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
-                  <div id="work-collections">
-                    <div className="row">
-                      <div className="col s12 m12 l6">
-                        <ul className="task-card collection with-header">
-                          <li className="collection-header blue lighten-1">
-                            <h5 className="task-card-title">
-                              Student classwork
-                            </h5>
-                          </li>
+                </div>
+                <div id="work-collections">
+                  <div className="row">
+                    <div className="col s12 l6 border-radius-10">
+                      <ul className="task-card collection with-header border-radius-10">
+                        <li className="collection-header blue lighten-1">
+                          <h5 className="task-card-title">Student classwork</h5>
+                        </li>
 
+                        <li className="collection-item dismissable">
+                          <label htmlFor="task2">
+                            Assignment 1
+                            <Link to="#" className="secondary-content">
+                              <span className="ultra-small">Due Date</span>
+                            </Link>
+                          </label>
+                          <Link to="#">
+                            <span className="task-cat red accent-2">
+                              Subject Name
+                            </span>
+                          </Link>
+                        </li>
+                        {this.state.assignments.map((assignment, i) => (
                           <li className="collection-item dismissable">
                             <label htmlFor="task2">
-                              Assignment 1
+                              {assignment.name}
                               <Link to="#" className="secondary-content">
-                                <span className="ultra-small">Due Date</span>
+                                <span className="ultra-small">
+                                  {" "}
+                                  {assignment.date}{" "}
+                                </span>
                               </Link>
                             </label>
                             <Link to="#">
                               <span className="task-cat red accent-2">
-                                Subject Name
+                                {this.state.courses[0]}
                               </span>
                             </Link>
                           </li>
-                          {this.state.assignments.map((assignment, i) => (
-                            <li className="collection-item dismissable">
-                              <label htmlFor="task2">
-                                {assignment.name}
-                                <Link to="#" className="secondary-content">
-                                  <span className="ultra-small">
-                                    {" "}
-                                    {assignment.date}{" "}
-                                  </span>
-                                </Link>
-                              </label>
-                              <Link to="#">
-                                <span className="task-cat red accent-2">
-                                  {this.state.courses[0]}
-                                </span>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="col s12 m12 l6">
-                        <ul className="task-card collection with-header">
-                          <li className="collection-header teal accent-4">
-                            <h5 className="task-card-title">
-                              Student Submissions
-                            </h5>
-                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="col s12 l6 border-radius-10">
+                      <ul className="task-card collection with-header border-radius-10">
+                        <li className="collection-header teal accent-4">
+                          <h5 className="task-card-title">
+                            Student Submissions
+                          </h5>
+                        </li>
 
-                          <li className="collection-item dismissable">
-                            <label htmlFor="task3">
-                              Student Name
-                              <Link to="#" className="secondary-content">
-                                <span className="ultra-small">
-                                  Submission Date
-                                </span>
-                              </Link>
-                            </label>
-                            <Link to="#">
-                              <span className="task-cat teal accent-4">
-                                Subject Name | Assignment 1
+                        <li className="collection-item dismissable">
+                          <label htmlFor="task3">
+                            Student Name
+                            <Link to="#" className="secondary-content">
+                              <span className="ultra-small">
+                                Submission Date
                               </span>
                             </Link>
-                          </li>
-                        </ul>
-                      </div>
+                          </label>
+                          <Link to="#">
+                            <span className="task-cat teal accent-4">
+                              Subject Name | Assignment 1
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
-              </section>
-            </div>
+              </div>
+            </section>
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

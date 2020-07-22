@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
-import $ from "jquery";
+//import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import { UploadService } from '../../services/upload';
+import { UploadService } from "../../services/upload";
 //import {StudentService} from '../../services/student';
 
 class UploadContent extends Component {
@@ -49,14 +49,12 @@ class UploadContent extends Component {
     this.loggedUserId = this.user.userid;
     this.schoolid = this.user.schoolid;
     M.AutoInit();
-    $(".custom-select.custom-select-sm").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
   }
 
   handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     this.fileData = event.target.file.value;
-    alert('You are uploading for class id: ' + event.target.subject.value);
+    alert("You are uploading for class id: " + event.target.subject.value);
     var data = {
       teacherid: this.loggedUserId,
       schoolid: this.schoolid,
@@ -64,24 +62,27 @@ class UploadContent extends Component {
       materialtype: "file",
       file: true,
       classid: event.target.subject.value,
-      grade: event.target.grade.value
-    }
+      grade: event.target.grade.value,
+    };
 
     UploadService.post_material(data).then((response) => {
       if (response === undefined) {
-        alert('Resource Upload failed');
+        alert("Resource Upload failed");
       } else if (response.err) {
-        alert(response.err)
+        alert(response.err);
       } else if (response.success === true) {
-
-        const uploadData = new FormData()
-        uploadData.append('file', this.fileData)
-        uploadData.append('uploadType', response.uploadType)
-        uploadData.append('uploadId', response.uploadId)
+        const uploadData = new FormData();
+        uploadData.append("file", this.fileData);
+        uploadData.append("uploadType", response.uploadType);
+        uploadData.append("uploadId", response.uploadId);
         UploadService.upload(uploadData).then((response) => {
-          console.log('-------------------------------------------------------');
+          console.log(
+            "-------------------------------------------------------"
+          );
           console.log(response);
-          console.log('-------------------------------------------------------');
+          console.log(
+            "-------------------------------------------------------"
+          );
 
           if (response.sucess === true) {
             alert(response.message);
@@ -89,14 +90,11 @@ class UploadContent extends Component {
             alert("Failed to complete upload");
           }
         });
-
       } else {
-        alert(response.message)
+        alert(response.message);
       }
-    })
-  }
-
-
+    });
+  };
 
   render() {
     return (
@@ -112,92 +110,136 @@ class UploadContent extends Component {
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
                   className="navbar nav-extended"
-                  style={{ position: "fixed" }}
+                  style={{
+                    position: "fixed",
+                  }}
                 >
                   <div className="nav-content">
-                    <p style={{ padding: "10px", fontSize: "16px" }}>
-                      Resources
-                    </p>
+                    <div className="left">
+                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                        Resource Management
+                      </p>
+                    </div>
+                    <a
+                      href="#!"
+                      data-target="modaladd"
+                      className="modal-trigger tooltipped waves-effect right"
+                      data-tooltip="New Upload"
+                      data-position="bottom"
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">cloud_upload</i>
+                    </a>
                   </div>
                 </nav>
               </div>
-              <section
-                className="row"
-                id="content"
-                style={{ paddingTop: "7%" }}
-              >
-                <div className="container col s6 ">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m12" style={{ padding: "20px" }}>
-                        <DatatablePage data={this.state} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="container col s6 ">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m12">
-                        <h4 className="header2">Upload Resource</h4>
-                        <form onSubmit={this.handleSubmit} id="sibs">
-                          <div className="row">
-                            <div className="input-field col s4">
-                              <input
-                                id="subject"
-                                type="text"
-                                name="subject"
-                                required
-                              ></input>
-                              <label htmlFor="subject">Class ID</label>
-                            </div>
-                            <div className="input-field col s5">
-                              <input
-                                id="materialname"
-                                type="text"
-                                name="materialname"
-                                required
-                              ></input>
-                              <label htmlFor="materialname">
-                                Resource Name
-                              </label>
-                            </div>
-                            <div className="input-field col s3">
-                              <input
-                                id="grade"
-                                type="number"
-                                name="grade"
-                                required
-                              ></input>
-                              <label htmlFor="grade">Grade</label>
-                            </div>
-                            <div className="input-field col s12">
-                              <input
-                                id="file"
-                                type="file"
-                                name="file"
-                                className="many-files"
-                                multiple
-                                required
-                              ></input>
-                            </div>
-
-                            <div className="row">
-                              <div className="input-field col s6 offset-s6">
-                                <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                                  Upload
-                                  <i className="material-icons right">send</i>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+              <section className="row" id="content" style={{ paddingTop: 85 }}>
+                <div className="container  col s12">
+                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                    <DatatablePage data={this.state} />
                   </div>
                 </div>
               </section>
+              <div
+                id="modaladd"
+                className="modal modal-meeting min-width-500 border-radius-10"
+              >
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSubmit}
+                  id="sibs"
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      cloud_upload
+                    </i>
+                    Upload Resource!
+                  </h1>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="subject" title="Class ID:" />
+                    <input
+                      className="form-input input-meeting"
+                      id="subject"
+                      type="text"
+                      name="subject"
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel
+                      htmlFor="materialname"
+                      title="Resource Name:"
+                    />
+                    <input
+                      className="form-input input-meeting"
+                      id="materialname"
+                      type="text"
+                      name="materialname"
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="grade" title="Grade:" />
+                    <input
+                      className="form-input input-meeting"
+                      id="grade"
+                      type="number"
+                      name="grade"
+                      min="0"
+                      max="12"
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="file" title="Multiple Files:" />
+                    <input
+                      className="many-files"
+                      id="file"
+                      type="file"
+                      name="file"
+                      multiple
+                      required
+                    />
+                  </fieldset>
+                  <div className="form-group">
+                    <input
+                      id="formButton2"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Upload"
+                    />
+                  </div>
+                </form>
+              </div>
+              <div id="areyousure" className="modal width-250">
+                <div className="modal-content">
+                  <h4 className="header2">Are you sure?</h4>
+                </div>
+                <div className="modal-footer">
+                  <a
+                    href="#!"
+                    style={{ marginRight: 10 }}
+                    className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
+                    onClick={this.handleDelete}
+                  >
+                    Yes
+                  </a>
+                  <a
+                    href="#!"
+                    className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
+                  >
+                    No
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </main>
@@ -209,6 +251,15 @@ class UploadContent extends Component {
   }
 }
 
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
+    );
+  }
+}
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};

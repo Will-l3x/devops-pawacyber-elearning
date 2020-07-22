@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
-import $ from "jquery";
+//import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -13,6 +13,10 @@ class SchoolManagement extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:
+        JSON.parse(localStorage.getItem("user")) === null
+          ? { roleid: 3 }
+          : JSON.parse(localStorage.getItem("user")),
       schoolId: "",
 
       selectedTitle: {},
@@ -70,8 +74,6 @@ class SchoolManagement extends Component {
   componentDidMount() {
     this.getDashData();
     M.AutoInit();
-    $(".custom-select.custom-select-sm").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
   }
 
   getDashData() {
@@ -148,7 +150,6 @@ class SchoolManagement extends Component {
       email: event.target.email.value,
     };
 
-    
     let elem = document.getElementById("modaladd");
     let modal = new M.Modal(elem);
     modal.close();
@@ -184,7 +185,7 @@ class SchoolManagement extends Component {
       address: event.target.address.value,
       contacts: event.target.contacts.value,
     };
-    
+
     let elem = document.getElementById("modaledit");
     let modal = new M.Modal(elem);
     modal.close();
@@ -301,13 +302,13 @@ class SchoolManagement extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-5 border-radius-10">
+                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
                     <DatatablePage data={this.state} />
                   </div>
                 </div>
                 <div
                   id="modaladd"
-                  className="modal modal-meeting min-width-800"
+                  className="modal modal-meeting min-width-800 border-radius-10"
                 >
                   <form
                     className="react-form form-meeting"
@@ -324,9 +325,6 @@ class SchoolManagement extends Component {
                       School!
                     </h1>
                     <hr className="hr5" style={{ marginBottom: 30 }} />
-                    <h4 className="header2">
-                      <b>School Details</b>
-                    </h4>
                     <fieldset className="form-group row">
                       <div className="col s7">
                         <ReactFormLabel
@@ -355,18 +353,20 @@ class SchoolManagement extends Component {
                         />
                       </div>
                     </fieldset>
-                    <fieldset className="form-group">
-                      <ReactFormLabel
-                        htmlFor="schoolAddress"
-                        title="Address:"
-                      />
-                      <textarea
-                        id="schoolAddress"
-                        name="schoolAddress"
-                        className="form-textarea textarea-meeting"
-                        rows="3"
-                        required
-                      ></textarea>
+                    <fieldset className="form-group row">
+                      <div className="col s12">
+                        <ReactFormLabel
+                          htmlFor="schoolAddress"
+                          title="Address:"
+                        />
+                        <textarea
+                          id="schoolAddress"
+                          name="schoolAddress"
+                          className="form-textarea textarea-meeting"
+                          rows="3"
+                          required
+                        ></textarea>
+                      </div>
                     </fieldset>
                     <h4 className="header2">
                       <b>School Admin Details</b>
@@ -411,7 +411,7 @@ class SchoolManagement extends Component {
                     <div className="form-group">
                       <input
                         id="formButton"
-                        className="btn gradient-45deg-light-blue-cyan"
+                        className="btn gradient-45deg-light-blue-cyan border-radius-5"
                         type="submit"
                         value="Submit"
                       />
@@ -419,7 +419,10 @@ class SchoolManagement extends Component {
                   </form>
                 </div>
 
-                <div id="modaledit" className="modal modal-meeting">
+                <div
+                  id="modaledit"
+                  className="modal modal-meeting border-radius-10"
+                >
                   <form
                     className="react-form form-meeting"
                     onSubmit={this.handleSave}
@@ -434,6 +437,8 @@ class SchoolManagement extends Component {
                       </i>
                       Edit School Details!
                     </h1>
+
+                    <hr className="hr5" style={{ marginBottom: 30 }} />
                     <fieldset className="form-group">
                       <ReactFormLabel
                         htmlFor="schoolname"
@@ -482,7 +487,7 @@ class SchoolManagement extends Component {
                     <div className="form-group">
                       <input
                         id="formButton2"
-                        className="btn gradient-45deg-light-blue-cyan"
+                        className="btn gradient-45deg-light-blue-cyan border-radius-5"
                         type="submit"
                         value="Save"
                       />
