@@ -157,7 +157,7 @@ router.put("/schooladmin/update_syllabus", _schooladmin.update_syllabus);
 
 router.post("/upload/new", _storage.upload);
 router.post("/upload/get", _storage.download);
-router.post("/upload/multi", _uploads.multiUpload);
+router.post("/upload/multi", _storage.multiUpload);
 
 //////////////////////////////DPO PAYMENTS/////////////////////////////////
 router.post("/dpo/payment/createToken", _paymentDpo.createToken);

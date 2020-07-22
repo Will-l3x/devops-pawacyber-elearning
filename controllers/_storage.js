@@ -131,10 +131,10 @@ let upload = async (req, res) => {
               tempFile = req.files.fileUpload;
             }
             
-            var blobName = getBlobName(tempFile.name, obj.uploadId);
-            var blobData = tempFile.data;
-            var blobEncoding = tempFile.encoding;
-            var blobMimeType = tempFile.mimetype;
+            let blobName = getBlobName(tempFile.name, obj.uploadId);
+            let blobData = tempFile.data;
+            let blobEncoding = tempFile.encoding;
+            let blobMimeType = tempFile.mimetype;
 
             // Get a block blob client
             let blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -203,6 +203,14 @@ let upload = async (req, res) => {
 };
 
 let multiUpload = async (req, res) => {
+console.log(req)
+  let obj;
+  if(!req.body.exForm){
+    obj = req.body;
+    console.log(obj)
+  }else{
+    obj = JSON.parse(req.body.exForm);
+  }
 
 if (!obj.uploadType) {
     return res.status(400).send({
@@ -255,6 +263,87 @@ if (!obj.uploadType) {
           message: "Unknown uploadType...",
         });
       }
+      let fileCount = 0;
+      let tempFiles;
+      if(!req.files.fileUpload){
+        tempFiles = req.files[""];
+      }else{
+        tempFiles = req.files.fileUpload;
+      }
+      tempFiles.forEach( async f => {
+        let tempFile = f;
+        let blobName = getBlobName(tempFile.name, Math.floor(Math.random() * Math.floor(1000)));
+        let blobData = tempFile.data;
+        let blobEncoding = tempFile.encoding;
+        let blobMimeType = tempFile.mimetype;
+        // Get a block blob client
+            let blockBlobClient = containerClient.getBlockBlobClient(blobName);
+            const uploadBlob = async () => {
+              try{
+
+              const uploadBlobResponse = await blockBlobClient.upload(blobData, blobData.length);
+              console.log("Blob was uploaded successfully. RequestId : ", uploadBlobResponse.requestId);
+              // update download endpoint on record
+              let q = `insert into ${obj.uploadType} \
+              (materialname, [file]) \
+              values('Uncategorized', '${containerName}, ${blobName}, ${blobEncoding}, ${blobMimeType}' ) \
+              select * FROM ${obj.uploadType} where ${tableIdString} = SCOPE_IDENTITY();`;
+               let ms_req = new sql.Request();
+                ms_req.query(q, (err, data) => {
+                  if (err) {
+                    console.log(err); //dev
+                    return res.status(500).send({
+                      success: false,
+                      message: "An error occured",
+                      error: err.message,
+                    });
+                  } else {
+                    if (data.rowsAffected[0] > 0) {
+                      fileCount++;
+                      console.log(fileCount)
+                       if( fileCount >= tempFiles.length){
+                          return res.json({
+                            status: 200,
+                            success: true,
+                            message:
+                              "Files uploaded successfully, and file-paths have been updated",
+                          });
+                        }
+                     
+                    } else {
+                      return res.json({
+                        status: 400,
+                        success: false,
+                        message:
+                          "Failed to create upload record...",
+                      });
+                    }
+                  }
+                });
+
+            }catch(err){
+
+              return res.status(500).send({
+                    success: false,
+                    message: "File upload error...",
+                    error: err.message,
+                  });
+
+            }
+            
+            
+            //console.log(tempFile); //dev
+            console.log(blobName);
+            console.log(blobData);
+
+            }
+
+            uploadBlob();
+           
+
+
+      });
+      
   }
 }
 };
@@ -263,7 +352,7 @@ if (!obj.uploadType) {
 let download = async (req, res) => {
   //const aborter = Aborter.timeout(30 * 60000);
   //console.log(Aborter)
-  if (!req.body.file) {
+  if (!req.body.files) {
     return res.status(400).send({
       success: false,
       message: "File field missing in body...",
