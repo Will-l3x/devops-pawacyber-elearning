@@ -181,7 +181,7 @@ export default class RegistrationForm extends Component {
       customerEmail: det.email,
       customerFirstName: det.firstname,
       customerLastName: det.lastname,
-      serviceDescription: this.state.selectedOption.subscriptionname,
+      serviceDescription: this.state.selectedOption.subscriptionname
     };
 
     PaymentService.createToken(paymentDetails).then((response) => {
@@ -248,15 +248,7 @@ export default class RegistrationForm extends Component {
           </div>
           <form id="contact" data-toggle="validator" data-focus="false" onSubmit={this.handleSubmit}>
             <div className="row mt-1">
-              <div className="col s12 m3">
-                {/* <div className="input-field">
-                  <select name="gender" defaultValue={this.state.gender}onChange={this.handleTitleDropdownChange} required  >
-                    <option value="1">Male</option>
-                    <option value="2">Female</option>
-                  </select>
-                  <label htmlFor="gender">Gender * </label>
-                </div> */}
-              </div>
+
               
               <div className="col s12 m5">
                 <div className="input-field">
@@ -269,6 +261,15 @@ export default class RegistrationForm extends Component {
                   <input id="firstname" type="text" className="validate" name="firstname" required></input>
                   <label htmlFor="firstname">First Name *</label>
                 </div>
+              </div>
+              <div className="col s12 m3">
+                {/* <div className="input-field">
+                  <select name="gender"  onChange={this.handleTitleDropdownChange} >
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                  </select>
+                  <label htmlFor="gender">Gender * </label>
+                </div> */}
               </div>
             </div>
             <div className="row mt-1">
@@ -1016,7 +1017,7 @@ export default class RegistrationForm extends Component {
           <div className="ex-basic-1">
             <h4>Subscription Options</h4>
           </div>
-          <form onSubmit={this.handlePayment} >
+          <form id="contact" data-toggle="validator" data-focus="false"  onSubmit={this.handlePayment} >
             <div className="row mt-1">
               <div className="col s12 m8">
                 <div className="input-field">
