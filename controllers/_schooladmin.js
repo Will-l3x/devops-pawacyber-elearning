@@ -62,7 +62,12 @@ let teachers = (req, res) => {
   let request = new sql.Request();
 
   request.query(query, function (err, recordset) {
-    let teachers = recordset.recordset;
+    let teachers;
+    if (recordset.recordset) {
+      teachers = recordset.recordset;
+    } else {
+      teachers = [];
+    }
     if (err) {
       console.log(err);
       console.log(err.stack);
