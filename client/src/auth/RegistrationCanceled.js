@@ -9,10 +9,6 @@ import { HashLink as Link } from "react-router-hash-link";
 
 class RegistrationCancelled extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         M.AutoInit();
         M.toast({

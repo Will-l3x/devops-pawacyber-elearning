@@ -170,7 +170,7 @@ export default class RegistrationForm extends Component {
 
 
     localStorage.setItem("registrationData", JSON.stringify(registerAdmin));
-    setTimeout(function () { this.setState({ proceedToPay: true }); }, 1000);
+    setTimeout(function () { this.setState({ proceedToPay: true }); }.bind(this), 1000);
 
   };
 
