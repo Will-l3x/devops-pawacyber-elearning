@@ -18,10 +18,12 @@ class LoginScreen extends Component {
   constructor() {
     super();
     this.state = {
+      email:"",
       username: "",
       userid: "",
       schoolid: "",
       roleid: "",
+     
     };
 
     if (this.curHr < 12) {
@@ -35,24 +37,15 @@ class LoginScreen extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+   
+    var globalEmail =  event.target.username.value;
+   
     var registerAdmin = {
       email: event.target.username.value,
       password: event.target.password.value,
     };
 
     AuthService.login(registerAdmin).then((response) => {
-
-      // const roleid = 1;  //5
-      // const username =  "Kelvin";
-      // const userid = "655";
-      // const schoolid= "4";
-      // this.setState({
-      //   roleid,
-      //   username,
-      //   userid,
-      //   schoolid
-      // });
 
       if (response === undefined) {
         alert("Login Failed");
@@ -82,15 +75,18 @@ class LoginScreen extends Component {
         const roleid = response.roleid;
         const username = response.User.firstname + " " + response.User.lastname;
         const userid = id;
+        const userAll = response.User;
 
         const token = response.token;
         localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("userAll",JSON.stringify(userAll));
         this.setState({
-          roleid,
-          username,
-          userid,
-          schoolid,
-          token,
+          email:globalEmail,
+          roleid:roleid,
+          username:username,
+          userid:userid,
+          schoolid:schoolid,
+          token:token
         });
       }
     });

@@ -36,6 +36,7 @@ import ClassesScreen from "./views/school/ClassesScreen";
 import SchoolCalendarScreen from "./views/school/SchoolCalendarScreen";
 import SchoolAddCourseScreen from "./views/school/SchoolAddCourseScreen";
 import UploadContent from "./views/admin/UploadContent";
+import SuccessStudentUpgrade from "./components/student-components/SuccessStudentUpgrade";
 
 import PackagePayment from "./views/student/PackagePayment";
 import UploadNewAssignment from "./views/teacher/TeacherAssignments";
@@ -132,8 +133,8 @@ class App extends Component {
             <Route exact path="/" component={HomeScreen} />
             <Route exact path="/payment-confirmed" component={RegisterSuccessScreen} />
             <Route exact path="/canceled" component={RegistrationCanceled} />
-            
-
+            <Route exact path="/payment-upgrade" component={SuccessStudentUpgrade} />
+           
             <Route exact path="/login" component={LoginScreen} />
             <Route exact path="/register" component={RegisterScreen} />
             <Route exact path="/about" component={AboutScreen} />

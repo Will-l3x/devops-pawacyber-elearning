@@ -24,8 +24,6 @@ class ClassOptions extends Component {
       grade: gradeStore.gradeid
     };
 
-    console.log(data);
-
     AdminService.get_all_subjects_per_grade(data)
       .then((response) => {
         for (const classOpt of response) {

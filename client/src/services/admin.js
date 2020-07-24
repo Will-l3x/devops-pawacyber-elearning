@@ -134,13 +134,7 @@ async function get_all_schools() {
   } catch (err) {
     console.error(err);
     return [
-      {
-        schoolname: "Error Connecting",
-        address: "null",
-        contacts: "null",
-        enrolmentkey: "null",
-        err,
-      },
+
     ];
   }
 }

@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import M from "materialize-css";
-import OuterHeader from "../components/outerHeader";
-import OuterFooter from "../components/outerFooter";
-import img from "../assets/images/details-2-office-team-work.svg"
-import { AdminService } from '../services/admin';
-import { AuthService } from '../services/authServices';
+import OuterHeader from "../../components/outerHeader";
+import OuterFooter from "../../components/outerFooter";
+import img from "../../assets/images/details-2-office-team-work.svg"
+import { AdminService } from '../../services/admin';
 import { HashLink as Link } from "react-router-hash-link";
 
-class RegisterSuccessScreen extends Component {
+class SuccessStudentUpgrade extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            studentData: null,
             registrationDetails: null,
             subscriptionDetails: null,
             enrolmentDetails: null,
             paymentdetails: null,
             proceed: false,
-            message: "Completing the registration..."
+            message: "Payment success, Updating your courses..."
         };
     }
 
@@ -29,60 +29,25 @@ class RegisterSuccessScreen extends Component {
             classes: "green accent-3",
         });
         this.getLocalStorageData();
-
     }
 
     getLocalStorageData() {
         this.setState({
-            registrationDetails: JSON.parse(localStorage.getItem("registrationData")),
+            studentData: JSON.parse(localStorage.getItem("userAll")),
             subscriptionDetails: JSON.parse(localStorage.getItem("selectedPackage")),
-            enrolmentDetails: JSON.parse(localStorage.getItem("selectedSubjects")),
-            paymentdetails: JSON.parse(localStorage.getItem("paymentDetails"))
+            enrolmentDetails: JSON.parse(localStorage.getItem("selectedSubjects"))
         });
 
         setTimeout(function () {
-            console.log(this.state.registrationDetails);
             console.log(this.state.subscriptionDetails);
             console.log(this.state.enrolmentDetails);
-            this.register();
+            this.subscribe();
         }.bind(this), 1000);
-
-
-    }
-
-    register() {
-        AuthService.register(this.state.registrationDetails).then((response) => {
-            if (response === undefined) {
-                M.toast({
-                    html: "Registration Failed: Please contact system adminstrator.",
-                    classes: "red accent-2",
-                });
-                this.setState({
-                    message: "Oopss Registation Failed. Contact admin"
-                });
-            } else if (response.success === false) {
-                M.toast({
-                    html: response.message,
-                    classes: "red accent-2",
-                });
-
-                this.setState({
-                    message: response.message
-                });
-            } else {
-                this.setState({
-                    message: "Preparing your content..."
-                });
-                setTimeout(function () {
-                    this.subscribe();
-                }.bind(this), 3000);
-            }
-        });
     }
 
     subscribe() {
         var subscriptionData = {
-            studentid: 223,
+            studentid: this.state.studentData.studentId,
             subscriptionid: this.state.subscriptionDetails.subscriptionId
         };
 
@@ -111,11 +76,10 @@ class RegisterSuccessScreen extends Component {
 
     enrol() {
         var count = 0;
-
         for (let i = 0; i < this.state.enrolmentDetails.length; i++) {
-         
+     
             var enrolData = {
-                studentid: 223,
+                studentid: this.state.studentData.studentId,
                 classid: this.state.enrolmentDetails[i].classId,
             }
             AdminService.self_enrolment(enrolData).then((response) => {
@@ -174,11 +138,11 @@ class RegisterSuccessScreen extends Component {
                                             <p style={{ marginTop: "100px", color: "#2196F3", textAlign: 'center', fontSize: '20px' }}>{this.state.message}</p>
                                             {
                                                 this.state.proceed ?
-                                                        <Link className="btn-solid-lg" rel="noopener noreferrer" to="/login" style={{marginLeft:"35%",marginTop: "100px", marginRight:"35%"}}>
-                                                            Get Started - Login 
+                                                    <Link className="btn-solid-lg" rel="noopener noreferrer" to="/student" style={{ marginLeft: "35%", marginTop: "100px", marginRight: "35%" }}>
+                                                        Return to portal
                                                         </Link>
                                                     :
-                                                    <div style={{marginTop: "200px",}}class="loader-3 center"><span></span></div>
+                                                    <div style={{ marginTop: "200px", }} class="loader-3 center"><span></span></div>
                                             }
                                         </div>
                                     </div>
@@ -200,4 +164,4 @@ const mapDispatchToProps = {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterSuccessScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SuccessStudentUpgrade)
