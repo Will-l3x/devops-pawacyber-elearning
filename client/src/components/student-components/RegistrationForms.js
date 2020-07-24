@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { AuthService } from "../../services/authServices";
 import { PaymentService } from "../../services/paymentService";
-import { AdminService } from "../../services/admin";
 import $ from "jquery";
 import M from "materialize-css";
 import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
 import ClassOptions from "./ClassesOptions";
-import { set } from "lodash";
+
 
 export default class RegistrationForm extends Component {
   constructor(props) {
@@ -19,7 +17,7 @@ export default class RegistrationForm extends Component {
       grade: "",
       gender: "1",
       redirect: false,
-      proceedToPay: false,
+      proceedToPay: true,
       loading: false,
       numberOfsubs: 0,
       selectedsubs: [],
