@@ -1074,7 +1074,7 @@ export default class RegistrationForm extends Component {
                   <label style={{ transform: "translateY(-15px)", fontSize: "12px" }}>
                     Classes *
                    </label>
-                  <ClassOptions onSelectOption={this.onSelectClassOption} required />
+                  <ClassOptions onSelectOption={this.onSelectClassOption} grade="8" required />
                   <div className="my-divider"></div>
                 </div>
               </div>

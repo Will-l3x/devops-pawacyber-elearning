@@ -6,19 +6,6 @@ import { AdminService } from "../../services/admin";
 
 let options = [];
 
- AdminService.get_all_classes()
-  .then((response) => {
-    for (const classOpt of response) {
-      classOpt.value = classOpt.classId;
-      classOpt.label = classOpt.classname;
-      options.push(classOpt);
-    }
-  })
-  .catch((error) => {
-    console.log(error);
-    options = [];
-  });
-
 class ClassOptions extends Component {
   constructor() {
     super();
@@ -29,15 +16,36 @@ class ClassOptions extends Component {
     };
     this.handleChange.bind(this);
   }
+
+  getClass(){
+    var data = {
+      grade: this.props.grade
+    }
+    AdminService.get_all_subjects_per_grade(data)
+    .then((response) => {
+      for (const classOpt of response) {
+        classOpt.value = classOpt.classId;
+        classOpt.label = classOpt.classname;
+        options.push(classOpt);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      options = [];
+    });
+  }
   
   componentDidMount() {
     M.AutoInit();
+
+    this.getClass();
   }
 
   handleChange = (selectedOption) => {
     this.props.onSelectOption(selectedOption);
     this.setState({ selectedOption });
   };
+
   render() {
     const { selectedOption } = this.state;
 

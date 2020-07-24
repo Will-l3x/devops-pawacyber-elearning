@@ -15,6 +15,7 @@ var config = {
 
 export const AdminService = {
   get_all_classes,
+  get_all_subjects_per_grade,
   post_new_school,
   get_all_schools,
   post_new_plan,
@@ -35,11 +36,28 @@ export const AdminService = {
   delete_plan,
   get_subadmin,
   get_subadmins,
+
 };
 
 async function get_all_classes() {
   try {
     let res = await axios.get(`/classes/all`, config);
+    if (res.data.success) {
+      return res.data.data.classes;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+async function get_all_subjects_per_grade(data) {
+  alert(data.grade);
+  try {
+    let res = await axios.post(`/classes/grade`,qs.stringify(data), config);
+    console.log(res);
     if (res.data.success) {
       return res.data.data.classes;
     } else {
