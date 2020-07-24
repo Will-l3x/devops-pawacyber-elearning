@@ -17,7 +17,7 @@ export default class RegistrationForm extends Component {
       grade: "",
       gender: "1",
       redirect: false,
-      proceedToPay: true,
+      proceedToPay: false,
       loading: false,
       numberOfsubs: 0,
       selectedsubs: [],
@@ -108,10 +108,6 @@ export default class RegistrationForm extends Component {
       );
     }
 
-
-
-
-
     function legalProgress() {
       var legalTermsScrollHeight =
         $(".legal__terms-scroll").height() - $(".legal__terms").height();
@@ -172,9 +168,10 @@ export default class RegistrationForm extends Component {
       schoolid: event.target.schoolId.value,
     };
 
-    localStorage.setItem("registrationData", JSON.stringify(registerAdmin));
 
-    this.setState({ proceedToPay: true });
+    localStorage.setItem("registrationData", JSON.stringify(registerAdmin));
+    setTimeout(function () { this.setState({ proceedToPay: true }); }, 1000);
+
   };
 
 
@@ -1064,8 +1061,8 @@ export default class RegistrationForm extends Component {
             <p style={{ textAlign: "center", color: "red" }}>{this.state.message}</p>
             <div className="row mt-1">
               {this.state.selectedsubs.map((sub, i) => (
-                <div className="col" style={{marginBottom:"20px"}}>
-                 <span key={i} style={{ border: "solid", padding: "5px", borderRadius: "10px", borderColor:"#2196F3", textAlign: 'center' }}>{sub.classname}</span> 
+                <div className="col" style={{ marginBottom: "20px" }}>
+                  <span key={i} style={{ border: "solid", padding: "5px", borderRadius: "10px", borderColor: "#2196F3", textAlign: 'center' }}>{sub.classname}</span>
                 </div>
               ))}
             </div>

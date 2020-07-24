@@ -174,16 +174,11 @@ class RegisterSuccessScreen extends Component {
                                             <p style={{ marginTop: "100px", color: "#2196F3", textAlign: 'center', fontSize: '20px' }}>{this.state.message}</p>
                                             {
                                                 this.state.proceed ?
-
-                                                    <div>
-                                                        <Link className="btn-solid-lg page-scroll z-depth-5" rel="noopener noreferrer" to="/login">
-                                                            Get Started
+                                                        <Link className="btn-solid-lg" rel="noopener noreferrer" to="/login" style={{marginLeft:"35%",marginTop: "100px", marginRight:"35%"}}>
+                                                            Get Started - Login 
                                                         </Link>
-                                                    </div>
                                                     :
-
-                                                    <div style={{marginTop: "100px",}}class="loader-3 center"><span></span></div>
-
+                                                    <div style={{marginTop: "200px",}}class="loader-3 center"><span></span></div>
                                             }
                                         </div>
                                     </div>

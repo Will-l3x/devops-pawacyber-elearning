@@ -7,13 +7,11 @@ import img from "../assets/images/details-2-office-team-work.svg"
 import RegistrationForm from '../components/student-components/RegistrationForms';
 
 class RegisterScreen extends Component {
-
     render() {
         return (
             <div>
                 <OuterHeader></OuterHeader>
                 <div className="content-pawa" >
-
                     <div className="form-2" style={{ marginBottom: "-50px" }}>
                         <div className="container" style={{ marginTop: "-100px" }}>
                             <div className="row mt-1" >

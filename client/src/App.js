@@ -21,6 +21,7 @@ import StudentAssignments from "./views/student/StudentAssignments";
 import TeacherCalendarScreen from "./views/teacher/TeacherCalendarScreen";
 import LoginScreen from "./auth/LoginScreen";
 import RegisterSuccessScreen from "./auth/RegistrationSuccess";
+import RegistrationCanceled from "./auth/RegistrationCanceled";
 import TeacherMarkGradeScreen from "./views/teacher/TeacherMarkGradeScreen";
 import TeacherMarkClassroomScreen from "./views/teacher/TeacherMarkClassroomScreen";
 import StudentAssignmentScreen from "./components/teacher-mark/StudentAssignmentScreen";
@@ -130,6 +131,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={HomeScreen} />
             <Route exact path="/payment-confirmed" component={RegisterSuccessScreen} />
+            <Route exact path="/canceled" component={RegistrationCanceled} />
+            
 
             <Route exact path="/login" component={LoginScreen} />
             <Route exact path="/register" component={RegisterScreen} />
