@@ -184,6 +184,33 @@ let update_role = (req, res) => {
         });
 };
 
+////////////////////////////classes
+let classes = (req, res) => {
+    var query = "select * from [classes] ";
+    var request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message
+            });
+        } else {
+
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ schools: recordset.recordset }))
+            });
+        }
+    });
+};
+
 ////////////////////////////schools
 let schools = (req, res) => {
     var query = "select * from [schools] ";
@@ -1470,6 +1497,7 @@ module.exports = {
     subscribe: subscribe,
     subscribestudent: subscribestudent,
     schools: schools,
+    classes:classes,
     subadmins: subadmins,
     subadmin: subadmin,
     school: school,

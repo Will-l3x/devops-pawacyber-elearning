@@ -44,6 +44,7 @@ router.get("/subadmin/:id", _systemadmin.subadmin);
 router.delete("/del_subadmin/:id", _systemadmin.del_subadmin);
 
 router.get("/schools", _systemadmin.schools);
+router.get("/classes/all", _systemadmin.classes);
 router.get("/school/:id", _systemadmin.school);
 router.post("/add_school", _systemadmin.add_school);
 router.put("/update_school/:id", _systemadmin.update_school);
