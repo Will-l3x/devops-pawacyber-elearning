@@ -78,8 +78,8 @@ class StudentScreen extends Component {
                 <div style={{ marginTop: "15px" }}>
                   <div id="card-widgets">
                     <div className="row">
-                      <div className="col s12 m4 l4">
-                        <ul className="task-card collection with-header">
+                      <div className="col s12 m6">
+                        <ul className="task-card collection with-header border-radius-10">
                           <li className="collection-header teal accent-4">
                             <h5 className="task-card-title">
                               Pending Assignments
@@ -93,8 +93,8 @@ class StudentScreen extends Component {
                           ></PendingAssignments>
                         </ul>
                       </div>
-                      <div className="col s12 m12 l6">
-                        <ul className="task-card collection with-header">
+                      <div className="col s12 m6">
+                        <ul className="task-card collection with-header border-radius-10">
                           <li className="collection-header gradient-45deg-light-blue-cyan accent-4">
                             <h5 className="task-card-title">
                               Graded Assignments

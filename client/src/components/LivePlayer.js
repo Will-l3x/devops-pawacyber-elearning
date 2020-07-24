@@ -23,7 +23,7 @@ class LivePlayer extends Component {
           ? {}
           : JSON.parse(localStorage.getItem("liveclass")),
       url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
-      selectedOption: "",
+      selectedOption: {},
       pages: [],
       meetings: [],
       meeting: {},
@@ -207,7 +207,7 @@ class LivePlayer extends Component {
               <StVideoPlayer meetingData={this.state} />
             )}
           </div>
-          <div id="create-meeting" className="modal modal-meeting">
+          <div id="create-meeting" className="modal modal-meeting border-radius-10">
             <form
               id="create-meeting-form"
               className="react-form form-meeting"
@@ -222,6 +222,8 @@ class LivePlayer extends Component {
                 </i>
                 Create Meeting!
               </h1>
+
+              <hr className="hr5" style={{ marginBottom: 30 }} />
               <fieldset className="form-group">
                 <ReactFormLabel htmlFor="roomname" title="Room Name:" />
                 <input
@@ -259,7 +261,7 @@ class LivePlayer extends Component {
               <div className="form-group">
                 <input
                   id="formButton"
-                  className="btn modal-close gradient-45deg-light-blue-cyan"
+                  className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
                   type="submit"
                   placeholder="Send message"
                 />
@@ -267,7 +269,7 @@ class LivePlayer extends Component {
             </form>
           </div>
 
-          <div id="start-meeting" className="modal modal-meeting">
+          <div id="start-meeting" className="modal modal-meeting border-radius-10">
             <form
               className="react-form form-meeting"
               id="start-meeting-form"
@@ -282,6 +284,7 @@ class LivePlayer extends Component {
                 </i>
                 Start Meeting!
               </h1>
+              <hr className="hr5" style={{ marginBottom: 30 }} />
               <fieldset className="form-group">
                 <ReactFormLabel htmlFor="roomname" title="Room Name:" />
                 <MeetingOptions onSelectOption={this.onSelectOption} />
@@ -302,7 +305,7 @@ class LivePlayer extends Component {
               <div className="form-group">
                 <input
                   id="start"
-                  className="btn modal-close gradient-45deg-light-blue-cyan"
+                  className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
                   type="submit"
                   value="Start"
                 />

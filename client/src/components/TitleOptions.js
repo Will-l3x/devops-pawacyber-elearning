@@ -4,10 +4,10 @@ import M from "materialize-css";
 import Select from "react-select";
 
 let options = [
+  { value: "Dr", label: "Dr" },
   { value: "Mr", label: "Mr" },
   { value: "Mrs", label: "Mrs" },
   { value: "Rev", label: "Rev" },
-  { value: "Dr", label: "Dr" },
 ];
 class TitleOptions extends Component {
   constructor() {

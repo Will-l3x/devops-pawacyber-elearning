@@ -86,7 +86,7 @@ export default class StudyMaterialCard extends Component {
   render() {
     return (
       <div>
-        <div className="row card">
+        <div className="row card border-radius-7">
           <div
             className="col s2 "
             style={{
@@ -104,6 +104,7 @@ export default class StudyMaterialCard extends Component {
           </div>
           <div className="col s6 card-title">
             <div
+              className=""
               style={{
                 fontSize: "16px",
                 marginTop: "10px",
@@ -125,7 +126,10 @@ export default class StudyMaterialCard extends Component {
               data-tooltip="Make Payment"
               data-position="bottom"
             >
-              <div className="card btn" style={{ maxWidth: "150px" }}>
+              <div
+                className="card btn border-radius-5"
+                style={{ maxWidth: "150px" }}
+              >
                 Enrol Now
               </div>
             </div>

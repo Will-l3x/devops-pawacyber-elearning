@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
-import $ from "jquery";
+//import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -64,8 +64,6 @@ class SubscriptionScreen extends Component {
   componentDidMount() {
     this.getDashData();
     M.AutoInit();
-    $(".custom-select.custom-select-sm").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
   }
 
   getDashData() {
@@ -286,7 +284,10 @@ class SubscriptionScreen extends Component {
                       <DatatablePage data={this.state} />
                     </div>
                   </div>
-                  <div id="modaladd" className="modal modal-meeting">
+                  <div
+                    id="modaladd"
+                    className="modal modal-meeting border-radius-10"
+                  >
                     <form
                       className="react-form form-meeting"
                       onSubmit={this.handleSubmit}
@@ -301,6 +302,8 @@ class SubscriptionScreen extends Component {
                         </i>
                         Subscription Plan!
                       </h1>
+
+                      <hr className="hr5" style={{ marginBottom: 30 }} />
                       <fieldset className="form-group">
                         <ReactFormLabel
                           htmlFor="addsubscriptionname"
@@ -362,15 +365,18 @@ class SubscriptionScreen extends Component {
                       <div className="form-group">
                         <input
                           id="formButton"
-                          className="btn gradient-45deg-light-blue-cyan"
+                          className="btn gradient-45deg-light-blue-cyan border-radius-5"
                           type="submit"
-                          value="Save"
+                          value="Submit"
                         />
                       </div>
                     </form>
                   </div>
 
-                  <div id="modaledit" className="modal modal-meeting">
+                  <div
+                    id="modaledit"
+                    className="modal modal-meeting border-radius-10"
+                  >
                     <form
                       className="react-form form-meeting"
                       onSubmit={this.handleSave}
@@ -385,6 +391,8 @@ class SubscriptionScreen extends Component {
                         </i>
                         Subscription Plan!
                       </h1>
+
+                      <hr className="hr5" style={{ marginBottom: 30 }} />
                       <fieldset className="form-group">
                         <ReactFormLabel
                           htmlFor="subscriptionname"
@@ -454,7 +462,7 @@ class SubscriptionScreen extends Component {
                       <div className="form-group">
                         <input
                           id="formButton2"
-                          className="btn gradient-45deg-light-blue-cyan"
+                          className="btn gradient-45deg-light-blue-cyan border-radius-5"
                           type="submit"
                           value="Save"
                         />

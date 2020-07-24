@@ -53,7 +53,7 @@ class AdminScreen extends Component {
                 <div className="card-stats">
                   <div className="row mt-1">
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -71,7 +71,7 @@ class AdminScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -91,7 +91,7 @@ class AdminScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -109,7 +109,7 @@ class AdminScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -128,7 +128,7 @@ class AdminScreen extends Component {
 
                   <div className="row mt-1">
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -144,7 +144,7 @@ class AdminScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">

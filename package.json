@@ -13,9 +13,11 @@
     "name": " "
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.2.0-preview.1",
     "acorn": "^6.4.1",
     "axios": "^0.19.2",
     "bcryptjs": "2.4.3",
+    "blob": "^0.1.0",
     "body-parser": "^1.15.0",
     "concurrently": "^5.2.0",
     "cookie-parser": "^1.4.0",

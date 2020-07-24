@@ -85,7 +85,7 @@ async function get_submissions(id) {
 // classroom
 async function get_assignments(course_id) {
   try {
-    let res = await axios.get(`/get_assignment/${course_id}`, config);
+    let res = await axios.get(`/get_assignments/${course_id}`, config);
 
     return res.data.data;
   } catch (err) {

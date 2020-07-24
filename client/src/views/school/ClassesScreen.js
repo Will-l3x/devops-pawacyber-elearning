@@ -41,7 +41,6 @@ class ClassesScreen extends Component {
   getDashData() {
     SchoolService.get_courses(this.state.user.schoolid)
       .then((response) => {
-        console.log(response);
         if (response === undefined) {
         } else {
           this.setState({ courses: response });
@@ -269,7 +268,7 @@ class ClassesScreen extends Component {
                   )}
                 </div>
               </div>
-              <div id="modal1" className="modal modal-meeting">
+              <div id="modal1" className="modal modal-meeting border-radius-10">
                 <form
                   className="react-form form-meeting"
                   onSubmit={this.handleSubmit}
@@ -284,6 +283,7 @@ class ClassesScreen extends Component {
                     </i>
                     Add Class!
                   </h1>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
                   <fieldset className="form-group">
                     <ReactFormLabel htmlFor="classname" title="Class Name:" />
 
@@ -294,6 +294,11 @@ class ClassesScreen extends Component {
                       type="text"
                       required
                     />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="teacher" title="Teacher:" />
+                    <TeacherOptions onSelectOption={this.onSelectOption} />
+                    <div className="my-divider"></div>
                   </fieldset>
                   <fieldset className="form-group">
                     <ReactFormLabel htmlFor="grade" title="Grade:" />
@@ -307,15 +312,11 @@ class ClassesScreen extends Component {
                       required
                     />
                   </fieldset>
-                  <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="teacher" title="Teacher:" />
-                    <TeacherOptions onSelectOption={this.onSelectOption} />
-                    <div className="my-divider"></div>
-                  </fieldset>
+
                   <div className="form-group" style={{ marginTop: 50 }}>
                     <input
                       id="submit"
-                      className="btn modal-close gradient-45deg-light-blue-cyan"
+                      className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
                       type="submit"
                       value="Submit"
                     />

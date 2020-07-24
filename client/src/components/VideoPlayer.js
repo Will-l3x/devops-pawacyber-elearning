@@ -159,7 +159,7 @@ class VideoPlayer extends Component {
         >
           <div
             data-target="start-meeting"
-            className="video-topbar-2 gradient-45deg-semi-dark cursor-pointer modal-trigger"
+            className="video-topbar-2 gradient-45deg-semi-dark cursor-pointer modal-trigger border-radius-5"
           >
             <i className="material-icons" style={{ marginRight: 7 }}>
               videocam
@@ -172,7 +172,7 @@ class VideoPlayer extends Component {
           className={`${
             this.props.meetingData.startstop_meeting_res.started
               ? "display-none"
-              : "video-info-2 z-depth-5"
+              : "video-info-2 z-depth-5 border-radius-10"
           }`}
           style={{ marginTop: 30 }}
         >
@@ -180,7 +180,7 @@ class VideoPlayer extends Component {
           <div className="center-align" style={{ marginTop: 30 }}>
             <a
               href="#!"
-              className="btn waves waves-effect gradient-45deg-semi-dark width-250"
+              className="btn waves waves-effect gradient-45deg-semi-dark width-250 border-radius-5"
               onClick={() => this.get_meetings()}
             >
               Activity
@@ -197,7 +197,7 @@ class VideoPlayer extends Component {
                 data-target="start-meeting"
                 className="col s12 m4 l3 cursor-pointer waves-effect modal-trigger"
               >
-                <div id="flight-card" className="card">
+                <div id="flight-card" className="card border-radius-7">
                   <div className={`card-header ${this.colors(i)}`}>
                     <div className="card-title">
                       <h5 className="flight-card-title">

@@ -2,104 +2,112 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
-import $ from "jquery";
+//import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import {TeacherService} from '../../services/teacher';
+import { TeacherService } from "../../services/teacher";
+import ClassOptions from "./ClassOptions";
 
 class UploadNewAssignment extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            columns: [
-                {
-                    label: "Assingment Name",
-                    field: "assignmentname",
-                    sort: "asc",
-                    width: "30%",
-                },
-                {
-                    label: "Upload Date",
-                    field: "upload",
-                    sort: "asc",
-                    width: "30%",
-                },
-                {
-                    label: "Download",
-                    field: "file",
-                    sort: "asc",
-                    width: "30%",
-                },
-            ],
-            rows: [],
-            courses: []
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      columns: [
+        {
+          label: "Assingment Name",
+          field: "assignmentname",
+          sort: "asc",
+          width: "30%",
+        },
+        {
+          label: "Upload Date",
+          field: "upload",
+          sort: "asc",
+          width: "30%",
+        },
+        {
+          label: "Download",
+          field: "file",
+          sort: "asc",
+          width: "30%",
+        },
+      ],
+      rows: [],
+      courses: [],
+      selectedOption: {},
+    };
+  }
 
   user = {};
   courseId = "1";
   fileData;
+  teacherid = "";
 
   componentDidMount() {
-    this.user= JSON.parse(localStorage.getItem("user"));
+    this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
     M.AutoInit();
-    $(".custom-select.custom-select-sm").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
   }
 
-  getDashData(){
-      
-    TeacherService.get_all_courses(this.user.userid) 
-    .then((response) => {
-      this.setState({ courses: response })
+  getDashData() {
+    this.teacherid = this.user.userid;
+    TeacherService.get_all_courses(this.teacherid).then((response) => {
+      this.setState({ courses: response });
+      if (response.length > 0) {
+        this.courseId = response[0].classId;
+        TeacherService.get_materials(this.courseId) //get by course id
+          .then((response) => {
+            this.setState({ rows: response });
+          });
+      }
     });
-
-    if(this.state.courses.length>0){
-        this.courseId = this.state.courses[0].classId;
-        TeacherService.get_assignments(this.courseId)
-        .then((response) => {
-          this.setState({ rows: response })
-        });
-    }
   }
 
   handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     this.fileData = event.target.file.value;
-    alert('You are uploading for class id: '+this.courseId);
+    alert(
+      `You are uploading for ${this.state.selectedOption.classname}, classId: ${this.state.selectedOption.value}`
+    );
     var data = {
-        classid: event.target.classid.value,
-        teacherid: this.user.userid,
-        schoolid: this.user.schoolid,
-        assignmentname: event.target.assignmentname.value,
-        file: true
-    }
+      teacherid: this.teacherid,
+      schoolid: this.user.schoolid,
+      assignmentname: event.target.assignmentname.value,
+      file: true,
+      classid: this.state.selectedOption.value,
+    };
 
-    TeacherService.post_assignment(data).then((response)=>{
-        if(response === undefined){
-          alert('Resource Upload failed');
-        }else if(response.err){
-            alert(response.err)
-        }else if(response.success === true){
+    let elem = document.getElementById("modaledit");
+    let modal = new M.Modal(elem);
+    modal.close();
 
-          const uploadData = new FormData() 
-          uploadData.append('file', this.fileData)
-          uploadData.append('uploadType',response.uploadType)
-          uploadData.append('uploadType',response.uploadId)
+    TeacherService.post_assignment(data).then((response) => {
+      if (response === undefined) {
+        alert("Resource Upload failed");
+      } else if (response.err) {
+        alert(response.err);
+      } else if (response.success === true) {
+        const uploadData = new FormData();
+        uploadData.append("file", this.fileData);
+        uploadData.append("uploadType", response.uploadType);
+        uploadData.append("uploadId", response.uploadId);
+        TeacherService.post_file(uploadData).then((response) => {
+          console.log(response);
+        });
 
-          TeacherService.post_file(uploadData).then((response)=>{
-            console.log(response);
-          });
-
-          document.getElementById("sibs").reset();
-          this.getDashData();
-        }else{
-          alert(response.message)
-        }
-    })
-  }
+        document.getElementById("sibs").reset();
+        this.getDashData();
+      } else {
+        alert(response.message);
+      }
+    });
+  };
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(this.state.selectedOption)
+    );
+  };
 
   render() {
     return (
@@ -120,65 +128,120 @@ class UploadNewAssignment extends Component {
                   }}
                 >
                   <div className="nav-content">
-                    <p style={{ padding: "10px",fontSize:"16px" }} >
-                      Manage Assignments
-                    </p>
+                    <div className="left">
+                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                        Assignment Management
+                      </p>
+                    </div>
+                    <a
+                      href="#!"
+                      data-target="modaladd"
+                      className="modal-trigger tooltipped waves-effect right"
+                      data-tooltip="New Upload"
+                      data-position="bottom"
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">cloud_upload</i>
+                    </a>
                   </div>
                 </nav>
               </div>
-              <section className = "row" id="content" style={{ paddingTop: "7%" }}>
-                <div className="container col s8">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m6 l12" style={{padding:"20px"}}>
-                        <DatatablePage data={this.state} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="container col s4">
-                  <div className="card-stats z-depth-5 padding-3">
-                    <div className="row mt-1">
-                      <div className="col s12 m6 l12">
-                      <h4 className="header2">Upload Assignment</h4>
-                      <form onSubmit={this.handleSubmit} id="sibs">
-                      <div className="row">
-                        <div className="col s12">
-                          <div className="row">
-
-                            <div className="input-field col s6">
-                              <input id="assignmentname" type="text" name="assignmentname" required></input>
-                              <label htmlFor="assignmentname">Assignment Title</label>
-                            </div>
-                            
-                            <div className="input-field col s6">
-                              <input id="classid" type="text" name="classid" required></input>
-                              <label htmlFor="classid">Course ID</label>
-                            </div>
-
-                            <div className="input-field col s12">
-                              <input id="file" type="file" name="file" required></input>
-                            </div>
-                            </div>
-
-                        </div>
-                          <div className="row">
-                            <div className="input-field col s6 offset-s6">
-                              <button className="btn file-upload gradient-45deg-light-blue-cyan waves-effect waves-light right">
-                                Upload
-                                <i className="material-icons right">send</i>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        </form>
-                      </div>
-                    </div>
+              <section className="row" id="content" style={{ paddingTop: 85 }}>
+                <div className="container  col s12">
+                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                    <DatatablePage data={this.state} />
                   </div>
                 </div>
               </section>
+              <div
+                id="modaladd"
+                className="modal modal-meeting border-radius-10"
+              >
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSubmit}
+                  id="sibs"
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      cloud_upload
+                    </i>
+                    Upload Assignment!
+                  </h1>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
+                  <fieldset className="form-group">
+                    <ReactFormLabel
+                      htmlFor="assignmentname"
+                      title="Assignment Title:"
+                    />
+                    <input
+                      className="form-input input-meeting"
+                      id="assignmentname"
+                      type="text"
+                      name="assignmentname"
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="classid" title="Class:" />
+                    <ClassOptions
+                      style={{ transform: "translateY(-1px)" }}
+                      onSelectOption={this.onSelectOption}
+                    />
+                    <div
+                      style={{ transform: "translateY(-3px)" }}
+                      className="my-divider"
+                    ></div>
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="file" title="File:" />
+                    <input
+                      className="form-input input-meeting"
+                      id="file"
+                      type="file"
+                      name="file"
+                      required
+                    />
+                  </fieldset>
+                  <div className="form-group">
+                    <input
+                      id="formButton2"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Upload"
+                    />
+                  </div>
+                </form>
               </div>
+              <div id="areyousure" className="modal width-250">
+                <div className="modal-content">
+                  <h4 className="header2">Are you sure?</h4>
+                </div>
+                <div className="modal-footer">
+                  <a
+                    href="#!"
+                    style={{ marginRight: 10 }}
+                    className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
+                    // onClick={this.handleDelete}
+                  >
+                    Yes
+                  </a>
+                  <a
+                    href="#!"
+                    className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
+                  >
+                    No
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
@@ -188,9 +251,15 @@ class UploadNewAssignment extends Component {
     );
   }
 }
-
-
-
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
+    );
+  }
+}
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
