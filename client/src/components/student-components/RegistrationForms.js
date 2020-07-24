@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { AuthService } from "../../services/authServices";
 import { PaymentService } from "../../services/paymentService";
 import $ from "jquery";
 import M from "materialize-css";
 import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
+import ClassOptions from "./ClassesOptions";
+
 
 export default class RegistrationForm extends Component {
   constructor(props) {
@@ -17,7 +18,10 @@ export default class RegistrationForm extends Component {
       gender: "1",
       redirect: false,
       proceedToPay: false,
-      loading: false
+      loading: false,
+      numberOfsubs: 0,
+      selectedsubs: [],
+      message: ""
     };
 
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
@@ -25,11 +29,9 @@ export default class RegistrationForm extends Component {
   }
 
   componentDidMount() {
-
     M.AutoInit();
     function legalTerms() {
       var totalLegalRules = $(".legal__rule").length;
-
       if ($(".legal").hasClass("is-expanded")) {
         $(".legal__rules")
           .attr("aria-expanded", "true")
@@ -58,6 +60,7 @@ export default class RegistrationForm extends Component {
         });
       }
     }
+
 
     function legalRules() {
       // Terms & Conditions - Checkbox
@@ -165,17 +168,21 @@ export default class RegistrationForm extends Component {
       schoolid: event.target.schoolId.value,
     };
 
+
     localStorage.setItem("registrationData", JSON.stringify(registerAdmin));
-    this.setState({ proceedToPay: true });
+    setTimeout(function () { this.setState({ proceedToPay: true }); }.bind(this), 1000);
+
   };
 
 
   handlePayment = (event) => {
+
     event.preventDefault();
     this.setState({ loading: true });
-    var det = JSON.parse(localStorage.getItem("registrationData"));
     localStorage.setItem("selectedPackage", JSON.stringify(this.state.selectedOption));
+    localStorage.setItem("selectedSubjects", JSON.stringify(this.state.selectedsubs));
 
+    var det = JSON.parse(localStorage.getItem("registrationData"));
     var paymentDetails = {
       paymentAmount: parseFloat(this.state.selectedOption.price),
       customerEmail: det.email,
@@ -183,6 +190,8 @@ export default class RegistrationForm extends Component {
       customerLastName: det.lastname,
       serviceDescription: this.state.selectedOption.subscriptionname
     };
+
+    localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
 
     PaymentService.createToken(paymentDetails).then((response) => {
       if (response === undefined) {
@@ -201,41 +210,51 @@ export default class RegistrationForm extends Component {
           html: "You are being redirected to the payment page",
           classes: "green",
         });
-
         // window.open(`https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`,'_blank');
         document.getElementById("contact").reset();
         this.setState({ redirect: true });
         window.location.href = `https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`;
-
-        AuthService.register(det).then((response) => {
-          if (response === undefined) {
-            M.toast({
-              html: "Registration Failed",
-              classes: "red accent-2",
-            });
-          } else if (response.success === false) {
-            alert(response.message);
-            M.toast({
-              html: "Registration Failed",
-              classes: "red accent-2",
-            });
-          } else {
-            M.toast({
-              html: "Registration in progress",
-              classes: "green accent-3",
-            });
-          }
-        });
       }
     });
   };
+
+  remove(element) {
+    const index = this.state.selectedsubs.indexOf(element);
+    this.state.selectedsubs.splice(index, 1);
+  }
 
   onSelectOption = (selectedOption) => {
     this.setState({ selectedOption }, () =>
       console.log(this.state.selectedOption)
     );
-    this.setState({ loading: false });
+
+    this.setState({
+      numberOfsubs: selectedOption.subjects,
+      message: "",
+      loading: false
+    });
   };
+
+  onSelectClassOption = (selectedOption) => {
+    if (this.state.selectedsubs.length === this.state.numberOfsubs) {
+      this.setState({
+        message: "You have selected the maximum number of subjects for you package"
+      })
+    } else {
+      if (this.state.selectedsubs.includes(selectedOption)) {
+        this.setState({
+          message: "Suject Already Selected"
+        });
+      } else {
+        var valSubs = this.state.selectedsubs.concat(selectedOption);
+        this.setState({
+          selectedsubs: valSubs,
+          message: ""
+        });
+      }
+    }
+  };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/" />;
@@ -249,7 +268,7 @@ export default class RegistrationForm extends Component {
           <form id="contact" data-toggle="validator" data-focus="false" onSubmit={this.handleSubmit}>
             <div className="row mt-1">
 
-              
+
               <div className="col s12 m5">
                 <div className="input-field">
                   <input id="lastname" type="text" className="validate" name="lastname" required></input>
@@ -1017,9 +1036,9 @@ export default class RegistrationForm extends Component {
           <div className="ex-basic-1">
             <h4>Subscription Options</h4>
           </div>
-          <form id="contact" data-toggle="validator" data-focus="false"  onSubmit={this.handlePayment} >
+          <form id="contact" data-toggle="validator" data-focus="false" onSubmit={this.handlePayment} >
             <div className="row mt-1">
-              <div className="col s12 m8">
+              <div className="col s12 m6">
                 <div className="input-field">
                   <label style={{ transform: "translateY(-15px)", fontSize: "12px" }}>
                     Subscription Package*
@@ -1028,6 +1047,24 @@ export default class RegistrationForm extends Component {
                   <div className="my-divider"></div>
                 </div>
               </div>
+
+              <div className="col s12 m6">
+                <div className="input-field">
+                  <label style={{ transform: "translateY(-15px)", fontSize: "12px" }}>
+                    Classes *
+                   </label>
+                  <ClassOptions onSelectOption={this.onSelectClassOption} required />
+                  <div className="my-divider"></div>
+                </div>
+              </div>
+            </div>
+            <p style={{ textAlign: "center", color: "red" }}>{this.state.message}</p>
+            <div className="row mt-1">
+              {this.state.selectedsubs.map((sub, i) => (
+                <div className="col" style={{ marginBottom: "20px" }}>
+                  <span key={i} style={{ border: "solid", padding: "5px", borderRadius: "10px", borderColor: "#2196F3", textAlign: 'center' }}>{sub.classname}</span>
+                </div>
+              ))}
             </div>
 
             <div className="form-group">

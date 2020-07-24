@@ -4,6 +4,7 @@ const qs = require("qs");
 const token = JSON.parse(localStorage.getItem("token"));
 var config = {
   baseURL: "https://cybers.azurewebsites.net/api",
+
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
@@ -13,6 +14,11 @@ var config = {
 };
 
 export const AdminService = {
+  get_all_classes,
+  get_all_subjects_per_grade,
+  subcribe_student,
+  self_enrolment,
+
   post_new_school,
   get_all_schools,
   post_new_plan,
@@ -33,7 +39,68 @@ export const AdminService = {
   delete_plan,
   get_subadmin,
   get_subadmins,
+
 };
+
+async function get_all_classes() {
+  try {
+    let res = await axios.get(`/classes/all`, config);
+    if (res.data.success) {
+      return res.data.data.classes;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+async function get_all_subjects_per_grade(data) {
+  try {
+    let res = await axios.post(`/classes/grade`,qs.stringify(data), config);
+    console.log(res);
+    if (res.data.success) {
+      return res.data.data.classes;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+async function subcribe_student(data) {
+  try {
+    let res = await axios.put(`/subscribestudent`,qs.stringify(data), config);
+    console.log(res);
+
+    if (res.data.success) {
+      return res.data;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+async function self_enrolment(data) {
+  try {
+    let res = await axios.post(`/post_payment_enrol`,qs.stringify(data), config);
+    console.log(res);
+    if (res.data.success) {
+      return res.data;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
 
 //POST new School
 async function post_new_school(data) {
