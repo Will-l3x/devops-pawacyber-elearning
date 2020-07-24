@@ -12,29 +12,34 @@ class ClassOptions extends Component {
     this.state = {
       options: [],
       selectedOption: null,
-      classDescription:null
+      classDescription: null
     };
     this.handleChange.bind(this);
   }
 
-  getClass(){
+  getClass() {
+    var gradeStore = JSON.parse(localStorage.getItem("registrationData"));
+
     var data = {
-      grade: this.props.grade
-    }
+      grade: gradeStore.gradeid
+    };
+
+    console.log(data);
+
     AdminService.get_all_subjects_per_grade(data)
-    .then((response) => {
-      for (const classOpt of response) {
-        classOpt.value = classOpt.classId;
-        classOpt.label = classOpt.classname;
-        options.push(classOpt);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      options = [];
-    });
+      .then((response) => {
+        for (const classOpt of response) {
+          classOpt.value = classOpt.classId;
+          classOpt.label = classOpt.classname;
+          options.push(classOpt);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        options = [];
+      });
   }
-  
+
   componentDidMount() {
     M.AutoInit();
 

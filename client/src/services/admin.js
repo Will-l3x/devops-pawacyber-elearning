@@ -16,6 +16,9 @@ var config = {
 export const AdminService = {
   get_all_classes,
   get_all_subjects_per_grade,
+  subcribe_student,
+  self_enrolment,
+
   post_new_school,
   get_all_schools,
   post_new_plan,
@@ -54,7 +57,6 @@ async function get_all_classes() {
 }
 
 async function get_all_subjects_per_grade(data) {
-  alert(data.grade);
   try {
     let res = await axios.post(`/classes/grade`,qs.stringify(data), config);
     console.log(res);
@@ -66,6 +68,37 @@ async function get_all_subjects_per_grade(data) {
   } catch (err) {
     console.error(err);
     return [];
+  }
+}
+
+async function subcribe_student(data) {
+  try {
+    let res = await axios.put(`/subscribestudent`,qs.stringify(data), config);
+    console.log(res);
+
+    if (res.data.success) {
+      return res.data;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+async function self_enrolment(data) {
+  try {
+    let res = await axios.post(`/post_payment_enrol`,qs.stringify(data), config);
+    console.log(res);
+    if (res.data.success) {
+      return res.data;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
   }
 }
 

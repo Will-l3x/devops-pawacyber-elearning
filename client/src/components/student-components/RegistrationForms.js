@@ -19,7 +19,7 @@ export default class RegistrationForm extends Component {
       grade: "",
       gender: "1",
       redirect: false,
-      proceedToPay: true,
+      proceedToPay: false,
       loading: false,
       numberOfsubs: 0,
       selectedsubs: [],
@@ -175,16 +175,19 @@ export default class RegistrationForm extends Component {
     };
 
     localStorage.setItem("registrationData", JSON.stringify(registerAdmin));
+
     this.setState({ proceedToPay: true });
   };
 
 
   handlePayment = (event) => {
+
     event.preventDefault();
     this.setState({ loading: true });
-    var det = JSON.parse(localStorage.getItem("registrationData"));
     localStorage.setItem("selectedPackage", JSON.stringify(this.state.selectedOption));
+    localStorage.setItem("selectedSubjects", JSON.stringify(this.state.selectedsubs));
 
+    var det = JSON.parse(localStorage.getItem("registrationData"));
     var paymentDetails = {
       paymentAmount: parseFloat(this.state.selectedOption.price),
       customerEmail: det.email,
@@ -192,6 +195,8 @@ export default class RegistrationForm extends Component {
       customerLastName: det.lastname,
       serviceDescription: this.state.selectedOption.subscriptionname
     };
+
+    localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
 
     PaymentService.createToken(paymentDetails).then((response) => {
       if (response === undefined) {
@@ -210,31 +215,10 @@ export default class RegistrationForm extends Component {
           html: "You are being redirected to the payment page",
           classes: "green",
         });
-
         // window.open(`https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`,'_blank');
         document.getElementById("contact").reset();
         this.setState({ redirect: true });
         window.location.href = `https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`;
-
-        AuthService.register(det).then((response) => {
-          if (response === undefined) {
-            M.toast({
-              html: "Registration Failed",
-              classes: "red accent-2",
-            });
-          } else if (response.success === false) {
-            alert(response.message);
-            M.toast({
-              html: "Registration Failed",
-              classes: "red accent-2",
-            });
-          } else {
-            M.toast({
-              html: "Registration in progress",
-              classes: "green accent-3",
-            });
-          }
-        });
       }
     });
   };
@@ -1074,7 +1058,7 @@ export default class RegistrationForm extends Component {
                   <label style={{ transform: "translateY(-15px)", fontSize: "12px" }}>
                     Classes *
                    </label>
-                  <ClassOptions onSelectOption={this.onSelectClassOption} grade="8" required />
+                  <ClassOptions onSelectOption={this.onSelectClassOption} required />
                   <div className="my-divider"></div>
                 </div>
               </div>
