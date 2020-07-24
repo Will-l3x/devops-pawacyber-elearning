@@ -60,6 +60,8 @@ let enrolStudent = async (req, res) => {
             fd.enrollmentUrl = `http://localhost:3000/api/student/enrol/ \
               ${obj.classid}-${fd.classEnrollmentKey}-${obj.studentid}`;
             //4.enrol student & send email
+
+            
             let q3 = `insert into class_students \
               (classid, studentid) \
               values (${obj.classid}, ${obj.studentid})`;

@@ -38,23 +38,22 @@ router.get("/subscription/:id", _systemadmin.subscription);
 router.put("/update_subscription/:id", _systemadmin.update_subscription);
 router.put("/subscribe", _systemadmin.subscribe);
 router.put("/subscribestudent", _systemadmin.subscribestudent);
-
 router.get("/subadmins", _systemadmin.subadmins);
 router.get("/subadmin/:id", _systemadmin.subadmin);
 router.delete("/del_subadmin/:id", _systemadmin.del_subadmin);
-
 router.get("/schools", _systemadmin.schools);
-router.get("/classes/all", _systemadmin.classes);
 router.get("/school/:id", _systemadmin.school);
 router.post("/add_school", _systemadmin.add_school);
 router.put("/update_school/:id", _systemadmin.update_school);
 router.delete("/del_school/:id", _systemadmin.del_school);
-
 router.get("/subscriptions", _systemadmin.subscriptions);
 router.post("/add_subscription", _systemadmin.add_subscription);
 router.delete("/del_subscription/:id", _systemadmin.del_subscription);
 router.get("/subscription/:id", _systemadmin.subscription);
 router.get("/update_subcription", _systemadmin.update_subscription);
+
+router.get("/classes/all", _systemadmin.classes);
+router.post("/post_payment_enrol", _systemadmin.post_payment_enrol);
 //////////////////////mediaplayer//////////////////////////////////////////////
 router.get("/playvideo", _media_server.playvideo);
 router.post("/create_meeting", _media_server.create_meeting);

@@ -184,6 +184,14 @@ let update_role = (req, res) => {
         });
 };
 
+
+
+
+
+
+
+
+
 ////////////////////////////classes
 let classes = (req, res) => {
     var query = "select * from [classes] ";
@@ -205,10 +213,50 @@ let classes = (req, res) => {
             return res.json({
                 status: 200,
                 success: true,
-                data: JSON.parse(JSON.stringify({ schools: recordset.recordset }))
+                data: JSON.parse(JSON.stringify({ classes: recordset.recordset }))
             });
         }
     });
+};
+
+/////////////////////////////////////////////// SELF ENROLMENT PST PAYMENT
+let post_payment_enrol = (req, res) => {
+    var obj = req.body;
+    var query = `insert into class_students \
+              (classid, studentid) \
+              values (${obj.classid}, ${obj.studentid})`;
+
+    var request = new sql.Request();
+    request
+        .input("classid", obj.classid)
+        .input("studentid", obj.studentid)
+        .query(query, function (err, recordset) {
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Enrolment Successful"
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Enrolment Failed'
+
+                    });
+                }
+            }
+        });
 };
 
 ////////////////////////////schools
@@ -247,7 +295,7 @@ let add_school = (req, res) => {
     var email = req.body.email;
     var datejoined = moment().format('YYYY-MM-DD');
 
-    console.log(datejoined+ "tetet");
+    console.log(datejoined + "tetet");
 
     var enrolmentkey = generator.generate({
         length: 5,
@@ -283,7 +331,7 @@ let add_school = (req, res) => {
     (firstname,lastname,activefrom,userid,schoolid) \
     VALUES(@firstname,@lastname,Convert(datetime, @dj3 ),@userid,@schoolid)";
 
-    let query_email = "SELECT * FROM [schools] WHERE email = @email"; 
+    let query_email = "SELECT * FROM [schools] WHERE email = @email";
 
     var transaction = new sql.Transaction();
     transaction.begin(function (err) {
@@ -294,7 +342,7 @@ let add_school = (req, res) => {
                 status: 400,
                 success: false,
                 message: 'Internal server error',
-                 err: err.message
+                err: err.message
             });
         } else {
             //
@@ -310,7 +358,7 @@ let add_school = (req, res) => {
                             status: 500,
                             success: false,
                             message: 'Database error',
-                             err: err.message
+                            err: err.message
                         });
                     } else {
                         if (recordset.recordset.length > 0) {
@@ -360,7 +408,7 @@ let add_school = (req, res) => {
                                                             status: 500,
                                                             success: false,
                                                             message: 'Database error2',
-                                                            err:err.message
+                                                            err: err.message
 
                                                         });
                                                     } else {
@@ -382,7 +430,7 @@ let add_school = (req, res) => {
                                                                             status: 500,
                                                                             success: false,
                                                                             message: 'Database error3',
-                                                                             err: err.message
+                                                                            err: err.message
                                                                         });
                                                                     } else {
                                                                         if (recordset.rowsAffected[0] > 0) {
@@ -535,7 +583,7 @@ let school = (req, res) => {
                                             status: 200,
                                             success: true,
                                             school: JSON.parse(JSON.stringify({ school_obj, subscriptions_obj, admin_obj }))
-                                        
+
                                         });
                                     }
                                 });
@@ -720,56 +768,56 @@ let del_subadmin = (req, res) => {
             });
         }
 
-    var request = new sql.Request(transaction);
-    request
-        .input("id", id)
-        .query(query, function (err, recordset) {
+        var request = new sql.Request(transaction);
+        request
+            .input("id", id)
+            .query(query, function (err, recordset) {
 
-            if (err) {
-                console.log(err);
-                console.log(err.stack);
-                transaction.rollback();
-                return res.json({
-                    status: 500,
-                    success: false,
-                    message: "An error occured",
-                    error: err.message
-                });
-            } else {
-
-                request
-                    .input("id2", id)
-                    .query(query_user, function (err, recordset) {
-
-                        if (err) {
-                            transaction.rollback();
-                            console.log(err);
-                            console.log(err.stack);
-                            return res.json({
-                                status: 500,
-                                success: false,
-                                message: "An error occured",
-                                error: err.message
-                            });
-                        } else {
-                            transaction.commit();
-                            return res.json({
-                                status: 200,
-                                success: true,
-                                message: "Deleted"
-                            });
-                        }
+                if (err) {
+                    console.log(err);
+                    console.log(err.stack);
+                    transaction.rollback();
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: "An error occured",
+                        error: err.message
                     });
+                } else {
 
-            }
-        });
+                    request
+                        .input("id2", id)
+                        .query(query_user, function (err, recordset) {
+
+                            if (err) {
+                                transaction.rollback();
+                                console.log(err);
+                                console.log(err.stack);
+                                return res.json({
+                                    status: 500,
+                                    success: false,
+                                    message: "An error occured",
+                                    error: err.message
+                                });
+                            } else {
+                                transaction.commit();
+                                return res.json({
+                                    status: 200,
+                                    success: true,
+                                    message: "Deleted"
+                                });
+                            }
+                        });
+
+                }
+            });
     });
 };
 
 let subadmins = (req, res) => {
-  
+
     var query = "select * from [subadmins]";
-   
+
     var request = new sql.Request();
 
     request
@@ -784,7 +832,7 @@ let subadmins = (req, res) => {
                     error: err.message
                 });
             } else {
-               
+
 
                 return res.json({
                     status: 200,
@@ -792,7 +840,7 @@ let subadmins = (req, res) => {
                     data: JSON.parse(JSON.stringify({ subadmins: recordset.recordset }))
 
                 });
-                                   
+
             }
         });
 };
@@ -866,7 +914,7 @@ let permission = (req, res) => {
     var request = new sql.Request();
 
     request
-        .input("id",id)
+        .input("id", id)
         .query(query, function (err, recordset) {
 
             if (err) {
@@ -1035,7 +1083,7 @@ let update_permission = (req, res) => {
 
     request
         .input("id", id)
-        .input("name",name)
+        .input("name", name)
         .query(query, function (err, recordset) {
 
             if (err) {
@@ -1073,7 +1121,7 @@ let subadmin = (req, res) => {
     var request = new sql.Request();
 
     request
-        .input("id",id)
+        .input("id", id)
         .query(query, function (err, recordset) {
 
             if (err) {
@@ -1090,7 +1138,7 @@ let subadmin = (req, res) => {
                 return res.json({
                     status: 200,
                     success: true,
-                    data: JSON.parse(JSON.stringify({ subadmin:recordset.recordset }))
+                    data: JSON.parse(JSON.stringify({ subadmin: recordset.recordset }))
 
                 });
 
@@ -1377,7 +1425,7 @@ let subscribe = (req, res) => {
 let subscribestudent = (req, res) => {
     var studentid = req.body.studentid;
     var subscriptionid = req.body.subscriptionid;
-    var sed = Date();
+    var sed = Date().now;
     sed = req.body.enddate;
 
     var query1 = "select * from [student_subscriptions] \
@@ -1497,10 +1545,11 @@ module.exports = {
     subscribe: subscribe,
     subscribestudent: subscribestudent,
     schools: schools,
-    classes:classes,
     subadmins: subadmins,
     subadmin: subadmin,
     school: school,
-    update_school:update_school,
-    add_school:add_school
+    update_school: update_school,
+    add_school: add_school,
+    classes: classes,
+    post_payment_enrol: post_payment_enrol
 };
