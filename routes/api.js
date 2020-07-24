@@ -53,6 +53,7 @@ router.get("/subscription/:id", _systemadmin.subscription);
 router.get("/update_subcription", _systemadmin.update_subscription);
 
 router.get("/classes/all", _systemadmin.classes);
+router.post("/classes/grade", _systemadmin.classesByGrade);
 router.post("/post_payment_enrol", _systemadmin.post_payment_enrol);
 //////////////////////mediaplayer//////////////////////////////////////////////
 router.get("/playvideo", _media_server.playvideo);

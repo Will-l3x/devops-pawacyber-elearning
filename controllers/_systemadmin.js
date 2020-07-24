@@ -192,9 +192,37 @@ let update_role = (req, res) => {
 
 
 
-////////////////////////////classes
+//////////////////////////// All classes
 let classes = (req, res) => {
     var query = "select * from [classes] ";
+    var request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message
+            });
+        } else {
+
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ classes: recordset.recordset }))
+            });
+        }
+    });
+};
+
+///////////////////////////////////////// Glasses for grade
+let classesByGrade = (req, res) => {
+    var grade = req.body.grade;
+    var query = `select * from [classes] where grade = ${grade}`;
     var request = new sql.Request();
 
     request.query(query, function (err, recordset) {
@@ -258,6 +286,18 @@ let post_payment_enrol = (req, res) => {
             }
         });
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 ////////////////////////////schools
 let schools = (req, res) => {
@@ -1551,5 +1591,6 @@ module.exports = {
     update_school: update_school,
     add_school: add_school,
     classes: classes,
+    classesByGrade:classesByGrade,
     post_payment_enrol: post_payment_enrol
 };
