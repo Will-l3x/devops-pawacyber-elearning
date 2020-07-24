@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AuthService } from "../../services/authServices";
 import { PaymentService } from "../../services/paymentService";
+import { AdminService } from "../../services/admin";
 import $ from "jquery";
 import M from "materialize-css";
 import "../../assets/css/terms.css";
@@ -17,7 +18,8 @@ export default class RegistrationForm extends Component {
       gender: "1",
       redirect: false,
       proceedToPay: false,
-      loading: false
+      loading: false,
+      numberOfsubs: 0
     };
 
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
@@ -26,7 +28,15 @@ export default class RegistrationForm extends Component {
 
   componentDidMount() {
 
+
     M.AutoInit();
+
+    AdminService.get_all_classes().then((response) => {
+      console.log(response);
+      this.setState({ plans: response });
+    });
+
+
     function legalTerms() {
       var totalLegalRules = $(".legal__rule").length;
 
@@ -58,6 +68,7 @@ export default class RegistrationForm extends Component {
         });
       }
     }
+
 
     function legalRules() {
       // Terms & Conditions - Checkbox
@@ -104,6 +115,10 @@ export default class RegistrationForm extends Component {
         }
       );
     }
+
+    
+
+    
 
     function legalProgress() {
       var legalTermsScrollHeight =
@@ -234,8 +249,10 @@ export default class RegistrationForm extends Component {
     this.setState({ selectedOption }, () =>
       console.log(this.state.selectedOption)
     );
+    this.setState({numberOfsubs: selectedOption.subjects})
     this.setState({ loading: false });
   };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/" />;
