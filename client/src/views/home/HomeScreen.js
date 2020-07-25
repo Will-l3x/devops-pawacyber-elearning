@@ -96,7 +96,7 @@ class HomeScreen extends Component {
     function autoplay() {
       instance1.next();
       instance2.next();
-      setTimeout(autoplay, 5000);
+      setTimeout(autoplay, 5500);
     }
   }
 
@@ -151,7 +151,9 @@ class HomeScreen extends Component {
 
                     <div className="text-container">
                       <h1>
-                        <span className="turquoise text-shadow-2">Pawa Cyber School</span>
+                        <span className="turquoise text-shadow-2">
+                          Pawa Cyber School
+                        </span>
                       </h1>
                       <h5 style={{ marginTop: "-5px" }}>
                         Learn.Practice.Achieve
@@ -199,8 +201,8 @@ class HomeScreen extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col s12 card-services">
-                  <div className="card" style={{ height: 475 }}>
+                <div className="col s12 m6 l3 card-services">
+                  <div className="card" style={{ height: 550 }}>
                     <img
                       className="card-image"
                       src={servicesImg1}
@@ -211,13 +213,15 @@ class HomeScreen extends Component {
                         Virtual Classroom
                       </h4>
                       <p className="text-18">
-                      Live streaming classes - 
-                      Teachers are able to have live online classes with their learners, anytime and anywhere.
+                        Live streaming classes - Teachers are able to have live
+                        online classes with their learners, anytime and
+                        anywhere.
                       </p>
                     </div>
                   </div>
-
-                  <div className="card" style={{ height: 475 }}>
+                </div>
+                <div className="col s12 m6 l3 card-services">
+                  <div className="card" style={{ height: 550 }}>
                     <img
                       className="card-image"
                       src={servicesImg2}
@@ -228,12 +232,17 @@ class HomeScreen extends Component {
                         Animated Lessons
                       </h4>
                       <p className="text-18">
-                      The platform includes state of the art 3D animated and sketch video lessons designed according to the Namibian curriculum. Learners will be able to visit the lessons anytime, anywhere making studying flexible.
+                        The platform includes state of the art 3D animated and
+                        sketch video lessons designed according to the Namibian
+                        curriculum. Learners will be able to visit the lessons
+                        anytime, anywhere making studying flexible.
                       </p>
                     </div>
                   </div>
+                </div>
 
-                  <div className="card" style={{ height: 475 }}>
+                <div className="col s12 m6 l3 card-services">
+                  <div className="card" style={{ height: 550 }}>
                     <img
                       className="card-image"
                       src={servicesImg3}
@@ -244,12 +253,17 @@ class HomeScreen extends Component {
                         E-Library
                       </h4>
                       <p className="text-18">
-                      The platform has a built in eLibrary with recommended ebooks and past examination papers. 
-                      It gives the learners an equal opportunity to have access to essential books and other print material.
+                        The platform has a built in eLibrary with recommended
+                        ebooks and past examination papers. It gives the
+                        learners an equal opportunity to have access to
+                        essential books and other print material.
                       </p>
                     </div>
                   </div>
-                  <div className="card" style={{ height: 475 }}>
+                </div>
+
+                <div className="col s12 m6 l3 card-services">
+                  <div className="card" style={{ height: 550 }}>
                     <img
                       className="card-image"
                       src={servicesImg3}
@@ -260,8 +274,12 @@ class HomeScreen extends Component {
                         Learning Management System{" "}
                       </h4>
                       <p className="text-18">
-                      The educational platform includes a complete academic management system where teachers, principals and learners can interact. Teachers can create own content, send and receive learners work.
-                       The service comes with an automated way to view performance and capture remedial records.
+                        The educational platform includes a complete academic
+                        management system where teachers, principals and
+                        learners can interact. Teachers can create own content,
+                        send and receive learners work. The service comes with
+                        an automated way to view performance and capture
+                        remedial records.
                       </p>
                     </div>
                   </div>
