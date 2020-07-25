@@ -188,7 +188,8 @@ export default class RegistrationForm extends Component {
       customerEmail: det.email,
       customerFirstName: det.firstname,
       customerLastName: det.lastname,
-      serviceDescription: this.state.selectedOption.subscriptionname
+      serviceDescription: this.state.selectedOption.subscriptionname,
+      routeSuccessLink: "https://cybers.azurewebsites.net/payment-confirmed"
     };
 
     localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
@@ -200,9 +201,9 @@ export default class RegistrationForm extends Component {
           classes: "red accent-2",
         });
       } else if (response.success === false) {
-        alert(response.message);
+      
         M.toast({
-          html: "Payment Failed",
+          html: response.message,
           classes: "red",
         });
       } else {
@@ -1051,7 +1052,7 @@ export default class RegistrationForm extends Component {
               <div className="col s12 m6">
                 <div className="input-field">
                   <label style={{ transform: "translateY(-15px)", fontSize: "12px" }}>
-                    Classes *
+                    Subjects *
                    </label>
                   <ClassOptions onSelectOption={this.onSelectClassOption} required />
                   <div className="my-divider"></div>

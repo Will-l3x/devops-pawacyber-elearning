@@ -11,6 +11,7 @@ let createToken = (req, res) => {
   let customerFirstName = req.body.customerFirstName;
   let customerLastName = req.body.customerLastName;
   let serviceDescription = req.body.serviceDescription;
+  let routeSuccessLink = req.body.routeSuccessLink
   let serviceDate = moment().format("YYYY/MM/DD HH:MM");
 
   var xmlRequestBody = `
@@ -22,7 +23,7 @@ let createToken = (req, res) => {
     <PaymentAmount>${paymentAmount}</PaymentAmount>
     <PaymentCurrency>NAD</PaymentCurrency>
     <CompanyRef>49FKEOA</CompanyRef>
-    <RedirectURL>https://cybers.azurewebsites.net/payment-confirmed</RedirectURL>
+    <RedirectURL>${routeSuccessLink}</RedirectURL>
     <BackURL>https://cybers.azurewebsites.net/canceled </BackURL>
     <CompanyRefUnique>0</CompanyRefUnique>
     <PTL>5</PTL>

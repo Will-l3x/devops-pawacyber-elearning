@@ -22,6 +22,7 @@ class StudentScreen extends Component {
   }
 
   user = {};
+  studentData = {};
 
   componentDidMount() {
     this.getDashData();
@@ -29,8 +30,12 @@ class StudentScreen extends Component {
 
   getDashData() {
     this.user = JSON.parse(localStorage.getItem("user"));
-    console.log(this.user);
-    StudentService.get_all_courses(this.user.userid) // by student id
+    this.studentData = JSON.parse(localStorage.getItem("userAll"));
+    console.log(this.studentData.gradeid);
+    
+    localStorage.setItem("registrationData", JSON.stringify({ gradeid: this.studentData.gradeid }));
+
+    StudentService.get_all_courses(this.studentData.studentId) // by student id
       .then((response) => {
         this.setState({ courses: response === undefined ? [] : response });
       });
