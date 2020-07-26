@@ -35,12 +35,12 @@ async function upload(data) {
       qs.stringify(data),
       {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
         },
-        
       }
     );
+
+    console.log(res);
     return res.data;
   } catch (err) {
     console.error(err);

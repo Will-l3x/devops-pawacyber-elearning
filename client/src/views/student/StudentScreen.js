@@ -31,8 +31,7 @@ class StudentScreen extends Component {
   getDashData() {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.studentData = JSON.parse(localStorage.getItem("userAll"));
-    console.log(this.studentData.gradeid);
-    
+
     localStorage.setItem("registrationData", JSON.stringify({ gradeid: this.studentData.gradeid }));
 
     StudentService.get_all_courses(this.studentData.studentId) // by student id
