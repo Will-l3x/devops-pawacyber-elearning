@@ -5,6 +5,7 @@ import carousel1 from "../../assets/images/conference/live-chat.svg";
 // import M from "materialize-css";
 import moment from "moment";
 import "../../assets/css/video-player.css";
+import avatar from "../../assets/images/gallary/not_found.gif";
 
 import { StreamService } from "../../services/stream";
 
@@ -174,49 +175,75 @@ class VideoPlayer extends Component {
             style={{ marginTop: 30, marginBottom: 30 }}
           ></div>
           <div className="row margin-0">
-            {this.state.meetings.map((meeting, i) => (
-              <div
-                key={i}
-                data-target="start-meeting"
-                className="col s12 m4 l3 cursor-pointer waves-effect modal-trigger"
-              >
-                <div id="flight-card" className="card">
-                  <div className={`card-header ${this.colors(i)}`}>
-                    <div className="card-title">
-                      <h5 className="flight-card-title">
-                        {meeting.meetingname === null
-                          ? `Meeting ${meeting.meetingId}`
-                          : meeting.meetingname}
-                        <i className="material-icons right">
-                          {meeting.status === "Meeting Started"
-                            ? "videocam"
-                            : "videocam_off"}
-                        </i>
-                      </h5>
-                      <p className="flight-card-date" style={{ marginTop: 10 }}>
-                        {moment(new Date(meeting.date)).fromNow()}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="card-content-bg white-text">
-                    <div
-                      className="card-content"
-                      style={{
-                        backgroundImage: `url(${carousel1}) `,
-                      }}
-                    >
-                      <div className="row">
-                        <div className="col s12 center-align">
-                          <i className="material-icons medium">
-                            play_circle_outline
+            {this.state.meetings.length < 1 ? (
+              <div className="row">
+                <p
+                  style={{
+                    textAlign: "center",
+                    fontSize: "20px",
+                  }}
+                >
+                  <img
+                    src={avatar}
+                    alt="Avatar"
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: "150px",
+                    }}
+                  ></img>
+                  <br />
+                  <br />
+                  Loading Meetings Failed!
+                </p>
+              </div>
+            ) : (
+              this.state.meetings.map((meeting, i) => (
+                <div
+                  key={i}
+                  data-target="start-meeting"
+                  className="col s12 m4 l3 cursor-pointer waves-effect modal-trigger"
+                >
+                  <div id="flight-card" className="card">
+                    <div className={`card-header ${this.colors(i)}`}>
+                      <div className="card-title">
+                        <h5 className="flight-card-title">
+                          {meeting.meetingname === null
+                            ? `Meeting ${meeting.meetingId}`
+                            : meeting.meetingname}
+                          <i className="material-icons right">
+                            {meeting.status === "Meeting Started"
+                              ? "videocam"
+                              : "videocam_off"}
                           </i>
+                        </h5>
+                        <p
+                          className="flight-card-date"
+                          style={{ marginTop: 10 }}
+                        >
+                          {moment(new Date(meeting.date)).fromNow()}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="card-content-bg white-text">
+                      <div
+                        className="card-content"
+                        style={{
+                          backgroundImage: `url(${carousel1}) `,
+                        }}
+                      >
+                        <div className="row">
+                          <div className="col s12 center-align">
+                            <i className="material-icons medium">
+                              play_circle_outline
+                            </i>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
           <div className="divider" style={{ marginTop: 30 }}></div>
           <div className="row">
