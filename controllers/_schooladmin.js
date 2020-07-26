@@ -258,10 +258,9 @@ let add_class = (req, res) => {
   let schoolid = req.body.schoolid;
   let createdon = moment().format("YYYY-MM-DD");
   let enrolmentkey;
-
   var query = `insert into [classes] \
-    (teacherid, classname, createdby, createdon, status, grade) \
-    values(${teacherid}, '${classname}', ${createdby}, ${createdon}, '${status}', ${grade}); \
+    (teacherid, classname, createdby, createdon, status, grade, schoolid) \
+    values(${teacherid}, '${classname}', ${createdby}, ${createdon}, '${status}', ${grade}, ${schoolid}); \
     select * from classes where classes.classId = SCOPE_IDENTITY(); `;
 
   let request = new sql.Request();
