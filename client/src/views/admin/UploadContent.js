@@ -53,7 +53,8 @@ class UploadContent extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.fileUpload = event.target.fileUpload.files;
+    this.fileUpload = event.target.fileUpload.files[0];
+    console.log(this.fileUpload);
     var data = {
       teacherid: this.loggedUserId,
       schoolid: this.schoolid,
@@ -71,13 +72,11 @@ class UploadContent extends Component {
         alert(response.err);
       } else if (response.success === true) {
         const uploadData = new FormData();
-        uploadData.append("fileUpload", this.fileUpload);
+        uploadData.append("", this.fileUpload);
         uploadData.append("uploadType", response.uploadType);
         uploadData.append("uploadId", response.uploadId);
 
         UploadService.upload(uploadData).then((resp) => {
-
-          console.log("Inisde the upload file");
 
           if (resp.success === true) {
             alert(resp.message);
@@ -182,12 +181,7 @@ class UploadContent extends Component {
                         />
                       </fieldset>
                     </div>
-
                   </div>
-
-
-
-
                   <fieldset className="form-group">
                     <ReactFormLabel
                       htmlFor="materialname"
@@ -201,15 +195,8 @@ class UploadContent extends Component {
                       required
                     />
                   </fieldset>
-
-
-
-
-
-
-
                   <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="fileUpload" title="Multiple Files:" />
+                    <ReactFormLabel htmlFor="fileUpload" title="File:" />
                     <input
                       className="many-files"
                       id="file"
@@ -219,16 +206,6 @@ class UploadContent extends Component {
                       required
                     />
                   </fieldset>
-
-
-
-
-
-
-
-
-
-
                   <div className="form-group">
                     <input
                       id="formButton2"

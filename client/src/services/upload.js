@@ -31,8 +31,8 @@ async function post_material(data) {
 async function upload(data) {
   try {
     let res = await axios.post(
-      `https://cybers.azurewebsites.net/api/upload/new`,
-      qs.stringify(data),
+      `http://localhost:3001/api/upload/new`,
+     data,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -44,5 +44,6 @@ async function upload(data) {
     return res.data;
   } catch (err) {
     console.error(err);
+    return err;
   }
 }

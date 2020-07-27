@@ -134,7 +134,7 @@ class AdminScreen extends Component {
                             <i className="material-icons background-round mt-5 white-text">
                               book
                             </i>
-                            <p className="white-text">Courses Offered</p>
+                            <p className="white-text">Subjects Offered</p>
                           </div>
                           <div className="col s5 m5 right-align">
                             <h5 className="mb-0 white-text">0</h5>
