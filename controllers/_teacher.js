@@ -61,7 +61,6 @@ let enrolStudent = async (req, res) => {
               ${obj.classid}-${fd.classEnrollmentKey}-${obj.studentid}`;
             //4.enrol student & send email
 
-            
             let q3 = `insert into class_students \
               (classid, studentid) \
               values (${obj.classid}, ${obj.studentid})`;
@@ -191,7 +190,7 @@ let newCourseMaterialv2 = (req, res) => {
     } else {
       let o = JSON.stringify(obj.obj);
       obj.file = `${obj.materialname}`;
-    
+
       q = `insert into materials \
         (classid, teacherid, materialname, [file], obj) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}', '${o}'); \
@@ -243,7 +242,7 @@ let getCourseMaterial = (req, res) => {
     let p = req.params.id;
     let q = `select * \
       from materials \
-      where materials.materialID = ${p}`;
+      where materials.mID = ${p}`;
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
@@ -329,9 +328,8 @@ let newAssignment = (req, res) => {
         (classid, teacherid, assignmentname, obj) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', ${o})`;
     } else {
-      
       obj.file = `${obj.assignmentname}`;
-      
+
       q = `insert into assignments \
         (classid, teacherid, assignmentname, [file]) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', '${obj.file}'); \

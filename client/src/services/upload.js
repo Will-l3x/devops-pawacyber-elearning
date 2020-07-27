@@ -31,7 +31,7 @@ async function post_material(data) {
 async function upload(data) {
   try {
     let res = await axios.post(
-      `http://localhost:3001/api/upload/new`,
+      `https://cybers.azurewebsites.net/api/upload/new`,
      data,
       {
         headers: {
