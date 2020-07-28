@@ -111,7 +111,7 @@ class ClassesScreen extends Component {
               </li>
               <li>
                 <a
-                  href="#!"
+                  href="#del_class"
                   className="btn-floating waves-effect waves-light modal-trigger red accent-2"
                   data-target="areyousure"
                   onClick={this.setState({
@@ -222,9 +222,11 @@ class ClassesScreen extends Component {
       console.log(this.state.selectedOption)
     );
   };
-  handleDelete = () => {
+  handleDelete = (event) => {
+    event.preventDefault();
     SchoolService.delete_course(this.state.courseId)
       .then((response) => {
+        console.log(response);
         if (response.data.message === "An error occured") {
           M.toast({
             html: `An error occured, update failed!`,
@@ -235,7 +237,6 @@ class ClassesScreen extends Component {
             html: `Successfully deleted class`,
             classes: "green accent-3",
           });
-          document.getElementById("sibs").reset();
         }
         this.getDashData();
       })

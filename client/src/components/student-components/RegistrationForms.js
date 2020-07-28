@@ -154,23 +154,29 @@ export default class RegistrationForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    var registerAdmin = {
-      roleid: 3,
-      email: event.target.email.value,
-      password: event.target.password.value,
-      gradeid: this.state.grade,
-      firstname: event.target.firstname.value,
-      lastname: event.target.lastname.value,
-      title: "",
-      vpassword: event.target.vpassword.value,
-      dob: event.target.dob.value,
-      genderid: this.state.gender,
-      schoolid: this.state.onSelectSchool.value,
-    };
+
     if (this.state.selectedSchool === null) {
       alert("Please refresh page and select a school");
       return false;
+    } else if (this.state.selectedSchool === undefined) {
+      alert("Please refresh page and select a school");
+      return false;
+    } else {
+      var registerAdmin = {
+        roleid: 3,
+        email: event.target.email.value,
+        password: event.target.password.value,
+        gradeid: this.state.grade,
+        firstname: event.target.firstname.value,
+        lastname: event.target.lastname.value,
+        title: "",
+        vpassword: event.target.vpassword.value,
+        dob: event.target.dob.value,
+        genderid: this.state.gender,
+        schoolid: this.state.selectedSchool.value,
+      };
     }
+
     localStorage.setItem("registrationData", JSON.stringify(registerAdmin));
     setTimeout(
       function () {
