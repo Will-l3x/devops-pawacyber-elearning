@@ -318,7 +318,7 @@ let del_class = (req, res) => {
 };
 
 let update_class = (req, res) => {
-  let teacherid = req.body.teacherId;
+  let teacherid = req.body.teacherid;
   let classid = req.body.classid;
   let classname = req.body.classname;
   let status = req.body.status;
