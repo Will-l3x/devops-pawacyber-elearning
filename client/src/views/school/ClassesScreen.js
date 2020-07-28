@@ -225,14 +225,14 @@ class ClassesScreen extends Component {
   handleDelete = () => {
     SchoolService.delete_course(this.state.courseId)
       .then((response) => {
-        if (response.message === "An error occured") {
+        if (response.data.message === "An error occured") {
           M.toast({
             html: `An error occured, update failed!`,
             classes: "red accent-2",
           });
         } else {
           M.toast({
-            html: `${response.message}, delete successfull`,
+            html: `Successfully deleted class`,
             classes: "green accent-3",
           });
           document.getElementById("sibs").reset();
