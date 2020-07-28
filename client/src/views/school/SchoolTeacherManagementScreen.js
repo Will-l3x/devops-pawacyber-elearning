@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
+import moment from "moment";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -72,9 +73,11 @@ class SchoolTeacherManagementScreen extends Component {
   }
 
   getDashData() {
+    const teachers = [];
     SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
-      /* for (const teacher of response) {
-        teacher.actions = (
+      for (const teacher of response) {
+        teacher.datejoined = moment(teacher.datejoined).format("DD/MM/YYYY");
+        /*  teacher.actions = (
           <ul className="card-action-buttons2">
             <li>
               <a
@@ -98,9 +101,9 @@ class SchoolTeacherManagementScreen extends Component {
               </a>
             </li>
           </ul>
-        );
+              ); */
         teachers.push(teacher);
-      } */
+      }
       console.log(response);
 
       this.setState({

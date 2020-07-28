@@ -97,7 +97,6 @@ class ClassesScreen extends Component {
       .then((response) => {
         console.log(response);
         for (const course of response) {
-          console.log(course.classId);
           course.createdon = moment(course.createdon).format("DD/MM/YYYY");
           course.actions = (
             <ul className="card-action-buttons2">
@@ -241,8 +240,9 @@ class ClassesScreen extends Component {
         this.getDashData();
       })
       .catch((error) => {
+        console.log(error.message);
         M.toast({
-          html: `${error.message}, delete failed`,
+          html: `An error occured, delete failed`,
           classes: "red accent-2",
         });
         this.getDashData();
@@ -308,6 +308,20 @@ class ClassesScreen extends Component {
                     }}
                   >
                     <i className="material-icons">add_circle_outline</i>
+                  </a>
+                  <a
+                    href="#!"
+                    className={`tooltipped waves-effect right blue-text accent-2`}
+                    data-tooltip="Refresh"
+                    data-position="top"
+                    onClick={() => this.getDashData()}
+                    style={{
+                      marginTop: "1%",
+                      marginRight: "2%",
+                      color: "#626262",
+                    }}
+                  >
+                    <i className="material-icons">refresh</i>
                   </a>
                 </div>
               </nav>
