@@ -671,7 +671,7 @@ let register = (req, res) => {
 
     let query_email = "SELECT * FROM [users] WHERE email = @email";
 
-    var query_teacher = "INSERT INTO [teachers] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, Convert(datetime, @dj ) ),@userid)";
+    var query_teacher = "INSERT INTO [teachers] (firstname,lastname,datejoined,userid,schoolid) VALUES(@firstname,@lastname,Convert(datetime, Convert(datetime, @dj ) ),@userid,@schoolid)";
 
     var query_parent = "INSERT INTO [parents] (firstname,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,@title)";
 
