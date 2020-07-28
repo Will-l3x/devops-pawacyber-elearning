@@ -318,18 +318,19 @@ let del_class = (req, res) => {
 };
 
 let update_class = (req, res) => {
-  // console.log("What is happening here...");
-  let teacherid = req.body.teacherid;
+  let teacherid = req.body.teacherId;
   let classid = req.body.classid;
   let classname = req.body.classname;
   let status = req.body.status;
   let enrolmentkey = req.body.enrolmentkey;
 
   let query = `UPDATE [classes] \
-    SET teacherid=${teacherid}, classname='${classname}', status='${status}', enrolmentkey='${enrolmentkey}' \
+    SET teacherid=${teacherid} \
+    SET classname='${classname}' \
+    SET status='${status}' \
+    SET enrolmentkey='${enrolmentkey}' \
     WHERE classId = ${classid}`;
 
-  // console.log(query);
   var request = new sql.Request();
 
   request.query(query, function (err, recordset) {
