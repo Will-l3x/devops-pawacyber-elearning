@@ -295,8 +295,9 @@ let add_class = (req, res) => {
 
 let del_class = (req, res) => {
   var id = req.params.id;
-  var query = `delete from [classes] where classId= ${id}`;
+  var query = `UPDATE [classes] SET status='deleted' where classId= ${id}`;
 
+  let request = new sql.Request();
   request.query(query, function (err, recordset) {
     if (err) {
       console.log(err);
@@ -308,11 +309,19 @@ let del_class = (req, res) => {
         error: err.message,
       });
     } else {
-      return res.json({
-        status: 200,
-        success: true,
-        message: "Deleted",
-      });
+      if (recordset.rowsAffected[0] > 0) {
+        return res.json({
+          status: 200,
+          success: true,
+          message: "Class deleted",
+        });
+      } else {
+        return res.json({
+          status: 400,
+          success: false,
+          message: "Failed to delete",
+        });
+      }
     }
   });
 };
