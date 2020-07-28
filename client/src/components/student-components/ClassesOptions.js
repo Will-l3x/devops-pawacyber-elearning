@@ -5,14 +5,16 @@ import Select from "react-select";
 import { AdminService } from "../../services/admin";
 
 let options = [];
+let del_options = [];
 
 class ClassOptions extends Component {
   constructor() {
     super();
     this.state = {
       options: [],
+      del_options,
       selectedOption: null,
-      classDescription: null
+      classDescription: null,
     };
     this.handleChange.bind(this);
   }
@@ -21,15 +23,19 @@ class ClassOptions extends Component {
     var gradeStore = JSON.parse(localStorage.getItem("registrationData"));
 
     var data = {
-      grade: gradeStore.gradeid
+      grade: gradeStore.gradeid,
     };
 
     AdminService.get_all_subjects_per_grade(data)
       .then((response) => {
         for (const classOpt of response) {
-          classOpt.value = classOpt.classId;
-          classOpt.label = classOpt.classname;
-          options.push(classOpt);
+          if (classOpt.status === "deleted") {
+            del_options.push(classOpt);
+          } else {
+            classOpt.value = classOpt.classId;
+            classOpt.label = classOpt.classname;
+            options.push(classOpt);
+          }
         }
       })
       .catch((error) => {

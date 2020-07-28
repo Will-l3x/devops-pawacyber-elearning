@@ -93,40 +93,47 @@ class ClassesScreen extends Component {
 
   getDashData() {
     const courses = [];
+    const del_courses = [];
     SchoolService.get_courses(this.state.user.schoolid)
       .then((response) => {
-        console.log(response);
         for (const course of response) {
-          course.createdon = moment(course.createdon).format("DD/MM/YYYY");
-          course.actions = (
-            <ul className="card-action-buttons2">
-              <li>
-                <a
-                  href="#!"
-                  className="btn-floating waves-effect waves-light light-blue"
-                  onClick={() => this.handleEdit(course)}
-                >
-                  <i className="material-icons">create</i>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#del_class"
-                  className="btn-floating waves-effect waves-light modal-trigger red accent-2"
-                  data-target="areyousure"
-                  onClick={this.setState({
-                    courseId: course.classId,
-                  })}
-                >
-                  <i className="material-icons">delete</i>
-                </a>
-              </li>
-            </ul>
-          );
-          courses.push(course);
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            course.createdon = moment(course.createdon).format("DD/MM/YYYY");
+            course.actions = (
+              <ul className="card-action-buttons2">
+                <li>
+                  <a
+                    href="#!"
+                    className="btn-floating waves-effect waves-light light-blue"
+                    onClick={() => this.handleEdit(course)}
+                  >
+                    <i className="material-icons">create</i>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#del_class"
+                    className="btn-floating waves-effect waves-light modal-trigger red accent-2"
+                    data-target="areyousure"
+                    onClick={this.setState({
+                      courseId: course.classId,
+                    })}
+                  >
+                    <i className="material-icons">delete</i>
+                  </a>
+                </li>
+              </ul>
+            );
+            courses.push(course);
+          }
         }
         this.setState({
           rows: courses,
+        });
+        this.setState({
+          del_courses,
         });
       })
       .catch((error) => {
