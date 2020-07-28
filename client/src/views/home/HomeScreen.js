@@ -306,7 +306,7 @@ class HomeScreen extends Component {
                             className="btn transparent waves-effect waves-light btn-outline-white white-text"
                             href="#!"
                           >
-                            Watch Demo
+                            
                           </a>
                         </div>
                       </div>
