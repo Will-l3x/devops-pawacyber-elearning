@@ -49,9 +49,9 @@ async function update_course(data) {
 async function delete_course(id) {
   try {
     let res = await axios.delete(`/del_class/${id}`, config);
-    return res.data;
+    return res;
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 }
 
@@ -102,6 +102,7 @@ async function delete_teacher(id) {
     return res.data;
   } catch (err) {
     console.log(err);
+    return err;
   }
 }
 
