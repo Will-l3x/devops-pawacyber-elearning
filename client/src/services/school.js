@@ -17,6 +17,7 @@ export const SchoolService = {
   post_new_teachers,
   update_teacher,
   delete_teacher,
+  get_teacher,
   get_all_teachers,
   get_all_students,
   update_student,
@@ -71,6 +72,16 @@ async function get_all_teachers(id) {
   try {
     let res = await axios.get(`/teachers/${id}`, config);
     return res.data.data.teachers;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
+async function get_teacher(id) {
+  try {
+    let res = await axios.get(`/teacher/${id}`, config);
+    return res.data.data;
   } catch (err) {
     console.log(err);
     return [];

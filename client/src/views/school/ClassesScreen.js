@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import M from "materialize-css";
 
+import moment from "moment";
 import { SchoolService } from "../../services/school";
-import avatar from "../../assets/images/gallary/not_found.gif";
 import TeacherOptions from "./TeacherOptions";
+import DatatablePage from "../../components/DatatablePage";
 
 class ClassesScreen extends Component {
   constructor(props) {
@@ -22,10 +22,63 @@ class ClassesScreen extends Component {
       selectedOption: null,
       classId: "",
       courses: [],
-      teachers: [],
+      columns: [
+        {
+          label: "ID",
+          field: "classId",
+          sort: "asc",
+          width: "10%",
+        },
+        {
+          label: "Course Name",
+          field: "classname",
+          sort: "asc",
+          width: "30%",
+        },
+        {
+          label: "Grade",
+          field: "grade",
+          sort: "asc",
+          width: "10%",
+        },
+        {
+          label: "Status",
+          field: "status",
+          sort: "asc",
+          width: "15%",
+        },
+        {
+          label: "Created On",
+          field: "createdon",
+          sort: "asc",
+          width: "15%",
+        },
+        {
+          label: "Actions",
+          field: "actions",
+          sort: "asc",
+          width: "20%",
+        },
+      ],
+      rows: [],
       enrolmentkey: "",
+      selectedCourse: {
+        classId: "",
+        classname: "",
+        createdon: "",
+        enrolmentkey: "",
+        grade: "",
+        sharedclassid: "",
+        status: "",
+        syllabusid: "",
+      },
+      courseId: "",
     };
     this.handleUnsubscribe.bind(this);
+
+    this.handleDelete = this.handleDelete.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
   handleUnsubscribe = () => {
     this.setState({ unsubscribe: true });
@@ -39,18 +92,52 @@ class ClassesScreen extends Component {
   }
 
   getDashData() {
+    const courses = [];
     SchoolService.get_courses(this.state.user.schoolid)
       .then((response) => {
-        if (response === undefined) {
-        } else {
-          this.setState({ courses: response });
+        console.log(response);
+        for (const course of response) {
+          console.log(course.classId);
+          course.createdon = moment(course.createdon).format("DD/MM/YYYY");
+          course.actions = (
+            <ul className="card-action-buttons2">
+              <li>
+                <a
+                  href="#!"
+                  className="btn-floating waves-effect waves-light light-blue"
+                  onClick={() => this.handleEdit(course)}
+                >
+                  <i className="material-icons">create</i>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#!"
+                  className="btn-floating waves-effect waves-light modal-trigger red accent-2"
+                  data-target="areyousure"
+                  onClick={this.setState({
+                    courseId: course.classId,
+                  })}
+                >
+                  <i className="material-icons">delete</i>
+                </a>
+              </li>
+            </ul>
+          );
+          courses.push(course);
         }
+        this.setState({
+          rows: courses,
+        });
       })
       .catch((error) => {
         console.log(error);
         this.setState({ courses: [] });
       });
   }
+  // getTeacher(id){
+  //   SchoolService.get_teacher(id)
+  // }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -58,7 +145,7 @@ class ClassesScreen extends Component {
     const modal = new M.Modal(elem);
     modal.close();
     var data = {
-      teacherid: 14,
+      teacherid: this.state.selectedOption.value,
       schoolid: this.user.schoolid,
       classname: event.target.classname.value,
       grade: event.target.grade.value,
@@ -79,26 +166,47 @@ class ClassesScreen extends Component {
       }
     });
   };
-
+  handleEdit = (course) => {
+    this.setState(
+      {
+        selectedCourse: {
+          classId: course.classId,
+          classname: course.classname,
+          createdon: course.createdon,
+          enrolmentkey: course.enrolmentkey,
+          grade: course.grade,
+          sharedclassid: course.sharedclassid,
+          status: course.status,
+          syllabusid: course.syllabusid,
+        },
+      },
+      () => {
+        const elem = document.getElementById("modaledit");
+        const modal = M.Modal.init(elem);
+        this.modal = modal;
+        console.log(this.state.selectedCourse);
+        modal.open();
+      }
+    );
+  };
   handleSave = (event) => {
     event.preventDefault();
-    const elem = document.getElementById("modal2");
+    const elem = document.getElementById("modaledit");
     const modal = new M.Modal(elem);
     modal.close();
     var data = {
-      teacherid:
+      classid: this.state.selectedCourse.classId,
+      teacherId:
         this.state.selectedOption === null
           ? ""
           : this.state.selectedOption.value,
       classname: event.target.classname.value,
       enrolmentkey: Math.random().toString(36).substring(7),
       status: "active",
-      createdby: this.user.userid,
     };
-
-    this.setState({ enrolmentkey: data.enrolmentkey });
-
+    console.log(data);
     SchoolService.update_course(data).then((response) => {
+      console.log(response);
       if (response === undefined) {
         alert("Apologies. Update. Please contact admin");
       } else if (response.success === false) {
@@ -116,9 +224,8 @@ class ClassesScreen extends Component {
     );
   };
   handleDelete = () => {
-    SchoolService.delete_course(this.state.classId)
+    SchoolService.delete_course(this.state.courseId)
       .then((response) => {
-        console.log(response);
         if (response.message === "An error occured") {
           M.toast({
             html: `An error occured, update failed!`,
@@ -140,6 +247,29 @@ class ClassesScreen extends Component {
         });
         this.getDashData();
       });
+  };
+  colors = (i) => {
+    var colors = [
+      "gradient-45deg-light-blue-cyan",
+      "gradient-45deg-red-pink",
+      "gradient-45deg-green-teal",
+      "gradient-45deg-amber-amber",
+      "teal accent-4",
+    ];
+    /* shuffle array
+    colors.sort(function(){
+      return .5 -Math.random();
+    });
+    */
+    return colors[i % 5];
+  };
+  onChange = (e) => {
+    e.preventDefault();
+    const selectedCourse = this.state.selectedCourse;
+    selectedCourse[e.target.name] = e.target.value;
+    this.setState({
+      selectedCourse,
+    });
   };
   render() {
     return (
@@ -165,8 +295,8 @@ class ClassesScreen extends Component {
                       Class Management
                     </p>
                   </div>
-                  <Link
-                    to="#!"
+                  <a
+                    href="#!"
                     data-target="modal1"
                     className="modal-trigger tooltipped waves-effect right"
                     data-tooltip="Add Class"
@@ -178,219 +308,145 @@ class ClassesScreen extends Component {
                     }}
                   >
                     <i className="material-icons">add_circle_outline</i>
-                  </Link>
+                  </a>
                 </div>
               </nav>
             </div>
-
-            <section id="content">
-              <div id="overviews" style={{ paddingTop: "70px" }}>
-                <div className="row">
-                  {this.state.courses.length === 0 ? (
-                    <div className="row">
-                      <p
-                        style={{
-                          textAlign: "center",
-                          fontSize: "20px",
-                          transform: "translateY(100%)",
-                        }}
-                      >
-                        No Courses Found
-                        <br />{" "}
-                        <img
-                          src={avatar}
-                          alt="Avatar"
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: "150px",
-                          }}
-                        ></img>
-                      </p>
-                    </div>
-                  ) : (
-                    this.state.courses.map((course, i) => (
-                      <div key={i} className="col s3">
-                        <div className="card" style={{ borderRadius: 20 }}>
-                          <div className="card-image waves-effect waves-block waves-light">
-                            <img
-                              src={this.state.bgimage[course.bgimage]}
-                              alt="user bg"
-                            />
-                          </div>
-                          <ul className="card-action-buttons">
-                            {/**
-                             * <li>
-                              <a
-                                className="btn-floating waves-effect waves-light green accent-4 tooltipped"
-                                data-tooltip="Generate new enrolment key"
-                                data-position="top"
-                              >
-                                <i className="material-icons">repeat</i>
-                              </a>
-                            </li>
-                             */}
-                            <li>
-                              <a
-                                href="#!"
-                                className="btn-floating waves-effect waves-light modal-trigger light-blue"
-                                data-target="modal2"
-                                onClick={() => {
-                                  this.setState({ classId: course.id });
-                                }}
-                              >
-                                <i className="material-icons">create</i>
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="#!"
-                                className="btn-floating waves-effect waves-light modal-trigger red accent-2"
-                                data-target="areyousure"
-                                onClick={() => {
-                                  this.setState({ classId: course.id });
-                                }}
-                              >
-                                <i className="material-icons">delete</i>
-                              </a>
-                            </li>
-                          </ul>
-                          <div className="card-content">
-                            <div className="card-title">{course.classname}</div>
-                            <hr className="hr5" />
-                            <span style={{ fontSize: 16 }}>
-                              Teacher: {course.teacherid}
-                            </span>
-                            <hr className="hr5" />
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-              <div id="modal1" className="modal modal-meeting border-radius-10">
-                <form
-                  className="react-form form-meeting"
-                  onSubmit={this.handleSubmit}
-                  id="sibs"
-                >
-                  <h1 className="h1-meeting">
-                    <i
-                      className="material-icons"
-                      style={{ transform: "translate(-3px, 4px)" }}
-                    >
-                      class
-                    </i>
-                    Add Class!
-                  </h1>
-                  <hr className="hr5" style={{ marginBottom: 30 }} />
-                  <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="classname" title="Class Name:" />
-
-                    <input
-                      id="classname"
-                      className="form-input input-meeting"
-                      name="classname"
-                      type="text"
-                      required
-                    />
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="teacher" title="Teacher:" />
-                    <TeacherOptions onSelectOption={this.onSelectOption} />
-                    <div className="my-divider"></div>
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="grade" title="Grade:" />
-                    <input
-                      id="grade"
-                      className="form-input input-meeting"
-                      name="grade"
-                      type="number"
-                      min="0"
-                      max="12"
-                      required
-                    />
-                  </fieldset>
-
-                  <div className="form-group" style={{ marginTop: 50 }}>
-                    <input
-                      id="submit"
-                      className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
-                      type="submit"
-                      value="Submit"
-                    />
-                  </div>
-                </form>
-              </div>
-              <div id="modal2" className="modal modal-meeting">
-                <form
-                  className="react-form form-meeting"
-                  onSubmit={this.handleSave}
-                  id="sibs2"
-                >
-                  <h1 className="h1-meeting">
-                    <i
-                      className="material-icons"
-                      style={{ transform: "translate(-3px, 4px)" }}
-                    >
-                      class
-                    </i>
-                    Edit Class!
-                  </h1>
-                  <fieldset className="form-group">
-                    <ReactFormLabel
-                      htmlFor="edit-classname"
-                      title="Class Name:"
-                    />
-
-                    <input
-                      id="edit-classname"
-                      className="form-input input-meeting"
-                      name="classname"
-                      type="text"
-                      required
-                    />
-                  </fieldset>
-
-                  <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="teacher" title="Teacher:" />
-                    <TeacherOptions onSelectOption={this.onSelectOption} />
-                    <div className="my-divider"></div>
-                  </fieldset>
-                  <div className="form-group">
-                    <input
-                      id="save"
-                      className="btn modal-close gradient-45deg-light-blue-cyan"
-                      type="submit"
-                      value="Save"
-                    />
-                  </div>
-                </form>
-              </div>
-
-              <div id="areyousure" className="modal width-250">
-                <div className="modal-content">
-                  <h4 className="header2">Are you sure?</h4>
-                </div>
-                <div className="modal-footer">
-                  <a
-                    href="#!"
-                    style={{ marginRight: 10 }}
-                    onClick={this.handleDelete}
-                    className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                  >
-                    Yes
-                  </a>
-                  <a
-                    href="#!"
-                    className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
-                  >
-                    No
-                  </a>
+            <section className="row" id="content" style={{ paddingTop: 85 }}>
+              <div className="container  col s12">
+                <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                  <DatatablePage data={this.state} />
                 </div>
               </div>
             </section>
+            <div id="modal1" className="modal modal-meeting border-radius-10">
+              <form
+                className="react-form form-meeting"
+                onSubmit={this.handleSubmit}
+                id="sibs"
+              >
+                <h1 className="h1-meeting">
+                  <i
+                    className="material-icons"
+                    style={{ transform: "translate(-3px, 4px)" }}
+                  >
+                    class
+                  </i>
+                  Add Class!
+                </h1>
+                <hr className="hr5" style={{ marginBottom: 30 }} />
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="classname" title="Class Name:" />
+
+                  <input
+                    id="classname"
+                    className="form-input input-meeting"
+                    name="classname"
+                    type="text"
+                    required
+                  />
+                </fieldset>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="teacher" title="Teacher:" />
+                  <TeacherOptions onSelectOption={this.onSelectOption} />
+                  <div className="my-divider"></div>
+                </fieldset>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="grade" title="Grade:" />
+                  <input
+                    id="grade"
+                    className="form-input input-meeting"
+                    name="grade"
+                    type="number"
+                    min="0"
+                    max="12"
+                    required
+                  />
+                </fieldset>
+
+                <div className="form-group" style={{ marginTop: 50 }}>
+                  <input
+                    id="submit"
+                    className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
+                    type="submit"
+                    value="Submit"
+                  />
+                </div>
+              </form>
+            </div>
+            <div
+              id="modaledit"
+              className="modal modal-meeting border-radius-10"
+            >
+              <form
+                className="react-form form-meeting"
+                onSubmit={this.handleSave}
+                id="sibs2"
+              >
+                <h1 className="h1-meeting">
+                  <i
+                    className="material-icons"
+                    style={{ transform: "translate(-3px, 4px)" }}
+                  >
+                    class
+                  </i>
+                  Edit Class!
+                </h1>
+                <fieldset className="form-group">
+                  <ReactFormLabel
+                    htmlFor="edit-classname"
+                    title="Class Name:"
+                  />
+
+                  <input
+                    id="edit-classname"
+                    className="form-input input-meeting"
+                    name="classname"
+                    onChange={this.onChange}
+                    value={this.state.selectedCourse.classname}
+                    type="text"
+                    required
+                  />
+                </fieldset>
+
+                <fieldset className="form-group" style={{ marginBottom: 40 }}>
+                  <ReactFormLabel htmlFor="teacher" title="Teacher:" />
+                  <TeacherOptions onSelectOption={this.onSelectOption} />
+                  <div className="my-divider"></div>
+                </fieldset>
+
+                <div className="form-group">
+                  <input
+                    id="save"
+                    className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
+                    type="submit"
+                    value="Save"
+                  />
+                </div>
+              </form>
+            </div>
+
+            <div id="areyousure" className="modal width-250">
+              <div className="modal-content">
+                <h4 className="header2">Are you sure?</h4>
+              </div>
+              <div className="modal-footer">
+                <a
+                  href="#!"
+                  style={{ marginRight: 10 }}
+                  onClick={this.handleDelete}
+                  className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
+                >
+                  Yes
+                </a>
+                <a
+                  href="#!"
+                  className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
+                >
+                  No
+                </a>
+              </div>
+            </div>
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

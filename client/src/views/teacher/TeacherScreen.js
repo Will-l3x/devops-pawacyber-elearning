@@ -30,12 +30,14 @@ class TeacherScreen extends Component {
 
   getDashData() {
     TeacherService.get_all_courses(this.state.user.userid).then((response) => {
-      this.setState({ courses: response });
-      if (response.length > 0) {
-        this.courseId = response[0].classId;
+      const data = response === undefined ? [] : response;
+      console.log(this.state.user);
+      this.setState({ courses: data });
+      if (data.length > 0) {
+        this.courseId = data[0].classId;
         TeacherService.get_assignments(this.courseId) //get by course id
-          .then((response) => {
-            this.setState({ assignments: response });
+          .then((data) => {
+            this.setState({ assignments: data });
           });
       }
     });
@@ -44,9 +46,11 @@ class TeacherScreen extends Component {
   colors = (i) => {
     var colors = [
       "gradient-45deg-light-blue-cyan",
+      "gradient-45deg-red-pink",
       "gradient-45deg-green-teal",
-      "gradient-45deg-indigo-purple",
-      "gradient-45deg-purple-amber",
+      "gradient-45deg-amber-amber",
+      "red",
+      "teal accent-4",
     ];
     /* shuffle array
     colors.sort(function(){

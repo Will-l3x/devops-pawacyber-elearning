@@ -286,6 +286,20 @@ class SchoolTeacherManagementScreen extends Component {
                     >
                       <i className="material-icons">add_circle_outline</i>
                     </a>
+                    <a
+                      href="#!"
+                      className={`tooltipped waves-effect right blue-text accent-2`}
+                      data-tooltip="Refresh"
+                      data-position="top"
+                      onClick={() => this.getDashData()}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">refresh</i>
+                    </a>
                   </div>
                 </nav>
               </div>

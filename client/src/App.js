@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-// import { Router, Route, Switch } from "react-router";
-import { HashRouter, Route } from "react-router-dom";
+import { Router, Route, Switch } from "react-router";
+//import { HashRouter, Route } from "react-router-dom";
 /** Screens */
 import HomeScreen from "./views/home/HomeScreen";
 import AboutScreen from "./views/about/AboutScreen";
@@ -129,105 +129,115 @@ class App extends Component {
           <div className="loader-section section-left"></div>
           <div className="loader-section section-right"></div>
         </div>
-        <HashRouter history={history}>
-          <Route exact path="/" component={HomeScreen} />
-          <Route
-            exact
-            path="/payment-confirmed"
-            component={RegisterSuccessScreen}
-          />
-          <Route exact path="/canceled" component={RegistrationCanceled} />
-          <Route
-            exact
-            path="/payment-upgrade"
-            component={SuccessStudentUpgrade}
-          />
+        <Router history={history}>
+          <Switch>
+            <Route exact path="/" component={HomeScreen} />
+            <Route
+              exact
+              path="/payment-confirmed"
+              component={RegisterSuccessScreen}
+            />
+            <Route exact path="/canceled" component={RegistrationCanceled} />
+            <Route
+              exact
+              path="/payment-upgrade"
+              component={SuccessStudentUpgrade}
+            />
 
-          <Route exact path="/login" component={LoginScreen} />
-          <Route exact path="/register" component={RegisterScreen} />
-          <Route exact path="/about" component={AboutScreen} />
+            <Route exact path="/login" component={LoginScreen} />
+            <Route exact path="/register" component={RegisterScreen} />
+            <Route exact path="/about" component={AboutScreen} />
 
-          <Route exact path="/admin" component={AdminScreen} />
-          <Route exact path="/subadmins" component={SubadminScreen} />
-          <Route exact path="/roles" component={RolesScreen} />
-          <Route exact path="/package-selection" component={PackagePayment} />
-          <Route exact path="/upload" component={UploadMaterial} />
-          <Route exact path="/assignments" component={UploadNewAssignment} />
-          <Route exact path="/courses" component={CourseListScreen} />
-          <Route exact path="/content-upload" component={UploadContent} />
-          <Route exact path="/course-outline" component={CourseOutlineScreen} />
+            <Route exact path="/admin" component={AdminScreen} />
+            <Route exact path="/subadmins" component={SubadminScreen} />
+            <Route exact path="/roles" component={RolesScreen} />
+            <Route exact path="/package-selection" component={PackagePayment} />
+            <Route exact path="/upload" component={UploadMaterial} />
+            <Route exact path="/assignments" component={UploadNewAssignment} />
+            <Route exact path="/courses" component={CourseListScreen} />
+            <Route exact path="/content-upload" component={UploadContent} />
+            <Route
+              exact
+              path="/course-outline"
+              component={CourseOutlineScreen}
+            />
 
-          <Route exact path="/school-management" component={SchoolManagement} />
+            <Route
+              exact
+              path="/school-management"
+              component={SchoolManagement}
+            />
 
-          <Route exact path="/subscriptions" component={SubscriptionScreen} />
-          <Route exact path="/enrol-student" component={EnrolStudent} />
+            <Route exact path="/subscriptions" component={SubscriptionScreen} />
+            <Route exact path="/enrol-student" component={EnrolStudent} />
 
-          <Route exact path="/teacher" component={TeacherScreen} />
-          <Route
-            exact
-            path="/teacher-mark"
-            component={TeacherMarkGradeScreen}
-          />
-          <Route
-            exact
-            path="/teacher-calendar"
-            component={TeacherCalendarScreen}
-          />
-          <Route exact path="/classroom" component={ClassroomScreen} />
-          <Route
-            exact
-            path="/classroom-mark"
-            component={TeacherMarkClassroomScreen}
-          />
-          <Route
-            exact
-            path="/classroom-mark-test"
-            component={StudentTestScreen}
-          />
-          <Route
-            exact
-            path="/classroom-mark-assignment"
-            component={StudentAssignmentScreen}
-          />
+            <Route exact path="/teacher" component={TeacherScreen} />
+            <Route
+              exact
+              path="/teacher-mark"
+              component={TeacherMarkGradeScreen}
+            />
+            <Route
+              exact
+              path="/teacher-calendar"
+              component={TeacherCalendarScreen}
+            />
+            <Route exact path="/classroom" component={ClassroomScreen} />
+            <Route
+              exact
+              path="/classroom-mark"
+              component={TeacherMarkClassroomScreen}
+            />
+            <Route
+              exact
+              path="/classroom-mark-test"
+              component={StudentTestScreen}
+            />
+            <Route
+              exact
+              path="/classroom-mark-assignment"
+              component={StudentAssignmentScreen}
+            />
 
-          <Route exact path="/student" component={StudentScreen} />
+            <Route exact path="/student" component={StudentScreen} />
 
-          <Route exact path="/video-player" component={LivePlayer} />
+            <Route exact path="/video-player" component={LivePlayer} />
 
-          <Route exact path="/subject-content" component={SubjectContent} />
-          <Route
-            exact
-            path="/student-assignments"
-            component={StudentAssignments}
-          />
-          <Route exact path="/school" component={SchoolScreen} />
-          <Route
-            exact
-            path="/school-teacher-management"
-            component={SchoolTeacherManagementScreen}
-          />
-          <Route
-            exact
-            path="/school-student-management"
-            component={SchoolStudentManagementScreen}
-          />
-          <Route exact path="/school-classes" component={ClassesScreen} />
-          <Route
-            exact
-            path="/school-subscribe"
-            component={SchoolSubscribeScreen}
-          />
-          <Route
-            exact
-            path="/school-add-course"
-            component={SchoolAddCourseScreen}
-          />
-          <Route
-            exact
-            path="/school-calendar"
-            component={SchoolCalendarScreen}
-          />
-        </HashRouter>
+            <Route exact path="/subject-content" component={SubjectContent} />
+            <Route
+              exact
+              path="/student-assignments"
+              component={StudentAssignments}
+            />
+            <Route exact path="/school" component={SchoolScreen} />
+            <Route
+              exact
+              path="/school-teacher-management"
+              component={SchoolTeacherManagementScreen}
+            />
+            <Route
+              exact
+              path="/school-student-management"
+              component={SchoolStudentManagementScreen}
+            />
+            <Route exact path="/school-classes" component={ClassesScreen} />
+            <Route
+              exact
+              path="/school-subscribe"
+              component={SchoolSubscribeScreen}
+            />
+            <Route
+              exact
+              path="/school-add-course"
+              component={SchoolAddCourseScreen}
+            />
+            <Route
+              exact
+              path="/school-calendar"
+              component={SchoolCalendarScreen}
+            />
+          </Switch>
+        </Router>
       </Provider>
     );
   }
