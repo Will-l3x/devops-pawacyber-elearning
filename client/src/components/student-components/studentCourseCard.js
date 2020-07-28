@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { course_data } from "../../actions/student";
 
-export class StudentCourseCard extends Component {
+class StudentCourseCard extends Component {
   constructor() {
     super();
     this.colors.bind(this);
@@ -71,7 +71,6 @@ export class StudentCourseCard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
   course: state.student,
 });
 

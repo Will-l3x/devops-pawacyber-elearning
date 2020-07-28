@@ -2,38 +2,34 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import M from "materialize-css";
 import Select from "react-select";
-import { SchoolService } from "../../services/school";
+import { AdminService } from "../../services/admin";
 
 let options = [];
 
-const user = JSON.parse(localStorage.getItem("user"));
-if (user === null) {
-  options = [];
-} else {
-  SchoolService.get_all_teachers(user.schoolid)
-    .then((response) => {
-      const data = response === undefined ? [] : response;
-      for (const teacher of data) {
-        teacher.value = teacher.teacherId;
-        teacher.label = teacher.lastname + " " + teacher.firstname;
-        options.push(teacher);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      options = [];
-    });
-}
+ AdminService.get_subs_plans()
+  .then((response) => {
+    for (const subplan of response) {
+      subplan.value = subplan.price;
+      subplan.label = subplan.subscriptionname + ' - N$ '+subplan.price;
+      options.push(subplan);
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+    options = [];
+  });
 
-class TeacherOptions extends Component {
+class subplanOptions extends Component {
   constructor() {
     super();
     this.state = {
       options: [],
       selectedOption: null,
+      packageDescription:null
     };
     this.handleChange.bind(this);
   }
+  
   componentDidMount() {
     M.AutoInit();
   }
@@ -56,4 +52,4 @@ class TeacherOptions extends Component {
   }
 }
 
-export default connect(null, null)(TeacherOptions);
+export default connect(null, null)(subplanOptions);

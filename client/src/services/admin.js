@@ -4,6 +4,7 @@ const qs = require("qs");
 const token = JSON.parse(localStorage.getItem("token"));
 var config = {
   baseURL: "https://cybers.azurewebsites.net/api",
+
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
@@ -13,6 +14,11 @@ var config = {
 };
 
 export const AdminService = {
+  get_all_classes,
+  get_all_subjects_per_grade,
+  subcribe_student,
+  self_enrolment,
+
   post_new_school,
   get_all_schools,
   post_new_plan,
@@ -33,7 +39,68 @@ export const AdminService = {
   delete_plan,
   get_subadmin,
   get_subadmins,
+
 };
+
+async function get_all_classes() {
+  try {
+    let res = await axios.get(`/classes/all`, config);
+    if (res.data.success) {
+      return res.data.data.classes;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+async function get_all_subjects_per_grade(data) {
+  try {
+    let res = await axios.post(`/classes/grade`,qs.stringify(data), config);
+    console.log(res);
+    if (res.data.success) {
+      return res.data.data.classes;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+async function subcribe_student(data) {
+  try {
+    let res = await axios.put(`/subscribestudent`,qs.stringify(data), config);
+    console.log(res);
+
+    if (res.data.success) {
+      return res.data;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+async function self_enrolment(data) {
+  try {
+    let res = await axios.post(`/post_payment_enrol`,qs.stringify(data), config);
+    console.log(res);
+    if (res.data.success) {
+      return res.data;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
 
 //POST new School
 async function post_new_school(data) {
@@ -63,17 +130,11 @@ async function update_school(id, data) {
 async function get_all_schools() {
   try {
     let res = await axios.get(`/schools`, config);
-    console.log(res);
     return res.data.data.schools;
   } catch (err) {
     console.error(err);
     return [
-      {
-        schoolname: "Error Connecting",
-        address: "null",
-        contacts: "null",
-        enrolmentkey: "null",
-      },
+
     ];
   }
 }
@@ -81,8 +142,8 @@ async function get_all_schools() {
 // DELETE A SCHOOL
 async function delete_school(id) {
   try {
-    let res = await axios.delete(`del_school/${id}`, config);
-    return res.data;
+    let res = await axios.delete(`/del_school/${id}`, config);
+    return res;
   } catch (err) {
     console.error(err);
   }
@@ -91,7 +152,7 @@ async function delete_school(id) {
 // Subscription Plans
 async function post_new_plan(data) {
   try {
-    let res = await axios.post(`add_subscription`, qs.stringify(data), config);
+    let res = await axios.post(`/add_subscription`, qs.stringify(data), config);
     console.log(res.data);
     return res.data;
   } catch (err) {
@@ -102,7 +163,7 @@ async function post_new_plan(data) {
 async function update_plan(id, data) {
   try {
     let res = await axios.put(
-      `update_subscription/${id}`,
+      `/update_subscription/${id}`,
       qs.stringify(data),
       config
     );
@@ -114,7 +175,7 @@ async function update_plan(id, data) {
 
 async function get_subs_plans() {
   try {
-    let res = await axios.get(`subscriptions`, config);
+    let res = await axios.get(`/subscriptions`, config);
     if (res.data.success) {
       return res.data.data.subscriptions;
     } else {
@@ -129,7 +190,7 @@ async function get_subs_plans() {
 async function delete_plan(id) {
   try {
     console.log(id);
-    let res = await axios.delete(`del_subscription/${id}`, config);
+    let res = await axios.delete(`/del_subscription/${id}`, config);
     if (res.data.success) {
       return res.data;
     } else {
@@ -144,7 +205,7 @@ async function delete_plan(id) {
 //Subscribe School
 async function subscribe_school(data) {
   try {
-    let res = await axios.post(`subscribe`, qs.stringify(data), config);
+    let res = await axios.post(`/subscribe`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -154,7 +215,7 @@ async function subscribe_school(data) {
 //SUBADMINS
 async function get_subadmins() {
   try {
-    let res = await axios.get(`subadmins`, config);
+    let res = await axios.get(`/subadmins`, config);
     return res.data.data.subadmins;
   } catch (err) {
     console.error(err);
@@ -162,7 +223,7 @@ async function get_subadmins() {
 }
 async function get_subadmin(id) {
   try {
-    let res = await axios.get(`subadmin/${id}`, config);
+    let res = await axios.get(`/subadmin/${id}`, config);
     return res.data.data;
   } catch (err) {
     console.error(err);
@@ -172,7 +233,7 @@ async function get_subadmin(id) {
 //ROLES
 async function post_new_role(data) {
   try {
-    let res = await axios(`add_role`, qs.stringify(data), config);
+    let res = await axios(`/add_role`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -181,7 +242,7 @@ async function post_new_role(data) {
 
 async function update_roles(id, data) {
   try {
-    let res = await axios.put(`update_role/${id}`, qs.stringify(data), config);
+    let res = await axios.put(`/update_role/${id}`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
     console.error(err);
@@ -190,7 +251,7 @@ async function update_roles(id, data) {
 
 async function get_roles() {
   try {
-    let res = await axios.get(`roles`, config);
+    let res = await axios.get(`/roles`, config);
     return res.data.data.roles;
   } catch (err) {
     console.error(err);
@@ -199,7 +260,7 @@ async function get_roles() {
 
 async function delete_roles(id) {
   try {
-    let res = await axios.delete(`del_role/${id}`, config);
+    let res = await axios.delete(`/del_role/${id}`, config);
     return res.data.data.roles;
   } catch (err) {
     console.error(err);
@@ -210,7 +271,7 @@ async function delete_roles(id) {
 async function post_new_course(data) {
   try {
     let res = await axios(
-      `schooladmin/add_shared_class`,
+      `/schooladmin/add_shared_class`,
       qs.stringify(data),
       config
     );
@@ -256,7 +317,7 @@ async function post_file(data) {
 async function post_new_topic(data) {
   try {
     let res = await axios.post(
-      `schooladmin/add_shared_topic`,
+      `/schooladmin/add_shared_topic`,
       qs.stringify(data),
       config
     );

@@ -62,7 +62,12 @@ let teachers = (req, res) => {
   let request = new sql.Request();
 
   request.query(query, function (err, recordset) {
-    let teachers = recordset.recordset;
+    let teachers;
+    if (recordset.recordset) {
+      teachers = recordset.recordset;
+    } else {
+      teachers = [];
+    }
     if (err) {
       console.log(err);
       console.log(err.stack);
@@ -253,10 +258,9 @@ let add_class = (req, res) => {
   let schoolid = req.body.schoolid;
   let createdon = moment().format("YYYY-MM-DD");
   let enrolmentkey;
-
   var query = `insert into [classes] \
-    (teacherid, classname, createdby, createdon, status, grade) \
-    values(${teacherid}, '${classname}', ${createdby}, ${createdon}, '${status}', ${grade}); \
+    (teacherid, classname, createdby, createdon, status, grade, schoolid) \
+    values(${teacherid}, '${classname}', ${createdby}, ${createdon}, '${status}', ${grade}, ${schoolid}); \
     select * from classes where classes.classId = SCOPE_IDENTITY(); `;
 
   let request = new sql.Request();

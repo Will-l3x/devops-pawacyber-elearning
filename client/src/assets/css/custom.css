@@ -485,8 +485,7 @@ a {
     display: block !important;
 }
 
-.display-none,
-.bs-select select {
+.display-none {
     display: none !important;
 }
 
@@ -977,11 +976,11 @@ ul.card-action-buttons2 li {
 
 .custom-options__single-value {
     top: 60% !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
 }
 
 .custom-options__placeholder {
-    top: 65% !important;
+    top: 60% !important;
 }
 
 .custom-options__indicator-separator {
@@ -1039,15 +1038,15 @@ ul.card-action-buttons2 li {
 
 }
 
-.bs-select select {
-    display: none !important;
-}
-
 .form-meeting {
     padding: 2rem;
     background-color: #fff;
     border-radius: 3px;
     box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+}
+
+.bs-select {
+    transform: translateY(30px) !important;
 }
 
 .h1-meeting {
@@ -1144,4 +1143,47 @@ ul.card-action-buttons2 li {
 
 .carsel {
     width: 250px !important;
+}
+
+.icon-pulse {
+    color: red;
+    font-size: 50px;
+    animation: pulse-effect 0.9s infinite ease-out;
+}
+
+@keyframes pulse-effect {
+    0% {
+        transform: scale(0);
+        /* scaling to 0 */
+    }
+
+    50% {
+        transform: scale(1.2);
+        /* increasing the size */
+    }
+
+    70% {
+        transform: scale(0.65);
+        /* decreasing the size */
+    }
+
+    100% {
+        transform: scale(0);
+        /* seeting back to initial size */
+    }
+}
+
+.min-width-800 {
+    min-width: 800px !important;
+    transform: translateY(-50px) !important;
+}
+.min-width-500 {
+    min-width: 500px !important;
+    transform: translateY(-50px) !important;
+}
+
+.dataTables_length label  .select-wrapper input.select-dropdown,
+.dataTables_length label .select-wrapper ul.select-dropdown,
+.dataTables_length label .select-wrapper svg.caret {
+    display: none !important;
 }

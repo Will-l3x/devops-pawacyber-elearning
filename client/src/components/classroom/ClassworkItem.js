@@ -9,7 +9,7 @@ import UploadActions from "../../actions/upload";
 import M from "materialize-css";
 import $ from "jquery";
 
-export class ClassworkItem extends Component {
+class ClassworkItem extends Component {
   constructor() {
     super();
     this.state = {

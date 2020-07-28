@@ -1,4 +1,5 @@
 const initialState = {
+  pages: [],
   meetings: [],
   meeting: {},
   create_meeting_res: {},
@@ -11,23 +12,31 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case "CREATE_MEETING":
-      return { ...state, create_meeting_res: payload };
+      state.create_meeting_res = payload;
+      return state;
     case "START_MEETING":
       payload.started = true;
       payload.stopped = false;
-      return { ...state, startstop_meeting_res: payload };
+      state.startstop_meeting_res = payload;
+      return state;
     case "STOP_MEETING":
       payload.started = false;
       payload.stopped = true;
-      return { ...state, startstop_meeting_res: payload };
+      state.startstop_meeting_res = payload;
+      return state;
     case "GET_MEETING":
-      return { ...state, meeting: payload };
+      state.meeting = payload;
+      return state;
     case "GET_ALL_MEETINGS":
-      return { ...state, meetings: payload };
+      state.meetings = payload.meetings;
+      state.pages = payload.pages;
+      return state;
     case "GET_ALL_MEETINGS_BY_CLASSID":
-      return { ...state, meetings: payload };
+      state.meetings = payload;
+      return state;
     case "GET_ALL_MEETINGS_BY_CREATORID":
-      return { ...state, meetings: payload };
+      state.meetings = payload;
+      return state;
 
     default:
       return state;

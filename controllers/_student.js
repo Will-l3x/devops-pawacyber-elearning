@@ -229,14 +229,7 @@ let newSubmission = (req, res) => {
         (classid, teacherid, assignmentid, studentid, obj) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assid}','${studentid}', ${o})`;
     } else {
-      uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/${obj.assid}/`;
-      obj.file = `/uploads/${obj.schoolid}/${obj.classid}/${obj.assid}/`;
-      console.log("Checking upload path..."); //dev
-      if (!fs.existsSync(uploadPath)) {
-        console.log("Creating upload path..."); //dev
-        console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
-      }
+      obj.file = `${obj.assid}`;
       q = `insert into student_assignments \
         (classid, teacherid, assignmentid, studentid, [file]) \
          values (${obj.classid}, ${obj.teacherid}, ${obj.assid}, ${obj.studentid}, '${obj.file}'); \

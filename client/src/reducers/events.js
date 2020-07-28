@@ -6,13 +6,17 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case EventConstants.GET_USER_EVENTS:
-      return { ...state, events: payload };
+      state.events = payload;
+      return state;
     case EventConstants.ADD_USER_EVENTS:
-      return { ...state, new_event: payload };
+      state.new_event = payload;
+      return state;
     case EventConstants.UPDATE_USER_EVENTS:
-      return { ...state, updated_event: payload };
+      state.updated_event = payload;
+      return state;
     case EventConstants.DELETE_USER_EVENTS:
-      return { ...state, deleted_event: payload };
+      state.deleted_event = payload;
+      return state;
 
     default:
       return state;

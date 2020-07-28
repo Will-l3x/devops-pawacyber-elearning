@@ -4,12 +4,12 @@ import Footer from "../../components/footer";
 import SideBar from "../../components/SideBar";
 import Header from "../../components/header";
 import M from "materialize-css";
-import { Calendar } from "../../components/calendar";
+import Calendar from "../../components/calendar";
 import store from "../../config/store";
 import { Link } from "react-router-dom";
 import { SchoolService } from "../../services/school";
 
-export class SchoolScreen extends Component {
+class SchoolScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +29,6 @@ export class SchoolScreen extends Component {
   getDashData() {
     // SchoolService.get_all_teachers('2')
     SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
-      console.log(response);
       this.setState({ teachers: response });
     });
     // SchoolService.get_all_students('2')
@@ -55,7 +54,7 @@ export class SchoolScreen extends Component {
                   <div className="row mt-1">
                     <div className="col s12 m6 l6">
                       <div className="col s12 m6 l6">
-                        <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text">
+                        <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text border-radius-5">
                           <div className="padding-4">
                             <div className="col s7 m7">
                               <i className="material-icons background-round mt-5 white-text">
@@ -75,7 +74,7 @@ export class SchoolScreen extends Component {
                         </div>
                       </div>
                       <div className="col s12 m6 l6">
-                        <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text">
+                        <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text border-radius-5">
                           <div className="padding-4">
                             <div className="col s7 m7">
                               <i className="material-icons background-round mt-5 white-text">
@@ -95,7 +94,7 @@ export class SchoolScreen extends Component {
                         </div>
                       </div>
                       <div className="col s12">
-                        <ul className="task-card collection with-header">
+                        <ul className="task-card collection with-header border-radius-7">
                           <li className="collection-header teal accent-4">
                             <h4 className="task-card-title white-text">
                               School Events
@@ -119,7 +118,7 @@ export class SchoolScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l6">
-                      <div className="card padding-1">
+                      <div className="card padding-3 border-radius-10">
                         <Calendar />
                       </div>
                     </div>

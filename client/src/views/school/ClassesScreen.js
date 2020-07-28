@@ -10,10 +10,14 @@ import { SchoolService } from "../../services/school";
 import avatar from "../../assets/images/gallary/not_found.gif";
 import TeacherOptions from "./TeacherOptions";
 
-export class ClassesScreen extends Component {
+class ClassesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:
+        JSON.parse(localStorage.getItem("user")) === null
+          ? { roleid: 3 }
+          : JSON.parse(localStorage.getItem("user")),
       unsubscribe: false,
       selectedOption: null,
       classId: "",
@@ -35,7 +39,7 @@ export class ClassesScreen extends Component {
   }
 
   getDashData() {
-    SchoolService.get_courses(1) //this.user.schoolid)
+    SchoolService.get_courses(this.state.user.schoolid)
       .then((response) => {
         if (response === undefined) {
         } else {
@@ -54,10 +58,7 @@ export class ClassesScreen extends Component {
     const modal = new M.Modal(elem);
     modal.close();
     var data = {
-      teacherid:
-        this.state.selectedOption === null
-          ? ""
-          : this.state.selectedOption.value,
+      teacherid: 14,
       schoolid: this.user.schoolid,
       classname: event.target.classname.value,
       grade: event.target.grade.value,
@@ -267,7 +268,7 @@ export class ClassesScreen extends Component {
                   )}
                 </div>
               </div>
-              <div id="modal1" className="modal modal-meeting">
+              <div id="modal1" className="modal modal-meeting border-radius-10">
                 <form
                   className="react-form form-meeting"
                   onSubmit={this.handleSubmit}
@@ -282,6 +283,7 @@ export class ClassesScreen extends Component {
                     </i>
                     Add Class!
                   </h1>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
                   <fieldset className="form-group">
                     <ReactFormLabel htmlFor="classname" title="Class Name:" />
 
@@ -292,6 +294,11 @@ export class ClassesScreen extends Component {
                       type="text"
                       required
                     />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="teacher" title="Teacher:" />
+                    <TeacherOptions onSelectOption={this.onSelectOption} />
+                    <div className="my-divider"></div>
                   </fieldset>
                   <fieldset className="form-group">
                     <ReactFormLabel htmlFor="grade" title="Grade:" />
@@ -305,15 +312,11 @@ export class ClassesScreen extends Component {
                       required
                     />
                   </fieldset>
-                  <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="teacher" title="Teacher:" />
-                    <TeacherOptions onSelectOption={this.onSelectOption} />
-                    <div className="my-divider"></div>
-                  </fieldset>
+
                   <div className="form-group" style={{ marginTop: 50 }}>
                     <input
                       id="submit"
-                      className="btn modal-close gradient-45deg-light-blue-cyan"
+                      className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
                       type="submit"
                       value="Submit"
                     />

@@ -32,17 +32,18 @@ async function upload(data) {
   try {
     let res = await axios.post(
       `https://cybers.azurewebsites.net/api/upload/new`,
-      qs.stringify(data),
+     data,
       {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
         },
-        
       }
     );
+
+    console.log(res);
     return res.data;
   } catch (err) {
     console.error(err);
+    return err;
   }
 }

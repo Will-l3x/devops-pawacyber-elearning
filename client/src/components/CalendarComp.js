@@ -17,7 +17,7 @@ import "@fullcalendar/timegrid/main.css";
 
 import EventActions from "../actions/events";
 
-export class CalendarComp extends Component {
+class CalendarComp extends Component {
   constructor() {
     super();
     this.state = {

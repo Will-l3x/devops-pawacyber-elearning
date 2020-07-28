@@ -6,7 +6,7 @@ import FileDropZone from "../dropzone";
 import M from "materialize-css";
 import Footer from "../footer";
 import Header from "../header";
-export class StudentTestScreen extends Component {
+class StudentTestScreen extends Component {
   constructor() {
     super();
     this.state = {

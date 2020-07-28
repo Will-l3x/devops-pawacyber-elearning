@@ -26,7 +26,7 @@ import Pricing from "../../components/pricing";
 import OuterHeader from "../../components/outerHeader";
 import OuterFooter from "../../components/outerFooter";
 
-export class HomeScreen extends Component {
+class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -96,7 +96,7 @@ export class HomeScreen extends Component {
     function autoplay() {
       instance1.next();
       instance2.next();
-      setTimeout(autoplay, 5000);
+      setTimeout(autoplay, 5500);
     }
   }
 
@@ -151,7 +151,9 @@ export class HomeScreen extends Component {
 
                     <div className="text-container">
                       <h1>
-                        <span className="turquoise text-shadow-2">Pawa Cyber School</span>
+                        <span className="turquoise text-shadow-2">
+                          Pawa Cyber School
+                        </span>
                       </h1>
                       <h5 style={{ marginTop: "-5px" }}>
                         Learn.Practice.Achieve
@@ -199,8 +201,8 @@ export class HomeScreen extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col s12 card-services">
-                  <div className="card" style={{ height: 475 }}>
+                <div className="col s12 m6 l3 card-services">
+                  <div className="card" style={{ height: 550 }}>
                     <img
                       className="card-image"
                       src={servicesImg1}
@@ -211,15 +213,15 @@ export class HomeScreen extends Component {
                         Virtual Classroom
                       </h4>
                       <p className="text-18">
-                        Online classrooms that allows students to communicate
-                        with their teachers, view presentations or videos,
-                        interact with other students, and engage with resources
-                        in work groups
+                        Live streaming classes - Teachers are able to have live
+                        online classes with their learners, anytime and
+                        anywhere.
                       </p>
                     </div>
                   </div>
-
-                  <div className="card" style={{ height: 475 }}>
+                </div>
+                <div className="col s12 m6 l3 card-services">
+                  <div className="card" style={{ height: 550 }}>
                     <img
                       className="card-image"
                       src={servicesImg2}
@@ -227,19 +229,20 @@ export class HomeScreen extends Component {
                     />
                     <div className="card-body">
                       <h4 className="card-title" style={{ fontWeight: "bold" }}>
-                        3D Animated, Sketch & Video Lessons
+                        Animated Lessons
                       </h4>
                       <p className="text-18">
-                        The system provides a range of content for students to
-                        interact with, this goes from Video lessons, to sketch
-                        drawings and 3D animated content. this is one of our
-                        targets to establish a range of material that helps the
-                        student understand the content much more.
+                        The platform includes state of the art 3D animated and
+                        sketch video lessons designed according to the Namibian
+                        curriculum. Learners will be able to visit the lessons
+                        anytime, anywhere making studying flexible.
                       </p>
                     </div>
                   </div>
+                </div>
 
-                  <div className="card" style={{ height: 475 }}>
+                <div className="col s12 m6 l3 card-services">
+                  <div className="card" style={{ height: 550 }}>
                     <img
                       className="card-image"
                       src={servicesImg3}
@@ -250,15 +253,17 @@ export class HomeScreen extends Component {
                         E-Library
                       </h4>
                       <p className="text-18">
-                        Pawa Cyber offers a resource repository which has a
-                        range of books and materials. e-books, past exam papers,
-                        study guides etc. this is all found at a convenient one
-                        stop click inside the system. Access and convenience
-                        made easier
+                        The platform has a built in eLibrary with recommended
+                        ebooks and past examination papers. It gives the
+                        learners an equal opportunity to have access to
+                        essential books and other print material.
                       </p>
                     </div>
                   </div>
-                  <div className="card" style={{ height: 475 }}>
+                </div>
+
+                <div className="col s12 m6 l3 card-services">
+                  <div className="card" style={{ height: 550 }}>
                     <img
                       className="card-image"
                       src={servicesImg3}
@@ -269,10 +274,12 @@ export class HomeScreen extends Component {
                         Learning Management System{" "}
                       </h4>
                       <p className="text-18">
-                        Here at Pawa Cyber We make to make sure that the
-                        principals are included in the operations of their
-                        school so we give them a platform that makes them in
-                        involved in setting activities and managing them.
+                        The educational platform includes a complete academic
+                        management system where teachers, principals and
+                        learners can interact. Teachers can create own content,
+                        send and receive learners work. The service comes with
+                        an automated way to view performance and capture
+                        remedial records.
                       </p>
                     </div>
                   </div>
@@ -299,7 +306,7 @@ export class HomeScreen extends Component {
                             className="btn transparent waves-effect waves-light btn-outline-white white-text"
                             href="#!"
                           >
-                            Watch Demo
+                            
                           </a>
                         </div>
                       </div>

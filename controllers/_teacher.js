@@ -60,6 +60,7 @@ let enrolStudent = async (req, res) => {
             fd.enrollmentUrl = `http://localhost:3000/api/student/enrol/ \
               ${obj.classid}-${fd.classEnrollmentKey}-${obj.studentid}`;
             //4.enrol student & send email
+
             let q3 = `insert into class_students \
               (classid, studentid) \
               values (${obj.classid}, ${obj.studentid})`;
@@ -134,6 +135,67 @@ let newCourseMaterial = (req, res) => {
          values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}', '${o}'); \
          select * FROM materials where materials.mID = SCOPE_IDENTITY();`;
     }
+    //console.log(q); //dev
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          let mId = data.recordset[0].mId;
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added material...",
+            uploadId: mId,
+            uploadType: "materials",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add material...",
+          });
+        }
+      }
+    });
+  }
+};
+let newCourseMaterialv2 = (req, res) => {
+  console.log("Teacher : creating new course material...");
+  //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
+  let obj = req.body;
+
+  if (!obj.materialname || !obj.classid || !obj.teacherid || !obj.schoolid) {
+    res.send({
+      err:
+        "Missing a parameter, expects classid, materialtype, teacherid on request object",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let uploadPath;
+    let q;
+    if (!obj.file) {
+      let o = JSON.stringify(obj.obj);
+      q = `insert into materials \
+        (classid, teacherid, materialname, obj) \
+         values (${obj.classid}, ${obj.studentid}, '${obj.materialname}', '${o}')`;
+    } else {
+      let o = JSON.stringify(obj.obj);
+      obj.file = `${obj.materialname}`;
+
+      q = `insert into materials \
+        (classid, teacherid, materialname, [file], obj) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}', '${o}'); \
+         select * FROM materials where materials.mID = SCOPE_IDENTITY();`;
+    }
     console.log(q); //dev
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
@@ -180,7 +242,7 @@ let getCourseMaterial = (req, res) => {
     let p = req.params.id;
     let q = `select * \
       from materials \
-      where materials.materialID = ${p}`;
+      where materials.mID = ${p}`;
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
@@ -266,14 +328,8 @@ let newAssignment = (req, res) => {
         (classid, teacherid, assignmentname, obj) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', ${o})`;
     } else {
-      uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/`;
-      obj.file = `/uploads/${obj.schoolid}/${obj.classid}/`;
-      console.log("Checking upload path..."); //dev
-      if (!fs.existsSync(uploadPath)) {
-        console.log("Creating upload path..."); //dev
-        console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
-      }
+      obj.file = `${obj.assignmentname}`;
+
       q = `insert into assignments \
         (classid, teacherid, assignmentname, [file]) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', '${obj.file}'); \
@@ -729,7 +785,7 @@ let getSubmissions = (req, res) => {
 };
 module.exports = {
   enrolStudent: enrolStudent,
-  newCourseMaterial: newCourseMaterial,
+  newCourseMaterial: newCourseMaterialv2,
   getCourseMaterial: getCourseMaterial,
   getCourseMaterials: getCourseMaterials,
   newAssignment: newAssignment,

@@ -10,7 +10,7 @@ import OuterFooter from "../components/outerFooter";
 import { Link } from "react-router-dom";
 import { AuthService } from "../services/authServices";
 
-export class LoginScreen extends Component {
+class LoginScreen extends Component {
   salutations = "Good day";
   today = new Date();
   curHr = this.today.getHours();
@@ -18,10 +18,12 @@ export class LoginScreen extends Component {
   constructor() {
     super();
     this.state = {
+      email:"",
       username: "",
       userid: "",
       schoolid: "",
       roleid: "",
+     
     };
 
     if (this.curHr < 12) {
@@ -35,24 +37,15 @@ export class LoginScreen extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+   
+    var globalEmail =  event.target.username.value;
+   
     var registerAdmin = {
       email: event.target.username.value,
       password: event.target.password.value,
     };
 
     AuthService.login(registerAdmin).then((response) => {
-      
-      // const roleid = 1;  //5
-      // const username =  "Kelvin";
-      // const userid = "655";
-      // const schoolid= "4";
-      // this.setState({
-      //   roleid,
-      //   username,
-      //   userid,
-      //   schoolid
-      // });
 
       if (response === undefined) {
         alert("Login Failed");
@@ -61,30 +54,39 @@ export class LoginScreen extends Component {
       } else {
         document.getElementById("contactForm").reset();
         var id;
+        var schoolid;
         if (response.roleid === 3) {
           id = response.User.studentId;
+          schoolid = response.User.schoolid;
         } else if (response.roleid === 1) {
           id = response.User.teacherId;
+          schoolid = response.User.schoolid;
         } else if (response.roleid === 5) {
-          id = response.User.SystemAdminId;
+          id = response.User.systemadminId;
+          schoolid = 10;
         } else if (response.roleid === 4) {
           id = response.User.saId;
+          schoolid = response.User.schoolid;
         } else {
           id = response.User.parentId;
+          schoolid = response.User.schoolid;
         }
 
         const roleid = response.roleid;
         const username = response.User.firstname + " " + response.User.lastname;
         const userid = id;
-        const schoolid = response.User.schoolid;
+        const userAll = response.User;
+
         const token = response.token;
         localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("userAll",JSON.stringify(userAll));
         this.setState({
-          roleid,
-          username,
-          userid,
-          schoolid,
-          token,
+          email:globalEmail,
+          roleid:roleid,
+          username:username,
+          userid:userid,
+          schoolid:schoolid,
+          token:token
         });
       }
     });

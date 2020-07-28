@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
-import $ from "jquery";
+//import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
 //import RoleOptions from "./RoleOptions";
 
-export class RolesScreen extends Component {
+class RolesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,8 +39,6 @@ export class RolesScreen extends Component {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
     M.AutoInit();
-    $(".custom-select.custom-select-sm").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
   }
   handleTitleDropdownChange(event) {
     this.setState({ title: event.target.value });

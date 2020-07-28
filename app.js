@@ -10,6 +10,7 @@ var sql = require("mssql");
 var config = require("./config/config.js");
 const cors = require("cors");
 const _auth = require("./controllers/_auth.js");
+const _storage = require("./controllers/_storage.js");
 var cluster = require("cluster");
 var cron = require("node-cron");
 var moment = require("moment");
@@ -53,6 +54,9 @@ setInterval(function () {
     }
   });
 }, 3210);
+
+//Azure Storage
+_storage.storageInit();
 
 var api = require("./routes/api");
 

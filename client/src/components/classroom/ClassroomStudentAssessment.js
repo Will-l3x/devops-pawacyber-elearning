@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import DatatablePage from "../DatatablePage";
-import $ from "jquery";
+//import $ from "jquery";
 
-export class ClassroomStudentAssessment extends Component {
+class ClassroomStudentAssessment extends Component {
   constructor() {
     super();
     this.state = {
@@ -137,9 +137,6 @@ export class ClassroomStudentAssessment extends Component {
       }
     );
      */
-    $(".custom-select.bs-select select").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
-    $(".dataTables_length.bs-select").addClass("translateY-10");
   }
   render() {
     return (
