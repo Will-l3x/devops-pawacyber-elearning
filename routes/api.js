@@ -21,7 +21,7 @@ router.post("/login", _auth.login); //done
 //router.post('/test', _auth.test);//done
 router.put("/changepw", _auth.changepassword);
 router.post("/register", _auth.register);
-router.post('/verify', _auth.verifyacc);
+router.post("/verify", _auth.verifyacc);
 router.get("/profile", _auth.profile);
 router.put("/resetpassword", _auth.resetpassword);
 router.put("/refreshotp", _auth.refreshotp);
@@ -29,7 +29,6 @@ router.put("/refreshotp", _auth.refreshotp);
 //////////////////////systemadmin//////////////////////////////////////////////
 router.get("/genders", _systemadmin.genders);
 router.get("/roles", _systemadmin.roles);
-
 
 router.get("/subscriptions", _systemadmin.subscriptions);
 router.post("/add_subscription", _systemadmin.add_subscription);
@@ -122,7 +121,7 @@ router.put("/schooladmin/update_student", _schooladmin.update_student);
 router.get("/schooladmin/get_class/:id", _schooladmin.get_class);
 router.get("/schooladmin/get_classes/:id", _schooladmin.get_classes);
 router.post("/schooladmin/add_class", _schooladmin.add_class);
-router.delete("/schooladmin/del_class", _schooladmin.del_class);
+router.delete("/schooladmin/del_class/:id", _schooladmin.del_class);
 router.put("/schooladmin/update_class", _schooladmin.update_class);
 
 router.get("/schooladmin/packages", _schooladmin.get_packages);
@@ -132,18 +131,36 @@ router.get("/schooladmin/add_packages", _schooladmin.add_packages); // not produ
 router.post("/schooladmin/activate_package", _schooladmin.activate_package);
 router.get("/schooladmin/active_packages/:id", _schooladmin.active_packages);
 
-router.post("/schooladmin/add_shared_class_cover", _schooladmin.add_shared_class_cover);
-router.get("/schooladmin/get_shared_classes_with_cover", _schooladmin.get_shared_classes_with_cover);
+router.post(
+  "/schooladmin/add_shared_class_cover",
+  _schooladmin.add_shared_class_cover
+);
+router.get(
+  "/schooladmin/get_shared_classes_with_cover",
+  _schooladmin.get_shared_classes_with_cover
+);
 
-router.post("/schooladmin/shared_classes", _schooladmin.shared_classes);//by grade
-router.post("/schooladmin/get_all_shared_classes", _schooladmin.all_shared_classes);
+router.post("/schooladmin/shared_classes", _schooladmin.shared_classes); //by grade
+router.post(
+  "/schooladmin/get_all_shared_classes",
+  _schooladmin.all_shared_classes
+);
 router.get("/schooladmin/shared_topics/:id", _schooladmin.shared_topics); //classid
 router.post("/schooladmin/shared_materials", _schooladmin.shared_materials); //by topic & class
-router.get("/schooladmin/shared_materials_topic/:id", _schooladmin.shared_materials_topic); //topicid
-router.get("/schooladmin/shared_materials_class/:id", _schooladmin.shared_materials_class); //classid
+router.get(
+  "/schooladmin/shared_materials_topic/:id",
+  _schooladmin.shared_materials_topic
+); //topicid
+router.get(
+  "/schooladmin/shared_materials_class/:id",
+  _schooladmin.shared_materials_class
+); //classid
 router.post("/schooladmin/add_shared_class", _schooladmin.add_shared_class);
 router.post("/schooladmin/add_shared_topic", _schooladmin.add_shared_topic);
-router.post("/schooladmin/add_shared_material", _schooladmin.add_shared_material);
+router.post(
+  "/schooladmin/add_shared_material",
+  _schooladmin.add_shared_material
+);
 
 // ---
 router.get("/schooladmin/add_syllabi/", _schooladmin.add_syllabi); // not production
