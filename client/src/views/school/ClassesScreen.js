@@ -196,7 +196,7 @@ class ClassesScreen extends Component {
     modal.close();
     var data = {
       classid: this.state.selectedCourse.classId,
-      teacherId:
+      teacherid:
         this.state.selectedOption === null
           ? ""
           : this.state.selectedOption.value,
