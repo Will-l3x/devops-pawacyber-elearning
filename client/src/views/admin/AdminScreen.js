@@ -14,6 +14,7 @@ class AdminScreen extends Component {
       packages: [],
       students: [],
       teachers: [],
+      subjects:[]
     };
   }
 
@@ -33,8 +34,12 @@ class AdminScreen extends Component {
     SchoolService.get_all_teachers(2).then((response) => {
       this.setState({ teachers: response });
     });
-    SchoolService.get_all_students(2).then((response) => {
+    AdminService.get_all_students().then((response) => {
       this.setState({ students: response });
+    });
+
+    AdminService.get_all_classes().then((response) => {
+      this.setState({ subjects: response });
     });
   }
 
@@ -137,7 +142,7 @@ class AdminScreen extends Component {
                             <p className="white-text">Subjects Offered</p>
                           </div>
                           <div className="col s5 m5 right-align">
-                            <h5 className="mb-0 white-text">0</h5>
+                            <h5 className="mb-0 white-text">{this.state.subjects.length}</h5>
                             <p className="no-margin white-text">Total</p>
                           </div>
                         </div>

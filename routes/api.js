@@ -29,7 +29,7 @@ router.put("/refreshotp", _auth.refreshotp);
 //////////////////////systemadmin//////////////////////////////////////////////
 router.get("/genders", _systemadmin.genders);
 router.get("/roles", _systemadmin.roles);
-
+router.get("/students", _systemadmin.students);
 router.get("/subscriptions", _systemadmin.subscriptions);
 router.post("/add_subscription", _systemadmin.add_subscription);
 router.delete("/del_subscription/:id", _systemadmin.del_subscription);
@@ -88,7 +88,6 @@ router.get("/teacher/get_students/:id", _teacher.getStudents);
 router.get("/teacher/get_submissions/:id", _teacher.getSubmissions);
 
 //////////////////////student//////////////////////////////////////////////
-
 router.post("/student/new_msg", _student.newMsg);
 router.get("/student/get_msgs/:id", _student.getMsgs);
 
@@ -112,6 +111,7 @@ router.post("/schooladmin/add_teacher", _auth.register);
 router.delete("/schooladmin/del_teacher/:id", _schooladmin.del_teacher);
 router.put("/schooladmin/update_teacher", _schooladmin.update_teacher);
 
+router.get("/schooladmin/students", _systemadmin.students);
 router.get("/schooladmin/student/:id", _schooladmin.student);
 router.get("/schooladmin/students/:id", _schooladmin.students);
 router.post("/schooladmin/add_student", _auth.register);
