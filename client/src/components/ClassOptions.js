@@ -2,20 +2,26 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import M from "materialize-css";
 import Select from "react-select";
-import { TeacherService } from "../../services/teacher";
+import { TeacherService } from "../services/teacher";
 let options = [];
+let del_options = [];
 
 const user = JSON.parse(localStorage.getItem("user"));
 if (user === null) {
+  options = [];
   options = [];
 } else {
   TeacherService.get_all_courses(user.userid)
     .then((response) => {
       const data = response === undefined ? [] : response;
       for (const option of data) {
-        option.value = option.classId;
-        option.label = option.classname;
-        options.push(option);
+        if (option.status === "deleted") {
+          del_options.push(option);
+        } else {
+          option.value = option.classId;
+          option.label = option.classname;
+          options.push(option);
+        }
       }
     })
     .catch((error) => {
@@ -29,6 +35,7 @@ class ClassOptions extends Component {
     super();
     this.state = {
       options: [],
+      del_options,
       selectedOption: null,
     };
     this.handleChange.bind(this);
