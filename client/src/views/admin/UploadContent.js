@@ -267,7 +267,7 @@ class UploadContent extends Component {
                 </div>
                 <div className="modal-footer">
                   <Link
-                    to="#!"
+                    to="#"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
                     //onClick={this.handleDelete}
@@ -275,7 +275,7 @@ class UploadContent extends Component {
                     Yes
                   </Link>
                   <Link
-                    to="#!"
+                    to="#"
                     className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                   >
                     No

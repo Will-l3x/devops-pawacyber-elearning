@@ -1,5 +1,6 @@
 import axios from "axios";
 const token = JSON.parse(localStorage.getItem("token"));
+const qs = require("qs");
 // const apiUrl = "http://localhost:3001/api";
 
 var config = {
@@ -18,7 +19,24 @@ export const StudentService = {
   get_student_pending_classwork,
   get_student_marked_classwork,
   get_student_all_classwork,
+  download,
 };
+
+async function download(data) {
+  try {
+
+    let res = await axios.post(`https://cybers.azurewebsites.net/api/upload/get`, qs.stringify(data), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
 
 // // Student Course Resources Services
 async function get_all_courses(student_id) {
@@ -34,18 +52,10 @@ async function get_all_courses(student_id) {
 async function get_course_downloadables(course_id) {
   try {
     let res = await axios.get(`/get_materials/${course_id}`, config);
-    console.log(res.data.data);
     return res.data.data;
   } catch (err) {
     console.error(err);
-    return [
-      {
-        resourceid: 1,
-        materialname: "Check connection...",
-        file: "null",
-        dateadded: "15-05-2020",
-      },
-    ];
+    return [];
   }
 }
 
