@@ -68,11 +68,13 @@ class VideoPlayer extends Component {
 
     this.setState({ loaded: false });
     const password = e.target.password.value;
+    if (this.state.selectedOption === null) {
+      return false;
+    }
     StreamService.get_meeting(this.state.selectedOption.value)
       .then((response) => {
         const meeting =
           response === undefined ? {} : response.data.data.meeting[0];
-        meeting.error = false;
         this.setState({ meeting });
         if (
           meeting.password === password &&
@@ -84,7 +86,7 @@ class VideoPlayer extends Component {
             this.setState({ loaded: true });
           }, 5000);
           const meeting_joined = this.initJitsi(domain);
-          this.setState(meeting_joined);
+          this.setState({ meeting_joined });
         } else {
           this.setState({ loaded: true });
           M.toast({
@@ -162,18 +164,45 @@ class VideoPlayer extends Component {
       console.log(this.state.selectedOption)
     );
   };
+  stop_meeting = () => {
+    this.setState({ meeting_joined: false });
+    this.disposeJitsi();
+    this.get_meetings();
+  };
   render() {
     return (
       <div className="vid-containa">
         <div
           className={`video-player ${
-            this.props.meetingData.startstop_meeting_res.started
-              ? ""
-              : "display-none"
+            this.state.meeting_joined ? "" : "display-none"
           }`}
         >
           <div className="video-topbar-2 gradient-45deg-semi-dark">
-            Meeting Name
+            <div style={{ width: "100%" }}>
+              <div
+                className="left center-align"
+                style={{ marginLeft: 15, paddingTop: 5 }}
+              >
+                <i className="material-icons left" style={{ marginRight: 7 }}>
+                  videocam
+                </i>
+                <div className="left" style={{ paddingTop: "2.5px" }}>
+                  {this.state.meeting.meetingname}
+                </div>
+              </div>
+              <span
+                className="right"
+                style={{ marginRight: 15, paddingTop: 5 }}
+              >
+                <i
+                  className="material-icons red-text accent-2 cursor-pointer "
+                  style={{ marginRight: 7 }}
+                  onClick={() => this.stop_meeting()}
+                >
+                  cancel
+                </i>
+              </span>
+            </div>
           </div>
           <div
             id="meet"
@@ -188,9 +217,7 @@ class VideoPlayer extends Component {
         </div>
         <div
           className={`video-player ${
-            this.props.meetingData.startstop_meeting_res.started
-              ? "display-none"
-              : ""
+            this.state.meeting_joined ? "display-none" : ""
           }`}
           style={{ height: 44 }}
         >
@@ -203,7 +230,7 @@ class VideoPlayer extends Component {
         </div>
         <div
           className={`${
-            this.props.meetingData.startstop_meeting_res.started
+            this.state.meeting_joined
               ? "display-none"
               : "video-info-2 z-depth-5"
           }`}
@@ -321,7 +348,7 @@ class VideoPlayer extends Component {
                       : "waves-effect"
                   }
                 >
-                  <a
+                  <Link
                     className={
                       this.state.currentPageNumber === 1
                         ? "disabled pointer-events-none"
@@ -329,34 +356,34 @@ class VideoPlayer extends Component {
                     }
                     onClick={this.handlePrevClick}
                     rel="noopener noreferer"
-                    href="#!"
+                    to="#!"
                   >
                     <i className="material-icons">chevron_left</i>
-                  </a>
+                  </Link>
                 </li>
                 {this.state.pages.map((page) => {
                   if (page === this.state.currentPageNumber) {
                     return (
                       <li key={page} className="active">
-                        <a
+                        <Link
                           onClick={() => this.handlePageClick(page)}
                           rel="noopener noreferer"
-                          href="#!"
+                          to="#!"
                         >
                           {page}
-                        </a>
+                        </Link>
                       </li>
                     );
                   } else {
                     return (
                       <li key={page}>
-                        <a
+                        <Link
                           onClick={() => this.handlePageClick(page)}
                           rel="noopener noreferer"
-                          href="#!"
+                          to="#!"
                         >
                           {page}
-                        </a>
+                        </Link>
                       </li>
                     );
                   }
@@ -368,7 +395,7 @@ class VideoPlayer extends Component {
                       : "waves-effect"
                   }
                 >
-                  <a
+                  <Link
                     onClick={this.handleNextClick}
                     className={
                       this.state.currentPageNumber === this.state.pages.length
@@ -376,10 +403,10 @@ class VideoPlayer extends Component {
                         : ""
                     }
                     rel="noopener noreferer"
-                    href="#!"
+                    to="#!"
                   >
                     <i className="material-icons">chevron_right</i>
-                  </a>
+                  </Link>
                 </li>
               </ul>
 
@@ -408,10 +435,10 @@ class VideoPlayer extends Component {
                     <div className="my-divider"></div>
                   </fieldset>
                   <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="password" title="Password:" />
+                    <ReactFormLabel htmlFor="password1" title="Password:" />
 
                     <input
-                      id="password"
+                      id="password1"
                       className="form-input input-meeting"
                       name="password"
                       type="password"
@@ -421,10 +448,10 @@ class VideoPlayer extends Component {
 
                   <div className="form-group">
                     <input
-                      id="start"
+                      id="join"
                       className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
                       type="submit"
-                      value="Start"
+                      value="Join"
                     />
                   </div>
                 </form>

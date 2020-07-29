@@ -9,6 +9,7 @@ import "../assets/css/video-player.css";
 import avatar from "../assets/images/gallary/not_found.gif";
 import { StreamService } from "../services/stream";
 import { Link } from "react-router-dom";
+import MeetingOptions from "../views/teacher/MeetingOptions";
 
 class VideoPlayer extends Component {
   constructor() {
@@ -18,9 +19,18 @@ class VideoPlayer extends Component {
       live: false,
       currentPageNumber: 1,
       meetings: [],
+      meeting: { meetingname: "" },
       pages: [],
       refresh: 0,
+      startstop_meeting_res: {
+        started: false,
+        stopped: true,
+      },
+      meetinginprogress: false,
     };
+
+    this.start_meeting = this.start_meeting.bind(this);
+    this.stop_meeting = this.stop_meeting.bind(this);
   }
   refresh = 0;
   componentDidMount() {
@@ -30,19 +40,22 @@ class VideoPlayer extends Component {
   }
 
   initJitsi = () => {
-    const meeting = this.props.meetingData.startstop_meeting_res;
+    const meeting = this.state.startstop_meeting_res;
     const domain = meeting.started ? meeting.data.room : "meet.jit.si";
-    console.log(domain);
+
     const options = {
       width: "100%",
       height: 450,
       parentNode: document.querySelector("#meet"),
     };
-
+    if (this.state.meetinginprogress) {
+      return "";
+    }
     const JitsiMeetExternalAPI =
       window.JitsiMeetExternalAPI || window.exports.JitsiMeetExternalAPI;
     const api = new JitsiMeetExternalAPI(domain, options);
     this.api = api;
+    this.setState({ meetinginprogress: true });
     return "";
   };
 
@@ -118,6 +131,59 @@ class VideoPlayer extends Component {
     this.get_meetings();
   };
 
+  start_meeting = (e) => {
+    e.preventDefault();
+    const data = {
+      password: e.target.password.value,
+    };
+    if (this.state.selectedOption === null) {
+      return false;
+    }
+    localStorage.setItem("meeting", "MEETING_STARTED");
+    localStorage.setItem("meetingId", this.state.selectedOption.value);
+
+    StreamService.start_meeting(this.state.selectedOption.value, data)
+      .then((response) => {
+        response.started = true;
+        response.stopped = false;
+        this.setState({ startstop_meeting_res: response });
+        document.getElementById("start-meeting-form").reset();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    StreamService.get_meeting(this.state.selectedOption.value)
+      .then((response) => {
+        const meeting =
+          response === undefined ? {} : response.data.data.meeting[0];
+        this.setState({ meeting });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  stop_meeting = () => {
+    localStorage.setItem("meeting", "MEETING_STOPPED");
+    localStorage.removeItem("meetingId");
+    this.disposeJitsi();
+    this.setState({ meetinginprogress: false });
+    StreamService.stop_meeting(this.state.selectedOption.value)
+      .then((response) => {
+        response.started = false;
+        response.stopped = true;
+        this.setState({ startstop_meeting_res: response });
+        document.getElementById("start-meeting-form").reset();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(this.state.selectedOption)
+    );
+  };
   render() {
     if (this.props.meetingData.refresh > this.refresh) {
       this.get_meetings();
@@ -128,13 +194,42 @@ class VideoPlayer extends Component {
       <div className="vid-containa">
         <div
           className={`video-player ${
-            this.props.meetingData.startstop_meeting_res.started
+            this.state.startstop_meeting_res.started
               ? this.initJitsi()
               : this.disposeJitsi()
           }`}
         >
-          <div className="video-topbar-2 gradient-45deg-semi-dark">
-            Meeting Name
+          <div
+            className="video-topbar-2 gradient-45deg-semi-dark"
+            style={{
+              justifyContent: "normal",
+            }}
+          >
+            <div style={{ width: "100%" }}>
+              <div
+                className="left center-align"
+                style={{ marginLeft: 15, paddingTop: 5 }}
+              >
+                <i className="material-icons left" style={{ marginRight: 7 }}>
+                  videocam
+                </i>
+                <div className="left" style={{ paddingTop: "2.5px" }}>
+                  {this.state.meeting.meetingname}
+                </div>
+              </div>
+              <span
+                className="right"
+                style={{ marginRight: 15, paddingTop: 5 }}
+              >
+                <i
+                  className="material-icons red-text accent-2 cursor-pointer "
+                  style={{ marginRight: 7 }}
+                  onClick={() => this.stop_meeting()}
+                >
+                  cancel
+                </i>
+              </span>
+            </div>
           </div>
           <div
             id="meet"
@@ -150,9 +245,7 @@ class VideoPlayer extends Component {
 
         <div
           className={`video-player ${
-            this.props.meetingData.startstop_meeting_res.started
-              ? "display-none"
-              : ""
+            this.state.startstop_meeting_res.started ? "display-none" : ""
           }`}
           style={{ height: 44 }}
         >
@@ -169,7 +262,7 @@ class VideoPlayer extends Component {
 
         <div
           className={`${
-            this.props.meetingData.startstop_meeting_res.started
+            this.state.startstop_meeting_res.started
               ? "display-none"
               : "video-info-2 z-depth-5 border-radius-10"
           }`}
@@ -270,7 +363,7 @@ class VideoPlayer extends Component {
                       : "waves-effect"
                   }
                 >
-                  <a
+                  <Link
                     className={
                       this.state.currentPageNumber === 1
                         ? "disabled pointer-events-none"
@@ -278,34 +371,34 @@ class VideoPlayer extends Component {
                     }
                     onClick={this.handlePrevClick}
                     rel="noopener noreferer"
-                    href="#!"
+                    to="#!"
                   >
                     <i className="material-icons">chevron_left</i>
-                  </a>
+                  </Link>
                 </li>
                 {this.state.pages.map((page) => {
                   if (page === this.state.currentPageNumber) {
                     return (
                       <li key={page} className="active">
-                        <a
+                        <Link
                           onClick={() => this.handlePageClick(page)}
                           rel="noopener noreferer"
-                          href="#!"
+                          to="#!"
                         >
                           {page}
-                        </a>
+                        </Link>
                       </li>
                     );
                   } else {
                     return (
                       <li key={page}>
-                        <a
+                        <Link
                           onClick={() => this.handlePageClick(page)}
                           rel="noopener noreferer"
-                          href="#!"
+                          to="#!"
                         >
                           {page}
-                        </a>
+                        </Link>
                       </li>
                     );
                   }
@@ -317,7 +410,7 @@ class VideoPlayer extends Component {
                       : "waves-effect"
                   }
                 >
-                  <a
+                  <Link
                     onClick={this.handleNextClick}
                     className={
                       this.state.currentPageNumber === this.state.pages.length
@@ -325,16 +418,72 @@ class VideoPlayer extends Component {
                         : ""
                     }
                     rel="noopener noreferer"
-                    href="#!"
+                    to="#!"
                   >
                     <i className="material-icons">chevron_right</i>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
           </div>
+
+          <div
+            id="start-meeting"
+            className="modal modal-meeting border-radius-10"
+          >
+            <form
+              className="react-form form-meeting"
+              id="start-meeting-form"
+              onSubmit={this.start_meeting}
+            >
+              <h1 className="h1-meeting">
+                <i
+                  className="material-icons"
+                  style={{ transform: "translate(-3px, 4px)" }}
+                >
+                  videocam
+                </i>
+                Start Meeting!
+              </h1>
+              <hr className="hr5" style={{ marginBottom: 30 }} />
+              <fieldset className="form-group">
+                <ReactFormLabel htmlFor="roomname" title="Room Name:" />
+                <MeetingOptions onSelectOption={this.onSelectOption} />
+                <div className="my-divider"></div>
+              </fieldset>
+              <fieldset className="form-group">
+                <ReactFormLabel htmlFor="password" title="Password:" />
+
+                <input
+                  id="password"
+                  className="form-input input-meeting"
+                  name="password"
+                  type="password"
+                  required
+                />
+              </fieldset>
+
+              <div className="form-group">
+                <input
+                  id="start"
+                  className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
+                  type="submit"
+                  value="Start"
+                />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
+    );
+  }
+}
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
     );
   }
 }
