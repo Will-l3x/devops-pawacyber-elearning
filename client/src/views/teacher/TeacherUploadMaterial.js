@@ -8,6 +8,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { TeacherService } from "../../services/teacher";
 import ClassOptions from "../../components/ClassOptions";
+import { Link } from "react-router-dom";
 //import {StudentService} from '../../services/student';
 
 class UploadMaterial extends Component {
@@ -227,20 +228,20 @@ class UploadMaterial extends Component {
                   <h4 className="header2">Are you sure?</h4>
                 </div>
                 <div className="modal-footer">
-                  <a
-                    href="#!"
+                  <Link
+                    to="#!"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                    onClick={this.handleDelete}
+                   // onClick={this.handleDelete}
                   >
                     Yes
-                  </a>
-                  <a
-                    href="#!"
+                  </Link>
+                  <Link
+                    to="#!"
                     className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                   >
                     No
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

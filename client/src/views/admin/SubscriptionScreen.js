@@ -7,6 +7,7 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
+import { Link } from "react-router-dom";
 
 class SubscriptionScreen extends Component {
   constructor(props) {
@@ -474,20 +475,20 @@ class SubscriptionScreen extends Component {
                       <h4 className="header2">Are you sure?</h4>
                     </div>
                     <div className="modal-footer">
-                      <a
-                        href="#!"
+                      <Link
+                        to="#!"
                         style={{ marginRight: 10 }}
                         className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
                         onClick={this.handleDelete}
                       >
                         Yes
-                      </a>
-                      <a
-                        href="#!"
+                      </Link>
+                      <Link
+                        to="#!"
                         className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                       >
                         No
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </section>

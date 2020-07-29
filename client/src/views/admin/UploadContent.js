@@ -7,8 +7,9 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { UploadService } from "../../services/upload";
-import { AdminService } from '../../services/admin';
+import { AdminService } from "../../services/admin";
 import Classes from "../../components/Classes";
+import { Link } from "react-router-dom";
 
 class UploadContent extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class UploadContent extends Component {
       ],
       rows: [],
       courses: [],
-      class: ""
+      class: "",
     };
   }
 
@@ -119,7 +120,7 @@ class UploadContent extends Component {
 
   onSelectClassOption = (selectedOption) => {
     this.setState({
-      class: selectedOption
+      class: selectedOption,
     });
   };
 
@@ -181,7 +182,10 @@ class UploadContent extends Component {
                   id="sibs"
                 >
                   <h1 className="h1-meeting">
-                    <i className="material-icons" style={{ transform: "translate(-3px, 4px)" }}>
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
                       cloud_upload
                     </i>
                     Upload Resource!
@@ -190,11 +194,22 @@ class UploadContent extends Component {
                   <div className="row">
                     <div className="col s12 m12">
                       <fieldset className="form-group">
-                        <label style={{ transform: "translateY(-15px)", fontSize: "12px" }} >
+                        <label
+                          style={{
+                            transform: "translateY(-15px)",
+                            fontSize: "12px",
+                          }}
+                        >
                           SELECT SUBJECT *
                         </label>
-                        <Classes onSelectOption={this.onSelectClassOption} required />
-                        <div style={{ marginTop: "10px" }} className="my-divider"></div>
+                        <Classes
+                          onSelectOption={this.onSelectClassOption}
+                          required
+                        />
+                        <div
+                          style={{ marginTop: "10px" }}
+                          className="my-divider"
+                        ></div>
                       </fieldset>
                     </div>
                     {/* <div className="col s6 m6">
@@ -251,20 +266,20 @@ class UploadContent extends Component {
                   <h4 className="header2">Are you sure?</h4>
                 </div>
                 <div className="modal-footer">
-                  <a
-                    href="#!"
+                  <Link
+                    to="#!"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
                     onClick={this.handleDelete}
                   >
                     Yes
-                  </a>
-                  <a
-                    href="#!"
+                  </Link>
+                  <Link
+                    to="#!"
                     className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                   >
                     No
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

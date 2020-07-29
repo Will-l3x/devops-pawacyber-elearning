@@ -9,6 +9,7 @@ import moment from "moment";
 import { SchoolService } from "../../services/school";
 import TeacherOptions from "./TeacherOptions";
 import DatatablePage from "../../components/DatatablePage";
+import { Link } from "react-router-dom";
 
 class ClassesScreen extends Component {
   constructor(props) {
@@ -453,20 +454,20 @@ class ClassesScreen extends Component {
                 <h4 className="header2">Are you sure?</h4>
               </div>
               <div className="modal-footer">
-                <a
-                  href="#!"
+                <Link
+                  to="#!"
                   style={{ marginRight: 10 }}
                   onClick={this.handleDelete}
                   className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
                 >
                   Yes
-                </a>
-                <a
-                  href="#!"
+                </Link>
+                <Link
+                  to="#!"
                   className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                 >
                   No
-                </a>
+                </Link>
               </div>
             </div>
           </div>
