@@ -25,9 +25,9 @@ class SubjectContent extends Component {
   }
 
   videoresources(){
-    const course_id = store.getState().student.courseId;
-    
-    StudentService.get_course_video_resources(course_id)
+    const courseId = store.getState().student.course.course.courseId;
+      
+    StudentService.get_course_video_resources(courseId)
     .then((response) => {
       this.setState({ topics: response })
     });
@@ -50,9 +50,10 @@ class SubjectContent extends Component {
   }
 
   render() {
-    const course = store.getState().student.course;
+    const course = store.getState().student.course.course;
     if (course.name === "" || course.name === undefined) {
       return <Redirect to="/student" />;
+
     }
     return (
       <div>
