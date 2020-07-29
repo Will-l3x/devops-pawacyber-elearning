@@ -27,6 +27,8 @@ router.put("/resetpassword", _auth.resetpassword);
 router.put("/refreshotp", _auth.refreshotp);
 
 //////////////////////systemadmin//////////////////////////////////////////////
+// 
+router.get("/materials", _systemadmin.materials);
 router.get("/genders", _systemadmin.genders);
 router.get("/roles", _systemadmin.roles);
 router.get("/students", _systemadmin.students);

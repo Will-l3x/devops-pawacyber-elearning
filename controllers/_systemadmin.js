@@ -186,6 +186,31 @@ let update_role = (req, res) => {
 
 
 
+let materials = (req, res) => {
+    let query = `select * from materials`;
+    let request = new sql.Request();
+  
+    request.query(query, function (err, recordset) {
+      let materials = recordset.recordset;
+      if (err) {
+        console.log(err);
+        console.log(err.stack);
+        return res.json({
+          status: 500,
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        return res.json({
+          status: 200,
+          success: true,
+          data: JSON.parse(JSON.stringify({ materials })),
+        });
+      }
+    });
+  };
+  
 
 
 
@@ -1618,5 +1643,6 @@ module.exports = {
     classes: classes,
     classesByGrade:classesByGrade,
     post_payment_enrol: post_payment_enrol,
-    students:students
+    students:students,
+    materials:materials
 };
