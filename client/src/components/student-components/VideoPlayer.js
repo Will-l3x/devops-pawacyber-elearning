@@ -1,56 +1,42 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import $ from "jquery";
+import $ from "jquery";
 import carousel1 from "../../assets/images/conference/live-chat.svg";
-// import M from "materialize-css";
+import M from "materialize-css";
 import moment from "moment";
 import "../../assets/css/video-player.css";
 import avatar from "../../assets/images/gallary/not_found.gif";
 
 import { StreamService } from "../../services/stream";
+import { Link } from "react-router-dom";
+import MeetingOptions from "../../views/teacher/MeetingOptions";
 
 class VideoPlayer extends Component {
   constructor() {
     super();
     this.state = {
+      loaded: true,
       source: [],
       live: false,
+      meeting_joined: false,
       currentPageNumber: 1,
       meetings: [],
+      meeting: {
+        meetingId: "",
+      },
       pages: [],
+      selectedOption: null,
     };
+    this.join_meeting = this.join_meeting.bind(this);
   }
+  api = {};
   componentDidMount() {
+    $("#preloader-2").addClass("display-none");
     const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ user });
     this.get_meetings();
     this.initJitsi();
   }
-
-  initJitsi = () => {
-    const meeting = this.props.meetingData.startstop_meeting_res;
-    localStorage.setItem("meetingId", meeting.meetingId);
-    const domain = this.props.meetingData.startstop_meeting_res.started
-      ? meeting.room
-      : "meet.jit.si";
-    const options = {
-      width: "100%",
-      height: 450,
-      parentNode: document.querySelector("#meet"),
-    };
-
-    const JitsiMeetExternalAPI =
-      window.JitsiMeetExternalAPI || window.exports.JitsiMeetExternalAPI;
-    const api = new JitsiMeetExternalAPI(domain, options);
-    this.api = api;
-  };
-  disposeJitsi = () => {
-    this.api.dispose() === undefined
-      ? localStorage.removeItem("meetingId")
-      : this.api.dispose();
-    this.get_meetings();
-    return "display-none";
-  };
 
   get_meetings = () => {
     StreamService.get_meetings()
@@ -77,7 +63,62 @@ class VideoPlayer extends Component {
         console.log(error);
       });
   };
+  join_meeting = (e) => {
+    e.preventDefault();
 
+    this.setState({ loaded: false });
+    const password = e.target.password.value;
+    StreamService.get_meeting(this.state.selectedOption.value)
+      .then((response) => {
+        const meeting =
+          response === undefined ? {} : response.data.data.meeting[0];
+        meeting.error = false;
+        this.setState({ meeting });
+        if (
+          meeting.password === password &&
+          meeting.status === "Meeting Started"
+        ) {
+          //meeting status
+          const domain = `meet.jit.si/${meeting.link}`;
+          setTimeout(function () {
+            this.setState({ loaded: true });
+          }, 5000);
+          const meeting_joined = this.initJitsi(domain);
+          this.setState(meeting_joined);
+        } else {
+          this.setState({ loaded: true });
+          M.toast({
+            html: `Password is wrong!`,
+            classes: "red accent-2",
+          });
+          this.get_meetings();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  initJitsi = (domain) => {
+    const options = {
+      width: "100%",
+      height: 450,
+      parentNode: document.querySelector("#meet"),
+    };
+
+    const JitsiMeetExternalAPI =
+      window.JitsiMeetExternalAPI || window.exports.JitsiMeetExternalAPI;
+    const api = new JitsiMeetExternalAPI(domain, options);
+    this.api = api;
+    return true;
+  };
+
+  disposeJitsi = () => {
+    this.api === undefined
+      ? localStorage.removeItem("meetingId")
+      : this.api.dispose();
+    return "display-none";
+  };
   colors = (i) => {
     var colors = [
       "gradient-45deg-light-blue-cyan",
@@ -116,7 +157,11 @@ class VideoPlayer extends Component {
     this.setState({ currentPageNumber: pageNumber });
     this.get_meetings();
   };
-
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(this.state.selectedOption)
+    );
+  };
   render() {
     return (
       <div className="vid-containa">
@@ -149,7 +194,10 @@ class VideoPlayer extends Component {
           }`}
           style={{ height: 44 }}
         >
-          <div className="video-topbar-2 gradient-45deg-semi-dark">
+          <div
+            className="video-topbar-2 gradient-45deg-semi-dark modal-trigger"
+            data-target="join-meeting"
+          >
             Join a Meeting
           </div>
         </div>
@@ -163,12 +211,12 @@ class VideoPlayer extends Component {
         >
           <div className="divider" style={{ marginTop: 1 }}></div>
           <div className="center-align" style={{ marginTop: 30 }}>
-            <a
-              href="#!"
+            <Link
+              to="#"
               className="btn waves waves-effect gradient-45deg-semi-dark width-250"
             >
               Activity
-            </a>
+            </Link>
           </div>
           <div
             className="divider"
@@ -193,14 +241,14 @@ class VideoPlayer extends Component {
                   ></img>
                   <br />
                   <br />
-                  Loading Meetings Failed!
+                  No Meetings Found!
                 </p>
               </div>
             ) : (
               this.state.meetings.map((meeting, i) => (
                 <div
                   key={i}
-                  data-target="start-meeting"
+                  data-target="join-meeting"
                   className="col s12 m4 l3 cursor-pointer waves-effect modal-trigger"
                 >
                   <div id="flight-card" className="card">
@@ -233,9 +281,26 @@ class VideoPlayer extends Component {
                       >
                         <div className="row">
                           <div className="col s12 center-align">
-                            <i className="material-icons medium">
-                              play_circle_outline
-                            </i>
+                            {this.state.meeting.meetingId ===
+                            meeting.meetingId ? (
+                              this.state.loaded ? (
+                                <i className="material-icons medium">
+                                  play_circle_outline
+                                </i>
+                              ) : (
+                                <div id="preloader-2">
+                                  <div className="spinner-2">
+                                    <i className="material-icons medium text-animate-1">
+                                      play_circle_outline
+                                    </i>
+                                  </div>
+                                </div>
+                              )
+                            ) : (
+                              <i className="material-icons medium">
+                                play_circle_outline
+                              </i>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -317,10 +382,67 @@ class VideoPlayer extends Component {
                   </a>
                 </li>
               </ul>
+
+              <div
+                id="join-meeting"
+                className="modal modal-meeting border-radius-10"
+              >
+                <form
+                  className="react-form form-meeting"
+                  id="join-meeting-form"
+                  onSubmit={this.join_meeting}
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      videocam
+                    </i>
+                    Join Meeting!
+                  </h1>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="roomname" title="Room Name:" />
+                    <MeetingOptions onSelectOption={this.onSelectOption} />
+                    <div className="my-divider"></div>
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="password" title="Password:" />
+
+                    <input
+                      id="password"
+                      className="form-input input-meeting"
+                      name="password"
+                      type="password"
+                      required
+                    />
+                  </fieldset>
+
+                  <div className="form-group">
+                    <input
+                      id="start"
+                      className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Start"
+                    />
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    );
+  }
+}
+
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
     );
   }
 }

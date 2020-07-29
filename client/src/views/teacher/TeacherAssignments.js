@@ -7,7 +7,7 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { TeacherService } from "../../services/teacher";
-import ClassOptions from "./ClassOptions";
+import ClassOptions from "../../components/ClassOptions";
 
 class UploadNewAssignment extends Component {
   constructor(props) {

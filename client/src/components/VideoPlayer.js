@@ -8,6 +8,7 @@ import "../assets/css/video-player.css";
 
 import avatar from "../assets/images/gallary/not_found.gif";
 import { StreamService } from "../services/stream";
+import { Link } from "react-router-dom";
 
 class VideoPlayer extends Component {
   constructor() {
@@ -26,15 +27,12 @@ class VideoPlayer extends Component {
     const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ user });
     this.get_meetings();
-    this.initJitsi();
   }
 
   initJitsi = () => {
     const meeting = this.props.meetingData.startstop_meeting_res;
-    localStorage.setItem("meetingId", meeting.meetingId);
-    const domain = this.props.meetingData.startstop_meeting_res.started
-      ? meeting.room
-      : "meet.jit.si";
+    const domain = meeting.started ? meeting.data.room : "meet.jit.si";
+    console.log(domain);
     const options = {
       width: "100%",
       height: 450,
@@ -45,13 +43,13 @@ class VideoPlayer extends Component {
       window.JitsiMeetExternalAPI || window.exports.JitsiMeetExternalAPI;
     const api = new JitsiMeetExternalAPI(domain, options);
     this.api = api;
+    return "";
   };
 
   disposeJitsi = () => {
-    this.api.dispose() === undefined
+    this.api === undefined
       ? localStorage.removeItem("meetingId")
       : this.api.dispose();
-    this.get_meetings();
     return "display-none";
   };
 
@@ -104,16 +102,16 @@ class VideoPlayer extends Component {
     const endingIndex = startingIndex + perPage;
     return array.slice(startingIndex, endingIndex);
   };
-  handlePageClick = async (pageNumber) => {
+  handlePageClick = (pageNumber) => {
     this.setState({ currentPageNumber: parseInt(pageNumber) });
     this.get_meetings();
   };
-  handlePrevClick = async () => {
+  handlePrevClick = () => {
     const pageNumber = this.state.currentPageNumber - 1;
     this.setState({ currentPageNumber: pageNumber });
     this.get_meetings();
   };
-  handleNextClick = async () => {
+  handleNextClick = () => {
     const pageNumber = this.state.currentPageNumber + 1;
     console.log(pageNumber);
     this.setState({ currentPageNumber: pageNumber });
@@ -131,8 +129,8 @@ class VideoPlayer extends Component {
         <div
           className={`video-player ${
             this.props.meetingData.startstop_meeting_res.started
-              ? ""
-              : "display-none"
+              ? this.initJitsi()
+              : this.disposeJitsi()
           }`}
         >
           <div className="video-topbar-2 gradient-45deg-semi-dark">
@@ -179,13 +177,12 @@ class VideoPlayer extends Component {
         >
           <div className="divider" style={{ marginTop: 1 }}></div>
           <div className="center-align" style={{ marginTop: 30 }}>
-            <a
-              href="#!"
+            <Link
+              to="#!"
               className="btn waves waves-effect gradient-45deg-semi-dark width-250 border-radius-5"
-              onClick={() => this.get_meetings()}
             >
               Activity
-            </a>
+            </Link>
           </div>
           <div
             className="divider"
@@ -210,7 +207,7 @@ class VideoPlayer extends Component {
                   ></img>
                   <br />
                   <br />
-                  Loading Meetings Failed!
+                  No Meetings Found!
                 </p>
               </div>
             ) : (

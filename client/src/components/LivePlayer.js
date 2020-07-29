@@ -9,6 +9,7 @@ import StreamActions from "../actions/stream";
 import { Link } from "react-router-dom";
 import MeetingOptions from "../views/teacher/MeetingOptions";
 import { StreamService } from "../services/stream";
+import ClassOptions from "./ClassOptions";
 
 class LivePlayer extends Component {
   constructor() {
@@ -24,6 +25,7 @@ class LivePlayer extends Component {
           : JSON.parse(localStorage.getItem("liveclass")),
       url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
       selectedOption: {},
+      selectedClass: {},
       pages: [],
       meetings: [],
       meeting: {},
@@ -44,6 +46,11 @@ class LivePlayer extends Component {
       console.log(this.state.selectedOption)
     );
   };
+  onSelectClass = (selectedClass) => {
+    this.setState({ selectedClass }, () =>
+      console.log(this.state.selectedClass)
+    );
+  };
 
   create_meeting = (e) => {
     e.preventDefault();
@@ -51,7 +58,7 @@ class LivePlayer extends Component {
       createdby: this.state.user.userid,
       date: e.target.date.value,
       name: e.target.roomname.value,
-      classid: 1,
+      classid: this.state.selectedClass.value,
       notes: e.target.notes.value,
     };
     StreamService.create_meeting(data)
@@ -207,7 +214,10 @@ class LivePlayer extends Component {
               <StVideoPlayer meetingData={this.state} />
             )}
           </div>
-          <div id="create-meeting" className="modal modal-meeting border-radius-10">
+          <div
+            id="create-meeting"
+            className="modal modal-meeting border-radius-10"
+          >
             <form
               id="create-meeting-form"
               className="react-form form-meeting"
@@ -224,28 +234,40 @@ class LivePlayer extends Component {
               </h1>
 
               <hr className="hr5" style={{ marginBottom: 30 }} />
-              <fieldset className="form-group">
-                <ReactFormLabel htmlFor="roomname" title="Room Name:" />
-                <input
-                  id="roomname"
-                  className="form-input input-meeting"
-                  name="roomname"
-                  type="text"
-                  required
-                />
+              <fieldset className="form-group row">
+                <div className="col s6">
+                  <ReactFormLabel htmlFor="roomname" title="Room Name:" />
+                  <input
+                    id="roomname"
+                    className="form-input input-meeting"
+                    name="roomname"
+                    type="text"
+                    required
+                  />
+                </div>
+                <div className="col s6">
+                  <ReactFormLabel htmlFor="date" title="Date:" />
+
+                  <input
+                    id="date"
+                    className="form-input input-meeting"
+                    name="date"
+                    type="date"
+                    required
+                  />
+                </div>
               </fieldset>
               <fieldset className="form-group">
-                <ReactFormLabel htmlFor="date" title="Date:" />
-
-                <input
-                  id="date"
-                  className="form-input input-meeting"
-                  name="date"
-                  type="date"
-                  required
+                <ReactFormLabel htmlFor="classid" title="Class:" />
+                <ClassOptions
+                  style={{ transform: "translateY(-1px)" }}
+                  onSelectOption={this.onSelectClass}
                 />
+                <div
+                  style={{ transform: "translateY(-3px)" }}
+                  className="my-divider"
+                ></div>
               </fieldset>
-
               <fieldset className="form-group">
                 <ReactFormLabel htmlFor="notes" title="Notes:" />
 
@@ -269,7 +291,10 @@ class LivePlayer extends Component {
             </form>
           </div>
 
-          <div id="start-meeting" className="modal modal-meeting border-radius-10">
+          <div
+            id="start-meeting"
+            className="modal modal-meeting border-radius-10"
+          >
             <form
               className="react-form form-meeting"
               id="start-meeting-form"
