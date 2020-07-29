@@ -4,7 +4,6 @@ import SideBar from "../../components/SideBar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
-import { SchoolService } from "../../services/school";
 
 class AdminScreen extends Component {
   constructor(props) {
@@ -27,11 +26,10 @@ class AdminScreen extends Component {
       console.log(response);
       this.setState({ schools: response });
     });
-
     AdminService.get_subs_plans().then((response) => {
       this.setState({ packages: response });
     });
-    SchoolService.get_all_teachers(2).then((response) => {
+    AdminService.get_all_teachers().then((response) => {
       this.setState({ teachers: response });
     });
     AdminService.get_all_students().then((response) => {

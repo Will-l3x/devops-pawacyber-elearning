@@ -7,7 +7,8 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { UploadService } from "../../services/upload";
-import {AdminService} from '../../services/admin';
+import { AdminService } from '../../services/admin';
+import Classes from "../../components/Classes";
 
 class UploadContent extends Component {
   constructor(props) {
@@ -32,15 +33,16 @@ class UploadContent extends Component {
           sort: "asc",
           width: "40%",
         },
-        {
-          label: "File",
-          field: "file",
-          sort: "asc",
-          width: "30%",
-        },
+        // {
+        //   label: "File",
+        //   field: "file",
+        //   sort: "asc",
+        //   width: "30%",
+        // },
       ],
       rows: [],
       courses: [],
+      class: ""
     };
   }
 
@@ -55,6 +57,7 @@ class UploadContent extends Component {
     this.loggedUserId = this.user.userid;
     this.schoolid = this.user.schoolid;
     M.AutoInit();
+    this.getDashData();
   }
 
   getDashData() {
@@ -64,7 +67,7 @@ class UploadContent extends Component {
         console.log(response);
       } else {
         for (const material of response) {
-          material.push(material);
+          materials.push(material);
         }
       }
       this.setState({
@@ -85,8 +88,8 @@ class UploadContent extends Component {
       materialname: event.target.materialname.value,
       materialtype: "file",
       file: true,
-      classid: event.target.subject.value,
-      grade: event.target.grade.value,
+      classid: this.state.class.classId,
+      grade: this.state.class.grade,
     };
 
     UploadService.post_material(data).then((response) => {
@@ -101,9 +104,9 @@ class UploadContent extends Component {
         uploadData.append("uploadId", response.uploadId);
 
         UploadService.upload(uploadData).then((resp) => {
-
           if (resp.success === true) {
             alert(resp.message);
+            this.componentDidMount();
           } else {
             alert(resp.message);
           }
@@ -111,6 +114,12 @@ class UploadContent extends Component {
       } else {
         alert(response.message);
       }
+    });
+  };
+
+  onSelectClassOption = (selectedOption) => {
+    this.setState({
+      class: selectedOption
     });
   };
 
@@ -179,21 +188,18 @@ class UploadContent extends Component {
                   </h1>
                   {/* <hr className="hr5" style={{ marginBottom: 30 }} /> */}
                   <div className="row">
-                    <div className="col s6 m6">
+                    <div className="col s12 m12">
                       <fieldset className="form-group">
-                        <ReactFormLabel htmlFor="subject" title="Subject ID:" />
-                        <input
-                          className="form-input input-meeting"
-                          id="subject"
-                          type="text"
-                          name="subject"
-                          required
-                        />
+                        <label style={{ transform: "translateY(-15px)", fontSize: "12px" }} >
+                          SELECT SUBJECT *
+                        </label>
+                        <Classes onSelectOption={this.onSelectClassOption} required />
+                        <div style={{ marginTop: "10px" }} className="my-divider"></div>
                       </fieldset>
                     </div>
-                    <div className="col s6 m6">
+                    {/* <div className="col s6 m6">
                       <fieldset className="form-group">
-                        <ReactFormLabel htmlFor="grade" title="Grade:" />
+                        <ReactFormLabel htmlFor="grade" title="Grade *" />
                         <input
                           className="form-input input-meeting"
                           id="grade"
@@ -204,12 +210,12 @@ class UploadContent extends Component {
                           required
                         />
                       </fieldset>
-                    </div>
+                    </div> */}
                   </div>
                   <fieldset className="form-group">
                     <ReactFormLabel
                       htmlFor="materialname"
-                      title="Resource Name:"
+                      title="Resource Name *"
                     />
                     <input
                       className="form-input input-meeting"

@@ -1618,6 +1618,38 @@ let subscribestudent = (req, res) => {
         });
 };
 
+
+let teachers = (req, res) => {
+
+    let query = `select * from [teachers]`;
+    let request = new sql.Request();
+  
+    request.query(query, function (err, recordset) {
+      let teachers;
+      if (recordset.recordset) {
+        teachers = recordset.recordset;
+      } else {
+        teachers = [];
+      }
+      if (err) {
+        console.log(err);
+        console.log(err.stack);
+        return res.json({
+          status: 500,
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        return res.json({
+          status: 200,
+          success: true,
+          data: JSON.parse(JSON.stringify({ teachers })),
+        });
+      }
+    });
+  };
+
 module.exports = {
     genders: genders,
     roles: roles,
@@ -1644,5 +1676,6 @@ module.exports = {
     classesByGrade:classesByGrade,
     post_payment_enrol: post_payment_enrol,
     students:students,
-    materials:materials
+    materials:materials,
+    teachers:teachers
 };

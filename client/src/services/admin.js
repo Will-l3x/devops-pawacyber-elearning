@@ -40,7 +40,8 @@ export const AdminService = {
   get_subadmin,
   get_subadmins,
   get_all_students,
-  get_all_resources
+  get_all_resources,
+  get_all_teachers
 
 };
 
@@ -50,6 +51,16 @@ async function get_all_students() {
     return res.data.data.students;
   } catch (err) {
     console.log(err);
+  }
+}
+
+async function get_all_teachers() {
+  try {
+    let res = await axios.get(`/teachers`, config);
+    return res.data.data.teachers;
+  } catch (err) {
+    console.log(err);
+    return [];
   }
 }
 
