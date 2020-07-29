@@ -213,7 +213,8 @@ class SchoolTeacherManagementScreen extends Component {
       });
   };
 
-  handleDelete = () => {
+  handleDelete = (event) => {
+    event.preventDefault();
     SchoolService.delete_teacher(this.state.teacherId)
       .then((response) => {
         if (response.data.message === "An error occured") {

@@ -198,7 +198,8 @@ class SubscriptionScreen extends Component {
       });
   };
 
-  handleDelete = () => {
+  handleDelete = (event) => {
+    event.preventDefault();
     AdminService.delete_plan(this.state.subId)
       .then((response) => {
         if (response.message === "An error occured") {

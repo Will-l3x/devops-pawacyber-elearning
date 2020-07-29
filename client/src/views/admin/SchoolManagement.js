@@ -217,9 +217,11 @@ class SchoolManagement extends Component {
         this.getDashData();
       });
   };
-  handleDelete = () => {
+  handleDelete = (event) => {
+    event.preventDefault();
     AdminService.delete_school(this.state.schoolId)
       .then((response) => {
+        console.log(response);
         if (response.data.message === "An error occured") {
           M.toast({
             html: `An error occured, delete failed!`,

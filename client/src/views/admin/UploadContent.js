@@ -270,7 +270,7 @@ class UploadContent extends Component {
                     to="#!"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                    onClick={this.handleDelete}
+                    //onClick={this.handleDelete}
                   >
                     Yes
                   </Link>
