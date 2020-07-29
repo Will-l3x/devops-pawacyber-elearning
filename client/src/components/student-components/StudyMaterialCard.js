@@ -176,7 +176,7 @@ export default class StudyMaterialCard extends Component {
 
         <div id="modal1" className="modal">
           <div className="modal-content">
-            <div className="col s12 m10">
+            <div className="col s12 m12">
               <div className="ex-basic-1">
                 <h4 className="header2">Add Subjects</h4>
               </div>
