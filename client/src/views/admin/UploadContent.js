@@ -7,7 +7,7 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { UploadService } from "../../services/upload";
-//import {StudentService} from '../../services/student';
+import {AdminService} from '../../services/admin';
 
 class UploadContent extends Component {
   constructor(props) {
@@ -16,19 +16,25 @@ class UploadContent extends Component {
       columns: [
         {
           label: "Subject",
-          field: "subject",
+          field: "classid",
           sort: "asc",
           width: "30%",
         },
         {
           label: "Resource Name",
-          field: "resourceName",
+          field: "materialname",
           sort: "asc",
           width: "40%",
         },
         {
-          label: "Grade",
-          field: "grade",
+          label: "Teacher ID",
+          field: "teacherid",
+          sort: "asc",
+          width: "40%",
+        },
+        {
+          label: "File",
+          field: "file",
           sort: "asc",
           width: "30%",
         },
@@ -51,8 +57,26 @@ class UploadContent extends Component {
     M.AutoInit();
   }
 
+  getDashData() {
+    const materials = [];
+    AdminService.get_all_resources().then((response) => {
+      if (response === undefined) {
+        console.log(response);
+      } else {
+        for (const material of response) {
+          material.push(material);
+        }
+      }
+      this.setState({
+        rows: materials,
+      });
+    });
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
+
+    // get_all_resources
     this.fileUpload = event.target.fileUpload.files[0];
     console.log(this.fileUpload);
     var data = {

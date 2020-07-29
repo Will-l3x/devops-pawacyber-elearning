@@ -39,14 +39,24 @@ export const AdminService = {
   delete_plan,
   get_subadmin,
   get_subadmins,
-  get_all_students
+  get_all_students,
+  get_all_resources
 
 };
 
-async function get_all_students(id) {
+async function get_all_students() {
   try {
     let res = await axios.get(`/students`, config);
     return res.data.data.students;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function get_all_resources() {
+  try {
+    let res = await axios.get(`/materials`, config);
+    return res.data.data.materials;
   } catch (err) {
     console.log(err);
   }
