@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { StudentService } from '../../services/student';
 
-
 export default class SubjectDescrip extends Component {
 
   constructor(props) {
@@ -30,6 +29,13 @@ export default class SubjectDescrip extends Component {
     var data = {
       file: resource.file
     }
+    StudentService.download(data)
+      .then((response) => {
+        console.log(response);
+        // alert("Ddownload FInished");
+        // this.setState({ resources: response })
+      });
+  
 
     setTimeout(() => {
       StudentService.download(data)

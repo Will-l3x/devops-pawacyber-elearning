@@ -24,7 +24,6 @@ export const StudentService = {
 
 async function download(data) {
   try {
-
     let res = await axios.post(`https://cybers.azurewebsites.net/api/upload/get`, qs.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,
