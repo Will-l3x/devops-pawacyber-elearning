@@ -169,7 +169,7 @@ export default class RegistrationForm extends Component {
         gradeid: this.state.grade,
         firstname: event.target.firstname.value,
         lastname: event.target.lastname.value,
-        title: "",
+        title: this.state.gender == "1" ? "Mr" : "Miss",
         vpassword: event.target.vpassword.value,
         dob: event.target.dob.value,
         genderid: this.state.gender,
@@ -210,7 +210,7 @@ export default class RegistrationForm extends Component {
       customerFirstName: det.firstname,
       customerLastName: det.lastname,
       serviceDescription: this.state.selectedOption.subscriptionname,
-      routeSuccessLink: "https://cybers.azurewebsites.net/payment-confirmed",
+      routeSuccessLink: "https://cybers.azurewebsites.net/#/payment-confirmed",
     };
 
     localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
@@ -318,13 +318,13 @@ export default class RegistrationForm extends Component {
               </div>
             </div>
             <div className="col s12 m3">
-              {/* <div className="input-field">
-                  <select name="gender"  onChange={this.handleTitleDropdownChange} >
-                    <option value="1">Male</option>
-                    <option value="2">Female</option>
-                  </select>
-                  <label htmlFor="gender">Gender * </label>
-                </div> */}
+              <div className="input-field">
+                <select name="gender" onChange={this.handleTitleDropdownChange} >
+                  <option value="1">Male</option>
+                  <option value="2">Female</option>
+                </select>
+                <label htmlFor="gender">Gender * </label>
+              </div>
             </div>
           </div>
           <div className="row mt-1">
@@ -1068,79 +1068,79 @@ export default class RegistrationForm extends Component {
         </form>
       </div>
     ) : (
-      <div className="col s12 m10">
-        <div className="ex-basic-1">
-          <h4>Subscription Options</h4>
+        <div className="col s12 m10">
+          <div className="ex-basic-1">
+            <h4>Subscription Options</h4>
+          </div>
+          <form
+            id="contact"
+            data-toggle="validator"
+            data-focus="false"
+            onSubmit={this.handlePayment}
+          >
+            <div className="row mt-1">
+              <div className="col s12 m6">
+                <div className="input-field">
+                  <label
+                    style={{ transform: "translateY(-15px)", fontSize: "12px" }}
+                  >
+                    Subscription Package*
+                </label>
+                  <PackageOptions onSelectOption={this.onSelectOption} required />
+                  <div className="my-divider"></div>
+                </div>
+              </div>
+
+              <div className="col s12 m6">
+                <div className="input-field">
+                  <label
+                    style={{ transform: "translateY(-15px)", fontSize: "12px" }}
+                  >
+                    Subjects *
+                </label>
+                  <ClassOptions
+                    onSelectOption={this.onSelectClassOption}
+                    required
+                  />
+                  <div className="my-divider"></div>
+                </div>
+              </div>
+            </div>
+            <p style={{ textAlign: "center", color: "red" }}>
+              {this.state.message}
+            </p>
+            <div className="row mt-1">
+              {this.state.selectedsubs.map((sub, i) => (
+                <div className="col" style={{ marginBottom: "20px" }}>
+                  <span
+                    key={i}
+                    style={{
+                      border: "solid",
+                      padding: "5px",
+                      borderRadius: "10px",
+                      borderColor: "#2196F3",
+                      textAlign: "center",
+                    }}
+                  >
+                    {sub.classname}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="form-group">
+              {!this.state.loading ? (
+                <button type="submit" className="form-control-submit-button">
+                  Make Payment
+                </button>
+              ) : (
+                  <div className="loader-3 center">
+                    <span></span>
+                  </div>
+                )}
+            </div>
+          </form>
         </div>
-        <form
-          id="contact"
-          data-toggle="validator"
-          data-focus="false"
-          onSubmit={this.handlePayment}
-        >
-          <div className="row mt-1">
-            <div className="col s12 m6">
-              <div className="input-field">
-                <label
-                  style={{ transform: "translateY(-15px)", fontSize: "12px" }}
-                >
-                  Subscription Package*
-                </label>
-                <PackageOptions onSelectOption={this.onSelectOption} required />
-                <div className="my-divider"></div>
-              </div>
-            </div>
-
-            <div className="col s12 m6">
-              <div className="input-field">
-                <label
-                  style={{ transform: "translateY(-15px)", fontSize: "12px" }}
-                >
-                  Subjects *
-                </label>
-                <ClassOptions
-                  onSelectOption={this.onSelectClassOption}
-                  required
-                />
-                <div className="my-divider"></div>
-              </div>
-            </div>
-          </div>
-          <p style={{ textAlign: "center", color: "red" }}>
-            {this.state.message}
-          </p>
-          <div className="row mt-1">
-            {this.state.selectedsubs.map((sub, i) => (
-              <div className="col" style={{ marginBottom: "20px" }}>
-                <span
-                  key={i}
-                  style={{
-                    border: "solid",
-                    padding: "5px",
-                    borderRadius: "10px",
-                    borderColor: "#2196F3",
-                    textAlign: "center",
-                  }}
-                >
-                  {sub.classname}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          <div className="form-group">
-            {!this.state.loading ? (
-              <button type="submit" className="form-control-submit-button">
-                Make Payment
-              </button>
-            ) : (
-              <div class="loader-3 center">
-                <span></span>
-              </div>
-            )}
-          </div>
-        </form>
-      </div>
-    );
+      );
   }
 }

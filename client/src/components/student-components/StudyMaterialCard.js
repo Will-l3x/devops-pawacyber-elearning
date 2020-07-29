@@ -56,7 +56,7 @@ export default class StudyMaterialCard extends Component {
       customerFirstName: this.userAll.firstname,
       customerLastName: this.userAll.lastname,
       serviceDescription: this.state.selectedOption.subscriptionname,
-      routeSuccessLink: "https://cybers.azurewebsites.net/payment-upgrade"
+      routeSuccessLink: "https://cybers.azurewebsites.net/#/payment-upgrade"
     };
 
     PaymentService.createToken(paymentDetails).then((response) => {
