@@ -49,6 +49,17 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
+            to="/all-subjects"
+            className="waves-effect waves-cyan"
+            onClick={this.onClick}
+          >
+            <i className="material-icons">class</i>
+            <span className="nav-text">Subjects</span>
+          </Link>
+          
+        </li>
+        <li className="bold">
+          <Link
             to="/content-upload"
             className="waves-effect waves-cyan"
             onClick={this.onClick}

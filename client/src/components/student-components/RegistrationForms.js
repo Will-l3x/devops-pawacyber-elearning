@@ -24,12 +24,12 @@ export default class RegistrationForm extends Component {
       selectedsubs: [],
       message: "",
     };
-
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
   }
 
   componentDidMount() {
+   
     M.AutoInit();
     function legalTerms() {
       var totalLegalRules = $(".legal__rule").length;

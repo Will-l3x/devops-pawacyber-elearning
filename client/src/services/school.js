@@ -29,7 +29,12 @@ export const SchoolService = {
 };
 
 // Create Courses
-
+// let teacherid = req.body.teacherid;
+// let classname = req.body.classname;
+// let createdby = req.body.createdby;
+// let status = req.body.status;
+// let grade = req.body.grade;
+// let schoolid = req.body.schoolid;
 async function post_new_course(data) {
   try {
     let res = await axios.post(`/add_class`, qs.stringify(data), config);
@@ -38,6 +43,7 @@ async function post_new_course(data) {
     console.log(err);
   }
 }
+
 async function update_course(data) {
   try {
     let res = await axios.put(`/update_class`, qs.stringify(data), config);

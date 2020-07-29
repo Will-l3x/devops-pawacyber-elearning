@@ -15,15 +15,19 @@ class LoginScreen extends Component {
   today = new Date();
   curHr = this.today.getHours();
 
+  componentDidMount() {
+    localStorage.clear();
+  }
+
   constructor() {
     super();
     this.state = {
-      email:"",
+      email: "",
       username: "",
       userid: "",
       schoolid: "",
       roleid: "",
-     
+
     };
 
     if (this.curHr < 12) {
@@ -37,9 +41,9 @@ class LoginScreen extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-   
-    var globalEmail =  event.target.username.value;
-   
+
+    var globalEmail = event.target.username.value;
+
     var registerAdmin = {
       email: event.target.username.value,
       password: event.target.password.value,
@@ -79,20 +83,21 @@ class LoginScreen extends Component {
 
         const token = response.token;
         localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("userAll",JSON.stringify(userAll));
+        localStorage.setItem("userAll", JSON.stringify(userAll));
         this.setState({
-          email:globalEmail,
-          roleid:roleid,
-          username:username,
-          userid:userid,
-          schoolid:schoolid,
-          token:token
+          email: globalEmail,
+          roleid: roleid,
+          username: username,
+          userid: userid,
+          schoolid: schoolid,
+          token: token
         });
       }
     });
   };
 
   render() {
+
     if (this.state.roleid === 1) {
       localStorage.setItem("user", JSON.stringify(this.state));
       return <Redirect to="/teacher" />;
@@ -110,6 +115,7 @@ class LoginScreen extends Component {
       return <Redirect to="/school" />;
     }
     return (
+
       <main id="main_1">
         <OuterHeader></OuterHeader>
         <div className="container content-pawa" style={{ paddingTop: "2%" }}>
