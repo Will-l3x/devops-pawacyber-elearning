@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 // import bg_img from "../assets/images/details-1-office-worker.svg";
 // import bg_img from "../assets/images/details-lightbox-1.svg";
 
-import headerImg from "../assets/images/wall.png";
+import headerImg from "../assets/images/login_illu.png";
 import { Redirect } from "react-router";
 import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
@@ -123,16 +123,18 @@ class LoginScreen extends Component {
             <div className="col s8 offset-s2">
               <div
                 className="card card-login row mt-1"
-                style={{ padding: "10px" }}
+                style={{ padding: "10px", borderRadius: 10, }}
               >
                 <div className="col s12 m5">
                   <div
                     className="image-container"
-                    style={{ paddingTop: "80px" }}
+                    style={{ marginTop: "80px" }}
                   >
                     <img
                       className="img-fluid"
                       src={headerImg}
+                      width="100%"
+                      // height="100%"
                       alt="alternative"
                     />
                   </div>

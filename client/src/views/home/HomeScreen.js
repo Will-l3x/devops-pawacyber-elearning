@@ -176,7 +176,7 @@ class HomeScreen extends Component {
                       <img
                         className="img-fluid z-depth-5"
                         src={headerImg}
-                        alt="alternative"
+                        alt="pawa cyber school"
                         style={{
                           borderRadius: 10,
                         }}

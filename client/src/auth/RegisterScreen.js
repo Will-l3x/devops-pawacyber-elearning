@@ -9,10 +9,10 @@ import RegistrationForm from '../components/student-components/RegistrationForms
 class RegisterScreen extends Component {
     render() {
         return (
-            <div>
+            <div style={{ backgroundColor: "white", height: "100vh" }}>
                 <OuterHeader></OuterHeader>
                 <div className="content-pawa" >
-                    <div className="form-2" style={{ marginBottom: "-50px" }}>
+                    <div className="form-1" style={{ marginBottom: "-72px", backgroundColor: "white" }}>
                         <div className="container" style={{ marginTop: "-100px" }}>
                             <div className="row mt-1" >
                                 <div className="col s12 m5">

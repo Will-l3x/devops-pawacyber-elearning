@@ -29,7 +29,7 @@ export default class RegistrationForm extends Component {
   }
 
   componentDidMount() {
-   
+
     M.AutoInit();
     function legalTerms() {
       var totalLegalRules = $(".legal__rule").length;
@@ -282,16 +282,11 @@ export default class RegistrationForm extends Component {
       return <Redirect to="/" />;
     }
     return !this.state.proceedToPay ? (
-      <div className="col s12 m10">
+      <div className="col s12 m12">
         <div className="ex-basic-1">
-          <h4>CREATE A STUDENT ACCOUNT</h4>
+          <h5>CREATE A STUDENT ACCOUNT</h5>
         </div>
-        <form
-          id="contact"
-          data-toggle="validator"
-          data-focus="false"
-          onSubmit={this.handleSubmit}
-        >
+        <form id="contact" data-toggle="validator" data-focus="false" onSubmit={this.handleSubmit}>
           <div className="row mt-1">
             <div className="col s12 m5">
               <div className="input-field">
