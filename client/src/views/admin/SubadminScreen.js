@@ -98,13 +98,24 @@ class SubadminScreen extends Component {
 
     AuthService.register(registerAdmin).then((response) => {
       if (response === undefined) {
-        alert("Subadmin Registration Failed");
+      
+        M.toast({
+          html: "Subadmin registration failed",
+          classes: "red ",
+        });
       } else if (response.success === false) {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "red ",
+        });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        alert(response.message);
+       
+        M.toast({
+          html:response.message,
+          classes: "green ",
+        });
       }
     });
   };

@@ -95,9 +95,17 @@ class RolesScreen extends Component {
     };
     AdminService.post_new_role(data).then((response) => {
       if (response === undefined) {
-        alert(response);
+   
+        M.toast({
+          html: response,
+          classes: "red ",
+        });
       } else {
-        alert(response.message);
+     
+        M.toast({
+          html: response.message,
+          classes: "green ",
+        });
         document.getElementById("sibs").reset();
         this.getDashData();
       }
@@ -119,13 +127,25 @@ class RolesScreen extends Component {
     console.log(registerAdmin);
     /**AdminService.register(registerAdmin).then((response) => {
       if (response === undefined) {
-        alert("Teacher Registration Failed");
+   
+        M.toast({
+          html: "Teacher Registration Failed",
+          classes: "red",
+        });
       } else if (response.success === false) {
-        alert(response.message);
+      
+                M.toast({
+          html: response.message,
+          classes: "red",
+        });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        alert(response.message);
+        
+                   M.toast({
+          html: response.message,
+          classes: "red",
+        });
       }
     }); */
   };

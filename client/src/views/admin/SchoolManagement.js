@@ -164,17 +164,17 @@ class SchoolManagement extends Component {
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
-        console.log(response.password);
-        alert(
-          response.message + "\nSchool Admin password is : " + response.password
-        );
+        M.toast({
+          html: response.message + "\nSchool Admin password is : " + response.password,
+          classes: "green ",
+        });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        alert(
-          response.message + "\nSchool Admin password is : " + response.password
-        );
-        console.log(response.password);
+        M.toast({
+          html: response.message + "\nSchool Admin password is : " + response.password,
+          classes: "green",
+        });
       }
     });
   };

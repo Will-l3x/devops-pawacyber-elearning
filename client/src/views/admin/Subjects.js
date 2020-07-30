@@ -108,7 +108,7 @@ class AllClasses extends Component {
               <ul className="card-action-buttons2">
                 <li>
                   <a
-                   
+
                     className="btn-floating waves-effect waves-light light-blue"
                     onClick={() => this.handleEdit(course)}
                   >
@@ -162,17 +162,27 @@ class AllClasses extends Component {
     this.setState({ enrolmentkey: data.enrolmentkey });
     SchoolService.post_new_course(data).then((response) => {
       if (response === undefined) {
-        alert("Apologies. Course addition failed. Please contact admin");
+        M.toast({
+          html: "Apologies. Course addition failed. Please contact admin",
+          classes: "red ",
+        });
       } else if (response.success === false) {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "red ",
+        });
       } else {
-        alert("successfully added");
+
+        M.toast({
+          html: "Successfully added",
+          classes: "green ",
+        });
         document.getElementById("sibs").reset();
         this.getDashData();
       }
     });
   };
-  
+
   handleEdit = (course) => {
     this.setState(
       {
@@ -213,13 +223,21 @@ class AllClasses extends Component {
     };
     console.log(data);
     SchoolService.update_course(data).then((response) => {
-      console.log(response);
       if (response === undefined) {
-        alert("Apologies. Update. Please contact admin");
+        M.toast({
+          html: "Apologies. Update. Please contact admin",
+          classes: "red ",
+        });
       } else if (response.success === false) {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "red ",
+        });
       } else {
-        alert("successfully added");
+        M.toast({
+          html: "Successfully added",
+          classes: "green ",
+        });
         document.getElementById("sibs2").reset();
         this.getDashData();
       }
@@ -305,7 +323,7 @@ class AllClasses extends Component {
                     </p>
                   </div>
                   <a
-                   
+
                     data-target="modal1"
                     className="modal-trigger tooltipped waves-effect right"
                     data-tooltip="Add Class"
@@ -319,7 +337,7 @@ class AllClasses extends Component {
                     <i className="material-icons">add_circle_outline</i>
                   </a>
                   <a
-                   
+
                     className={`tooltipped waves-effect right blue-text accent-2`}
                     data-tooltip="Refresh"
                     data-position="top"

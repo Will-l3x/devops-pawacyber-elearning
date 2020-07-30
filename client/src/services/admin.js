@@ -70,6 +70,7 @@ async function get_all_resources() {
     return res.data.data.materials;
   } catch (err) {
     console.log(err);
+    return [];
   }
 }
 
