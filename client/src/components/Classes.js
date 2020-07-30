@@ -55,6 +55,7 @@ class Classes extends Component {
     return (
       <Select
         classNamePrefix="custom-options"
+        className ="form-input "
         value={selectedOption}
         onChange={this.handleChange}
         options={options}

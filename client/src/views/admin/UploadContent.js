@@ -195,7 +195,7 @@ class UploadContent extends Component {
                   </h1>
                   {/* <hr className="hr5" style={{ marginBottom: 30 }} /> */}
                   <div className="row">
-                    <div className="col s12 m12">
+                    <div className="">
                       <fieldset className="form-group">
                         <label
                           style={{
