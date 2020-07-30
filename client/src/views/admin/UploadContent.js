@@ -10,6 +10,7 @@ import { UploadService } from "../../services/upload";
 import { AdminService } from "../../services/admin";
 import Classes from "../../components/Classes";
 import { Link } from "react-router-dom";
+import ResourceCard from "./ResourceCard";
 
 class UploadContent extends Component {
   constructor(props) {
@@ -167,8 +168,10 @@ class UploadContent extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
-                    <DatatablePage data={this.state} />
+                  {/* <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                    <DatatablePage data={this.state} /> */}
+                    <div className="card-stats padding-3 border-radius-10">
+                   < ResourceCard></ ResourceCard>
                   </div>
                 </div>
               </section>
@@ -270,7 +273,7 @@ class UploadContent extends Component {
                     to="#"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                    //onClick={this.handleDelete}
+                  //onClick={this.handleDelete}
                   >
                     Yes
                   </Link>
