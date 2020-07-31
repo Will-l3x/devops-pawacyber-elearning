@@ -41,6 +41,7 @@ class LoginScreen extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    var studentData;
 
     var globalEmail = event.target.username.value;
 
@@ -59,9 +60,18 @@ class LoginScreen extends Component {
         document.getElementById("contactForm").reset();
         var id;
         var schoolid;
+        var gradeid;
+
         if (response.roleid === 3) {
+          gradeid = response.User.gradeid;
           id = response.User.studentId;
           schoolid = response.User.schoolid;
+          studentData = {
+            gradeid: gradeid,
+            schoolid: schoolid,
+          };
+          localStorage.setItem("studentData", JSON.stringify(studentData));
+         
         } else if (response.roleid === 1) {
           id = response.User.teacherId;
           schoolid = response.User.schoolid;

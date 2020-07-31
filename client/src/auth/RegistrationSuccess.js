@@ -33,7 +33,7 @@ class RegisterSuccessScreen extends Component {
 
     getLocalStorageData() {
         this.setState({
-            registrationDetails: JSON.parse(localStorage.getItem("registrationData")),
+            registrationDetails: JSON.parse(localStorage.getItem("studentData")),
             subscriptionDetails: JSON.parse(localStorage.getItem("selectedPackage")),
             enrolmentDetails: JSON.parse(localStorage.getItem("selectedSubjects")),
             paymentdetails: JSON.parse(localStorage.getItem("paymentDetails"))
@@ -57,7 +57,8 @@ class RegisterSuccessScreen extends Component {
                     classes: "red accent-2",
                 });
                 this.setState({
-                    message: "Oopss Registation Failed. Contact admin"
+                    message: "Oopss Registation Failed. Contact admin",
+                    loading: false
                 });
             } else if (response.success === false) {
                 M.toast({
@@ -66,7 +67,8 @@ class RegisterSuccessScreen extends Component {
                 });
 
                 this.setState({
-                    message: response.message
+                    message: response.message,
+                    loading: false
                 });
             } else {
                 this.setState({
@@ -93,11 +95,19 @@ class RegisterSuccessScreen extends Component {
                     html: "Subscription Failed. Please contact system adminstrator.",
                     classes: "red accent-2",
                 });
+                this.setState({
+                    message: "Subscription Failed. Please contact system adminstrator.",
+                    loading: false
+                });
             } else if (response.success === false) {
 
                 M.toast({
                     html: response.message,
                     classes: "red accent-2",
+                });
+                this.setState({
+                    message: response.message,
+                    loading: false
                 });
             } else {
                 this.setState({
@@ -114,7 +124,7 @@ class RegisterSuccessScreen extends Component {
         console.log(userid);
         var count = 0;
         for (let i = 0; i < this.state.enrolmentDetails.length; i++) {
-         
+
             var enrolData = {
                 studentid: userid,
                 classid: this.state.enrolmentDetails[i].classId,
@@ -125,14 +135,23 @@ class RegisterSuccessScreen extends Component {
                         html: "Enrolment Failed. Please contact system adminstrator.",
                         classes: "red accent-2",
                     });
+                    this.setState({
+                        message: "Enrolment Failed. Please contact system adminstrator.",
+                        loading: false
+                    });
                 } else if (response.success === false) {
-                  
+
                     M.toast({
                         html: response.message,
                         classes: "red accent-2",
                     });
+                    this.setState({
+                        message: response.message,
+                        loading: false
+                    });
                 } else {
                     if ((i + 1) === this.state.enrolmentDetails.length) {
+                        count +=1;
                         M.toast({
                             html: "Registration successfull",
                             classes: "green accent-3",
@@ -143,6 +162,7 @@ class RegisterSuccessScreen extends Component {
                             proceed: true
                         });
                     } else {
+                        count +=1;
                         this.setState({
                             message: `Adding resources ( ${count} of ${this.state.enrolmentDetails.length} )...`,
                         });
@@ -175,11 +195,11 @@ class RegisterSuccessScreen extends Component {
                                             <p style={{ marginTop: "100px", color: "#2196F3", textAlign: 'center', fontSize: '20px' }}>{this.state.message}</p>
                                             {
                                                 this.state.proceed ?
-                                                        <Link className="btn-solid-lg" rel="noopener noreferrer" to="/login" style={{marginLeft:"35%",marginTop: "100px", marginRight:"35%"}}>
-                                                            Get Started - Login 
+                                                    <Link className="btn-solid-lg" rel="noopener noreferrer" to="/login" style={{ marginLeft: "35%", marginTop: "100px", marginRight: "35%" }}>
+                                                        Login
                                                         </Link>
                                                     :
-                                                    <div style={{marginTop: "200px",}}class="loader-3 center"><span></span></div>
+                                                    <div style={{ marginTop: "200px", }} class="loader-3 center"><span></span></div>
                                             }
                                         </div>
                                     </div>

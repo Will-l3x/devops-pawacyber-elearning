@@ -6,11 +6,11 @@ import { AdminService } from "../../services/admin";
 
 let options = [];
 
- AdminService.get_subs_plans()
+AdminService.get_subs_plans()
   .then((response) => {
     for (const subplan of response) {
       subplan.value = subplan.price;
-      subplan.label = subplan.subscriptionname + ' - N$ '+subplan.price;
+      subplan.label = subplan.subscriptionname + " [Grade: " + subplan.mingrade + " to " + subplan.maxgrade + ']  - N$' + subplan.price;
       options.push(subplan);
     }
   })
@@ -25,11 +25,11 @@ class subplanOptions extends Component {
     this.state = {
       options: [],
       selectedOption: null,
-      packageDescription:null
+      packageDescription: null
     };
     this.handleChange.bind(this);
   }
-  
+
   componentDidMount() {
     M.AutoInit();
   }

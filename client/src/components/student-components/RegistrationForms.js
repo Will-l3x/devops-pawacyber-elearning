@@ -5,7 +5,7 @@ import M from "materialize-css";
 import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
-import ClassOptions from "./ClassesOptions";
+import SubcribeClassOptions from "./SubcribeClassOptions";
 // import SchoolOptions from "./SchoolOptions";
 
 export default class RegistrationForm extends Component {
@@ -22,7 +22,7 @@ export default class RegistrationForm extends Component {
       loading: false,
       numberOfsubs: 0,
       selectedsubs: [],
-      message: "Registration in progress...",
+      message: "",
     };
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
@@ -173,11 +173,11 @@ export default class RegistrationForm extends Component {
         vpassword: event.target.vpassword.value,
         dob: event.target.dob.value,
         genderid: this.state.gender,
-        schoolid: this.state.selectedSchool.value,
+        schoolid:this.state.selectedSchool,
       };
     }
 
-    localStorage.setItem("registrationData", JSON.stringify(registerAdmin));
+    localStorage.setItem("studentData", JSON.stringify(registerAdmin));
     setTimeout(
       function () {
         this.setState({ proceedToPay: true });
@@ -186,11 +186,7 @@ export default class RegistrationForm extends Component {
     );
   };
 
-  onSelectSchool = (selectedSchool) => {
-    this.setState({ selectedSchool }, () =>
-      console.log(this.state.selectedSchool)
-    );
-  };
+
   handlePayment = (event) => {
     event.preventDefault();
     this.setState({ loading: true });
@@ -203,7 +199,7 @@ export default class RegistrationForm extends Component {
       JSON.stringify(this.state.selectedsubs)
     );
 
-    var det = JSON.parse(localStorage.getItem("registrationData"));
+    var det = JSON.parse(localStorage.getItem("studentData"));
     var paymentDetails = {
       paymentAmount: parseFloat(this.state.selectedOption.price),
       customerEmail: det.email,
@@ -360,13 +356,7 @@ export default class RegistrationForm extends Component {
               </div>
             </div>
             <div className="col s12 m5">
-              {/* <div className="input-field">
-                <label className="label-1" htmlFor="schoolId">
-                  Enter School*
-                </label>
-                <SchoolOptions onSelectOption={this.onSelectSchool} />
-                <div className="my-divider"></div>
-              </div> */}
+
               <div className="input-field">
                 <input
                   id="email"
@@ -1093,7 +1083,7 @@ export default class RegistrationForm extends Component {
                   >
                     Subjects *
                 </label>
-                  <ClassOptions
+                  <SubcribeClassOptions
                     onSelectOption={this.onSelectClassOption}
                     required
                   />

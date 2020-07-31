@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import avatar from "../../assets/images/icon/book_lover.png";
 import M from "materialize-css";
 import PackageOptions from "./PackageOption";
-import ClassOptions from "./ClassesOptions";
+import SubcribeClassOptions from "./SubcribeClassOptions";
 import { PaymentService } from "../../services/paymentService";
 
 export default class StudyMaterialCard extends Component {
@@ -221,7 +221,7 @@ export default class StudyMaterialCard extends Component {
                       <label style={{ transform: "translateY(-15px)", fontSize: "12px" }}>
                         Subjects *
                    </label>
-                      <ClassOptions onSelectOption={this.onSelectClassOption} required />
+                      <SubcribeClassOptions onSelectOption={this.onSelectClassOption} required />
                       <div className="my-divider"></div>
                     </div>
                   </div>

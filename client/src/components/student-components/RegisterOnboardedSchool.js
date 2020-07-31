@@ -5,7 +5,6 @@ import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import { AdminService } from '../../services/admin';
 import { AuthService } from '../../services/authServices';
-import img from "../../assets/images/details-2-office-team-work.svg"
 import { HashLink as Link } from "react-router-hash-link";
 
 export default class RegisterOnboardedSchool extends Component {
@@ -17,7 +16,7 @@ export default class RegisterOnboardedSchool extends Component {
       gender: "1",
       redirect: false,
       selectedsubs: [],
-      message: "Activation in progress...",
+      message: "",
       loading: false,
       proceed: false
     };
@@ -152,7 +151,8 @@ export default class RegisterOnboardedSchool extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({
-      loading: true
+      loading: true,
+      message:"Account Activation in progress... "
     });
     var registerStudent = {
       roleid: 3,
@@ -204,7 +204,8 @@ export default class RegisterOnboardedSchool extends Component {
                 classes: "red accent-2",
               });
               this.setState({
-                message: "Oopss Registation Failed. Contact admin"
+                message: "Oopss Registation Failed. Contact admin",
+                loading: false
               });
             } else if (response.success === false) {
               M.toast({
@@ -213,16 +214,15 @@ export default class RegisterOnboardedSchool extends Component {
               });
 
               this.setState({
-                message: response.message
+                message: response.message,
+                loading: false
               });
             } else {
               this.setState({
                 message: "Preparing your content..."
               });
 
-              //get student id from response
               setTimeout(function () {
-                console.log(response);
                 this.subscribe(response.userid, registerStudent.schoolid);
               }.bind(this), 3000);
             }
@@ -233,7 +233,7 @@ export default class RegisterOnboardedSchool extends Component {
   }
 
   subscribe(studentId, schoolid) {
- 
+
     var subscriptionData = {
       studentid: studentId,
       subscriptionid: schoolid
@@ -246,16 +246,19 @@ export default class RegisterOnboardedSchool extends Component {
           classes: "red accent-2",
         });
       } else if (response.success === false) {
-
         M.toast({
           html: response.message,
           classes: "red accent-2",
+        });
+        this.setState({
+          message: response.message,
+          loading: false
         });
       } else {
         this.setState({
           message: "Adding resources to your account..."
         });
-        
+
         setTimeout(function () {
           this.enrol(studentId);
         }.bind(this), 1000);
@@ -277,14 +280,23 @@ export default class RegisterOnboardedSchool extends Component {
             html: "Enrolment Failed. Please contact system adminstrator.",
             classes: "red accent-2",
           });
+          this.setState({
+            message: "Enrolment Failed. Please contact system adminstrator.",
+            loading: false
+          });
         } else if (response.success === false) {
 
           M.toast({
             html: response.message,
             classes: "red accent-2",
           });
+          this.setState({
+            message: response.message,
+            loading: false
+          });
+
         } else {
-          if ((i + 1) === this.state.enrolmentDetails.length) {
+          if ((i + 1) === this.state.selectedsubs.length) {
             M.toast({
               html: "Registration successfull",
               classes: "green accent-3",
@@ -295,8 +307,9 @@ export default class RegisterOnboardedSchool extends Component {
               proceed: true
             });
           } else {
+            count += 1;
             this.setState({
-              message: `Adding resources ( ${count} of ${this.state.enrolmentDetails.length} )...`,
+              message: `Adding resources ( ${count} of ${this.state.selectedsubs.length} )...`,
             });
             setTimeout(function () { }, 3000);
           }
@@ -438,6 +451,9 @@ export default class RegisterOnboardedSchool extends Component {
             </div>
           </div>
         </div>
+        <p style={{ textAlign: "center", color: "red" }}>
+              {this.state.message}
+            </p>
         <div className="form-group">
           <button
             data-target="modal1"
@@ -446,6 +462,7 @@ export default class RegisterOnboardedSchool extends Component {
             ACTIVATE ACCOUNT
             </button>
         </div>
+   
         <div className="form-message">
           <div id="cmsgSubmit" className="h3 text-center hidden"></div>
         </div>
@@ -1101,7 +1118,7 @@ export default class RegisterOnboardedSchool extends Component {
               {
                 this.state.proceed ?
                   <Link className="btn-solid-lg" rel="noopener noreferrer" to="/login" style={{ marginLeft: "35%", marginTop: "100px", marginRight: "35%" }}>
-                    Get Started - Login
+                    Login
                                                           </Link>
                   :
                   <div style={{ marginTop: "200px", }} class="loader-3 center"><span></span></div>

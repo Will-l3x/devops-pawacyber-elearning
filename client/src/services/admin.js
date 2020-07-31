@@ -52,7 +52,6 @@ export const AdminService = {
 async function findClassesForSchoolGrade(data) {
   try {
     let res = await axios.post(`/get_school_grade_subjects`,qs.stringify(data), config);
-    console.log(res);
     if (res.data.success) {
       return res.data;
     } else {
