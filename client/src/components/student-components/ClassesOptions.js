@@ -23,10 +23,11 @@ class ClassOptions extends Component {
     var gradeStore = JSON.parse(localStorage.getItem("registrationData"));
 
     var data = {
-      grade: gradeStore.gradeid,
+      gradeid: gradeStore.gradeid,
+      schoolid: "24",
     };
 
-    AdminService.get_all_subjects_per_grade(data)
+    AdminService.findClassesForSchoolGrade(data)
       .then((response) => {
         for (const classOpt of response) {
           if (classOpt.status === "deleted") {

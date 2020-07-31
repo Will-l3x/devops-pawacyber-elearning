@@ -29,7 +29,6 @@ class RegisterSuccessScreen extends Component {
             classes: "green accent-3",
         });
         this.getLocalStorageData();
-
     }
 
     getLocalStorageData() {
@@ -74,15 +73,17 @@ class RegisterSuccessScreen extends Component {
                     message: "Preparing your content..."
                 });
                 setTimeout(function () {
-                    this.subscribe();
+                    console.log(response.userid);
+                    this.subscribe(response.userid);
                 }.bind(this), 3000);
             }
         });
     }
 
-    subscribe() {
+    subscribe(userid) {
+        console.log(userid);
         var subscriptionData = {
-            studentid: 223,
+            studentid: userid,
             subscriptionid: this.state.subscriptionDetails.subscriptionId
         };
 
@@ -103,19 +104,19 @@ class RegisterSuccessScreen extends Component {
                     message: "Adding resources to your account..."
                 });
                 setTimeout(function () {
-                    this.enrol();
+                    this.enrol(userid);
                 }.bind(this), 1000);
             }
         });
     }
 
-    enrol() {
+    enrol(userid) {
+        console.log(userid);
         var count = 0;
-
         for (let i = 0; i < this.state.enrolmentDetails.length; i++) {
          
             var enrolData = {
-                studentid: 223,
+                studentid: userid,
                 classid: this.state.enrolmentDetails[i].classId,
             }
             AdminService.self_enrolment(enrolData).then((response) => {

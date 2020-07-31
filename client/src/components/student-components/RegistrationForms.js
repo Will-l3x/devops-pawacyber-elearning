@@ -6,14 +6,14 @@ import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
 import ClassOptions from "./ClassesOptions";
-import SchoolOptions from "./SchoolOptions";
+// import SchoolOptions from "./SchoolOptions";
 
 export default class RegistrationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedOption: null,
-      selectedSchool: null,
+      selectedSchool: 24,
       title: "",
       grade: "",
       gender: "1",
@@ -359,18 +359,14 @@ export default class RegistrationForm extends Component {
                 <label htmlFor="grade">Grade *</label>
               </div>
             </div>
-            <div className="col s12 m5">
-              <div className="input-field">
+            <div className="col s12 m4">
+              {/* <div className="input-field">
                 <label className="label-1" htmlFor="schoolId">
                   Enter School*
                 </label>
                 <SchoolOptions onSelectOption={this.onSelectSchool} />
                 <div className="my-divider"></div>
-              </div>
-            </div>
-          </div>
-          <div className="row mt-1">
-            <div className="col s12 m4">
+              </div> */}
               <div className="input-field">
                 <input
                   id="email"
@@ -381,7 +377,11 @@ export default class RegistrationForm extends Component {
                 ></input>
                 <label htmlFor="email">Email *</label>
               </div>
+
             </div>
+          </div>
+          <div className="row mt-1">
+
             <div className="col s12 m4">
               <div className="input-field">
                 <input

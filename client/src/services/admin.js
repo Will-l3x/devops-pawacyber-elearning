@@ -19,6 +19,8 @@ export const AdminService = {
   subcribe_student,
   self_enrolment,
 
+  findClassesForSchoolGrade,
+
   post_new_school,
   get_all_schools,
   post_new_plan,
@@ -44,6 +46,23 @@ export const AdminService = {
   get_all_teachers
 
 };
+
+
+
+async function findClassesForSchoolGrade(data) {
+  try {
+    let res = await axios.post(`/get_school_grade_subjects`,qs.stringify(data), config);
+    console.log(res);
+    if (res.data.success) {
+      return res.data;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
 
 async function get_all_students() {
   try {
