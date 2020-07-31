@@ -5,7 +5,8 @@ import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import { AdminService } from '../../services/admin';
 import { AuthService } from '../../services/authServices';
-
+import img from "../../assets/images/details-2-office-team-work.svg"
+import { HashLink as Link } from "react-router-hash-link";
 
 export default class RegisterOnboardedSchool extends Component {
   constructor(props) {
@@ -408,7 +409,7 @@ export default class RegisterOnboardedSchool extends Component {
                 name="school"
                 required
               ></input>
-              <label htmlFor="school">Enter School CODE *</label>
+              <label htmlFor="school">Enter Your School Code *</label>
             </div>
           </div>
         </div>

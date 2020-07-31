@@ -5,6 +5,7 @@ import OuterFooter from "../components/outerFooter";
 import img from "../assets/images/details-2-office-team-work.svg"
 
 import RegistrationForm from '../components/student-components/RegistrationForms';
+import RegisterOnboardedSchool from '../components/student-components/RegisterOnboardedSchool';
 
 class RegisterScreen extends Component {
     render() {
@@ -22,6 +23,7 @@ class RegisterScreen extends Component {
                                 </div>
                                 <div className="col s12 m7">
                                     <RegistrationForm></RegistrationForm>
+                                    {/* <RegisterOnboardedSchool></RegisterOnboardedSchool> */}
                                 </div>
                             </div>
                         </div>
