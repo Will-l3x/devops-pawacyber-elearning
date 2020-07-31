@@ -6,8 +6,24 @@ import img from "../assets/images/details-2-office-team-work.svg"
 
 import RegistrationForm from '../components/student-components/RegistrationForms';
 import RegisterOnboardedSchool from '../components/student-components/RegisterOnboardedSchool';
+import { times } from 'lodash';
 
 class RegisterScreen extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            independentStudent: true,
+            pendingSelection: true,
+        };
+    }
+    selectOption(indepent) {
+        this.setState({
+            pendingSelection: false,
+            independentStudent: indepent
+        })
+    };
+
     render() {
         return (
             <div style={{ backgroundColor: "white", height: "100vh" }}>
@@ -22,8 +38,25 @@ class RegisterScreen extends Component {
                                     </div>
                                 </div>
                                 <div className="col s12 m7">
-                                    <RegistrationForm></RegistrationForm>
-                                    {/* <RegisterOnboardedSchool></RegisterOnboardedSchool> */}
+
+                                    {this.state.pendingSelection ?
+                                        (<div className="col s12 m12 ">
+                                            <div className="ex-basic-1">
+                                                <h5>DO YOU HAVE YOUR SCHOOL CODE?</h5>
+                                            </div>
+                                            <div className="choices">
+                                                <div onClick={() => this.selectOption(false)} className="optioncircle gradient-45deg-light-blue-cyan">
+                                                    <p><b style={{ fontSize: "24px" }}>YES</b><br /> <hr/>Activate Student Account</p>
+                                                </div>
+                                                <div onClick={() => this.selectOption(true)} className="optioncircle gradient-45deg-light-blue-cyan">
+                                                    <p><b style={{ fontSize: "24px" }}>NO</b><br /> <hr />Register New Account</p>
+                                                </div>
+                                            </div>
+                                        </div>) : this.state.independentStudent ?
+                                            (<RegistrationForm></RegistrationForm>) :
+                                            (<RegisterOnboardedSchool></RegisterOnboardedSchool>)
+                                    }
+
                                 </div>
                             </div>
                         </div>

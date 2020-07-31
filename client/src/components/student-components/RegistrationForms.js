@@ -13,7 +13,7 @@ export default class RegistrationForm extends Component {
     super(props);
     this.state = {
       selectedOption: null,
-      selectedSchool: 24,
+      selectedSchool: "24",
       title: "",
       grade: "",
       gender: "1",
@@ -284,7 +284,7 @@ export default class RegistrationForm extends Component {
     return !this.state.proceedToPay ? (
       <div className="col s12 m12">
         <div className="ex-basic-1">
-          <h5>CREATE A STUDENT ACCOUNT</h5>
+          <h5>CREATE STUDENT ACCOUNT</h5>
         </div>
         <form id="contact" data-toggle="validator" data-focus="false" onSubmit={this.handleSubmit}>
           <div className="row mt-1">
@@ -359,7 +359,7 @@ export default class RegistrationForm extends Component {
                 <label htmlFor="grade">Grade *</label>
               </div>
             </div>
-            <div className="col s12 m4">
+            <div className="col s12 m5">
               {/* <div className="input-field">
                 <label className="label-1" htmlFor="schoolId">
                   Enter School*

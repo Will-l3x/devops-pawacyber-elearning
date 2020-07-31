@@ -325,7 +325,7 @@ export default class RegisterOnboardedSchool extends Component {
 
     return !this.state.loading ? (<div className="col s12 m12">
       <div className="ex-basic-1">
-        <h5>CREATE A STUDENT ACCOUNT</h5>
+        <h5>ACTIVATE STUDENT ACCOUNT</h5>
       </div>
       <form id="contact" data-toggle="validator" data-focus="false" onSubmit={this.handleSubmit}>
         <div className="row mt-1">
@@ -456,7 +456,7 @@ export default class RegisterOnboardedSchool extends Component {
             data-target="modal1"
             className="form-control-submit-button modal-trigger"
           >
-            SUBMIT
+            ACTIVATE ACCOUNT
             </button>
         </div>
         <div className="form-message">
