@@ -6,7 +6,6 @@ import img from "../assets/images/details-2-office-team-work.svg"
 
 import RegistrationForm from '../components/student-components/RegistrationForms';
 import RegisterOnboardedSchool from '../components/student-components/RegisterOnboardedSchool';
-import { times } from 'lodash';
 
 class RegisterScreen extends Component {
 
@@ -46,15 +45,15 @@ class RegisterScreen extends Component {
                                             </div>
                                             <div className="choices">
                                                 <div onClick={() => this.selectOption(false)} className="optioncircle gradient-45deg-light-blue-cyan">
-                                                    <p><b style={{ fontSize: "24px" }}>YES</b><br /> <hr/>Activate Student Account</p>
+                                                    <p><b style={{ fontSize: "24px" }}>YES</b><br /> <hr />Activate Student Account</p>
                                                 </div>
                                                 <div onClick={() => this.selectOption(true)} className="optioncircle gradient-45deg-light-blue-cyan">
                                                     <p><b style={{ fontSize: "24px" }}>NO</b><br /> <hr />Register New Account</p>
                                                 </div>
                                             </div>
-                                        </div>) : this.state.independentStudent ?
-                                            (<RegistrationForm></RegistrationForm>) :
-                                            (<RegisterOnboardedSchool></RegisterOnboardedSchool>)
+                                        </div>) : !this.state.independentStudent ?
+                                            (<RegisterOnboardedSchool></RegisterOnboardedSchool>) :
+                                            (<RegistrationForm></RegistrationForm>)
                                     }
 
                                 </div>

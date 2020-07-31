@@ -22,7 +22,7 @@ export default class RegistrationForm extends Component {
       loading: false,
       numberOfsubs: 0,
       selectedsubs: [],
-      message: "",
+      message: "Registration in progress...",
     };
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);

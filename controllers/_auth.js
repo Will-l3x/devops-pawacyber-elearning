@@ -833,6 +833,7 @@ let register = (req, res) => {
                                                                                 status: 201,
                                                                                 success: true,
                                                                                 message: 'Account Registered',
+                                                                                userid: recordset.recordset[0].identity,
                                                                                 error: 'Failed to send authorization pin'
                                                                             });
                                                                             //    return res.status(400).json({ message: 'Account Registration succeded but failed to send verification pin' });

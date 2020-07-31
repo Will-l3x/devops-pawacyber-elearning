@@ -13,11 +13,11 @@ export default class RegisterOnboardedSchool extends Component {
     super(props);
     this.state = {
       title: "",
-      grade: "",
+      grade: "1",
       gender: "1",
       redirect: false,
       selectedsubs: [],
-      message: "",
+      message: "Activation in progress...",
       loading: false,
       proceed: false
     };
@@ -151,94 +151,89 @@ export default class RegisterOnboardedSchool extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    this.setState({
+      loading: true
+    });
+    var registerStudent = {
+      roleid: 3,
+      email: event.target.email.value,
+      password: event.target.password.value,
+      gradeid: this.state.grade,
+      firstname: event.target.firstname.value,
+      lastname: event.target.lastname.value,
+      title: this.state.gender == "1" ? "Mr" : "Miss",
+      vpassword: event.target.vpassword.value,
+      dob: event.target.dob.value,
+      genderid: this.state.gender,
+      schoolid: event.target.school.value,
+    };
 
-    if (this.state.selectedSchool === null) {
-      alert("Please refresh page and select a school");
-      return false;
-    } else if (this.state.selectedSchool === undefined) {
-      alert("Please refresh page and select a school");
-      return false;
-    } else {
-      var registerStudent = {
-        roleid: 3,
-        email: event.target.email.value,
-        password: event.target.password.value,
-        gradeid: this.state.grade,
-        firstname: event.target.firstname.value,
-        lastname: event.target.lastname.value,
-        title: this.state.gender == "1" ? "Mr" : "Miss",
-        vpassword: event.target.vpassword.value,
-        dob: event.target.dob.value,
-        genderid: this.state.gender,
-        schoolid: event.target.school.value,
-      };
+    var schoolGradeSubjects = {
+      schoolid: event.target.school.value,
+      gradeid: this.state.grade
+    };
 
-      var schoolGradeSubjects = {
-        schoolid: event.target.school.value,
-        gradeid: this.state.grade
-      };
+    AdminService.findClassesForSchoolGrade(schoolGradeSubjects).then((response) => {
+      if (response === undefined) {
+        M.toast({
+          html: "Registration Failed: Please contact system adminstrator.",
+          classes: "red accent-2",
+        });
+        this.setState({
+          message: "Oopss Registation Failed. Contact admin"
+        });
+      } else if (response.success === false) {
+        M.toast({
+          html: response.message,
+          classes: "red accent-2",
+        });
+        this.setState({
+          message: response.message
+        });
+      } else {
+        console.log(response.data.subjects);
+        this.setState({
+          selectedsubs: response.data.subjects
+        });
 
-      AdminService.findClassesForSchoolGrade(schoolGradeSubjects).then((response) => {
-        if (response === undefined) {
-          M.toast({
-            html: "Registration Failed: Please contact system adminstrator.",
-            classes: "red accent-2",
+        setTimeout(function () {
+          AuthService.register(registerStudent).then((response) => {
+            if (response === undefined) {
+              M.toast({
+                html: "Registration Failed: Please contact system adminstrator.",
+                classes: "red accent-2",
+              });
+              this.setState({
+                message: "Oopss Registation Failed. Contact admin"
+              });
+            } else if (response.success === false) {
+              M.toast({
+                html: response.message,
+                classes: "red accent-2",
+              });
+
+              this.setState({
+                message: response.message
+              });
+            } else {
+              this.setState({
+                message: "Preparing your content..."
+              });
+
+              //get student id from response
+              setTimeout(function () {
+                console.log(response);
+                this.subscribe(response.userid, registerStudent.schoolid);
+              }.bind(this), 3000);
+            }
           });
-          this.setState({
-            message: "Oopss Registation Failed. Contact admin"
-          });
-        } else if (response.success === false) {
-          M.toast({
-            html: response.message,
-            classes: "red accent-2",
-          });
-          this.setState({
-            message: response.message
-          });
-        } else {
-          this.setState({
-            selectedsubs: response.data.subjects
-          });
-
-          setTimeout(function () {
-            AuthService.register(registerStudent).then((response) => {
-              if (response === undefined) {
-                M.toast({
-                  html: "Registration Failed: Please contact system adminstrator.",
-                  classes: "red accent-2",
-                });
-                this.setState({
-                  message: "Oopss Registation Failed. Contact admin"
-                });
-              } else if (response.success === false) {
-                M.toast({
-                  html: response.message,
-                  classes: "red accent-2",
-                });
-
-                this.setState({
-                  message: response.message
-                });
-              } else {
-                this.setState({
-                  message: "Preparing your content..."
-                });
-
-                //get student id from response
-                setTimeout(function () {
-                  console.log(response.userid);
-                  this.subscribe(response.userid, registerStudent.schoolid);
-                }.bind(this), 3000);
-              }
-            });
-          }.bind(this), 1000);
-        }
-      });
-    }
+        }.bind(this), 1000);
+      }
+    });
   }
 
   subscribe(studentId, schoolid) {
-    console.log(studentId);
+ 
     var subscriptionData = {
       studentid: studentId,
       subscriptionid: schoolid
@@ -260,6 +255,7 @@ export default class RegisterOnboardedSchool extends Component {
         this.setState({
           message: "Adding resources to your account..."
         });
+        
         setTimeout(function () {
           this.enrol(studentId);
         }.bind(this), 1000);
@@ -308,15 +304,6 @@ export default class RegisterOnboardedSchool extends Component {
       });
     }
   }
-
-
-
-
-
-
-
-
-
 
   render() {
     if (this.state.redirect) {
@@ -1106,33 +1093,23 @@ export default class RegisterOnboardedSchool extends Component {
         </div>
       </form>
     </div>) : (
-        <div className="form-2" style={{ marginBottom: "-50px" }}>
-          <div className="container" style={{ marginTop: "-100px" }}>
-            <div className="row mt-1" >
-              <div className="col s12 m5">
-                <div className="image-container" style={{ paddingLeft: "70px", paddingRight: "70px", paddingTop: "90px" }}>
-                  <img className="img-fluid" src={img} alt="alternative" />
-                </div>
-              </div>
 
-              <div className="col s12 m5">
-                <div className="row mt-1" >
-                  <div className="form-group">
-                    <p style={{ marginTop: "100px", color: "#2196F3", textAlign: 'center', fontSize: '20px' }}>{this.state.message}</p>
-                    {
-                      this.state.proceed ?
-                        <Link className="btn-solid-lg" rel="noopener noreferrer" to="/login" style={{ marginLeft: "35%", marginTop: "100px", marginRight: "35%" }}>
-                          Get Started - Login
+        <div className="col s12 m5">
+          <div className="row mt-1" >
+            <div className="form-group">
+              <p style={{ marginTop: "100px", color: "#2196F3", textAlign: 'center', fontSize: '20px' }}>{this.state.message}</p>
+              {
+                this.state.proceed ?
+                  <Link className="btn-solid-lg" rel="noopener noreferrer" to="/login" style={{ marginLeft: "35%", marginTop: "100px", marginRight: "35%" }}>
+                    Get Started - Login
                                                           </Link>
-                        :
-                        <div style={{ marginTop: "200px", }} class="loader-3 center"><span></span></div>
-                    }
-                  </div>
-                </div>
-              </div>
+                  :
+                  <div style={{ marginTop: "200px", }} class="loader-3 center"><span></span></div>
+              }
             </div>
           </div>
         </div>
+
       );
 
   }
