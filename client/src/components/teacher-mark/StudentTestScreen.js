@@ -73,7 +73,7 @@ class StudentTestScreen extends Component {
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{ position: "fixed"}}
                 >
                   <div className="nav-content">

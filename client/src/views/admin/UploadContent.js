@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
-import DatatablePage from "../../components/DatatablePage";
+//import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
@@ -138,7 +138,7 @@ class UploadContent extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{
                     position: "fixed",
                   }}

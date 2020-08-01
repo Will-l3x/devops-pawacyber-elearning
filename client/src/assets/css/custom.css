@@ -1227,3 +1227,16 @@ ul.card-action-buttons2 li {
   transform: translateY(-14px) scale(0.8) !important;
   transform-origin: 0 0 !important;
 }
+
+nav.modal-width-75 {
+  width: 75% !important;
+}
+
+.justfiyCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.active-view{
+  color: #448aff !important;
+}

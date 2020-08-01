@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StudentService } from '../../services/student';
 import { AdminService } from '../../services/admin';
+import { Link } from 'react-router-dom';
 
 export default class ResourceCard extends Component {
 
@@ -45,7 +46,7 @@ export default class ResourceCard extends Component {
               <p className="no-margin" style={{ fontSize: "12px", color: "grey" }}>Subject ID: {resource.classid}</p>
             </div>
             <div className="right-align" style={{ marginTop: "60px", color: "white" }}>
-              <p className="no-margin"><a style={{ border: "1px solid #2196F3", color:"white",backgroundColor: "#2196F3", borderRadius: "15px",padding:"5px",textAlign:"center" }} onClick={() => { this.download(resource) }} >Download</a></p>
+              <p className="no-margin"><Link to="#" style={{ border: "1px solid #2196F3", color:"white",backgroundColor: "#2196F3", borderRadius: "15px",padding:"5px",textAlign:"center" }} onClick={() => { this.download(resource) }} >Download</Link></p>
             </div>
           </div>
         </div>

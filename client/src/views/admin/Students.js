@@ -8,6 +8,7 @@ import moment from "moment";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
+import UserGridComp from "../../components/UserGridComp";
 
 class StudentScreen extends Component {
   constructor(props) {
@@ -60,8 +61,8 @@ class StudentScreen extends Component {
         },
       ],
       rows: [],
+      view: "grid",
     };
-
   }
 
   componentDidMount() {
@@ -76,12 +77,8 @@ class StudentScreen extends Component {
         console.log(response);
       } else {
         for (const student of response) {
-          student.dob = moment(student.dob).format(
-            "DD/MM/YYYY"
-          );
-          student.datejoined = moment(student.datejoined).format(
-            "DD/MM/YYYY"
-          );
+          student.dob = moment(student.dob).format("DD/MM/YYYY");
+          student.datejoined = moment(student.datejoined).format("DD/MM/YYYY");
           students.push(student);
         }
       }
@@ -104,7 +101,7 @@ class StudentScreen extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{
                     position: "fixed",
                     borderBottomLeftRadius: 5,
@@ -117,13 +114,59 @@ class StudentScreen extends Component {
                         Student Management
                       </p>
                     </div>
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "grid" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "grid" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">view_module</i>
+                    </a>
+
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "table" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "table" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">view_list</i>
+                    </a>
                   </div>
                 </nav>
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "table" ? "" : "display-none"
+                    }`}
+                  >
                     <DatatablePage data={this.state} />
+                  </div>
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "grid" ? "" : "display-none"
+                    }`}
+                  >
+                    <UserGridComp dashboard="admin" rolename="students" />
                   </div>
                 </div>
               </section>
@@ -137,7 +180,6 @@ class StudentScreen extends Component {
     );
   }
 }
-
 
 const mapStateToProps = (state) => ({});
 

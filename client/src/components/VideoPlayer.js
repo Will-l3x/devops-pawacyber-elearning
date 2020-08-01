@@ -358,14 +358,16 @@ class VideoPlayer extends Component {
               <ul className="pagination">
                 <li
                   className={
-                    this.state.currentPageNumber === 1
+                    this.state.currentPageNumber === 1 ||
+                    this.state.pages.length < 1
                       ? "disabled pointer-events-none"
                       : "waves-effect"
                   }
                 >
                   <Link
                     className={
-                      this.state.currentPageNumber === 1
+                      this.state.currentPageNumber === 1 ||
+                      this.state.pages.length < 1
                         ? "disabled pointer-events-none"
                         : ""
                     }
@@ -376,36 +378,48 @@ class VideoPlayer extends Component {
                     <i className="material-icons">chevron_left</i>
                   </Link>
                 </li>
-                {this.state.pages.map((page) => {
-                  if (page === this.state.currentPageNumber) {
-                    return (
-                      <li key={page} className="active">
-                        <Link
-                          onClick={() => this.handlePageClick(page)}
-                          rel="noopener noreferer"
-                          to="#!"
-                        >
-                          {page}
-                        </Link>
-                      </li>
-                    );
-                  } else {
-                    return (
-                      <li key={page}>
-                        <Link
-                          onClick={() => this.handlePageClick(page)}
-                          rel="noopener noreferer"
-                          to="#!"
-                        >
-                          {page}
-                        </Link>
-                      </li>
-                    );
-                  }
-                })}
+                {this.state.pages.length < 1 ? (
+                  <li className="active">
+                    <Link rel="noopener noreferer" to="#!">
+                      {1}
+                    </Link>
+                  </li>
+                ) : (
+                  this.state.pages.map((page) => {
+                    if (page === this.state.currentPageNumber) {
+                      return (
+                        <li key={page} className="active">
+                          <Link
+                            onClick={() => this.handlePageClick(page)}
+                            rel="noopener noreferer"
+                            to="#!"
+                          >
+                            {page}
+                          </Link>
+                        </li>
+                      );
+                    } else {
+                      return (
+                        <li key={page}>
+                          <Link
+                            onClick={(e) => {
+                              e.preventDefault();
+                              this.handlePageClick(page);
+                            }}
+                            rel="noopener noreferer"
+                            to="#!"
+                          >
+                            {page}
+                          </Link>
+                        </li>
+                      );
+                    }
+                  })
+                )}
                 <li
                   className={
-                    this.state.currentPageNumber === this.state.pages.length
+                    this.state.currentPageNumber === this.state.pages.length ||
+                    this.state.pages.length < 1
                       ? "disabled pointer-events-none"
                       : "waves-effect"
                   }
@@ -413,7 +427,8 @@ class VideoPlayer extends Component {
                   <Link
                     onClick={this.handleNextClick}
                     className={
-                      this.state.currentPageNumber === this.state.pages.length
+                      this.state.currentPageNumber ===
+                        this.state.pages.length || this.state.pages.length < 1
                         ? "disabled pointer-events-none"
                         : ""
                     }

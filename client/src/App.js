@@ -54,6 +54,7 @@ import store from "./config/store";
 //import history from "./history";
 import Students from "./views/admin/Students";
 import AllClasses from "./views/admin/Subjects";
+import ProfileScreen from "./components/profile/ProfileScreen";
 
 class App extends Component {
   componentDidMount() {
@@ -146,10 +147,11 @@ class App extends Component {
           />
 
           <Route exact path="/login" component={LoginScreen} />
+          <Route exact path="/profile" component={ProfileScreen} />
           <Route exact path="/all-students" component={Students} />
           <Route exact path="/register" component={RegisterScreen} />
           <Route exact path="/about" component={AboutScreen} />
-          
+
           <Route exact path="/all-subjects" component={AllClasses} />
           <Route exact path="/admin" component={AdminScreen} />
           <Route exact path="/subadmins" component={SubadminScreen} />
