@@ -17,7 +17,7 @@ class AboutScreen extends Component {
 
               <div
                 className="ex-basic-2"
-                style={{ marginLeft: "70px", marginRight: "70px" }}
+                style={{ marginLeft: "70px", marginRight: "70px"}}
               >
                 <div className="container">
                   <div className="row mt-1">
@@ -46,31 +46,33 @@ class AboutScreen extends Component {
                         <div className="col s12 m6">
                           <ul className="list-unstyled li-space-lg indent">
                             <li className="media">
-                              <i className="fas fa-square"></i>
+                            <p>          <i className="fas fa-square" style={{paddingRight:"10px"}}></i>
                               The geographic area where you use your computer
-                              and mobile devices
+                              and mobile devices</p>
+                    
                             </li>
                             <li className="media">
-                              <i className="fas fa-square"></i>
+                            <p>          
+                              <i className="fas fa-square" style={{paddingRight:"10px"}}></i>
                               Your full name, username, and email address and
-                              other contact details
+                              other contact details</p>
                             </li>
 
                             <li className="media">
-                              <i className="fas fa-square"></i>
+                            <p>          <i className="fas fa-square" style={{paddingRight:"10px"}}></i>
                               Other optional information as part of your account
-                              profile
+                              profile</p>
                             </li>
                             <li className="media">
-                              <i className="fas fa-square"></i>
+                            <p>          <i className="fas fa-square" style={{paddingRight:"10px"}}></i>
                               Your IP Address and, when applicable, timestamp
                               related to your consent and confirmation of
-                              consent
+                              consent</p>
                             </li>
                             <li className="media">
-                              <i className="fas fa-square"></i>
+                            <p>          <i className="fas fa-square" style={{paddingRight:"10px"}}></i>
                               Other information submitted by you or your
-                              organizational representatives via various methods
+                              organizational representatives via various methods</p>
                             </li>
                           </ul>
                         </div>
@@ -78,34 +80,37 @@ class AboutScreen extends Component {
                         <div className="col s12 m6">
                           <ul className="list-unstyled li-space-lg indent">
                             <li className="media">
-                              <i className="fas fa-square"></i>
+                            <p>          <i className="fas fa-square" style={{paddingRight:"10px"}}></i>
                               Your billing address and any necessary other
                               information to complete any financial transaction,
                               and when making purchases through the Services, we
                               may also collect your credit card or PayPal
-                              information
+                              information</p>
                             </li>
                             <li className="media">
-                              <i className="fas fa-square"></i>
+                            <p>          <i className="fas fa-square" style={{paddingRight:"10px"}}></i>
                               Images or other files that you may publish via our
-                              Services
+                              Services</p>
                             </li>
                             <li className="media">
-                              <i className="fas fa-square"></i>
+                            <p>          <i className="fas fa-square" style={{paddingRight:"10px"}}></i>
                               Information (such as messages, posts, comments,
                               pages, profiles, images) we may receive relating
                               to communications you send us, such as queries or
-                              comments concerning
+                              comments concerning</p>
                             </li>
                           </ul>
                         </div>
                       </div>
 
-                      <div id="contact" class="form-2">
+                      <div sid="contact"  style={{ textAlign:"center"}}>
                         <div class="container">
                           <div class="row  mt-1">
                             <div class="col-lg-12">
-                              <h2>Contact Information</h2>
+                             
+                              <div className="ex-basic-1">
+                                <h4>Contact Information</h4>
+                              </div>
                               <ul class="list-unstyled li-space-lg">
                                 <li class="address">
                                   Don't hesitate to give us a call or send us a
@@ -147,13 +152,15 @@ class AboutScreen extends Component {
                             <div class="col s12 m6">
                               <div class="map-responsive">
                                 <iframe
+                                style={{width:"100%", height:"45vh"}}
                                   title="iframe1"
                                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60746.325427046104!2d15.938672078129471!3d-17.902029842582213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1b931025b0e8c757%3A0x7b9eb2be2e8e0ad5!2sOndangwa%2C%20Namibia!5e0!3m2!1sen!2szw!4v1592357207135!5m2!1sen!2szw"
                                   allowfullscreen
                                 ></iframe>
                               </div>
                             </div>
-                            <div class="col s12 m6">
+                            <div  class="col s12 m1"> </div>
+                            <div className="col s12 m5">
                               <form
                                 id="contactForm"
                                 data-toggle="validator"
@@ -215,9 +222,9 @@ class AboutScreen extends Component {
                         </div>
                       </div>
 
-                      <a className="btn-outline-reg back" href="/">
+                      {/* <a className="btn-outline-reg back" href="/">
                         BACK
-                      </a>
+                      </a> */}
                     </div>
                   </div>
                 </div>

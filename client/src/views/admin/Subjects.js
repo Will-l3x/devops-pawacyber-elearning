@@ -7,11 +7,13 @@ import M from "materialize-css";
 
 import moment from "moment";
 import { SchoolService } from "../../services/school";
-import TeacherOptions from "./TeacherOptions";
+
+import TutorOptions from "./tutor";
 import DatatablePage from "../../components/DatatablePage";
 import { Link } from "react-router-dom";
+import { AdminService } from "../../services/admin";
 
-class ClassesScreen extends Component {
+class AllClasses extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -95,7 +97,7 @@ class ClassesScreen extends Component {
   getDashData() {
     const courses = [];
     const del_courses = [];
-    SchoolService.get_courses(this.state.user.schoolid)
+    AdminService.get_all_classes()
       .then((response) => {
         for (const course of response) {
           if (course.status === "deleted") {
@@ -106,7 +108,7 @@ class ClassesScreen extends Component {
               <ul className="card-action-buttons2">
                 <li>
                   <a
-                    href="#!"
+
                     className="btn-floating waves-effect waves-light light-blue"
                     onClick={() => this.handleEdit(course)}
                   >
@@ -142,9 +144,6 @@ class ClassesScreen extends Component {
         this.setState({ courses: [] });
       });
   }
-  // getTeacher(id){
-  //   SchoolService.get_teacher(id)
-  // }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -163,17 +162,27 @@ class ClassesScreen extends Component {
     this.setState({ enrolmentkey: data.enrolmentkey });
     SchoolService.post_new_course(data).then((response) => {
       if (response === undefined) {
-        alert("Apologies. Course addition failed. Please contact admin");
+        M.toast({
+          html: "Apologies. Course addition failed. Please contact admin",
+          classes: "red ",
+        });
       } else if (response.success === false) {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "red ",
+        });
       } else {
-        alert("successfully added");
+
+        M.toast({
+          html: "Successfully added",
+          classes: "green ",
+        });
         document.getElementById("sibs").reset();
         this.getDashData();
       }
     });
   };
-  
+
   handleEdit = (course) => {
     this.setState(
       {
@@ -214,13 +223,21 @@ class ClassesScreen extends Component {
     };
     console.log(data);
     SchoolService.update_course(data).then((response) => {
-      console.log(response);
       if (response === undefined) {
-        alert("Apologies. Update. Please contact admin");
+        M.toast({
+          html: "Apologies. Update. Please contact admin",
+          classes: "red ",
+        });
       } else if (response.success === false) {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "red ",
+        });
       } else {
-        alert("successfully added");
+        M.toast({
+          html: "Successfully added",
+          classes: "green ",
+        });
         document.getElementById("sibs2").reset();
         this.getDashData();
       }
@@ -302,11 +319,11 @@ class ClassesScreen extends Component {
                 <div className="nav-content">
                   <div className="left">
                     <p style={{ padding: "10px", fontSize: "16px" }}>
-                      Class Management
+                      Subject Management
                     </p>
                   </div>
                   <a
-                    href="#!"
+
                     data-target="modal1"
                     className="modal-trigger tooltipped waves-effect right"
                     data-tooltip="Add Class"
@@ -320,7 +337,7 @@ class ClassesScreen extends Component {
                     <i className="material-icons">add_circle_outline</i>
                   </a>
                   <a
-                    href="#!"
+
                     className={`tooltipped waves-effect right blue-text accent-2`}
                     data-tooltip="Refresh"
                     data-position="top"
@@ -372,7 +389,7 @@ class ClassesScreen extends Component {
                 </fieldset>
                 <fieldset className="form-group">
                   <ReactFormLabel htmlFor="teacher" title="Teacher:" />
-                  <TeacherOptions onSelectOption={this.onSelectOption} />
+                  <TutorOptions onSelectOption={this.onSelectOption} />
                   <div className="my-divider"></div>
                 </fieldset>
                 <fieldset className="form-group">
@@ -435,7 +452,7 @@ class ClassesScreen extends Component {
 
                 <fieldset className="form-group" style={{ marginBottom: 40 }}>
                   <ReactFormLabel htmlFor="teacher" title="Teacher:" />
-                  <TeacherOptions onSelectOption={this.onSelectOption} />
+                  <TutorOptions onSelectOption={this.onSelectOption} />
                   <div className="my-divider"></div>
                 </fieldset>
 
@@ -456,7 +473,7 @@ class ClassesScreen extends Component {
               </div>
               <div className="modal-footer">
                 <Link
-                  to="#!"
+                  to="#"
                   style={{ marginRight: 10 }}
                   onClick={this.handleDelete}
                   className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
@@ -464,7 +481,7 @@ class ClassesScreen extends Component {
                   Yes
                 </Link>
                 <Link
-                  to="#!"
+                  to="#"
                   className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                 >
                   No
@@ -494,4 +511,4 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClassesScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AllClasses);

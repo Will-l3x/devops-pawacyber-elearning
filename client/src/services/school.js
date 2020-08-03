@@ -8,7 +8,7 @@ var config = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
     "Access-Control-Allow-Credentials": true,
   },
 };
@@ -17,6 +17,7 @@ export const SchoolService = {
   post_new_teachers,
   update_teacher,
   delete_teacher,
+  get_teacher,
   get_all_teachers,
   get_all_students,
   update_student,
@@ -28,7 +29,12 @@ export const SchoolService = {
 };
 
 // Create Courses
-
+// let teacherid = req.body.teacherid;
+// let classname = req.body.classname;
+// let createdby = req.body.createdby;
+// let status = req.body.status;
+// let grade = req.body.grade;
+// let schoolid = req.body.schoolid;
 async function post_new_course(data) {
   try {
     let res = await axios.post(`/add_class`, qs.stringify(data), config);
@@ -37,6 +43,7 @@ async function post_new_course(data) {
     console.log(err);
   }
 }
+
 async function update_course(data) {
   try {
     let res = await axios.put(`/update_class`, qs.stringify(data), config);
@@ -48,9 +55,9 @@ async function update_course(data) {
 async function delete_course(id) {
   try {
     let res = await axios.delete(`/del_class/${id}`, config);
-    return res.data;
+    return res;
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 }
 
@@ -77,6 +84,16 @@ async function get_all_teachers(id) {
   }
 }
 
+async function get_teacher(id) {
+  try {
+    let res = await axios.get(`/teacher/${id}`, config);
+    return res.data.data;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
 async function update_teacher(data) {
   try {
     let res = await axios.put(`/update_teacher`, qs.stringify(data), config);
@@ -91,6 +108,7 @@ async function delete_teacher(id) {
     return res.data;
   } catch (err) {
     console.log(err);
+    return err;
   }
 }
 

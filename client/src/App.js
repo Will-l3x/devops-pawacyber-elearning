@@ -51,7 +51,9 @@ import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
 import store from "./config/store";
-import history from "./history";
+//import history from "./history";
+import Students from "./views/admin/Students";
+import AllClasses from "./views/admin/Subjects";
 
 class App extends Component {
   componentDidMount() {
@@ -129,7 +131,7 @@ class App extends Component {
           <div className="loader-section section-left"></div>
           <div className="loader-section section-right"></div>
         </div>
-        <HashRouter history={history}>
+        <HashRouter>
           <Route exact path="/" component={HomeScreen} />
           <Route
             exact
@@ -144,9 +146,11 @@ class App extends Component {
           />
 
           <Route exact path="/login" component={LoginScreen} />
+          <Route exact path="/all-students" component={Students} />
           <Route exact path="/register" component={RegisterScreen} />
           <Route exact path="/about" component={AboutScreen} />
-
+          
+          <Route exact path="/all-subjects" component={AllClasses} />
           <Route exact path="/admin" component={AdminScreen} />
           <Route exact path="/subadmins" component={SubadminScreen} />
           <Route exact path="/roles" component={RolesScreen} />

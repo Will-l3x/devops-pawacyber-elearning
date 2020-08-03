@@ -2,20 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import M from "materialize-css";
 import Select from "react-select";
-import { TeacherService } from "../../services/teacher";
+import { AdminService } from "../../services/admin";
 let options = [];
 
 const user = JSON.parse(localStorage.getItem("user"));
 if (user === null) {
   options = [];
 } else {
-  TeacherService.get_all_courses(user.userid)
+  AdminService.get_all_schools()
     .then((response) => {
       const data = response === undefined ? [] : response;
-      for (const option of data) {
-        option.value = option.classId;
-        option.label = option.classname;
-        options.push(option);
+      for (const school of data) {
+        school.value = school.schoolId;
+        school.label = school.schoolname;
+        options.push(school);
       }
     })
     .catch((error) => {
@@ -24,7 +24,7 @@ if (user === null) {
     });
 }
 
-class ClassOptions extends Component {
+class SchoolOptions extends Component {
   constructor() {
     super();
     this.state = {
@@ -47,14 +47,12 @@ class ClassOptions extends Component {
     return (
       <Select
         classNamePrefix="custom-options"
-        className="form-input"
         value={selectedOption}
         onChange={this.handleChange}
         options={options}
-        required
       />
     );
   }
 }
 
-export default connect(null, null)(ClassOptions);
+export default connect(null, null)(SchoolOptions);

@@ -186,9 +186,59 @@ let update_role = (req, res) => {
 
 
 
+let materials = (req, res) => {
+    let query = `select * from materials`;
+    let request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+        let materials = recordset.recordset;
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else {
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ materials })),
+            });
+        }
+    });
+};
 
 
 
+
+let students = (req, res) => {
+
+    let query = `select * from [students]`;
+    let request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+        let students = recordset.recordset;
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else {
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ students })),
+            });
+        }
+    });
+};
 
 
 
@@ -1568,6 +1618,91 @@ let subscribestudent = (req, res) => {
         });
 };
 
+
+let teachers = (req, res) => {
+
+    let query = `select * from [teachers]`;
+    let request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+        let teachers;
+        if (recordset.recordset) {
+            teachers = recordset.recordset;
+        } else {
+            teachers = [];
+        }
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else {
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ teachers })),
+            });
+        }
+    });
+};
+
+let get_school_grade_subjects = (req, res) => {
+    let schoolid = req.body.schoolid;
+    let grade = req.body.gradeid;
+
+    let querySchool = `select * from [schools] WHERE schoolId = ${schoolid}`;
+    let requestSchool = new sql.Request();
+
+    requestSchool.query(querySchool, function (err, recordsetSchool) {
+        console.log(recordsetSchool);
+      
+
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else if ( recordsetSchool.rowsAffected[0] > 0) {
+            let query = `select * from [classes]\
+            where classes.schoolid = ${schoolid} AND classes.grade = ${grade}`;
+            let request = new sql.Request();
+            request.query(query, function (err, recordset) {
+                let subjects = recordset.recordset;
+                if (err) {
+                    console.log(err);
+                    console.log(err.stack);
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: "An error occured",
+                        error: err.message,
+                    });
+                } else {
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        data: JSON.parse(JSON.stringify({ subjects })),
+                    });
+                }
+            });
+        } else {
+            return res.json({
+                status: 404,
+                success: false,
+                message: "School not found"
+            });
+        }
+    });
+};
+
 module.exports = {
     genders: genders,
     roles: roles,
@@ -1591,6 +1726,10 @@ module.exports = {
     update_school: update_school,
     add_school: add_school,
     classes: classes,
-    classesByGrade:classesByGrade,
-    post_payment_enrol: post_payment_enrol
+    classesByGrade: classesByGrade,
+    post_payment_enrol: post_payment_enrol,
+    students: students,
+    materials: materials,
+    teachers: teachers,
+    get_school_grade_subjects: get_school_grade_subjects
 };

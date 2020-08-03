@@ -7,7 +7,10 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { UploadService } from "../../services/upload";
-//import {StudentService} from '../../services/student';
+import { AdminService } from "../../services/admin";
+import Classes from "../../components/Classes";
+import { Link } from "react-router-dom";
+import ResourceCard from "./ResourceCard";
 
 class UploadContent extends Component {
   constructor(props) {
@@ -16,25 +19,32 @@ class UploadContent extends Component {
       columns: [
         {
           label: "Subject",
-          field: "subject",
+          field: "classid",
           sort: "asc",
           width: "30%",
         },
         {
           label: "Resource Name",
-          field: "resourceName",
+          field: "materialname",
           sort: "asc",
           width: "40%",
         },
         {
-          label: "Grade",
-          field: "grade",
+          label: "Teacher ID",
+          field: "teacherid",
           sort: "asc",
-          width: "30%",
+          width: "40%",
         },
+        // {
+        //   label: "File",
+        //   field: "file",
+        //   sort: "asc",
+        //   width: "30%",
+        // },
       ],
       rows: [],
       courses: [],
+      class: "",
     };
   }
 
@@ -49,44 +59,96 @@ class UploadContent extends Component {
     this.loggedUserId = this.user.userid;
     this.schoolid = this.user.schoolid;
     M.AutoInit();
+    this.getDashData();
   }
+
+  getDashData() {
+    const materials = [];
+    AdminService.get_all_resources().then((response) => {
+      if (response === undefined) {
+        console.log(response);
+      } else {
+        for (const material of response) {
+          materials.push(material);
+        }
+      }
+      this.setState({
+        rows: materials,
+      });
+    });
+  }
+
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.fileUpload = event.target.fileUpload.files[0];
-    console.log(this.fileUpload);
-    var data = {
-      teacherid: this.loggedUserId,
-      schoolid: this.schoolid,
-      materialname: event.target.materialname.value,
-      materialtype: "file",
-      file: true,
-      classid: event.target.subject.value,
-      grade: event.target.grade.value,
-    };
+    var uploadCount = 0;
 
-    UploadService.post_material(data).then((response) => {
-      if (response === undefined) {
-        alert("Resource Upload failed");
-      } else if (response.err) {
-        alert(response.err);
-      } else if (response.success === true) {
-        const uploadData = new FormData();
-        uploadData.append("", this.fileUpload);
-        uploadData.append("uploadType", response.uploadType);
-        uploadData.append("uploadId", response.uploadId);
+    for (var i = 0; i < event.target.fileUpload.files.length; i++) {
+      this.fileUpload = event.target.fileUpload.files[i];
+      var data = {
+        teacherid: this.loggedUserId,
+        schoolid: this.schoolid,
+        materialname: event.target.materialname.value,
+        materialtype: "file",
+        file: true,
+        classid: this.state.class.classId,
+        grade: this.state.class.grade,
+      };
 
-        UploadService.upload(uploadData).then((resp) => {
+      UploadService.post_material(data).then((response) => {
+        if (response === undefined) {
+          M.toast({
+            html: "Resource Upload failed",
+            classes: "red",
+          });
+        } else if (response.err) {
+         
+          M.toast({
+            html: response.err,
+            classes: "red",
+          });
+        } else if (response.success === true) {
+          const uploadData = new FormData();
+          uploadData.append("", this.fileUpload);
+          uploadData.append("uploadType", response.uploadType);
+          uploadData.append("uploadId", response.uploadId);
 
-          if (resp.success === true) {
-            alert(resp.message);
-          } else {
-            alert(resp.message);
-          }
-        });
-      } else {
-        alert(response.message);
-      }
+          UploadService.upload(uploadData).then((resp) => {
+            if (resp.success === true) {
+              uploadCount += 1;
+            } else {
+              M.toast({
+                html:"Failed to upload resource: "+ resp.message,
+                classes: "red ",
+              });
+            }
+          });
+        } else {
+          M.toast({
+            html: response.message,
+            classes: "red ",
+          });
+        }
+      });
+    }
+    if (uploadCount === event.target.fileUpload.files.length) {
+      M.toast({
+        html: "Resource upload complete. " + uploadCount + " out of " + event.target.fileUpload.files.length + " files uploaded",
+        classes: "green",
+      });
+
+      this.componentDidMount();
+    } else {
+      M.toast({
+        html: "Upload could not be completed " + uploadCount + " out of " + event.target.fileUpload.files.length + " files uploaded",
+        classes: "red",
+      });
+    }
+  };
+
+  onSelectClassOption = (selectedOption) => {
+    this.setState({
+      class: selectedOption,
     });
   };
 
@@ -133,8 +195,10 @@ class UploadContent extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
-                    <DatatablePage data={this.state} />
+                  {/* <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                    <DatatablePage data={this.state} /> */}
+                  <div className="card-stats padding-3 border-radius-10">
+                    < ResourceCard></ ResourceCard>
                   </div>
                 </div>
               </section>
@@ -148,28 +212,39 @@ class UploadContent extends Component {
                   id="sibs"
                 >
                   <h1 className="h1-meeting">
-                    <i className="material-icons" style={{ transform: "translate(-3px, 4px)" }}>
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
                       cloud_upload
                     </i>
                     Upload Resource!
                   </h1>
                   {/* <hr className="hr5" style={{ marginBottom: 30 }} /> */}
                   <div className="row">
-                    <div className="col s6 m6">
+                    <div className="">
                       <fieldset className="form-group">
-                        <ReactFormLabel htmlFor="subject" title="Subject ID:" />
-                        <input
-                          className="form-input input-meeting"
-                          id="subject"
-                          type="text"
-                          name="subject"
+                        <label
+                          style={{
+                            transform: "translateY(-15px)",
+                            fontSize: "12px",
+                          }}
+                        >
+                          SELECT SUBJECT *
+                        </label>
+                        <Classes
+                          onSelectOption={this.onSelectClassOption}
                           required
                         />
+                        <div
+                          style={{ marginTop: "10px" }}
+                          className="my-divider"
+                        ></div>
                       </fieldset>
                     </div>
-                    <div className="col s6 m6">
+                    {/* <div className="col s6 m6">
                       <fieldset className="form-group">
-                        <ReactFormLabel htmlFor="grade" title="Grade:" />
+                        <ReactFormLabel htmlFor="grade" title="Grade *" />
                         <input
                           className="form-input input-meeting"
                           id="grade"
@@ -180,12 +255,12 @@ class UploadContent extends Component {
                           required
                         />
                       </fieldset>
-                    </div>
+                    </div> */}
                   </div>
                   <fieldset className="form-group">
                     <ReactFormLabel
                       htmlFor="materialname"
-                      title="Resource Name:"
+                      title="Resource Name *"
                     />
                     <input
                       className="form-input input-meeting"
@@ -196,7 +271,7 @@ class UploadContent extends Component {
                     />
                   </fieldset>
                   <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="fileUpload" title="File:" />
+                    <ReactFormLabel htmlFor="fileUpload" title="Subject Resources:" />
                     <input
                       className="many-files"
                       id="file"
@@ -221,20 +296,20 @@ class UploadContent extends Component {
                   <h4 className="header2">Are you sure?</h4>
                 </div>
                 <div className="modal-footer">
-                  <a
-                    href="#!"
+                  <Link
+                    to="#"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                    onClick={this.handleDelete}
+                  //onClick={this.handleDelete}
                   >
                     Yes
-                  </a>
-                  <a
-                    href="#!"
+                  </Link>
+                  <Link
+                    to="#"
                     className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                   >
                     No
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

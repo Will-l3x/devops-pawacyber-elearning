@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 // import bg_img from "../assets/images/details-1-office-worker.svg";
 // import bg_img from "../assets/images/details-lightbox-1.svg";
 
-import headerImg from "../assets/images/wall.png";
+import headerImg from "../assets/images/login_illu.png";
 import { Redirect } from "react-router";
 import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
@@ -15,15 +15,19 @@ class LoginScreen extends Component {
   today = new Date();
   curHr = this.today.getHours();
 
+  componentDidMount() {
+    localStorage.clear();
+  }
+
   constructor() {
     super();
     this.state = {
-      email:"",
+      email: "",
       username: "",
       userid: "",
       schoolid: "",
       roleid: "",
-     
+
     };
 
     if (this.curHr < 12) {
@@ -37,9 +41,10 @@ class LoginScreen extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-   
-    var globalEmail =  event.target.username.value;
-   
+    var studentData;
+
+    var globalEmail = event.target.username.value;
+
     var registerAdmin = {
       email: event.target.username.value,
       password: event.target.password.value,
@@ -55,9 +60,18 @@ class LoginScreen extends Component {
         document.getElementById("contactForm").reset();
         var id;
         var schoolid;
+        var gradeid;
+
         if (response.roleid === 3) {
+          gradeid = response.User.gradeid;
           id = response.User.studentId;
           schoolid = response.User.schoolid;
+          studentData = {
+            gradeid: gradeid,
+            schoolid: schoolid,
+          };
+          localStorage.setItem("studentData", JSON.stringify(studentData));
+         
         } else if (response.roleid === 1) {
           id = response.User.teacherId;
           schoolid = response.User.schoolid;
@@ -79,20 +93,21 @@ class LoginScreen extends Component {
 
         const token = response.token;
         localStorage.setItem("token", JSON.stringify(token));
-        localStorage.setItem("userAll",JSON.stringify(userAll));
+        localStorage.setItem("userAll", JSON.stringify(userAll));
         this.setState({
-          email:globalEmail,
-          roleid:roleid,
-          username:username,
-          userid:userid,
-          schoolid:schoolid,
-          token:token
+          email: globalEmail,
+          roleid: roleid,
+          username: username,
+          userid: userid,
+          schoolid: schoolid,
+          token: token
         });
       }
     });
   };
 
   render() {
+
     if (this.state.roleid === 1) {
       localStorage.setItem("user", JSON.stringify(this.state));
       return <Redirect to="/teacher" />;
@@ -110,6 +125,7 @@ class LoginScreen extends Component {
       return <Redirect to="/school" />;
     }
     return (
+
       <main id="main_1">
         <OuterHeader></OuterHeader>
         <div className="container content-pawa" style={{ paddingTop: "2%" }}>
@@ -117,16 +133,18 @@ class LoginScreen extends Component {
             <div className="col s8 offset-s2">
               <div
                 className="card card-login row mt-1"
-                style={{ padding: "10px" }}
+                style={{ padding: "10px", borderRadius: 10, }}
               >
                 <div className="col s12 m5">
                   <div
                     className="image-container"
-                    style={{ paddingTop: "80px" }}
+                    style={{ marginTop: "80px" }}
                   >
                     <img
                       className="img-fluid"
                       src={headerImg}
+                      width="100%"
+                      // height="100%"
                       alt="alternative"
                     />
                   </div>

@@ -8,7 +8,7 @@ var config = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
     "Access-Control-Allow-Credentials": true,
   },
 };
@@ -18,6 +18,8 @@ export const AdminService = {
   get_all_subjects_per_grade,
   subcribe_student,
   self_enrolment,
+
+  findClassesForSchoolGrade,
 
   post_new_school,
   get_all_schools,
@@ -39,8 +41,56 @@ export const AdminService = {
   delete_plan,
   get_subadmin,
   get_subadmins,
+  get_all_students,
+  get_all_resources,
+  get_all_teachers
 
 };
+
+
+
+async function findClassesForSchoolGrade(data) {
+  try {
+    let res = await axios.post(`/get_school_grade_subjects`,qs.stringify(data), config);
+    if (res.data.success) {
+      return res.data;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+async function get_all_students() {
+  try {
+    let res = await axios.get(`/students`, config);
+    return res.data.data.students;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function get_all_teachers() {
+  try {
+    let res = await axios.get(`/teachers`, config);
+    return res.data.data.teachers;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
+
+async function get_all_resources() {
+  try {
+    let res = await axios.get(`/materials`, config);
+    return res.data.data.materials;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+}
 
 async function get_all_classes() {
   try {

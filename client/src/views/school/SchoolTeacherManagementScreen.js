@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
+import moment from "moment";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { SchoolService } from "../../services/school";
 import { AuthService } from "../../services/authServices";
 import TitleOptions from "../../components/TitleOptions";
+import { Link } from "react-router-dom";
 class SchoolTeacherManagementScreen extends Component {
   constructor(props) {
     super(props);
@@ -72,9 +74,11 @@ class SchoolTeacherManagementScreen extends Component {
   }
 
   getDashData() {
+    const teachers = [];
     SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
-      /* for (const teacher of response) {
-        teacher.actions = (
+      for (const teacher of response) {
+        teacher.datejoined = moment(teacher.datejoined).format("DD/MM/YYYY");
+        /*  teacher.actions = (
           <ul className="card-action-buttons2">
             <li>
               <a
@@ -98,9 +102,9 @@ class SchoolTeacherManagementScreen extends Component {
               </a>
             </li>
           </ul>
-        );
+              ); */
         teachers.push(teacher);
-      } */
+      }
       console.log(response);
 
       this.setState({
@@ -209,7 +213,8 @@ class SchoolTeacherManagementScreen extends Component {
       });
   };
 
-  handleDelete = () => {
+  handleDelete = (event) => {
+    event.preventDefault();
     SchoolService.delete_teacher(this.state.teacherId)
       .then((response) => {
         if (response.data.message === "An error occured") {
@@ -285,6 +290,20 @@ class SchoolTeacherManagementScreen extends Component {
                       }}
                     >
                       <i className="material-icons">add_circle_outline</i>
+                    </a>
+                    <a
+                      href="#!"
+                      className={`tooltipped waves-effect right blue-text accent-2`}
+                      data-tooltip="Refresh"
+                      data-position="top"
+                      onClick={() => this.getDashData()}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">refresh</i>
                     </a>
                   </div>
                 </nav>
@@ -455,20 +474,20 @@ class SchoolTeacherManagementScreen extends Component {
                   <h4 className="header2">Are you sure?</h4>
                 </div>
                 <div className="modal-footer">
-                  <a
-                    href="#!"
+                  <Link
+                    to="#!"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
                     onClick={this.handleDelete}
                   >
                     Yes
-                  </a>
-                  <a
-                    href="#!"
+                  </Link>
+                  <Link
+                    to="#!"
                     className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                   >
                     No
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

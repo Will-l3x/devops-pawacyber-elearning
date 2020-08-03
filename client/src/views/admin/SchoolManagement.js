@@ -7,6 +7,7 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
+import { Link } from "react-router-dom";
 //import TitleOptions from "../../components/TitleOptions";
 
 class SchoolManagement extends Component {
@@ -163,17 +164,17 @@ class SchoolManagement extends Component {
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
-        console.log(response.password);
-        alert(
-          response.message + "\nSchool Admin password is : " + response.password
-        );
+        M.toast({
+          html: response.message + "\nSchool Admin password is : " + response.password,
+          classes: "green ",
+        });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        alert(
-          response.message + "\nSchool Admin password is : " + response.password
-        );
-        console.log(response.password);
+        M.toast({
+          html: response.message + "\nSchool Admin password is : " + response.password,
+          classes: "green",
+        });
       }
     });
   };
@@ -198,14 +199,12 @@ class SchoolManagement extends Component {
             classes: "red accent-2",
           });
         } else if (response.success === true || response.message === "S") {
-          document.getElementById("sibs").reset();
           this.getDashData();
           M.toast({
             html: "Update Successfull",
             classes: "green accent-3",
           });
         } else {
-          document.getElementById("sibs").reset();
           this.getDashData();
         }
       })
@@ -218,9 +217,11 @@ class SchoolManagement extends Component {
         this.getDashData();
       });
   };
-  handleDelete = () => {
+  handleDelete = (event) => {
+    event.preventDefault();
     AdminService.delete_school(this.state.schoolId)
       .then((response) => {
+        console.log(response);
         if (response.data.message === "An error occured") {
           M.toast({
             html: `An error occured, delete failed!`,
@@ -500,20 +501,20 @@ class SchoolManagement extends Component {
                     <h4 className="header2">Are you sure?</h4>
                   </div>
                   <div className="modal-footer">
-                    <a
-                      href="#!"
+                    <Link
+                      to="#!"
                       style={{ marginRight: 10 }}
                       className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
                       onClick={this.handleDelete}
                     >
                       Yes
-                    </a>
-                    <a
-                      href="#!"
+                    </Link>
+                    <Link
+                      to="#!"
                       className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                     >
                       No
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </section>

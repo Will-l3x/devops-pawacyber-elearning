@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import avatar from "../../assets/images/icon/book_lover.png";
 import M from "materialize-css";
 import PackageOptions from "./PackageOption";
-import ClassOptions from "./ClassesOptions";
+import SubcribeClassOptions from "./SubcribeClassOptions";
 import { PaymentService } from "../../services/paymentService";
 
 export default class StudyMaterialCard extends Component {
@@ -56,7 +56,7 @@ export default class StudyMaterialCard extends Component {
       customerFirstName: this.userAll.firstname,
       customerLastName: this.userAll.lastname,
       serviceDescription: this.state.selectedOption.subscriptionname,
-      routeSuccessLink: "https://cybers.azurewebsites.net/payment-upgrade"
+      routeSuccessLink: "https://cybers.azurewebsites.net/#/payment-upgrade"
     };
 
     PaymentService.createToken(paymentDetails).then((response) => {
@@ -176,7 +176,7 @@ export default class StudyMaterialCard extends Component {
 
         <div id="modal1" className="modal">
           <div className="modal-content">
-            <div className="col s12 m10">
+            <div className="col s12 m12">
               <div className="ex-basic-1">
                 <h4 className="header2">Add Subjects</h4>
               </div>
@@ -221,7 +221,7 @@ export default class StudyMaterialCard extends Component {
                       <label style={{ transform: "translateY(-15px)", fontSize: "12px" }}>
                         Subjects *
                    </label>
-                      <ClassOptions onSelectOption={this.onSelectClassOption} required />
+                      <SubcribeClassOptions onSelectOption={this.onSelectClassOption} required />
                       <div className="my-divider"></div>
                     </div>
                   </div>

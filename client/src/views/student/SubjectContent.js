@@ -25,12 +25,17 @@ class SubjectContent extends Component {
   }
 
   videoresources(){
-    const course_id = store.getState().student.courseId;
+    const course = store.getState().student.course.course;
+      
+    if (course === undefined || (course.name === "" || course.name === undefined) ) {
+      return <Redirect to="/student" />;
+    }
     
-    StudentService.get_course_video_resources(course_id)
+    StudentService.get_course_video_resources(course.courseId)
     .then((response) => {
       this.setState({ topics: response })
     });
+
   }
 
   videoSelected = false;
@@ -50,9 +55,10 @@ class SubjectContent extends Component {
   }
 
   render() {
-    const course = store.getState().student.course;
-    if (course.name === "" || course.name === undefined) {
+    const course = store.getState().student.course.course;
+    if (course === undefined || (course.name === "" || course.name === undefined) ) {
       return <Redirect to="/student" />;
+
     }
     return (
       <div>

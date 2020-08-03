@@ -2,34 +2,34 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import M from "materialize-css";
 import Select from "react-select";
-import { AdminService } from "../../services/admin";
+import { AdminService } from "../services/admin";
 
 let options = [];
+let del_options = [];
 
-class ClassOptions extends Component {
+class Classes extends Component {
   constructor() {
     super();
     this.state = {
       options: [],
+      del_options,
       selectedOption: null,
-      classDescription: null
+      classDescription: null,
     };
     this.handleChange.bind(this);
   }
 
   getClass() {
-    var gradeStore = JSON.parse(localStorage.getItem("registrationData"));
-
-    var data = {
-      grade: gradeStore.gradeid
-    };
-
-    AdminService.get_all_subjects_per_grade(data)
+    AdminService.get_all_classes()
       .then((response) => {
         for (const classOpt of response) {
-          classOpt.value = classOpt.classId;
-          classOpt.label = classOpt.classname;
-          options.push(classOpt);
+          if (classOpt.status === "deleted") {
+            del_options.push(classOpt);
+          } else {
+            classOpt.value = classOpt.classId;
+            classOpt.label = classOpt.classname + ' - Grade:'+classOpt.grade +'';
+            options.push(classOpt);
+          }
         }
       })
       .catch((error) => {
@@ -55,6 +55,7 @@ class ClassOptions extends Component {
     return (
       <Select
         classNamePrefix="custom-options"
+        className ="form-input "
         value={selectedOption}
         onChange={this.handleChange}
         options={options}
@@ -63,4 +64,4 @@ class ClassOptions extends Component {
   }
 }
 
-export default connect(null, null)(ClassOptions);
+export default connect(null, null)(Classes);
