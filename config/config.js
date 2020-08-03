@@ -2,7 +2,7 @@
 
 //var config = {
 //  user: "sa",
-//  password: "tate@1234",
+//  password: "ymcmbmmtmc",
 //  server: "localhost",
 //  database: "cyberschool",
 //  enableArithAbort: true,
@@ -10,7 +10,7 @@
 //  options: {
 //    encrypt: true,
 //    stream: true,
- // },
+//  },
 //};
 
  var config = {
