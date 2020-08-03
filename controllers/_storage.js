@@ -366,7 +366,79 @@ let download = async (req, res) => {
   }
 };
 
-let deleteBlob = async (req, res) => {};
+let deleteBlob = async (req, res) => {
+  if (!req.body.file) {
+    return res.status(400).send({
+      success: false,
+      message: "File field missing in body...",
+    });
+  } else {
+    let blobString = req.body.file;
+    let r = blobString.split(",");
+    let container = r[0].trim();
+    let name = r[1].trim();
+    let encoding = r[2].trim();
+    let mimetype = r[3].trim();
+    let blobId = name.split("-")[0].trim();
+    console.log(blobId);
+    let containerName;
+    let containerClient;
+    let tableIdString;
+    if (container == "materials") {
+      tableIdString = "materials.mID";
+      containerName = "materials";
+      containerClient = blobServiceClient.getContainerClient(containerName);
+    } else if (container == "assignments") {
+      tableIdString = "assignments.assignmentID";
+      containerName = "assignments";
+      containerClient = blobServiceClient.getContainerClient(containerName);
+    } else if (container == "student_assignments") {
+      tableIdString = "student_assignments.assignmentID";
+      containerName = "student-assignments";
+      containerClient = blobServiceClient.getContainerClient(containerName);
+    } else if (container == "shared_materials") {
+      tableIdString = "shared_materials.sharedMaterialID";
+      containerName = "shared-materials";
+      containerClient = blobServiceClient.getContainerClient(containerName);
+    } else if (container == "syllabi") {
+      tableIdString = "syllabi.syllabusID";
+      containerName = "syllabi";
+      containerClient = blobServiceClient.getContainerClient(containerName);
+    } else {
+      return res.status(400).send({
+        success: false,
+        message: "Unknown uploadType...",
+      });
+    }
+
+    let q = `delete from ${container} \
+    where ${tableIdString} = ${blobId};`;
+    console.log(q);
+
+    let ms_req = new sql.Request();
+
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        let blockBlobClient = containerClient.getBlockBlobClient(name);
+        if (blockBlobClient.exists()) {
+          blockBlobClient.delete();
+        }
+
+        return res.status(200).send({
+          success: true,
+          message: "Resource deleted successfully...",
+        });
+      }
+    });
+  }
+};
 
 module.exports = {
   upload: upload,
