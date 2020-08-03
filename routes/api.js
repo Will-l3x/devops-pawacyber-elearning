@@ -25,11 +25,11 @@ router.post('/verify', _auth.verifyacc);
 router.get("/profile", _auth.profile);
 router.put("/resetpassword", _auth.resetpassword);
 router.put("/refreshotp", _auth.refreshotp);
+router.put("/update_profile", _auth.update_profile);
 
 //////////////////////systemadmin//////////////////////////////////////////////
 router.get("/genders", _systemadmin.genders);
 router.get("/roles", _systemadmin.roles);
-
 
 router.get("/subscriptions", _systemadmin.subscriptions);
 router.post("/add_subscription", _systemadmin.add_subscription);

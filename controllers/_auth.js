@@ -29,6 +29,76 @@ var gen = rn.generator({
     integer: true
 });
 
+async function update_profile(req, res) {
+    var id = req.decoded.userid;
+    var role = req.decoded.roleid;
+
+    var fname = req.body.supplierid;
+    var lname = req.body.price;
+    var tittle = req.body.descr;
+    var dob = req.body.service;
+
+    var ph = "";
+
+    if (role === 1) {
+        ph = "[teachers] SET firstname=@fname, lastname=@lname ";
+    } else if (role === "2") {
+        ph = "[parents] SET firstname=@fname, lastname=@lname , title=@title ";
+    } else if (role === "3") {
+        ph = "[students] SET firstname =@fname, lastname =@lname,dob=@dob ";
+    } else if (role === "4") {
+        ph = "[schooladmins] SET firstname =@fname, lastname =@lname,dob=@dob ";
+    } else if (role === "5") {
+        ph = "[systemadmins] SET firstname =@fname, lastname =@lname ";
+    } else if (role === "6") {
+        ph = "[subadmins] SET firstname=@fname, lastname=@lname ";
+    } else {
+        return res.json({
+            status: 400,
+            success: false,
+            message: "An error occured"
+        });
+    }
+
+    let query = "UPDATE " + ph + " WHERE userid = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", id)
+        .input("fname", fname)
+        .input("lname", lname)
+        .input("tittle", tittle)
+        .input("dob", dob)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Profile updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update Profile'
+                    });
+                }
+            }
+        });
+}
+
 let checkToken = (req, res, next) => {
     console.log(req.url);
     if (req.url !== '/multi_upload' && req.url !== '/login' && req.url !== '/register'  && req.url !== '/subscriptions' && req.url !== '/dpo/payment/createToken' && req.url !== '/classes/all' && req.url!=='/classes/grade' && req.url !== '/subscribestudent' && req.url !== '/post_payment_enrol'  && req.url !== '/resetpassword' && req.url.indexOf('/verify') < 0 && req.url !== '/refreshotp') {
@@ -1122,5 +1192,6 @@ module.exports = {
     refreshotp: refreshotp,
     verifyacc: verifyacc,
     register: register,
-    login:login
+    login: login,
+    update_profile: update_profile
 };
