@@ -366,9 +366,12 @@ let download = async (req, res) => {
   }
 };
 
+let deleteBlob = async (req, res) => {};
+
 module.exports = {
   upload: upload,
   download: download,
   multiUpload: multiUpload,
   storageInit: storageInit,
+  deleteBlog: deleteBlob,
 };
