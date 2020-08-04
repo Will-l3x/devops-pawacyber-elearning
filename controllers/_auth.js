@@ -29,9 +29,79 @@ var gen = rn.generator({
     integer: true
 });
 
+async function update_profile(req, res) {
+    var id = req.decoded.userid;
+    var role = req.decoded.roleid;
+
+    var fname = req.body.supplierid;
+    var lname = req.body.price;
+    var tittle = req.body.descr;
+    var dob = req.body.service;
+
+    var ph = "";
+
+    if (role === 1) {
+        ph = "[teachers] SET firstname=@fname, lastname=@lname ";
+    } else if (role === "2") {
+        ph = "[parents] SET firstname=@fname, lastname=@lname , title=@title ";
+    } else if (role === "3") {
+        ph = "[students] SET firstname =@fname, lastname =@lname,dob=@dob ";
+    } else if (role === "4") {
+        ph = "[schooladmins] SET firstname =@fname, lastname =@lname,dob=@dob ";
+    } else if (role === "5") {
+        ph = "[systemadmins] SET firstname =@fname, lastname =@lname ";
+    } else if (role === "6") {
+        ph = "[subadmins] SET firstname=@fname, lastname=@lname ";
+    } else {
+        return res.json({
+            status: 400,
+            success: false,
+            message: "An error occured"
+        });
+    }
+
+    let query = "UPDATE " + ph + " WHERE userid = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", id)
+        .input("fname", fname)
+        .input("lname", lname)
+        .input("tittle", tittle)
+        .input("dob", dob)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Profile updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update Profile'
+                    });
+                }
+            }
+        });
+}
+
 let checkToken = (req, res, next) => {
     console.log(req.url);
-    if (req.url !== '/multi_upload' && req.url !== '/login' && req.url !== '/register' && req.url !== '/schools' && req.url !== '/subscriptions' && req.url !== '/dpo/payment/createToken' && req.url !== '/get_school_grade_subjects' && req.url !== '/classes/all' && req.url !== '/classes/grade' && req.url !== '/subscribestudent' && req.url !== '/post_payment_enrol' && req.url !== '/resetpassword' && req.url.indexOf('/verify') < 0 && req.url !== '/refreshotp') {
+    if (req.url !== '/multi_upload' && req.url !== '/login' && req.url !== '/register'  && req.url !== '/subscriptions' && req.url !== '/dpo/payment/createToken' && req.url !== '/classes/all' && req.url!=='/classes/grade' && req.url !== '/subscribestudent' && req.url !== '/post_payment_enrol'  && req.url !== '/resetpassword' && req.url.indexOf('/verify') < 0 && req.url !== '/refreshotp') {
 
         let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
 
@@ -75,7 +145,7 @@ let checkToken = (req, res, next) => {
         next();
     }
 };
-
+  
 let profile = (req, res) => {
     var id = req.decoded.userid;
     var role = req.decoded.roleid;
@@ -465,7 +535,7 @@ let refreshotp = (req, res) => {
                                 });
                             }
 
-
+                          
                             transporter.close();
                             return res.json({
                                 status: 200,
@@ -656,7 +726,7 @@ let register = (req, res) => {
     var dob = Date();
     dob = req.body.dob;
     activefrom = moment().format('YYYY-MM-DD');
-    var enrolmentkey = generator.generate({
+    var enrolmentkey  = generator.generate({
         length: 5,
         numbers: true
     });
@@ -670,22 +740,17 @@ let register = (req, res) => {
     query = query + ';select @@IDENTITY AS \'identity\'';
 
     let query_email = "SELECT * FROM [users] WHERE email = @email";
-    query_email = query_email + ';select @@IDENTITY AS \'identity\'';
 
     var query_teacher = "INSERT INTO [teachers] (firstname,lastname,datejoined,userid,schoolid) VALUES(@firstname,@lastname,Convert(datetime, Convert(datetime, @dj ) ),@userid,@schoolid)";
-    query_teacher = query_teacher + ';select @@IDENTITY AS \'identity\'';
 
     var query_parent = "INSERT INTO [parents] (firstname,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,@title)";
-    query_parent = query_parent + ';select @@IDENTITY AS \'identity\'';
 
     var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,gradeid,schoolid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade,@schoolid)";
-    query_student = query_student + ';select @@IDENTITY AS \'identity\'';
 
     var query_subadmin = "INSERT INTO [subadmins] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid)";
-    query_subadmin = query_subadmin + ';select @@IDENTITY AS \'identity\'';
 
     var schema = new passwordValidator();
-
+     
     schema
         .is().min(8)                                    // Minimum length 8                                 
         .has().letters()
@@ -720,166 +785,163 @@ let register = (req, res) => {
                             message: 'Internal server error'
                         });
                     }
-                    var request = new sql.Request(transaction);
-                    request
-                        .input('email', email)
-                        .query(query_email, function (err, recordset) {
+                 var request = new sql.Request(transaction);
+                request
+                    .input('email', email)
+                    .query(query_email, function (err, recordset) {
 
-                            if (err) {
-                                console.log(err);
+                        if (err) {
+                            console.log(err);
+
+                            return res.json({
+                                status: 500,
+                                success: false,
+                                message: 'Database error'
+
+                            });
+                        } else {
+                            if (recordset.recordset.length > 0) {
 
                                 return res.json({
-                                    status: 500,
+                                    status: 400,
                                     success: false,
-                                    message: 'Database error'
-
+                                    message: email + ' is already taken'
                                 });
                             } else {
-                                if (recordset.recordset.length > 0) {
 
-                                    return res.json({
-                                        status: 400,
-                                        success: false,
-                                        message: email + ' is already taken'
-                                    });
-                                } else {
+                                password = bcrypt.hashSync(password, process.env.bcrypt_salt);
+                                //  var SubscriptionEndDate = moment().format();
 
-                                    password = bcrypt.hashSync(password, process.env.bcrypt_salt);
-                                    //  var SubscriptionEndDate = moment().format();
+                                request
+                                    .input('password', password)
+                                    .input('femail', email)
+                                    .input('roleid', roleid)
+                                    .input('otp', pin)
+                                    .input('otpexpiry', otpexpiry)
+                                    .input('activefrom', activefrom)
+                                    .input('gender', gender)
+                                    .query(query, function (err, recordset) {
 
-                                    request
-                                        .input('password', password)
-                                        .input('femail', email)
-                                        .input('roleid', roleid)
-                                        .input('otp', pin)
-                                        .input('otpexpiry', otpexpiry)
-                                        .input('activefrom', activefrom)
-                                        .input('gender', gender)
-                                        .query(query, function (err, recordset) {
+                                        if (err) {
+                                            console.log(err);
 
-                                            if (err) {
-                                                console.log(err);
+                                            return res.json({
+                                                status: 400,
+                                                success: false,
+                                                message: 'Database error',
+                                                error: err.message
+                                            });
+                                        } else {
 
-                                                return res.json({
-                                                    status: 400,
-                                                    success: false,
-                                                    message: 'Database error',
-                                                    error: err.message
-                                                });
-                                            } else {
+                                            if (recordset.rowsAffected[0] > 0) {
+                                                userid = recordset.recordset[0].identity; 
+                                                console.log(userid);
+                                                var q = "";
+                                                if (roleid === "1") {
+                                                    //teacher
+                                                    q = query_teacher;
+                                                    console.log("teacher");
+                                                } else if (roleid === "2") {
+                                                    console.log("parent");
+                                                    //parent
+                                                    q = query_parent;
+                                                } else if (roleid === "3") {
+                                                    //student
+                                                    q = query_student;
+                                                    console.log("student");
+                                                } else if (roleid === "6") {
+                                                    //student
+                                                    q = query_subadmin;
+                                                    console.log("subadmin");
+                                                }
+                                                request
+                                                    .input('firstname', firstname)
+                                                    .input('title', title)
+                                                    .input('lastname', lastname)
+                                                    .input('dob', dob)
+                                                    .input('userid', userid)
+                                                    .input('ek', enrolmentkey)
+                                                    .input('dj', activefrom)
+                                                    .input('grade', grade)
+                                                    .input('schoolid', schoolid)
+                                                    .query(q, function (err, recordset) {
 
-                                                if (recordset.rowsAffected[0] > 0) {
-                                                    userid = recordset.recordset[0].identity;
-                                                    console.log(userid);
-                                                    var q = "";
-                                                    if (roleid === "1") {
-                                                        //teacher
-                                                        q = query_teacher;
-                                                        console.log("teacher");
-                                                    } else if (roleid === "2") {
-                                                        console.log("parent");
-                                                        //parent
-                                                        q = query_parent;
-                                                    } else if (roleid === "3") {
-                                                        //student
-                                                        q = query_student;
-                                                        console.log("student");
-                                                    } else if (roleid === "6") {
-                                                        //student
-                                                        q = query_subadmin;
-                                                        console.log("subadmin");
-                                                    }
-                                                    request
-                                                        .input('firstname', firstname)
-                                                        .input('title', title)
-                                                        .input('lastname', lastname)
-                                                        .input('dob', dob)
-                                                        .input('userid', userid)
-                                                        .input('ek', enrolmentkey)
-                                                        .input('dj', activefrom)
-                                                        .input('grade', grade)
-                                                        .input('schoolid', schoolid)
-                                                        .query(q, function (err, recordset) {
+                                                        if (err) {
+                                                            console.log(err);
 
-                                                            if (err) {
-                                                                console.log(err);
-                                                                return res.json({
-                                                                    status: 400,
-                                                                    success: false,
-                                                                    message: 'Database error',
-                                                                    error: err.message
-                                                                });
-                                                            } else {
+                                                            return res.json({
+                                                                status: 400,
+                                                                success: false,
+                                                                message: 'Database error',
+                                                                error: err.message
+                                                            });
+                                                        } else {
+                                                            console.log(recordset);
+                                                            if (recordset.rowsAffected[0] > 0) {
+                                                                console.log("done sending email");
+                                                                transaction.commit();
 
-                                                                if (recordset.rowsAffected[0] > 0) {
+                                                                var message = {
+                                                                    from: 'noreply@cyberchool.com',
+                                                                    to: email,
+                                                                    subject: "Activate your cyberschool account",
+                                                                    text: "Your newschool activation code is " + pin,
+                                                                    html: "<h3>Welcome to cyberschool</h3><hr><p>Your activation pin is <b>" + pin + "</b>."
+                                                                };
 
-                                                                    console.log("done sending email");
-                                                                    transaction.commit();
-
-                                                                    var message = {
-                                                                        from: 'noreply@cyberchool.com',
-                                                                        to: email,
-                                                                        subject: "Activate your cyberschool account",
-                                                                        text: "Your newschool activation code is " + pin,
-                                                                        html: "<h3>Welcome to cyberschool</h3><hr><p>Your activation pin is <b>" + pin + "</b>."
-                                                                    };
-
-                                                                    transporter.sendMail(message, (error, info) => {
-                                                                        if (error) {
-                                                                            console.log('Error occurred');
-                                                                            console.log(error.message);
-
-                                                                            return res.json({
-                                                                                status: 201,
-                                                                                success: true,
-                                                                                message: 'Account Registered',
-                                                                                userid: recordset.recordset[0].identity,
-                                                                                error: 'Failed to send authorization pin'
-                                                                            });
-                                                                            //    return res.status(400).json({ message: 'Account Registration succeded but failed to send verification pin' });
-
-                                                                            //try again to send pin
-                                                                        }
-
-                                                                        console.log('Message sent successfully!');
-
-                                                                        transporter.close();
+                                                                transporter.sendMail(message, (error, info) => {
+                                                                    if (error) {
+                                                                        console.log('Error occurred');
+                                                                        console.log(error.message);
 
                                                                         return res.json({
                                                                             status: 201,
                                                                             success: true,
-                                                                            userid: recordset.recordset[0].identity,
-                                                                            message: 'Account Created'
-
+                                                                            message: 'Account Registered',
+                                                                            error: 'Failed to send authorization pin'
                                                                         });
-                                                                    });
-                                                                } else {
-                                                                    transaction.rollback();
+                                                                        //    return res.status(400).json({ message: 'Account Registration succeded but failed to send verification pin' });
+
+                                                                        //try again to send pin
+                                                                    }
+
+                                                                    console.log('Message sent successfully!');
+                                                                    
+                                                                    transporter.close();
+                                                                    
                                                                     return res.json({
-                                                                        status: 400,
-                                                                        success: false,
-                                                                        message: 'Failed to register'
+                                                                        status: 201,
+                                                                        success: true,
+                                                                        message: 'Account Created'
                                                                     });
+                                                                });
+                                                            } else {
+                                                                transaction.rollback();
+                                                                return res.json({
+                                                                    status: 400,
+                                                                    success: false,
+                                                                    message: 'Failed to register'
+                                                                });
 
-                                                                }
                                                             }
-                                                        });
-
-                                                } else {
-                                                    transaction.rollback();
-                                                    return res.json({
-                                                        status: 400,
-                                                        success: false,
-                                                        message: 'Failed to register account',
-                                                        error: 'error'
+                                                        }
                                                     });
-                                                }
 
+                                            } else {
+                                                transaction.rollback();
+                                                return res.json({
+                                                    status: 400,
+                                                    success: false,
+                                                    message: 'Failed to register account',
+                                                    error: 'error'
+                                                });
                                             }
-                                        });
-                                }
+
+                                        }
+                                    });
                             }
-                        });
+                        }
+                    });
                 });
             }
 
@@ -894,7 +956,7 @@ let register = (req, res) => {
                 error: errlist
             });
         }
-
+        
     } else {
         return res.json({
             status: 400,
@@ -903,10 +965,10 @@ let register = (req, res) => {
             erro: 'error'
         });
     }
-};
+}; 
 //login
 let login = (req, res) => {
-
+  
     let email = req.body.email;
     let password = req.body.password;
     let lastpassword = password;
@@ -917,218 +979,219 @@ let login = (req, res) => {
     var activesubscriptions = 0;
 
     var currdate = moment().format('YYYY-MM-DD');
+      
+        if (email && password) {
+            if (!validator.isEmail(email)) {
+                return res.json({
+                    status: 400,
+                    success: false,
+                    message: 'Invalid email address'
+                });
+            }
 
-    if (email && password) {
-        if (!validator.isEmail(email)) {
-            return res.json({
-                status: 400,
-                success: false,
-                message: 'Invalid email address'
-            });
-        }
+            password = bcrypt.hashSync(password, process.env.bcrypt_salt);
 
-        password = bcrypt.hashSync(password, process.env.bcrypt_salt);
+            var query = "select * from[users] where email=@email and password=@password";
 
-        var query = "select * from[users] where email=@email and password=@password";
+            var request = new sql.Request();
+            request
+                .input('email', email)
+                .input('password', password)
+                .query(query, function (err, recordset) {
+                    console.log(recordset.recordsets[0]);
 
-        var request = new sql.Request();
-        request
-            .input('email', email)
-            .input('password', password)
-            .query(query, function (err, recordset) {
-                console.log(recordset.recordsets[0]);
+                    if (err) {
 
-                if (err) {
+                        console.log(err.message);
+                        return res.json({
+                            status: 500,
+                            success: false,
+                            message: 'something went wrong',
+                            error: err.message
+                        });
+                    } else {
 
-                    console.log(err.message);
-                    return res.json({
-                        status: 500,
-                        success: false,
-                        message: 'something went wrong',
-                        error: err.message
-                    });
-                } else {
+                        if (recordset.recordset.length > 0) {
+                           
+                            var result = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
 
-                    if (recordset.recordset.length > 0) {
+                            var grade = "";
 
-                        var result = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
+                            for (let prop in result) {
+                               
+                                if (prop === "userId") {
+                                    userid = result[prop]; 
+                                }
 
-                        var grade = "";
-
-                        for (let prop in result) {
-
-                            if (prop === "userId") {
-                                userid = result[prop];
+                                if (prop === "roleid") {
+                                    roleid = result[prop];
+                                }
                             }
 
-                            if (prop === "roleid") {
-                                roleid = result[prop];
-                            }
-                        }
-
-                        var p = "";
-                        if (roleid === 3) {
-                            p = "students";
-                            ///////////////////////////
-                            var p2 = "select * from[student_subscriptions]  \
+                            var p = "";
+                            if (roleid === 3) {
+                                p = "students";
+                                ///////////////////////////
+                                var p2 = "select * from[student_subscriptions]  \
                                          LEFT OUTER JOIN students ON students.studentId = student_subscriptions.studentid  \
                                          LEFT OUTER JOIN users ON students.userid = users.userId  \
                                          where users.userId =@id AND Convert(datetime, @cd) < student_subscriptions.enddate";
 
-                            request
-                                .input("id", userid)
-                                .input("cd", currdate)
-                                .query(p2, function (err, recordset) {
+                                request
+                                    .input("id", userid)
+                                    .input("cd", currdate)
+                                    .query(p2, function (err, recordset) {
 
-                                    if (err) {
+                                        if (err) {
 
-                                        console.log(err.message);
-                                        return res.json({
-                                            status: 500,
-                                            success: false,
-                                            message: 'something went wrong sub',
-                                            error: err.message
-                                        });
-                                    } else {
-
-                                        if (recordset.recordset.length > 0) {
-                                            activesubscriptions = 1;
-                                            console.log("success - " + activesubscriptions);
+                                            console.log(err.message);
+                                            return res.json({
+                                                status: 500,
+                                                success: false,
+                                                message: 'something went wrong sub',
+                                                error: err.message
+                                            });
                                         } else {
 
-                                            var p22 = "select * from[students]  \
+                                            if (recordset.recordset.length > 0) {
+                                                activesubscriptions = 1;
+                                                console.log("success - " + activesubscriptions);
+                                            } else {
+                                                
+                                                var p22 = "select * from[students]  \
                                                  where students.userid =@uid AND  students.schoolid = @sid";
 
-                                            request
-                                                .input("uid", userid)
-                                                .input("sid", noschoolid)
-                                                .query(p22, function (err, recordset) {
+                                                request
+                                                    .input("uid", userid)
+                                                    .input("sid", noschoolid)
+                                                    .query(p22, function (err, recordset) {
 
-                                                    if (err) {
+                                                        if (err) {
 
-                                                        console.log(err.message);
-                                                        return res.json({
-                                                            status: 500,
-                                                            success: false,
-                                                            message: 'something went wrong p22.',
-                                                            error: err.message
-                                                        });
-                                                    } else {
-                                                        if (recordset.recordset.length > 0) {
-
-                                                            activesubscriptions = 1;
-                                                            console.log("icho 3 " + activesubscriptions);
+                                                            console.log(err.message);
+                                                            return res.json({
+                                                                status: 500,
+                                                                success: false,
+                                                                message: 'something went wrong p22.',
+                                                                error: err.message
+                                                            });
                                                         } else {
-                                                            activesubscriptions = 0;
+                                                            if (recordset.recordset.length > 0) {
 
+                                                                activesubscriptions = 1;
+                                                                console.log("icho 3 " + activesubscriptions);
+                                                            } else {
+                                                                activesubscriptions = 0;
+                                                    
+                                                            }
                                                         }
-                                                    }
-                                                });
+                                                    });
+                                            }
                                         }
-                                    }
+                                    });
+
+                                ////////////////////////////
+
+                            } else if (roleid === 2) {
+                              
+                                p = "parents";
+                                ////////////////////////////////////////////////////////
+                                activesubscriptions = 1;
+                                
+                            } else if (roleid === 1) {
+                                p = "teachers";
+                            } else if (roleid === 5) {
+                                p = "systemadmins";
+                                activesubscriptions = 1;
+                            } else if (roleid === 4) {
+                                p = "schooladmins";
+                            } else if (roleid === 6) {
+                                p = "subadmins";
+                                activesubscriptions = 1;
+                            }
+                            console.log("icho2 -" + activesubscriptions);
+                            var q = "select * from[" + p + "] where userid = @id2";
+                            var resp = "";
+
+                            //verify password hash
+                            if (!bcrypt.compareSync(lastpassword, result.password)) {
+                                return res.json({
+                                    status: 401,
+                                    success: false,
+                                    message: 'Invalid credentials'
                                 });
+                            } else {
+                                console.log("icho -" + activesubscriptions);
+                                let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId, activesubscriptions: activesubscriptions },
+                                    process.env.jwt_secret,
+                                    {
+                                        expiresIn: '36h' // expires in 1.5 days
+                                    }
+                                );
+                                //////////////////////////////
 
-                            ////////////////////////////
+                                request
+                                    .input("id2",userid)
+                                    .query(q, function (err, recordset) {
+                                        
+                                        if (err) {
 
-                        } else if (roleid === 2) {
+                                            console.log(err.message);
+                                            return res.json({
+                                                status: 500,
+                                                success: false,
+                                                message: 'something went wrong',
+                                                error: err.message
+                                            });
+                                        } else {
 
-                            p = "parents";
-                            ////////////////////////////////////////////////////////
-                            activesubscriptions = 1;
+                                            if (recordset.recordset.length > 0) {
 
-                        } else if (roleid === 1) {
-                            p = "teachers";
-                        } else if (roleid === 5) {
-                            p = "systemadmins";
-                            activesubscriptions = 1;
-                        } else if (roleid === 4) {
-                            p = "schooladmins";
-                        } else if (roleid === 6) {
-                            p = "subadmins";
-                            activesubscriptions = 1;
-                        }
-                        console.log("icho2 -" + activesubscriptions);
-                        var q = "select * from[" + p + "] where userid = @id2";
-                        var resp = "";
+                                                resp = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
 
-                        //verify password hash
-                        if (!bcrypt.compareSync(lastpassword, result.password)) {
+                                                return res.json({
+                                                    status: 200,
+                                                    success: true,
+                                                    message: 'Login successful',
+                                                    roleid: roleid,
+                                                    token: token,
+                                                    User: resp,
+                                                    activesubscriptions: activesubscriptions
+                                                });
+
+                                            }
+                                        }
+                                    });
+                            }
+                        }else {
+
                             return res.json({
                                 status: 401,
                                 success: false,
-                                message: 'Invalid credentials'
+                                message: 'Login Failed'
                             });
-                        } else {
-                            console.log("icho -" + activesubscriptions);
-                            let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId, activesubscriptions: activesubscriptions },
-                                process.env.jwt_secret,
-                                {
-                                    expiresIn: '36h' // expires in 1.5 days
-                                }
-                            );
-                            //////////////////////////////
-
-                            request
-                                .input("id2", userid)
-                                .query(q, function (err, recordset) {
-
-                                    if (err) {
-
-                                        console.log(err.message);
-                                        return res.json({
-                                            status: 500,
-                                            success: false,
-                                            message: 'something went wrong',
-                                            error: err.message
-                                        });
-                                    } else {
-
-                                        if (recordset.recordset.length > 0) {
-
-                                            resp = {} = JSON.parse(JSON.stringify(recordset.recordset[0]));
-
-                                            return res.json({
-                                                status: 200,
-                                                success: true,
-                                                message: 'Login successful',
-                                                roleid: roleid,
-                                                token: token,
-                                                User: resp,
-                                                activesubscriptions: activesubscriptions
-                                            });
-
-                                        }
-                                    }
-                                });
                         }
-                    } else {
-
-                        return res.json({
-                            status: 401,
-                            success: false,
-                            message: 'Login Failed'
-                        });
                     }
-                }
+                });
+
+        } else {
+            res.json({
+                status: 400,
+                success: false,
+                message: 'Email and password are required'
             });
-
-    } else {
-        res.json({
-            status: 400,
-            success: false,
-            message: 'Email and password are required'
-        });
-    }
-
+        }
+   
 };
 
 module.exports = {
-    profile: profile,
+    profile: profile, 
     resetpassword: resetpassword,
     checktoken: checkToken,
     changepassword: changepassword,
     refreshotp: refreshotp,
     verifyacc: verifyacc,
     register: register,
-    login: login
+    login: login,
+    update_profile: update_profile
 };
