@@ -7,6 +7,7 @@ import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { SchoolService } from "../../services/school";
+import UserGridComp from "../../components/UserGridComp";
 
 class SchoolStudentManagementScreen extends Component {
   constructor() {
@@ -49,6 +50,7 @@ class SchoolStudentManagementScreen extends Component {
         },
       ],
       rows: [],
+      view: "grid",
     };
   }
 
@@ -84,16 +86,64 @@ class SchoolStudentManagementScreen extends Component {
                   }}
                 >
                   <div className="nav-content">
-                    <p style={{ padding: "10px", fontSize: "16px" }}>
-                      Student List
-                    </p>
+                    <div className="left">
+                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                        Student List
+                      </p>
+                    </div>
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "grid" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "grid" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">grid_on</i>
+                    </a>
+
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "table" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "table" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">format_list_numbered</i>
+                    </a>
                   </div>
                 </nav>
               </div>
-              <section id="content" style={{ paddingTop: 85 }}>
+              <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "table" ? "" : "display-none"
+                    }`}
+                  >
                     <DatatablePage data={this.state} />
+                  </div>
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "grid" ? "" : "display-none"
+                    }`}
+                  >
+                    <UserGridComp dashboard="schooladmin" rolename="student" />
                   </div>
                 </div>
               </section>

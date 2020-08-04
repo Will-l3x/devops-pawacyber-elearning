@@ -119,16 +119,27 @@ class VideoPlayer extends Component {
     this.setState({ currentPageNumber: parseInt(pageNumber) });
     this.get_meetings();
   };
-  handlePrevClick = () => {
-    const pageNumber = this.state.currentPageNumber - 1;
-    this.setState({ currentPageNumber: pageNumber });
-    this.get_meetings();
+  handlePrevClick = async (e) => {
+    e.preventDefault();
+    const pageNumber =
+      this.state.currentPageNumber === this.state.pages.length ||
+      this.state.pages.length < 1
+        ? this.state.currentPageNumber
+        : this.state.currentPageNumber - 1;
+    this.setState({ currentPageNumber: pageNumber }, () => {
+      this.gettingUsers();
+    });
   };
-  handleNextClick = () => {
-    const pageNumber = this.state.currentPageNumber + 1;
-    console.log(pageNumber);
-    this.setState({ currentPageNumber: pageNumber });
-    this.get_meetings();
+  handleNextClick = async (e) => {
+    e.preventDefault();
+    const pageNumber =
+      this.state.currentPageNumber === this.state.pages.length ||
+      this.state.pages.length < 1
+        ? this.state.currentPageNumber
+        : this.state.currentPageNumber + 1;
+    this.setState({ currentPageNumber: pageNumber }, () => {
+      this.gettingUsers();
+    });
   };
 
   start_meeting = (e) => {

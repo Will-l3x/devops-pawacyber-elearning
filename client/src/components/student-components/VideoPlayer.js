@@ -150,16 +150,25 @@ class VideoPlayer extends Component {
   };
   handlePrevClick = async (e) => {
     e.preventDefault();
-    const pageNumber = this.state.currentPageNumber - 1;
-    this.setState({ currentPageNumber: pageNumber });
-    this.get_meetings();
+    const pageNumber =
+      this.state.currentPageNumber === this.state.pages.length ||
+      this.state.pages.length < 1
+        ? this.state.currentPageNumber
+        : this.state.currentPageNumber - 1;
+    this.setState({ currentPageNumber: pageNumber }, () => {
+      this.gettingUsers();
+    });
   };
   handleNextClick = async (e) => {
     e.preventDefault();
-    const pageNumber = this.state.currentPageNumber + 1;
-    console.log(pageNumber);
-    this.setState({ currentPageNumber: pageNumber });
-    this.get_meetings();
+    const pageNumber =
+      this.state.currentPageNumber === this.state.pages.length ||
+      this.state.pages.length < 1
+        ? this.state.currentPageNumber
+        : this.state.currentPageNumber + 1;
+    this.setState({ currentPageNumber: pageNumber }, () => {
+      this.gettingUsers();
+    });
   };
   onSelectOption = (selectedOption) => {
     this.setState({ selectedOption }, () =>

@@ -55,6 +55,7 @@ import store from "./config/store";
 import Students from "./views/admin/Students";
 import AllClasses from "./views/admin/Subjects";
 import ProfileScreen from "./components/profile/ProfileScreen";
+import TeacherStudents from "./views/teacher/TeacherStudents";
 
 class App extends Component {
   componentDidMount() {
@@ -178,6 +179,11 @@ class App extends Component {
             exact
             path="/teacher-calendar"
             component={TeacherCalendarScreen}
+          />
+          <Route
+            exact
+            path="/teacher-students"
+            component={TeacherStudents}
           />
           <Route exact path="/classroom" component={ClassroomScreen} />
           <Route

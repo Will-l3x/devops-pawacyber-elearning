@@ -219,6 +219,9 @@ a {
 .text-sm {
   font-size: 14px !important;
 }
+.text-cap {
+  text-transform: capitalize !important;
+}
 
 ::placeholder {
   color: #bdbdbd;

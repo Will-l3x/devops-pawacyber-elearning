@@ -121,7 +121,7 @@ class HomeScreen extends Component {
         <OuterHeader></OuterHeader>
 
         <div className="content-pawa">
-          <header id="welcome" className="header z-depth-5">
+          <div id="welcome" className="header">
             <div className="">
               <div className="container">
                 <div
@@ -186,7 +186,7 @@ class HomeScreen extends Component {
                 </div>
               </div>
             </div>
-          </header>
+          </div>
 
           <div id="services" className="cards-1">
             <div className="row container">
@@ -287,6 +287,7 @@ class HomeScreen extends Component {
               </div>
             </div>
           </div>
+         
           <div className="basic-2 z-index-1">
             <div className="container">
               <div className="row mt-1">
@@ -395,7 +396,7 @@ class HomeScreen extends Component {
             </div>
           </div>
 
-          <div className="basic-2 card z-depth-5 header">
+          <div className="basic-2 card header">
             <div className="container">
               <div className="row">
                 <div className="col s12 m6">

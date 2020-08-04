@@ -10,6 +10,7 @@ import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
 import { AuthService } from "../../services/authServices";
 import RoleOptions from "./RoleOptions";
+import UserGridComp from "../../components/UserGridComp";
 
 class SubadminScreen extends Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class SubadminScreen extends Component {
         },
       ],
       rows: [],
+      view: "grid",
     };
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
   }
@@ -98,13 +100,23 @@ class SubadminScreen extends Component {
 
     AuthService.register(registerAdmin).then((response) => {
       if (response === undefined) {
-        alert("Subadmin Registration Failed");
+        M.toast({
+          html: "Subadmin registration failed",
+          classes: "red ",
+        });
       } else if (response.success === false) {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "red ",
+        });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        alert(response.message);
+
+        M.toast({
+          html: response.message,
+          classes: "green ",
+        });
       }
     });
   };
@@ -139,6 +151,43 @@ class SubadminScreen extends Component {
                         Subadmin Management
                       </p>
                     </div>
+
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "grid" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "grid" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">grid_on</i>
+                    </a>
+
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "table" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "table" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">format_list_numbered</i>
+                    </a>
+                   
                     <a
                       href="#!"
                       data-target="modaladd"
@@ -158,8 +207,19 @@ class SubadminScreen extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "table" ? "" : "display-none"
+                    }`}
+                  >
                     <DatatablePage data={this.state} />
+                  </div>
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "grid" ? "" : "display-none"
+                    }`}
+                  >
+                    <UserGridComp dashboard="admin" rolename="subadmin" />
                   </div>
                 </div>
               </section>

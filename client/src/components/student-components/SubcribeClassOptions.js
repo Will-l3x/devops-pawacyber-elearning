@@ -7,7 +7,7 @@ import { AdminService } from "../../services/admin";
 let options = [];
 let del_options = [];
 
-class ClassOptions extends Component {
+class SubcribeClassOptions extends Component {
   constructor() {
     super();
     this.state = {
@@ -20,15 +20,15 @@ class ClassOptions extends Component {
   }
 
   getClass() {
-    var gradeStore = JSON.parse(localStorage.getItem("registrationData"));
-
+    var gradeStore = JSON.parse(localStorage.getItem("studentData"));
     var data = {
-      grade: gradeStore.gradeid,
+      gradeid: gradeStore.gradeid,
+      schoolid: gradeStore.schoolid,
     };
 
-    AdminService.get_all_subjects_per_grade(data)
+    AdminService.findClassesForSchoolGrade(data)
       .then((response) => {
-        for (const classOpt of response) {
+        for (const classOpt of response.data.subjects) {
           if (classOpt.status === "deleted") {
             del_options.push(classOpt);
           } else {
@@ -69,4 +69,4 @@ class ClassOptions extends Component {
   }
 }
 
-export default connect(null, null)(ClassOptions);
+export default connect(null, null)(SubcribeClassOptions);

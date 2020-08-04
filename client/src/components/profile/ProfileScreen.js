@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import dp from "../../assets/images/avatar/avatar-1.png";
+import dp from "../../assets/images/avatar/avatar-11.png";
 import Header from "../header";
 import SideBar from "../SideBar";
 import Footer from "../footer";
@@ -19,6 +19,7 @@ class ProfileScreen extends Component {
           : JSON.parse(localStorage.getItem("user")),
       edit: true,
       tab: "about",
+      imagePreviewUrl: dp,
     };
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -26,10 +27,11 @@ class ProfileScreen extends Component {
   componentDidMount() {
     this.getUserDetails();
   }
+
   getUserDetails = () => {
     AuthService.profile()
       .then((response) => {
-        this.setState({user: response.data.data.Profile[0]})
+        this.setState({ user: response.data.data.Profile[0] });
       })
       .catch((error) => console.log(error));
   };
@@ -39,6 +41,8 @@ class ProfileScreen extends Component {
 
   handleSave = (event) => {
     event.preventDefault();
+
+    this.setState({ edit: true });
     AuthService.profile()
       .then((response) => {
         if (response === undefined) {
@@ -66,6 +70,20 @@ class ProfileScreen extends Component {
         this.getUserDetails();
       });
   };
+
+  photoUpload = (e) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result,
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
   onChange = (e) => {
     e.preventDefault();
     const user = this.state.user;
@@ -85,12 +103,37 @@ class ProfileScreen extends Component {
             <SideBar />
 
             <section className="row">
-              <div className="col s12 justfiyCenter" style={{ minHeight: 580, paddingTop: 25 }}>
+              <div
+                className="col s12 justfiyCenter"
+                style={{ minHeight: 580, paddingTop: 25 }}
+              >
                 <div className="profile-card  border-radius-10 z-depth-5">
                   <div className="card--header">
-                    <div className="card--profile">
-                      <img src={dp} alt="A man smiling" />
-                    </div>
+                    {this.state.edit ? (
+                      <div className="card--profile">
+                        <img className="_profile" src={dp} alt="A man smiling" />
+                      </div>
+                    ) : (
+                      <label
+                        htmlFor="photo-upload"
+                        className="custom-file-upload"
+                      >
+                        <div className="img-wrap img-upload">
+                          <img
+                            className="_profile"
+                            for="photo-upload"
+                            src={this.state.imagePreviewUrl}
+                          />
+                        </div>
+                        <input
+                          id="photo-upload"
+                          type="file"
+                          className="profile-upload "
+                          onChange={this.photoUpload}
+                        />
+                      </label>
+                    )}
+
                     <div className="card--name">
                       <h2 style={{ textTransform: "capitalize" }}>
                         {this.state.user.firstname} {this.state.user.lastname}
@@ -264,7 +307,7 @@ class ProfileScreen extends Component {
                         </div>
                       </div>
                     </div>
-                  
+
                     <div className="insights justfiyCenter">
                       <div
                         className={`insight row ${
@@ -318,7 +361,7 @@ class ProfileScreen extends Component {
                         </div>
                       </div>
                     </div>
-                  
+
                     <div className="insights justfiyCenter">
                       <div
                         className={`insight row ${
@@ -372,7 +415,6 @@ class ProfileScreen extends Component {
                         </div>
                       </div>
                     </div>
-                  
                   </div>
                 </div>
               </div>

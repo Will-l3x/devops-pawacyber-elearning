@@ -95,9 +95,17 @@ class CourseListScreen extends Component {
 
     AdminService.post_new_course(data).then((response) => {
       if (response === undefined) {
-        alert("Resource Upload failed");
+
+        M.toast({
+          html: "Resource upload failed",
+          classes: "red",
+        });
       } else if (response.err) {
-        alert(response.err);
+  
+        M.toast({
+          html: response.err,
+          classes: "red",
+        });
       } else if (response.success === true) {
         const uploadData = new FormData();
         uploadData.append("file", fileData[0].file);
@@ -112,7 +120,11 @@ class CourseListScreen extends Component {
         document.getElementById("sibs").reset();
         this.getDashData();
       } else {
-        alert(response.message);
+
+        M.toast({
+          html: response.message,
+          classes: "green",
+        });
       }
     });
   };

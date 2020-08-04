@@ -136,9 +136,15 @@ class SubscriptionScreen extends Component {
 
     AdminService.post_new_plan(data).then((response) => {
       if (response === undefined) {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "red ",
+        });
       } else {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "green ",
+        });
         document.getElementById("sibs").reset();
         this.getDashData();
       }

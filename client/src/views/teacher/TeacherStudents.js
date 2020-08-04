@@ -9,8 +9,9 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
 import UserGridComp from "../../components/UserGridComp";
+import { TeacherService } from "../../services/teacher";
 
-class StudentScreen extends Component {
+class TeacherStudentScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,7 +73,8 @@ class StudentScreen extends Component {
 
   getDashData() {
     const students = [];
-    AdminService.get_all_students().then((response) => {
+    console.log(this.state.user);
+    TeacherService.get_all_students().then((response) => {
       if (response === undefined) {
         console.log(response);
       } else {
@@ -166,7 +168,7 @@ class StudentScreen extends Component {
                       this.state.view === "grid" ? "" : "display-none"
                     }`}
                   >
-                    <UserGridComp dashboard="admin" rolename="student" />
+                    <UserGridComp dashboard="teacher" rolename="student" />
                   </div>
                 </div>
               </section>
@@ -185,4 +187,7 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TeacherStudentScreen);

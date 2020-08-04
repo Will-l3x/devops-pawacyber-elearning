@@ -30,16 +30,22 @@ class SchoolManagement extends Component {
       title: "Mr",
       columns: [
         {
+          label: "ID",
+          field: "schoolId",
+          sort: "asc",
+          width: "5%",
+        },
+        {
           label: "School Name",
           field: "schoolname",
           sort: "asc",
-          width: "24%",
+          width: "20%",
         },
         {
           label: "Address",
           field: "address",
           sort: "asc",
-          width: "20%",
+          width: "35%",
         },
         {
           label: "School Contact",
@@ -51,11 +57,12 @@ class SchoolManagement extends Component {
           label: "Enrolment Key",
           field: "enrolmentkey",
           sort: "asc",
-          width: "50%",
+          width: "10%",
         },
         {
           label: "Action",
           field: "actions",
+          width: "15%",
         },
       ],
       rows: [],
@@ -81,6 +88,7 @@ class SchoolManagement extends Component {
     const schools = [];
     AdminService.get_all_schools()
       .then((response) => {
+        console.log(response);
         for (const school of response) {
           school.actions = (
             <ul className="card-action-buttons2">
@@ -164,17 +172,23 @@ class SchoolManagement extends Component {
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
-        console.log(response.password);
-        alert(
-          response.message + "\nSchool Admin password is : " + response.password
-        );
+        M.toast({
+          html:
+            response.message +
+            "\nSchool Admin password is : " +
+            response.password,
+          classes: "green ",
+        });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        alert(
-          response.message + "\nSchool Admin password is : " + response.password
-        );
-        console.log(response.password);
+        M.toast({
+          html:
+            response.message +
+            "\nSchool Admin password is : " +
+            response.password,
+          classes: "green",
+        });
       }
     });
   };
@@ -307,217 +321,209 @@ class SchoolManagement extends Component {
                     <DatatablePage data={this.state} />
                   </div>
                 </div>
-                <div
-                  id="modaladd"
-                  className="modal modal-meeting min-width-800 border-radius-10"
+              </section>
+              <div
+                id="modaladd"
+                className="modal modal-meeting min-width-800 border-radius-10"
+              >
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSubmit}
+                  id="sibs"
                 >
-                  <form
-                    className="react-form form-meeting"
-                    onSubmit={this.handleSubmit}
-                    id="sibs"
-                  >
-                    <h1 className="h1-meeting">
-                      <i
-                        className="material-icons"
-                        style={{ transform: "translate(-3px, 4px)" }}
-                      >
-                        add_circle_outline
-                      </i>
-                      School!
-                    </h1>
-                    <hr className="hr5" style={{ marginBottom: 30 }} />
-                    <fieldset className="form-group row">
-                      <div className="col s7">
-                        <ReactFormLabel
-                          htmlFor="schoolName"
-                          title="School Name:"
-                        />
-                        <input
-                          className="form-input input-meeting"
-                          id="schoolName"
-                          type="text"
-                          name="schoolName"
-                          required
-                        />
-                      </div>
-                      <div className="col s5">
-                        <ReactFormLabel
-                          htmlFor="schoolContactNumber"
-                          title="Contact Number:"
-                        />
-                        <input
-                          className="form-input input-meeting"
-                          id="schoolContactNumber"
-                          type="text"
-                          name="schoolContactNumber"
-                          required
-                        />
-                      </div>
-                    </fieldset>
-                    <fieldset className="form-group row">
-                      <div className="col s12">
-                        <ReactFormLabel
-                          htmlFor="schoolAddress"
-                          title="Address:"
-                        />
-                        <textarea
-                          id="schoolAddress"
-                          name="schoolAddress"
-                          className="form-textarea textarea-meeting"
-                          rows="3"
-                          required
-                        ></textarea>
-                      </div>
-                    </fieldset>
-                    <h4 className="header2">
-                      <b>School Admin Details</b>
-                    </h4>
-
-                    <fieldset className="form-group row">
-                      <div className="col s6">
-                        <ReactFormLabel
-                          htmlFor="personName"
-                          title="Lastname:"
-                        />
-                        <input
-                          className="form-input input-meeting"
-                          id="personName"
-                          type="text"
-                          name="personName"
-                          required
-                        />
-                      </div>
-                      <div className="col s6">
-                        <ReactFormLabel htmlFor="surname" title="Lastname:" />
-
-                        <input
-                          className="form-input input-meeting"
-                          id="surname"
-                          type="text"
-                          name="surname"
-                          required
-                        />
-                      </div>
-                      <div className="col s6">
-                        <ReactFormLabel htmlFor="email" title="Email:" />
-                        <input
-                          className="form-input input-meeting"
-                          id="email"
-                          type="email"
-                          name="email"
-                          required
-                        />
-                      </div>
-                    </fieldset>
-                    <div className="form-group">
-                      <input
-                        id="formButton"
-                        className="btn gradient-45deg-light-blue-cyan border-radius-5"
-                        type="submit"
-                        value="Submit"
-                      />
-                    </div>
-                  </form>
-                </div>
-
-                <div
-                  id="modaledit"
-                  className="modal modal-meeting border-radius-10"
-                >
-                  <form
-                    className="react-form form-meeting"
-                    onSubmit={this.handleSave}
-                    id="sibs2"
-                  >
-                    <h1 className="h1-meeting">
-                      <i
-                        className="material-icons"
-                        style={{ transform: "translate(-3px, 4px)" }}
-                      >
-                        create
-                      </i>
-                      Edit School Details!
-                    </h1>
-
-                    <hr className="hr5" style={{ marginBottom: 30 }} />
-                    <fieldset className="form-group">
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      add_circle_outline
+                    </i>
+                    School!
+                  </h1>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
+                  <fieldset className="form-group row">
+                    <div className="col s7">
                       <ReactFormLabel
-                        htmlFor="schoolname"
+                        htmlFor="schoolName"
                         title="School Name:"
                       />
                       <input
-                        id="schoolname"
-                        type="text"
                         className="form-input input-meeting"
-                        name="schoolname"
-                        onChange={this.onChange}
-                        value={this.state.selectedSchool.schoolname}
+                        id="schoolName"
+                        type="text"
+                        name="schoolName"
                         required
                       />
-                    </fieldset>
-                    <fieldset className="form-group">
-                      <ReactFormLabel htmlFor="address" title="Address:" />
-
+                    </div>
+                    <div className="col s5">
+                      <ReactFormLabel
+                        htmlFor="schoolContactNumber"
+                        title="Contact Number:"
+                      />
+                      <input
+                        className="form-input input-meeting"
+                        id="schoolContactNumber"
+                        type="text"
+                        name="schoolContactNumber"
+                        required
+                      />
+                    </div>
+                  </fieldset>
+                  <fieldset className="form-group row">
+                    <div className="col s12">
+                      <ReactFormLabel
+                        htmlFor="schoolAddress"
+                        title="Address:"
+                      />
                       <textarea
-                        id="address"
-                        name="address"
+                        id="schoolAddress"
+                        name="schoolAddress"
                         className="form-textarea textarea-meeting"
-                        onChange={this.onChange}
-                        value={this.state.selectedSchool.address}
                         rows="3"
                         required
                       ></textarea>
-                    </fieldset>
-                    <fieldset className="form-group">
-                      <ReactFormLabel htmlFor="contact" title="Contacts:" />
+                    </div>
+                  </fieldset>
+                  <h4 className="header2">
+                    <b>School Admin Details</b>
+                  </h4>
+
+                  <fieldset className="form-group row">
+                    <div className="col s6">
+                      <ReactFormLabel htmlFor="personName" title="Firstname:" />
                       <input
-                        id="contacts"
-                        type="text"
-                        name="contacts"
                         className="form-input input-meeting"
-                        onChange={this.onChange}
-                        value={
-                          this.state.selectedSchool.contacts === null
-                            ? ""
-                            : this.state.selectedSchool.contacts
-                        }
+                        id="personName"
+                        type="text"
+                        name="personName"
                         required
                       />
-                    </fieldset>
+                    </div>
+                    <div className="col s6">
+                      <ReactFormLabel htmlFor="surname" title="Lastname:" />
 
-                    <div className="form-group">
                       <input
-                        id="formButton2"
-                        className="btn gradient-45deg-light-blue-cyan border-radius-5"
-                        type="submit"
-                        value="Save"
+                        className="form-input input-meeting"
+                        id="surname"
+                        type="text"
+                        name="surname"
+                        required
                       />
                     </div>
-                  </form>
-                </div>
+                    <div className="col s6">
+                      <ReactFormLabel htmlFor="email" title="Email:" />
+                      <input
+                        className="form-input input-meeting"
+                        id="email"
+                        type="email"
+                        name="email"
+                        required
+                      />
+                    </div>
+                  </fieldset>
+                  <div className="form-group">
+                    <input
+                      id="formButton"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Submit"
+                    />
+                  </div>
+                </form>
+              </div>
+              <div
+                id="modaledit"
+                className="modal modal-meeting border-radius-10"
+              >
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSave}
+                  id="sibs2"
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      create
+                    </i>
+                    Edit School Details!
+                  </h1>
 
-                <div id="areyousure" className="modal width-250">
-                  <div className="modal-content">
-                    <h4 className="header2">Are you sure?</h4>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="schoolname" title="School Name:" />
+                    <input
+                      id="schoolname"
+                      type="text"
+                      className="form-input input-meeting"
+                      name="schoolname"
+                      onChange={this.onChange}
+                      value={this.state.selectedSchool.schoolname}
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="address" title="Address:" />
+
+                    <textarea
+                      id="address"
+                      name="address"
+                      className="form-textarea textarea-meeting"
+                      onChange={this.onChange}
+                      value={this.state.selectedSchool.address}
+                      rows="3"
+                      required
+                    ></textarea>
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="contact" title="Contacts:" />
+                    <input
+                      id="contacts"
+                      type="text"
+                      name="contacts"
+                      className="form-input input-meeting"
+                      onChange={this.onChange}
+                      value={
+                        this.state.selectedSchool.contacts === null
+                          ? ""
+                          : this.state.selectedSchool.contacts
+                      }
+                      required
+                    />
+                  </fieldset>
+
+                  <div className="form-group">
+                    <input
+                      id="formButton2"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Save"
+                    />
                   </div>
-                  <div className="modal-footer">
-                    <Link
-                      to="#!"
-                      style={{ marginRight: 10 }}
-                      className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                      onClick={this.handleDelete}
-                    >
-                      Yes
-                    </Link>
-                    <Link
-                      to="#!"
-                      className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
-                    >
-                      No
-                    </Link>
-                  </div>
+                </form>
+              </div>
+              <div id="areyousure" className="modal width-250">
+                <div className="modal-content">
+                  <h4 className="header2">Are you sure?</h4>
                 </div>
-              </section>
+                <div className="modal-footer">
+                  <Link
+                    to="#!"
+                    style={{ marginRight: 10 }}
+                    className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
+                    onClick={this.handleDelete}
+                  >
+                    Yes
+                  </Link>
+                  <Link
+                    to="#!"
+                    className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
+                  >
+                    No
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </main>
