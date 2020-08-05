@@ -16,7 +16,8 @@ var config = {
 
 export const UploadService = {
   upload,
-  post_material
+  post_material,
+
 };
 
 async function post_material(data) {
@@ -47,3 +48,5 @@ async function upload(data) {
     return err;
   }
 }
+
+
