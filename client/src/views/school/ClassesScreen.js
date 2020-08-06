@@ -101,7 +101,7 @@ class ClassesScreen extends Component {
           if (course.status === "deleted") {
             del_courses.push(course);
           } else {
-            course.createdon = moment(course.createdon).format("DD/MM/YYYY");
+            course.createdon = moment(course.createdon).format("LL");
             course.actions = (
               <ul className="card-action-buttons2">
                 <li>

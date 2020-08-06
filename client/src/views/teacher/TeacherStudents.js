@@ -7,7 +7,6 @@ import M from "materialize-css";
 import moment from "moment";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import { AdminService } from "../../services/admin";
 import UserGridComp from "../../components/UserGridComp";
 import { TeacherService } from "../../services/teacher";
 
@@ -72,22 +71,44 @@ class TeacherStudentScreen extends Component {
   }
 
   getDashData() {
-    const students = [];
-    console.log(this.state.user);
-    TeacherService.get_all_students().then((response) => {
-      if (response === undefined) {
-        console.log(response);
-      } else {
-        for (const student of response) {
-          student.dob = moment(student.dob).format("DD/MM/YYYY");
-          student.datejoined = moment(student.datejoined).format("DD/MM/YYYY");
-          students.push(student);
+    TeacherService.get_all_courses(this.state.user.userid)
+      .then((response) => {
+        const data = response === undefined ? [] : response;
+        const courses = [];
+        const del_courses = [];
+        const students = [];
+
+        for (const course of data) {
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            courses.push(course);
+          }
         }
-      }
-      this.setState({
-        rows: students,
+        for (const course of courses) {
+          TeacherService.get_all_students(course.classId)
+            .then((response) => {
+              if (response === undefined) {
+                console.log(response);
+              } else {
+                for (const student of response) {
+                  student.dob = moment(student.dob).format("LL");
+                  student.datejoined = moment(student.datejoined).format("LL");
+                  students.push(student);
+                }
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+        this.setState({
+          rows: students,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    });
   }
 
   render() {
@@ -164,7 +185,7 @@ class TeacherStudentScreen extends Component {
                     <DatatablePage data={this.state} />
                   </div>
                   <div
-                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                    className={`padding-3 ${
                       this.state.view === "grid" ? "" : "display-none"
                     }`}
                   >

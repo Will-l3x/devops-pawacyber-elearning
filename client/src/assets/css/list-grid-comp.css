@@ -64,3 +64,6 @@
   background-color: #bec4c8;
   border-radius: 3px;
 }
+.icon-translate {
+  transform: translateY(2px) !important;
+}

@@ -77,8 +77,8 @@ class StudentScreen extends Component {
         console.log(response);
       } else {
         for (const student of response) {
-          student.dob = moment(student.dob).format("DD/MM/YYYY");
-          student.datejoined = moment(student.datejoined).format("DD/MM/YYYY");
+          student.dob = moment(student.dob).format("LL");
+          student.datejoined = moment(student.datejoined).format("LL");
           students.push(student);
         }
       }
@@ -162,7 +162,7 @@ class StudentScreen extends Component {
                     <DatatablePage data={this.state} />
                   </div>
                   <div
-                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                    className={`padding-3${
                       this.state.view === "grid" ? "" : "display-none"
                     }`}
                   >

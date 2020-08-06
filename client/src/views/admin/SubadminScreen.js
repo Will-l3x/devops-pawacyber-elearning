@@ -65,7 +65,7 @@ class SubadminScreen extends Component {
       } else {
         for (const subadmin of response) {
           subadmin.datejoined = moment(subadmin.datejoined).format(
-            "DD/MM/YYYY"
+            "LL"
           );
           subadmins.push(subadmin);
         }
@@ -215,7 +215,7 @@ class SubadminScreen extends Component {
                     <DatatablePage data={this.state} />
                   </div>
                   <div
-                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                    className={`padding-3 ${
                       this.state.view === "grid" ? "" : "display-none"
                     }`}
                   >

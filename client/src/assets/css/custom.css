@@ -41,6 +41,19 @@
   height: 280px;
 }
 
+.avatar-large-1 {
+  width: 70px !important;
+  height: 70px !important;
+  font-size: 24px !important;
+  text-transform: uppercase !important;
+}
+.avatar-large-2 {
+  width: 90px !important;
+  height: 90px !important;
+  text-transform: uppercase !important;
+  font-size: 32px !important;
+}
+
 .border-line {
   border-right: 1px solid #eeeeee;
 }
@@ -1240,6 +1253,6 @@ nav.modal-width-75 {
   align-items: center;
   justify-content: center;
 }
-.active-view{
+.active-view {
   color: #448aff !important;
 }

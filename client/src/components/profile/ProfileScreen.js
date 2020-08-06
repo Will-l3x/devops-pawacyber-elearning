@@ -31,6 +31,7 @@ class ProfileScreen extends Component {
   getUserDetails = () => {
     AuthService.profile()
       .then((response) => {
+        console.log(response.data.data.Profile[0]);
         this.setState({ user: response.data.data.Profile[0] });
       })
       .catch((error) => console.log(error));
@@ -111,7 +112,11 @@ class ProfileScreen extends Component {
                   <div className="card--header">
                     {this.state.edit ? (
                       <div className="card--profile">
-                        <img className="_profile" src={dp} alt="A man smiling" />
+                        <img
+                          className="_profile"
+                          src={dp}
+                          alt="A man smiling"
+                        />
                       </div>
                     ) : (
                       <label
@@ -121,7 +126,7 @@ class ProfileScreen extends Component {
                         <div className="img-wrap img-upload">
                           <img
                             className="_profile"
-                            for="photo-upload"
+                            alt="upload"
                             src={this.state.imagePreviewUrl}
                           />
                         </div>
@@ -210,16 +215,6 @@ class ProfileScreen extends Component {
                       </li>
                       <li
                         onClick={() => {
-                          this.setState({ tab: "account" });
-                        }}
-                        className={`link--item ${
-                          this.state.tab === "account" ? "active-tab" : ""
-                        }`}
-                      >
-                        Account
-                      </li>
-                      <li
-                        onClick={() => {
                           this.setState({ tab: "contact" });
                         }}
                         className={`link--item ${
@@ -265,99 +260,45 @@ class ProfileScreen extends Component {
                         <div className="col s12">
                           <fieldset className="form-group">
                             <ReactFormLabel
-                              htmlFor="address"
-                              title="Address:"
-                            />
-
-                            <textarea
-                              id="address1"
-                              name="address"
-                              className="form-textarea textarea-meeting"
-                              rows="3"
-                              onChange={this.onChange}
-                              value={
-                                this.state.user.address === null
-                                  ? ""
-                                  : this.state.user.address
-                              }
-                              required
-                              readOnly={this.state.edit}
-                            ></textarea>
-                          </fieldset>
-                          <fieldset className="form-group">
-                            <ReactFormLabel
-                              htmlFor="contact1"
-                              title="Contacts:"
+                              htmlFor="firstname"
+                              title="Firstname:"
                             />
                             <input
-                              id="contacts1"
+                              id="firstname"
                               type="text"
-                              name="contacts1"
+                              name="firstname"
                               className="form-input input-meeting"
                               onChange={this.onChange}
-                              value={
-                                this.state.user.contacts === null
+                              defaultValue={
+                                this.state.user.firstname === null
                                   ? ""
-                                  : this.state.user.contacts
+                                  : this.state.user.firstname
                               }
                               required
                               readOnly={this.state.edit}
                             />
                           </fieldset>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="insights justfiyCenter">
-                      <div
-                        className={`insight row ${
-                          this.state.tab === "account"
-                            ? "tab-active"
-                            : "display-none"
-                        }`}
-                      >
-                        <div className="col s12">
                           <fieldset className="form-group">
                             <ReactFormLabel
-                              htmlFor="address2"
-                              title="Address:"
-                            />
-
-                            <textarea
-                              id="address2"
-                              name="address"
-                              className="form-textarea textarea-meeting"
-                              rows="3"
-                              onChange={this.onChange}
-                              value={
-                                this.state.user.address === null
-                                  ? ""
-                                  : this.state.user.address
-                              }
-                              required
-                              readOnly={this.state.edit}
-                            ></textarea>
-                          </fieldset>
-                          <fieldset className="form-group">
-                            <ReactFormLabel
-                              htmlFor="contact2"
-                              title="Contacts:"
+                              htmlFor="lastname"
+                              title="Lastname:"
                             />
                             <input
-                              id="contacts2"
+                              id="lastname"
                               type="text"
-                              name="contacts2"
+                              name="lastname"
                               className="form-input input-meeting"
                               onChange={this.onChange}
-                              value={
-                                this.state.user.contacts === null
+                              defaultValue={
+                                this.state.user.lastname === null
                                   ? ""
-                                  : this.state.user.contacts
+                                  : this.state.user.lastname
                               }
                               required
                               readOnly={this.state.edit}
                             />
                           </fieldset>
+                          
                         </div>
                       </div>
                     </div>
@@ -383,7 +324,7 @@ class ProfileScreen extends Component {
                               className="form-textarea textarea-meeting"
                               rows="3"
                               onChange={this.onChange}
-                              value={
+                              defaultValue={
                                 this.state.user.address === null
                                   ? ""
                                   : this.state.user.address
@@ -403,7 +344,7 @@ class ProfileScreen extends Component {
                               name="contacts"
                               className="form-input input-meeting"
                               onChange={this.onChange}
-                              value={
+                              defaultValue={
                                 this.state.user.contacts === null
                                   ? ""
                                   : this.state.user.contacts

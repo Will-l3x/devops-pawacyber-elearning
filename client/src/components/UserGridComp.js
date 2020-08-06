@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { AdminService } from "../services/admin";
 import PropTypes from "prop-types";
 import "../assets/css/list-grid-comp.css";
-
+import Avatar from "@material-ui/core/Avatar";
 import dp from "../assets/images/avatar/avatar-11.png";
 import avatar from "../assets/images/gallary/not_found.gif";
 import backgrnd from "../assets/images/gallary/design.png";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import SchoolService from "../services/school";
+import { SchoolService } from "../services/school";
+import { TeacherService } from "../services/teacher";
 
 class UserGridComp extends Component {
   constructor(props) {
@@ -64,38 +65,44 @@ class UserGridComp extends Component {
         });
       }
       if (rolename === "subadmin") {
-        AdminService.get_subadmins().then((response) => {
-          const allUsers = [];
-          const allUserz = response === undefined ? [] : response;
-          for (const uza of allUserz) {
-            uza.name = uza.firstname + " " + uza.lastname;
-            uza.rolename = "Sub-Adminstrator";
-            allUsers.push(uza);
-          }
+        AdminService.get_subadmins()
+          .then((response) => {
+            const allUsers = [];
+            const allUserz = response === undefined ? [] : response;
+            for (const uza of allUserz) {
+              uza.name = uza.firstname + " " + uza.lastname;
+              uza.rolename = "Sub-Adminstrator";
+              allUsers.push(uza);
+            }
 
-          allUsers.sort((a, b) => new Date(b.lastname) - new Date(a.lastname));
+            allUsers.sort(
+              (a, b) => new Date(b.lastname) - new Date(a.lastname)
+            );
 
-          let pages = [];
-          let perPage = 12;
-          const totalPageCount = Math.ceil(allUsers.length / perPage);
+            let pages = [];
+            let perPage = 12;
+            const totalPageCount = Math.ceil(allUsers.length / perPage);
 
-          for (var i = 1; i <= totalPageCount; i++) {
-            pages.push(i);
-          }
+            for (var i = 1; i <= totalPageCount; i++) {
+              pages.push(i);
+            }
 
-          const users = this.pageArraySplit(allUsers, {
-            currentPageNumber: this.state.currentPageNumber,
-            perPage,
+            const users = this.pageArraySplit(allUsers, {
+              currentPageNumber: this.state.currentPageNumber,
+              perPage,
+            });
+
+            this.setState({ pages, users, allUsers });
+          })
+          .catch((error) => {
+            console.log(error);
           });
-
-          this.setState({ pages, users, allUsers });
-        });
       }
     }
     if (dashboard === "schooladmin") {
       if (rolename === "teacher") {
-        SchoolService.get_all_teachers(this.state.user.schoolid).then(
-          (response) => {
+        SchoolService.get_all_teachers(this.state.user.schoolid)
+          .then((response) => {
             console.log(response);
             const allUsers = [];
             const allUserz = response === undefined ? [] : response;
@@ -123,8 +130,10 @@ class UserGridComp extends Component {
             });
 
             this.setState({ pages, users, allUsers });
-          }
-        );
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
       if (rolename === "student") {
         SchoolService.get_all_students(this.state.user.schoolid).then(
@@ -162,6 +171,70 @@ class UserGridComp extends Component {
     if (dashboard === "teacher") {
       const rolename = "student";
       if (rolename === "student") {
+        TeacherService.get_all_courses(this.state.user.userid)
+          .then((response) => {
+            const data = response === undefined ? [] : response;
+            const courses = [];
+            const del_courses = [];
+            const students = [];
+
+            for (const course of data) {
+              if (course.status === "deleted") {
+                del_courses.push(course);
+              } else {
+                courses.push(course);
+              }
+            }
+            for (const course of courses) {
+              TeacherService.get_all_students(course.classId)
+                .then((response) => {
+                  if (response === undefined) {
+                    console.log(response);
+                  } else {
+                    for (const student of response) {
+                      student.dob = moment(student.dob).format("LL");
+                      student.datejoined = moment(student.datejoined).format(
+                        "LL"
+                      );
+                      students.push(student);
+                    }
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
+
+            const allUsers = [];
+            const allUserz = students;
+            for (const uza of allUserz) {
+              uza.name = uza.firstname + " " + uza.lastname;
+              uza.rolename = "Student";
+              allUsers.push(uza);
+            }
+
+            allUsers.sort(
+              (a, b) => new Date(b.lastname) - new Date(a.lastname)
+            );
+
+            let pages = [];
+            let perPage = 12;
+            const totalPageCount = Math.ceil(allUsers.length / perPage);
+
+            for (var i = 1; i <= totalPageCount; i++) {
+              pages.push(i);
+            }
+
+            const users = this.pageArraySplit(allUsers, {
+              currentPageNumber: this.state.currentPageNumber,
+              perPage,
+            });
+
+            this.setState({ pages, users, allUsers });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     }
   };
@@ -245,6 +318,8 @@ class UserGridComp extends Component {
                 <User
                   key={index}
                   name={user.name}
+                  fn={user.firstname}
+                  ln={user.lastname}
                   email={user.email}
                   pic={dp}
                   dob={user.dob}
@@ -267,6 +342,8 @@ class UserGridComp extends Component {
                 <User
                   key={index}
                   name={user.name}
+                  fn={user.firstname}
+                  ln={user.lastname}
                   email={user.email}
                   pic={user.pic}
                   dob={user.dob}
@@ -395,11 +472,7 @@ class Search extends React.Component {
 
   render() {
     return (
-      <form
-        className="Search row "
-        style={{ marginLeft: 15 }}
-        onSubmit={(e) => e.preventDefault()}
-      >
+      <form className="Search" onSubmit={(e) => e.preventDefault()}>
         <div
           className="white border-radius-10 z-depth-5"
           style={{ height: 46, marginBottom: 30 }}
@@ -423,6 +496,7 @@ class Search extends React.Component {
     );
   }
 }
+
 // class ReactFormLabel extends React.Component {
 //   render() {
 //     return (
@@ -432,25 +506,27 @@ class Search extends React.Component {
 //     );
 //   }
 // }
+
 class User extends React.Component {
   static defaultProps = {
     name: "John Doe",
-    email: "JohnDoe@example.com",
+    //email: "JohnDoe@example.com",
     pic: dp,
   };
 
   static propTypes = {
     name: PropTypes.string,
-    email: PropTypes.string,
+    //email: PropTypes.string,
     pic: PropTypes.string,
   };
 
   render() {
     const {
       name,
-      email,
+      fn,
+      ln,
       gradeid,
-      pic,
+      //pic,
       dob,
       datejoined,
       enrolmentkey,
@@ -458,16 +534,20 @@ class User extends React.Component {
     } = this.props;
     return (
       <div className="col s6 m4 l3">
-        <div className="card border-radius-10 z-depth-5">
-          <div
-            className="card-content UserCard"
-            style={{
-              background: `url(${backgrnd}) `,
-              backgroundSize: "contain",
-            }}
-          >
-            <div className="UserCardTop">
-              <img alt="user" src={pic} />
+        <div
+          className="card border-radius-10 z-depth-5"
+          style={{
+            background: `url(${backgrnd}) `,
+            backgroundSize: "contain",
+          }}
+        >
+          <div className="card-content UserCard">
+            <div className="UserCardTop justfiyCenter">
+              <Avatar className="avatar-large-2">
+                {fn.charAt(0)}
+                {ln.charAt(0)}
+              </Avatar>
+              {/* <img alt="user" src={pic} /> */}
             </div>
           </div>
 
@@ -481,15 +561,11 @@ class User extends React.Component {
             </span>
             <br />
             <p>
-              <i className="material-icons small">perm_identity</i> {rolename}
+              <i className="material-icons small icon-translate">perm_identity</i> {rolename}
             </p>
             <br />
             <p>
-              <i className="material-icons small">email</i> {email}
-            </p>
-            <br />
-            <p>
-              <i className="material-icons small">airplanemode_active</i> Joined
+              <i className="material-icons small icon-translate">airplanemode_active</i> Joined{" "}
               {moment(new Date(datejoined)).format("LL") === "Invalid date"
                 ? "Unknown"
                 : moment(new Date(datejoined)).format("LL")}
@@ -503,23 +579,20 @@ class User extends React.Component {
             </span>
             <p>Here is some more information about this user.</p>
             <p>
-              <i className="material-icons small">email</i> {email}
-            </p>
-            <p>
-              <i className="material-icons small">cake</i>{" "}
+              <i className="material-icons small icon-translate">cake</i>{" "}
               {moment(new Date(dob)).format("LL") === "Invalid date"
                 ? "Unknown"
                 : moment(new Date(dob)).format("LL")}
             </p>
             <p>
-              <i className="material-icons small">airplanemode_active</i> Joined{" "}
+              <i className="material-icons small icon-translate">airplanemode_active</i> Joined{" "}
               {moment(new Date(datejoined)).format("LL")}
             </p>
             <p>
-              <i className="material-icons small">class</i> Grade: {gradeid}
+              <i className="material-icons small icon-translate">class</i> Grade: {gradeid}
             </p>
             <p>
-              <i className="material-icons small">vpn_key</i> EnrolmentKey:{" "}
+              <i className="material-icons small icon-translate">vpn_key</i> EnrolmentKey:{" "}
               {enrolmentkey}
             </p>
           </div>

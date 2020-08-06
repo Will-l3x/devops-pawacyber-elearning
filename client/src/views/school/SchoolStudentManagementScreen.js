@@ -139,7 +139,7 @@ class SchoolStudentManagementScreen extends Component {
                     <DatatablePage data={this.state} />
                   </div>
                   <div
-                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                    className={`padding-3 ${
                       this.state.view === "grid" ? "" : "display-none"
                     }`}
                   >

@@ -8,6 +8,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
 import { Link } from "react-router-dom";
+import SchoolGridComp from "./SchoolGridComp";
 //import TitleOptions from "../../components/TitleOptions";
 
 class SchoolManagement extends Component {
@@ -67,11 +68,14 @@ class SchoolManagement extends Component {
       ],
       rows: [],
       options: [],
+      view: "grid",
+      updated: 0,
     };
     this.onSelectTitle = this.onSelectTitle.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.setSchoolId = this.setSchoolId.bind(this);
   }
   modal;
 
@@ -88,7 +92,6 @@ class SchoolManagement extends Component {
     const schools = [];
     AdminService.get_all_schools()
       .then((response) => {
-        console.log(response);
         for (const school of response) {
           school.actions = (
             <ul className="card-action-buttons2">
@@ -96,7 +99,10 @@ class SchoolManagement extends Component {
                 <a
                   href="#!"
                   className="btn-floating waves-effect waves-light light-blue"
-                  onClick={() => this.handleEdit(school)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.handleEdit(school);
+                  }}
                 >
                   <i className="material-icons">create</i>
                 </a>
@@ -139,10 +145,12 @@ class SchoolManagement extends Component {
         },
       },
       () => {
+        if (this.modal !== undefined) {
+          this.modal.close();
+        }
         const elem = document.getElementById("modaledit");
         const modal = M.Modal.init(elem);
         this.modal = modal;
-        console.log(this.state.selectedSchool);
         modal.open();
       }
     );
@@ -172,6 +180,8 @@ class SchoolManagement extends Component {
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
+        let update = this.state.updated;
+        this.setState({ updated: update++ });
         M.toast({
           html:
             response.message +
@@ -182,6 +192,8 @@ class SchoolManagement extends Component {
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
+        let update = this.state.updated;
+        this.setState({ updated: update++ });
         M.toast({
           html:
             response.message +
@@ -214,6 +226,8 @@ class SchoolManagement extends Component {
           });
         } else if (response.success === true || response.message === "S") {
           this.getDashData();
+          let update = this.state.updated;
+          this.setState({ updated: update++ });
           M.toast({
             html: "Update Successfull",
             classes: "green accent-3",
@@ -243,6 +257,8 @@ class SchoolManagement extends Component {
           });
           this.getDashData();
         } else {
+          let update = this.state.updated;
+          this.setState({ updated: update++ });
           M.toast({
             html: `${response.data.message}, delete successfull`,
             classes: "green accent-3",
@@ -273,6 +289,9 @@ class SchoolManagement extends Component {
       console.log(this.state.selectedTitle)
     );
   };
+  setSchoolId = (schoolId) => {
+    this.setState({ schoolId });
+  };
   render() {
     return (
       <div>
@@ -300,6 +319,42 @@ class SchoolManagement extends Component {
                     </div>
                     <a
                       href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "grid" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "grid" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">grid_on</i>
+                    </a>
+
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "table" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "table" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">format_list_numbered</i>
+                    </a>
+
+                    <a
+                      href="#!"
                       data-target="modaladd"
                       className="modal-trigger tooltipped waves-effect right"
                       data-tooltip="Add New School"
@@ -317,8 +372,23 @@ class SchoolManagement extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "table" ? "" : "display-none"
+                    }`}
+                  >
                     <DatatablePage data={this.state} />
+                  </div>
+                  <div
+                    className={`padding-3 ${
+                      this.state.view === "grid" ? "" : "display-none"
+                    }`}
+                  >
+                    <SchoolGridComp
+                      handleEdit={this.handleEdit}
+                      setSchoolId={this.setSchoolId}
+                      updated={this.state.updated}
+                    />
                   </div>
                 </div>
               </section>

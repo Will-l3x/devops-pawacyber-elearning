@@ -79,7 +79,7 @@ class SchoolTeacherManagementScreen extends Component {
     const teachers = [];
     SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
       for (const teacher of response) {
-        teacher.datejoined = moment(teacher.datejoined).format("DD/MM/YYYY");
+        teacher.datejoined = moment(teacher.datejoined).format("LL");
         /*  teacher.actions = (
           <ul className="card-action-buttons2">
             <li>
@@ -334,7 +334,7 @@ class SchoolTeacherManagementScreen extends Component {
                       href="#!"
                       className={`tooltipped waves-effect right blue-text accent-2`}
                       data-tooltip="Refresh"
-                      data-position="top"
+                      data-position="bottom"
                       onClick={() => this.getDashData()}
                       style={{
                         marginTop: "1%",
@@ -356,7 +356,7 @@ class SchoolTeacherManagementScreen extends Component {
                     <DatatablePage data={this.state} />
                   </div>
                   <div
-                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                    className={`padding-3 ${
                       this.state.view === "grid" ? "" : "display-none"
                     }`}
                   >

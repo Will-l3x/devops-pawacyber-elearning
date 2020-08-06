@@ -51,7 +51,6 @@ class ClassroomScreen extends Component {
                     <Link
                       to="#!"
                       className="btn gradient-45deg-light-blue-cyan remove-content right waves-effect"
-                      data-target="dropdown7"
                       style={{ transform: "translate(-200%, 55%)" }}
                     >
                       Save
