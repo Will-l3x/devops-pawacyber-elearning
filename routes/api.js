@@ -30,7 +30,10 @@ router.put("/refreshotp", _auth.refreshotp);
 //////////////////////systemadmin//////////////////////////////////////////////
 // teachers
 
-router.post("/get_school_grade_subjects", _systemadmin.get_school_grade_subjects);
+router.post(
+  "/get_school_grade_subjects",
+  _systemadmin.get_school_grade_subjects
+);
 router.get("/teachers", _systemadmin.teachers);
 router.get("/materials", _systemadmin.materials);
 router.get("/genders", _systemadmin.genders);
@@ -182,6 +185,7 @@ router.put("/schooladmin/update_syllabus", _schooladmin.update_syllabus);
 router.post("/upload/new", _storage.upload);
 router.post("/upload/get", _storage.download);
 router.post("/upload/multi", _storage.multiUpload);
+router.delete("/upload/delete", _storage.deleteBlog);
 
 //////////////////////////////DPO PAYMENTS/////////////////////////////////
 router.post("/dpo/payment/createToken", _paymentDpo.createToken);
