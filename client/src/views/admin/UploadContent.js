@@ -16,6 +16,7 @@ class UploadContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       columns: [
         {
           label: "Subject",
@@ -80,15 +81,18 @@ class UploadContent extends Component {
 
 
   handleSubmit = (event) => {
-    event.preventDefault();
     var uploadCount = 0;
+    var targetLength = event.target.fileUpload.files.length;
+    this.setState({
+      loading: true
+    });
 
-    for (var i = 0; i < event.target.fileUpload.files.length; i++) {
+    for (var i = 0; i < event.target.fileUpload.files.length; ++i) {
       this.fileUpload = event.target.fileUpload.files[i];
       var data = {
         teacherid: this.loggedUserId,
         schoolid: this.schoolid,
-        materialname: event.target.materialname.value,
+        materialname: this.fileUpload.name,
         materialtype: "file",
         file: true,
         classid: this.state.class.classId,
@@ -102,7 +106,6 @@ class UploadContent extends Component {
             classes: "red",
           });
         } else if (response.err) {
-         
           M.toast({
             html: response.err,
             classes: "red",
@@ -116,9 +119,24 @@ class UploadContent extends Component {
           UploadService.upload(uploadData).then((resp) => {
             if (resp.success === true) {
               uploadCount += 1;
+              if (uploadCount === targetLength) {
+                this.setState({
+                  loading: false
+                });
+                this.componentDidMount();
+                M.toast({
+                  html: "Upload Successful",
+                  classes: "green ",
+                });
+              } else {
+                M.toast({
+                  html: uploadCount + " out of " + targetLength + " files uploaded ...",
+                  classes: "green",
+                });
+              }
             } else {
               M.toast({
-                html:"Failed to upload resource: "+ resp.message,
+                html: "Failed to upload resource: " + resp.message,
                 classes: "red ",
               });
             }
@@ -129,19 +147,6 @@ class UploadContent extends Component {
             classes: "red ",
           });
         }
-      });
-    }
-    if (uploadCount === event.target.fileUpload.files.length) {
-      M.toast({
-        html: "Resource upload complete. " + uploadCount + " out of " + event.target.fileUpload.files.length + " files uploaded",
-        classes: "green",
-      });
-
-      this.componentDidMount();
-    } else {
-      M.toast({
-        html: "Upload could not be completed " + uploadCount + " out of " + event.target.fileUpload.files.length + " files uploaded",
-        classes: "red",
       });
     }
   };
@@ -195,8 +200,6 @@ class UploadContent extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  {/* <div className="card-stats z-depth-5 padding-3 border-radius-10">
-                    <DatatablePage data={this.state} /> */}
                   <div className="card-stats padding-3 border-radius-10">
                     < ResourceCard></ ResourceCard>
                   </div>
@@ -206,43 +209,52 @@ class UploadContent extends Component {
                 id="modaladd"
                 className="modal modal-meeting min-width-500 border-radius-10"
               >
-                <form
-                  className="react-form form-meeting"
-                  onSubmit={this.handleSubmit}
-                  id="sibs"
-                >
-                  <h1 className="h1-meeting">
-                    <i
-                      className="material-icons"
-                      style={{ transform: "translate(-3px, 4px)" }}
-                    >
-                      cloud_upload
+
+                <h1 style={{ marginTop: "10px" }} className="h1-meeting">
+                  <i
+                    className="material-icons"
+                    style={{ transform: "translate(-3px, 4px)" }}
+                  >
+                    cloud_upload
                     </i>
                     Upload Resource!
                   </h1>
-                  {/* <hr className="hr5" style={{ marginBottom: 30 }} /> */}
-                  <div className="row">
-                    <div className="">
-                      <fieldset className="form-group">
-                        <label
-                          style={{
-                            transform: "translateY(-15px)",
-                            fontSize: "12px",
-                          }}
-                        >
-                          SELECT SUBJECT *
+
+                {this.loading ?
+                  <div style={{ marginTop: "150px" }} className="loader-3 center">
+                    <span></span>
+                  </div>
+                  :
+                  (
+                    <form
+                      className="react-form form-meeting"
+                      onSubmit={this.handleSubmit}
+                      id="sibs"
+                    >
+
+                      {/* <hr className="hr5" style={{ marginBottom: 30 }} /> */}
+                      <div className="row">
+                        <div className="">
+                          <fieldset className="form-group">
+                            <label
+                              style={{
+                                transform: "translateY(-15px)",
+                                fontSize: "12px",
+                              }}
+                            >
+                              SELECT SUBJECT *
                         </label>
-                        <Classes
-                          onSelectOption={this.onSelectClassOption}
-                          required
-                        />
-                        <div
-                          style={{ marginTop: "10px" }}
-                          className="my-divider"
-                        ></div>
-                      </fieldset>
-                    </div>
-                    {/* <div className="col s6 m6">
+                            <Classes
+                              onSelectOption={this.onSelectClassOption}
+                              required
+                            />
+                            <div
+                              style={{ marginTop: "10px" }}
+                              className="my-divider"
+                            ></div>
+                          </fieldset>
+                        </div>
+                        {/* <div className="col s6 m6">
                       <fieldset className="form-group">
                         <ReactFormLabel htmlFor="grade" title="Grade *" />
                         <input
@@ -256,8 +268,8 @@ class UploadContent extends Component {
                         />
                       </fieldset>
                     </div> */}
-                  </div>
-                  <fieldset className="form-group">
+                      </div>
+                      {/* <fieldset className="form-group">
                     <ReactFormLabel
                       htmlFor="materialname"
                       title="Resource Name *"
@@ -269,27 +281,29 @@ class UploadContent extends Component {
                       name="materialname"
                       required
                     />
-                  </fieldset>
-                  <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="fileUpload" title="Subject Resources:" />
-                    <input
-                      className="many-files"
-                      id="file"
-                      type="file"
-                      name="fileUpload"
-                      multiple
-                      required
-                    />
-                  </fieldset>
-                  <div className="form-group">
-                    <input
-                      id="formButton2"
-                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
-                      type="submit"
-                      value="Upload"
-                    />
-                  </div>
-                </form>
+                  </fieldset> */}
+                      <fieldset className="form-group">
+                        <ReactFormLabel htmlFor="fileUpload" title="Subject Resources:" />
+                        <input
+                          className="many-files"
+                          id="file"
+                          type="file"
+                          name="fileUpload"
+                          multiple
+                          required
+                        />
+                      </fieldset>
+                      <div className="form-group">
+                        <input
+                          id="formButton2"
+                          className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                          type="submit"
+                          value="Upload"
+                        />
+                      </div>
+                    </form>
+                  )
+                }
               </div>
               <div id="areyousure" className="modal width-250">
                 <div className="modal-content">

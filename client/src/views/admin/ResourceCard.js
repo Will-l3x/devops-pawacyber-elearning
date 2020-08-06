@@ -19,6 +19,7 @@ export default class ResourceCard extends Component {
   getDashData() {
     AdminService.get_all_resources()
       .then((response) => {
+        console.log(response)
         this.setState({ resources: response })
       });
   }
@@ -47,6 +48,7 @@ export default class ResourceCard extends Component {
             html: response.message,
             classes: "green",
           });
+          this.componentDidMount();
         }else{
           M.toast({
             html: 'Deletion failed.',
@@ -54,6 +56,7 @@ export default class ResourceCard extends Component {
           });
         }
       });
+      
   }
 
   render() {
