@@ -22,6 +22,7 @@ class TeacherLink extends Component {
             <span className="nav-text">Dashboard</span>
           </Link>
         </li>
+
         <li className="bold">
           <Link
             to="/classroom-mark"
@@ -52,6 +53,16 @@ class TeacherLink extends Component {
           >
             <i className="material-icons">backup</i>
             <span className="nav-text">Upload New Assignment</span>
+          </Link>
+        </li>
+        <li className="bold">
+          <Link
+            to="/teacher-students"
+            className="waves-effect waves-cyan"
+            onClick={() => this.dashClick("teacher")}
+          >
+            <i className="material-icons">people</i>
+            <span className="nav-text">Students</span>
           </Link>
         </li>
         <li className="bold">

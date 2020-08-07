@@ -107,7 +107,7 @@ class EnrolStudent extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{
                     position: "fixed",
                   }}

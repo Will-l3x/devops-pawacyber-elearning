@@ -169,7 +169,6 @@ async function update_school(id, data) {
       qs.stringify(data),
       config
     );
-    console.log(res.data);
     return res.data;
   } catch (err) {
     console.error(err);

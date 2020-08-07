@@ -29,26 +29,30 @@ class TeacherScreen extends Component {
   }
 
   getDashData() {
-    TeacherService.get_all_courses(this.state.user.userid).then((response) => {
-      const data = response === undefined ? [] : response;
-      const courses = [];
-      const del_courses = [];
-      for (const course of data) {
-        if (course.status === "deleted") {
-          del_courses.push(course);
-        } else {
-          courses.push(course);
+    TeacherService.get_all_courses(this.state.user.userid)
+      .then((response) => {
+        const data = response === undefined ? [] : response;
+        const courses = [];
+        const del_courses = [];
+        for (const course of data) {
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            courses.push(course);
+          }
         }
-      }
-      this.setState({ courses, del_courses });
-      if (data.length > 0) {
-        this.courseId = data[0].classId;
-        TeacherService.get_assignments(this.courseId) //get by course id
-          .then((data) => {
-            this.setState({ assignments: data });
-          });
-      }
-    });
+        this.setState({ courses, del_courses });
+        if (data.length > 0) {
+          this.courseId = data[0].classId;
+          TeacherService.get_assignments(this.courseId) //get by course id
+            .then((data) => {
+              this.setState({ assignments: data });
+            });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   colors = (i) => {

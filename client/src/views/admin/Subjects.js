@@ -107,16 +107,17 @@ class AllClasses extends Component {
             course.actions = (
               <ul className="card-action-buttons2">
                 <li>
-                  <a
-
+                  <Link
+                    to="#"
                     className="btn-floating waves-effect waves-light light-blue"
                     onClick={() => this.handleEdit(course)}
                   >
                     <i className="material-icons">create</i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
+                    to="#"
                     href="#del_class"
                     className="btn-floating waves-effect waves-light modal-trigger red accent-2"
                     data-target="areyousure"
@@ -125,7 +126,7 @@ class AllClasses extends Component {
                     })}
                   >
                     <i className="material-icons">delete</i>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             );
@@ -310,7 +311,7 @@ class AllClasses extends Component {
             <SideBar />
             <div style={{ position: "relative", zIndex: 50 }}>
               <nav
-                className="navbar nav-extended"
+                className="navbar nav-extended width-75"
                 style={{
                   position: "fixed",
                   transform: "translateY(-7%)",
@@ -322,8 +323,8 @@ class AllClasses extends Component {
                       Subject Management
                     </p>
                   </div>
-                  <a
-
+                  <Link
+                    to="#"
                     data-target="modal1"
                     className="modal-trigger tooltipped waves-effect right"
                     data-tooltip="Add Class"
@@ -335,9 +336,9 @@ class AllClasses extends Component {
                     }}
                   >
                     <i className="material-icons">add_circle_outline</i>
-                  </a>
-                  <a
-
+                  </Link>
+                  <Link
+                    to="#"
                     className={`tooltipped waves-effect right blue-text accent-2`}
                     data-tooltip="Refresh"
                     data-position="top"
@@ -349,7 +350,7 @@ class AllClasses extends Component {
                     }}
                   >
                     <i className="material-icons">refresh</i>
-                  </a>
+                  </Link>
                 </div>
               </nav>
             </div>

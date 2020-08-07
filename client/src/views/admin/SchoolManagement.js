@@ -8,6 +8,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
 import { Link } from "react-router-dom";
+import SchoolGridComp from "./SchoolGridComp";
 //import TitleOptions from "../../components/TitleOptions";
 
 class SchoolManagement extends Component {
@@ -30,16 +31,22 @@ class SchoolManagement extends Component {
       title: "Mr",
       columns: [
         {
+          label: "ID",
+          field: "schoolId",
+          sort: "asc",
+          width: "5%",
+        },
+        {
           label: "School Name",
           field: "schoolname",
           sort: "asc",
-          width: "24%",
+          width: "20%",
         },
         {
           label: "Address",
           field: "address",
           sort: "asc",
-          width: "20%",
+          width: "35%",
         },
         {
           label: "School Contact",
@@ -51,20 +58,28 @@ class SchoolManagement extends Component {
           label: "Enrolment Key",
           field: "enrolmentkey",
           sort: "asc",
-          width: "50%",
+          width: "10%",
         },
         {
           label: "Action",
           field: "actions",
+          width: "15%",
         },
       ],
       rows: [],
+      allSchools: [],
+      schools: [],
+      currentPageNumber: 1,
+      pages: [],
       options: [],
+      view: "grid",
+      updated: false,
     };
     this.onSelectTitle = this.onSelectTitle.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.setSchoolId = this.setSchoolId.bind(this);
   }
   modal;
 
@@ -78,17 +93,38 @@ class SchoolManagement extends Component {
   }
 
   getDashData() {
-    const schools = [];
+    const schoolz = [];
     AdminService.get_all_schools()
       .then((response) => {
-        for (const school of response) {
+        const allSchools = response === undefined ? [] : response;
+        allSchools.sort(
+          (a, b) => new Date(b.schoolname) - new Date(a.schoolname)
+        );
+
+        let pages = [];
+        let perPage = 12;
+        const totalPageCount = Math.ceil(allSchools.length / perPage);
+
+        for (var i = 1; i <= totalPageCount; i++) {
+          pages.push(i);
+        }
+
+        const schools = this.pageArraySplit(allSchools, {
+          currentPageNumber: this.state.currentPageNumber,
+          perPage,
+        });
+
+        for (const school of allSchools) {
           school.actions = (
             <ul className="card-action-buttons2">
               <li>
                 <a
                   href="#!"
                   className="btn-floating waves-effect waves-light light-blue"
-                  onClick={() => this.handleEdit(school)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.handleEdit(school);
+                  }}
                 >
                   <i className="material-icons">create</i>
                 </a>
@@ -107,15 +143,16 @@ class SchoolManagement extends Component {
               </li>
             </ul>
           );
-          schools.push(school);
+          schoolz.push(school);
         }
-        this.setState({ rows: schools });
+
+        this.setState({ pages, allSchools, schools, rows: schoolz });
       })
       .catch((error) => {
-        console.log(error);
         this.setState({ rows: [] });
       });
   }
+
   handleEdit = (school) => {
     this.setState(
       {
@@ -131,10 +168,12 @@ class SchoolManagement extends Component {
         },
       },
       () => {
+        if (this.modal !== undefined) {
+          this.modal.close();
+        }
         const elem = document.getElementById("modaledit");
         const modal = M.Modal.init(elem);
         this.modal = modal;
-        console.log(this.state.selectedSchool);
         modal.open();
       }
     );
@@ -164,20 +203,29 @@ class SchoolManagement extends Component {
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
+        this.setState({ updated: true });
         M.toast({
-          html: response.message + "\nSchool Admin password is : " + response.password,
+          html:
+            response.message +
+            "\nSchool Admin password is : " +
+            response.password,
           classes: "green ",
         });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
+        this.setState({ updated: true });
         M.toast({
-          html: response.message + "\nSchool Admin password is : " + response.password,
+          html:
+            response.message +
+            "\nSchool Admin password is : " +
+            response.password,
           classes: "green",
         });
       }
     });
   };
+
   handleSave = (event) => {
     event.preventDefault();
     this.modal.close();
@@ -200,6 +248,7 @@ class SchoolManagement extends Component {
           });
         } else if (response.success === true || response.message === "S") {
           this.getDashData();
+          this.setState({ updated: true });
           M.toast({
             html: "Update Successfull",
             classes: "green accent-3",
@@ -217,6 +266,7 @@ class SchoolManagement extends Component {
         this.getDashData();
       });
   };
+
   handleDelete = (event) => {
     event.preventDefault();
     AdminService.delete_school(this.state.schoolId)
@@ -229,6 +279,7 @@ class SchoolManagement extends Component {
           });
           this.getDashData();
         } else {
+          this.setState({ updated: true });
           M.toast({
             html: `${response.data.message}, delete successfull`,
             classes: "green accent-3",
@@ -246,6 +297,7 @@ class SchoolManagement extends Component {
         this.getDashData();
       });
   };
+
   onChange = (e) => {
     e.preventDefault();
     const selectedSchool = this.state.selectedSchool;
@@ -254,11 +306,55 @@ class SchoolManagement extends Component {
       selectedSchool,
     });
   };
+
   onSelectTitle = (selectedTitle) => {
     this.setState({ selectedTitle }, () =>
       console.log(this.state.selectedTitle)
     );
   };
+
+  setSchoolId = (schoolId) => {
+    this.setState({ schoolId });
+  };
+
+  pageArraySplit = (array, pagingOptions) => {
+    const currentPageNumber = pagingOptions.currentPageNumber;
+    const perPage = pagingOptions.perPage;
+    const startingIndex = (currentPageNumber - 1) * perPage;
+    const endingIndex = startingIndex + perPage;
+    return array.slice(startingIndex, endingIndex);
+  };
+
+  handlePageClick = async (pageNumber) => {
+    this.setState({ currentPageNumber: parseInt(pageNumber) }, () => {
+      this.gettingSchools();
+    });
+  };
+
+  handlePrevClick = async (e) => {
+    e.preventDefault();
+    const pageNumber =
+      this.state.currentPageNumber === this.state.pages.length ||
+      this.state.pages.length < 1
+        ? this.state.currentPageNumber
+        : this.state.currentPageNumber - 1;
+    this.setState({ currentPageNumber: pageNumber }, () => {
+      this.gettingSchools();
+    });
+  };
+
+  handleNextClick = async (e) => {
+    e.preventDefault();
+    const pageNumber =
+      this.state.currentPageNumber === this.state.pages.length ||
+      this.state.pages.length < 1
+        ? this.state.currentPageNumber
+        : this.state.currentPageNumber + 1;
+    this.setState({ currentPageNumber: pageNumber }, () => {
+      this.gettingSchools();
+    });
+  };
+
   render() {
     return (
       <div>
@@ -271,7 +367,7 @@ class SchoolManagement extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{
                     position: "fixed",
                     borderBottomLeftRadius: 5,
@@ -284,6 +380,42 @@ class SchoolManagement extends Component {
                         School Management
                       </p>
                     </div>
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "grid" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "grid" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">grid_on</i>
+                    </a>
+
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "table" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "table" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">format_list_numbered</i>
+                    </a>
+
                     <a
                       href="#!"
                       data-target="modaladd"
@@ -303,221 +435,234 @@ class SchoolManagement extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "table" ? "" : "display-none"
+                    }`}
+                  >
                     <DatatablePage data={this.state} />
                   </div>
-                </div>
-                <div
-                  id="modaladd"
-                  className="modal modal-meeting min-width-800 border-radius-10"
-                >
-                  <form
-                    className="react-form form-meeting"
-                    onSubmit={this.handleSubmit}
-                    id="sibs"
+                  <div
+                    className={`padding-3 ${
+                      this.state.view === "grid" ? "" : "display-none"
+                    }`}
                   >
-                    <h1 className="h1-meeting">
-                      <i
-                        className="material-icons"
-                        style={{ transform: "translate(-3px, 4px)" }}
-                      >
-                        add_circle_outline
-                      </i>
-                      School!
-                    </h1>
-                    <hr className="hr5" style={{ marginBottom: 30 }} />
-                    <fieldset className="form-group row">
-                      <div className="col s7">
-                        <ReactFormLabel
-                          htmlFor="schoolName"
-                          title="School Name:"
-                        />
-                        <input
-                          className="form-input input-meeting"
-                          id="schoolName"
-                          type="text"
-                          name="schoolName"
-                          required
-                        />
-                      </div>
-                      <div className="col s5">
-                        <ReactFormLabel
-                          htmlFor="schoolContactNumber"
-                          title="Contact Number:"
-                        />
-                        <input
-                          className="form-input input-meeting"
-                          id="schoolContactNumber"
-                          type="text"
-                          name="schoolContactNumber"
-                          required
-                        />
-                      </div>
-                    </fieldset>
-                    <fieldset className="form-group row">
-                      <div className="col s12">
-                        <ReactFormLabel
-                          htmlFor="schoolAddress"
-                          title="Address:"
-                        />
-                        <textarea
-                          id="schoolAddress"
-                          name="schoolAddress"
-                          className="form-textarea textarea-meeting"
-                          rows="3"
-                          required
-                        ></textarea>
-                      </div>
-                    </fieldset>
-                    <h4 className="header2">
-                      <b>School Admin Details</b>
-                    </h4>
-
-                    <fieldset className="form-group row">
-                      <div className="col s6">
-                        <ReactFormLabel
-                          htmlFor="personName"
-                          title="Lastname:"
-                        />
-                        <input
-                          className="form-input input-meeting"
-                          id="personName"
-                          type="text"
-                          name="personName"
-                          required
-                        />
-                      </div>
-                      <div className="col s6">
-                        <ReactFormLabel htmlFor="surname" title="Lastname:" />
-
-                        <input
-                          className="form-input input-meeting"
-                          id="surname"
-                          type="text"
-                          name="surname"
-                          required
-                        />
-                      </div>
-                      <div className="col s6">
-                        <ReactFormLabel htmlFor="email" title="Email:" />
-                        <input
-                          className="form-input input-meeting"
-                          id="email"
-                          type="email"
-                          name="email"
-                          required
-                        />
-                      </div>
-                    </fieldset>
-                    <div className="form-group">
-                      <input
-                        id="formButton"
-                        className="btn gradient-45deg-light-blue-cyan border-radius-5"
-                        type="submit"
-                        value="Submit"
-                      />
-                    </div>
-                  </form>
-                </div>
-
-                <div
-                  id="modaledit"
-                  className="modal modal-meeting border-radius-10"
-                >
-                  <form
-                    className="react-form form-meeting"
-                    onSubmit={this.handleSave}
-                    id="sibs2"
-                  >
-                    <h1 className="h1-meeting">
-                      <i
-                        className="material-icons"
-                        style={{ transform: "translate(-3px, 4px)" }}
-                      >
-                        create
-                      </i>
-                      Edit School Details!
-                    </h1>
-
-                    <hr className="hr5" style={{ marginBottom: 30 }} />
-                    <fieldset className="form-group">
-                      <ReactFormLabel
-                        htmlFor="schoolname"
-                        title="School Name:"
-                      />
-                      <input
-                        id="schoolname"
-                        type="text"
-                        className="form-input input-meeting"
-                        name="schoolname"
-                        onChange={this.onChange}
-                        value={this.state.selectedSchool.schoolname}
-                        required
-                      />
-                    </fieldset>
-                    <fieldset className="form-group">
-                      <ReactFormLabel htmlFor="address" title="Address:" />
-
-                      <textarea
-                        id="address"
-                        name="address"
-                        className="form-textarea textarea-meeting"
-                        onChange={this.onChange}
-                        value={this.state.selectedSchool.address}
-                        rows="3"
-                        required
-                      ></textarea>
-                    </fieldset>
-                    <fieldset className="form-group">
-                      <ReactFormLabel htmlFor="contact" title="Contacts:" />
-                      <input
-                        id="contacts"
-                        type="text"
-                        name="contacts"
-                        className="form-input input-meeting"
-                        onChange={this.onChange}
-                        value={
-                          this.state.selectedSchool.contacts === null
-                            ? ""
-                            : this.state.selectedSchool.contacts
-                        }
-                        required
-                      />
-                    </fieldset>
-
-                    <div className="form-group">
-                      <input
-                        id="formButton2"
-                        className="btn gradient-45deg-light-blue-cyan border-radius-5"
-                        type="submit"
-                        value="Save"
-                      />
-                    </div>
-                  </form>
-                </div>
-
-                <div id="areyousure" className="modal width-250">
-                  <div className="modal-content">
-                    <h4 className="header2">Are you sure?</h4>
-                  </div>
-                  <div className="modal-footer">
-                    <Link
-                      to="#!"
-                      style={{ marginRight: 10 }}
-                      className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                      onClick={this.handleDelete}
-                    >
-                      Yes
-                    </Link>
-                    <Link
-                      to="#!"
-                      className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
-                    >
-                      No
-                    </Link>
+                    <SchoolGridComp
+                      handleEdit={this.handleEdit}
+                      setSchoolId={this.setSchoolId}
+                      handlePageClick={this.handlePageClick}
+                      handlePrevClick={this.handlePrevClick}
+                      handleNextClick={this.handleNextClick}
+                      pages={this.state.pages}
+                      currentPageNumber={this.state.currentPageNumber}
+                      schools={this.state.schools}
+                      allSchools={this.state.allSchools}
+                    />
                   </div>
                 </div>
               </section>
+              <div
+                id="modaladd"
+                className="modal modal-meeting min-width-800 border-radius-10"
+              >
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSubmit}
+                  id="sibs"
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      add_circle_outline
+                    </i>
+                    School!
+                  </h1>
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
+                  <fieldset className="form-group row">
+                    <div className="col s7">
+                      <ReactFormLabel
+                        htmlFor="schoolName"
+                        title="School Name:"
+                      />
+                      <input
+                        className="form-input input-meeting"
+                        id="schoolName"
+                        type="text"
+                        name="schoolName"
+                        required
+                      />
+                    </div>
+                    <div className="col s5">
+                      <ReactFormLabel
+                        htmlFor="schoolContactNumber"
+                        title="Contact Number:"
+                      />
+                      <input
+                        className="form-input input-meeting"
+                        id="schoolContactNumber"
+                        type="text"
+                        name="schoolContactNumber"
+                        required
+                      />
+                    </div>
+                  </fieldset>
+                  <fieldset className="form-group row">
+                    <div className="col s12">
+                      <ReactFormLabel
+                        htmlFor="schoolAddress"
+                        title="Address:"
+                      />
+                      <textarea
+                        id="schoolAddress"
+                        name="schoolAddress"
+                        className="form-textarea textarea-meeting"
+                        rows="3"
+                        required
+                      ></textarea>
+                    </div>
+                  </fieldset>
+                  <h4 className="header2">
+                    <b>School Admin Details</b>
+                  </h4>
+
+                  <fieldset className="form-group row">
+                    <div className="col s6">
+                      <ReactFormLabel htmlFor="personName" title="Firstname:" />
+                      <input
+                        className="form-input input-meeting"
+                        id="personName"
+                        type="text"
+                        name="personName"
+                        required
+                      />
+                    </div>
+                    <div className="col s6">
+                      <ReactFormLabel htmlFor="surname" title="Lastname:" />
+
+                      <input
+                        className="form-input input-meeting"
+                        id="surname"
+                        type="text"
+                        name="surname"
+                        required
+                      />
+                    </div>
+                    <div className="col s6">
+                      <ReactFormLabel htmlFor="email" title="Email:" />
+                      <input
+                        className="form-input input-meeting"
+                        id="email"
+                        type="email"
+                        name="email"
+                        required
+                      />
+                    </div>
+                  </fieldset>
+                  <div className="form-group">
+                    <input
+                      id="formButton"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Submit"
+                    />
+                  </div>
+                </form>
+              </div>
+              <div
+                id="modaledit"
+                className="modal modal-meeting border-radius-10"
+              >
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSave}
+                  id="sibs2"
+                >
+                  <h1 className="h1-meeting">
+                    <i
+                      className="material-icons"
+                      style={{ transform: "translate(-3px, 4px)" }}
+                    >
+                      create
+                    </i>
+                    Edit School Details!
+                  </h1>
+
+                  <hr className="hr5" style={{ marginBottom: 30 }} />
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="schoolname" title="School Name:" />
+                    <input
+                      id="schoolname"
+                      type="text"
+                      className="form-input input-meeting"
+                      name="schoolname"
+                      onChange={this.onChange}
+                      value={this.state.selectedSchool.schoolname}
+                      required
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="address" title="Address:" />
+
+                    <textarea
+                      id="address"
+                      name="address"
+                      className="form-textarea textarea-meeting"
+                      onChange={this.onChange}
+                      value={this.state.selectedSchool.address}
+                      rows="3"
+                      required
+                    ></textarea>
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="contact" title="Contacts:" />
+                    <input
+                      id="contacts"
+                      type="text"
+                      name="contacts"
+                      className="form-input input-meeting"
+                      onChange={this.onChange}
+                      value={
+                        this.state.selectedSchool.contacts === null
+                          ? ""
+                          : this.state.selectedSchool.contacts
+                      }
+                      required
+                    />
+                  </fieldset>
+
+                  <div className="form-group">
+                    <input
+                      id="formButton2"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Save"
+                    />
+                  </div>
+                </form>
+              </div>
+              <div id="areyousure" className="modal width-250">
+                <div className="modal-content">
+                  <h4 className="header2">Are you sure?</h4>
+                </div>
+                <div className="modal-footer">
+                  <Link
+                    to="#!"
+                    style={{ marginRight: 10 }}
+                    className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
+                    onClick={this.handleDelete}
+                  >
+                    Yes
+                  </Link>
+                  <Link
+                    to="#!"
+                    className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
+                  >
+                    No
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </main>

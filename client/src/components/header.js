@@ -60,7 +60,7 @@ class Header extends Component {
     }
     return (
       <div className="navbar-fixed">
-        <nav className="navbar-color gradient-45deg-light-blue-cyan">
+        <nav className="navbar-color width-75% gradient-45deg-light-blue-cyan">
           <div className="nav-wrapper">
             <ul className="left">
               <li>

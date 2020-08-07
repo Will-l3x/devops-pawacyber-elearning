@@ -11,6 +11,8 @@ import { SchoolService } from "../../services/school";
 import { AuthService } from "../../services/authServices";
 import TitleOptions from "../../components/TitleOptions";
 import { Link } from "react-router-dom";
+import UserGridComp from "../../components/UserGridComp";
+
 class SchoolTeacherManagementScreen extends Component {
   constructor(props) {
     super(props);
@@ -56,7 +58,7 @@ class SchoolTeacherManagementScreen extends Component {
         datejoined: "",
       },
       teacherId: "",
-
+      view: "grid",
       selectedTitle: {},
     };
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
@@ -77,7 +79,7 @@ class SchoolTeacherManagementScreen extends Component {
     const teachers = [];
     SchoolService.get_all_teachers(this.user.schoolid).then((response) => {
       for (const teacher of response) {
-        teacher.datejoined = moment(teacher.datejoined).format("DD/MM/YYYY");
+        teacher.datejoined = moment(teacher.datejoined).format("LL");
         /*  teacher.actions = (
           <ul className="card-action-buttons2">
             <li>
@@ -266,7 +268,7 @@ class SchoolTeacherManagementScreen extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{
                     position: "fixed",
                   }}
@@ -277,6 +279,43 @@ class SchoolTeacherManagementScreen extends Component {
                         Teacher Management
                       </p>
                     </div>
+
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "grid" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "grid" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">grid_on</i>
+                    </a>
+
+                    <a
+                      href="#!"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.setState({ view: "table" });
+                      }}
+                      className={`waves-effect right ${
+                        this.state.view === "table" ? "active-view" : ""
+                      }`}
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "1%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">format_list_numbered</i>
+                    </a>
+
                     <a
                       href="#!"
                       data-target="modaladd"
@@ -295,12 +334,11 @@ class SchoolTeacherManagementScreen extends Component {
                       href="#!"
                       className={`tooltipped waves-effect right blue-text accent-2`}
                       data-tooltip="Refresh"
-                      data-position="top"
+                      data-position="bottom"
                       onClick={() => this.getDashData()}
                       style={{
                         marginTop: "1%",
-                        marginRight: "2%",
-                        color: "#626262",
+                        marginRight: "1%",
                       }}
                     >
                       <i className="material-icons">refresh</i>
@@ -310,11 +348,23 @@ class SchoolTeacherManagementScreen extends Component {
               </div>
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
-                  <div className="card-stats z-depth-5 padding-3 border-radius-10">
+                  <div
+                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
+                      this.state.view === "table" ? "" : "display-none"
+                    }`}
+                  >
                     <DatatablePage data={this.state} />
+                  </div>
+                  <div
+                    className={`padding-3 ${
+                      this.state.view === "grid" ? "" : "display-none"
+                    }`}
+                  >
+                    <UserGridComp dashboard="schooladmin" rolename="teacher" />
                   </div>
                 </div>
               </section>
+
               <div
                 id="modaladd"
                 className="modal modal-meeting min-width-800 border-radius-10"

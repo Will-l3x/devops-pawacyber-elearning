@@ -6,6 +6,7 @@ import { AdminService } from "../../services/admin";
 
 let options = [];
 let del_options = [];
+var gradeStore;
 
 class SubcribeClassOptions extends Component {
   constructor() {
@@ -20,12 +21,11 @@ class SubcribeClassOptions extends Component {
   }
 
   getClass() {
-    var gradeStore = JSON.parse(localStorage.getItem("studentData"));
+    console.log(gradeStore);
     var data = {
       gradeid: gradeStore.gradeid,
       schoolid: gradeStore.schoolid,
     };
-
     AdminService.findClassesForSchoolGrade(data)
       .then((response) => {
         for (const classOpt of response.data.subjects) {
@@ -46,8 +46,13 @@ class SubcribeClassOptions extends Component {
 
   componentDidMount() {
     M.AutoInit();
-
-    this.getClass();
+    gradeStore = JSON.parse(localStorage.getItem("studentData"));
+    setTimeout(
+      function () {
+        this.getClass();
+      }.bind(this),
+      500
+    );
   }
 
   handleChange = (selectedOption) => {

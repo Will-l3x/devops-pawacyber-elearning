@@ -41,6 +41,19 @@
   height: 280px;
 }
 
+.avatar-large-1 {
+  width: 70px !important;
+  height: 70px !important;
+  font-size: 24px !important;
+  text-transform: uppercase !important;
+}
+.avatar-large-2 {
+  width: 90px !important;
+  height: 90px !important;
+  text-transform: uppercase !important;
+  font-size: 32px !important;
+}
+
 .border-line {
   border-right: 1px solid #eeeeee;
 }
@@ -218,6 +231,9 @@ a {
 
 .text-sm {
   font-size: 14px !important;
+}
+.text-cap {
+  text-transform: capitalize !important;
 }
 
 ::placeholder {
@@ -1226,4 +1242,17 @@ ul.card-action-buttons2 li {
 .label-1 {
   transform: translateY(-14px) scale(0.8) !important;
   transform-origin: 0 0 !important;
+}
+
+nav.modal-width-75 {
+  width: 75% !important;
+}
+
+.justfiyCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.active-view {
+  color: #448aff !important;
 }

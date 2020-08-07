@@ -41,7 +41,7 @@ class ClassroomScreen extends Component {
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{ position: "fixed" }}
                 >
                   <div className="nav-content">
@@ -51,7 +51,6 @@ class ClassroomScreen extends Component {
                     <Link
                       to="#!"
                       className="btn gradient-45deg-light-blue-cyan remove-content right waves-effect"
-                      data-target="dropdown7"
                       style={{ transform: "translate(-200%, 55%)" }}
                     >
                       Save

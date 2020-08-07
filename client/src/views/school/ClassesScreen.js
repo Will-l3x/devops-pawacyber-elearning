@@ -101,7 +101,7 @@ class ClassesScreen extends Component {
           if (course.status === "deleted") {
             del_courses.push(course);
           } else {
-            course.createdon = moment(course.createdon).format("DD/MM/YYYY");
+            course.createdon = moment(course.createdon).format("LL");
             course.actions = (
               <ul className="card-action-buttons2">
                 <li>
@@ -293,7 +293,7 @@ class ClassesScreen extends Component {
             <SideBar />
             <div style={{ position: "relative", zIndex: 50 }}>
               <nav
-                className="navbar nav-extended"
+                className="navbar nav-extended width-75"
                 style={{
                   position: "fixed",
                   transform: "translateY(-7%)",

@@ -27,7 +27,7 @@ class LoginScreen extends Component {
       userid: "",
       schoolid: "",
       roleid: "",
-
+      token:""
     };
 
     if (this.curHr < 12) {

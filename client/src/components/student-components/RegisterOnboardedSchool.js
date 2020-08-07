@@ -161,7 +161,7 @@ export default class RegisterOnboardedSchool extends Component {
       gradeid: this.state.grade,
       firstname: event.target.firstname.value,
       lastname: event.target.lastname.value,
-      title: this.state.gender == "1" ? "Mr" : "Miss",
+      title: this.state.gender === "1" ? "Mr" : "Miss",
       vpassword: event.target.vpassword.value,
       dob: event.target.dob.value,
       genderid: this.state.gender,
@@ -267,7 +267,6 @@ export default class RegisterOnboardedSchool extends Component {
   }
 
   enrol(studentId) {
-    console.log(studentId);
     var count = 0;
     for (let i = 0; i < this.state.selectedsubs.length; i++) {
       var enrolData = {

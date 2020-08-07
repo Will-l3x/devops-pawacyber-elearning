@@ -4,49 +4,60 @@ import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 import M from "materialize-css";
+import moment from "moment";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import { SchoolService } from "../../services/school";
 import UserGridComp from "../../components/UserGridComp";
+import { TeacherService } from "../../services/teacher";
 
-class SchoolStudentManagementScreen extends Component {
-  constructor() {
-    super();
+class TeacherStudentScreen extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      user:
-        JSON.parse(localStorage.getItem("user")) === null
-          ? { roleid: 3 }
-          : JSON.parse(localStorage.getItem("user")),
+      selectedOption: {},
+      title: "Mr",
       columns: [
         {
-          label: "Student Id",
+          label: "ID",
           field: "studentId",
           sort: "asc",
-          width: "15%",
+          width: "20%",
         },
         {
-          label: "First Name",
+          label: "Name",
           field: "firstname",
           sort: "asc",
-          width: "24%",
+          width: "30%",
         },
         {
-          label: "Surname",
+          label: "Last Name",
           field: "lastname",
           sort: "asc",
-          width: "24%",
+          width: "30%",
         },
         {
           label: "DOB",
           field: "dob",
           sort: "asc",
-          width: "24%",
+          width: "20%",
         },
         {
-          label: "Enrolment Date",
+          label: "Grade",
+          field: "gradeid",
+          sort: "asc",
+          width: "20%",
+        },
+        {
+          label: "Enrolment Key",
+          field: "enrolmentkey",
+          sort: "asc",
+          width: "20%",
+        },
+        {
+          label: "Date Joined",
           field: "datejoined",
           sort: "asc",
-          width: "50%",
+          width: "20%",
         },
       ],
       rows: [],
@@ -54,17 +65,50 @@ class SchoolStudentManagementScreen extends Component {
     };
   }
 
-  user = {};
   componentDidMount() {
-    this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
     M.AutoInit();
   }
 
   getDashData() {
-    SchoolService.get_all_students(this.user.schoolid).then((response) => {
-      this.setState({ rows: response });
-    });
+    TeacherService.get_all_courses(this.state.user.userid)
+      .then((response) => {
+        const data = response === undefined ? [] : response;
+        const courses = [];
+        const del_courses = [];
+        const students = [];
+
+        for (const course of data) {
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            courses.push(course);
+          }
+        }
+        for (const course of courses) {
+          TeacherService.get_all_students(course.classId)
+            .then((response) => {
+              if (response === undefined) {
+                console.log(response);
+              } else {
+                for (const student of response) {
+                  student.dob = moment(student.dob).format("LL");
+                  student.datejoined = moment(student.datejoined).format("LL");
+                  students.push(student);
+                }
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+        this.setState({
+          rows: students,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -83,12 +127,14 @@ class SchoolStudentManagementScreen extends Component {
                   className="navbar nav-extended width-75"
                   style={{
                     position: "fixed",
+                    borderBottomLeftRadius: 5,
+                    borderBottomRightRadius: 5,
                   }}
                 >
                   <div className="nav-content">
                     <div className="left">
                       <p style={{ padding: "10px", fontSize: "16px" }}>
-                        Student List
+                        Student Management
                       </p>
                     </div>
                     <a
@@ -143,7 +189,7 @@ class SchoolStudentManagementScreen extends Component {
                       this.state.view === "grid" ? "" : "display-none"
                     }`}
                   >
-                    <UserGridComp dashboard="schooladmin" rolename="student" />
+                    <UserGridComp dashboard="teacher" rolename="student" />
                   </div>
                 </div>
               </section>
@@ -165,4 +211,4 @@ const mapDispatchToProps = {};
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SchoolStudentManagementScreen);
+)(TeacherStudentScreen);
