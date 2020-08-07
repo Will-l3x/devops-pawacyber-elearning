@@ -30,10 +30,7 @@ router.put("/refreshotp", _auth.refreshotp);
 //////////////////////systemadmin//////////////////////////////////////////////
 // teachers
 
-router.post(
-  "/get_school_grade_subjects",
-  _systemadmin.get_school_grade_subjects
-);
+router.post( "/get_school_grade_subjects", _systemadmin.get_school_grade_subjects);
 router.get("/teachers", _systemadmin.teachers);
 router.get("/materials", _systemadmin.materials);
 router.get("/genders", _systemadmin.genders);

@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
 import SubcribeClassOptions from "./SubcribeClassOptions";
 // import SchoolOptions from "./SchoolOptions";
-
+var globalGrade = "1";
 export default class RegistrationForm extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ export default class RegistrationForm extends Component {
       selectedOption: null,
       selectedSchool: "24",
       title: "",
-      grade: "",
+      grade: globalGrade,
       gender: "1",
       redirect: false,
       proceedToPay: false,
@@ -27,6 +27,8 @@ export default class RegistrationForm extends Component {
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
   }
+
+  
 
   componentDidMount() {
 
@@ -149,7 +151,9 @@ export default class RegistrationForm extends Component {
   }
 
   handleGradeDropdownChange(event) {
-    this.setState({ grade: event.target.value });
+    globalGrade = event.target.value;
+    this.setState({ grade: globalGrade });
+
   }
 
   handleSubmit = (event) => {
@@ -166,7 +170,7 @@ export default class RegistrationForm extends Component {
         roleid: 3,
         email: event.target.email.value,
         password: event.target.password.value,
-        gradeid: this.state.grade,
+        gradeid: globalGrade,
         firstname: event.target.firstname.value,
         lastname: event.target.lastname.value,
         title: this.state.gender === "1" ? "Mr" : "Miss",
@@ -177,12 +181,13 @@ export default class RegistrationForm extends Component {
       };
     }
 
+    localStorage.removeItem("studentData");
     localStorage.setItem("studentData", JSON.stringify(registerAdmin));
     setTimeout(
       function () {
         this.setState({ proceedToPay: true });
       }.bind(this),
-      1000
+      300
     );
   };
 
