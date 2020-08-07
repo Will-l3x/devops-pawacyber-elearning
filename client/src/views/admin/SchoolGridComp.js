@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { AdminService } from "../../services/admin";
 import "../../assets/css/list-grid-comp.css";
 import Avatar from "@material-ui/core/Avatar";
 import avatar from "../../assets/images/gallary/not_found.gif";
@@ -29,7 +28,7 @@ class SchoolGridComp extends Component {
     return (
       <div>
         <Search searchText={this.searchText} />
-        <main className="row">
+        <main className="row" style={{minHeight: 350}}>
           {this.props.schools.filter((school) =>
             school.schoolname
               .toLowerCase()

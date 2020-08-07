@@ -59,25 +59,23 @@ class ResourceCard extends Component {
 
   deleteResource(resource) {
     var data = {
-      file: resource.file
-    }
+      file: resource.file,
+    };
 
-    StudentService.deleteResource(data)
-      .then((response) => {
-        if(response.success){
-          M.toast({
-            html: response.message,
-            classes: "green",
-          });
-          this.componentDidMount();
-        }else{
-          M.toast({
-            html: 'Deletion failed.',
-            classes: "red",
-          });
-        }
-      });
-      
+    StudentService.deleteResource(data).then((response) => {
+      if (response.success) {
+        M.toast({
+          html: response.message,
+          classes: "green",
+        });
+        this.componentDidMount();
+      } else {
+        M.toast({
+          html: "Deletion failed.",
+          classes: "red",
+        });
+      }
+    });
   }
 
   searchText = (res) => {
@@ -122,7 +120,7 @@ class ResourceCard extends Component {
     return (
       <div>
         <Search searchText={this.searchText} />
-        <main className="row">
+        <main className="row" style={{ minHeight: 350 }}>
           {this.state.resources.filter((resource) =>
             resource.materialname
               .toLowerCase()
@@ -191,12 +189,14 @@ class ResourceCard extends Component {
                         <div className="left-align col s6 m6">
                           <p className="no-margin">
                             <a
+                              href="#!"
                               style={{
                                 color: "red",
                                 padding: "5px",
                                 textAlign: "center",
                               }}
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.preventDefault();
                                 this.deleteResource(resource);
                               }}
                             >
@@ -207,6 +207,7 @@ class ResourceCard extends Component {
                         <div className="right-align col s6 m6">
                           <p className="no-margin">
                             <a
+                              href="#!"
                               style={{
                                 border: "1px solid #2196F3",
                                 color: "white",
@@ -215,7 +216,8 @@ class ResourceCard extends Component {
                                 padding: "5px",
                                 textAlign: "center",
                               }}
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.preventDefault();
                                 this.download(resource);
                               }}
                             >
@@ -270,12 +272,14 @@ class ResourceCard extends Component {
                         <div className="left-align col s6 m6">
                           <p className="no-margin">
                             <a
+                              href="#!"
                               style={{
                                 color: "red",
                                 padding: "5px",
                                 textAlign: "center",
                               }}
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.preventDefault();
                                 this.deleteResource(resource);
                               }}
                             >
@@ -286,6 +290,7 @@ class ResourceCard extends Component {
                         <div className="right-align col s6 m6">
                           <p className="no-margin">
                             <a
+                              href="#!"
                               style={{
                                 border: "1px solid #2196F3",
                                 color: "white",
@@ -294,7 +299,8 @@ class ResourceCard extends Component {
                                 padding: "5px",
                                 textAlign: "center",
                               }}
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.preventDefault();
                                 this.download(resource);
                               }}
                             >

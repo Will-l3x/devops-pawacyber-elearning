@@ -280,7 +280,7 @@ class UserGridComp extends Component {
     return (
       <div>
         <Search searchText={this.searchText} />
-        <main className="row">
+        <main className="row" style={{ minHeight: 350 }}>
           {this.state.users.filter((user) =>
             user.name
               .toLowerCase()
