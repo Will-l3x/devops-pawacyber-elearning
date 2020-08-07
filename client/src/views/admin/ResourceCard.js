@@ -59,22 +59,25 @@ class ResourceCard extends Component {
 
   deleteResource(resource) {
     var data = {
-      file: resource.file,
-    };
+      file: resource.file
+    }
 
-    StudentService.deleteResource(data).then((response) => {
-      if (response.success) {
-        M.toast({
-          html: response.message,
-          classes: "green",
-        });
-      } else {
-        M.toast({
-          html: "Deletion failed.",
-          classes: "red",
-        });
-      }
-    });
+    StudentService.deleteResource(data)
+      .then((response) => {
+        if(response.success){
+          M.toast({
+            html: response.message,
+            classes: "green",
+          });
+          this.componentDidMount();
+        }else{
+          M.toast({
+            html: 'Deletion failed.',
+            classes: "red",
+          });
+        }
+      });
+      
   }
 
   searchText = (res) => {

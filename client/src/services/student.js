@@ -1,7 +1,6 @@
 import axios from "axios";
 const token = JSON.parse(localStorage.getItem("token"));
 const qs = require("qs");
-// const apiUrl = "http://localhost:3001/api";
 
 var config = {
   baseURL: "https://cybers.azurewebsites.net/api/student",
@@ -39,7 +38,6 @@ async function download(data) {
 }
 
 async function deleteResource(data) {
-  console.log(data);
   try {
     let res = await axios.delete(
       `https://cybers.azurewebsites.net/api/upload/delete`,

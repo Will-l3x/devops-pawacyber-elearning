@@ -147,7 +147,7 @@ class Header extends Component {
 
             <ul id="profile-dropdown" className="dropdown-content dropdown-acc">
               <li>
-                <Link to="/profile" className="grey-text text-darken-1">
+                <Link to="#" className="grey-text text-darken-1">
                   <i className="material-icons">face</i> Profile
                 </Link>
               </li>
