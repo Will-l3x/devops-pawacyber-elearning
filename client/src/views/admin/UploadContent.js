@@ -81,13 +81,16 @@ class UploadContent extends Component {
 
 
   handleSubmit = (event) => {
+    event.preventDefault();
     var uploadCount = 0;
     var targetLength = event.target.fileUpload.files.length;
-    this.setState({
-      loading: true
+
+    M.toast({
+      html: "Resource upload in progress",
+      classes: "green ",
     });
 
-    for (var i = 0; i < event.target.fileUpload.files.length; ++i) {
+    for (var i = 0; i < event.target.fileUpload.files.length; i++) {
       this.fileUpload = event.target.fileUpload.files[i];
       var data = {
         teacherid: this.loggedUserId,
@@ -120,14 +123,15 @@ class UploadContent extends Component {
             if (resp.success === true) {
               uploadCount += 1;
               if (uploadCount === targetLength) {
-                this.setState({
-                  loading: false
+                M.toast({
+                  html: uploadCount + " out of " + targetLength + " files uploaded ...",
+                  classes: "green",
                 });
-                this.componentDidMount();
                 M.toast({
                   html: "Upload Successful",
                   classes: "green ",
                 });
+                this.componentDidMount();
               } else {
                 M.toast({
                   html: uploadCount + " out of " + targetLength + " files uploaded ...",
@@ -153,7 +157,7 @@ class UploadContent extends Component {
 
   onSelectClassOption = (selectedOption) => {
     this.setState({
-      class: selectedOption,
+      class: selectedOption
     });
   };
 
@@ -222,12 +226,7 @@ class UploadContent extends Component {
                     Upload Resource!
                   </h1>
 
-                {this.loading ?
-                  <div style={{ marginTop: "150px" }} className="loader-3 center">
-                    <span></span>
-                  </div>
-                  :
-                  (
+
                     <form
                       className="react-form form-meeting"
                       onSubmit={this.handleSubmit}
@@ -304,8 +303,8 @@ class UploadContent extends Component {
                         />
                       </div>
                     </form>
-                  )
-                }
+                  
+                
               </div>
               <div id="areyousure" className="modal width-250">
                 <div className="modal-content">

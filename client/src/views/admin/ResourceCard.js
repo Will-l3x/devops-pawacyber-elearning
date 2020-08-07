@@ -24,7 +24,7 @@ class ResourceCard extends Component {
 
   getDashData() {
     AdminService.get_all_resources().then((response) => {
-      const allResources = response === undefined ? [] : response;
+      const allResources = response === undefined ? [] : response.reverse();
       allResources.sort(
         (a, b) => new Date(b.materialname) - new Date(a.materialname)
       );
