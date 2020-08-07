@@ -897,6 +897,7 @@ let register = (req, res) => {
                                                                         return res.json({
                                                                             status: 201,
                                                                             success: true,
+                                                                            userid: userid,
                                                                             message: 'Account Registered',
                                                                             error: 'Failed to send authorization pin'
                                                                         });
@@ -912,6 +913,7 @@ let register = (req, res) => {
                                                                     return res.json({
                                                                         status: 201,
                                                                         success: true,
+                                                                        userid: userid,
                                                                         message: 'Account Created'
                                                                     });
                                                                 });
