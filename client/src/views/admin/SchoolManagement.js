@@ -67,9 +67,13 @@ class SchoolManagement extends Component {
         },
       ],
       rows: [],
+      allSchools: [],
+      schools: [],
+      currentPageNumber: 1,
+      pages: [],
       options: [],
       view: "grid",
-      updated: 0,
+      updated: false,
     };
     this.onSelectTitle = this.onSelectTitle.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -89,10 +93,28 @@ class SchoolManagement extends Component {
   }
 
   getDashData() {
-    const schools = [];
+    const schoolz = [];
     AdminService.get_all_schools()
       .then((response) => {
-        for (const school of response) {
+        const allSchools = response === undefined ? [] : response;
+        allSchools.sort(
+          (a, b) => new Date(b.schoolname) - new Date(a.schoolname)
+        );
+
+        let pages = [];
+        let perPage = 12;
+        const totalPageCount = Math.ceil(allSchools.length / perPage);
+
+        for (var i = 1; i <= totalPageCount; i++) {
+          pages.push(i);
+        }
+
+        const schools = this.pageArraySplit(allSchools, {
+          currentPageNumber: this.state.currentPageNumber,
+          perPage,
+        });
+
+        for (const school of allSchools) {
           school.actions = (
             <ul className="card-action-buttons2">
               <li>
@@ -121,15 +143,16 @@ class SchoolManagement extends Component {
               </li>
             </ul>
           );
-          schools.push(school);
+          schoolz.push(school);
         }
-        this.setState({ rows: schools });
+
+        this.setState({ pages, allSchools, schools, rows: schoolz });
       })
       .catch((error) => {
-        console.log(error);
         this.setState({ rows: [] });
       });
   }
+
   handleEdit = (school) => {
     this.setState(
       {
@@ -180,8 +203,7 @@ class SchoolManagement extends Component {
       } else if (response.success === true || response.message === "S") {
         document.getElementById("sibs").reset();
         this.getDashData();
-        let update = this.state.updated;
-        this.setState({ updated: update++ });
+        this.setState({ updated: true });
         M.toast({
           html:
             response.message +
@@ -192,8 +214,7 @@ class SchoolManagement extends Component {
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        let update = this.state.updated;
-        this.setState({ updated: update++ });
+        this.setState({ updated: true });
         M.toast({
           html:
             response.message +
@@ -204,6 +225,7 @@ class SchoolManagement extends Component {
       }
     });
   };
+
   handleSave = (event) => {
     event.preventDefault();
     this.modal.close();
@@ -226,8 +248,7 @@ class SchoolManagement extends Component {
           });
         } else if (response.success === true || response.message === "S") {
           this.getDashData();
-          let update = this.state.updated;
-          this.setState({ updated: update++ });
+          this.setState({ updated: true });
           M.toast({
             html: "Update Successfull",
             classes: "green accent-3",
@@ -245,6 +266,7 @@ class SchoolManagement extends Component {
         this.getDashData();
       });
   };
+
   handleDelete = (event) => {
     event.preventDefault();
     AdminService.delete_school(this.state.schoolId)
@@ -257,8 +279,7 @@ class SchoolManagement extends Component {
           });
           this.getDashData();
         } else {
-          let update = this.state.updated;
-          this.setState({ updated: update++ });
+          this.setState({ updated: true });
           M.toast({
             html: `${response.data.message}, delete successfull`,
             classes: "green accent-3",
@@ -276,6 +297,7 @@ class SchoolManagement extends Component {
         this.getDashData();
       });
   };
+
   onChange = (e) => {
     e.preventDefault();
     const selectedSchool = this.state.selectedSchool;
@@ -284,14 +306,55 @@ class SchoolManagement extends Component {
       selectedSchool,
     });
   };
+
   onSelectTitle = (selectedTitle) => {
     this.setState({ selectedTitle }, () =>
       console.log(this.state.selectedTitle)
     );
   };
+
   setSchoolId = (schoolId) => {
     this.setState({ schoolId });
   };
+
+  pageArraySplit = (array, pagingOptions) => {
+    const currentPageNumber = pagingOptions.currentPageNumber;
+    const perPage = pagingOptions.perPage;
+    const startingIndex = (currentPageNumber - 1) * perPage;
+    const endingIndex = startingIndex + perPage;
+    return array.slice(startingIndex, endingIndex);
+  };
+
+  handlePageClick = async (pageNumber) => {
+    this.setState({ currentPageNumber: parseInt(pageNumber) }, () => {
+      this.gettingSchools();
+    });
+  };
+
+  handlePrevClick = async (e) => {
+    e.preventDefault();
+    const pageNumber =
+      this.state.currentPageNumber === this.state.pages.length ||
+      this.state.pages.length < 1
+        ? this.state.currentPageNumber
+        : this.state.currentPageNumber - 1;
+    this.setState({ currentPageNumber: pageNumber }, () => {
+      this.gettingSchools();
+    });
+  };
+
+  handleNextClick = async (e) => {
+    e.preventDefault();
+    const pageNumber =
+      this.state.currentPageNumber === this.state.pages.length ||
+      this.state.pages.length < 1
+        ? this.state.currentPageNumber
+        : this.state.currentPageNumber + 1;
+    this.setState({ currentPageNumber: pageNumber }, () => {
+      this.gettingSchools();
+    });
+  };
+
   render() {
     return (
       <div>
@@ -387,7 +450,13 @@ class SchoolManagement extends Component {
                     <SchoolGridComp
                       handleEdit={this.handleEdit}
                       setSchoolId={this.setSchoolId}
-                      updated={this.state.updated}
+                      handlePageClick={this.handlePageClick}
+                      handlePrevClick={this.handlePrevClick}
+                      handleNextClick={this.handleNextClick}
+                      pages={this.state.pages}
+                      currentPageNumber={this.state.currentPageNumber}
+                      schools={this.state.schools}
+                      allSchools={this.state.allSchools}
                     />
                   </div>
                 </div>

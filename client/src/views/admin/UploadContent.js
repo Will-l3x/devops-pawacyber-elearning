@@ -197,7 +197,7 @@ class UploadContent extends Component {
                 <div className="container  col s12">
                   {/* <div className="card-stats z-depth-5 padding-3 border-radius-10">
                     <DatatablePage data={this.state} /> */}
-                  <div className="card-stats padding-3 border-radius-10">
+                  <div className="card-stats padding-2 border-radius-10">
                     < ResourceCard></ ResourceCard>
                   </div>
                 </div>

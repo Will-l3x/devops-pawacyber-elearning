@@ -31,7 +31,6 @@ class ProfileScreen extends Component {
   getUserDetails = () => {
     AuthService.profile()
       .then((response) => {
-        console.log(response.data.data.Profile[0]);
         this.setState({ user: response.data.data.Profile[0] });
       })
       .catch((error) => console.log(error));
@@ -44,14 +43,20 @@ class ProfileScreen extends Component {
     event.preventDefault();
 
     this.setState({ edit: true });
-    AuthService.profile()
+    AuthService.update_profile(this.state.user)
       .then((response) => {
+        console.log(response);
         if (response === undefined) {
           M.toast({
             html: `An error occured, update failed!`,
             classes: "red accent-2",
           });
-        } else if (response.success === true || response.message === "S") {
+        } else if (response.data.message === "An error occured") {
+          M.toast({
+            html: `An error occured, update failed!`,
+            classes: "red accent-2",
+          });
+        } else if (response.data.success === true) {
           this.getUserDetails();
           M.toast({
             html: "Update Successfull",
@@ -60,6 +65,7 @@ class ProfileScreen extends Component {
           this.setState({ edit: true });
         } else {
           this.getUserDetails();
+          this.setState({ edit: true });
         }
       })
       .catch((error) => {
@@ -201,30 +207,6 @@ class ProfileScreen extends Component {
                     </div>
                   </div>
                   <hr className="border" />
-                  <div>
-                    <ul className="navlinks">
-                      <li
-                        onClick={() => {
-                          this.setState({ tab: "about" });
-                        }}
-                        className={`link--item ${
-                          this.state.tab === "about" ? "active-tab" : ""
-                        }`}
-                      >
-                        About
-                      </li>
-                      <li
-                        onClick={() => {
-                          this.setState({ tab: "contact" });
-                        }}
-                        className={`link--item ${
-                          this.state.tab === "contact" ? "active-tab" : ""
-                        }`}
-                      >
-                        Contacts
-                      </li>
-                    </ul>
-                  </div>
                   <div className="card--insights">
                     <div className="card--heading">
                       <div className="heading">Details</div>
@@ -250,14 +232,8 @@ class ProfileScreen extends Component {
                       </div>
                     </div>
                     <div className="insights justfiyCenter">
-                      <div
-                        className={`insight row ${
-                          this.state.tab === "about"
-                            ? "tab-active"
-                            : "display-none"
-                        }`}
-                      >
-                        <div className="col s12">
+                      <div className="insight row tab-active">
+                        <div className="col s6">
                           <fieldset className="form-group">
                             <ReactFormLabel
                               htmlFor="firstname"
@@ -278,6 +254,9 @@ class ProfileScreen extends Component {
                               readOnly={this.state.edit}
                             />
                           </fieldset>
+                        </div>
+
+                        <div className="col s6">
                           <fieldset className="form-group">
                             <ReactFormLabel
                               htmlFor="lastname"
@@ -298,19 +277,50 @@ class ProfileScreen extends Component {
                               readOnly={this.state.edit}
                             />
                           </fieldset>
-                          
                         </div>
-                      </div>
-                    </div>
+                        <div className="col s6">
+                          <fieldset className="form-group">
+                            <ReactFormLabel htmlFor="email" title="Email:" />
+                            <input
+                              id="email"
+                              type="text"
+                              name="email"
+                              className="form-input input-meeting"
+                              onChange={this.onChange}
+                              defaultValue={
+                                this.state.user.email === null
+                                  ? ""
+                                  : this.state.user.email
+                              }
+                              required
+                              readOnly={true}
+                            />
+                          </fieldset>
+                        </div>
 
-                    <div className="insights justfiyCenter">
-                      <div
-                        className={`insight row ${
-                          this.state.tab === "contact"
-                            ? "tab-active"
-                            : "display-none"
-                        }`}
-                      >
+                        <div className="col s6">
+                          <fieldset className="form-group">
+                            <ReactFormLabel
+                              htmlFor="contact"
+                              title="Contacts:"
+                            />
+                            <input
+                              id="contacts"
+                              type="text"
+                              name="contacts"
+                              className="form-input input-meeting"
+                              onChange={this.onChange}
+                              defaultValue={
+                                this.state.user.contacts === null
+                                  ? ""
+                                  : this.state.user.contacts
+                              }
+                              required
+                              readOnly={this.state.edit}
+                            />
+                          </fieldset>
+                        </div>
+
                         <div className="col s12">
                           <fieldset className="form-group">
                             <ReactFormLabel
@@ -332,26 +342,6 @@ class ProfileScreen extends Component {
                               required
                               readOnly={this.state.edit}
                             ></textarea>
-                          </fieldset>
-                          <fieldset className="form-group">
-                            <ReactFormLabel
-                              htmlFor="contact"
-                              title="Contacts:"
-                            />
-                            <input
-                              id="contacts"
-                              type="text"
-                              name="contacts"
-                              className="form-input input-meeting"
-                              onChange={this.onChange}
-                              defaultValue={
-                                this.state.user.contacts === null
-                                  ? ""
-                                  : this.state.user.contacts
-                              }
-                              required
-                              readOnly={this.state.edit}
-                            />
                           </fieldset>
                         </div>
                       </div>

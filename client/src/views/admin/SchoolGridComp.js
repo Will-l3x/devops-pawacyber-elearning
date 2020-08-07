@@ -16,90 +16,21 @@ class SchoolGridComp extends Component {
         JSON.parse(localStorage.getItem("user")) === null
           ? {}
           : JSON.parse(localStorage.getItem("user")),
-      schools: [],
-      currentPageNumber: 1,
       searchText: "",
-      pages: [],
-      allSchools: [],
     };
   }
-  update = 0;
-  componentDidMount() {
-    this.gettingSchools();
-  }
-  gettingSchools = () => {
-    AdminService.get_all_schools()
-      .then((response) => {
-        const allSchools = response === undefined ? [] : response;
-        allSchools.sort((a, b) => new Date(b.lastname) - new Date(a.lastname));
-
-        let pages = [];
-        let perPage = 12;
-        const totalPageCount = Math.ceil(allSchools.length / perPage);
-
-        for (var i = 1; i <= totalPageCount; i++) {
-          pages.push(i);
-        }
-
-        const schools = this.pageArraySplit(allSchools, {
-          currentPageNumber: this.state.currentPageNumber,
-          perPage,
-        });
-
-        this.setState({ pages, schools, allSchools });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
+  
   searchText = (res) => {
     this.setState({ searchText: res });
   };
-  pageArraySplit = (array, pagingOptions) => {
-    const currentPageNumber = pagingOptions.currentPageNumber;
-    const perPage = pagingOptions.perPage;
-    const startingIndex = (currentPageNumber - 1) * perPage;
-    const endingIndex = startingIndex + perPage;
-    return array.slice(startingIndex, endingIndex);
-  };
-  handlePageClick = async (pageNumber) => {
-    this.setState({ currentPageNumber: parseInt(pageNumber) }, () => {
-      this.gettingSchools();
-    });
-  };
-  handlePrevClick = async (e) => {
-    e.preventDefault();
-    const pageNumber =
-      this.state.currentPageNumber === this.state.pages.length ||
-      this.state.pages.length < 1
-        ? this.state.currentPageNumber
-        : this.state.currentPageNumber - 1;
-    this.setState({ currentPageNumber: pageNumber }, () => {
-      this.gettingSchools();
-    });
-  };
-  handleNextClick = async (e) => {
-    e.preventDefault();
-    const pageNumber =
-      this.state.currentPageNumber === this.state.pages.length ||
-      this.state.pages.length < 1
-        ? this.state.currentPageNumber
-        : this.state.currentPageNumber + 1;
-    this.setState({ currentPageNumber: pageNumber }, () => {
-      this.gettingSchools();
-    });
-  };
+ 
   render() {
-    if (this.update !== this.props.updated) {
-      this.gettingSchools();
-      this.update = this.props.updated;
-    }
+    console.log(this.props)
     return (
       <div>
         <Search searchText={this.searchText} />
         <main className="row">
-          {this.state.schools.filter((school) =>
+          {this.props.schools.filter((school) =>
             school.schoolname
               .toLowerCase()
               .includes(this.state.searchText.toLowerCase())
@@ -126,7 +57,7 @@ class SchoolGridComp extends Component {
               </p>
             </div>
           ) : this.state.searchText === "" ? (
-            this.state.schools
+            this.props.schools
               .filter((school) =>
                 school.schoolname
                   .toLowerCase()
@@ -141,9 +72,9 @@ class SchoolGridComp extends Component {
                 />
               ))
           ) : (
-            this.state.allSchools
+            this.props.allSchools
               .filter((school) =>
-                school.name
+                school.schoolname
                   .toLowerCase()
                   .includes(this.state.searchText.toLowerCase())
               )
@@ -163,8 +94,8 @@ class SchoolGridComp extends Component {
             <ul className="pagination">
               <li
                 className={
-                  this.state.currentPageNumber === 1 ||
-                  this.state.pages.length < 1 ||
+                  this.props.currentPageNumber === 1 ||
+                  this.props.pages.length < 1 ||
                   this.state.searchText !== ""
                     ? "disabled pointer-events-none"
                     : "waves-effect"
@@ -172,32 +103,32 @@ class SchoolGridComp extends Component {
               >
                 <Link
                   className={
-                    this.state.currentPageNumber === 1 ||
-                    this.state.pages.length < 1 ||
+                    this.props.currentPageNumber === 1 ||
+                    this.props.pages.length < 1 ||
                     this.state.searchText !== ""
                       ? "disabled pointer-events-none"
                       : ""
                   }
-                  onClick={this.handlePrevClick}
+                  onClick={this.props.handlePrevClick}
                   rel="noopener noreferer"
                   to="#!"
                 >
                   <i className="material-icons">chevron_left</i>
                 </Link>
               </li>
-              {this.state.pages.length < 1 || this.state.searchText !== "" ? (
+              {this.props.pages.length < 1 || this.state.searchText !== "" ? (
                 <li className="active">
                   <Link rel="noopener noreferer" to="#!">
                     {1}
                   </Link>
                 </li>
               ) : (
-                this.state.pages.map((page) => {
-                  if (page === this.state.currentPageNumber) {
+                this.props.pages.map((page) => {
+                  if (page === this.props.currentPageNumber) {
                     return (
                       <li key={page} className="active">
                         <Link
-                          onClick={() => this.handlePageClick(page)}
+                          onClick={() => this.props.handlePageClick(page)}
                           rel="noopener noreferer"
                           to="#!"
                         >
@@ -211,7 +142,7 @@ class SchoolGridComp extends Component {
                         <Link
                           onClick={(e) => {
                             e.preventDefault();
-                            this.handlePageClick(page);
+                            this.props.handlePageClick(page);
                           }}
                           rel="noopener noreferer"
                           to="#!"
@@ -225,18 +156,18 @@ class SchoolGridComp extends Component {
               )}
               <li
                 className={
-                  this.state.currentPageNumber === this.state.pages.length ||
-                  this.state.pages.length < 1 ||
+                  this.props.currentPageNumber === this.props.pages.length ||
+                  this.props.pages.length < 1 ||
                   this.state.searchText !== ""
                     ? "disabled pointer-events-none"
                     : "waves-effect"
                 }
               >
                 <Link
-                  onClick={this.handleNextClick}
+                  onClick={this.props.handleNextClick}
                   className={
-                    this.state.currentPageNumber === this.state.pages.length ||
-                    this.state.pages.length < 1 ||
+                    this.props.currentPageNumber === this.props.pages.length ||
+                    this.props.pages.length < 1 ||
                     this.state.searchText !== ""
                       ? "disabled pointer-events-none"
                       : ""

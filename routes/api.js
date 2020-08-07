@@ -23,6 +23,7 @@ router.put("/changepw", _auth.changepassword);
 router.post("/register", _auth.register);
 router.post("/verify", _auth.verifyacc);
 router.get("/profile", _auth.profile);
+router.put("/update_profile", _auth.update_profile);
 router.put("/resetpassword", _auth.resetpassword);
 router.put("/refreshotp", _auth.refreshotp);
 

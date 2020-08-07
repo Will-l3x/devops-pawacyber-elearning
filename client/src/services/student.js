@@ -20,6 +20,7 @@ export const StudentService = {
   get_student_marked_classwork,
   get_student_all_classwork,
   download,
+  deleteResource
 };
 
 async function download(data) {
@@ -34,6 +35,26 @@ async function download(data) {
   } catch (err) {
     console.error(err);
     return null;
+  }
+}
+
+async function deleteResource(data) {
+  console.log(data);
+  try {
+    let res = await axios.delete(
+      `https://cybers.azurewebsites.net/api/upload/delete`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        data: data
+      }
+    );
+
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    return err;
   }
 }
 
