@@ -6,6 +6,7 @@ import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
 import SubcribeClassOptions from "./SubcribeClassOptions";
+import { AsyncStorage } from 'AsyncStorage';
 // import SchoolOptions from "./SchoolOptions";
 var globalGrade = "1";
 export default class RegistrationForm extends Component {
@@ -28,7 +29,7 @@ export default class RegistrationForm extends Component {
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
   }
 
-  
+
 
   componentDidMount() {
 
@@ -156,7 +157,7 @@ export default class RegistrationForm extends Component {
 
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) =>  {
     event.preventDefault();
 
     if (this.state.selectedSchool === null) {
@@ -177,34 +178,36 @@ export default class RegistrationForm extends Component {
         vpassword: event.target.vpassword.value,
         dob: event.target.dob.value,
         genderid: this.state.gender,
-        schoolid:this.state.selectedSchool,
+        schoolid: "24",
       };
-    }
 
-    localStorage.removeItem("studentData");
-    localStorage.setItem("studentData", JSON.stringify(registerAdmin));
-    setTimeout(
-      function () {
-        this.setState({ proceedToPay: true });
-      }.bind(this),
-      300
-    );
+      localStorage.removeItem("studentData");
+      localStorage.setItem("studentData", JSON.stringify(registerAdmin));
+
+      try {
+        await AsyncStorage.setItem('studentData', JSON.stringify(registerAdmin));
+        setTimeout(
+          function () {
+            this.setState({ proceedToPay: true });
+          }.bind(this),
+          300
+        );
+      } catch (error) {
+        M.toast({
+          html: "Failed to save data",
+          classes: "red accent-2",
+        });
+      }
+    }
   };
 
 
-  handlePayment = (event) => {
+  handlePayment = async (event) => {
     event.preventDefault();
     this.setState({ loading: true });
-    localStorage.setItem(
-      "selectedPackage",
-      JSON.stringify(this.state.selectedOption)
-    );
-    localStorage.setItem(
-      "selectedSubjects",
-      JSON.stringify(this.state.selectedsubs)
-    );
 
     var det = JSON.parse(localStorage.getItem("studentData"));
+
     var paymentDetails = {
       paymentAmount: parseFloat(this.state.selectedOption.price),
       customerEmail: det.email,
@@ -215,6 +218,18 @@ export default class RegistrationForm extends Component {
     };
 
     localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+
+    try {
+      await AsyncStorage.setItem("selectedPackage", JSON.stringify(this.state.selectedOption));
+      await AsyncStorage.setItem("selectedSubjects", JSON.stringify(this.state.selectedsubs));
+      await AsyncStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+    } catch (error) {
+      M.toast({
+        html: "Failed to save subjects data",
+        classes: "red accent-2",
+      });
+    }
+
 
     PaymentService.createToken(paymentDetails).then((response) => {
       if (response === undefined) {
