@@ -157,52 +157,69 @@ export default class RegistrationForm extends Component {
 
   }
 
-  handleSubmit = async (event) =>  {
+  handleSubmit = (event) => {
     event.preventDefault();
 
-    if (this.state.selectedSchool === null) {
-      alert("Please refresh page and select a school");
-      return false;
-    } else if (this.state.selectedSchool === undefined) {
-      alert("Please refresh page and select a school");
-      return false;
-    } else {
-      var registerAdmin = {
-        roleid: 3,
-        email: event.target.email.value,
-        password: event.target.password.value,
-        gradeid: globalGrade,
-        firstname: event.target.firstname.value,
-        lastname: event.target.lastname.value,
-        title: this.state.gender === "1" ? "Mr" : "Miss",
-        vpassword: event.target.vpassword.value,
-        dob: event.target.dob.value,
-        genderid: this.state.gender,
-        schoolid: "24",
-      };
+    const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
 
-      localStorage.removeItem("studentData");
-      localStorage.setItem("studentData", JSON.stringify(registerAdmin));
+    if (event.target.vpassword.value === event.target.password.value) {
+      if (mediumRegex.test(event.target.password.value)) {
+        if (this.state.selectedSchool === null) {
+          alert("Please refresh page and select a school");
+          return false;
+        } else if (this.state.selectedSchool === undefined) {
+          alert("Please refresh page and select a school");
+          return false;
+        } else {
+          var registerAdmin = {
+            roleid: 3,
+            email: event.target.email.value,
+            password: event.target.password.value,
+            gradeid: globalGrade,
+            firstname: event.target.firstname.value,
+            lastname: event.target.lastname.value,
+            title: this.state.gender === "1" ? "Mr" : "Miss",
+            vpassword: event.target.vpassword.value,
+            dob: event.target.dob.value,
+            genderid: this.state.gender,
+            schoolid: "24",
+          };
 
-      try {
-        await AsyncStorage.setItem('studentData', JSON.stringify(registerAdmin));
-        setTimeout(
-          function () {
-            this.setState({ proceedToPay: true });
-          }.bind(this),
-          300
-        );
-      } catch (error) {
+          localStorage.removeItem("studentData");
+          localStorage.setItem("studentData", JSON.stringify(registerAdmin));
+
+          try {
+            AsyncStorage.setItem('studentData', JSON.stringify(registerAdmin));
+            setTimeout(
+              function () {
+                this.setState({ proceedToPay: true });
+              }.bind(this),
+              300
+            );
+          } catch (error) {
+            M.toast({
+              html: "Failed to save data",
+              classes: "red accent-2",
+            });
+          }
+        }
+
+      } else {
         M.toast({
-          html: "Failed to save data",
-          classes: "red accent-2",
+          html: "Low password strength. Password should include a minimum of 8 characters. Including at least 1 digit.",
+          classes: "red",
         });
       }
+    } else {
+      M.toast({
+        html: "Password not matching",
+        classes: "red",
+      });
     }
   };
 
 
-  handlePayment = async (event) => {
+  handlePayment = (event) => {
     event.preventDefault();
     this.setState({ loading: true });
 
@@ -220,9 +237,9 @@ export default class RegistrationForm extends Component {
     localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
 
     try {
-      await AsyncStorage.setItem("selectedPackage", JSON.stringify(this.state.selectedOption));
-      await AsyncStorage.setItem("selectedSubjects", JSON.stringify(this.state.selectedsubs));
-      await AsyncStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+      AsyncStorage.setItem("selectedPackage", JSON.stringify(this.state.selectedOption));
+      AsyncStorage.setItem("selectedSubjects", JSON.stringify(this.state.selectedsubs));
+      AsyncStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
     } catch (error) {
       M.toast({
         html: "Failed to save subjects data",
@@ -399,6 +416,7 @@ export default class RegistrationForm extends Component {
                   type="password"
                   className="validate"
                   name="password"
+
                   required
                 ></input>
                 <label htmlFor="password">Password *</label>

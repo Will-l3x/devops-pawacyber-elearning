@@ -36,6 +36,7 @@ class RegisterSuccessScreen extends Component {
             const enrolmentDetails = await AsyncStorage.getItem('selectedSubjects');
             const paymentdetails = await AsyncStorage.getItem('paymentDetails');
             if (registrationDetails !== null && subscriptionDetails !== null && enrolmentDetails !== null && paymentdetails !== null) {
+
                 this.setState({
                     registrationDetails: JSON.parse(registrationDetails),
                     subscriptionDetails: JSON.parse(subscriptionDetails),
@@ -51,7 +52,11 @@ class RegisterSuccessScreen extends Component {
                 }.bind(this), 1000);
             }
         } catch (error) {
-            // Error retrieving data
+            M.toast({
+                html: 'Failed to create account, Please contact Adminstrator.',
+                classes: "red accent-2",
+            });
+            console.log(error)
         }
     }
 
@@ -81,8 +86,8 @@ class RegisterSuccessScreen extends Component {
                     message: "Preparing your content..."
                 });
                 setTimeout(function () {
-                    console.log(response.studentid);
-                    this.subscribe(response.studentid);
+                    console.log(response.accountid);
+                    this.subscribe(response.accountid);
                 }.bind(this), 3000);
             }
         });

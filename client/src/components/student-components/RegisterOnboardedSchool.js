@@ -150,6 +150,12 @@ export default class RegisterOnboardedSchool extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+
+    if (event.target.vpassword.value === event.target.password.value) {
+      if (mediumRegex.test(event.target.password.value)) {
+            
     this.setState({
       loading: true,
       message:"Account Activation in progress... "
@@ -223,13 +229,25 @@ export default class RegisterOnboardedSchool extends Component {
               });
 
               setTimeout(function () {
-                this.subscribe(response.userid, registerStudent.schoolid);
+                this.subscribe(response.accountid, registerStudent.schoolid);
               }.bind(this), 3000);
             }
           });
         }.bind(this), 1000);
       }
     });
+      }else{
+        M.toast({
+          html: "Low password strength. Password should include a minimum of 8 characters. Including at least 1 digit.",
+          classes: "red",
+        });
+      }
+    }else{
+      M.toast({
+        html: "Passwords not matching",
+        classes: "red",
+      });
+    }
   }
 
   subscribe(studentId, schoolid) {
