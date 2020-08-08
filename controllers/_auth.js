@@ -742,12 +742,16 @@ let register = (req, res) => {
     let query_email = "SELECT * FROM [users] WHERE email = @email";
 
     var query_teacher = "INSERT INTO [teachers] (firstname,lastname,datejoined,userid,schoolid) VALUES(@firstname,@lastname,Convert(datetime, Convert(datetime, @dj ) ),@userid,@schoolid)";
+    query_teacher = query_teacher + ';select @@IDENTITY AS \'identity\'';
 
     var query_parent = "INSERT INTO [parents] (firstname,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,@title)";
+    query_parent = query_parent + ';select @@IDENTITY AS \'identity\'';
 
     var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,gradeid,schoolid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade,@schoolid)";
+    query_student = query_student + ';select @@IDENTITY AS \'identity\'';
 
     var query_subadmin = "INSERT INTO [subadmins] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid)";
+    query_subadmin = query_subadmin + ';select @@IDENTITY AS \'identity\'';
 
     var schema = new passwordValidator();
      
@@ -836,6 +840,7 @@ let register = (req, res) => {
                                             if (recordset.rowsAffected[0] > 0) {
                                                 userid = recordset.recordset[0].identity; 
                                                 console.log(userid);
+                                                var accountid = 0;
                                                 var q = "";
                                                 if (roleid === "1") {
                                                     //teacher
@@ -878,7 +883,9 @@ let register = (req, res) => {
                                                         } else {
                                                             console.log(recordset);
                                                             if (recordset.rowsAffected[0] > 0) {
-                                                                console.log("done sending email");
+                                                              
+                                                                    accountid = recordset.recordset[0].identity; 
+                                                               
                                                                 transaction.commit();
 
                                                                 var message = {
@@ -897,6 +904,8 @@ let register = (req, res) => {
                                                                         return res.json({
                                                                             status: 201,
                                                                             success: true,
+                                                                            userid: userid,
+                                                                            accountid: accountid,
                                                                             message: 'Account Registered',
                                                                             error: 'Failed to send authorization pin'
                                                                         });
@@ -912,6 +921,8 @@ let register = (req, res) => {
                                                                     return res.json({
                                                                         status: 201,
                                                                         success: true,
+                                                                        userid: userid,
+                                                                        accountid: accountid,
                                                                         message: 'Account Created'
                                                                     });
                                                                 });
