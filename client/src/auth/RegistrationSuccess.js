@@ -50,6 +50,7 @@ class RegisterSuccessScreen extends Component {
                     console.log(this.state.enrolmentDetails);
                     this.register(JSON.parse(registrationDetails));
                 }.bind(this), 1000);
+                
             }
         } catch (error) {
             M.toast({
