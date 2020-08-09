@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
+
 import M from "materialize-css";
 import moment from "moment";
 import Header from "../../components/header";
@@ -14,8 +15,12 @@ class TeacherStudentScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:
+      JSON.parse(localStorage.getItem("user")) === null
+        ? { roleid: 3 }
+        : JSON.parse(localStorage.getItem("user")),
       selectedOption: {},
-      title: "Mr",
+ 
       columns: [
         {
           label: "ID",
@@ -86,10 +91,15 @@ class TeacherStudentScreen extends Component {
           }
         }
         for (const course of courses) {
+        
           TeacherService.get_all_students(course.classId)
             .then((response) => {
+             
               if (response === undefined) {
-                console.log(response);
+                M.toast({
+                  html: 'Could not fetch data. Please try after a moment.',
+                  classes: "red",
+              });
               } else {
                 for (const student of response) {
                   student.dob = moment(student.dob).format("LL");

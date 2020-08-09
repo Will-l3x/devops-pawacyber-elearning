@@ -29,6 +29,7 @@ class TeacherScreen extends Component {
   }
 
   getDashData() {
+   
     TeacherService.get_all_courses(this.state.user.userid)
       .then((response) => {
         const data = response === undefined ? [] : response;

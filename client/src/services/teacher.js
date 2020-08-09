@@ -1,4 +1,5 @@
 import axios from "axios";
+import { isEmpty } from "lodash";
 const qs = require("qs");
 const token = JSON.parse(localStorage.getItem("token"));
 // const apiUrl = "http://localhost:3001/api";
@@ -117,9 +118,12 @@ async function enrol_student(data) {
 async function get_all_students(id) {
   try {
     let res = await axios.get(`/get_students/${id}`, config);
-    return res.data.data.students;
+ 
+      return res.data.data;
+    
   } catch (err) {
-    console.error(err);
+    console.log('Error getting students '+ err);
+    return []
   }
 }
 
