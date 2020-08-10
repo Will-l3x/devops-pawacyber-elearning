@@ -19,8 +19,20 @@ export const StudentService = {
   get_student_marked_classwork,
   get_student_all_classwork,
   download,
-  deleteResource
+  deleteResource,
+  submit_assignment
 };
+
+async function submit_assignment(data){
+  try {
+    let res = await axios.post(`/new_submission`, qs.stringify(data), config);
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    return err;
+  
+  }
+}
 
 async function download(data) {
   try {

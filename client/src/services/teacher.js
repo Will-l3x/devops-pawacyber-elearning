@@ -33,7 +33,9 @@ async function post_material(data) {
     let res = await axios.post(`/new_material`, qs.stringify(data), config);
     return res.data;
   } catch (err) {
+    
     console.error(err);
+    return [];
   }
 }
 
@@ -44,6 +46,8 @@ async function post_assignment(data) {
     return res.data;
   } catch (err) {
     console.error(err);
+    return [];
+  
   }
 }
 
@@ -55,6 +59,8 @@ async function get_materials(course_id) {
     return res.data.data;
   } catch (err) {
     console.error(err);
+    return [];
+   
   }
 }
 
@@ -65,6 +71,8 @@ async function get_assignments(course_id) {
     return res.data.data;
   } catch (err) {
     console.error(err);
+    return [];
+    
   }
 }
 
@@ -75,7 +83,9 @@ async function get_submissions(id) {
     let res = await axios.get(`/get_submissions/${id}`, config);
     return res.data;
   } catch (err) {
+  
     console.error(err);
+    return [];
   }
 }
 
@@ -88,6 +98,7 @@ async function get_all_courses(teacherid) {
     return res.data.data;
   } catch (err) {
     console.error(err);
+    return [];
   }
 }
 
@@ -97,6 +108,7 @@ async function enrol_student(data) {
     return res;
   } catch (err) {
     console.error(err);
+    return [];
   }
 }
 
@@ -110,7 +122,7 @@ async function get_all_students(id) {
     
   } catch (err) {
     console.log('Error getting students '+ err);
-    return []
+    return [];
   }
 }
 
@@ -123,6 +135,7 @@ async function get_teacher_pending_classwork(teacher_id, classroom_id) {
     return res.data;
   } catch (err) {
     console.error(err);
+    return [];
   }
 }
 
@@ -135,5 +148,6 @@ async function get_teacher_unmarked_classwork(teacher_id, classroom_id) {
     return res.data;
   } catch (err) {
     console.error(err);
+    return [];
   }
 }

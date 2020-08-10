@@ -77,7 +77,7 @@ class TeacherScreen extends Component {
           this.courseId = sub.classId;
           TeacherService.get_submissions(this.courseId) //get by course id
             .then((data) => {
-              console.log(data);
+             
               this.setState({ submissions: data });
             });
         }
@@ -170,9 +170,9 @@ class TeacherScreen extends Component {
                         {this.state.assignments.map((assignment, i) => (
                           <li className="collection-item dismissable">
                             <label htmlFor="task2">
-                              {assignment.materialname}
+                              {assignment.assignmentname}
                               <Link to="#" className="secondary-content">
-                                <span className="ultra-small">Due Date</span>
+                                <span className="ultra-small"> {assignment.duedate}</span>
                               </Link>
                             </label>
                             <Link to="#">

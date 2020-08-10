@@ -195,6 +195,7 @@ class UploadMaterial extends Component {
                   </div>
                 </div>
               </section>
+              
               <div
                 id="modaladd"
                 className="modal modal-meeting min-width-500 border-radius-10"

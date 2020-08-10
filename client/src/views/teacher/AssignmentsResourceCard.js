@@ -25,17 +25,19 @@ class AssignmentsResourceCard extends Component {
   }
 
   getDashData() {
-    console.log(this.user);
+ 
     this.teacherid = this.user.userid;
     TeacherService.get_all_courses(this.teacherid).then((response) => {
       this.setState({ courses: response });
+     
       for (const sub of response) {
         this.courseId = sub.classId;
           TeacherService.get_assignments(this.courseId)
             .then((response) => {
+              console.log(response);
               const allResources = response === undefined ? [] : response.reverse();
               allResources.sort(
-                (a, b) => new Date(b.materialname) - new Date(a.materialname)
+                (a, b) => new Date(b.assignmentname) - new Date(a.assignmentname)
               );
         
               let pages = [];
@@ -134,7 +136,7 @@ class AssignmentsResourceCard extends Component {
         <Search searchText={this.searchText} />
         <main className="row" style={{ minHeight: 350 }}>
           {this.state.resources.filter((resource) =>
-            resource.materialname
+            resource.assignmentname
               .toLowerCase()
               .includes(this.state.searchText.toLowerCase())
           ).length < 1 ? (
@@ -162,7 +164,7 @@ class AssignmentsResourceCard extends Component {
           ) : this.state.searchText === "" ? (
             this.state.resources
               .filter((resource) =>
-                resource.materialname
+                resource.assignmentname
                   .toLowerCase()
                   .includes(this.state.searchText.toLowerCase())
               )
@@ -178,7 +180,7 @@ class AssignmentsResourceCard extends Component {
                     <div className="padding-4">
                       <div className="col s12 m12">
                         <p className="no-margin" style={{ color: "teal" }}>
-                          <b>{resource.materialname}</b>
+                          <b>Assignment Title: {resource.assignmentname}</b>
                         </p>
                         <p
                           className="no-margin"
@@ -245,7 +247,7 @@ class AssignmentsResourceCard extends Component {
           ) : (
             this.state.allResources
               .filter((resource) =>
-                resource.materialname
+                resource.assignmentname
                   .toLowerCase()
                   .includes(this.state.searchText.toLowerCase())
               )
@@ -261,7 +263,7 @@ class AssignmentsResourceCard extends Component {
                     <div className="padding-4">
                       <div className="col s12 m12">
                         <p className="no-margin" style={{ color: "teal" }}>
-                          <b>{resource.materialname}</b>
+                          <b>{resource.assignmentname}</b>
                         </p>
                         <p
                           className="no-margin"

@@ -25,6 +25,7 @@ async function post_material(data) {
     return res.data;
   } catch (err) {
     console.error(err);
+    return [];
   }
 }
 
@@ -45,6 +46,7 @@ async function upload(data) {
   } catch (err) {
     console.error(err);
     return err;
+    return [];
   }
 }
 

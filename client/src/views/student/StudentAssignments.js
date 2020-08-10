@@ -3,15 +3,21 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/footer";
+import M from "materialize-css";
 import Header from "../../components/header";
 
 import { StudentService } from "../../services/student";
+import { TeacherService } from "../../services/teacher";
+import { isEmpty } from "lodash";
+import { UploadService } from "../../services/upload";
 
 class StudentAssignments extends Component {
   constructor(props) {
     super(props);
     this.state = {
       assignment: [],
+      courses: [],
+      submitFor: ""
     };
   }
 
@@ -19,11 +25,46 @@ class StudentAssignments extends Component {
     this.assignmentData();
   }
   user = {};
+
   assignmentData() {
     this.user = JSON.parse(localStorage.getItem("user"));
-    StudentService.get_student_all_classwork(1) //course id
+    this.studentData = JSON.parse(localStorage.getItem("userAll"));
+    console.log(this.studentData);
+
+    localStorage.setItem("registrationData", JSON.stringify({ gradeid: this.studentData.gradeid }));
+
+    StudentService.get_all_courses(this.studentData.studentId) // by student id
       .then((response) => {
-        this.setState({ assignment: response === undefined ? [] : response });
+        const courses = [];
+        var assignments = [];
+        const assTemp = [];
+        const del_courses = [];
+        for (const course of response) {
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            courses.push(course);
+          }
+        }
+
+        this.setState({ courses, del_courses });
+        for (const sub of response) {
+          this.courseId = sub.classId;
+          TeacherService.get_assignments(this.courseId)
+            .then((data) => {
+
+              // assignments.push(data);   
+              if (isEmpty(data)) {
+
+              } else {
+                assignments = assTemp.concat(data);
+                this.setState({ assignment: assignments.reverse() });
+              }
+            });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 
@@ -34,6 +75,93 @@ class StudentAssignments extends Component {
     this.assignmentCategory = category;
     this.status = stat;
   }
+
+
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    this.studentData = JSON.parse(localStorage.getItem("userAll"));
+
+    var uploadCount = 0;
+    var targetLength = event.target.fileUpload.files.length;
+
+    var assigmentUploaded = this.state.submitFor;
+
+
+    M.toast({
+      html: `Assignment ${assigmentUploaded.assignmentname} upload in progress`,
+      classes: "green ",
+    });
+
+    for (var i = 0; i < event.target.fileUpload.files.length; i++) {
+      this.fileUpload = event.target.fileUpload.files[i];
+      var data = {
+        studentid: this.studentData.studentId,
+        schoolid: this.studentData.schoolid,
+        grade: this.studentData.gradeid,
+        materialname: this.fileUpload.name,
+        materialtype: "file",
+        file: true,
+        classid: assigmentUploaded.assignmentId,
+        assid: assigmentUploaded.teacherid,
+        teacherid: assigmentUploaded.teacherid,
+      };
+
+      StudentService.submit_assignment(data).then((response) => {
+        if (response === undefined) {
+          M.toast({
+            html: "Assignment Upload failed",
+            classes: "red",
+          });
+        } else if (response.err) {
+          M.toast({
+            html: response.err,
+            classes: "red",
+          });
+        } else if (response.success === true) {
+          const uploadData = new FormData();
+          uploadData.append("", this.fileUpload);
+          uploadData.append("uploadType", response.uploadType);
+          uploadData.append("uploadId", response.uploadId);
+
+          UploadService.upload(uploadData).then((resp) => {
+            if (resp.success === true) {
+              uploadCount += 1;
+              if (uploadCount === targetLength) {
+                M.toast({
+                  html: uploadCount + " out of " + targetLength + " assignment(s) uploaded ...",
+                  classes: "green",
+                });
+
+                this.componentDidMount();
+                M.toast({
+                  html: "Upload Successful",
+                  classes: "green ",
+                });
+              } else {
+                M.toast({
+                  html: uploadCount + " out of " + targetLength + " assignment(s) uploaded ...",
+                  classes: "green",
+                });
+              }
+            } else {
+              M.toast({
+                html: "Failed to upload Assignment: " + resp.message,
+                classes: "red ",
+              });
+            }
+          });
+        } else {
+          M.toast({
+            html: response.message,
+            classes: "red",
+          });
+
+        }
+      });
+    }
+  };
 
   render() {
     return (
@@ -57,13 +185,13 @@ class StudentAssignments extends Component {
                             </li>
                             <li className="collection-item dismissable">
                               <label htmlFor="task1">
-                                Pending Assignments
+                                All Assignments
                                 <Link
                                   to="#"
                                   onClick={() =>
                                     this.selectCategory(
-                                      "Pending Assignments",
-                                      "Pending"
+                                      "ALL ASSIGNMENTS",
+                                      "All"
                                     )
                                   }
                                   className="secondary-content"
@@ -98,7 +226,7 @@ class StudentAssignments extends Component {
                                   onClick={() =>
                                     this.selectCategory(
                                       "Submit New Assignment",
-                                      "Pending"
+                                      "All"
                                     )
                                   }
                                   className="secondary-content"
@@ -128,7 +256,7 @@ class StudentAssignments extends Component {
                             }}
                           >
                             {
-                              // eslint-disable-next-line array-callback-return
+
                               this.state.assignment.map((assigment, i) => {
                                 if (this.status === "All") {
                                   return (
@@ -144,24 +272,16 @@ class StudentAssignments extends Component {
                                               style={{ color: "teal" }}
                                             >
                                               <b>
-                                                {assigment.courseName}
+                                                {assigment.assignmentname}
                                                 <br />
-                                                {assigment.assignmentTitle}
+                                                Subject : {this.state.courses.find(course => course.classId === assigment.classid).classname}
                                               </b>
                                             </p>
-                                            <p
-                                              className="no-margin"
-                                              style={{
-                                                fontSize: "12px",
-                                                color: "grey",
-                                              }}
-                                            >
-                                              {assigment.dueDate}
-                                            </p>
+
                                             <p
                                               className={
-                                                assigment.assignmentStatus ===
-                                                "Pending"
+                                                assigment.assignmentstatus ===
+                                                  "Pending"
                                                   ? "red"
                                                   : "gradient-45deg-light-blue-cyan"
                                               }
@@ -170,9 +290,8 @@ class StudentAssignments extends Component {
                                                 color: "white",
                                               }}
                                             >
-                                              {assigment.score !== ""
-                                                ? `Graded: ${assigment.score}`
-                                                : `${assigment.assignmentStatus}`}
+                                              Submission Date: {assigment.duedate}
+
                                             </p>
                                           </div>
                                           <div
@@ -183,12 +302,22 @@ class StudentAssignments extends Component {
                                             }}
                                           >
                                             <p className="no-margin">
-                                              <a
-                                                href={assigment.assignmentLink}
-                                                target="blank"
-                                              >
-                                                DOWNLOAD
-                                              </a>
+                                              {this.assignmentCategory ===
+                                                "Submit New Assignment" ? (
+                                                  <a data-target="modaladd"
+                                                    className="modal-trigger tooltipped waves-effect right"
+                                                    data-tooltip="New Upload"
+                                                    data-position="bottom"
+
+                                                    onClick={() => { console.log(assigment); this.setState({ submitFor: assigment }) }}
+                                                  >
+                                                    UPLOAD NOW
+                                                  </a>
+                                                ) : (
+                                                  <a href={assigment.assignmentLink} target="blank">
+                                                    VIEW
+                                                  </a>
+                                                )}
                                             </p>
                                           </div>
                                         </div>
@@ -212,9 +341,9 @@ class StudentAssignments extends Component {
                                                 style={{ color: "teal" }}
                                               >
                                                 <b>
-                                                  {assigment.courseName}
+                                                  {assigment.assignmentname}
                                                   <br />
-                                                  {assigment.assignmentTitle}
+                                                Subject : {this.state.courses.find(course => course.classId === assigment.classid).classname}
                                                 </b>
                                               </p>
                                               <p
@@ -224,12 +353,12 @@ class StudentAssignments extends Component {
                                                   color: "grey",
                                                 }}
                                               >
-                                                {assigment.dueDate}
+                                                {assigment.duedate}
                                               </p>
                                               <p
                                                 className={
-                                                  assigment.assignmentStatus ===
-                                                  "Pending"
+                                                  assigment.assignmentstatus ===
+                                                    "Pending"
                                                     ? "red"
                                                     : "gradient-45deg-light-blue-cyan"
                                                 }
@@ -252,20 +381,21 @@ class StudentAssignments extends Component {
                                             >
                                               <p className="no-margin">
                                                 {this.assignmentCategory ===
-                                                "Submit New Assignment" ? (
-                                                  <a href="#!" target="blank">
-                                                    UPLOAD NOW
-                                                  </a>
-                                                ) : (
-                                                  <a
-                                                    href={
-                                                      assigment.assignmentLink
-                                                    }
-                                                    target="blank"
-                                                  >
-                                                    DOWNLOAD
-                                                  </a>
-                                                )}
+                                                  "Submit New Assignment" ? (
+                                                    <a
+                                                      data-target="modaladd"
+                                                      className="modal-trigger tooltipped waves-effect right"
+                                                      data-tooltip="New Upload"
+                                                      data-position="bottom"
+                                                      onClick={() => { console.log(assigment); this.setState({ submitFor: assigment }) }}
+                                                    >
+                                                      UPLOAD NOW
+                                                    </a>
+                                                  ) : (
+                                                    <a href={assigment.assignmentLink} target="blank" >
+                                                      VIEW
+                                                    </a>
+                                                  )}
                                               </p>
                                             </div>
                                           </div>
@@ -283,6 +413,53 @@ class StudentAssignments extends Component {
                   </div>
                 </div>
               </div>
+
+              <div
+                id="modaladd"
+                className="modal modal-meeting min-width-500 border-radius-10"
+              >
+
+                <h1 style={{ marginTop: "10px" }} className="h1-meeting">
+                  <i
+                    className="material-icons"
+                    style={{ transform: "translate(-3px, 4px)" }}
+                  >
+                    cloud_upload
+                    </i>
+                    Upload Assignment!
+                  </h1>
+
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSubmit}
+                  id="sibs"
+                >
+
+                  <fieldset className="form-group">
+                    <ReactFormLabel htmlFor="fileUpload" title="Assignment:" />
+                    <input
+                      className="many-files"
+                      id="file"
+                      type="file"
+                      name="fileUpload"
+                      multiple
+                      required
+                    />
+                  </fieldset>
+                  <div className="form-group">
+                    <input
+                      id="formButton2"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Upload"
+                    />
+                  </div>
+                </form>
+
+
+              </div>
+
+
             </section>
           </div>
         </main>
@@ -290,6 +467,16 @@ class StudentAssignments extends Component {
           <Footer />
         </footer>
       </div>
+    );
+  }
+}
+
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
     );
   }
 }
