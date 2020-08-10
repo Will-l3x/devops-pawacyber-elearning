@@ -25,11 +25,39 @@ class TeacherScreen extends Component {
   }
   courseId = "";
   componentDidMount() {
-    this.getDashData();
+    this.getStudentWorkIssued();
+    this.getStudentSubmissions();
   }
 
-  getDashData() {
-   
+  getStudentWorkIssued() {
+    TeacherService.get_all_courses(this.state.user.userid)
+      .then((response) => {
+        const data = response === undefined ? [] : response;
+        const courses = [];
+        const del_courses = [];
+        for (const course of data) {
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            courses.push(course);
+          }
+        }
+
+        this.setState({ courses, del_courses });
+        for (const sub of response) {
+          this.courseId = sub.classId;
+          TeacherService.get_assignments(this.courseId) //get by course id
+            .then((data) => {
+              this.setState({ assignments: data });
+            });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  getStudentSubmissions() {
     TeacherService.get_all_courses(this.state.user.userid)
       .then((response) => {
         const data = response === undefined ? [] : response;
@@ -43,11 +71,12 @@ class TeacherScreen extends Component {
           }
         }
         this.setState({ courses, del_courses });
-        if (data.length > 0) {
-          this.courseId = data[0].classId;
-          TeacherService.get_assignments(this.courseId) //get by course id
+        for (const sub of response) {
+          this.courseId = sub.classId;
+          TeacherService.get_submissions(this.courseId) //get by course id
             .then((data) => {
-              this.setState({ assignments: data });
+              console.log(data);
+              this.setState({ submissions: data });
             });
         }
       })
@@ -55,7 +84,6 @@ class TeacherScreen extends Component {
         console.log(error);
       });
   }
-
   colors = (i) => {
     var colors = [
       "gradient-45deg-light-blue-cyan",
@@ -136,33 +164,17 @@ class TeacherScreen extends Component {
                           <h5 className="task-card-title">Student classwork</h5>
                         </li>
 
-                        <li className="collection-item dismissable">
-                          <label htmlFor="task2">
-                            Assignment 1
-                            <Link to="#" className="secondary-content">
-                              <span className="ultra-small">Due Date</span>
-                            </Link>
-                          </label>
-                          <Link to="#">
-                            <span className="task-cat red accent-2">
-                              Subject Name
-                            </span>
-                          </Link>
-                        </li>
                         {this.state.assignments.map((assignment, i) => (
                           <li className="collection-item dismissable">
                             <label htmlFor="task2">
-                              {assignment.name}
+                              {assignment.materialname}
                               <Link to="#" className="secondary-content">
-                                <span className="ultra-small">
-                                  {" "}
-                                  {assignment.date}{" "}
-                                </span>
+                                <span className="ultra-small">Due Date</span>
                               </Link>
                             </label>
                             <Link to="#">
                               <span className="task-cat red accent-2">
-                                {this.state.courses[0]}
+                                Subject: {assignment.classid}
                               </span>
                             </Link>
                           </li>

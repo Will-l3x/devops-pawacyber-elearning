@@ -29,8 +29,8 @@ class AssignmentsResourceCard extends Component {
     this.teacherid = this.user.userid;
     TeacherService.get_all_courses(this.teacherid).then((response) => {
       this.setState({ courses: response });
-      if (response.length > 0) {
-        this.courseId = response[0].classId;
+      for (const sub of response) {
+        this.courseId = sub.classId;
           TeacherService.get_assignments(this.courseId)
             .then((response) => {
               const allResources = response === undefined ? [] : response.reverse();
