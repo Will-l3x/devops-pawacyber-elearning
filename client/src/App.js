@@ -8,6 +8,7 @@ import AboutScreen from "./views/about/AboutScreen";
 import AdminScreen from "./views/admin/AdminScreen";
 import StudentScreen from "./views/student/StudentScreen";
 import TeacherScreen from "./views/teacher/TeacherScreen";
+import TeacherSubjectContent from "./views/teacher/TeacherSubjectContent";
 import SchoolManagement from "./views/admin/SchoolManagement";
 import SubscriptionScreen from "./views/admin/SubscriptionScreen";
 import CourseListScreen from "./views/admin/CourseListScreen";
@@ -169,6 +170,7 @@ class App extends Component {
           <Route exact path="/subscriptions" component={SubscriptionScreen} />
           <Route exact path="/enrol-student" component={EnrolStudent} />
 
+          <Route exact path="/teacher-subject-view" component={TeacherSubjectContent} />
           <Route exact path="/teacher" component={TeacherScreen} />
           <Route
             exact
