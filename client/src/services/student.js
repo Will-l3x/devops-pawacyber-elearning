@@ -102,15 +102,7 @@ async function get_student_all_classwork(course_id) {
   } catch (err) {
     console.error(err);
     return [
-      {
-        assignmentId: 3,
-        classid: "Checking connection...",
-        duedate: "null",
-        score: "",
-        assignmentname: "",
-        file: "",
-        assignmentStatus: "Submitted",
-      },
+     
     ];
   }
 }
@@ -122,17 +114,7 @@ async function get_student_pending_classwork(student_id) {
     return res.data;
   } catch (err) {
     console.error(err);
-    return [
-      {
-        assignmentId: 1,
-        courseName: "Check connection...",
-        dueDate: "null",
-        score: "null",
-        assignmentTitle: "null",
-        assignmentLink: "null",
-        assignmentStatus: "null",
-      },
-    ];
+    return [];
   }
 }
 
@@ -145,15 +127,7 @@ async function get_student_marked_classwork(student_id) {
     console.error(err);
 
     return [
-      {
-        assignmentId: 1,
-        courseName: "Check connection...",
-        dueDate: "null",
-        score: null,
-        assignmentTitle: "null",
-        assignmentLink: "null",
-        assignmentStatus: "Graded",
-      },
+
     ];
   }
 }

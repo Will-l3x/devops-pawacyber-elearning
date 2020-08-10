@@ -6,7 +6,7 @@ import avatar from "../../assets/images/gallary/not_found.gif";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
 
-class TeacherResourceCard extends Component {
+class AssignmentsResourceCard extends Component {
   user = {};
   constructor(props) {
     super(props);
@@ -31,7 +31,7 @@ class TeacherResourceCard extends Component {
       this.setState({ courses: response });
       if (response.length > 0) {
         this.courseId = response[0].classId;
-          TeacherService.get_materials(this.courseId)
+          TeacherService.get_assignments(this.courseId)
             .then((response) => {
               const allResources = response === undefined ? [] : response.reverse();
               allResources.sort(
@@ -467,4 +467,4 @@ class Search extends React.Component {
   }
 }
 
-export default TeacherResourceCard;
+export default AssignmentsResourceCard;

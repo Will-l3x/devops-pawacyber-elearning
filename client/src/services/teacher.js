@@ -18,9 +18,10 @@ export const TeacherService = {
   get_teacher_pending_classwork,
   get_teacher_unmarked_classwork,
   get_submissions,
+
   post_material,
   post_assignment,
-  post_file,
+
   get_assignments,
   get_materials,
   enrol_student,
@@ -36,6 +37,7 @@ async function post_material(data) {
   }
 }
 
+
 async function post_assignment(data) {
   try {
     let res = await axios.post(`/new_assignment`, qs.stringify(data), config);
@@ -45,33 +47,27 @@ async function post_assignment(data) {
   }
 }
 
-async function post_file(data) {
+
+async function get_materials(course_id) {
+  //by class id
   try {
-    let res = await axios.post(
-      `https://cybers.azurewebsites.net/api/upload/new`,
-      qs.stringify(data),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return res.data;
+    let res = await axios.get(`/get_materials/${course_id}`, config);
+    return res.data.data;
   } catch (err) {
     console.error(err);
   }
 }
 
-async function get_materials(id) {
-  //by class id
+// classroom
+async function get_assignments(course_id) {
   try {
-    let res = await axios.get(`/get_materials/${id}`, config);
-    return res.data.data.materials;
+    let res = await axios.get(`/get_assignments/${course_id}`, config);
+    return res.data.data;
   } catch (err) {
     console.error(err);
   }
 }
+
 
 async function get_submissions(id) {
   //by Assingment ID
@@ -83,16 +79,6 @@ async function get_submissions(id) {
   }
 }
 
-// classroom
-async function get_assignments(course_id) {
-  try {
-    let res = await axios.get(`/get_assignments/${course_id}`, config);
-
-    return res.data.data;
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 // get all courses the teacher teaches
 async function get_all_courses(teacherid) {
@@ -113,6 +99,7 @@ async function enrol_student(data) {
     console.error(err);
   }
 }
+
 
 //Getting by class ID
 async function get_all_students(id) {

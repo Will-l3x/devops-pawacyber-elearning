@@ -11,6 +11,7 @@ import { AdminService } from "../../services/admin";
 import ClassOptions from "../../components/ClassOptions";
 import { Link } from "react-router-dom";
 import TeacherResourceCard from "./TeacherResourceCard";
+import { TeacherService } from "../../services/teacher";
 
 class UploadMaterial extends Component {
   constructor(props) {
@@ -60,25 +61,7 @@ class UploadMaterial extends Component {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.loggedUserId = this.user.userid;
     this.schoolid = this.user.schoolid;
-    this.getDashData();
   }
-
-  getDashData() {
-    const materials = [];
-    AdminService.get_all_resources().then((response) => {
-      if (response === undefined) {
-        console.log(response);
-      } else {
-        for (const material of response) {
-          materials.push(material);
-        }
-      }
-      this.setState({
-        rows: materials,
-      });
-    });
-  }
-
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -102,7 +85,7 @@ class UploadMaterial extends Component {
         grade: this.state.class.grade,
       };
 
-      UploadService.post_material(data).then((response) => {
+      TeacherService.post_material(data).then((response) => {
         if (response === undefined) {
           M.toast({
             html: "Resource Upload failed",
