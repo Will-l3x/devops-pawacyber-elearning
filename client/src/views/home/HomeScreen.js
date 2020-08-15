@@ -33,7 +33,7 @@ class HomeScreen extends Component {
       logoPos: 0,
       logoEnd: false,
       plans: [],
-      url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      url: "https://www.youtube.com/watch?v=YGiorD1Aifg.mp4",
       quotes: [
         {
           quote:
