@@ -5,7 +5,7 @@ class Pricing extends Component {
   pricingPlan = this.props.plan;
   render() {
     return (
-      <div className="col s12 m3">
+      <div className="col s12 m4">
         <div className="card">
           {/* {this.pricingPlan.bestOffer ? (
           <div className="label">

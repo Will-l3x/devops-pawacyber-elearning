@@ -8,8 +8,6 @@ import M from "materialize-css";
 import "../../assets/css/profile.css";
 import moment from "moment";
 import { AuthService } from "../../services/authServices";
-import { AdminService } from "../../services/admin";
-import { SchoolService } from "../../services/school";
 
 class ProfileScreen extends Component {
   constructor() {

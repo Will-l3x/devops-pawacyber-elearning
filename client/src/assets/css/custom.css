@@ -986,6 +986,9 @@ h3 {
 .max-height-600 {
   max-height: 600px !important;
 }
+.max-height-240 {
+  max-height: 240px !important;
+}
 
 .conference {
   margin: auto;
@@ -1255,4 +1258,42 @@ nav.modal-width-75 {
 }
 .active-view {
   color: #448aff !important;
+}
+.quote-text {
+	font-size: 40px;
+	font-family: 'Amatic SC', cursive;
+	text-align: center;
+	margin: 0 auto;
+	width: 80%;
+}
+
+.quote-footer{
+	margin: 10px 0 10px 0;
+	font-size: 20px;
+}
+
+.icon {
+	margin-top: 10px;
+	float: left;
+}
+
+.fa-quote-left {
+	position: relative;
+	top: 34px;
+}
+
+.fa-quote-right {
+	position: relative;
+	bottom: 23px;
+	float: right;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+.padding-top-0{
+  padding-top: 0px !important;
+}
+.padding-bottom-0{
+  padding-bottom: 0px !important;
 }

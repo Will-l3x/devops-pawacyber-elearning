@@ -8,9 +8,6 @@ class Footer extends Component {
           <span>
             Copyright © {new Date().getFullYear()} Pawa Cyber.
           </span>
-          <span className="right hide-on-small-only">
-            Design and Developed by Shingirirai Bishi and Kelvin Chelenje
-          </span>
         </div>
       </div>
     );
