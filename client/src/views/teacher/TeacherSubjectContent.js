@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import SideBar from "../../components/SideBar";
-import SubjectDescrip from "../../components/student-components/SubjectDescrip";
 import ShowAllAssignments from "../../components/student-components/showAllAssignments";
 import store from "../../config/store";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
-import VideoPriview from "../../components/student-components/VideoPreview";
 import TeacherResourceCard from "./TeacherResourceCard";
 
 import {StudentService} from '../../services/student';

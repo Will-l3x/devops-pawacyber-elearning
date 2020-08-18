@@ -958,11 +958,9 @@ input[type='checkbox'] {
 	display: block;
 	max-width: 19.5rem;
 	margin-right: auto;
-	margin-bottom: 6rem;
 	margin-left: auto;
 	border: 1px solid #c4d8dc;
-	border-radius: 0.5rem;
-	vertical-align: top;
+	border-radius: 10px;
 }
 
 .cards-2 .card .card-body {

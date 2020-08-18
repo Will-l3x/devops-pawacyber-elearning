@@ -30,16 +30,14 @@ class ProfileScreen extends Component {
     this.handleSavePass = this.handleSavePass.bind(this);
   }
   componentDidMount() {
-    console.log(this.state.user);
     this.getUserDetails();
   }
 
   getUserDetails = () => {
     AuthService.profile()
       .then((response) => {
-        this.setState({ uuser: response.data.data.Profile[0] }, () => {
-          console.log(this.state.uuser);
-        });
+        console.log(response);
+        this.setState({ uuser: response.data.data.Profile[0] });
       })
       .catch((error) => console.log(error));
   };

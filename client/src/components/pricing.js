@@ -6,7 +6,7 @@ class Pricing extends Component {
   render() {
     return (
       <div className="col s12 m4">
-        <div className="card">
+        <div className="card z-depth-4">
           {/* {this.pricingPlan.bestOffer ? (
           <div className="label">
             <p className="best-value">Best Value</p>

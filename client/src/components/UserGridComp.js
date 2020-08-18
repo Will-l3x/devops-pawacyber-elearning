@@ -363,7 +363,7 @@ class UserGridComp extends Component {
         </main>
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
-          <div className="col l12 center-align">
+          <div className="col l12 center-align" style={{paddingTop: 20}}>
             <ul className="pagination">
               <li
                 className={

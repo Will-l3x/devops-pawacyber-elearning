@@ -99,7 +99,6 @@ class HomeScreen extends Component {
       instance2.next();
       setTimeout(autoplay, 5500);
     }
-
   }
 
   getDashData() {
@@ -116,7 +115,6 @@ class HomeScreen extends Component {
     const pageNumber = this.state.currentPageNumber + 1;
     this.setState({ currentPageNumber: pageNumber });
   };
-
 
   render() {
     return (
@@ -500,11 +498,9 @@ class HomeScreen extends Component {
               </div>
               <hr className="invis" />
               <div className="row">
-                <div className="col s12">
-                  {this.state.plans.map((plan, i) => (
-                    <Pricing key={i} plan={plan}></Pricing>
-                  ))}
-                </div>
+                {this.state.plans.map((plan, i) => (
+                  <Pricing key={i} plan={plan}></Pricing>
+                ))}
               </div>
             </div>
           </div>
