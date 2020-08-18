@@ -18,6 +18,7 @@ export const AuthService = {
   login,
   profile,
   update_profile,
+  change_password,
 };
 
 //Register New User
@@ -66,7 +67,15 @@ async function profile() {
 }
 async function update_profile(data) {
   try {
-    let res = await axios.put("/update_profile", data, config);
+    let res = await axios.put("/update_profile", qs.stringify(data), config);
+    return res;
+  } catch (err) {
+    console.error(err);
+  }
+}
+async function change_password(data) {
+  try {
+    let res = await axios.put("/changepw", qs.stringify(data), config);
     return res;
   } catch (err) {
     console.error(err);

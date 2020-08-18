@@ -33,10 +33,10 @@ async function update_profile(req, res) {
     var id = req.decoded.userid;
     var role = req.decoded.roleid;
 
-    var fname = req.body.supplierid;
-    var lname = req.body.price;
-    var tittle = req.body.descr;
-    var dob = req.body.service;
+    var fname = req.body.firstname;
+    var lname = req.body.lastname;
+    var tittle = req.body.title;
+    var dob = req.body.dob;
 
     var ph = "";
 

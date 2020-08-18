@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { StudentService } from "../../services/student";
-import { AdminService } from "../../services/admin";
+import { TeacherService } from "../../services/teacher";
 import "../../assets/css/list-grid-comp.css";
 import avatar from "../../assets/images/gallary/not_found.gif";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
 
-class ResourceCard extends Component {
+class TeacherResourceCard extends Component {
+  user = {};
   constructor(props) {
     super(props);
     this.state = {
@@ -19,32 +20,44 @@ class ResourceCard extends Component {
   }
 
   componentDidMount() {
+    this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
   }
 
   getDashData() {
-    AdminService.get_all_resources().then((response) => {
-      const allResources = response === undefined ? [] : response.reverse();
-      allResources.sort(
-        (a, b) => new Date(b.materialname) - new Date(a.materialname)
-      );
+    console.log(this.user);
+    this.teacherid = this.user.userid;
+    TeacherService.get_all_courses(this.teacherid).then((response) => {
+      this.setState({ courses: response });
+      for (const sub of response) {
+        this.courseId = sub.classId;
+        TeacherService.get_materials(this.courseId)
+          .then((response) => {
+            const allResources = response === undefined ? [] : response.reverse();
+            allResources.sort(
+              (a, b) => new Date(b.materialname) - new Date(a.materialname)
+            );
 
-      let pages = [];
-      let perPage = 24;
-      const totalPageCount = Math.ceil(allResources.length / perPage);
+            let pages = [];
+            let perPage = 24;
+            const totalPageCount = Math.ceil(allResources.length / perPage);
 
-      for (var i = 1; i <= totalPageCount; i++) {
-        pages.push(i);
+            for (var i = 1; i <= totalPageCount; i++) {
+              pages.push(i);
+            }
+
+            const resources = this.pageArraySplit(allResources, {
+              currentPageNumber: this.state.currentPageNumber,
+              perPage,
+            });
+
+            this.setState({ pages, resources, allResources });
+          });
       }
-
-      const resources = this.pageArraySplit(allResources, {
-        currentPageNumber: this.state.currentPageNumber,
-        perPage,
-      });
-
-      this.setState({ pages, resources, allResources });
+      
     });
   }
+
 
   download(resource) {
     var data = {
@@ -98,7 +111,7 @@ class ResourceCard extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-      this.state.pages.length < 1
+        this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber - 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -109,7 +122,7 @@ class ResourceCard extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-      this.state.pages.length < 1
+        this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber + 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -144,7 +157,7 @@ class ResourceCard extends Component {
                 ></img>
                 <br />
                 <br />
-                No Results Found!
+                No Resources Found!
               </p>
             </div>
           ) : this.state.searchText === "" ? (
@@ -317,8 +330,8 @@ class ResourceCard extends Component {
         </main>
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
-          <div className="col l12 center-align" style={{ paddingTop: 20 }}>
-            <ul className="pagination">
+          <div className="col l12 center-align">
+            <ul className="pagination" style={{ paddingTop: 20 }}>
               <li
                 className={
                   this.state.currentPageNumber === 1 ||
@@ -432,7 +445,7 @@ class Search extends React.Component {
     return (
       <form className="Search" onSubmit={(e) => e.preventDefault()}>
         <div
-          className="white border-radius-10 z-depth-5"
+          className="white border-radius-10 z-depth-1"
           style={{ height: 46, marginBottom: 30 }}
         >
           <div className="left" style={{ width: "90%", marginLeft: 7 }}>
@@ -455,4 +468,4 @@ class Search extends React.Component {
   }
 }
 
-export default ResourceCard;
+export default TeacherResourceCard;

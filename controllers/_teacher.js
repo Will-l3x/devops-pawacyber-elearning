@@ -757,7 +757,7 @@ let getSubmissions = (req, res) => {
   } else {
     let p = req.params.id;
     let q = `select * from student_assignments \
-    where student_assignments.assId = ${p}`;
+    where student_assignments.assignmentId = ${p}`;
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {

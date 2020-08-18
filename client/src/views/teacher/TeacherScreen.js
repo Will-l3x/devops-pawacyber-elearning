@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
+
 import SideBar from "../../components/SideBar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import TeacherActions from "../../actions/teacher";
 import { TeacherService } from "../../services/teacher";
+import { course_data } from "../../actions/student";
 
 class TeacherScreen extends Component {
   // Get teacher subjects
   // Get Assignments by subject above
   // Get submissions by Assignement obtained above
-  constructor(props) {
-    super(props);
+  constructor(prop) {
+    super(prop);
     this.state = {
       user:
         JSON.parse(localStorage.getItem("user")) === null
@@ -25,10 +27,39 @@ class TeacherScreen extends Component {
   }
   courseId = "";
   componentDidMount() {
-    this.getDashData();
+    this.getStudentWorkIssued();
+    this.getStudentSubmissions();
   }
 
-  getDashData() {
+  getStudentWorkIssued() {
+    TeacherService.get_all_courses(this.state.user.userid)
+      .then((response) => {
+        const data = response === undefined ? [] : response;
+        const courses = [];
+        const del_courses = [];
+        for (const course of data) {
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            courses.push(course);
+          }
+        }
+
+        this.setState({ courses, del_courses });
+        for (const sub of response) {
+          this.courseId = sub.classId;
+          TeacherService.get_assignments(this.courseId) //get by course id
+            .then((data) => {
+              this.setState({ assignments: data });
+            });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  getStudentSubmissions() {
     TeacherService.get_all_courses(this.state.user.userid)
       .then((response) => {
         const data = response === undefined ? [] : response;
@@ -42,11 +73,12 @@ class TeacherScreen extends Component {
           }
         }
         this.setState({ courses, del_courses });
-        if (data.length > 0) {
-          this.courseId = data[0].classId;
-          TeacherService.get_assignments(this.courseId) //get by course id
+        for (const sub of response) {
+          this.courseId = sub.classId;
+          TeacherService.get_submissions(this.courseId) //get by course id
             .then((data) => {
-              this.setState({ assignments: data });
+             
+              this.setState({ submissions: data });
             });
         }
       })
@@ -54,7 +86,6 @@ class TeacherScreen extends Component {
         console.log(error);
       });
   }
-
   colors = (i) => {
     var colors = [
       "gradient-45deg-light-blue-cyan",
@@ -88,39 +119,40 @@ class TeacherScreen extends Component {
                   <div className="row">
                     {this.state.courses.map((course, i) => (
                       <div key={i} className="col s12 m6 l3">
-                        <div
-                          className={`card border-radius-10 ${this.colors(
-                            i
-                          )} white-text hovCard`}
-                          style={{
-                            boxShadow: "100px",
-                            borderRadius: "5px",
-                          }}
-                        >
+                        <div className="col s12">
                           <div
-                            className="col s9 sub-card center min-height-100"
-                            style={{
-                              margin: "auto",
-                              paddingTop: "25px",
-                            }}
+                            className={`card ${this.colors(i)} white-text hovCard`}
+                            style={{ boxShadow: "100px", borderRadius: "5px" }}
                           >
-                            <h5 className="white-text">{course.classname}</h5>
-                          </div>
-                          <div
-                            className="col s2 min-height-100"
-                            style={{
-                              margin: "auto",
-                              paddingTop: "30px",
-                            }}
-                          >
-                            <a href="#!">
-                              <i
-                                className={`material-icons background-round`}
-                                style={{ padding: "10px", color: "white" }}
+                            <div className="col s11 m7  sub-card ">
+                              <p style={{ fontSize: "16px" }} className="white-text" >{course.classname}</p>
+                            </div>
+                            <div
+                              className="col s1"
+                              style={{
+                                paddingTop: "10px",
+                                paddingBottom: "10px",
+                                position: "center",
+                                paddingLeft: "40px",
+                                paddingRight: "10px",
+                              }}
+                            >
+                              <Link
+                                to="/teacher-subject-view" onClick={() => {
+                                  this.props.course_data({
+                                    course: {
+                                      name: course.classname,
+                                      courseId: course.classId,
+                                      color: this.colors(i)
+                                    }
+                                  });
+                                }}
                               >
-                                link
-                              </i>
-                            </a>
+
+                                <i className={`material-icons background-round mt-2 `} style={{ padding: "10px", color: "white" }}>
+                                  link</i>
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -135,33 +167,17 @@ class TeacherScreen extends Component {
                           <h5 className="task-card-title">Student classwork</h5>
                         </li>
 
-                        <li className="collection-item dismissable">
-                          <label htmlFor="task2">
-                            Assignment 1
-                            <Link to="#" className="secondary-content">
-                              <span className="ultra-small">Due Date</span>
-                            </Link>
-                          </label>
-                          <Link to="#">
-                            <span className="task-cat red accent-2">
-                              Subject Name
-                            </span>
-                          </Link>
-                        </li>
                         {this.state.assignments.map((assignment, i) => (
                           <li className="collection-item dismissable">
                             <label htmlFor="task2">
-                              {assignment.name}
+                              {assignment.assignmentname}
                               <Link to="#" className="secondary-content">
-                                <span className="ultra-small">
-                                  {" "}
-                                  {assignment.date}{" "}
-                                </span>
+                                <span className="ultra-small"> {assignment.duedate}</span>
                               </Link>
                             </label>
                             <Link to="#">
                               <span className="task-cat red accent-2">
-                                {this.state.courses[0]}
+                                Subject: {assignment.classid}
                               </span>
                             </Link>
                           </li>
@@ -209,7 +225,7 @@ class TeacherScreen extends Component {
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = Object.assign({}, TeacherActions);
+const mapDispatchToProps = Object.assign({course_data}, TeacherActions);
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(TeacherScreen)

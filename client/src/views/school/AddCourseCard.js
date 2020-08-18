@@ -229,7 +229,7 @@ class AddCourseCard extends Component {
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
           <div className="col l12 center-align">
-            <ul className="pagination">
+            <ul className="pagination" style={{ paddingTop: 20 }}>
               <li
                 className={
                   this.state.currentPageNumber === 1

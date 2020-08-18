@@ -16,6 +16,7 @@ class UserGridComp extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      studs: [],
       user:
         JSON.parse(localStorage.getItem("user")) === null
           ? { roleid: 3 }
@@ -186,8 +187,11 @@ class UserGridComp extends Component {
               }
             }
             for (const course of courses) {
-              TeacherService.get_all_students(course.classId)
+
+             TeacherService.get_all_students(course.classId)
+
                 .then((response) => {
+
                   if (response === undefined) {
                     console.log(response);
                   } else {
@@ -198,39 +202,39 @@ class UserGridComp extends Component {
                       );
                       students.push(student);
                     }
+                    const allUsers = [];
+                    const allUserz = students;
+                    for (const uza of allUserz) {
+                      uza.name = uza.firstname + " " + uza.lastname;
+                      uza.rolename = "Student";
+                      allUsers.push(uza);
+                    }
+      
+                    allUsers.sort(
+                      (a, b) => new Date(b.lastname) - new Date(a.lastname)
+                    );
+      
+                    let pages = [];
+                    let perPage = 12;
+                    const totalPageCount = Math.ceil(allUsers.length / perPage);
+      
+                    for (var i = 1; i <= totalPageCount; i++) {
+                      pages.push(i);
+                    }
+      
+                    const users = this.pageArraySplit(allUsers, {
+                      currentPageNumber: this.state.currentPageNumber,
+                      perPage,
+                    });
+      
+                    this.setState({ pages, users, allUsers });
+
                   }
                 })
                 .catch((error) => {
                   console.log(error);
                 });
             }
-
-            const allUsers = [];
-            const allUserz = students;
-            for (const uza of allUserz) {
-              uza.name = uza.firstname + " " + uza.lastname;
-              uza.rolename = "Student";
-              allUsers.push(uza);
-            }
-
-            allUsers.sort(
-              (a, b) => new Date(b.lastname) - new Date(a.lastname)
-            );
-
-            let pages = [];
-            let perPage = 12;
-            const totalPageCount = Math.ceil(allUsers.length / perPage);
-
-            for (var i = 1; i <= totalPageCount; i++) {
-              pages.push(i);
-            }
-
-            const users = this.pageArraySplit(allUsers, {
-              currentPageNumber: this.state.currentPageNumber,
-              perPage,
-            });
-
-            this.setState({ pages, users, allUsers });
           })
           .catch((error) => {
             console.log(error);
@@ -258,7 +262,7 @@ class UserGridComp extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-      this.state.pages.length < 1
+        this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber - 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -269,7 +273,7 @@ class UserGridComp extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-      this.state.pages.length < 1
+        this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber + 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -286,86 +290,86 @@ class UserGridComp extends Component {
               .toLowerCase()
               .includes(this.state.searchText.toLowerCase())
           ).length < 1 ? (
-            <div className="row">
-              <div className="divider" style={{ marginTop: 30 }}></div>
-              <p
-                style={{
-                  textAlign: "center",
-                  fontSize: "20px",
-                }}
-              >
-                <img
-                  src={avatar}
-                  alt="Avatar"
+              <div className="row">
+                <div className="divider" style={{ marginTop: 30 }}></div>
+                <p
                   style={{
-                    maxWidth: "100%",
-                    maxHeight: "150px",
+                    textAlign: "center",
+                    fontSize: "20px",
                   }}
-                ></img>
-                <br />
-                <br />
+                >
+                  <img
+                    src={avatar}
+                    alt="Avatar"
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: "150px",
+                    }}
+                  ></img>
+                  <br />
+                  <br />
                 No Results Found!
               </p>
-            </div>
-          ) : this.state.searchText === "" ? (
-            this.state.users
-              .filter((user) =>
-                user.name
-                  .toLowerCase()
-                  .includes(this.state.searchText.toLowerCase())
-              )
-              .map((user, index) => (
-                <User
-                  key={index}
-                  name={user.name}
-                  fn={user.firstname}
-                  ln={user.lastname}
-                  email={user.email}
-                  pic={dp}
-                  dob={user.dob}
-                  datejoined={user.datejoined}
-                  enrolmentkey={user.enrolmentkey}
-                  firstname={user.firstname}
-                  gradeid={user.gradeid}
-                  lastname={user.lastname}
-                  rolename={user.rolename}
-                />
-              ))
-          ) : (
-            this.state.allUsers
-              .filter((user) =>
-                user.name
-                  .toLowerCase()
-                  .includes(this.state.searchText.toLowerCase())
-              )
-              .map((user, index) => (
-                <User
-                  key={index}
-                  name={user.name}
-                  fn={user.firstname}
-                  ln={user.lastname}
-                  email={user.email}
-                  pic={user.pic}
-                  dob={user.dob}
-                  datejoined={user.datejoined}
-                  enrolmentkey={user.enrolmentkey}
-                  firstname={user.firstname}
-                  gradeid={user.gradeid}
-                  lastname={user.lastname}
-                  rolename={user.rolename}
-                />
-              ))
-          )}
+              </div>
+            ) : this.state.searchText === "" ? (
+              this.state.users
+                .filter((user) =>
+                  user.name
+                    .toLowerCase()
+                    .includes(this.state.searchText.toLowerCase())
+                )
+                .map((user, index) => (
+                  <User
+                    key={index}
+                    name={user.name}
+                    fn={user.firstname}
+                    ln={user.lastname}
+                    email={user.email}
+                    pic={dp}
+                    dob={user.dob}
+                    datejoined={user.datejoined}
+                    enrolmentkey={user.enrolmentkey}
+                    firstname={user.firstname}
+                    gradeid={user.gradeid}
+                    lastname={user.lastname}
+                    rolename={user.rolename}
+                  />
+                ))
+            ) : (
+                this.state.allUsers
+                  .filter((user) =>
+                    user.name
+                      .toLowerCase()
+                      .includes(this.state.searchText.toLowerCase())
+                  )
+                  .map((user, index) => (
+                    <User
+                      key={index}
+                      name={user.name}
+                      fn={user.firstname}
+                      ln={user.lastname}
+                      email={user.email}
+                      pic={user.pic}
+                      dob={user.dob}
+                      datejoined={user.datejoined}
+                      enrolmentkey={user.enrolmentkey}
+                      firstname={user.firstname}
+                      gradeid={user.gradeid}
+                      lastname={user.lastname}
+                      rolename={user.rolename}
+                    />
+                  ))
+              )}
         </main>
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
-          <div className="col l12 center-align">
+          <div className="col l12 center-align" style={{paddingTop: 20}}>
             <ul className="pagination">
               <li
                 className={
                   this.state.currentPageNumber === 1 ||
-                  this.state.pages.length < 1 ||
-                  this.state.searchText !== ""
+                    this.state.pages.length < 1 ||
+                    this.state.searchText !== ""
                     ? "disabled pointer-events-none"
                     : "waves-effect"
                 }
@@ -373,8 +377,8 @@ class UserGridComp extends Component {
                 <Link
                   className={
                     this.state.currentPageNumber === 1 ||
-                    this.state.pages.length < 1 ||
-                    this.state.searchText !== ""
+                      this.state.pages.length < 1 ||
+                      this.state.searchText !== ""
                       ? "disabled pointer-events-none"
                       : ""
                   }
@@ -392,42 +396,42 @@ class UserGridComp extends Component {
                   </Link>
                 </li>
               ) : (
-                this.state.pages.map((page) => {
-                  if (page === this.state.currentPageNumber) {
-                    return (
-                      <li key={page} className="active">
-                        <Link
-                          onClick={() => this.handlePageClick(page)}
-                          rel="noopener noreferer"
-                          to="#!"
-                        >
-                          {page}
-                        </Link>
-                      </li>
-                    );
-                  } else {
-                    return (
-                      <li key={page}>
-                        <Link
-                          onClick={(e) => {
-                            e.preventDefault();
-                            this.handlePageClick(page);
-                          }}
-                          rel="noopener noreferer"
-                          to="#!"
-                        >
-                          {page}
-                        </Link>
-                      </li>
-                    );
-                  }
-                })
-              )}
+                  this.state.pages.map((page) => {
+                    if (page === this.state.currentPageNumber) {
+                      return (
+                        <li key={page} className="active">
+                          <Link
+                            onClick={() => this.handlePageClick(page)}
+                            rel="noopener noreferer"
+                            to="#!"
+                          >
+                            {page}
+                          </Link>
+                        </li>
+                      );
+                    } else {
+                      return (
+                        <li key={page}>
+                          <Link
+                            onClick={(e) => {
+                              e.preventDefault();
+                              this.handlePageClick(page);
+                            }}
+                            rel="noopener noreferer"
+                            to="#!"
+                          >
+                            {page}
+                          </Link>
+                        </li>
+                      );
+                    }
+                  })
+                )}
               <li
                 className={
                   this.state.currentPageNumber === this.state.pages.length ||
-                  this.state.pages.length < 1 ||
-                  this.state.searchText !== ""
+                    this.state.pages.length < 1 ||
+                    this.state.searchText !== ""
                     ? "disabled pointer-events-none"
                     : "waves-effect"
                 }
@@ -436,8 +440,8 @@ class UserGridComp extends Component {
                   onClick={this.handleNextClick}
                   className={
                     this.state.currentPageNumber === this.state.pages.length ||
-                    this.state.pages.length < 1 ||
-                    this.state.searchText !== ""
+                      this.state.pages.length < 1 ||
+                      this.state.searchText !== ""
                       ? "disabled pointer-events-none"
                       : ""
                   }
@@ -474,7 +478,7 @@ class Search extends React.Component {
     return (
       <form className="Search" onSubmit={(e) => e.preventDefault()}>
         <div
-          className="white border-radius-10 z-depth-5"
+          className="white border-radius-10 z-depth-2"
           style={{ height: 46, marginBottom: 30 }}
         >
           <div className="left" style={{ width: "90%", marginLeft: 7 }}>

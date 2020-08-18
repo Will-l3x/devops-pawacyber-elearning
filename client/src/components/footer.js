@@ -4,12 +4,9 @@ class Footer extends Component {
   render() {
     return (
       <div className="footer-copyright">
-        <div className="container">
+        <div className="container center-align">
           <span>
             Copyright © {new Date().getFullYear()} Pawa Cyber.
-          </span>
-          <span className="right hide-on-small-only">
-            Design and Developed by Shingirirai Bishi and Kelvin Chelenje
           </span>
         </div>
       </div>

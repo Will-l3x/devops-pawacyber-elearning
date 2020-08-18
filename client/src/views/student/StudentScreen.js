@@ -10,6 +10,8 @@ import MarkedAssignments from "../../components/student-components/MarkedAssignm
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import { StudentService } from "../../services/student";
+import { TeacherService } from "../../services/teacher"
+import { isEmpty } from "lodash";
 
 class StudentScreen extends Component {
   constructor(props) {
@@ -18,6 +20,7 @@ class StudentScreen extends Component {
       courses: [],
       markedWork: [],
       pendingWork: [],
+      del_courses: []
     };
   }
 
@@ -36,18 +39,38 @@ class StudentScreen extends Component {
 
     StudentService.get_all_courses(this.studentData.studentId) // by student id
       .then((response) => {
-        this.setState({ courses: response === undefined ? [] : response });
+        const courses = [];
+        var assignments = [];
+        const assTemp = [];
+        const del_courses = [];
+        for (const course of response) {
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            courses.push(course);
+          }
+        }
+
+        this.setState({ courses, del_courses });
+        for (const sub of response) {
+          this.courseId = sub.classId;
+          TeacherService.get_assignments(this.courseId)
+            .then((data) => {
+
+              // assignments.push(data);   
+              if (isEmpty(data)) {
+
+              } else {
+                assignments = assTemp.concat(data);
+                this.setState({ pendingWork: assignments.reverse() });
+              }
+            });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
 
-    // StudentService.get_student_marked_classwork(1) // Course Id
-    // .then((response) => {
-    //   this.setState({ markedWork: response })
-    // });
-
-    // StudentService.get_student_pending_classwork(1) // Course Id
-    // .then((response) => {
-    //   this.setState({ pendingWork: response })
-    // });
   }
 
   render() {
@@ -86,10 +109,10 @@ class StudentScreen extends Component {
                         <ul className="task-card collection with-header border-radius-10">
                           <li className="collection-header teal accent-4">
                             <h5 className="task-card-title">
-                              Pending Assignments
+                              All Assignments
                             </h5>
                             <p className="task-card-title">
-                              Arranged by submission date
+                              Arranged by upload date
                             </p>
                           </li>
                           <PendingAssignments

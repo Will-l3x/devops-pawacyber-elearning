@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { StudentService } from "../../services/student";
-import { AdminService } from "../../services/admin";
+import { TeacherService } from "../../services/teacher";
 import "../../assets/css/list-grid-comp.css";
 import avatar from "../../assets/images/gallary/not_found.gif";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
 
-class ResourceCard extends Component {
+class AssignmentsResourceCard extends Component {
+  user = {};
   constructor(props) {
     super(props);
     this.state = {
@@ -19,32 +20,45 @@ class ResourceCard extends Component {
   }
 
   componentDidMount() {
+    this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
   }
 
   getDashData() {
-    AdminService.get_all_resources().then((response) => {
-      const allResources = response === undefined ? [] : response.reverse();
-      allResources.sort(
-        (a, b) => new Date(b.materialname) - new Date(a.materialname)
-      );
-
-      let pages = [];
-      let perPage = 24;
-      const totalPageCount = Math.ceil(allResources.length / perPage);
-
-      for (var i = 1; i <= totalPageCount; i++) {
-        pages.push(i);
+ 
+    this.teacherid = this.user.userid;
+    TeacherService.get_all_courses(this.teacherid).then((response) => {
+      this.setState({ courses: response });
+     
+      for (const sub of response) {
+        this.courseId = sub.classId;
+          TeacherService.get_assignments(this.courseId)
+            .then((response) => {
+              console.log(response);
+              const allResources = response === undefined ? [] : response.reverse();
+              allResources.sort(
+                (a, b) => new Date(b.assignmentname) - new Date(a.assignmentname)
+              );
+        
+              let pages = [];
+              let perPage = 24;
+              const totalPageCount = Math.ceil(allResources.length / perPage);
+        
+              for (var i = 1; i <= totalPageCount; i++) {
+                pages.push(i);
+              }
+        
+              const resources = this.pageArraySplit(allResources, {
+                currentPageNumber: this.state.currentPageNumber,
+                perPage,
+              });
+        
+              this.setState({ pages, resources, allResources });
+            });
       }
-
-      const resources = this.pageArraySplit(allResources, {
-        currentPageNumber: this.state.currentPageNumber,
-        perPage,
-      });
-
-      this.setState({ pages, resources, allResources });
     });
   }
+
 
   download(resource) {
     var data = {
@@ -122,7 +136,7 @@ class ResourceCard extends Component {
         <Search searchText={this.searchText} />
         <main className="row" style={{ minHeight: 350 }}>
           {this.state.resources.filter((resource) =>
-            resource.materialname
+            resource.assignmentname
               .toLowerCase()
               .includes(this.state.searchText.toLowerCase())
           ).length < 1 ? (
@@ -144,13 +158,13 @@ class ResourceCard extends Component {
                 ></img>
                 <br />
                 <br />
-                No Results Found!
+                No Resources Found!
               </p>
             </div>
           ) : this.state.searchText === "" ? (
             this.state.resources
               .filter((resource) =>
-                resource.materialname
+                resource.assignmentname
                   .toLowerCase()
                   .includes(this.state.searchText.toLowerCase())
               )
@@ -166,7 +180,7 @@ class ResourceCard extends Component {
                     <div className="padding-4">
                       <div className="col s12 m12">
                         <p className="no-margin" style={{ color: "teal" }}>
-                          <b>{resource.materialname}</b>
+                          <b>Assignment Title: {resource.assignmentname}</b>
                         </p>
                         <p
                           className="no-margin"
@@ -233,7 +247,7 @@ class ResourceCard extends Component {
           ) : (
             this.state.allResources
               .filter((resource) =>
-                resource.materialname
+                resource.assignmentname
                   .toLowerCase()
                   .includes(this.state.searchText.toLowerCase())
               )
@@ -249,7 +263,7 @@ class ResourceCard extends Component {
                     <div className="padding-4">
                       <div className="col s12 m12">
                         <p className="no-margin" style={{ color: "teal" }}>
-                          <b>{resource.materialname}</b>
+                          <b>{resource.assignmentname}</b>
                         </p>
                         <p
                           className="no-margin"
@@ -317,8 +331,8 @@ class ResourceCard extends Component {
         </main>
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
-          <div className="col l12 center-align" style={{ paddingTop: 20 }}>
-            <ul className="pagination">
+          <div className="col l12 center-align">
+            <ul className="pagination" style={{ paddingTop: 20 }}>
               <li
                 className={
                   this.state.currentPageNumber === 1 ||
@@ -432,7 +446,7 @@ class Search extends React.Component {
     return (
       <form className="Search" onSubmit={(e) => e.preventDefault()}>
         <div
-          className="white border-radius-10 z-depth-5"
+          className="white border-radius-10 z-depth-1"
           style={{ height: 46, marginBottom: 30 }}
         >
           <div className="left" style={{ width: "90%", marginLeft: 7 }}>
@@ -455,4 +469,4 @@ class Search extends React.Component {
   }
 }
 
-export default ResourceCard;
+export default AssignmentsResourceCard;

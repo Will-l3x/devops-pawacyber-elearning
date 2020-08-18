@@ -23,6 +23,7 @@ export const AdminService = {
 
   post_new_school,
   get_all_schools,
+  get_school,
   post_new_plan,
   get_subs_plans,
   subscribe_school,
@@ -180,6 +181,17 @@ async function get_all_schools() {
   try {
     let res = await axios.get(`/schools`, config);
     return res.data.data.schools;
+  } catch (err) {
+    console.error(err);
+    return [
+
+    ];
+  }
+}
+async function get_school(id) {
+  try {
+    let res = await axios.get(`/school/${id}`, config);
+    return res.data.data;
   } catch (err) {
     console.error(err);
     return [

@@ -6,6 +6,7 @@ import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
 import SubcribeClassOptions from "./SubcribeClassOptions";
+import { AsyncStorage } from 'AsyncStorage';
 // import SchoolOptions from "./SchoolOptions";
 var globalGrade = "1";
 export default class RegistrationForm extends Component {
@@ -28,7 +29,7 @@ export default class RegistrationForm extends Component {
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
   }
 
-  
+
 
   componentDidMount() {
 
@@ -159,52 +160,71 @@ export default class RegistrationForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if (this.state.selectedSchool === null) {
-      alert("Please refresh page and select a school");
-      return false;
-    } else if (this.state.selectedSchool === undefined) {
-      alert("Please refresh page and select a school");
-      return false;
-    } else {
-      var registerAdmin = {
-        roleid: 3,
-        email: event.target.email.value,
-        password: event.target.password.value,
-        gradeid: globalGrade,
-        firstname: event.target.firstname.value,
-        lastname: event.target.lastname.value,
-        title: this.state.gender === "1" ? "Mr" : "Miss",
-        vpassword: event.target.vpassword.value,
-        dob: event.target.dob.value,
-        genderid: this.state.gender,
-        schoolid:this.state.selectedSchool,
-      };
-    }
+    const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
 
-    localStorage.removeItem("studentData");
-    localStorage.setItem("studentData", JSON.stringify(registerAdmin));
-    setTimeout(
-      function () {
-        this.setState({ proceedToPay: true });
-      }.bind(this),
-      300
-    );
+    if (event.target.vpassword.value === event.target.password.value) {
+      if (mediumRegex.test(event.target.password.value)) {
+        if (this.state.selectedSchool === null) {
+          alert("Please refresh page and select a school");
+          return false;
+        } else if (this.state.selectedSchool === undefined) {
+          alert("Please refresh page and select a school");
+          return false;
+        } else {
+          var registerAdmin = {
+            roleid: 3,
+            email: event.target.email.value,
+            password: event.target.password.value,
+            gradeid: globalGrade,
+            firstname: event.target.firstname.value,
+            lastname: event.target.lastname.value,
+            title: this.state.gender === "1" ? "Mr" : "Miss",
+            vpassword: event.target.vpassword.value,
+            dob: event.target.dob.value,
+            genderid: this.state.gender,
+            schoolid: "24",
+          };
+
+          localStorage.removeItem("studentData");
+          localStorage.setItem("studentData", JSON.stringify(registerAdmin));
+
+          try {
+            AsyncStorage.setItem('studentData', JSON.stringify(registerAdmin));
+            setTimeout(
+              function () {
+                this.setState({ proceedToPay: true });
+              }.bind(this),
+              300
+            );
+          } catch (error) {
+            M.toast({
+              html: "Failed to save data",
+              classes: "red accent-2",
+            });
+          }
+        }
+
+      } else {
+        M.toast({
+          html: "Low password strength. Password should include a minimum of 8 characters. Including at least 1 digit.",
+          classes: "red",
+        });
+      }
+    } else {
+      M.toast({
+        html: "Password not matching",
+        classes: "red",
+      });
+    }
   };
 
 
   handlePayment = (event) => {
     event.preventDefault();
     this.setState({ loading: true });
-    localStorage.setItem(
-      "selectedPackage",
-      JSON.stringify(this.state.selectedOption)
-    );
-    localStorage.setItem(
-      "selectedSubjects",
-      JSON.stringify(this.state.selectedsubs)
-    );
 
     var det = JSON.parse(localStorage.getItem("studentData"));
+
     var paymentDetails = {
       paymentAmount: parseFloat(this.state.selectedOption.price),
       customerEmail: det.email,
@@ -215,6 +235,18 @@ export default class RegistrationForm extends Component {
     };
 
     localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+
+    try {
+      AsyncStorage.setItem("selectedPackage", JSON.stringify(this.state.selectedOption));
+      AsyncStorage.setItem("selectedSubjects", JSON.stringify(this.state.selectedsubs));
+      AsyncStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+    } catch (error) {
+      M.toast({
+        html: "Failed to save subjects data",
+        classes: "red accent-2",
+      });
+    }
+
 
     PaymentService.createToken(paymentDetails).then((response) => {
       if (response === undefined) {
@@ -384,6 +416,7 @@ export default class RegistrationForm extends Component {
                   type="password"
                   className="validate"
                   name="password"
+
                   required
                 ></input>
                 <label htmlFor="password">Password *</label>

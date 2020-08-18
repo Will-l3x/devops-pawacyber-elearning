@@ -15,14 +15,19 @@ class ProfileScreen extends Component {
     this.state = {
       user:
         JSON.parse(localStorage.getItem("user")) === null
-          ? { roleid: 3 }
+          ? {}
           : JSON.parse(localStorage.getItem("user")),
+      uuser: {},
+      security: {},
       edit: true,
+      editpass: true,
       tab: "about",
       imagePreviewUrl: dp,
     };
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleEditPass = this.handleEditPass.bind(this);
+    this.handleSavePass = this.handleSavePass.bind(this);
   }
   componentDidMount() {
     this.getUserDetails();
@@ -31,19 +36,23 @@ class ProfileScreen extends Component {
   getUserDetails = () => {
     AuthService.profile()
       .then((response) => {
-        this.setState({ user: response.data.data.Profile[0] });
+        console.log(response);
+        this.setState({ uuser: response.data.data.Profile[0] });
       })
       .catch((error) => console.log(error));
   };
   handleEdit = () => {
     this.setState({ edit: false });
   };
+  handleEditPass = () => {
+    this.setState({ editpass: false });
+  };
 
   handleSave = (event) => {
     event.preventDefault();
 
     this.setState({ edit: true });
-    AuthService.update_profile(this.state.user)
+    AuthService.update_profile(this.state.uuser)
       .then((response) => {
         console.log(response);
         if (response === undefined) {
@@ -65,13 +74,49 @@ class ProfileScreen extends Component {
           this.setState({ edit: true });
         } else {
           this.getUserDetails();
-          this.setState({ edit: true });
         }
       })
       .catch((error) => {
         console.log(error);
         M.toast({
           html: `An error occured, update failed!`,
+          classes: "red accent-2",
+        });
+        this.getUserDetails();
+      });
+  };
+  handleSavePass = (event) => {
+    event.preventDefault();
+
+    this.setState({ editpass: true });
+    AuthService.change_password(this.state.security)
+      .then((response) => {
+        console.log(response);
+        if (response === undefined) {
+          M.toast({
+            html: `An error occured, password change failed!`,
+            classes: "red accent-2",
+          });
+        } else if (response.data.message === "An error occured") {
+          M.toast({
+            html: `An error occured, password change failed!`,
+            classes: "red accent-2",
+          });
+        } else if (response.data.success === true) {
+          this.getUserDetails();
+          M.toast({
+            html: "Password change Successfull",
+            classes: "green accent-3",
+          });
+          this.setState({ edit: true });
+        } else {
+          this.getUserDetails();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        M.toast({
+          html: `An error occured, password change failed!`,
           classes: "red accent-2",
         });
         this.getUserDetails();
@@ -93,10 +138,18 @@ class ProfileScreen extends Component {
 
   onChange = (e) => {
     e.preventDefault();
-    const user = this.state.user;
-    user[e.target.name] = e.target.value;
+    const uuser = this.state.uuser;
+    uuser[e.target.name] = e.target.value;
     this.setState({
-      user,
+      uuser,
+    });
+  };
+  onChangePass = (e) => {
+    e.preventDefault();
+    const security = this.state.security;
+    security[e.target.name] = e.target.value;
+    this.setState({
+      security,
     });
   };
   render() {
@@ -147,13 +200,13 @@ class ProfileScreen extends Component {
 
                     <div className="card--name">
                       <h2 style={{ textTransform: "capitalize" }}>
-                        {this.state.user.firstname} {this.state.user.lastname}
+                        {this.state.uuser.firstname} {this.state.uuser.lastname}
                       </h2>
                       <div className="card--handle">
-                        <span className="handle">{this.state.user.email}</span>
+                        <span className="handle">{this.state.uuser.email}</span>
                         <span className="circle"></span>
                         <span className="category">
-                          {this.state.user.rolename}
+                          {this.state.uuser.rolename}
                         </span>
                       </div>
                     </div>
@@ -212,7 +265,7 @@ class ProfileScreen extends Component {
                       <div className="heading">Details</div>
                       <div className="date">
                         Joined{" "}
-                        {moment(new Date(this.state.user.activefrom)).format(
+                        {moment(new Date(this.state.uuser.activefrom)).format(
                           "LL"
                         )}
                         <svg
@@ -246,9 +299,9 @@ class ProfileScreen extends Component {
                               className="form-input input-meeting"
                               onChange={this.onChange}
                               defaultValue={
-                                this.state.user.firstname === null
+                                this.state.uuser.firstname === null
                                   ? ""
-                                  : this.state.user.firstname
+                                  : this.state.uuser.firstname
                               }
                               required
                               readOnly={this.state.edit}
@@ -269,9 +322,9 @@ class ProfileScreen extends Component {
                               className="form-input input-meeting"
                               onChange={this.onChange}
                               defaultValue={
-                                this.state.user.lastname === null
+                                this.state.uuser.lastname === null
                                   ? ""
-                                  : this.state.user.lastname
+                                  : this.state.uuser.lastname
                               }
                               required
                               readOnly={this.state.edit}
@@ -288,16 +341,16 @@ class ProfileScreen extends Component {
                               className="form-input input-meeting"
                               onChange={this.onChange}
                               defaultValue={
-                                this.state.user.email === null
+                                this.state.uuser.email === null
                                   ? ""
-                                  : this.state.user.email
+                                  : this.state.uuser.email
                               }
                               required
                               readOnly={true}
                             />
                           </fieldset>
                         </div>
-
+                        {/* 
                         <div className="col s6">
                           <fieldset className="form-group">
                             <ReactFormLabel
@@ -311,9 +364,9 @@ class ProfileScreen extends Component {
                               className="form-input input-meeting"
                               onChange={this.onChange}
                               defaultValue={
-                                this.state.user.contacts === null
+                                this.state.uuser.contacts === null
                                   ? ""
-                                  : this.state.user.contacts
+                                  : this.state.uuser.contacts
                               }
                               required
                               readOnly={this.state.edit}
@@ -335,13 +388,132 @@ class ProfileScreen extends Component {
                               rows="3"
                               onChange={this.onChange}
                               defaultValue={
-                                this.state.user.address === null
+                                this.state.uuser.address === null
                                   ? ""
-                                  : this.state.user.address
+                                  : this.state.uuser.address
                               }
                               required
                               readOnly={this.state.edit}
                             ></textarea>
+                          </fieldset>
+                        </div>
+                      */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="col s12 justfiyCenter"
+                style={{ minHeight: 400, paddingTop: 25 }}
+              >
+                <div className="profile-card  border-radius-10 z-depth-5">
+                  <div className="card--insights">
+                    <div className="card--heading">
+                      <div className="heading">Security</div>
+                      <div className="card--button">
+                        {this.state.editpass ? (
+                          <button
+                            style={{ width: "180px" }}
+                            onClick={this.handleEditPass}
+                            className="border-radius-5"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#fff"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="feather feather-edit"
+                            >
+                              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                            <span>Change Password</span>
+                          </button>
+                        ) : (
+                          <button
+                            style={{ width: "170px" }}
+                            onClick={this.handleSavePass}
+                            className="green accent-3 border-radius-5"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="feather feather-save"
+                            >
+                              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                              <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                            <span>Save Password</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="insights justfiyCenter">
+                      <div className="insight row tab-active">
+                        <div className="col s12">
+                          <fieldset className="form-group col s6 no-padding no-margin">
+                            <ReactFormLabel
+                              htmlFor="oldpassword"
+                              title="Current Password:"
+                            />
+                            <input
+                              id="oldpassword"
+                              type="password"
+                              name="oldpassword"
+                              className="form-input input-meeting"
+                              onChange={this.onChangePass}
+                              required
+                              readOnly={this.state.editpass}
+                            />
+                          </fieldset>
+                        </div>
+                        <div className="col s6">
+                          <fieldset className="form-group">
+                            <ReactFormLabel
+                              htmlFor="newpassword"
+                              title="New Password:"
+                            />
+                            <input
+                              id="newpassword"
+                              type="password"
+                              name="newpassword"
+                              className="form-input input-meeting"
+                              onChange={this.onChangePass}
+                              required
+                              readOnly={this.state.editpass}
+                            />
+                          </fieldset>
+                        </div>
+
+                        <div className="col s6">
+                          <fieldset className="form-group">
+                            <ReactFormLabel
+                              htmlFor="newpassword"
+                              title="Verify New Password:"
+                            />
+                            <input
+                              id="vnewpassword"
+                              type="password"
+                              name="vnewpassword"
+                              className="form-input input-meeting"
+                              onChange={this.onChangePass}
+                              required
+                              readOnly={this.state.editpass}
+                            />
                           </fieldset>
                         </div>
                       </div>

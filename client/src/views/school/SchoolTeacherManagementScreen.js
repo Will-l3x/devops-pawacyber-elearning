@@ -121,17 +121,17 @@ class SchoolTeacherManagementScreen extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+    const password = Math.random().toString(32).substring(4);
     var registerAdmin = {
       roleid: 1,
       schoolid: this.user.schoolid,
       email: event.target.email.value,
-      password: "pass@123",
+      password,
       grade: event.target.grade.value,
       firstname: event.target.firstname.value,
       lastname: event.target.lastname.value,
       title: this.state.selectedTitle.value,
-      vpassword: "pass@123",
+      vpassword: password,
       dob: event.target.dob.value,
     };
     let elem = document.getElementById("modaladd");
@@ -145,8 +145,7 @@ class SchoolTeacherManagementScreen extends Component {
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        console.log(response);
-        alert(response.message);
+        alert(response.message + `. Teacher's password: ${password}`);
       }
     });
   };

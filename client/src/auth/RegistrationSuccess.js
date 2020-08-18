@@ -7,9 +7,9 @@ import img from "../assets/images/details-2-office-team-work.svg"
 import { AdminService } from '../services/admin';
 import { AuthService } from '../services/authServices';
 import { HashLink as Link } from "react-router-hash-link";
+import { AsyncStorage } from 'AsyncStorage';
 
 class RegisterSuccessScreen extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,35 +22,47 @@ class RegisterSuccessScreen extends Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         M.AutoInit();
         M.toast({
             html: "Payment Successful",
             classes: "green accent-3",
         });
-        this.getLocalStorageData();
+
+        // Fetching data
+        try {
+            const registrationDetails = await AsyncStorage.getItem('studentData');
+            const subscriptionDetails = await AsyncStorage.getItem('selectedPackage');
+            const enrolmentDetails = await AsyncStorage.getItem('selectedSubjects');
+            const paymentdetails = await AsyncStorage.getItem('paymentDetails');
+            if (registrationDetails !== null && subscriptionDetails !== null && enrolmentDetails !== null && paymentdetails !== null) {
+
+                this.setState({
+                    registrationDetails: JSON.parse(registrationDetails),
+                    subscriptionDetails: JSON.parse(subscriptionDetails),
+                    enrolmentDetails: JSON.parse(enrolmentDetails),
+                    paymentdetails: JSON.parse(paymentdetails)
+                });
+
+                setTimeout(function () {
+                    console.log(this.state.registrationDetails);
+                    console.log(this.state.subscriptionDetails);
+                    console.log(this.state.enrolmentDetails);
+                    this.register(JSON.parse(registrationDetails));
+                }.bind(this), 1000);
+                
+            }
+        } catch (error) {
+            M.toast({
+                html: 'Failed to create account, Please contact Adminstrator.',
+                classes: "red accent-2",
+            });
+            console.log(error)
+        }
     }
 
-    getLocalStorageData() {
-        this.setState({
-            registrationDetails: JSON.parse(localStorage.getItem("studentData")),
-            subscriptionDetails: JSON.parse(localStorage.getItem("selectedPackage")),
-            enrolmentDetails: JSON.parse(localStorage.getItem("selectedSubjects")),
-            paymentdetails: JSON.parse(localStorage.getItem("paymentDetails"))
-        });
-
-        setTimeout(function () {
-            console.log(this.state.registrationDetails);
-            console.log(this.state.subscriptionDetails);
-            console.log(this.state.enrolmentDetails);
-            this.register();
-        }.bind(this), 1000);
-
-
-    }
-
-    register() {
-        AuthService.register(this.state.registrationDetails).then((response) => {
+    register(registrationData) {
+        AuthService.register(registrationData).then((response) => {
             if (response === undefined) {
                 M.toast({
                     html: "Registration Failed: Please contact system adminstrator.",
@@ -75,8 +87,8 @@ class RegisterSuccessScreen extends Component {
                     message: "Preparing your content..."
                 });
                 setTimeout(function () {
-                    console.log(response.userid);
-                    this.subscribe(response.userid);
+                    console.log(response.accountid);
+                    this.subscribe(response.accountid);
                 }.bind(this), 3000);
             }
         });
@@ -151,7 +163,7 @@ class RegisterSuccessScreen extends Component {
                     });
                 } else {
                     if ((i + 1) === this.state.enrolmentDetails.length) {
-                        count +=1;
+                        count += 1;
                         M.toast({
                             html: "Registration successfull",
                             classes: "green accent-3",
@@ -162,7 +174,7 @@ class RegisterSuccessScreen extends Component {
                             proceed: true
                         });
                     } else {
-                        count +=1;
+                        count += 1;
                         this.setState({
                             message: `Adding resources ( ${count} of ${this.state.enrolmentDetails.length} )...`,
                         });
@@ -199,7 +211,7 @@ class RegisterSuccessScreen extends Component {
                                                         Login
                                                         </Link>
                                                     :
-                                                    <div style={{ marginTop: "200px", }} class="loader-3 center"><span></span></div>
+                                                    <div style={{ marginTop: "200px", }} className="loader-3 center"><span></span></div>
                                             }
                                         </div>
                                     </div>
