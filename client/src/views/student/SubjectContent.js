@@ -50,9 +50,17 @@ class SubjectContent extends Component {
   }
 
   showAss(){
+    this.videoSelected = false;
     this.showAssignments = true;
     this.previewTitle = "DOWNLOAD ASSIGNMENTS"
   }
+
+  showResources(){
+    this.videoSelected = false;
+    this.showAssignments = false;
+    this.previewTitle = "LIBRARY RESOURCES"
+  }
+  
 
   render() {
     const course = store.getState().student.course.course;
@@ -80,10 +88,20 @@ class SubjectContent extends Component {
                         <ul className="task-card collection with-header">
                             <li className={`collection-header ${course.color} `} >
                               <p className="task-card-title">
-                                {course.name} ASSIGNMENTS
+                                {course.name} Resources
                               </p>
                             </li>
-                            <li
+                            <li className="collection-item dismissable">
+                            <label htmlFor="task1">
+                                  Course Library Resources
+                                  <Link to="#" onClick={() => this.showResources()} className="secondary-content">
+                                    <span style={{ fontSize: "11px" }}>
+                                      View
+                                    </span>
+                                  </Link>
+                                </label>
+                          </li>
+                          <li
                                
                                 className="collection-item dismissable"
                               >
@@ -105,17 +123,18 @@ class SubjectContent extends Component {
                                 {course.name} VIDEOS
                               </p>
                             </li>
-                            {this.state.topics.map((topic, i) => (
+                            {/* {this.state.topics.map((topic, i) => ( */}
                               <li
-                                key={i}
+                                
                                 className="collection-item dismissable"
                               >
                                 <label htmlFor="task1">
-                                  {topic.title}
-                                  {/* Click to view the content by seting state of Topic Name and the content */}
+                                  {/* {course.name} */}
+                                  Structure & Function of the Heart
+                     
                                   <Link
                                     to="#"
-                                    onClick={() => this.selectedTopic(topic.title, topic.videoLink)}
+                                    onClick={() => this.selectedTopic('Structure & Function of the Heart', 'https://r1---sn-woc7lne7.c.drive.google.com/videoplayback?expire=1597972860&ei=POk-X-q8CZ3g-AWKroHwBA&ip=77.246.53.53&cp=QVNOWUpfUVhUQVhOOk1aRUxfMGIzS1BkYXlweXFtbHNZNmpqOTlNTzZnVTUxYVFpZjgtOUg1X0g&id=7f2c517ecda54bde&itag=18&source=webdrive&requiressl=yes&mh=MW&mm=32&mn=sn-woc7lne7&ms=su&mv=u&mvi=1&pl=24&sc=yes&ttl=transient&susc=dr&driveid=1ko-KWECa9Bi2t_BjFnx4GvZWEJtVJNZB&app=texmex&mime=video/mp4&vprv=1&prv=1&dur=348.322&lmt=1597949010917408&mt=1597958156&sparams=expire,ei,ip,cp,id,itag,source,requiressl,ttl,susc,driveid,app,mime,vprv,prv,dur,lmt&sig=AOq0QJ8wRAIgM9dwtcCDdoIgHlO1ad4FIBb0xNxP97pUuURylUZvYG0CIA0QDYX1J8UUI_ZzY8c7mHAiI5_6_Z43crwHCKaQfr1i&lsparams=mh,mm,mn,ms,mv,mvi,pl,sc&lsig=AG3C_xAwRAIgaGI977xarJ2WXCUpwDmGz2C0atOUldmVOBik2lTs898CIDSYR1u3VB4lcg3uo4gRuEodeQiz01_ZNqG9cWzI9DI8&cpn=kshUMSz8MAMMZIco&c=WEB_EMBEDDED_PLAYER&cver=20200820')}
                                     className="secondary-content"
                                   >
                                     <span style={{ fontSize: "11px" }}>
@@ -124,7 +143,7 @@ class SubjectContent extends Component {
                                   </Link>
                                 </label>
                               </li>
-                            ))}
+                            {/* ))} */}
                           </ul>
                         </div>
                       </div>
@@ -137,7 +156,7 @@ class SubjectContent extends Component {
                             >
                               {this.videoSelected
                                 ? this.previewTitle
-                                : this.showAssignments? this.previewTitle:"DOWNLOADABLE RESOURCES"}
+                                : this.showAssignments? this.previewTitle:"LIBRARY RESOURCES"}
                             </p>
                           </div>
                           {this.videoSelected ? (

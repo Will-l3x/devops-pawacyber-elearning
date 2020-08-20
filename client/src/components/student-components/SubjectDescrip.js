@@ -40,20 +40,21 @@ export default class SubjectDescrip extends Component {
 
   render() {
     return this.state.resources.map((resource, i) => (
-      <div key={i} className="col s12 m8 l4">
-        <div className="card min-height-100 white-text designed-dots" style={{ borderRadius: "5px" }}>
-          <div className="padding-4">
-            <div className="col s12 m12">
-              <p className="no-margin" style={{ color: "teal", }}><b>{resource.materialname}</b></p>
-              <p className="no-margin" style={{ fontSize: "12px", color: "grey" }}>{resource.dateadded}</p>
-            </div>
-            <div className="right-align" style={{ marginTop: "60px", color: "black" }}>
-              <p className="no-margin"><button onClick={() => { this.download(resource) }} >DOWNLOAD</button></p>
+      resource.materialname.includes(".mp4") ? <div></div>
+        : <div key={i} className="col s12 m8 l4">
+          <div className="card min-height-100 white-text designed-dots" style={{ borderRadius: "5px" }}>
+            <div className="padding-4">
+              <div className="col s12 m12">
+                <p className="no-margin" style={{ color: "teal", }}><b>{resource.materialname}</b></p>
+                <p className="no-margin" style={{ fontSize: "12px", color: "grey" }}>{resource.dateadded}</p>
+              </div>
+              <div className="right-align" style={{ marginTop: "60px", color: "black" }}>
+                <p className="no-margin"><button onClick={() => { this.download(resource) }} >VIEW</button></p>
 
+              </div>
             </div>
           </div>
         </div>
-      </div>
     )
     )
   }
