@@ -28,7 +28,7 @@ class SchoolGridComp extends Component {
     return (
       <div>
         <Search searchText={this.searchText} />
-        <main className="row" style={{minHeight: 350}}>
+        <main className="row" style={{ minHeight: 350 }}>
           {this.props.schools.filter((school) =>
             school.schoolname
               .toLowerCase()
@@ -89,7 +89,7 @@ class SchoolGridComp extends Component {
         </main>
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
-          <div className="col l12 center-align">
+          <div className="col l12 center-align" style={{ paddingTop: 20 }}>
             <ul className="pagination">
               <li
                 className={

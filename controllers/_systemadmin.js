@@ -1241,10 +1241,11 @@ let add_subscription = (req, res) => {
     var mingrade = req.body.mingrade;
     var maxgrade = req.body.maxgrade;
     var price = req.body.price;
+    var descr = req.body.description;
 
     var query = "INSERT INTO [subscriptions] \
-    (subscriptionname,mingrade,maxgrade,price) \
-    VALUES(@name,@min,@max,@price)";
+    (subscriptionname,mingrade,maxgrade,price,description) \
+    VALUES(@name,@min,@max,@price,@descr)";
     var request = new sql.Request();
 
     request
@@ -1252,6 +1253,7 @@ let add_subscription = (req, res) => {
         .input("min", mingrade)
         .input("max", maxgrade)
         .input("price", price)
+        .input("descr", descr)
         .query(query, function (err, recordset) {
 
             if (err) {
@@ -1364,7 +1366,7 @@ let update_subscription = (req, res) => {
     var price = req.body.price;
 
     let query = "UPDATE [subscriptions] \
-      SET price=@price , subscriptionname=@name, mingrade=@min,maxgrade=@max \
+      SET price=@price ,description = @desc ,subscriptionname=@name, mingrade=@min,maxgrade=@max \
       WHERE subscriptionId = @id";
 
     var request = new sql.Request();

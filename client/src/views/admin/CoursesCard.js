@@ -141,7 +141,7 @@ class CoursesCard extends Component {
         </div>
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
-          <div className="col l12 center-align">
+          <div className="col l12 center-align" style={{ paddingTop: 20 }}>
             <ul className="pagination">
               <li
                 className={
@@ -192,7 +192,8 @@ class CoursesCard extends Component {
               })}
               <li
                 className={
-                  this.state.currentPageNumber === this.props.adminState.pages.length
+                  this.state.currentPageNumber ===
+                  this.props.adminState.pages.length
                     ? "disabled"
                     : "waves-effect"
                 }
@@ -200,7 +201,8 @@ class CoursesCard extends Component {
                 <a
                   onClick={this.handleNextClick}
                   className={
-                    this.state.currentPageNumber === this.props.adminState.pages.length
+                    this.state.currentPageNumber ===
+                    this.props.adminState.pages.length
                       ? "pointer-events-none"
                       : ""
                   }
