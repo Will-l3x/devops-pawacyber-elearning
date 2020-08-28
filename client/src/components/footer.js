@@ -6,7 +6,7 @@ class Footer extends Component {
       <div className="footer-copyright">
         <div className="container center-align">
           <span>
-            Copyright © {new Date().getFullYear()} Pawa Cyber.
+            Copyright © {new Date().getFullYear()} Pawa Cyber School.
           </span>
         </div>
       </div>

@@ -50,9 +50,17 @@ class SubjectContent extends Component {
   }
 
   showAss(){
+    this.videoSelected = false;
     this.showAssignments = true;
     this.previewTitle = "DOWNLOAD ASSIGNMENTS"
   }
+
+  showResources(){
+    this.videoSelected = false;
+    this.showAssignments = false;
+    this.previewTitle = "LIBRARY RESOURCES"
+  }
+  
 
   render() {
     const course = store.getState().student.course.course;
@@ -80,10 +88,20 @@ class SubjectContent extends Component {
                         <ul className="task-card collection with-header">
                             <li className={`collection-header ${course.color} `} >
                               <p className="task-card-title">
-                                {course.name} ASSIGNMENTS
+                                {course.name} Resources
                               </p>
                             </li>
-                            <li
+                            <li className="collection-item dismissable">
+                            <label htmlFor="task1">
+                                  Course Library Resources
+                                  <Link to="#" onClick={() => this.showResources()} className="secondary-content">
+                                    <span style={{ fontSize: "11px" }}>
+                                      View
+                                    </span>
+                                  </Link>
+                                </label>
+                          </li>
+                          <li
                                
                                 className="collection-item dismissable"
                               >
@@ -105,17 +123,18 @@ class SubjectContent extends Component {
                                 {course.name} VIDEOS
                               </p>
                             </li>
-                            {this.state.topics.map((topic, i) => (
+                            {/* {this.state.topics.map((topic, i) => ( */}
                               <li
-                                key={i}
+                                
                                 className="collection-item dismissable"
                               >
                                 <label htmlFor="task1">
-                                  {topic.title}
-                                  {/* Click to view the content by seting state of Topic Name and the content */}
+                                  {/* {course.name} */}
+                                  Structure & Function of the Heart
+                     
                                   <Link
                                     to="#"
-                                    onClick={() => this.selectedTopic(topic.title, topic.videoLink)}
+                                    onClick={() => this.selectedTopic('Structure & Function of the Heart', 'https://youtu.be/wMKiGjvdRZo')}
                                     className="secondary-content"
                                   >
                                     <span style={{ fontSize: "11px" }}>
@@ -124,7 +143,7 @@ class SubjectContent extends Component {
                                   </Link>
                                 </label>
                               </li>
-                            ))}
+                            {/* ))} */}
                           </ul>
                         </div>
                       </div>
@@ -137,7 +156,7 @@ class SubjectContent extends Component {
                             >
                               {this.videoSelected
                                 ? this.previewTitle
-                                : this.showAssignments? this.previewTitle:"DOWNLOADABLE RESOURCES"}
+                                : this.showAssignments? this.previewTitle:"LIBRARY RESOURCES"}
                             </p>
                           </div>
                           {this.videoSelected ? (
