@@ -1136,7 +1136,7 @@ let login = (req, res) => {
                                 let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId, activesubscriptions: activesubscriptions },
                                     process.env.jwt_secret,
                                     {
-                                        expiresIn: '36h' // expires in 1.5 days
+                                        expiresIn: '720h' // expires in 1.5 days
                                     }
                                 );
                                 //////////////////////////////
