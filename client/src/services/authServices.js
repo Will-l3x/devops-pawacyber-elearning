@@ -1,6 +1,6 @@
 import axios from "axios";
 const qs = require("qs");
-const apiUrl = "https://cybers.azurewebsites.net/api";
+const apiUrl = "https://pawacyberschool.net/api";
 const token = JSON.parse(localStorage.getItem("token"));
 // const apiUrl = "http://localhost:3001/api";
 
@@ -9,7 +9,7 @@ const config = {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
+    "Access-Control-Allow-Origin": "https://pawacyberschool.net",
     "Access-Control-Allow-Credentials": true,
   },
 };
@@ -26,7 +26,7 @@ async function register(data) {
   const config = {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
       "Access-Control-Allow-Credentials": true,
     },
   };

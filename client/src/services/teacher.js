@@ -5,11 +5,11 @@ const token = JSON.parse(localStorage.getItem("token"));
 // const apiUrl = "http://localhost:3001/api";
 
 var config = {
-  baseURL: "https://cybers.azurewebsites.net/api/teacher",
+  baseURL: "https://pawacyberschool.net/api/teacher",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
+    "Access-Control-Allow-Origin": "https://pawacyberschool.net",
     "Access-Control-Allow-Credentials": true,
   },
 };

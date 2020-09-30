@@ -3,11 +3,11 @@ const token = JSON.parse(localStorage.getItem("token"));
 const qs = require("qs");
 
 var config = {
-  baseURL: "https://cybers.azurewebsites.net/api/student",
+  baseURL: "https://pawacyberschool.net/api/student",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
     Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
+    "Access-Control-Allow-Origin": "https://pawacyberschool.net",
     "Access-Control-Allow-Credentials": true,
   },
 };
@@ -36,7 +36,7 @@ async function submit_assignment(data){
 
 async function download(data) {
   try {
-    let res = await axios.post(`https://cybers.azurewebsites.net/api/upload/get`, qs.stringify(data), {
+    let res = await axios.post(`https://pawacyberschool.net/api/upload/get`, qs.stringify(data), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -52,7 +52,7 @@ async function download(data) {
 async function deleteResource(data) {
   try {
     let res = await axios.delete(
-      `https://cybers.azurewebsites.net/api/upload/delete`,
+      `https://pawacyberschool.net/api/upload/delete`,
       {
         headers: {
           Authorization: `Bearer ${token}`
