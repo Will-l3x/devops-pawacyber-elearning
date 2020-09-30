@@ -1360,7 +1360,7 @@ let subscription = (req, res) => {
 let update_subscription = (req, res) => {
     var subscriptionid = req.params.id;
     var subscriptionname = req.body.subscriptionname;
-    var subscriptiondesc = req.body.subscriptiondesc;
+    var subscriptiondesc = req.body.description;
     var mingrade = req.body.mingrade;
     var maxgrade = req.body.maxgrade;
     var price = req.body.price;
