@@ -12,6 +12,8 @@ let _student = require("../controllers/_student.js");
 let _schooladmin = require("../controllers/_schooladmin.js");
 let _uploads = require("../controllers/_uploads.js");
 let _storage = require("../controllers/_storage.js");
+let _tags = require("../controllers/_tags.js");
+
 const _paymentDpo = require("../controllers/_paymentDpo.js");
 
 router.use(_auth.checktoken);
@@ -30,7 +32,7 @@ router.put("/refreshotp", _auth.refreshotp);
 //////////////////////systemadmin//////////////////////////////////////////////
 // teachers
 
-router.post( "/get_school_grade_subjects", _systemadmin.get_school_grade_subjects);
+router.post("/get_school_grade_subjects", _systemadmin.get_school_grade_subjects);
 router.get("/teachers", _systemadmin.teachers);
 router.get("/materials", _systemadmin.materials);
 router.get("/genders", _systemadmin.genders);
@@ -138,34 +140,34 @@ router.post("/schooladmin/activate_package", _schooladmin.activate_package);
 router.get("/schooladmin/active_packages/:id", _schooladmin.active_packages);
 
 router.post(
-  "/schooladmin/add_shared_class_cover",
-  _schooladmin.add_shared_class_cover
+    "/schooladmin/add_shared_class_cover",
+    _schooladmin.add_shared_class_cover
 );
 router.get(
-  "/schooladmin/get_shared_classes_with_cover",
-  _schooladmin.get_shared_classes_with_cover
+    "/schooladmin/get_shared_classes_with_cover",
+    _schooladmin.get_shared_classes_with_cover
 );
 
 router.post("/schooladmin/shared_classes", _schooladmin.shared_classes); //by grade
 router.post(
-  "/schooladmin/get_all_shared_classes",
-  _schooladmin.all_shared_classes
+    "/schooladmin/get_all_shared_classes",
+    _schooladmin.all_shared_classes
 );
 router.get("/schooladmin/shared_topics/:id", _schooladmin.shared_topics); //classid
 router.post("/schooladmin/shared_materials", _schooladmin.shared_materials); //by topic & class
 router.get(
-  "/schooladmin/shared_materials_topic/:id",
-  _schooladmin.shared_materials_topic
+    "/schooladmin/shared_materials_topic/:id",
+    _schooladmin.shared_materials_topic
 ); //topicid
 router.get(
-  "/schooladmin/shared_materials_class/:id",
-  _schooladmin.shared_materials_class
+    "/schooladmin/shared_materials_class/:id",
+    _schooladmin.shared_materials_class
 ); //classid
 router.post("/schooladmin/add_shared_class", _schooladmin.add_shared_class);
 router.post("/schooladmin/add_shared_topic", _schooladmin.add_shared_topic);
 router.post(
-  "/schooladmin/add_shared_material",
-  _schooladmin.add_shared_material
+    "/schooladmin/add_shared_material",
+    _schooladmin.add_shared_material
 );
 
 // ---
@@ -183,6 +185,14 @@ router.post("/upload/new", _storage.upload);
 router.post("/upload/get", _storage.download);
 router.post("/upload/multi", _storage.multiUpload);
 router.delete("/upload/delete", _storage.deleteBlog);
+
+
+//////////////////////////////Tags/////////////////////////////////
+router.post("/tags/new", _tags.newTag);
+router.get("/tags/all_tags", _tags.allTags);
+router.post("/tags/link", _tags.linkTag);
+router.post("/tags/delete", _tags.deleteTag);
+router.post("/tags/get_tags", _tags.getTags);
 
 //////////////////////////////DPO PAYMENTS/////////////////////////////////
 router.post("/dpo/payment/createToken", _paymentDpo.createToken);

@@ -1,6 +1,6 @@
 let sql = require("mssql");
 const stream = require("stream");
-const { BlobServiceClient, AbortController } = require("@azure/storage-blob");
+const {BlobServiceClient, AbortController} = require("@azure/storage-blob");
 
 var containerNames = [
   "materials",
@@ -445,5 +445,5 @@ module.exports = {
   download: download,
   multiUpload: multiUpload,
   storageInit: storageInit,
-  deleteBlog: deleteBlob,
+  deleteBlog: deleteBlob
 };
