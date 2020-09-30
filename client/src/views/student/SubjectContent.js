@@ -106,7 +106,7 @@ class SubjectContent extends Component {
                                 className="collection-item dismissable"
                               >
                             <label htmlFor="task1">
-                                  All Assingments
+                            {course.name} Assingments
                                   <Link to="#" onClick={() => this.showAss()} className="secondary-content">
                                     <span style={{ fontSize: "11px" }}>
                                       View
@@ -134,6 +134,7 @@ class SubjectContent extends Component {
                      
                                   <Link
                                     to="#"
+                                    //Hard coded area must go
                                     onClick={() => this.selectedTopic('Structure & Function of the Heart', 'https://r1---sn-woc7lne7.c.drive.google.com/videoplayback?expire=1597972860&ei=POk-X-q8CZ3g-AWKroHwBA&ip=77.246.53.53&cp=QVNOWUpfUVhUQVhOOk1aRUxfMGIzS1BkYXlweXFtbHNZNmpqOTlNTzZnVTUxYVFpZjgtOUg1X0g&id=7f2c517ecda54bde&itag=18&source=webdrive&requiressl=yes&mh=MW&mm=32&mn=sn-woc7lne7&ms=su&mv=u&mvi=1&pl=24&sc=yes&ttl=transient&susc=dr&driveid=1ko-KWECa9Bi2t_BjFnx4GvZWEJtVJNZB&app=texmex&mime=video/mp4&vprv=1&prv=1&dur=348.322&lmt=1597949010917408&mt=1597958156&sparams=expire,ei,ip,cp,id,itag,source,requiressl,ttl,susc,driveid,app,mime,vprv,prv,dur,lmt&sig=AOq0QJ8wRAIgM9dwtcCDdoIgHlO1ad4FIBb0xNxP97pUuURylUZvYG0CIA0QDYX1J8UUI_ZzY8c7mHAiI5_6_Z43crwHCKaQfr1i&lsparams=mh,mm,mn,ms,mv,mvi,pl,sc&lsig=AG3C_xAwRAIgaGI977xarJ2WXCUpwDmGz2C0atOUldmVOBik2lTs898CIDSYR1u3VB4lcg3uo4gRuEodeQiz01_ZNqG9cWzI9DI8&cpn=kshUMSz8MAMMZIco&c=WEB_EMBEDDED_PLAYER&cver=20200820')}
                                     className="secondary-content"
                                   >
