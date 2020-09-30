@@ -20,7 +20,7 @@ class Pricing extends Component {
               {this.pricingPlan.subscriptionname}
             </div>
             <div className="card-subtitle">
-              {this.pricingPlan.subscriptiondesc}
+              {this.pricingPlan.description}
             </div>
             <hr className="cell-divide-hr" />
             <div className="price">

@@ -21,6 +21,12 @@ class SubscriptionScreen extends Component {
           width: "24%",
         },
         {
+          label: "Package Description",
+          feild: "description",
+          sort: "asc",
+          width: "22%"
+        },
+        {
           label: "Starting Grade",
           field: "mingrade",
           sort: "asc",
@@ -51,7 +57,7 @@ class SubscriptionScreen extends Component {
         maxgrade: 3,
         mingrade: 0,
         price: 0,
-        subscriptiondesc: "",
+        description: "",
         subscriptionname: "",
       },
     };
@@ -107,6 +113,7 @@ class SubscriptionScreen extends Component {
       mingrade: subscription.mingrade,
       price: subscription.price,
       subscriptionname: subscription.subscriptionname,
+      description: subscription.description,
     };
     this.setState(
       {
@@ -125,11 +132,12 @@ class SubscriptionScreen extends Component {
     event.preventDefault();
     var data = {
       subscriptionname: event.target.addsubscriptionname.value,
+      description: event.target.adddescription.value,
       mingrade: event.target.addmingrade.value,
       maxgrade: event.target.addmaxgrade.value,
       price: event.target.addprice.value,
     };
-
+ 
     let elem = document.getElementById("modaladd");
     let modal = new M.Modal(elem);
     modal.close();
@@ -154,6 +162,7 @@ class SubscriptionScreen extends Component {
     event.preventDefault();
     var data = {
       subscriptionname: event.target.subscriptionname.value,
+      description: event.target.description.value,
       mingrade: event.target.mingrade.value,
       maxgrade: event.target.maxgrade.value,
       price: event.target.price.value,
@@ -163,7 +172,7 @@ class SubscriptionScreen extends Component {
         maxgrade: 0,
         mingrade: 0,
         price: 0,
-        subscriptiondesc: "",
+        description: "",
         subscriptionname: "",
       },
     });
@@ -325,6 +334,19 @@ class SubscriptionScreen extends Component {
                           required
                         />
                       </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="adddescription"
+                          title="Subscription Details:"
+                        />
+                        <input
+                          id="adddescription"
+                          className="form-input input-meeting"
+                          name="adddescription"
+                          type="text"
+                          required
+                        />
+                      </fieldset>
                       <fieldset className="form-group row">
                         <div className="col s6">
                           <ReactFormLabel
@@ -416,6 +438,22 @@ class SubscriptionScreen extends Component {
                           required
                         />
                       </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="description"
+                          title="Subscription Details:"
+                        />
+                        <input
+                          id="description"
+                          className="form-input input-meeting"
+                          name="description"
+                          onChange={this.onChange}
+                          value={this.state.selectedSub.description}
+                          type="text"
+                          required
+                        />
+                      </fieldset>
+                      
                       <fieldset className="form-group row">
                         <div className="col s6">
                           <ReactFormLabel
