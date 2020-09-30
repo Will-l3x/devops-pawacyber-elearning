@@ -18,14 +18,9 @@ class SubscriptionScreen extends Component {
           label: "Package Name",
           field: "subscriptionname",
           sort: "asc",
-          width: "24%",
+          width: "25%",
         },
-        {
-          label: "Package Description",
-          feild: "description",
-          sort: "asc",
-          width: "22%"
-        },
+        
         {
           label: "Starting Grade",
           field: "mingrade",
@@ -44,6 +39,13 @@ class SubscriptionScreen extends Component {
           sort: "asc",
           width: "15%",
         },
+        {
+          label: "Package Desccription",
+          field: "description",
+          sort: "asc",
+          width: "25%"
+        },
+       
         {
           label: "Actions",
           field: "actions",
