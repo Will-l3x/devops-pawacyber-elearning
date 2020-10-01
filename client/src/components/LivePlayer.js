@@ -22,7 +22,7 @@ class LivePlayer extends Component {
         JSON.parse(localStorage.getItem("liveclass")) === null
           ? {}
           : JSON.parse(localStorage.getItem("liveclass")),
-      url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      url: "https://pawacyberschool.net/fe_assets/PawaCyber.mp4",
       selectedOption: {},
       selectedClass: {},
       pages: [],

@@ -231,7 +231,7 @@ export default class RegistrationForm extends Component {
       customerFirstName: det.firstname,
       customerLastName: det.lastname,
       serviceDescription: this.state.selectedOption.subscriptionname,
-      routeSuccessLink: "https://cybers.azurewebsites.net/#/payment-confirmed",
+      routeSuccessLink: "https://pawacyberschool.net/#/payment-confirmed",
     };
 
     localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
@@ -861,7 +861,7 @@ export default class RegistrationForm extends Component {
                             eLearning account, and when you use the Services, we
                             collect some
                             <a
-                              href="https://cybers.azurewebsites.net/about"
+                              href="https://pawacyberschool.net/about"
                               target="_blank"
                               rel="noopener noreferrer"
                             >

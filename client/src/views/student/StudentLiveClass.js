@@ -14,7 +14,7 @@ class StudentLiveClass extends Component {
     this.state = {
       redirect: false,
       user: {},
-      url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      url: "https://pawacyberschool.net/fe_assets/PawaCyber.mp4",
       courses: [
         {
           classname: "Class 1",
