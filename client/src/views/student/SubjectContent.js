@@ -134,7 +134,7 @@ class SubjectContent extends Component {
                      
                                   <Link
                                     to="#"
-                                    onClick={() => this.selectedTopic('Structure & Function of the Heart', 'https://youtu.be/wMKiGjvdRZo')}
+                                    onClick={() => this.selectedTopic('Sample Video', 'https://youtu.be/wMKiGjvdRZo')}
                                     className="secondary-content"
                                   >
                                     <span style={{ fontSize: "11px" }}>
