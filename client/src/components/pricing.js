@@ -28,6 +28,9 @@ class Pricing extends Component {
                 N$
               </span>
               <span className="value">{this.pricingPlan.price}</span>
+              <span className="currency" style={{ fontSize: "17px" }}>
+                /month
+              </span>
               {/* <div className="frequency">{this.pricingPlan.frequency}</div> */}
             </div>
             <hr className="cell-divide-hr" />
