@@ -130,7 +130,7 @@ class SubjectContent extends Component {
                               >
                                 <label htmlFor="task1">
                                   {/* {course.name} */}
-                                  Structure & Function of the Heart
+                                  Sample Videos
                      
                                   <Link
                                     to="#"

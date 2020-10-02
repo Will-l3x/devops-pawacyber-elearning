@@ -143,7 +143,7 @@ class VideoPlayer extends Component {
   };
 
   start_meeting = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     const data = {
       password: e.target.password.value,
     };

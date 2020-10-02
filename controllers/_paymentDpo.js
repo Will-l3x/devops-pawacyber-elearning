@@ -17,7 +17,7 @@ let createToken = (req, res) => {
   var xmlRequestBody = `
     <?xml version="1.0" encoding="utf-8"?>
     <API3G>
-    <CompanyToken>9F416C11-127B-4DE2-AC7F-D5710E4C5E0A</CompanyToken>
+    <CompanyToken>FB5F5337-FC9F-4DDB-B407-DB11691D71B9</CompanyToken>
     <Request>createToken</Request>
     <Transaction>
     <PaymentAmount>${paymentAmount}</PaymentAmount>
@@ -33,7 +33,7 @@ let createToken = (req, res) => {
     </Transaction>
     <Services>
       <Service>
-        <ServiceType>5525</ServiceType>
+        <ServiceType>38846</ServiceType>
         <ServiceDescription>${serviceDescription}</ServiceDescription>
         <ServiceDate>${serviceDate}</ServiceDate>
       </Service>
