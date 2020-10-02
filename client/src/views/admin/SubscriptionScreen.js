@@ -37,13 +37,19 @@ class SubscriptionScreen extends Component {
           label: "Price",
           field: "price",
           sort: "asc",
-          width: "15%",
+          width: "10%",
         },
         {
           label: "Package Desccription",
           field: "description",
           sort: "asc",
-          width: "25%"
+          width: "20%"
+        },
+        {
+          label: "# of subjects",
+          field: "subjects",
+          sort: "asc",
+          width: "10%"
         },
        
         {
@@ -61,6 +67,7 @@ class SubscriptionScreen extends Component {
         price: 0,
         description: "",
         subscriptionname: "",
+        subjects: "",
       },
     };
     this.handleSave = this.handleSave.bind(this);
@@ -116,6 +123,8 @@ class SubscriptionScreen extends Component {
       price: subscription.price,
       subscriptionname: subscription.subscriptionname,
       description: subscription.description,
+      subjects: subscription.subjects,
+      
     };
     this.setState(
       {
@@ -138,6 +147,7 @@ class SubscriptionScreen extends Component {
       mingrade: event.target.addmingrade.value,
       maxgrade: event.target.addmaxgrade.value,
       price: event.target.addprice.value,
+      subjects: event.target.addsubjects.value,
     };
  
     let elem = document.getElementById("modaladd");
@@ -168,6 +178,7 @@ class SubscriptionScreen extends Component {
       mingrade: event.target.mingrade.value,
       maxgrade: event.target.maxgrade.value,
       price: event.target.price.value,
+      subjects: event.target.subjects.value,
     };
     this.setState({
       selectedSub: {
@@ -176,6 +187,7 @@ class SubscriptionScreen extends Component {
         price: 0,
         description: "",
         subscriptionname: "",
+        subjects: "",
       },
     });
 
@@ -349,6 +361,19 @@ class SubscriptionScreen extends Component {
                           required
                         />
                       </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="add#ofsubjects"
+                          title="# of subjects:"
+                        />
+                        <input
+                          id="addsubjects"
+                          className="form-input input-meeting"
+                          name="addsubjects"
+                          type="text"
+                          required
+                        />
+                      </fieldset>
                       <fieldset className="form-group row">
                         <div className="col s6">
                           <ReactFormLabel
@@ -451,6 +476,21 @@ class SubscriptionScreen extends Component {
                           name="description"
                           onChange={this.onChange}
                           value={this.state.selectedSub.description}
+                          type="text"
+                          required
+                        />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="subjects"
+                          title="# of subjects:"
+                        />
+                        <input
+                          id="subjects"
+                          className="form-input input-meeting"
+                          name="subjects"
+                          onChange={this.onChange}
+                          value={this.state.selectedSub.subjects}
                           type="text"
                           required
                         />
