@@ -267,7 +267,7 @@ export default class RegistrationForm extends Component {
         // window.open(`https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`,'_blank');
         document.getElementById("contact").reset();
         this.setState({ redirect: true });
-        window.location.href = `https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`;
+        window.location.href = ` https://secure.3gdirectpay.com/pay.asp?ID=${response.data.transactionToken}`;
       }
     });
   };
