@@ -23,7 +23,7 @@ let createToken = (req, res) => {
   <PaymentAmount>${paymentAmount}</PaymentAmount>
   <PaymentCurrency>NAD</PaymentCurrency>
   <CompanyRef>49FKEOA</CompanyRef>
-  <RedirectURL>${routeSuccessLink}</</RedirectURL>
+  <RedirectURL>${routeSuccessLink}</RedirectURL>
   <BackURL> https://pawacyberschool.net/#/canceled</BackURL>
   <CompanyRefUnique>0</CompanyRefUnique>
   <PTL>1440</PTL>
