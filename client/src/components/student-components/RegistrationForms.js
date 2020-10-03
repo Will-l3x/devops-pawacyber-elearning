@@ -290,11 +290,18 @@ export default class RegistrationForm extends Component {
   };
 
   onSelectClassOption = (selectedOption) => {
+    if (this.state.selectedsubs.length === 0){
+      this.setState({
+        message:
+          "you need to select at least one subject"
+      })
+    }
     if (this.state.selectedsubs.length === this.state.numberOfsubs) {
       this.setState({
         message:
           "You have selected the maximum number of subjects for you package",
       });
+    
     } else {
       if (this.state.selectedsubs.includes(selectedOption)) {
         this.setState({
