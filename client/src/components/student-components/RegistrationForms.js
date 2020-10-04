@@ -6,7 +6,8 @@ import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
 import SubcribeClassOptions from "./SubcribeClassOptions";
-import { AsyncStorage } from 'AsyncStorage';
+import { AsyncStorage } from "AsyncStorage";
+import { AdminService } from "../../services/admin";
 // import SchoolOptions from "./SchoolOptions";
 var globalGrade = "1";
 export default class RegistrationForm extends Component {
@@ -23,16 +24,14 @@ export default class RegistrationForm extends Component {
       loading: false,
       numberOfsubs: 0,
       selectedsubs: [],
+      defaultSubs: [],
       message: "",
     };
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
   }
 
-
-
   componentDidMount() {
-
     M.AutoInit();
     function legalTerms() {
       var totalLegalRules = $(".legal__rule").length;
@@ -154,13 +153,14 @@ export default class RegistrationForm extends Component {
   handleGradeDropdownChange(event) {
     globalGrade = event.target.value;
     this.setState({ grade: globalGrade });
-
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+    const mediumRegex = new RegExp(
+      "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
+    );
 
     if (event.target.vpassword.value === event.target.password.value) {
       if (mediumRegex.test(event.target.password.value)) {
@@ -189,7 +189,7 @@ export default class RegistrationForm extends Component {
           localStorage.setItem("studentData", JSON.stringify(registerAdmin));
 
           try {
-            AsyncStorage.setItem('studentData', JSON.stringify(registerAdmin));
+            AsyncStorage.setItem("studentData", JSON.stringify(registerAdmin));
             setTimeout(
               function () {
                 this.setState({ proceedToPay: true });
@@ -203,10 +203,10 @@ export default class RegistrationForm extends Component {
             });
           }
         }
-
       } else {
         M.toast({
-          html: "Low password strength. Password should include a minimum of 8 characters. Including at least 1 digit.",
+          html:
+            "Low password strength. Password should include a minimum of 8 characters. Including at least 1 digit.",
           classes: "red",
         });
       }
@@ -217,7 +217,6 @@ export default class RegistrationForm extends Component {
       });
     }
   };
-
 
   handlePayment = (event) => {
     event.preventDefault();
@@ -237,8 +236,14 @@ export default class RegistrationForm extends Component {
     localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
 
     try {
-      AsyncStorage.setItem("selectedPackage", JSON.stringify(this.state.selectedOption));
-      AsyncStorage.setItem("selectedSubjects", JSON.stringify(this.state.selectedsubs));
+      AsyncStorage.setItem(
+        "selectedPackage",
+        JSON.stringify(this.state.selectedOption)
+      );
+      AsyncStorage.setItem(
+        "selectedSubjects",
+        JSON.stringify(this.state.selectedsubs)
+      );
       AsyncStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
     } catch (error) {
       M.toast({
@@ -246,7 +251,6 @@ export default class RegistrationForm extends Component {
         classes: "red accent-2",
       });
     }
-
 
     PaymentService.createToken(paymentDetails).then((response) => {
       if (response === undefined) {
@@ -277,15 +281,54 @@ export default class RegistrationForm extends Component {
     this.state.selectedsubs.splice(index, 1);
   }
 
-  onSelectOption = (selectedOption) => {
-    this.setState({ selectedOption }, () =>
-      console.log(this.state.selectedOption)
-    );
+  removeSub(classId) {
+    var selectedsubs = $.grep(this.state.selectedsubs, function (e) {
+      return e.classId != classId;
+    });
+    this.setState({ selectedsubs });
+  }
 
-    this.setState({
-      numberOfsubs: selectedOption.subjects,
-      message: "",
-      loading: false,
+  getClass() {
+    var gradeStore = JSON.parse(localStorage.getItem("studentData"));
+    var data = {
+      gradeid: gradeStore.gradeid,
+      schoolid: gradeStore.schoolid,
+    };
+    const defaultSubs = [],
+      del_options = [];
+    AdminService.findClassesForSchoolGrade(data)
+      .then((response) => {
+        for (const classOpt of response.data.subjects) {
+          if (classOpt.status === "deleted") {
+            del_options.push(classOpt);
+          } else {
+            classOpt.value = classOpt.classId;
+            classOpt.label = classOpt.classname;
+            defaultSubs.push(classOpt);
+          }
+        }
+        this.setState({ defaultSubs, selectedsubs: defaultSubs });
+      })
+      .catch((error) => {
+        console.log(error);
+        defaultSubs = [];
+      });
+  }
+
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption, selectedsubs: [] }, () => {
+      if (
+        selectedOption.subscriptionId === 1 ||
+        selectedOption.subscriptionId === 2
+      ) {
+        this.getClass();
+      } else {
+        this.setState({
+          numberOfsubs: selectedOption.subjects,
+          message: "",
+          loading: false,
+        });
+      }
     });
   };
 
@@ -308,6 +351,7 @@ export default class RegistrationForm extends Component {
         });
       }
     }
+    console.log(this.state.selectedsubs);
   };
 
   render() {
@@ -319,7 +363,12 @@ export default class RegistrationForm extends Component {
         <div className="ex-basic-1">
           <h5>CREATE STUDENT ACCOUNT</h5>
         </div>
-        <form id="contact" data-toggle="validator" data-focus="false" onSubmit={this.handleSubmit}>
+        <form
+          id="contact"
+          data-toggle="validator"
+          data-focus="false"
+          onSubmit={this.handleSubmit}
+        >
           <div className="row mt-1">
             <div className="col s12 m5">
               <div className="input-field">
@@ -347,7 +396,7 @@ export default class RegistrationForm extends Component {
             </div>
             <div className="col s12 m3">
               <div className="input-field">
-                <select name="gender" onChange={this.handleTitleDropdownChange} >
+                <select name="gender" onChange={this.handleTitleDropdownChange}>
                   <option value="1">Male</option>
                   <option value="2">Female</option>
                 </select>
@@ -393,7 +442,6 @@ export default class RegistrationForm extends Component {
               </div>
             </div>
             <div className="col s12 m5">
-
               <div className="input-field">
                 <input
                   id="email"
@@ -404,11 +452,9 @@ export default class RegistrationForm extends Component {
                 ></input>
                 <label htmlFor="email">Email *</label>
               </div>
-
             </div>
           </div>
           <div className="row mt-1">
-
             <div className="col s12 m4">
               <div className="input-field">
                 <input
@@ -416,7 +462,6 @@ export default class RegistrationForm extends Component {
                   type="password"
                   className="validate"
                   name="password"
-
                   required
                 ></input>
                 <label htmlFor="password">Password *</label>
@@ -1091,79 +1136,89 @@ export default class RegistrationForm extends Component {
         </form>
       </div>
     ) : (
-        <div className="col s12 m10">
-          <div className="ex-basic-1">
-            <h4>Subscription Options</h4>
-          </div>
-          <form
-            id="contact"
-            data-toggle="validator"
-            data-focus="false"
-            onSubmit={this.handlePayment}
-          >
-            <div className="row mt-1">
-              <div className="col s12 m6">
-                <div className="input-field">
-                  <label
-                    style={{ transform: "translateY(-15px)", fontSize: "12px" }}
-                  >
-                    Subscription Package*
+      <div className="col s12 m10">
+        <div className="ex-basic-1">
+          <h4>Subscription Options</h4>
+        </div>
+        <form
+          id="contact"
+          data-toggle="validator"
+          data-focus="false"
+          onSubmit={this.handlePayment}
+        >
+          <div className="row mt-1">
+            <div className="col s12 m6">
+              <div className="input-field">
+                <label
+                  style={{ transform: "translateY(-15px)", fontSize: "12px" }}
+                >
+                  Subscription Package*
                 </label>
-                  <PackageOptions onSelectOption={this.onSelectOption} required />
-                  <div className="my-divider"></div>
-                </div>
-              </div>
-
-              <div className="col s12 m6">
-                <div className="input-field">
-                  <label
-                    style={{ transform: "translateY(-15px)", fontSize: "12px" }}
-                  >
-                    Subjects *
-                </label>
-                  <SubcribeClassOptions
-                    onSelectOption={this.onSelectClassOption}
-                    required
-                  />
-                  <div className="my-divider"></div>
-                </div>
+                <PackageOptions onSelectOption={this.onSelectOption} required />
+                <div className="my-divider"></div>
               </div>
             </div>
-            <p style={{ textAlign: "center", color: "red" }}>
-              {this.state.message}
-            </p>
-            <div className="row mt-1">
-              {this.state.selectedsubs.map((sub, i) => (
-                <div className="col" style={{ marginBottom: "20px" }}>
-                  <span
-                    key={i}
-                    style={{
-                      border: "solid",
-                      padding: "5px",
-                      borderRadius: "10px",
-                      borderColor: "#2196F3",
-                      textAlign: "center",
-                    }}
-                  >
+
+            <div className="col s12 m6">
+              <div className="input-field">
+                <label
+                  style={{ transform: "translateY(-15px)", fontSize: "12px" }}
+                >
+                  Subjects *
+                </label>
+                <SubcribeClassOptions
+                  onSelectOption={this.onSelectClassOption}
+                  required
+                />
+                <div className="my-divider"></div>
+              </div>
+            </div>
+          </div>
+          <p style={{ textAlign: "center", color: "red" }}>
+            {this.state.message}
+          </p>
+          <div className="row mt-1">
+            {this.state.selectedsubs.map((sub, i) => (
+              <div key={i} className="col" style={{ marginBottom: "20px" }}>
+                <div
+                  key={i}
+                  style={{
+                    border: "solid",
+                    padding: "5px",
+                    borderRadius: "10px",
+                    borderColor: "#2196F3",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
                     {sub.classname}
+                    <i
+                      className="material-icons cursor-pointer right small remove-subs"
+                      onClick={() => {
+                        this.removeSub(sub.classId);
+                      }}
+                    >
+                      clear
+                    </i>
                   </span>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            <div className="form-group">
-              {!this.state.loading ? (
-                <button type="submit" className="form-control-submit-button">
-                  Make Payment
-                </button>
-              ) : (
-                  <div className="loader-3 center">
-                    <span></span>
-                  </div>
-                )}
-            </div>
-          </form>
-        </div>
-      );
+          <div className="form-group">
+            {!this.state.loading ? (
+              <button type="submit" className="form-control-submit-button">
+                Make Payment
+              </button>
+            ) : (
+              <div className="loader-3 center">
+                <span></span>
+              </div>
+            )}
+          </div>
+        </form>
+      </div>
+    );
   }
 }

@@ -88,10 +88,9 @@ class ProfileScreen extends Component {
   handleSavePass = (event) => {
     event.preventDefault();
 
-    this.setState({ editpass: true });
     AuthService.change_password(this.state.security)
       .then((response) => {
-        console.log(response);
+        console.log(this.state.security);
         if (response === undefined) {
           M.toast({
             html: `An error occured, password change failed!`,
@@ -465,7 +464,7 @@ class ProfileScreen extends Component {
                     <div className="insights justfiyCenter">
                       <div className="insight row tab-active">
                         <div className="col s12">
-                          <fieldset className="form-group col s6 no-padding no-margin">
+                          <fieldset className="form-group col s12 m6 l6 no-padding no-margin">
                             <ReactFormLabel
                               htmlFor="oldpassword"
                               title="Current Password:"
@@ -481,7 +480,7 @@ class ProfileScreen extends Component {
                             />
                           </fieldset>
                         </div>
-                        <div className="col s6">
+                        <div className="col s12 m6 l6">
                           <fieldset className="form-group">
                             <ReactFormLabel
                               htmlFor="newpassword"
@@ -499,7 +498,7 @@ class ProfileScreen extends Component {
                           </fieldset>
                         </div>
 
-                        <div className="col s6">
+                        <div className="col s12 m6 l6">
                           <fieldset className="form-group">
                             <ReactFormLabel
                               htmlFor="newpassword"
