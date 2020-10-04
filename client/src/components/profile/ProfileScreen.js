@@ -90,7 +90,7 @@ class ProfileScreen extends Component {
 
     AuthService.change_password(this.state.security)
       .then((response) => {
-        console.log(this.state.security);
+        console.log(response);
         if (response === undefined) {
           M.toast({
             html: `An error occured, password change failed!`,
