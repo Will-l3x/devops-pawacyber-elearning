@@ -1,17 +1,9 @@
 import axios from "axios";
 const qs = require("qs");
-const token = JSON.parse(localStorage.getItem("token"));
+
 // const apiUrl = "http://localhost:3001/api";
 
-var config = {
-  baseURL: "https://pawacyberschool.net/api",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "https://pawacyberschool.net",
-    "Access-Control-Allow-Credentials": true,
-  },
-};
+
 
 export const EventService = {
   get_events,
@@ -21,6 +13,16 @@ export const EventService = {
 };
 //events
 async function get_events(user_id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios(
       `/events/get-user-events/${user_id}`,
@@ -32,6 +34,16 @@ async function get_events(user_id) {
   }
 }
 async function post_events(user_id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(
       `/events/add-user-events/${user_id}`,
@@ -44,6 +56,16 @@ async function post_events(user_id, data) {
   }
 }
 async function update_events(user_id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.put(
       `/events/update-user-events/${user_id}`,
@@ -56,6 +78,16 @@ async function update_events(user_id, data) {
   }
 }
 async function delete_events(user_id, event_id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.delete(
       `/events/delete-user-events/${user_id}/${event_id}`,

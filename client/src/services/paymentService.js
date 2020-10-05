@@ -17,6 +17,7 @@ export const PaymentService = {
 };
 
 async function createToken(data) {
+    
     try {
         let res = await axios.post(`/createToken`, qs.stringify(data), config);
         return res.data;
