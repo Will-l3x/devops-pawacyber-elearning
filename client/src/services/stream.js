@@ -1,17 +1,9 @@
 import axios from "axios";
 const qs = require("qs");
-const token = JSON.parse(localStorage.getItem("token"));
+
 // const apiUrl = "http://localhost:3001/api";
 
-var config = {
-  baseURL: "https://pawacyberschool.net/api",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "https://pawacyberschool.net",
-    "Access-Control-Allow-Credentials": true,
-  },
-};
+
 
 export const StreamService = {
   create_meeting,
@@ -24,6 +16,16 @@ export const StreamService = {
 };
 
 async function create_meeting(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`/create_meeting`, qs.stringify(data), config);
     return res;
@@ -32,6 +34,16 @@ async function create_meeting(data) {
   }
 }
 async function start_meeting(id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.put(
       `/start_meeting/${id}`,
@@ -44,6 +56,16 @@ async function start_meeting(id, data) {
   }
 }
 async function stop_meeting(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     const data = {
       status: "Meeting Ended",
@@ -57,6 +79,16 @@ async function stop_meeting(id) {
 }
 
 async function get_meeting(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/get_meeting/${id}`, config);
     return res;
@@ -66,6 +98,16 @@ async function get_meeting(id) {
 }
 
 async function get_meetings() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/get_meetings`, config);
     return res;
@@ -74,6 +116,16 @@ async function get_meetings() {
   }
 }
 async function get_meetings_by_classid(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/get_meetings/${id}`, config);
     return res;
@@ -82,6 +134,16 @@ async function get_meetings_by_classid(id) {
   }
 }
 async function get_meetings_by_creatorid(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/get_meetings/${id}`, config);
     return res;
