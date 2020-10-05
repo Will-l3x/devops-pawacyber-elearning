@@ -130,11 +130,11 @@ class SubjectContent extends Component {
                               >
                                 <label htmlFor="task1">
                                   {/* {course.name} */}
-                                  Structure & Function of the Heart
+                                  Sample Videos
                      
                                   <Link
                                     to="#"
-                                    onClick={() => this.selectedTopic('Structure & Function of the Heart', 'https://youtu.be/wMKiGjvdRZo')}
+                                    onClick={() => this.selectedTopic('Sample Video', 'https://youtu.be/wMKiGjvdRZo')}
                                     className="secondary-content"
                                   >
                                     <span style={{ fontSize: "11px" }}>

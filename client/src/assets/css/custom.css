@@ -1260,40 +1260,46 @@ nav.modal-width-75 {
   color: #448aff !important;
 }
 .quote-text {
-	font-size: 40px;
-	font-family: 'Amatic SC', cursive;
-	text-align: center;
-	margin: 0 auto;
-	width: 80%;
+  font-size: 40px;
+  font-family: "Amatic SC", cursive;
+  text-align: center;
+  margin: 0 auto;
+  width: 80%;
 }
 
-.quote-footer{
-	margin: 10px 0 10px 0;
-	font-size: 20px;
+.quote-footer {
+  margin: 10px 0 10px 0;
+  font-size: 20px;
 }
 
 .icon {
-	margin-top: 10px;
-	float: left;
+  margin-top: 10px;
+  float: left;
 }
 
 .fa-quote-left {
-	position: relative;
-	top: 34px;
+  position: relative;
+  top: 34px;
 }
 
 .fa-quote-right {
-	position: relative;
-	bottom: 23px;
-	float: right;
+  position: relative;
+  bottom: 23px;
+  float: right;
 }
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
-.padding-top-0{
+.padding-top-0 {
   padding-top: 0px !important;
 }
-.padding-bottom-0{
+.padding-bottom-0 {
   padding-bottom: 0px !important;
+}
+.remove-subs {
+  margin-top: 4px;
+}
+.remove-subs:hover {
+  color: red;
 }

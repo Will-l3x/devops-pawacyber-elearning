@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import M from "materialize-css";
 import SideBar from "./SideBar";
 import Header from "./header";
 import Footer from "./footer";
@@ -22,7 +23,7 @@ class LivePlayer extends Component {
         JSON.parse(localStorage.getItem("liveclass")) === null
           ? {}
           : JSON.parse(localStorage.getItem("liveclass")),
-      url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      url: "https://pawacyberschool.net/fe_assets/PawaCyber.mp4",
       selectedOption: {},
       selectedClass: {},
       pages: [],
@@ -33,7 +34,9 @@ class LivePlayer extends Component {
     };
     this.create_meeting = this.create_meeting.bind(this);
   }
-
+  componentDidMount() {
+    M.AutoInit();
+  }
   onSelectOption = (selectedOption) => {
     this.setState({ selectedOption }, () =>
       console.log(this.state.selectedOption)
@@ -57,6 +60,17 @@ class LivePlayer extends Component {
     StreamService.create_meeting(data)
       .then((response) => {
         this.setState({ create_meeting_res: response });
+        if (response === undefined) {
+          M.toast({
+            html: "Meeting creation failed",
+            classes: "red accent-2",
+          });
+        } else {
+          M.toast({
+            html: "Meeting was successfully created",
+            classes: "green",
+          });
+        }
         document.getElementById("create-meeting-form").reset();
       })
       .catch((error) => {

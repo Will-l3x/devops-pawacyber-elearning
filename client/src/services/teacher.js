@@ -1,18 +1,10 @@
 import axios from "axios";
 import { isEmpty } from "lodash";
 const qs = require("qs");
-const token = JSON.parse(localStorage.getItem("token"));
+
 // const apiUrl = "http://localhost:3001/api";
 
-var config = {
-  baseURL: "https://cybers.azurewebsites.net/api/teacher",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
-    "Access-Control-Allow-Credentials": true,
-  },
-};
+
 export const TeacherService = {
   get_all_courses,
   get_teacher_pending_classwork,
@@ -29,6 +21,16 @@ export const TeacherService = {
 };
 
 async function post_material(data) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`/new_material`, qs.stringify(data), config);
     return res.data;
@@ -41,6 +43,16 @@ async function post_material(data) {
 
 
 async function post_assignment(data) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`/new_assignment`, qs.stringify(data), config);
     return res.data;
@@ -53,6 +65,16 @@ async function post_assignment(data) {
 
 
 async function get_materials(course_id) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   //by class id
   try {
     let res = await axios.get(`/get_materials/${course_id}`, config);
@@ -66,6 +88,16 @@ async function get_materials(course_id) {
 
 // classroom
 async function get_assignments(course_id) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/get_assignments/${course_id}`, config);
     return res.data.data;
@@ -78,6 +110,16 @@ async function get_assignments(course_id) {
 
 
 async function get_submissions(id) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   //by Assingment ID
   try {
     let res = await axios.get(`/get_submissions/${id}`, config);
@@ -92,6 +134,16 @@ async function get_submissions(id) {
 
 // get all courses the teacher teaches
 async function get_all_courses(teacherid) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/get_classes/${teacherid}`, config);
 
@@ -103,6 +155,16 @@ async function get_all_courses(teacherid) {
 }
 
 async function enrol_student(data) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`/enrol_student`, qs.stringify(data), config);
     return res;
@@ -115,6 +177,16 @@ async function enrol_student(data) {
 
 //Getting by class ID
 async function get_all_students(id) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/get_students/${id}`, config);
  
@@ -127,6 +199,16 @@ async function get_all_students(id) {
 }
 
 async function get_teacher_pending_classwork(teacher_id, classroom_id) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(
       `/teacher/get-all-pending/${teacher_id}/${classroom_id}`,
@@ -140,6 +222,16 @@ async function get_teacher_pending_classwork(teacher_id, classroom_id) {
 }
 
 async function get_teacher_unmarked_classwork(teacher_id, classroom_id) {
+  const token = await  JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/teacher",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(
       `/teacher/get-all-unmarked/${teacher_id}/${classroom_id}`,

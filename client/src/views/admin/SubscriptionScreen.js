@@ -18,8 +18,9 @@ class SubscriptionScreen extends Component {
           label: "Package Name",
           field: "subscriptionname",
           sort: "asc",
-          width: "24%",
+          width: "25%",
         },
+        
         {
           label: "Starting Grade",
           field: "mingrade",
@@ -36,8 +37,21 @@ class SubscriptionScreen extends Component {
           label: "Price",
           field: "price",
           sort: "asc",
-          width: "15%",
+          width: "10%",
         },
+        {
+          label: "Package Desccription",
+          field: "description",
+          sort: "asc",
+          width: "20%"
+        },
+        {
+          label: "# of subjects",
+          field: "subjects",
+          sort: "asc",
+          width: "10%"
+        },
+       
         {
           label: "Actions",
           field: "actions",
@@ -51,8 +65,9 @@ class SubscriptionScreen extends Component {
         maxgrade: 3,
         mingrade: 0,
         price: 0,
-        subscriptiondesc: "",
+        description: "",
         subscriptionname: "",
+        subjects: "",
       },
     };
     this.handleSave = this.handleSave.bind(this);
@@ -107,6 +122,9 @@ class SubscriptionScreen extends Component {
       mingrade: subscription.mingrade,
       price: subscription.price,
       subscriptionname: subscription.subscriptionname,
+      description: subscription.description,
+      subjects: subscription.subjects,
+      
     };
     this.setState(
       {
@@ -125,11 +143,13 @@ class SubscriptionScreen extends Component {
     event.preventDefault();
     var data = {
       subscriptionname: event.target.addsubscriptionname.value,
+      description: event.target.adddescription.value,
       mingrade: event.target.addmingrade.value,
       maxgrade: event.target.addmaxgrade.value,
       price: event.target.addprice.value,
+      subjects: event.target.addsubjects.value,
     };
-
+ 
     let elem = document.getElementById("modaladd");
     let modal = new M.Modal(elem);
     modal.close();
@@ -154,17 +174,20 @@ class SubscriptionScreen extends Component {
     event.preventDefault();
     var data = {
       subscriptionname: event.target.subscriptionname.value,
+      description: event.target.description.value,
       mingrade: event.target.mingrade.value,
       maxgrade: event.target.maxgrade.value,
       price: event.target.price.value,
+      subjects: event.target.subjects.value,
     };
     this.setState({
       selectedSub: {
         maxgrade: 0,
         mingrade: 0,
         price: 0,
-        subscriptiondesc: "",
+        description: "",
         subscriptionname: "",
+        subjects: "",
       },
     });
 
@@ -325,6 +348,32 @@ class SubscriptionScreen extends Component {
                           required
                         />
                       </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="adddescription"
+                          title="Subscription Details:"
+                        />
+                        <input
+                          id="adddescription"
+                          className="form-input input-meeting"
+                          name="adddescription"
+                          type="text"
+                          required
+                        />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="add#ofsubjects"
+                          title="# of subjects:"
+                        />
+                        <input
+                          id="addsubjects"
+                          className="form-input input-meeting"
+                          name="addsubjects"
+                          type="text"
+                          required
+                        />
+                      </fieldset>
                       <fieldset className="form-group row">
                         <div className="col s6">
                           <ReactFormLabel
@@ -416,6 +465,37 @@ class SubscriptionScreen extends Component {
                           required
                         />
                       </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="description"
+                          title="Subscription Details:"
+                        />
+                        <input
+                          id="description"
+                          className="form-input input-meeting"
+                          name="description"
+                          onChange={this.onChange}
+                          value={this.state.selectedSub.description}
+                          type="text"
+                          required
+                        />
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <ReactFormLabel
+                          htmlFor="subjects"
+                          title="# of subjects:"
+                        />
+                        <input
+                          id="subjects"
+                          className="form-input input-meeting"
+                          name="subjects"
+                          onChange={this.onChange}
+                          value={this.state.selectedSub.subjects}
+                          type="text"
+                          required
+                        />
+                      </fieldset>
+                      
                       <fieldset className="form-group row">
                         <div className="col s6">
                           <ReactFormLabel
