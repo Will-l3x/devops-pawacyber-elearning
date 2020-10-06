@@ -9,7 +9,7 @@ import Footer from "../../components/footer";
 import Header from "../../components/header";
 import VideoPriview from "../../components/student-components/VideoPreview";
 
-import {StudentService} from '../../services/student';
+import { StudentService } from "../../services/student";
 
 // Receives subject code and Name only from main screen and retrieves from endpoint the topics of that.
 class SubjectContent extends Component {
@@ -24,22 +24,26 @@ class SubjectContent extends Component {
     this.videoresources();
   }
 
-  videoresources(){
+  videoresources() {
     const course = store.getState().student.course.course;
-      
-    if (course === undefined || (course.name === "" || course.name === undefined) ) {
+
+    if (
+      course === undefined ||
+      course.name === "" ||
+      course.name === undefined
+    ) {
       return <Redirect to="/student" />;
     }
-    
-    StudentService.get_course_video_resources(course.courseId)
-    .then((response) => {
-      this.setState({ topics: response })
-    });
 
+    StudentService.get_course_video_resources(course.courseId).then(
+      (response) => {
+        this.setState({ topics: response });
+      }
+    );
   }
 
   videoSelected = false;
-  showAssignments = false
+  showAssignments = false;
   videoAddress = "";
   previewTitle = "";
 
@@ -49,24 +53,26 @@ class SubjectContent extends Component {
     this.videoSelected = true;
   }
 
-  showAss(){
+  showAss() {
     this.videoSelected = false;
     this.showAssignments = true;
-    this.previewTitle = "DOWNLOAD ASSIGNMENTS"
+    this.previewTitle = "DOWNLOAD ASSIGNMENTS";
   }
 
-  showResources(){
+  showResources() {
     this.videoSelected = false;
     this.showAssignments = false;
-    this.previewTitle = "LIBRARY RESOURCES"
+    this.previewTitle = "LIBRARY RESOURCES";
   }
-  
 
   render() {
     const course = store.getState().student.course.course;
-    if (course === undefined || (course.name === "" || course.name === undefined) ) {
+    if (
+      course === undefined ||
+      course.name === "" ||
+      course.name === undefined
+    ) {
       return <Redirect to="/student" />;
-
     }
     return (
       <div>
@@ -76,44 +82,47 @@ class SubjectContent extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-              <SideBar/>
-            
+            <SideBar />
+
             <section id="content">
               <div className="container">
                 <div style={{ marginTop: "15px" }}>
                   <div id="card-widgets">
                     <div className="row">
-                      <div className="col s12 m2 l3">
+                      <div className="col s12 m12 l3">
                         <div className="column">
-                        <ul className="task-card collection with-header">
-                            <li className={`collection-header ${course.color} `} >
+                          <ul className="task-card collection with-header">
+                            <li
+                              className={`collection-header ${course.color} `}
+                            >
                               <p className="task-card-title">
                                 {course.name} Resources
                               </p>
                             </li>
                             <li className="collection-item dismissable">
-                            <label htmlFor="task1">
-                                  Course Library Resources
-                                  <Link to="#" onClick={() => this.showResources()} className="secondary-content">
-                                    <span style={{ fontSize: "11px" }}>
-                                      View
-                                    </span>
-                                  </Link>
-                                </label>
-                          </li>
-                          <li
-                               
-                                className="collection-item dismissable"
-                              >
-                            <label htmlFor="task1">
-                                  All Assingments
-                                  <Link to="#" onClick={() => this.showAss()} className="secondary-content">
-                                    <span style={{ fontSize: "11px" }}>
-                                      View
-                                    </span>
-                                  </Link>
-                                </label>
-                          </li>
+                              <label htmlFor="task1">
+                                Course Library Resources
+                                <Link
+                                  to="#"
+                                  onClick={() => this.showResources()}
+                                  className="secondary-content"
+                                >
+                                  <span style={{ fontSize: "11px" }}>View</span>
+                                </Link>
+                              </label>
+                            </li>
+                            <li className="collection-item dismissable">
+                              <label htmlFor="task1">
+                                All Assingments
+                                <Link
+                                  to="#"
+                                  onClick={() => this.showAss()}
+                                  className="secondary-content"
+                                >
+                                  <span style={{ fontSize: "11px" }}>View</span>
+                                </Link>
+                              </label>
+                            </li>
                           </ul>
                           <ul className="task-card collection with-header">
                             <li
@@ -124,25 +133,26 @@ class SubjectContent extends Component {
                               </p>
                             </li>
                             {/* {this.state.topics.map((topic, i) => ( */}
-                              <li
-                                
-                                className="collection-item dismissable"
-                              >
-                                <label htmlFor="task1">
-                                  {/* {course.name} */}
-                                  Sample Videos
-                     
-                                  <Link
-                                    to="#"
-                                    onClick={() => this.selectedTopic('Sample Video', 'https://youtu.be/wMKiGjvdRZo')}
-                                    className="secondary-content"
-                                  >
-                                    <span style={{ fontSize: "11px" }}>
-                                      Watch
-                                    </span>
-                                  </Link>
-                                </label>
-                              </li>
+                            <li className="collection-item dismissable">
+                              <label htmlFor="task1">
+                                {/* {course.name} */}
+                                Sample Videos
+                                <Link
+                                  to="#"
+                                  onClick={() =>
+                                    this.selectedTopic(
+                                      "Sample Video",
+                                      "https://youtu.be/wMKiGjvdRZo"
+                                    )
+                                  }
+                                  className="secondary-content"
+                                >
+                                  <span style={{ fontSize: "11px" }}>
+                                    Watch
+                                  </span>
+                                </Link>
+                              </label>
+                            </li>
                             {/* ))} */}
                           </ul>
                         </div>
@@ -156,17 +166,18 @@ class SubjectContent extends Component {
                             >
                               {this.videoSelected
                                 ? this.previewTitle
-                                : this.showAssignments? this.previewTitle:"LIBRARY RESOURCES"}
+                                : this.showAssignments
+                                ? this.previewTitle
+                                : "LIBRARY RESOURCES"}
                             </p>
                           </div>
                           {this.videoSelected ? (
-                            
-                              <VideoPriview videoLink={this.videoAddress}>
-                           </VideoPriview>
-                            
-                          ) : this.showAssignments?(
+                            <VideoPriview
+                              videoLink={this.videoAddress}
+                            ></VideoPriview>
+                          ) : this.showAssignments ? (
                             <div
-                              className="row mt-1"
+                              className="row"
                               style={{
                                 paddingLeft: "10px",
                                 paddingRight: "10px",
@@ -176,18 +187,10 @@ class SubjectContent extends Component {
                                 content={course.courseId}
                               ></ShowAllAssignments>
                             </div>
-                          ):(
-                            <div
-                              className="row mt-1"
-                              style={{
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                              }}
-                            >
-                              <SubjectDescrip
-                                content={course.courseId}
-                              ></SubjectDescrip>
-                            </div>
+                          ) : (
+                            <SubjectDescrip
+                              content={course.courseId}
+                            ></SubjectDescrip>
                           )}
                         </div>
                       </div>
