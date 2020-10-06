@@ -51,6 +51,9 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./App.css";
 import "./assets/css/custom.css";
 import M from "materialize-css";
+
+import "./assets/css/video-player.css";
+import "./assets/css/loader.css";
 import store from "./config/store";
 //import history from "./history";
 import Students from "./views/admin/Students";

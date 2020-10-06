@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import carousel1 from "../assets/images/conference/live-chat.svg";
 // import M from "materialize-css";
 import moment from "moment";
-import "../assets/css/video-player.css";
 
 import avatar from "../assets/images/gallary/not_found.gif";
 import { StreamService } from "../services/stream";

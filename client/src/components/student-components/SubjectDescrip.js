@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { StudentService } from "../../services/student";
 import $ from "jquery";
-import "../../assets/css/video-player.css";
-import "../../assets/css/loader.css";
 
 export default class SubjectDescrip extends Component {
   constructor(props) {
