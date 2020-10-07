@@ -383,7 +383,6 @@ let updateCourseMaterialTag = (req, res) => {
     let q = `update materials \
       set materials.obj = '${tag}' \
       where materials.mId = ${mId}`;
-    console.log(p);
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
@@ -400,13 +399,13 @@ let updateCourseMaterialTag = (req, res) => {
           return res.json({
             status: 200,
             success: true,
-            message: "Added mark to student submission...",
+            message: "Updated tag on material record...",
           });
         } else {
           return res.json({
             status: 400,
             success: false,
-            message: "Failed to add mark...",
+            message: "Failed to update tag...",
           });
         }
       }
