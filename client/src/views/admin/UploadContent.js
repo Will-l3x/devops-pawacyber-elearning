@@ -225,7 +225,6 @@ class UploadContent extends Component {
   onSelectTagOption = (selectedOption) => {
     const tagOptions = this.state.tag;
     tagOptions.push(selectedOption.tagId);
-    console.log(selectedOption)
     this.setState({
       tag: tagOptions,
       selectedOption

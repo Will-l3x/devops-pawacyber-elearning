@@ -6,12 +6,12 @@ export default class SubjectDescrip extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loaded: false,
       resources: [],
       url: "",
       view: false,
       selectedResourceKey: -1,
       selectedContentTag: { tagId: 1, name: "Textbook" },
-textbooks : {}
     };
   }
 
@@ -203,15 +203,24 @@ textbooks : {}
   }
 
   getDashData() {
-    StudentService.get_course_downloadables(this.data).then((response) => {
-      const materialContent = response;
-      for (const material of materialContent) {
-
-      }
-      this.setState({ resources: response });
-    });
+   StudentService.get_course_downloadables(this.data).then((response) => {
+        let materialContent = response;
+        const selectedContentTag = this.props.selectedContentTag;
+        for (const material of materialContent) {
+          var newarray = $.grep(materialContent, function (e) {
+            return material.obj != selectedContentTag.name;
+          });
+          materialContent = newarray;
+        }
+        this.setState({ resources: materialContent, loaded: true });
+      });
+    return this.selectedContent()
   }
-
+  changeContentTag(selectedContentTag) {
+    console.log(selectedContentTag)
+    this.setState({ selectedContentTag, loaded: false });
+    return this.getDashData();
+  }
   download(resource, key) {
     var data = {
       file: resource.file,
@@ -230,6 +239,62 @@ textbooks : {}
   }
   cancelView() {
     this.setState({ view: false, selectedResourceKey: -1 });
+  }
+  selectedContent() {
+    return this.state.resources.map((resource, i) =>
+      resource.materialname.includes(".mp4") ? (
+        <div key={i}></div>
+      ) : (
+        <div key={i} className="col s12 m6 l4">
+          <div
+            className="card min-height-100 white-text designed-dots"
+            style={{ borderRadius: "5px" }}
+          >
+            <div className="padding-4">
+              <div className="col s12 m12">
+                <p className="no-margin" style={{ color: "teal" }}>
+                  <b>{resource.materialname}</b>
+                </p>
+                <p
+                  className="no-margin"
+                  style={{ fontSize: "12px", color: "grey" }}
+                >
+                  {resource.dateadded}
+                </p>
+              </div>
+              <div
+                className="right-align"
+                style={{ marginTop: "60px", color: "black" }}
+              >
+                <p className="no-margin">
+                  <button
+                    onClick={() => {
+                      this.download(resource, i);
+                    }}
+                  >
+                    VIEW
+                  </button>
+                </p>
+              </div>
+              <div
+                className={
+                  i === this.state.selectedResourceKey
+                    ? "justfiyCenter"
+                    : "display-none"
+                }
+              >
+                <div className="vertical--center">
+                  <div className="vertical-center__element">
+                    <span className="preloader preloader--top"></span>
+                    <span className="preloader preloader--bottom"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    );
   }
   render() {
     return this.state.view ? (
@@ -271,61 +336,11 @@ textbooks : {}
           </div>
         </div>
       </div>
+    ) : this.state.selectedContentTag.name ===
+      this.props.selectedContentTag.name ? (
+      this.selectedContent()
     ) : (
-      this.state.resources.map((resource, i) =>
-        resource.materialname.includes(".mp4") ? (
-          <div key={i}></div>
-        ) : (
-          <div key={i} className="col s12 m6 l4">
-            <div
-              className="card min-height-100 white-text designed-dots"
-              style={{ borderRadius: "5px" }}
-            >
-              <div className="padding-4">
-                <div className="col s12 m12">
-                  <p className="no-margin" style={{ color: "teal" }}>
-                    <b>{resource.materialname}</b>
-                  </p>
-                  <p
-                    className="no-margin"
-                    style={{ fontSize: "12px", color: "grey" }}
-                  >
-                    {resource.dateadded}
-                  </p>
-                </div>
-                <div
-                  className="right-align"
-                  style={{ marginTop: "60px", color: "black" }}
-                >
-                  <p className="no-margin">
-                    <button
-                      onClick={() => {
-                        this.download(resource, i);
-                      }}
-                    >
-                      VIEW
-                    </button>
-                  </p>
-                </div>
-                <div
-                  className={
-                    i === this.state.selectedResourceKey
-                      ? "justfiyCenter"
-                      : "display-none"
-                  }
-                >
-                  <div className="vertical--center">
-                    <div className="vertical-center__element">
-                      <span className="preloader preloader--top"></span>
-                      <span className="preloader preloader--bottom"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )
-      )
+      this.changeContentTag(this.props.selectedContentTag)
     );
   }
 }

@@ -40,7 +40,7 @@ class ResourceCard extends Component {
   getDashData() {
     AdminService.get_all_resources().then((response) => {
       const allResources = response === undefined ? [] : response;
-      console.log(response);
+      
       allResources.sort((a, b) => a.materialname.localeCompare(b.materialname));
 
       let pages = [];
@@ -64,6 +64,7 @@ class ResourceCard extends Component {
     var data = {
       file: resource.file,
     };
+    console.log(data)
     setTimeout(() => {
       StudentService.download(data).then((response) => {
         window.open(URL.createObjectURL(response));
@@ -189,7 +190,7 @@ class ResourceCard extends Component {
                             color: "grey",
                           }}
                         >
-                          Tag: {this.getTags(resource.classid)} | Subject ID:{" "}
+                          Tag: {resource.obj} | Subject ID:{" "}
                           {resource.classid}
                         </p>
                       </div>
