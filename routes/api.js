@@ -78,6 +78,8 @@ router.post("/teacher/enrol_student", _teacher.enrolStudent);
 router.post("/teacher/new_material", _teacher.newCourseMaterial);
 router.get("/teacher/get_material/:id", _teacher.getCourseMaterial);
 router.get("/teacher/get_materials/:id", _teacher.getCourseMaterials);
+router.post("/teacher/get_materials_by_tag", _teacher.getCourseMaterialByTag);
+router.post("/teacher/update_material_tag", _teacher.updateCourseMaterialTag);
 
 router.post("/teacher/new_assignment", _teacher.newAssignment);
 router.get("/teacher/get_assignment/:id", _teacher.getAssignment);
