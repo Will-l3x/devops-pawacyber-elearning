@@ -24,13 +24,13 @@ class ResourceCard extends Component {
 
   getTags(mid) {
     var data = {
-      materialId: mid
-    }
+      materialId: mid,
+    };
 
     var tagsReturned = [];
     AdminService.get_course_tag(data).then((response) => {
-      response.forEach(element => {
-        tagsReturned.push(element.name)
+      response.forEach((element) => {
+        tagsReturned.push(element.name);
       });
     });
 
@@ -39,10 +39,9 @@ class ResourceCard extends Component {
 
   getDashData() {
     AdminService.get_all_resources().then((response) => {
-      const allResources = response === undefined ? [] : response.reverse();
-      allResources.sort(
-        (a, b) => new Date(b.materialname) - new Date(a.materialname)
-      );
+      const allResources = response === undefined ? [] : response;
+      console.log(response);
+      allResources.sort((a, b) => a.materialname.localeCompare(b.materialname));
 
       let pages = [];
       let perPage = 24;
@@ -113,7 +112,7 @@ class ResourceCard extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-        this.state.pages.length < 1
+      this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber - 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -124,7 +123,7 @@ class ResourceCard extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-        this.state.pages.length < 1
+      this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber + 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -141,194 +140,196 @@ class ResourceCard extends Component {
               .toLowerCase()
               .includes(this.state.searchText.toLowerCase())
           ).length < 1 ? (
-              <div className="row">
-                <div className="divider" style={{ marginTop: 30 }}></div>
-                <p
+            <div className="row">
+              <div className="divider" style={{ marginTop: 30 }}></div>
+              <p
+                style={{
+                  textAlign: "center",
+                  fontSize: "20px",
+                }}
+              >
+                <img
+                  src={avatar}
+                  alt="Avatar"
                   style={{
-                    textAlign: "center",
-                    fontSize: "20px",
+                    maxWidth: "100%",
+                    maxHeight: "150px",
                   }}
-                >
-                  <img
-                    src={avatar}
-                    alt="Avatar"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "150px",
-                    }}
-                  ></img>
-                  <br />
-                  <br />
+                ></img>
+                <br />
+                <br />
                 No Results Found!
               </p>
-              </div>
-            ) : this.state.searchText === "" ? (
-              this.state.resources
-                .filter((resource) =>
-                  resource.materialname
-                    .toLowerCase()
-                    .includes(this.state.searchText.toLowerCase())
-                )
-                .map((resource, i) => (
-                  <div key={i} className="col s6 m3">
-                    <div
-                      className="card min-height-100 z-depth-2 white-text designed-dots"
-                      style={{
-                        borderRadius: "5px",
-                        backgroundColor: "white",
-                      }}
-                    >
-                      <div className="padding-4">
-                        <div className="col s12 m12">
-                          <p className="no-margin" style={{ color: "teal" }}>
-                            <b>{resource.materialname}</b>
-                          </p>
-                          <p
-                            className="no-margin"
-                            style={{
-                              fontSize: "12px",
-                              color: "grey",
-                            }}
-                          >
-                            Tag: {this.getTags(resource.classid)}  |  Subject ID: {resource.classid}
-                          </p>
-                        </div>
-
-                        <div
-                          className="row"
+            </div>
+          ) : this.state.searchText === "" ? (
+            this.state.resources
+              .filter((resource) =>
+                resource.materialname
+                  .toLowerCase()
+                  .includes(this.state.searchText.toLowerCase())
+              )
+              .map((resource, i) => (
+                <div key={i} className="col s6 m3">
+                  <div
+                    className="card min-height-100 z-depth-2 white-text designed-dots"
+                    style={{
+                      borderRadius: "5px",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    <div className="padding-4">
+                      <div className="col s12 m12">
+                        <p className="no-margin" style={{ color: "teal" }}>
+                          <b>{resource.materialname}</b>
+                        </p>
+                        <p
+                          className="no-margin"
                           style={{
-                            marginTop: "90px",
-                            color: "white",
+                            fontSize: "12px",
+                            color: "grey",
                           }}
                         >
-                          <div className="left-align col s6 m6">
-                            <p className="no-margin">
-                              <a
-                                href="#!"
-                                style={{
-                                  color: "red",
-                                  padding: "5px",
-                                  textAlign: "center",
-                                }}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  this.deleteResource(resource);
-                                }}
-                              >
-                                Delete
+                          Tag: {this.getTags(resource.classid)} | Subject ID:{" "}
+                          {resource.classid}
+                        </p>
+                      </div>
+
+                      <div
+                        className="row"
+                        style={{
+                          marginTop: "90px",
+                          color: "white",
+                        }}
+                      >
+                        <div className="left-align col s6 m6">
+                          <p className="no-margin">
+                            <a
+                              href="#!"
+                              style={{
+                                color: "red",
+                                padding: "5px",
+                                textAlign: "center",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.deleteResource(resource);
+                              }}
+                            >
+                              Delete
                             </a>
-                            </p>
-                          </div>
-                          <div className="right-align col s6 m6">
-                            <p className="no-margin">
-                              <a
-                                href="#!"
-                                style={{
-                                  border: "1px solid #2196F3",
-                                  color: "white",
-                                  backgroundColor: "#2196F3",
-                                  borderRadius: "15px",
-                                  padding: "5px",
-                                  textAlign: "center",
-                                }}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  this.download(resource);
-                                }}
-                              >
-                                Download
+                          </p>
+                        </div>
+                        <div className="right-align col s6 m6">
+                          <p className="no-margin">
+                            <a
+                              href="#!"
+                              style={{
+                                border: "1px solid #2196F3",
+                                color: "white",
+                                backgroundColor: "#2196F3",
+                                borderRadius: "15px",
+                                padding: "5px",
+                                textAlign: "center",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.download(resource);
+                              }}
+                            >
+                              Download
                             </a>
-                            </p>
-                          </div>
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                ))
-            ) : (
-                this.state.allResources
-                  .filter((resource) =>
-                    resource.materialname
-                      .toLowerCase()
-                      .includes(this.state.searchText.toLowerCase())
-                  )
-                  .map((resource, i) => (
-                    <div key={i} className="col s6 m3">
+                </div>
+              ))
+          ) : (
+            this.state.allResources
+              .filter((resource) =>
+                resource.materialname
+                  .toLowerCase()
+                  .includes(this.state.searchText.toLowerCase())
+              )
+              .map((resource, i) => (
+                <div key={i} className="col s6 m3">
+                  <div
+                    className="card min-height-100 z-depth-2 white-text designed-dots"
+                    style={{
+                      borderRadius: "5px",
+                      backgroundColor: "white",
+                    }}
+                  >
+                    <div className="padding-4">
+                      <div className="col s12 m12">
+                        <p className="no-margin" style={{ color: "teal" }}>
+                          <b>{resource.materialname}</b>
+                        </p>
+                        <p
+                          className="no-margin"
+                          style={{
+                            fontSize: "12px",
+                            color: "grey",
+                          }}
+                        >
+                          Tag: {this.getTags(resource.classid)} | Subject ID:{" "}
+                          {resource.classid}
+                        </p>
+                      </div>
+
                       <div
-                        className="card min-height-100 z-depth-2 white-text designed-dots"
+                        className="row"
                         style={{
-                          borderRadius: "5px",
-                          backgroundColor: "white",
+                          marginTop: "90px",
+                          color: "white",
                         }}
                       >
-                        <div className="padding-4">
-                          <div className="col s12 m12">
-                            <p className="no-margin" style={{ color: "teal" }}>
-                              <b>{resource.materialname}</b>
-                            </p>
-                            <p
-                              className="no-margin"
+                        <div className="left-align col s6 m6">
+                          <p className="no-margin">
+                            <a
+                              href="#!"
                               style={{
-                                fontSize: "12px",
-                                color: "grey",
+                                color: "red",
+                                padding: "5px",
+                                textAlign: "center",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.deleteResource(resource);
                               }}
                             >
-                              Tag: {this.getTags(resource.classid)} |   Subject ID: {resource.classid}
-                            </p>
-                          </div>
-
-                          <div
-                            className="row"
-                            style={{
-                              marginTop: "90px",
-                              color: "white",
-                            }}
-                          >
-                            <div className="left-align col s6 m6">
-                              <p className="no-margin">
-                                <a
-                                  href="#!"
-                                  style={{
-                                    color: "red",
-                                    padding: "5px",
-                                    textAlign: "center",
-                                  }}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    this.deleteResource(resource);
-                                  }}
-                                >
-                                  Delete
+                              Delete
                             </a>
-                              </p>
-                            </div>
-                            <div className="right-align col s6 m6">
-                              <p className="no-margin">
-                                <a
-                                  href="#!"
-                                  style={{
-                                    border: "1px solid #2196F3",
-                                    color: "white",
-                                    backgroundColor: "#2196F3",
-                                    borderRadius: "15px",
-                                    padding: "5px",
-                                    textAlign: "center",
-                                  }}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    this.download(resource);
-                                  }}
-                                >
-                                  Download
+                          </p>
+                        </div>
+                        <div className="right-align col s6 m6">
+                          <p className="no-margin">
+                            <a
+                              href="#!"
+                              style={{
+                                border: "1px solid #2196F3",
+                                color: "white",
+                                backgroundColor: "#2196F3",
+                                borderRadius: "15px",
+                                padding: "5px",
+                                textAlign: "center",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                this.download(resource);
+                              }}
+                            >
+                              Download
                             </a>
-                              </p>
-                            </div>
-                          </div>
+                          </p>
                         </div>
                       </div>
                     </div>
-                  ))
-              )}
+                  </div>
+                </div>
+              ))
+          )}
         </main>
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
@@ -337,8 +338,8 @@ class ResourceCard extends Component {
               <li
                 className={
                   this.state.currentPageNumber === 1 ||
-                    this.state.pages.length < 1 ||
-                    this.state.searchText !== ""
+                  this.state.pages.length < 1 ||
+                  this.state.searchText !== ""
                     ? "disabled pointer-events-none"
                     : "waves-effect"
                 }
@@ -346,8 +347,8 @@ class ResourceCard extends Component {
                 <Link
                   className={
                     this.state.currentPageNumber === 1 ||
-                      this.state.pages.length < 1 ||
-                      this.state.searchText !== ""
+                    this.state.pages.length < 1 ||
+                    this.state.searchText !== ""
                       ? "disabled pointer-events-none"
                       : ""
                   }
@@ -365,42 +366,42 @@ class ResourceCard extends Component {
                   </Link>
                 </li>
               ) : (
-                  this.state.pages.map((page) => {
-                    if (page === this.state.currentPageNumber) {
-                      return (
-                        <li key={page} className="active">
-                          <Link
-                            onClick={() => this.handlePageClick(page)}
-                            rel="noopener noreferer"
-                            to="#!"
-                          >
-                            {page}
-                          </Link>
-                        </li>
-                      );
-                    } else {
-                      return (
-                        <li key={page}>
-                          <Link
-                            onClick={(e) => {
-                              e.preventDefault();
-                              this.handlePageClick(page);
-                            }}
-                            rel="noopener noreferer"
-                            to="#!"
-                          >
-                            {page}
-                          </Link>
-                        </li>
-                      );
-                    }
-                  })
-                )}
+                this.state.pages.map((page) => {
+                  if (page === this.state.currentPageNumber) {
+                    return (
+                      <li key={page} className="active">
+                        <Link
+                          onClick={() => this.handlePageClick(page)}
+                          rel="noopener noreferer"
+                          to="#!"
+                        >
+                          {page}
+                        </Link>
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li key={page}>
+                        <Link
+                          onClick={(e) => {
+                            e.preventDefault();
+                            this.handlePageClick(page);
+                          }}
+                          rel="noopener noreferer"
+                          to="#!"
+                        >
+                          {page}
+                        </Link>
+                      </li>
+                    );
+                  }
+                })
+              )}
               <li
                 className={
                   this.state.currentPageNumber === this.state.pages.length ||
-                    this.state.pages.length < 1 ||
-                    this.state.searchText !== ""
+                  this.state.pages.length < 1 ||
+                  this.state.searchText !== ""
                     ? "disabled pointer-events-none"
                     : "waves-effect"
                 }
@@ -409,8 +410,8 @@ class ResourceCard extends Component {
                   onClick={this.handleNextClick}
                   className={
                     this.state.currentPageNumber === this.state.pages.length ||
-                      this.state.pages.length < 1 ||
-                      this.state.searchText !== ""
+                    this.state.pages.length < 1 ||
+                    this.state.searchText !== ""
                       ? "disabled pointer-events-none"
                       : ""
                   }

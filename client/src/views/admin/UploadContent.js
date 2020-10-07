@@ -47,7 +47,7 @@ class UploadContent extends Component {
       rows: [],
       courses: [],
       class: "",
-      tag: []
+      tag: [],
     };
   }
 
@@ -69,7 +69,6 @@ class UploadContent extends Component {
     const materials = [];
     AdminService.get_all_resources().then((response) => {
       if (response === undefined) {
-
       } else {
         for (const material of response) {
           materials.push(material);
@@ -82,7 +81,6 @@ class UploadContent extends Component {
   }
 
   handleSubmitTag = (event) => {
-
     var data = {
       name: event.target.tagname.value,
     };
@@ -105,7 +103,7 @@ class UploadContent extends Component {
         });
       }
     });
-  }
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -128,6 +126,7 @@ class UploadContent extends Component {
         file: true,
         classid: this.state.class.classId,
         grade: this.state.class.grade,
+        obj: this.state.tag.name,
       };
 
       UploadService.post_material(data).then((response) => {
@@ -148,12 +147,11 @@ class UploadContent extends Component {
           uploadData.append("uploadId", response.uploadId);
 
           var tag_post = {
-            "tagIds": tagSelected,
-            "materialId": response.uploadId
+            tagIds: tagSelected,
+            materialId: response.uploadId,
           };
 
           UploadService.link_tags(tag_post).then((response) => {
-
             M.toast({
               html: "Taging Content",
               classes: "yellow",
@@ -176,7 +174,11 @@ class UploadContent extends Component {
                   uploadCount += 1;
                   if (uploadCount === targetLength) {
                     M.toast({
-                      html: uploadCount + " out of " + targetLength + " files uploaded ...",
+                      html:
+                        uploadCount +
+                        " out of " +
+                        targetLength +
+                        " files uploaded ...",
                       classes: "green",
                     });
                     M.toast({
@@ -186,7 +188,11 @@ class UploadContent extends Component {
                     this.componentDidMount();
                   } else {
                     M.toast({
-                      html: uploadCount + " out of " + targetLength + " files uploaded ...",
+                      html:
+                        uploadCount +
+                        " out of " +
+                        targetLength +
+                        " files uploaded ...",
                       classes: "green",
                     });
                   }
@@ -197,10 +203,8 @@ class UploadContent extends Component {
                   });
                 }
               });
-
             }
           });
-
         } else {
           M.toast({
             html: response.message,
@@ -213,7 +217,7 @@ class UploadContent extends Component {
 
   onSelectClassOption = (selectedOption) => {
     this.setState({
-      class: selectedOption
+      class: selectedOption,
     });
   };
 
@@ -221,7 +225,7 @@ class UploadContent extends Component {
     const tagOptions = this.state.tag;
     tagOptions.push(selectedOption.tagId);
     this.setState({
-      tag: tagOptions
+      tag: tagOptions,
     });
   };
 
@@ -285,7 +289,7 @@ class UploadContent extends Component {
                   {/* <div className="card-stats z-depth-5 padding-3 border-radius-10">
                     <DatatablePage data={this.state} /> */}
                   <div className="card-stats padding-2 border-radius-10">
-                    < ResourceCard></ ResourceCard>
+                    <ResourceCard></ResourceCard>
                   </div>
                 </div>
               </section>
@@ -294,24 +298,21 @@ class UploadContent extends Component {
                 id="modaladd"
                 className="modal modal-meeting min-width-500 border-radius-10"
               >
-
                 <h1 style={{ marginTop: "10px" }} className="h1-meeting">
                   <i
                     className="material-icons"
                     style={{ transform: "translate(-3px, 4px)" }}
                   >
                     cloud_upload
-                    </i>
-                    Upload Resource!
-                  </h1>
-
+                  </i>
+                  Upload Resource!
+                </h1>
 
                 <form
                   className="react-form form-meeting"
                   onSubmit={this.handleSubmit}
                   id="sibs"
                 >
-
                   {/* <hr className="hr5" style={{ marginBottom: 30 }} /> */}
                   <div className="row">
                     <div className="col s7 m7">
@@ -356,7 +357,10 @@ class UploadContent extends Component {
                     </div>
                   </div>
                   <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="fileUpload" title="Subject Resources:" />
+                    <ReactFormLabel
+                      htmlFor="fileUpload"
+                      title="Subject Resources:"
+                    />
                     <input
                       className="many-files"
                       id="file"
@@ -377,15 +381,18 @@ class UploadContent extends Component {
                 </form>
               </div>
 
-
-
-
-
-              <div id="modaltag" className="modal modal-meeting min-width-500 border-radius-10">
+              <div
+                id="modaltag"
+                className="modal modal-meeting min-width-500 border-radius-10"
+              >
                 <h1 style={{ marginTop: "10px" }} className="h1-meeting">
                   Add New Content Tag
                 </h1>
-                <form className="react-form form-meeting" onSubmit={this.handleSubmitTag} id="sibs">
+                <form
+                  className="react-form form-meeting"
+                  onSubmit={this.handleSubmitTag}
+                  id="sibs"
+                >
                   <ReactFormLabel htmlFor="tagname" title="Tag Name:" />
 
                   <input
@@ -396,13 +403,15 @@ class UploadContent extends Component {
                     required
                   />
                   <div className="form-group">
-                    <input id="formButton2" className="btn gradient-45deg-light-blue-cyan border-radius-5" type="submit" value="Add" />
+                    <input
+                      id="formButton2"
+                      className="btn gradient-45deg-light-blue-cyan border-radius-5"
+                      type="submit"
+                      value="Add"
+                    />
                   </div>
                 </form>
               </div>
-
-
-
 
               <div id="areyousure" className="modal width-250">
                 <div className="modal-content">
@@ -413,7 +422,7 @@ class UploadContent extends Component {
                     to="#"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                  //onClick={this.handleDelete}
+                    //onClick={this.handleDelete}
                   >
                     Yes
                   </Link>

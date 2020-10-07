@@ -10,6 +10,8 @@ export default class SubjectDescrip extends Component {
       url: "",
       view: false,
       selectedResourceKey: -1,
+      selectedContentTag: { tagId: 1, name: "Textbook" },
+textbooks : {}
     };
   }
 
@@ -17,7 +19,9 @@ export default class SubjectDescrip extends Component {
 
   componentDidMount() {
     this.data = this.props.content;
-    this.getDashData();
+    this.setState({ selectedContentTag: this.props.selectedContentTag }, () => {
+      this.getDashData();
+    });
   }
   videoPlayer() {
     $(".video-player-st").each(function (_, videoPlayer) {
@@ -200,6 +204,10 @@ export default class SubjectDescrip extends Component {
 
   getDashData() {
     StudentService.get_course_downloadables(this.data).then((response) => {
+      const materialContent = response;
+      for (const material of materialContent) {
+
+      }
       this.setState({ resources: response });
     });
   }
