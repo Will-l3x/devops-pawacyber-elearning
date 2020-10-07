@@ -4,7 +4,6 @@ import { Link, Redirect } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import SideBar from "../../components/SideBar";
-import file from "./cstimetable.pdf"
 import store from "../../config/store";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
@@ -26,6 +25,7 @@ class SubjectContent extends Component {
       resources: [],
       assignments: [],
       url: "",
+      classwork: "",
       selectedResourceKey: -1,
       allResources: [],
       currentPageNumber: 1,
@@ -343,7 +343,12 @@ class SubjectContent extends Component {
     }, 100);
   }
   cancelView() {
-    this.setState({ view: false, selectedResourceKey: -1, url: "" });
+    this.setState({
+      view: false,
+      selectedResourceKey: -1,
+      url: "",
+      classwork: "",
+    });
   }
   pageArraySplit = (array, pagingOptions) => {
     const currentPageNumber = pagingOptions.currentPageNumber;
@@ -379,9 +384,8 @@ class SubjectContent extends Component {
       this.getDashData();
     });
   };
-  viewClasswork(url) {
-    console.log(url);
-    this.setState({ url, view: true });
+  viewClasswork(classwork) {
+    this.setState({ classwork, view: true });
   }
   onDocumentLoadSuccess({ numPages }) {
     this.setState({ numPages });
@@ -511,9 +515,19 @@ class SubjectContent extends Component {
                               }}
                             >
                               {this.state.view ? (
-                                <div>
+                                <div className="video-player-st">
+                                  <div className="video-topbar transparent">
+                                    <div className="justfiyCenter white-text cursor-pointer">
+                                      <i
+                                        className="material-icons"
+                                        onClick={() => this.cancelView()}
+                                      >
+                                        clear
+                                      </i>
+                                    </div>
+                                  </div>
                                   <Document
-                                    file={file}
+                                    file={this.state.classwork}
                                     onLoadSuccess={this.onDocumentLoadSuccess}
                                   >
                                     <Page pageNumber={this.state.pageNumber} />
