@@ -48,6 +48,7 @@ class UploadContent extends Component {
       courses: [],
       class: "",
       tag: [],
+      selectedOption: {}
     };
   }
 
@@ -126,7 +127,7 @@ class UploadContent extends Component {
         file: true,
         classid: this.state.class.classId,
         grade: this.state.class.grade,
-        obj: this.state.tag.name,
+        obj: this.state.selectedOption.name,
       };
 
       UploadService.post_material(data).then((response) => {
@@ -224,8 +225,10 @@ class UploadContent extends Component {
   onSelectTagOption = (selectedOption) => {
     const tagOptions = this.state.tag;
     tagOptions.push(selectedOption.tagId);
+    console.log(selectedOption)
     this.setState({
       tag: tagOptions,
+      selectedOption
     });
   };
 
