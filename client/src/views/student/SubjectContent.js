@@ -227,15 +227,22 @@ class SubjectContent extends Component {
         const content = [];
         const corruptContent = [];
         for (const material of response) {
-          if (material.materialname.includes(".mp4")) {
+       
+          if (!material.file.includes('materials')) {
             corruptContent.push(material);
           } else {
-            if (material.obj === "undefined" || material.obj === "No Tag") {
-              material.obj = "Textbook";
+            if(material.file.includes('video')){
+              material.obj = "Videos";
               content.push(material);
-            } else {
-              content.push(material);
+            }else{
+              if (material.obj === "undefined" || material.obj === "No Tag") {
+                material.obj = "Textbook";
+                content.push(material);
+              } else {
+                content.push(material);
+              }
             }
+           
           }
         }
 
@@ -332,12 +339,11 @@ class SubjectContent extends Component {
   }
 
   download(resource, key) {
-    console.log(resource.file)
     var data = {
-      file:resource.file
-      // file: "materials, 73-Endpoint Tests.pdf, 7bit, application/pdf",
+      file: resource.file
+
     };
-  
+
     this.setState({ selectedResourceKey: key });
     setTimeout(() => {
       StudentService.download(data).then((response) => {
@@ -398,7 +404,17 @@ class SubjectContent extends Component {
   };
 
   viewClasswork(classwork) {
-    this.setState({ classwork, view: true });
+    var data = {
+      file: classwork
+    };
+
+    setTimeout(() => {
+      StudentService.download(data).then((response) => {
+        this.setState(
+          { view: true, classwork: URL.createObjectURL(response) }
+        );
+      });
+    }, 100);
   }
 
   onDocumentLoadSuccess = ({ numPages }) => {
@@ -619,7 +635,7 @@ class SubjectContent extends Component {
                                                   );
                                                 }}
                                               >
-                                                DOWNLOAD
+                                                View
                                             </a>
                                             </p>
                                           </div>
@@ -681,7 +697,7 @@ class SubjectContent extends Component {
                                   </div>
                                 </div>
                               </div>
-                            ) :  (
+                            ) : (
 
                                 <div className="col s12 m12">
                                   <div className="center-align">
