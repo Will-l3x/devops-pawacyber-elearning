@@ -22,20 +22,6 @@ class ResourceCard extends Component {
     this.getDashData();
   }
 
-  getTags(mid) {
-    var data = {
-      materialId: mid,
-    };
-
-    var tagsReturned = [];
-    AdminService.get_course_tag(data).then((response) => {
-      response.forEach((element) => {
-        tagsReturned.push(element.name);
-      });
-    });
-
-    return tagsReturned;
-  }
 
   getDashData() {
     AdminService.get_all_resources().then((response) => {
@@ -274,7 +260,7 @@ class ResourceCard extends Component {
                             color: "grey",
                           }}
                         >
-                          Tag: {this.getTags(resource.classid)} | Subject ID:{" "}
+                          Tag: {resource.obj} | Subject ID:{" "}
                           {resource.classid}
                         </p>
                       </div>
