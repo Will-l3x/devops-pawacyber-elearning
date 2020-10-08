@@ -279,12 +279,15 @@ class SubjectContent extends Component {
       return <Redirect to="/student" />;
     }
     AdminService.get_all_tags().then((response) => {
+
       this.setState({ tags: response }, () => {
         this.getDashData();
         this.getClasswork();
       });
     });
   }
+
+  
   getClasswork() {
     const course = store.getState().student.course.course;
     if (
@@ -296,15 +299,37 @@ class SubjectContent extends Component {
     }
     StudentService.get_student_all_classwork(course.courseId) // by course id
       .then((response) => {
+        const content = [];
+        const corruptContent = [];
+        const unsupported = [];
+
+        for (const material of response) {
+       
+          if (!material.file.includes('materials')) {
+            corruptContent.push(material);
+          } else {
+            if(material.file.includes('video')){
+              material.obj = "Videos";
+              unsupported.push(material);
+            }else{
+
+                content.push(material);
+              
+            }
+           
+          }
+        }
+
+
         let pages = [];
         let perPage = 9;
-        const totalPageCount = Math.ceil(response.length / perPage);
+        const totalPageCount = Math.ceil(content.length / perPage);
 
         for (var i = 1; i <= totalPageCount; i++) {
           pages.push(i);
         }
 
-        const resources = this.pageArraySplit(response, {
+        const resources = this.pageArraySplit(content, {
           currentPageNumber: this.state.currentPageNumber,
           perPage,
         });
