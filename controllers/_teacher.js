@@ -115,12 +115,22 @@ let newCourseMaterial = (req, res) => {
     let uploadPath;
     let q;
     if (!obj.file) {
-      let o = JSON.stringify(obj.obj);
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
       q = `insert into materials \
         (classid, teacherid, materialname, obj) \
          values (${obj.classid}, ${obj.studentid}, '${obj.materialname}', '${o}')`;
     } else {
-      let o = JSON.stringify(obj.obj);
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
 
       uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/`;
       obj.file = `/uploads/${obj.schoolid}/${obj.classid}/`;
@@ -128,7 +138,7 @@ let newCourseMaterial = (req, res) => {
       if (!fs.existsSync(uploadPath)) {
         console.log("Creating upload path..."); //dev
         console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
+        fs.mkdirSync(uploadPath, {recursive: true});
       }
       q = `insert into materials \
         (classid, teacherid, materialname, [file], obj) \
@@ -183,12 +193,22 @@ let newCourseMaterialv2 = (req, res) => {
     let uploadPath;
     let q;
     if (!obj.file) {
-      let o = JSON.stringify(obj.obj);
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
       q = `insert into materials \
         (classid, teacherid, materialname, obj) \
          values (${obj.classid}, ${obj.studentid}, '${obj.materialname}', '${o}')`;
     } else {
-      let o = JSON.stringify(obj.obj);
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
       obj.file = `${obj.materialname}`;
 
       q = `insert into materials \
@@ -307,7 +327,91 @@ let getCourseMaterials = (req, res) => {
     });
   }
 };
+// Get course material by tag
+let getCourseMaterialByTag = (req, res) => {
+  console.log("Teacher : Getting course materials by tag...");
+  //Expects tag string
+  if (!req.body.tag) {
+    res.send({
+      err: "Missing a parameter, expects tag",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.body.tag;
+    let q = `select * \
+      from materials \
+      where materials.obj = '${p}'`;
+    console.log(p);
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Materials not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
+};
 
+// Update course material tag
+let updateCourseMaterialTag = (req, res) => {
+  console.log("Teacher : Getting course materials by tag...");
+  //Expects tag string
+  if (!req.body.materialId || !req.body.tag) {
+    res.send({
+      err: "Missing a parameter, expects tag and materialId",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let tag = req.body.tag;
+    let mId = req.body.materialId;
+    let q = `update materials \
+      set materials.obj = '${tag}' \
+      where materials.mId = ${mId}`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Updated tag on material record...",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to update tag...",
+          });
+        }
+      }
+    });
+  }
+};
 //-- Create new assignment for a class
 let newAssignment = (req, res) => {
   console.log("Teacher : creating new assignment..."); //dev
@@ -799,4 +903,6 @@ module.exports = {
   getClasses: getClasses,
   getStudents: getStudents,
   getSubmissions: getSubmissions,
+  getCourseMaterialByTag: getCourseMaterialByTag,
+  updateCourseMaterialTag: updateCourseMaterialTag,
 };

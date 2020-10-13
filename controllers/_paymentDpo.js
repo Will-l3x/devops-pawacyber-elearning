@@ -3,7 +3,7 @@ let axios = require("axios");
 let xml2js = require('xml2js');
 
 //Create Token
-let createToken = (req, res) => {
+let createToken = (req, res) => { 
 
   console.log('\n\nLogs for Transaction to DPO BEGINS :::::' + moment().format("YYYY/MM/DD HH:MM")+ '::::: \n');
   let paymentAmount = req.body.paymentAmount;
@@ -15,32 +15,33 @@ let createToken = (req, res) => {
   let serviceDate = moment().format("YYYY/MM/DD HH:MM");
 
   var xmlRequestBody = `
-    <?xml version="1.0" encoding="utf-8"?>
-    <API3G>
-    <CompanyToken>9F416C11-127B-4DE2-AC7F-D5710E4C5E0A</CompanyToken>
-    <Request>createToken</Request>
-    <Transaction>
-    <PaymentAmount>${paymentAmount}</PaymentAmount>
-    <PaymentCurrency>NAD</PaymentCurrency>
-    <CompanyRef>49FKEOA</CompanyRef>
-    <RedirectURL>${routeSuccessLink}</RedirectURL>
-    <BackURL>https://cybers.azurewebsites.net/#/canceled </BackURL>
-    <CompanyRefUnique>0</CompanyRefUnique>
-    <PTL>5</PTL>
-    <customerEmail>${customerEmail}</customerEmail>
-    <customerFirstName>${customerFirstName}</customerFirstName>
-    <customerLastName>${customerLastName}</customerLastName>
-    </Transaction>
-    <Services>
-      <Service>
-        <ServiceType>5525</ServiceType>
-        <ServiceDescription>${serviceDescription}</ServiceDescription>
-        <ServiceDate>${serviceDate}</ServiceDate>
-      </Service>
-    </Services>
-    </API3G>`;
+  <?xml version="1.0" encoding="utf-8"?>
+  <API3G>
+  <CompanyToken>FB5F5337-FC9F-4DDB-B407-DB11691D71B9</CompanyToken>
+  <Request>createToken</Request>
+  <Transaction>
+  <PaymentAmount>${paymentAmount}</PaymentAmount>
+  <PaymentCurrency>NAD</PaymentCurrency>
+  <CompanyRef>49FKEOA</CompanyRef>
+  <RedirectURL>${routeSuccessLink}</RedirectURL>
+  <BackURL> https://pawacyberschool.net/#/canceled</BackURL>
+  <CompanyRefUnique>0</CompanyRefUnique>
+  <PTL>1440</PTL>
+  <PTLtype>minutes</PTLtype>
+  <customerFirstName>${customerFirstName}</customerFirstName>
+  <customerLastName>${customerLastName}</customerLastName>
+  <customerEmail>${customerEmail}</customerEmail>
+  </Transaction>
+  <Services>
+   <Service>
+     <ServiceType>38846</ServiceType>
+     <ServiceDescription>${serviceDescription}</ServiceDescription>
+     <ServiceDate>${serviceDate}</ServiceDate>
+   </Service>
+  </Services>
+  </API3G>`;
 
-  var createTokenUrl = 'https://secure1.sandbox.directpay.online/API/v6/';
+  var createTokenUrl = 'https://secure.3gdirectpay.com/API/v6/';
 
   axios.post(createTokenUrl, xmlRequestBody)
     .then((tokenResponse) => {

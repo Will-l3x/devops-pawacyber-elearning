@@ -22,12 +22,12 @@ class ResourceCard extends Component {
     this.getDashData();
   }
 
+
   getDashData() {
     AdminService.get_all_resources().then((response) => {
-      const allResources = response === undefined ? [] : response.reverse();
-      allResources.sort(
-        (a, b) => new Date(b.materialname) - new Date(a.materialname)
-      );
+      const allResources = response === undefined ? [] : response;
+      
+      allResources.sort((a, b) => a.materialname.localeCompare(b.materialname));
 
       let pages = [];
       let perPage = 24;
@@ -50,6 +50,7 @@ class ResourceCard extends Component {
     var data = {
       file: resource.file,
     };
+    console.log(data)
     setTimeout(() => {
       StudentService.download(data).then((response) => {
         window.open(URL.createObjectURL(response));
@@ -175,7 +176,8 @@ class ResourceCard extends Component {
                             color: "grey",
                           }}
                         >
-                          Subject ID: {resource.classid}
+                          Tag: {resource.obj} | Subject ID:{" "}
+                          {resource.classid}
                         </p>
                       </div>
 
@@ -258,7 +260,8 @@ class ResourceCard extends Component {
                             color: "grey",
                           }}
                         >
-                          Subject ID: {resource.classid}
+                          Tag: {resource.obj} | Subject ID:{" "}
+                          {resource.classid}
                         </p>
                       </div>
 

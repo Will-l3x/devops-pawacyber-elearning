@@ -10,7 +10,7 @@ class TeacherConferenceRoom extends Component {
     super();
     this.state = {
       user: {},
-      url: "https://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      url: "https://pawacyberschool.net/fe_assets/PawaCyber.mp4",
     };
   }
   api;

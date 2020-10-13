@@ -26,6 +26,22 @@ class StudentAssignments extends Component {
   }
   user = {};
 
+
+
+
+  download(resource) {
+    alert(resource.file)
+    var data = {
+      file: resource.file,
+    };
+    console.log(data)
+    setTimeout(() => {
+      StudentService.download(data).then((response) => {
+        window.open(URL.createObjectURL(response));
+      });
+    }, 100);
+  }
+
   assignmentData() {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.studentData = JSON.parse(localStorage.getItem("userAll"));
@@ -50,17 +66,24 @@ class StudentAssignments extends Component {
         this.setState({ courses, del_courses });
         for (const sub of response) {
           this.courseId = sub.classId;
-          TeacherService.get_assignments(this.courseId)
-            .then((data) => {
 
-              // assignments.push(data);   
-              if (isEmpty(data)) {
+          StudentService.get_student_all_classwork(this.courseId) // by course id
+            .then((response) => {
+              const content = [];
+              const corruptContent = [];
+            
+              for (const material of response) {
 
-              } else {
-                assignments = assTemp.concat(data);
-                this.setState({ assignment: assignments.reverse() });
+                if (!material.file.includes('materials')) {
+                  corruptContent.push(material);
+                } else {
+                  content.push(material);
+                }
               }
+
+              this.setState({ assignment: content });
             });
+
         }
       })
       .catch((error) => {
@@ -106,6 +129,7 @@ class StudentAssignments extends Component {
         classid: assigmentUploaded.assignmentId,
         assid: assigmentUploaded.teacherid,
         teacherid: assigmentUploaded.teacherid,
+        obj: "Assignment"
       };
 
       StudentService.submit_assignment(data).then((response) => {
@@ -314,8 +338,8 @@ class StudentAssignments extends Component {
                                                     UPLOAD NOW
                                                   </a>
                                                 ) : (
-                                                  <a href={assigment.assignmentLink} target="blank">
-                                                    VIEW
+                                                  <a onClick={() => this.download(assigment)}>
+                                                    DOWNLOAD
                                                   </a>
                                                 )}
                                             </p>

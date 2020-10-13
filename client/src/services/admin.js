@@ -1,20 +1,13 @@
 import axios from "axios";
 import img from "../assets/images/blog_1.jpg";
 const qs = require("qs");
-const token = JSON.parse(localStorage.getItem("token"));
-var config = {
-  baseURL: "https://cybers.azurewebsites.net/api",
 
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
-    "Access-Control-Allow-Credentials": true,
-  },
-};
+
 
 export const AdminService = {
   get_all_classes,
+  get_all_tags,
+  get_course_tag,
   get_all_subjects_per_grade,
   subcribe_student,
   self_enrolment,
@@ -48,11 +41,65 @@ export const AdminService = {
 
 };
 
+async function get_course_tag(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/tags",
 
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+  try {
+    let res = await axios.post(`/get_tags`, qs.stringify(data), config);
+    if (res.data.success) {
+      return res.data.data.material_tags;
+    } else {
+      return res.data;
+    }
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+async function get_all_tags() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/tags",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+  try {
+    let res = await axios.get(`/all_tags`, config);
+    return res.data.data.tags;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 async function findClassesForSchoolGrade(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
-    let res = await axios.post(`/get_school_grade_subjects`,qs.stringify(data), config);
+    let res = await axios.post(`/get_school_grade_subjects`, qs.stringify(data), config);
     if (res.data.success) {
       return res.data;
     } else {
@@ -65,6 +112,17 @@ async function findClassesForSchoolGrade(data) {
 }
 
 async function get_all_students() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/students`, config);
     return res.data.data.students;
@@ -74,6 +132,17 @@ async function get_all_students() {
 }
 
 async function get_all_teachers() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/teachers`, config);
     return res.data.data.teachers;
@@ -84,6 +153,17 @@ async function get_all_teachers() {
 }
 
 async function get_all_resources() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/materials`, config);
     return res.data.data.materials;
@@ -94,6 +174,17 @@ async function get_all_resources() {
 }
 
 async function get_all_classes() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/classes/all`, config);
     if (res.data.success) {
@@ -108,8 +199,19 @@ async function get_all_classes() {
 }
 
 async function get_all_subjects_per_grade(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
-    let res = await axios.post(`/classes/grade`,qs.stringify(data), config);
+    let res = await axios.post(`/classes/grade`, qs.stringify(data), config);
     console.log(res);
     if (res.data.success) {
       return res.data.data.classes;
@@ -123,8 +225,19 @@ async function get_all_subjects_per_grade(data) {
 }
 
 async function subcribe_student(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
-    let res = await axios.put(`/subscribestudent`,qs.stringify(data), config);
+    let res = await axios.put(`/subscribestudent`, qs.stringify(data), config);
     console.log(res);
 
     if (res.data.success) {
@@ -139,8 +252,19 @@ async function subcribe_student(data) {
 }
 
 async function self_enrolment(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
-    let res = await axios.post(`/post_payment_enrol`,qs.stringify(data), config);
+    let res = await axios.post(`/post_payment_enrol`, qs.stringify(data), config);
     console.log(res);
     if (res.data.success) {
       return res.data;
@@ -155,6 +279,17 @@ async function self_enrolment(data) {
 
 //POST new School
 async function post_new_school(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`add_school`, qs.stringify(data), config);
     return res.data;
@@ -164,6 +299,17 @@ async function post_new_school(data) {
 }
 
 async function update_school(id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.put(
       `update_school/${id}`,
@@ -178,6 +324,17 @@ async function update_school(id, data) {
 
 // Get all schools
 async function get_all_schools() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/schools`, config);
     return res.data.data.schools;
@@ -189,6 +346,17 @@ async function get_all_schools() {
   }
 }
 async function get_school(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/school/${id}`, config);
     return res.data.data;
@@ -202,6 +370,17 @@ async function get_school(id) {
 
 // DELETE A SCHOOL
 async function delete_school(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.delete(`/del_school/${id}`, config);
     return res;
@@ -212,6 +391,17 @@ async function delete_school(id) {
 
 // Subscription Plans
 async function post_new_plan(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`/add_subscription`, qs.stringify(data), config);
     console.log(res.data);
@@ -222,6 +412,17 @@ async function post_new_plan(data) {
 }
 
 async function update_plan(id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.put(
       `/update_subscription/${id}`,
@@ -235,6 +436,17 @@ async function update_plan(id, data) {
 }
 
 async function get_subs_plans() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/subscriptions`, config);
     if (res.data.success) {
@@ -249,6 +461,17 @@ async function get_subs_plans() {
 }
 
 async function delete_plan(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     console.log(id);
     let res = await axios.delete(`/del_subscription/${id}`, config);
@@ -265,6 +488,17 @@ async function delete_plan(id) {
 
 //Subscribe School
 async function subscribe_school(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`/subscribe`, qs.stringify(data), config);
     return res.data;
@@ -275,6 +509,17 @@ async function subscribe_school(data) {
 
 //SUBADMINS
 async function get_subadmins() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/subadmins`, config);
     return res.data.data.subadmins;
@@ -283,6 +528,17 @@ async function get_subadmins() {
   }
 }
 async function get_subadmin(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/subadmin/${id}`, config);
     return res.data.data;
@@ -293,6 +549,17 @@ async function get_subadmin(id) {
 
 //ROLES
 async function post_new_role(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios(`/add_role`, qs.stringify(data), config);
     return res.data;
@@ -302,6 +569,17 @@ async function post_new_role(data) {
 }
 
 async function update_roles(id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.put(`/update_role/${id}`, qs.stringify(data), config);
     return res.data;
@@ -311,6 +589,17 @@ async function update_roles(id, data) {
 }
 
 async function get_roles() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/roles`, config);
     return res.data.data.roles;
@@ -320,6 +609,17 @@ async function get_roles() {
 }
 
 async function delete_roles(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.delete(`/del_role/${id}`, config);
     return res.data.data.roles;
@@ -330,6 +630,17 @@ async function delete_roles(id) {
 
 //COURSE
 async function post_new_course(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios(
       `/schooladmin/add_shared_class`,
@@ -342,6 +653,17 @@ async function post_new_course(data) {
   }
 }
 async function get_courses() {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     /*
          let res = await axios.get(schooladmin/shared_class`, config);
@@ -363,9 +685,20 @@ async function get_courses() {
 }
 
 async function post_file(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(
-      `https://cybers.azurewebsites.net/api/upload/new`,
+      `https://pawacyberschool.net/api/upload/new`,
       qs.stringify(data),
       config
     );
@@ -376,6 +709,17 @@ async function post_file(data) {
 }
 
 async function post_new_topic(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(
       `/schooladmin/add_shared_topic`,
@@ -389,6 +733,17 @@ async function post_new_topic(data) {
 }
 
 async function get_topics(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api",
+
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     /* let res = await axios(.get`schooladmin/shared_class`, config)*/
 

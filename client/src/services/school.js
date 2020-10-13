@@ -1,17 +1,9 @@
 import axios from "axios";
 const qs = require("qs");
-const token = JSON.parse(localStorage.getItem("token"));
+
 // const apiUrl = "http://localhost:3001/api";
 
-var config = {
-  baseURL: "https://cybers.azurewebsites.net/api/schooladmin",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Authorization: `Bearer ${token}`,
-    "Access-Control-Allow-Origin": "https://cybers.azurewebsites.net",
-    "Access-Control-Allow-Credentials": true,
-  },
-};
+
 
 export const SchoolService = {
   post_new_teachers,
@@ -37,6 +29,16 @@ export const SchoolService = {
 // let grade = req.body.grade;
 // let schoolid = req.body.schoolid;
 async function post_new_course(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`/add_class`, qs.stringify(data), config);
     return res.data;
@@ -46,6 +48,16 @@ async function post_new_course(data) {
 }
 
 async function update_course(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.put(`/update_class`, qs.stringify(data), config);
     return res.data;
@@ -54,6 +66,16 @@ async function update_course(data) {
   }
 }
 async function delete_course(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.delete(`/del_class/${id}`, config);
     return res;
@@ -63,6 +85,16 @@ async function delete_course(id) {
 }
 
 async function get_courses(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     if (id === undefined) {
       return [];
@@ -76,6 +108,16 @@ async function get_courses(id) {
 
 // teacher functions by schoolid
 async function get_all_teachers(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/teachers/${id}`, config);
     return res.data.data.teachers;
@@ -86,6 +128,16 @@ async function get_all_teachers(id) {
 }
 
 async function get_teacher(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/teacher/${id}`, config);
     return res.data.data;
@@ -96,6 +148,16 @@ async function get_teacher(id) {
 }
 
 async function update_teacher(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.put(`/update_teacher`, qs.stringify(data), config);
     return res.data;
@@ -104,6 +166,16 @@ async function update_teacher(data) {
   }
 }
 async function delete_teacher(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.delete(`/del_teacher/${id}`, config);
     return res.data;
@@ -114,6 +186,16 @@ async function delete_teacher(id) {
 }
 
 async function post_new_teachers(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.post(`/add_teacher`, qs.stringify(data), config);
     return res.data;
@@ -125,6 +207,16 @@ async function post_new_teachers(data) {
 
 // student functions
 async function get_all_students(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/students/${id}`, config);
     return res.data.data.students;
@@ -134,6 +226,16 @@ async function get_all_students(id) {
 }
 
 async function get_student(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.get(`/student/${id}`, config);
     return res.data.data;
@@ -143,6 +245,16 @@ async function get_student(id) {
 }
 
 async function update_student(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.put(`/update_student`, qs.stringify(data), config);
     return res.data;
@@ -151,6 +263,16 @@ async function update_student(data) {
   }
 }
 async function delete_student(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/schooladmin",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
   try {
     let res = await axios.delete(`/del_student/${id}`, config);
     return res.data;
