@@ -71,6 +71,8 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+
+app.use(express.limit('1000mb'));
 //File Upload
 app.use(fileUpload());
 
