@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 //import $ from "jquery";
-import carousel1 from "../assets/images/conference/live-chat.svg";
+import carousel1 from "../assets/images/gallary/design.png";
 // import M from "materialize-css";
 import moment from "moment";
 
@@ -142,7 +142,7 @@ class VideoPlayer extends Component {
   };
 
   start_meeting = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const data = {
       password: e.target.password.value,
     };
@@ -342,14 +342,9 @@ class VideoPlayer extends Component {
                       </div>
                     </div>
                     <div className="card-content-bg white-text">
-                      <div
-                        className="card-content"
-                        style={{
-                          backgroundImage: `url(${carousel1}) `,
-                        }}
-                      >
-                        <div className="row">
-                          <div className="col s12 center-align">
+                      <div className="image-bg-2" style={{ padding: 24, borderRadius: "0 0 2px 2px" }}>
+                        <div className="row image-bg-2">
+                          <div className="col s12 center-align black-text">
                             <i className="material-icons medium">
                               play_circle_outline
                             </i>

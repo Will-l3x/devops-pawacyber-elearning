@@ -311,12 +311,10 @@ class VideoPlayer extends Component {
                     </div>
                     <div className="card-content-bg white-text">
                       <div
-                        className="card-content"
-                        style={{
-                          backgroundImage: `url(${carousel1}) `,
-                        }}
+                        className="image-bg-2"
+                        style={{ padding: 24, borderRadius: "0 0 2px 2px" }}
                       >
-                        <div className="row">
+                        <div className="row image-bg-2">
                           <div className="col s12 center-align">
                             {this.state.meeting.meetingId ===
                             meeting.meetingId ? (

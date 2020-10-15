@@ -92,7 +92,7 @@ class LivePlayer extends Component {
               style={{ position: "relative", zIndex: 50 }}
             >
               <nav
-                className="navbar nav-extended width-75"
+                className="navbar nav-extended width-75 image-bg-1"
                 style={{
                   position: "fixed",
                   transform: "translateY(-7%)",
@@ -100,8 +100,15 @@ class LivePlayer extends Component {
               >
                 <div className="nav-content">
                   <div className="left">
-                    <p style={{ padding: "10px", fontSize: "16px" }}>
-                      Video Room
+                    <p
+                      style={{
+                        padding: "10px",
+                        paddingTop: 25,
+                        paddingBottom: 25,
+                        fontSize: "16px",
+                      }}
+                    >
+                      Meeting Room
                     </p>
                   </div>
                   {this.state.user.roleid === 1 ? (

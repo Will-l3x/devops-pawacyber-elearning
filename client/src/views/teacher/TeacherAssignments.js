@@ -159,14 +159,20 @@ class UploadNewAssignment extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended width-75"
+                  className="navbar nav-extended width-75 image-bg-1"
                   style={{
                     position: "fixed",
                   }}
                 >
                   <div className="nav-content">
                     <div className="left">
-                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                      <p
+                        style={{
+                          padding: "10px",
+                          paddingTop: 25,
+                          fontSize: "16px",
+                        }}
+                      >
                         Assignment Management
                       </p>
                     </div>
@@ -192,7 +198,7 @@ class UploadNewAssignment extends Component {
                   {/* <div className="card-stats z-depth-5 padding-3 border-radius-10">
                     <DatatablePage data={this.state} /> */}
                   <div className="card-stats padding-2 border-radius-10">
-                    < AssignmentsResourceCard></ AssignmentsResourceCard>
+                    <AssignmentsResourceCard></AssignmentsResourceCard>
                   </div>
                 </div>
               </section>
@@ -200,29 +206,24 @@ class UploadNewAssignment extends Component {
                 id="modaladd"
                 className="modal modal-meeting min-width-500 border-radius-10"
               >
-
                 <h1 style={{ marginTop: "10px" }} className="h1-meeting">
                   <i
                     className="material-icons"
                     style={{ transform: "translate(-3px, 4px)" }}
                   >
                     cloud_upload
-                    </i>
-                    Upload Assignment!
-                  </h1>
-
+                  </i>
+                  Upload Assignment!
+                </h1>
 
                 <form
                   className="react-form form-meeting"
                   onSubmit={this.handleSubmit}
                   id="sibs"
                 >
-
                   {/* <hr className="hr5" style={{ marginBottom: 30 }} /> */}
                   <div className="row">
                     <div className="">
-
-
                       <fieldset className="form-group">
                         <label
                           style={{
@@ -241,8 +242,6 @@ class UploadNewAssignment extends Component {
                           className="my-divider"
                         ></div>
                       </fieldset>
-
-
                     </div>
                     {/* <div className="col s6 m6">
                       <fieldset className="form-group">
@@ -273,7 +272,10 @@ class UploadNewAssignment extends Component {
                     />
                   </fieldset> */}
                   <fieldset className="form-group">
-                    <ReactFormLabel htmlFor="fileUpload" title="Subject Assignments:" />
+                    <ReactFormLabel
+                      htmlFor="fileUpload"
+                      title="Subject Assignments:"
+                    />
                     <input
                       className="many-files"
                       id="file"
@@ -292,8 +294,6 @@ class UploadNewAssignment extends Component {
                     />
                   </div>
                 </form>
-
-
               </div>
               <div id="areyousure" className="modal width-250">
                 <div className="modal-content">
@@ -304,7 +304,7 @@ class UploadNewAssignment extends Component {
                     to="#"
                     style={{ marginRight: 10 }}
                     className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
-                  //onClick={this.handleDelete}
+                    //onClick={this.handleDelete}
                   >
                     Yes
                   </Link>

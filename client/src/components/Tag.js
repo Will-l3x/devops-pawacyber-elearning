@@ -5,7 +5,6 @@ import Select from "react-select";
 import { AdminService } from "../services/admin";
 
 let options = [];
-let del_options = [];
 
 class Tags extends Component {
   constructor() {

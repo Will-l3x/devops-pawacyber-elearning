@@ -48,7 +48,7 @@ class UploadContent extends Component {
       courses: [],
       class: "",
       tag: [],
-      selectedOption: {}
+      selectedOption: {},
     };
   }
 
@@ -227,7 +227,7 @@ class UploadContent extends Component {
     tagOptions.push(selectedOption.tagId);
     this.setState({
       tag: tagOptions,
-      selectedOption
+      selectedOption,
     });
   };
 
@@ -244,14 +244,20 @@ class UploadContent extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended width-75"
+                  className="navbar nav-extended width-75 image-bg-1"
                   style={{
                     position: "fixed",
                   }}
                 >
                   <div className="nav-content">
                     <div className="left">
-                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                      <p
+                        style={{
+                          padding: "10px",
+                          paddingTop: 25,
+                          fontSize: "16px",
+                        }}
+                      >
                         Resource Management
                       </p>
                     </div>
@@ -269,7 +275,7 @@ class UploadContent extends Component {
                     >
                       <i className="material-icons">cloud_upload</i>
                     </a>
-                    <a
+                    {/* <a
                       href="#!"
                       data-target="modaltag"
                       className="modal-trigger tooltipped waves-effect right"
@@ -282,7 +288,7 @@ class UploadContent extends Component {
                       }}
                     >
                       <i className="material-icons">add_circle_outline</i>
-                    </a>
+                    </a> */}
                   </div>
                 </nav>
               </div>

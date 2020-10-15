@@ -27,7 +27,7 @@ class LoginScreen extends Component {
       userid: "",
       schoolid: "",
       roleid: "",
-      token:""
+      token: "",
     };
 
     if (this.curHr < 12) {
@@ -50,14 +50,13 @@ class LoginScreen extends Component {
       password: event.target.password.value,
     };
 
+    document.getElementById("contactForm").reset();
     AuthService.login(registerAdmin).then((response) => {
-
       if (response === undefined) {
         alert("Login Failed");
       } else if (response.success === false) {
         alert(response.message);
       } else {
-        document.getElementById("contactForm").reset();
         var id;
         var schoolid;
         var gradeid;
@@ -71,7 +70,6 @@ class LoginScreen extends Component {
             schoolid: schoolid,
           };
           localStorage.setItem("studentData", JSON.stringify(studentData));
-         
         } else if (response.roleid === 1) {
           id = response.User.teacherId;
           schoolid = response.User.schoolid;
@@ -100,14 +98,13 @@ class LoginScreen extends Component {
           username: username,
           userid: userid,
           schoolid: schoolid,
-          token: token
+          token: token,
         });
       }
     });
   };
 
   render() {
-
     if (this.state.roleid === 1) {
       localStorage.setItem("user", JSON.stringify(this.state));
       return <Redirect to="/teacher" />;
@@ -125,7 +122,6 @@ class LoginScreen extends Component {
       return <Redirect to="/school" />;
     }
     return (
-
       <main id="main_1">
         <OuterHeader></OuterHeader>
         <div className="container content-pawa" style={{ paddingTop: "2%" }}>
@@ -133,7 +129,7 @@ class LoginScreen extends Component {
             <div className="col s8 offset-s2">
               <div
                 className="card card-login row mt-1"
-                style={{ padding: "10px", borderRadius: 10, }}
+                style={{ padding: "10px", borderRadius: 10 }}
               >
                 <div className="col s12 m5">
                   <div

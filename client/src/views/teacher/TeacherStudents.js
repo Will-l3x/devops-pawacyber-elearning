@@ -4,6 +4,8 @@ import SideBar from "../../components/SideBar";
 import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 
+import ClassOptions from "../../components/ClassOptions";
+import StudentOptions from "../../components/StudentOptions";
 import M from "materialize-css";
 import moment from "moment";
 import Header from "../../components/header";
@@ -16,11 +18,11 @@ class TeacherStudentScreen extends Component {
     super(props);
     this.state = {
       user:
-      JSON.parse(localStorage.getItem("user")) === null
-        ? { roleid: 3 }
-        : JSON.parse(localStorage.getItem("user")),
+        JSON.parse(localStorage.getItem("user")) === null
+          ? { roleid: 3 }
+          : JSON.parse(localStorage.getItem("user")),
       selectedOption: {},
- 
+
       columns: [
         {
           label: "ID",
@@ -67,6 +69,8 @@ class TeacherStudentScreen extends Component {
       ],
       rows: [],
       view: "grid",
+      class: null,
+      student: null,
     };
   }
 
@@ -91,15 +95,13 @@ class TeacherStudentScreen extends Component {
           }
         }
         for (const course of courses) {
-        
           TeacherService.get_all_students(course.classId)
             .then((response) => {
-             
               if (response === undefined) {
                 M.toast({
-                  html: 'Could not fetch data. Please try after a moment.',
+                  html: "Could not fetch data. Please try after a moment.",
                   classes: "red",
-              });
+                });
               } else {
                 for (const student of response) {
                   student.dob = moment(student.dob).format("LL");
@@ -121,6 +123,43 @@ class TeacherStudentScreen extends Component {
       });
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    var data = {
+      teacherid: this.state.user.userid,
+      studentid: this.state.student.value,
+      classid: this.state.class.value,
+    };
+
+    TeacherService.enrol_student(data).then((response) => {
+      console.log(response);
+      if (response === undefined) {
+        M.toast({
+          html: "Student Enrolment failed",
+          classes: "red",
+        });
+      } else {
+        M.toast({
+          html: response.data.message,
+          classes: "green accent 3",
+        });
+        document.getElementById("sibs").reset();
+        this.getDashData();
+      }
+    });
+  };
+
+  onSelectClassOption = (selectedOption) => {
+    this.setState({
+      class: selectedOption,
+    });
+  };
+  onSelectStudentOption = (selectedOption) => {
+    this.setState({
+      student: selectedOption,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -134,16 +173,20 @@ class TeacherStudentScreen extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended width-75"
+                  className="navbar nav-extended width-75 image-bg-1"
                   style={{
                     position: "fixed",
-                    borderBottomLeftRadius: 5,
-                    borderBottomRightRadius: 5,
                   }}
                 >
                   <div className="nav-content">
                     <div className="left">
-                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                      <p
+                        style={{
+                          padding: "10px",
+                          paddingTop: 25,
+                          fontSize: "16px",
+                        }}
+                      >
                         Student Management
                       </p>
                     </div>
@@ -182,6 +225,21 @@ class TeacherStudentScreen extends Component {
                     >
                       <i className="material-icons">format_list_numbered</i>
                     </a>
+
+                    <a
+                      href="#!"
+                      data-target="modalenrol"
+                      className="modal-trigger tooltipped waves-effect right"
+                      data-tooltip="Enrol student"
+                      data-position="bottom"
+                      style={{
+                        marginTop: "1%",
+                        marginRight: "2%",
+                        color: "#626262",
+                      }}
+                    >
+                      <i className="material-icons">add_circle_outline</i>
+                    </a>
                   </div>
                 </nav>
               </div>
@@ -201,6 +259,70 @@ class TeacherStudentScreen extends Component {
                   >
                     <UserGridComp dashboard="teacher" rolename="student" />
                   </div>
+                  <div
+                    id="modalenrol"
+                    className="modal modal-meeting border-radius-10"
+                  >
+                    <form
+                      className="react-form form-meeting"
+                      onSubmit={this.handleSubmit}
+                      id="sibs"
+                    >
+                      <h1 className="h1-meeting">
+                        <i
+                          className="material-icons"
+                          style={{ transform: "translate(-3px, 4px)" }}
+                        >
+                          class
+                        </i>
+                        Enrol Student!
+                      </h1>
+                      <fieldset className="form-group">
+                        <label
+                          style={{
+                            transform: "translateY(-15px)",
+                            fontSize: "12px",
+                          }}
+                        >
+                          SELECT STUDENT *
+                        </label>
+                        <StudentOptions
+                          style={{ transform: "translateY(-1px)" }}
+                          onSelectOption={this.onSelectStudentOption}
+                        />
+                        <div
+                          style={{ transform: "translateY(-3px)" }}
+                          className="my-divider"
+                        ></div>
+                      </fieldset>
+                      <fieldset className="form-group">
+                        <label
+                          style={{
+                            transform: "translateY(-15px)",
+                            fontSize: "12px",
+                          }}
+                        >
+                          SELECT SUBJECT *
+                        </label>
+                        <ClassOptions
+                          style={{ transform: "translateY(-1px)" }}
+                          onSelectOption={this.onSelectClassOption}
+                        />
+                        <div
+                          style={{ transform: "translateY(-3px)" }}
+                          className="my-divider"
+                        ></div>
+                      </fieldset>
+                      <div className="form-group" style={{ marginTop: 50 }}>
+                        <input
+                          id="submit"
+                          className="btn modal-close gradient-45deg-light-blue-cyan border-radius-5"
+                          type="submit"
+                          value="Enrol"
+                        />
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </section>
             </div>
@@ -214,6 +336,15 @@ class TeacherStudentScreen extends Component {
   }
 }
 
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
+    );
+  }
+}
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
