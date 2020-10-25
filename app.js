@@ -17,6 +17,23 @@ var moment = require("moment");
 var nodemailer = require("nodemailer");
 var _ = require("underscore");
 const fileUpload = require("express-fileupload");
+var cron = require('node-cron');
+var nodemailer = require('nodemailer');
+let transporter = nodemailer.createTransport(
+    {
+        host: 'n3plcpnl0071.prod.ams3.secureserver.net',
+        port: 465,
+        secure: true,
+        secureConnection: true,
+        auth: {
+            user: 'strimai@auragrp.com',
+            pass: 'strimai'
+        },
+        logger: true,
+        debug: true // include SMTP traffic in the logs
+    });
+
+
 //Documentation
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
@@ -57,6 +74,60 @@ setInterval(function () {
 
 //Azure Storage
 _storage.storageInit();
+
+cron.schedule('02 02 * * *', () => {
+    console.log('Sending reminders.....');
+
+    var currentDate = Date();
+    currentDate = moment().add(5, 'day').format('YYYY-MM-DD');
+    var query = "select email from [users] \
+     LEFT OUTER JOIN students ON students.userid = users.userId \
+    LEFT OUTER JOIN student_subscriptions ON student_subscriptions.studentid = students.studentId \
+    WHERE @cd = Convert(datetime, [student_subscriptions].enddate) \
+            ";
+    var request = new sql.Request();
+    request
+        .input("cd", currentDate)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+            } else {
+                if (recordset.recordset.length > 0) {
+                    var data = recordset.recordset;
+                    var emails = "";
+
+                    data.forEach(function (obj) {
+                        emails = emails + obj.email + ",";
+                       
+                    });
+
+                    var message = {
+                        from: 'noreply@pawacyber.com',
+                        to: emails,
+                        subject: "Your pawacyber subscription expires in 5 days.",
+                        text: "Your subscription is about to expire, please renew to avoid loss of service",
+                        html: "Your subscription is about to expire, please renew to avoid loss of service"
+                    };
+
+                    transporter.sendMail(message, (error, info) => {
+                        if (error) {
+                            transporter.close();
+                            console.log('Error occurred');
+                            console.log(error.message);
+                        } else {
+                            console.log('reminders sent successfully!');
+
+                        }
+
+                    });
+                }
+            }
+        });
+
+    
+});
 
 var api = require("./routes/api");
 
