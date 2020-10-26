@@ -78,6 +78,7 @@ router.post("/teacher/enrol_student", _teacher.enrolStudent);
 router.post("/teacher/new_material", _teacher.newCourseMaterial);
 router.get("/teacher/get_material/:id", _teacher.getCourseMaterial);
 router.get("/teacher/get_materials/:id", _teacher.getCourseMaterials);
+router.get("/teacher/get_all_materials", _teacher.getAllCourseMaterials);
 router.post("/teacher/get_materials_by_tag", _teacher.getCourseMaterialByTag);
 router.post("/teacher/update_material_tag", _teacher.updateCourseMaterialTag);
 
