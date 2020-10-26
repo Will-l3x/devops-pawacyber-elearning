@@ -45,10 +45,12 @@ class Header extends Component {
     const thiss = this;
     function triggerOn() {
       $(".toggle-ls-bar").removeClass("sidenav-translate");
+      $(".user-profile").addClass("display-none");
       thiss.setState({ sidenav_trigger: true });
     }
     function triggerOff() {
       $(".toggle-ls-bar").addClass("sidenav-translate");
+      $(".user-profile").removeClass("display-none");
       thiss.setState({ sidenav_trigger: false });
     }
     this.state.sidenav_trigger ? triggerOff() : triggerOn();

@@ -6,10 +6,9 @@ import AdminLink from "../views/admin/AdminLink";
 import SchoolLink from "../views/school/SchoolLink";
 import StudentLink from "../views/student/StudentLink";
 import TeacherLink from "../views/teacher/TeacherLink";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import $ from "jquery";
 import M from "materialize-css";
-
 
 class SideBar extends Component {
   constructor(props) {
@@ -40,10 +39,6 @@ class SideBar extends Component {
       menuOut: false, // Set if default menu open is true
     });
   }
-  toggleSidenav() {
-    var css = this.state.sidenav_trigger === "" ? "sidenav-trigger-2" : "";
-    this.setState({ sidenav_trigger: css });
-  }
 
   render() {
     //should just use user role to change links
@@ -51,19 +46,14 @@ class SideBar extends Component {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user.roleid === 5) {
       Links = AdminLink;
-    }
-    else if  (user.roleid === 4) {
+    } else if (user.roleid === 4) {
       Links = SchoolLink;
-    }
-    else if  (user.roleid === 1) {
+    } else if (user.roleid === 1) {
       Links = TeacherLink;
-    }
-    else if  (user.roleid === 3) {
+    } else if (user.roleid === 3) {
       Links = StudentLink;
-    }
-    
-    else {
-      return (<Redirect to="/login"/>)
+    } else {
+      return <Redirect to="/login" />;
     }
 
     return (
@@ -73,34 +63,14 @@ class SideBar extends Component {
           id="slide-out"
           className={`side-nav toggle-ls-bar z-depth-2 fixed leftside-navigation`}
         >
-          {/* <li className="user-details cyan darken-2">
-          <div className="row">
-            <div className="col col s8 m8 l8">
-              <ul id="profile-dropdown-nav" className="dropdown-content">
-                <li>
-                  <Link to="" className="grey-text text-darken-1">
-                    <i className="material-icons">face</i> Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link to="" className="grey-text text-darken-1">
-                    <i className="material-icons">live_help</i> Help
-                  </Link>
-                </li>
-                <li className="divider"></li>
-                <li>
-                  <Link to="" className="grey-text text-darken-1">
-                    <i className="material-icons">keyboard_tab</i> Logout
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </li> */}
           <li className="no-padding">
             <Links />
-          </li>
+          </li>{" "}
         </ul>
+        
+        <div className="no-padding user-profile display-none">
+          <div style={{height: 70, width: "100%"}}></div>
+        </div>
       </aside>
     );
   }

@@ -636,6 +636,15 @@ nav ul a {
   padding: 0 15px;
   cursor: pointer;
 }
+.user-profile {
+  height: 70px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 240px;
+  z-index: 999;
+  transition: .3s ease all;
+}
 
 .tabs .indicator {
   position: absolute;
