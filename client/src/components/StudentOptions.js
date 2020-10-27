@@ -4,25 +4,46 @@ import M from "materialize-css";
 import Select from "react-select";
 import { TeacherService } from "../services/teacher";
 let options = [];
-let del_options = [];
 
 const user = JSON.parse(localStorage.getItem("user"));
 if (user === null) {
   options = [];
-  del_options = [];
 } else {
   TeacherService.get_all_courses(user.userid)
     .then((response) => {
       const data = response === undefined ? [] : response;
-      for (const option of data) {
-        if (option.status === "deleted") {
-          del_options.push(option);
+      const courses = [];
+      const del_courses = [];
+      const students = [];
+
+      for (const course of data) {
+        if (course.status === "deleted") {
+          del_courses.push(course);
         } else {
-          option.value = option.classId;
-          option.label = option.classname;
-          options.push(option);
+          courses.push(course);
         }
       }
+      for (const course of courses) {
+        TeacherService.get_all_students(course.classId)
+          .then((response) => {
+            if (response === undefined) {
+              M.toast({
+                html: "Could not fetch data. Please try after a moment.",
+                classes: "red",
+              });
+            } else {
+              for (const student of response) {
+                student.value = student.studentId;
+                student.label = student.firstname + " " + student.lastname;
+                students.push(student);
+              }
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      options = students;
     })
     .catch((error) => {
       console.log(error);
@@ -30,12 +51,11 @@ if (user === null) {
     });
 }
 
-class ClassOptions extends Component {
+class StudentOptions extends Component {
   constructor() {
     super();
     this.state = {
       options: [],
-      del_options,
       selectedOption: null,
     };
     this.handleChange.bind(this);
@@ -64,4 +84,4 @@ class ClassOptions extends Component {
   }
 }
 
-export default connect(null, null)(ClassOptions);
+export default connect(null, null)(StudentOptions);

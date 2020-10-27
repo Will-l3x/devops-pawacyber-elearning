@@ -827,6 +827,15 @@ h3 {
   height: auto;
 }
 
+.image-bg-1 {
+  background-image: url(../images/gallary/dots.png);
+  background-size: contain;
+}
+.image-bg-2 {
+  background-image: url(../images/gallary/design.png);
+  background-size: contain;
+}
+
 .notepaper {
   position: relative;
   padding: 0px 20px 0px 45px;

@@ -67,23 +67,27 @@ class StudentTestScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-              <SideBar/>
+            <SideBar />
 
-             
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended width-75"
-                  style={{ position: "fixed"}}
+                  className="navbar nav-extended width-75 image-bg-1"
+                  style={{ position: "fixed" }}
                 >
                   <div className="nav-content">
-                    <Link
-                      to="#"
-                      style={{ marginTop: "3%", marginBottom: "1%" }}
-                      className="brand-logo"
-                    >
-                      Tests/Exercises
-                    </Link>
+                    <div className="left">
+                      <p
+                        style={{
+                          padding: "10px",
+                          paddingTop: 25,
+                          paddingBottom: 25,
+                          fontSize: "16px",
+                        }}
+                      >
+                        Students' Classwork
+                      </p>
+                    </div>
                   </div>
                 </nav>
               </div>

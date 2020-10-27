@@ -327,6 +327,36 @@ let getCourseMaterials = (req, res) => {
     });
   }
 };
+//--Gets course materials for a class, single row
+let getAllCourseMaterials = (req, res) => {
+  console.log("Teacher : Getting all course materials...");
+
+
+  let q = `select * from materials`;
+  let ms_req = new sql.Request();
+  ms_req.query(q, (err, data) => {
+    if (err) {
+      console.log(err); //dev
+      return res.status(500).send({
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      if (data.recordset.len === 0) {
+        return res.status(400).send({
+          success: false,
+          message: "Materials not found",
+        });
+      } else {
+        return res.status(200).send({
+          success: true,
+          data: data.recordset,
+        });
+      }
+    }
+  });
+};
 // Get course material by tag
 let getCourseMaterialByTag = (req, res) => {
   console.log("Teacher : Getting course materials by tag...");
@@ -372,6 +402,7 @@ let getCourseMaterialByTag = (req, res) => {
 let updateCourseMaterialTag = (req, res) => {
   console.log("Teacher : Getting course materials by tag...");
   //Expects tag string
+  console.log(req.body);
   if (!req.body.materialId || !req.body.tag) {
     res.send({
       err: "Missing a parameter, expects tag and materialId",
@@ -427,10 +458,15 @@ let newAssignment = (req, res) => {
     let uploadPath;
     let q;
     if (!obj.file) {
-      let o = JSON.stringify(obj.obj);
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
       q = `insert into assignments \
-        (classid, teacherid, assignmentname, obj) \
-         values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', ${o})`;
+        (classid, teacherid, assignmentname, schoolid, obj) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', ${obj.schoolid}, '${o}')`;
     } else {
       obj.file = `${obj.assignmentname}`;
 
@@ -438,6 +474,7 @@ let newAssignment = (req, res) => {
         (classid, teacherid, assignmentname, [file]) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', '${obj.file}'); \
         select * FROM assignments where assignments.assignmentID = SCOPE_IDENTITY(); `;
+      //new logic here
     }
     console.log(q); //dev
     let ms_req = new sql.Request();
@@ -892,6 +929,7 @@ module.exports = {
   newCourseMaterial: newCourseMaterialv2,
   getCourseMaterial: getCourseMaterial,
   getCourseMaterials: getCourseMaterials,
+  getAllCourseMaterials: getAllCourseMaterials,
   newAssignment: newAssignment,
   getAssignment: getAssignment,
   getAssignments: getAssignments,

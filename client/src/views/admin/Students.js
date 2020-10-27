@@ -101,7 +101,7 @@ class StudentScreen extends Component {
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended width-75"
+                  className="navbar nav-extended width-75 image-bg-1"
                   style={{
                     position: "fixed",
                     borderBottomLeftRadius: 5,
@@ -110,7 +110,7 @@ class StudentScreen extends Component {
                 >
                   <div className="nav-content">
                     <div className="left">
-                      <p style={{ padding: "10px", fontSize: "16px" }}>
+                      <p style={{ padding: "10px",paddingTop:25, fontSize: "16px" }}>
                         Student Management
                       </p>
                     </div>
