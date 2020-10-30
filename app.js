@@ -17,6 +17,8 @@ var moment = require("moment");
 var nodemailer = require("nodemailer");
 var _ = require("underscore");
 const fileUpload = require("express-fileupload");
+// const sendSeekable = require("send-seekable");
+
 //Documentation
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
@@ -71,10 +73,12 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-app.use(express.urlencoded({ extended: false, limit: '2gb' }));
+app.use(express.urlencoded({extended: false, limit: '2gb'}));
 //app.use(express.limit('1000mb'));
 //File Upload
 app.use(fileUpload());
+//Send Seekable
+// app.use(sendSeekable);
 
 process.env.jwt_secret =
   "AURacx3425#$G$#3VBHSJBSJTSDDN4c4cEfFvGggGGf5t3e4Y%G&tgyGUbtfVE345$#3#$$456789(./)()newScho0l";
@@ -90,7 +94,7 @@ app.use(cors());
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 // app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build")));
 
