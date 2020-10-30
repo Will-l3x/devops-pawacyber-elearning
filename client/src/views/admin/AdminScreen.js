@@ -13,7 +13,7 @@ class AdminScreen extends Component {
       packages: [],
       students: [],
       teachers: [],
-      subjects:[]
+      subjects: []
     };
   }
 
@@ -84,7 +84,7 @@ class AdminScreen extends Component {
                           </div>
                           <div className="col s5 m5 right-align white-text">
                             <h5 className="mb-0 white-text">
-                               {this.state.students === undefined
+                              {this.state.students === undefined
                                 ? 0
                                 : this.state.students.length}
                             </h5>
