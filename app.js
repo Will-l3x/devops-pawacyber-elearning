@@ -17,22 +17,7 @@ var moment = require("moment");
 var nodemailer = require("nodemailer");
 var _ = require("underscore");
 const fileUpload = require("express-fileupload");
-var cron = require('node-cron');
-var nodemailer = require('nodemailer');
-let transporter = nodemailer.createTransport(
-    {
-        host: 'n3plcpnl0071.prod.ams3.secureserver.net',
-        port: 465,
-        secure: true,
-        secureConnection: true,
-        auth: {
-            user: 'strimai@auragrp.com',
-            pass: 'strimai'
-        },
-        logger: true,
-        debug: true // include SMTP traffic in the logs
-    });
-
+// const sendSeekable = require("send-seekable");
 
 //Documentation
 const swaggerUi = require("swagger-ui-express");
@@ -75,60 +60,6 @@ setInterval(function () {
 //Azure Storage
 _storage.storageInit();
 
-cron.schedule('02 02 * * *', () => {
-    console.log('Sending reminders.....');
-
-    var currentDate = Date();
-    currentDate = moment().add(5, 'day').format('YYYY-MM-DD');
-    var query = "select email from [users] \
-     LEFT OUTER JOIN students ON students.userid = users.userId \
-    LEFT OUTER JOIN student_subscriptions ON student_subscriptions.studentid = students.studentId \
-    WHERE @cd = Convert(datetime, [student_subscriptions].enddate) \
-            ";
-    var request = new sql.Request();
-    request
-        .input("cd", currentDate)
-        .query(query, function (err, recordset) {
-
-            if (err) {
-                console.log(err);
-                console.log(err.stack);
-            } else {
-                if (recordset.recordset.length > 0) {
-                    var data = recordset.recordset;
-                    var emails = "";
-
-                    data.forEach(function (obj) {
-                        emails = emails + obj.email + ",";
-                       
-                    });
-
-                    var message = {
-                        from: 'noreply@pawacyber.com',
-                        to: emails,
-                        subject: "Your pawacyber subscription expires in 5 days.",
-                        text: "Your subscription is about to expire, please renew to avoid loss of service",
-                        html: "Your subscription is about to expire, please renew to avoid loss of service"
-                    };
-
-                    transporter.sendMail(message, (error, info) => {
-                        if (error) {
-                            transporter.close();
-                            console.log('Error occurred');
-                            console.log(error.message);
-                        } else {
-                            console.log('reminders sent successfully!');
-
-                        }
-
-                    });
-                }
-            }
-        });
-
-    
-});
-
 var api = require("./routes/api");
 
 //var redis = require('redis');
@@ -142,10 +73,12 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-app.use(express.urlencoded({ extended: false, limit: '2gb' }));
+app.use(express.urlencoded({extended: false, limit: '2gb'}));
 //app.use(express.limit('1000mb'));
 //File Upload
 app.use(fileUpload());
+//Send Seekable
+// app.use(sendSeekable);
 
 process.env.jwt_secret =
   "AURacx3425#$G$#3VBHSJBSJTSDDN4c4cEfFvGggGGf5t3e4Y%G&tgyGUbtfVE345$#3#$$456789(./)()newScho0l";
@@ -161,7 +94,7 @@ app.use(cors());
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 // app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build")));
 
