@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Footer from "../../components/footer";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import Header from "../../components/header";
 import M from "materialize-css";
 import Calendar from "../../components/calendar";
@@ -39,7 +40,7 @@ class SchoolScreen extends Component {
 
   render() {
     const eventState = store.getState().events;
-  
+
     return (
       <div>
         <header id="header" className="page-topbar">
@@ -47,7 +48,8 @@ class SchoolScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
+
             <section id="content">
               <div className="container">
                 <div className="card-stats">
@@ -99,7 +101,6 @@ class SchoolScreen extends Component {
                             <h4 className="task-card-title white-text">
                               School Events
                             </h4>
-                           
                           </li>
                           {eventState.events.map((event) => (
                             <li className="collection-item dismissable">
@@ -113,7 +114,6 @@ class SchoolScreen extends Component {
                               <span className="task-cat cyan">Event</span>
                             </li>
                           ))}
-
                         </ul>
                       </div>
                     </div>
@@ -126,6 +126,8 @@ class SchoolScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

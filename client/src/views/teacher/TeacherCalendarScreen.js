@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import { Link } from "react-router-dom";
 import Calendar from "../../components/calendar";
 //import M from "materialize-css";
@@ -22,7 +23,7 @@ class TeacherCalendarScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <div className="section" style={{ paddingBottom: 0 }}>
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -61,6 +62,8 @@ class TeacherCalendarScreen extends Component {
                 </div>
               </section>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

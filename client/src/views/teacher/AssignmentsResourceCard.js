@@ -458,7 +458,7 @@ class Search extends React.Component {
             />
           </div>
           <div
-            className="justfiyCenter white search-ico"
+            className="justify-center white search-ico"
             style={{ paddingTop: 10, borderTopRightRadius: 10 }}
           >
             <i className="material-icons left">search</i>

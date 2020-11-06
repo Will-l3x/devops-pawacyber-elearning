@@ -643,9 +643,12 @@ nav ul a {
   left: 0;
   width: 240px;
   z-index: 999;
-  transition: .3s ease all;
+  transition: 0.3s ease all;
 }
-
+.translateX-0 {
+  transform: translateX(0px) !important;
+  right: 0px;
+}
 .tabs .indicator {
   position: absolute;
   bottom: 0;
@@ -1269,7 +1272,7 @@ nav.modal-width-75 {
   width: 75% !important;
 }
 
-.justfiyCenter {
+.justify-center {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1320,4 +1323,70 @@ nav.modal-width-75 {
 }
 .remove-subs:hover {
   color: red;
+}
+
+
+.chat-messages{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.message-container {
+  border-radius: 10px;
+  margin: 1px auto;
+  margin-top: 10px;
+  max-width: 425px;
+  padding: 10px;
+  width: -webkit-fit-content;
+  color: rgb(255, 255, 255);
+}
+
+.message-container p {
+  font-size: 12px;
+  font-weight: 300;
+  margin: 0px;
+}
+
+.overflow-auto {
+  overflow: auto !important;
+}
+
+.scrollbar {
+  float: left;
+  height: 85vh;
+  width: 100%;
+  overflow-y: scroll;
+  padding-bottom: 30px;
+}
+
+#wrapper {
+  text-align: center;
+  width: 500px;
+  margin: auto;
+}
+
+/*
+ *  STYLE 7
+ */
+
+#style-7::-webkit-scrollbar-track {
+  background-color: #d3d3d3;
+  border-radius: 5px;
+}
+
+#style-7::-webkit-scrollbar {
+  width: 5px;
+  background-color: #d3d3d3;
+}
+
+#style-7::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.44, rgb(122, 153, 217)),
+    color-stop(0.72, rgb(73, 125, 189)),
+    color-stop(0.86, rgb(28, 58, 148))
+  );
 }

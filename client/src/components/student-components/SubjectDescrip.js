@@ -279,7 +279,7 @@ export default class SubjectDescrip extends Component {
               <div
                 className={
                   i === this.state.selectedResourceKey
-                    ? "justfiyCenter"
+                    ? "justify-center"
                     : "display-none"
                 }
               >
@@ -300,7 +300,7 @@ export default class SubjectDescrip extends Component {
     return this.state.view ? (
       <div className="video-player-st">
         <div className="video-topbar transparent">
-          <div className="justfiyCenter white-text cursor-pointer">
+          <div className="justify-center white-text cursor-pointer">
             <i className="material-icons" onClick={() => this.cancelView()}>
               clear
             </i>

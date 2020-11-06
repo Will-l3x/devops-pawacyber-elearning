@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import store from "../../config/store";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
@@ -14,7 +15,6 @@ import { StudentService } from "../../services/student";
 import { AdminService } from "../../services/admin";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
 
 class SubjectContent extends Component {
   constructor(props) {
@@ -35,8 +35,6 @@ class SubjectContent extends Component {
       numPages: 1,
     };
   }
-
-
 
   componentDidMount() {
     this.getContentTags();
@@ -227,14 +225,13 @@ class SubjectContent extends Component {
         const content = [];
         const corruptContent = [];
         for (const material of response) {
-       
-          if (!material.file.includes('materials')) {
+          if (!material.file.includes("materials")) {
             corruptContent.push(material);
           } else {
-            if(material.file.includes('video')){
+            if (material.file.includes("video")) {
               material.obj = "Videos";
               content.push(material);
-            }else{
+            } else {
               if (material.obj === "undefined" || material.obj === "No Tag") {
                 material.obj = "Textbook";
                 content.push(material);
@@ -242,7 +239,6 @@ class SubjectContent extends Component {
                 content.push(material);
               }
             }
-           
           }
         }
 
@@ -279,7 +275,6 @@ class SubjectContent extends Component {
       return <Redirect to="/student" />;
     }
     AdminService.get_all_tags().then((response) => {
-
       this.setState({ tags: response }, () => {
         this.getDashData();
         this.getClasswork();
@@ -287,7 +282,6 @@ class SubjectContent extends Component {
     });
   }
 
-  
   getClasswork() {
     const course = store.getState().student.course.course;
     if (
@@ -304,22 +298,17 @@ class SubjectContent extends Component {
         const unsupported = [];
 
         for (const material of response) {
-       
-          if (!material.file.includes('materials')) {
+          if (!material.file.includes("materials")) {
             corruptContent.push(material);
           } else {
-            if(material.file.includes('video')){
+            if (material.file.includes("video")) {
               material.obj = "Videos";
               unsupported.push(material);
-            }else{
-
-                content.push(material);
-              
+            } else {
+              content.push(material);
             }
-           
           }
         }
-
 
         let pages = [];
         let perPage = 9;
@@ -365,8 +354,7 @@ class SubjectContent extends Component {
 
   download(resource, key) {
     var data = {
-      file: resource.file
-
+      file: resource.file,
     };
 
     this.setState({ selectedResourceKey: key });
@@ -408,7 +396,7 @@ class SubjectContent extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-        this.state.pages.length < 1
+      this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber - 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -420,7 +408,7 @@ class SubjectContent extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-        this.state.pages.length < 1
+      this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber + 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -430,23 +418,19 @@ class SubjectContent extends Component {
 
   viewClasswork(classwork) {
     var data = {
-      file: classwork
+      file: classwork,
     };
 
     setTimeout(() => {
       StudentService.download(data).then((response) => {
-        this.setState(
-          { view: true, classwork: URL.createObjectURL(response) }
-        );
+        this.setState({ view: true, classwork: URL.createObjectURL(response) });
       });
     }, 100);
   }
 
   onDocumentLoadSuccess = ({ numPages }) => {
-    this.setState({ numPages })
-  }
-
-
+    this.setState({ numPages });
+  };
 
   render() {
     const course = store.getState().student.course.course;
@@ -465,7 +449,7 @@ class SubjectContent extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <section id="content">
               <div className="container">
@@ -530,10 +514,10 @@ class SubjectContent extends Component {
                                         Watch
                                       </span>
                                     ) : (
-                                        <span style={{ fontSize: "11px" }}>
-                                          View
-                                        </span>
-                                      )}
+                                      <span style={{ fontSize: "11px" }}>
+                                        View
+                                      </span>
+                                    )}
                                   </Link>
                                 </label>
                               </li>
@@ -554,8 +538,8 @@ class SubjectContent extends Component {
                               {this.videoSelected
                                 ? this.previewTitle
                                 : this.showAssignments
-                                  ? this.previewTitle
-                                  : "LIBRARY RESOURCES"}
+                                ? this.previewTitle
+                                : "LIBRARY RESOURCES"}
                             </span>
                             <span
                               className="task-card-title right"
@@ -575,7 +559,7 @@ class SubjectContent extends Component {
                               {this.state.view ? (
                                 <div className="video-player-st">
                                   <div className="video-topbar transparent">
-                                    <div className="justfiyCenter white-text cursor-pointer">
+                                    <div className="justify-center white-text cursor-pointer">
                                       <i
                                         className="material-icons"
                                         onClick={() => this.cancelView()}
@@ -585,96 +569,128 @@ class SubjectContent extends Component {
                                     </div>
                                   </div>
                                   <Document
-
                                     file={this.state.classwork}
                                     onLoadSuccess={this.onDocumentLoadSuccess}
                                   >
-                                    <Page pageNumber={this.state.currentPageNumber} />
+                                    <Page
+                                      pageNumber={this.state.currentPageNumber}
+                                    />
                                   </Document>
                                   <div className="center-align">
-                                    <a className="btn" style={{ color: "white" }} onClick={this.state.currentPageNumber > 1 ? () => this.setState({ currentPageNumber: this.state.currentPageNumber - 1 }) : () => this.setState({ currentPageNumber: 1 })}>
+                                    <a
+                                      className="btn"
+                                      style={{ color: "white" }}
+                                      onClick={
+                                        this.state.currentPageNumber > 1
+                                          ? () =>
+                                              this.setState({
+                                                currentPageNumber:
+                                                  this.state.currentPageNumber -
+                                                  1,
+                                              })
+                                          : () =>
+                                              this.setState({
+                                                currentPageNumber: 1,
+                                              })
+                                      }
+                                    >
                                       <i className="material-icons">
                                         chevron_left
-                                  </i><i className="material-icons">
+                                      </i>
+                                      <i className="material-icons">
                                         chevron_left
-                                  </i>
+                                      </i>
                                     </a>
-
-                                      Page {this.state.currentPageNumber} of{" "} {this.state.numPages}
-
-                                    <a className="btn" style={{ color: "white" }} onClick={this.state.currentPageNumber != this.state.numPages ? () => this.setState({ currentPageNumber: this.state.currentPageNumber + 1 }) : () => this.setState({ currentPageNumber: this.state.numPages })}>
-
+                                    Page {this.state.currentPageNumber} of{" "}
+                                    {this.state.numPages}
+                                    <a
+                                      className="btn"
+                                      style={{ color: "white" }}
+                                      onClick={
+                                        this.state.currentPageNumber !=
+                                        this.state.numPages
+                                          ? () =>
+                                              this.setState({
+                                                currentPageNumber:
+                                                  this.state.currentPageNumber +
+                                                  1,
+                                              })
+                                          : () =>
+                                              this.setState({
+                                                currentPageNumber: this.state
+                                                  .numPages,
+                                              })
+                                      }
+                                    >
                                       <i className="material-icons">
                                         chevron_right
-                                  </i>
+                                      </i>
                                       <i className="material-icons">
                                         chevron_right
-                                  </i>
-
+                                      </i>
                                     </a>
                                   </div>
-
                                 </div>
                               ) : (
-                                  this.state.assignments.map((assignment, i) => (
+                                this.state.assignments.map((assignment, i) => (
+                                  <div
+                                    key={assignment.assignmentId}
+                                    className="col s12 m8 l4"
+                                  >
                                     <div
-                                      key={assignment.assignmentId}
-                                      className="col s12 m8 l4"
+                                      className="card min-height-100 white-text designed-dots"
+                                      style={{ borderRadius: "5px" }}
                                     >
-                                      <div
-                                        className="card min-height-100 white-text designed-dots"
-                                        style={{ borderRadius: "5px" }}
-                                      >
-                                        <div className="padding-4">
-                                          <div className="col s12 m12">
-                                            <p
-                                              className="no-margin"
-                                              style={{ color: "teal" }}
-                                            >
-                                              <b>{assignment.assignmentname}</b>
-                                            </p>
-                                            <p
-                                              className="no-margin"
-                                              style={{
-                                                fontSize: "12px",
-                                                color: "grey",
-                                              }}
-                                            >
-                                              {assignment.duedate}
-                                            </p>
-                                          </div>
-                                          <div
-                                            className="right-align"
+                                      <div className="padding-4">
+                                        <div className="col s12 m12">
+                                          <p
+                                            className="no-margin"
+                                            style={{ color: "teal" }}
+                                          >
+                                            <b>{assignment.assignmentname}</b>
+                                          </p>
+                                          <p
+                                            className="no-margin"
                                             style={{
-                                              marginTop: "60px",
-                                              color: "black",
+                                              fontSize: "12px",
+                                              color: "grey",
                                             }}
                                           >
-                                            <p className="no-margin">
-                                              <a
-                                                href="#!"
-                                                onClick={(e) => {
-                                                  e.preventDefault();
-                                                  this.viewClasswork(
-                                                    assignment.file
-                                                  );
-                                                }}
-                                              >
-                                                View
+                                            {assignment.duedate}
+                                          </p>
+                                        </div>
+                                        <div
+                                          className="right-align"
+                                          style={{
+                                            marginTop: "60px",
+                                            color: "black",
+                                          }}
+                                        >
+                                          <p className="no-margin">
+                                            <a
+                                              href="#!"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                this.viewClasswork(
+                                                  assignment.file
+                                                );
+                                              }}
+                                            >
+                                              View
                                             </a>
-                                            </p>
-                                          </div>
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
-                                  ))
-                                )}
+                                  </div>
+                                ))
+                              )}
                             </div>
                           ) : this.state.view ? (
                             this.state.selectedContentTag.name === "Videos" ? (
                               <div className="video-player-st">
                                 <div className="video-topbar transparent">
-                                  <div className="justfiyCenter white-text cursor-pointer">
+                                  <div className="justify-center white-text cursor-pointer">
                                     <i
                                       className="material-icons"
                                       onClick={() => this.cancelView()}
@@ -723,46 +739,78 @@ class SubjectContent extends Component {
                                 </div>
                               </div>
                             ) : (
-
-                                <div className="col s12 m12">
-                                  <div className="center-align">
-                                    <Document
-                                      file={this.state.url}
-                                      onLoadSuccess={this.onDocumentLoadSuccess}
-                                    >
-                                      <Page pageNumber={this.state.currentPageNumber} />
-                                    </Document>
-                                  </div>
-
-                                  <div className="center-align">
-                                    <a className="btn" style={{ color: "white" }} onClick={this.state.currentPageNumber > 1 ? () => this.setState({ currentPageNumber: this.state.currentPageNumber - 1 }) : () => this.setState({ currentPageNumber: 1 })}>
-                                      <i className="material-icons">
-                                        chevron_left
-                                  </i><i className="material-icons">
-                                        chevron_left
-                                  </i>
-                                    </a>
-
-                                      Page {this.state.currentPageNumber} of{" "} {this.state.numPages}
-
-                                    <a className="btn" style={{ color: "white" }} onClick={this.state.currentPageNumber != this.state.numPages ? () => this.setState({ currentPageNumber: this.state.currentPageNumber + 1 }) : () => this.setState({ currentPageNumber: this.state.numPages })}>
-
-                                      <i className="material-icons">
-                                        chevron_right
-                                  </i>
-                                      <i className="material-icons">
-                                        chevron_right
-                                  </i>
-
-                                    </a>
-                                  </div>
-
+                              <div className="col s12 m12">
+                                <div className="center-align">
+                                  <Document
+                                    file={this.state.url}
+                                    onLoadSuccess={this.onDocumentLoadSuccess}
+                                  >
+                                    <Page
+                                      pageNumber={this.state.currentPageNumber}
+                                    />
+                                  </Document>
                                 </div>
-                              )
+
+                                <div className="center-align">
+                                  <a
+                                    className="btn"
+                                    style={{ color: "white" }}
+                                    onClick={
+                                      this.state.currentPageNumber > 1
+                                        ? () =>
+                                            this.setState({
+                                              currentPageNumber:
+                                                this.state.currentPageNumber -
+                                                1,
+                                            })
+                                        : () =>
+                                            this.setState({
+                                              currentPageNumber: 1,
+                                            })
+                                    }
+                                  >
+                                    <i className="material-icons">
+                                      chevron_left
+                                    </i>
+                                    <i className="material-icons">
+                                      chevron_left
+                                    </i>
+                                  </a>
+                                  Page {this.state.currentPageNumber} of{" "}
+                                  {this.state.numPages}
+                                  <a
+                                    className="btn"
+                                    style={{ color: "white" }}
+                                    onClick={
+                                      this.state.currentPageNumber !=
+                                      this.state.numPages
+                                        ? () =>
+                                            this.setState({
+                                              currentPageNumber:
+                                                this.state.currentPageNumber +
+                                                1,
+                                            })
+                                        : () =>
+                                            this.setState({
+                                              currentPageNumber: this.state
+                                                .numPages,
+                                            })
+                                    }
+                                  >
+                                    <i className="material-icons">
+                                      chevron_right
+                                    </i>
+                                    <i className="material-icons">
+                                      chevron_right
+                                    </i>
+                                  </a>
+                                </div>
+                              </div>
+                            )
                           ) : this.state.resources.length < 1 ? (
                             <div className="col s12">
                               <div
-                                className="justfiyCenter"
+                                className="justify-center"
                                 style={{ minHeight: 450 }}
                               >
                                 <span
@@ -786,69 +834,69 @@ class SubjectContent extends Component {
                               </div>
                             </div>
                           ) : (
-                                  this.state.resources.map((resource, i) => (
-                                    <div key={i} className="col s12 m6 l4">
-                                      <div
-                                        className="card min-height-100 white-text designed-dots"
-                                        style={{ borderRadius: "5px" }}
+                            this.state.resources.map((resource, i) => (
+                              <div key={i} className="col s12 m6 l4">
+                                <div
+                                  className="card min-height-100 white-text designed-dots"
+                                  style={{ borderRadius: "5px" }}
+                                >
+                                  <div className="padding-4">
+                                    <div className="col s12 m12">
+                                      <p
+                                        className="no-margin"
+                                        style={{ color: "teal" }}
                                       >
-                                        <div className="padding-4">
-                                          <div className="col s12 m12">
-                                            <p
-                                              className="no-margin"
-                                              style={{ color: "teal" }}
-                                            >
-                                              <b>{resource.materialname}</b>
-                                            </p>
-                                            <p
-                                              className="no-margin"
-                                              style={{
-                                                fontSize: "12px",
-                                                color: "grey",
-                                              }}
-                                            >
-                                              {resource.dateadded}
-                                            </p>
-                                          </div>
-                                          <div
-                                            className="right-align"
-                                            style={{
-                                              marginTop: "60px",
-                                              color: "black",
-                                            }}
-                                          >
-                                            <p className="no-margin">
-                                              <button
-                                                onClick={() => {
-                                                  this.download(resource, i);
-                                                }}
-                                              >
-                                                {this.state.selectedContentTag
-                                                  .name === "Videos"
-                                                  ? "Watch"
-                                                  : "View"}
-                                              </button>
-                                            </p>
-                                          </div>
-                                          <div
-                                            className={
-                                              i === this.state.selectedResourceKey
-                                                ? "justfiyCenter"
-                                                : "display-none"
-                                            }
-                                          >
-                                            <div className="vertical--center">
-                                              <div className="vertical-center__element">
-                                                <span className="preloader preloader--top"></span>
-                                                <span className="preloader preloader--bottom"></span>
-                                              </div>
-                                            </div>
-                                          </div>
+                                        <b>{resource.materialname}</b>
+                                      </p>
+                                      <p
+                                        className="no-margin"
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "grey",
+                                        }}
+                                      >
+                                        {resource.dateadded}
+                                      </p>
+                                    </div>
+                                    <div
+                                      className="right-align"
+                                      style={{
+                                        marginTop: "60px",
+                                        color: "black",
+                                      }}
+                                    >
+                                      <p className="no-margin">
+                                        <button
+                                          onClick={() => {
+                                            this.download(resource, i);
+                                          }}
+                                        >
+                                          {this.state.selectedContentTag
+                                            .name === "Videos"
+                                            ? "Watch"
+                                            : "View"}
+                                        </button>
+                                      </p>
+                                    </div>
+                                    <div
+                                      className={
+                                        i === this.state.selectedResourceKey
+                                          ? "justify-center"
+                                          : "display-none"
+                                      }
+                                    >
+                                      <div className="vertical--center">
+                                        <div className="vertical-center__element">
+                                          <span className="preloader preloader--top"></span>
+                                          <span className="preloader preloader--bottom"></span>
                                         </div>
                                       </div>
                                     </div>
-                                  ))
-                                )}
+                                  </div>
+                                </div>
+                              </div>
+                            ))
+                          )}
                         </div>
                         <div className="row">
                           <div
@@ -859,7 +907,7 @@ class SubjectContent extends Component {
                               <li
                                 className={
                                   this.state.currentPageNumber === 1 ||
-                                    this.state.pages.length < 1
+                                  this.state.pages.length < 1
                                     ? "disabled pointer-events-none"
                                     : "waves-effect"
                                 }
@@ -867,7 +915,7 @@ class SubjectContent extends Component {
                                 <Link
                                   className={
                                     this.state.currentPageNumber === 1 ||
-                                      this.state.pages.length < 1
+                                    this.state.pages.length < 1
                                       ? "disabled pointer-events-none"
                                       : ""
                                   }
@@ -885,44 +933,44 @@ class SubjectContent extends Component {
                                   </Link>
                                 </li>
                               ) : (
-                                  this.state.pages.map((page) => {
-                                    if (page === this.state.currentPageNumber) {
-                                      return (
-                                        <li key={page} className="active">
-                                          <Link
-                                            onClick={() =>
-                                              this.handlePageClick(page)
-                                            }
-                                            rel="noopener noreferer"
-                                            to="#!"
-                                          >
-                                            {page}
-                                          </Link>
-                                        </li>
-                                      );
-                                    } else {
-                                      return (
-                                        <li key={page}>
-                                          <Link
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              this.handlePageClick(page);
-                                            }}
-                                            rel="noopener noreferer"
-                                            to="#!"
-                                          >
-                                            {page}
-                                          </Link>
-                                        </li>
-                                      );
-                                    }
-                                  })
-                                )}
+                                this.state.pages.map((page) => {
+                                  if (page === this.state.currentPageNumber) {
+                                    return (
+                                      <li key={page} className="active">
+                                        <Link
+                                          onClick={() =>
+                                            this.handlePageClick(page)
+                                          }
+                                          rel="noopener noreferer"
+                                          to="#!"
+                                        >
+                                          {page}
+                                        </Link>
+                                      </li>
+                                    );
+                                  } else {
+                                    return (
+                                      <li key={page}>
+                                        <Link
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            this.handlePageClick(page);
+                                          }}
+                                          rel="noopener noreferer"
+                                          to="#!"
+                                        >
+                                          {page}
+                                        </Link>
+                                      </li>
+                                    );
+                                  }
+                                })
+                              )}
                               <li
                                 className={
                                   this.state.currentPageNumber ===
                                     this.state.pages.length ||
-                                    this.state.pages.length < 1
+                                  this.state.pages.length < 1
                                     ? "disabled pointer-events-none"
                                     : "waves-effect"
                                 }
@@ -932,7 +980,7 @@ class SubjectContent extends Component {
                                   className={
                                     this.state.currentPageNumber ===
                                       this.state.pages.length ||
-                                      this.state.pages.length < 1
+                                    this.state.pages.length < 1
                                       ? "disabled pointer-events-none"
                                       : ""
                                   }
@@ -953,6 +1001,8 @@ class SubjectContent extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

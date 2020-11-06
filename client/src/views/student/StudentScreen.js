@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import { course_data } from "../../actions/student";
 
 import StudentCourseCard from "../../components/student-components/studentCourseCard";
@@ -10,7 +11,7 @@ import MarkedAssignments from "../../components/student-components/MarkedAssignm
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import { StudentService } from "../../services/student";
-import { TeacherService } from "../../services/teacher"
+import { TeacherService } from "../../services/teacher";
 import { isEmpty } from "lodash";
 
 class StudentScreen extends Component {
@@ -20,7 +21,7 @@ class StudentScreen extends Component {
       courses: [],
       markedWork: [],
       pendingWork: [],
-      del_courses: []
+      del_courses: [],
     };
   }
 
@@ -35,7 +36,10 @@ class StudentScreen extends Component {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.studentData = JSON.parse(localStorage.getItem("userAll"));
 
-    localStorage.setItem("registrationData", JSON.stringify({ gradeid: this.studentData.gradeid }));
+    localStorage.setItem(
+      "registrationData",
+      JSON.stringify({ gradeid: this.studentData.gradeid })
+    );
 
     StudentService.get_all_courses(this.studentData.studentId) // by student id
       .then((response) => {
@@ -54,23 +58,19 @@ class StudentScreen extends Component {
         this.setState({ courses, del_courses });
         for (const sub of response) {
           this.courseId = sub.classId;
-          TeacherService.get_assignments(this.courseId)
-            .then((data) => {
-
-              // assignments.push(data);   
-              if (isEmpty(data)) {
-
-              } else {
-                assignments = assTemp.concat(data);
-                this.setState({ pendingWork: assignments.reverse() });
-              }
-            });
+          TeacherService.get_assignments(this.courseId).then((data) => {
+            // assignments.push(data);
+            if (isEmpty(data)) {
+            } else {
+              assignments = assTemp.concat(data);
+              this.setState({ pendingWork: assignments.reverse() });
+            }
+          });
         }
       })
       .catch((error) => {
         console.log(error);
       });
-
   }
 
   render() {
@@ -82,7 +82,7 @@ class StudentScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar data={this.props} />
+            <LeftSidebar data={this.props} />
 
             <section id="content">
               <div className="container">
@@ -108,9 +108,7 @@ class StudentScreen extends Component {
                       <div className="col s12 m6">
                         <ul className="task-card collection with-header border-radius-10">
                           <li className="collection-header teal accent-4">
-                            <h5 className="task-card-title">
-                              All Assignments
-                            </h5>
+                            <h5 className="task-card-title">All Assignments</h5>
                             <p className="task-card-title">
                               Arranged by upload date
                             </p>
@@ -140,6 +138,8 @@ class StudentScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

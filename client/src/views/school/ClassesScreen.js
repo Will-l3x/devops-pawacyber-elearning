@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import M from "materialize-css";
@@ -173,7 +174,7 @@ class ClassesScreen extends Component {
       }
     });
   };
-  
+
   handleEdit = (course) => {
     this.setState(
       {
@@ -290,7 +291,8 @@ class ClassesScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
+
             <div style={{ position: "relative", zIndex: 50 }}>
               <nav
                 className="navbar nav-extended width-75 image-bg-1"
@@ -301,7 +303,13 @@ class ClassesScreen extends Component {
               >
                 <div className="nav-content">
                   <div className="left">
-                    <p style={{ padding: "10px", paddingTop:25, fontSize: "16px" }}>
+                    <p
+                      style={{
+                        padding: "10px",
+                        paddingTop: 25,
+                        fontSize: "16px",
+                      }}
+                    >
                       Class Management
                     </p>
                   </div>
@@ -471,6 +479,8 @@ class ClassesScreen extends Component {
                 </Link>
               </div>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

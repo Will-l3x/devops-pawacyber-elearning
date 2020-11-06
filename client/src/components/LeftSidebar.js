@@ -10,12 +10,13 @@ import { Link, Redirect } from "react-router-dom";
 import $ from "jquery";
 import M from "materialize-css";
 
-class SideBar extends Component {
+class LeftSidebar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       sidenav_trigger: "",
+      logout: false,
       user: {
         role: "admin",
       },
@@ -39,7 +40,10 @@ class SideBar extends Component {
       menuOut: false, // Set if default menu open is true
     });
   }
-
+  handleLogout = () => {
+    this.setState({ logout: true });
+    localStorage.setItem("user", JSON.stringify({ username: "" }));
+  };
   render() {
     //should just use user role to change links
     let Links;
@@ -56,9 +60,12 @@ class SideBar extends Component {
       return <Redirect to="/login" />;
     }
 
+    if (this.state.logout) {
+      return <Redirect to="/login" />;
+    }
+
     return (
       <aside id="left-sidebar-nav">
-        {" "}
         <ul
           id="slide-out"
           className={`side-nav toggle-ls-bar z-depth-2 fixed leftside-navigation`}
@@ -67,15 +74,38 @@ class SideBar extends Component {
             <Links />
           </li>{" "}
         </ul>
-        
-        <div className="no-padding user-profile display-none">
-          <div style={{height: 70, width: "100%"}}></div>
-        </div>
+        {/* <div className="no-padding user-profile display-none">
+          <hr className="hr3 no-margin"></hr>
+          <div className="justify-center" style={{ height: 70, width: "100%" }}>
+            <a href="/profile" className="grey-text text-darken-1">
+              <i
+                className="material-icons"
+                style={{ transform: "translate(30px, -10px)" }}
+              >
+                face
+              </i>{" "}
+              Profile
+            </a>
+            <a
+              href="#!"
+              onClick={this.handleLogout}
+              className="grey-text text-darken-1"
+            >
+              <i
+                className="material-icons"
+                style={{ transform: "translate(30px, -10px)" }}
+              >
+                keyboard_tab
+              </i>{" "}
+              Logout
+            </a>
+          </div>
+        </div> */}
       </aside>
     );
   }
 }
-SideBar.propTypes = {
+LeftSidebar.propTypes = {
   navClick: PropTypes.func.isRequired,
   link: PropTypes.string,
 };
@@ -85,4 +115,4 @@ const mapStateToProps = (state) => ({
   location: state.dashLink.location,
 });
 
-export default connect(mapStateToProps, { navClick })(SideBar);
+export default connect(mapStateToProps, { navClick })(LeftSidebar);

@@ -7,10 +7,13 @@ class Header extends Component {
     super();
     this.state = {
       logout: false,
-      sidenav_trigger: true,
+      leftSidebar_trigger: true,
+      rightSidebar_trigger: true,
     };
-    this.toggleFullScreen.bind(this);
-    this.handleLogout.bind(this);
+    this.toggleFullScreen = this.toggleFullScreen.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.toggleLeftSidebar = this.toggleLeftSidebar.bind(this);
+    this.toggleRightSidebar = this.toggleRightSidebar.bind(this);
   }
   toggleFullScreen = () => {
     if (
@@ -41,19 +44,33 @@ class Header extends Component {
     localStorage.setItem("user", JSON.stringify({ username: "" }));
   };
 
-  toggleSidenav() {
+  toggleLeftSidebar() {
     const thiss = this;
     function triggerOn() {
       $(".toggle-ls-bar").removeClass("sidenav-translate");
       $(".user-profile").addClass("display-none");
-      thiss.setState({ sidenav_trigger: true });
+      thiss.setState({ leftSidebar_trigger: true });
     }
     function triggerOff() {
       $(".toggle-ls-bar").addClass("sidenav-translate");
       $(".user-profile").removeClass("display-none");
-      thiss.setState({ sidenav_trigger: false });
+      thiss.setState({ leftSidebar_trigger: false });
     }
-    this.state.sidenav_trigger ? triggerOff() : triggerOn();
+    this.state.leftSidebar_trigger ? triggerOff() : triggerOn();
+  }
+  toggleRightSidebar() {
+    const thiss = this;
+    function triggerOn() {
+      $("#chat-out").removeClass("display-none");
+      $("#chat-out").addClass("translateX-0");
+      thiss.setState({ rightSidebar_trigger: true });
+    }
+    function triggerOff() {
+      $("#chat-out").removeClass("translateX-0");
+      $("#chat-out").addClass("display-none");
+      thiss.setState({ rightSidebar_trigger: false });
+    }
+    this.state.rightSidebar_trigger ? triggerOff() : triggerOn();
   }
   render() {
     if (this.state.logout) {
@@ -70,7 +87,7 @@ class Header extends Component {
                   <Link
                     to="#!"
                     data-target="slide-out"
-                    onClick={this.toggleSidenav.bind(this)}
+                    onClick={this.toggleLeftSidebar}
                     className="white-text waves-effect sidenav-trigger-2 waves-light hide-on-large-only"
                   >
                     <i className="material-icons">format_indent_increase</i>
@@ -107,6 +124,16 @@ class Header extends Component {
                   </i>
                 </Link>
               </li>
+              {/* <li>
+                <Link
+                  to="#!"
+                  onClick={this.toggleRightSidebar}
+                  data-activates="chat-out"
+                  class="waves-effect waves-block waves-light chat-collapse"
+                >
+                  <i class="material-icons">chat</i>
+                </Link>
+              </li> */}
               <li>
                 <Link
                   to="#"
