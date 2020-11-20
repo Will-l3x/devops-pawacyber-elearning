@@ -187,6 +187,7 @@ router.put("/schooladmin/update_syllabus", _schooladmin.update_syllabus);
 router.post("/upload/new", _storage.upload);
 router.post("/upload/get", _storage.download);
 router.get("/upload/stream/:container/:blobName/:encoding/:mime/:type", _storage.streamDownload);
+router.get("/upload/fetch_blob/:container/:blobName/:encoding/:mime/:type", _storage.fetchBlob);
 router.post("/upload/multi", _storage.multiUpload);
 router.delete("/upload/delete", _storage.deleteBlog);
 

@@ -204,6 +204,8 @@ class UploadContent extends Component {
                     classes: "red ",
                   });
                 }
+
+                
               });
             }
           });
