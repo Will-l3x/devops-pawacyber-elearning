@@ -70,7 +70,6 @@ class ResourceCard extends Component {
     var data = {
       file: resource.file,
     };
-    console.log(data);
     setTimeout(() => {
       StudentService.download(data).then((response) => {
         window.open(URL.createObjectURL(response));
