@@ -89,10 +89,7 @@ process.env.bcrypt_salt =
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
 app.use(cors());
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://pawacyberschool.net");
-  next();
-});
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 // app.use(logger("dev"));
