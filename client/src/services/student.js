@@ -44,7 +44,7 @@ async function download(data) {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
-          "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+          "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": true,
         },
         responseType: "blob",
