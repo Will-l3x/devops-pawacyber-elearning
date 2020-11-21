@@ -350,7 +350,6 @@ let download = async (req, res) => {
 
       res.set("Content-disposition", "attachment; filename=" + name);
       res.set("Content-Type", mimetype);
-      res.header("Access-Control-Allow-Origin", "https://pawacyberschool.net");
 
       fileContents.on("data", (data) => {
         res.write(data);
@@ -396,7 +395,6 @@ let fetchBlob = async (req, res) => {
 
       res.set("Content-disposition", "attachment; filename=" + name);
       res.set("Content-Type", mimetype);
-      res.header("Access-Control-Allow-Origin", "https://pawacyberschool.net"); 
 
       fileContents.on("data", (data) => {
         res.write(data);
