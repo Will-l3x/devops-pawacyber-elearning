@@ -68,7 +68,6 @@ var routes = require("./routes/index");
 var users = require("./routes/users");
 
 var app = express();
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -76,7 +75,12 @@ app.set("view engine", "pug");
 app.use(express.urlencoded({extended: false, limit: '2gb'}));
 //app.use(express.limit('1000mb'));
 //File Upload
-app.use(fileUpload());
+app.use(fileUpload({
+  limits: {
+    fileSize: 2000000000,
+  },
+  abortOnLimit: true,
+}));
 //Send Seekable
 // app.use(sendSeekable);
 
