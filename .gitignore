@@ -153,5 +153,5 @@ dist
 *.sln
 *.njsproj
 *.njsproj.user
-*.config
+# *.config
 *.Debug.config
