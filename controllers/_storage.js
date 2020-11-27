@@ -1,8 +1,8 @@
 let sql = require("mssql");
-const { pipeline } = require("stream");
+const {pipeline} = require("stream");
 const fs = require("fs");
 const path = require("path");
-const { BlobServiceClient, AbortController } = require("@azure/storage-blob");
+const {BlobServiceClient, AbortController} = require("@azure/storage-blob");
 
 var containerNames = [
   "materials",
@@ -48,6 +48,19 @@ let storageInit = async () => {
 const getBlobName = (originalName, uploadId) => {
   return `${uploadId}-${originalName}`;
 };
+
+const streamToString = (readableStream) => {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on("data", (data) => {
+      chunks.push(data.toString());
+    });
+    readableStream.on("end", () => {
+      resolve(chunks.join(""));
+    });
+    readableStream.on("error", reject);
+  });
+}
 
 let upload = async (req, res) => {
   let obj;
@@ -337,26 +350,32 @@ let download = async (req, res) => {
 
     containerClient = blobServiceClient.getContainerClient(container);
     let blockBlobClient = containerClient.getBlockBlobClient(name);
-    for await (const blob of containerClient.listBlobsFlat()) {
-      console.log(blob.name);
-    }
+    // for await (const blob of containerClient.listBlobsFlat()) {
+    //   console.log(blob.name);
+    // }
     try {
-      const downloadBlockBlobResponse = await blockBlobClient.download(0);
-      console.log(downloadBlockBlobResponse);
+      const downloadBlockBlobResponse =
+        await blockBlobClient.downloadToFile(path.join(__dirname, `../tmp/${name}`)
+        );
+      let blockStream = fs.createReadStream(
+        path.join(__dirname, `../tmp/${name}`)
+      );
+      pipeline(blockStream, res, (err) => {
+        console.log(err);
+      });
+      console.log(res.getHeaders());
+      // console.log(downloadBlockBlobResponse);
       console.log("\nDownloaded blob content...");
-
-      let fileContents = downloadBlockBlobResponse.readableStreamBody;
-      //fileContents.setEncoding(encoding);
-
-      res.set("Content-disposition", "attachment; filename=" + name);
-      res.set("Content-Type", mimetype);
-
-      fileContents.on("data", (data) => {
-        res.write(data);
-      });
-      fileContents.on("end", (data) => {
-        res.status(200).send();
-      });
+      // let fileContents = downloadBlockBlobResponse.readableStreamBody;
+      // fileContents.setEncoding('utf-8');
+      // res.set("Content-disposition", "attachment; filename=" + name);
+      // res.set("Content-Type", mimetype);
+      // fileContents.on("data", (data) => {
+      //   res.write(data);
+      // });
+      // fileContents.on("end", (data) => {
+      //   res.status(200).send();
+      // });
     } catch (err) {
       if (err) console.log(err);
       return res.status(400).send({
@@ -546,7 +565,7 @@ let streamDownload = async (req, res) => {
       // });
       let blockStream = fs.createReadStream(
         path.join(__dirname, `../tmp/${name}`),
-        { start: start, end: end }
+        {start: start, end: end}
       );
       pipeline(blockStream, res, (err) => {
         console.log(err);

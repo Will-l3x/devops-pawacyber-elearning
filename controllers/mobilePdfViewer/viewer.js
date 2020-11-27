@@ -22,13 +22,13 @@ if (!pdfjsLib.getDocument || !pdfjsViewer.PDFViewer) {
 var USE_ONLY_CSS_ZOOM = true;
 var TEXT_LAYER_MODE = 0; // DISABLE
 var MAX_IMAGE_SIZE = 1024 * 1024;
-var CMAP_URL = "http://localhost:3001/mobileViewer/pdfjs-dist/cmaps/";
+var CMAP_URL = "https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/cmaps/";
 var CMAP_PACKED = true;
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "http://localhost:3001/mobileViewer/pdfjs-dist/build/pdf.worker.js";
+    "https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/build/pdf.worker.js";
 
-var DEFAULT_URL = "http://localhost:3001/mobileViewer/tmp/596-GRADE 2 MATHS AND SCIENCE WORKSHEET 2.pdf";
+var DEFAULT_URL = "https://cybers.azurewebsites.net/mobileViewer/tmp/{{pdfName}}";
 var DEFAULT_SCALE_DELTA = 1.1;
 var MIN_SCALE = 0.25;
 var MAX_SCALE = 10.0;

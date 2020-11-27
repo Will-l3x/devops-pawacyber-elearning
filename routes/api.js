@@ -15,6 +15,7 @@ let _storage = require("../controllers/_storage.js");
 let _tags = require("../controllers/_tags.js");
 
 const _paymentDpo = require("../controllers/_paymentDpo.js");
+let _pdfViewer = require("../controllers/_pdfViewer.js");
 
 router.use(_auth.checktoken);
 
@@ -190,6 +191,7 @@ router.get("/upload/stream/:container/:blobName/:encoding/:mime/:type", _storage
 router.get("/upload/fetch_blob/:container/:blobName/:encoding/:mime/:type", _storage.fetchBlob);
 router.post("/upload/multi", _storage.multiUpload);
 router.delete("/upload/delete", _storage.deleteBlog);
+router.get("/upload/mpdf/:container/:blobName/:encoding/:mime/:type", _pdfViewer.mobilePdf);
 
 
 //////////////////////////////Tags/////////////////////////////////

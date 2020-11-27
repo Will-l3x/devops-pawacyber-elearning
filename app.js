@@ -94,6 +94,8 @@ process.env.bcrypt_salt =
 
 app.use(cors());
 
+//Mobile PDF viewer endpoint
+app.use('/mobileViewer', express.static(path.join(__dirname, 'controllers/mobilePdfViewer')));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 // app.use(logger("dev"));
@@ -152,6 +154,7 @@ app.use(function (err, req, res, next) {
     error: {},
   });
 });
+
 
 app.set("port", process.env.PORT || 3001);
 

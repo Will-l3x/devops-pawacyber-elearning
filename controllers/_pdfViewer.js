@@ -27,11 +27,11 @@ limitations under the License.
 
     <title>PDF.js viewer</title>
 
-    <link rel="stylesheet" href="http://localhost:3001/mobileViewer/pdfjs-dist/web/pdf_viewer.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:3001/mobileViewer/viewer.css">
+    <link rel="stylesheet" href="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/web/pdf_viewer.css">
+    <link rel="stylesheet" type="text/css" href="https://cybers.azurewebsites.net/mobileViewer/viewer.css">
 
-    <script src="http://localhost:3001/mobileViewer/pdfjs-dist/build/pdf.js"></script>
-    <script src="http://localhost:3001/mobileViewer/pdfjs-dist/web/pdf_viewer.js"></script>
+    <script src="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/build/pdf.js"></script>
+    <script src="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/web/pdf_viewer.js"></script>
   </head>
 
   <body>
@@ -77,70 +77,70 @@ limitations under the License.
       <button class="toolbarButton zoomIn" title="Zoom In" id="zoomIn"></button>
     </footer>
 
-     <script src="http://localhost:3001/mobileViewer/viewer.js"></script>
+     <script src="https://cybers.azurewebsites.net/mobileViewer/viewer.js"></script>
   </body>
 </html>
 `;
 
 var blobServiceClient;
 const mobilePdf = async (req, res) => {
-    const STORAGE_CONNECTION_STRING =
-        process.env.STORAGE_CONNECTION_STRING ||
-        "DefaultEndpointsProtocol=https;AccountName=cyberschool;AccountKey=+kr0Nc7mnIuBd9lm1pWO+HxN5QRewoskrGPnExkgunq8xqi52Ay8qQZ963IFVqxr5+bQpDNVPUcpaD2AlxwjrA==;EndpointSuffix=core.windows.net";
-    blobServiceClient = await BlobServiceClient.fromConnectionString(
-        STORAGE_CONNECTION_STRING
-    );
-    console.log("The request headers : ");
-    console.log(req.headers);
-    let range = req.headers.range;
-    console.log(req.params);
-    if (!req.params.container) {
-        return res.status(400).send({
-            success: false,
-            message: "File field missing in url...",
-        });
-    } else {
-        let container = req.params.container;
-        let name = req.params.blobName;
-        let encoding = req.params.encoding;
-        let mimetype = req.params.mime + "/" + req.params.type;
-        console.log(mimetype);
-        containerClient = blobServiceClient.getContainerClient(container);
-        let blockBlobClient = containerClient.getBlockBlobClient(name);
+  const STORAGE_CONNECTION_STRING =
+    process.env.STORAGE_CONNECTION_STRING ||
+    "DefaultEndpointsProtocol=https;AccountName=cyberschool;AccountKey=+kr0Nc7mnIuBd9lm1pWO+HxN5QRewoskrGPnExkgunq8xqi52Ay8qQZ963IFVqxr5+bQpDNVPUcpaD2AlxwjrA==;EndpointSuffix=core.windows.net";
+  blobServiceClient = await BlobServiceClient.fromConnectionString(
+    STORAGE_CONNECTION_STRING
+  );
+  console.log("The request headers : ");
+  console.log(req.headers);
+  let range = req.headers.range;
+  console.log(req.params);
+  if (!req.params.container) {
+    return res.status(400).send({
+      success: false,
+      message: "File field missing in url...",
+    });
+  } else {
+    let container = req.params.container;
+    let name = req.params.blobName;
+    let encoding = req.params.encoding;
+    let mimetype = req.params.mime + "/" + req.params.type;
+    console.log(mimetype);
+    containerClient = blobServiceClient.getContainerClient(container);
+    let blockBlobClient = containerClient.getBlockBlobClient(name);
 
-        try {
-            let downloadBlockBlobResponse =
-                await blockBlobClient.downloadToFile(
-                    path.join(__dirname, `./mobilePdfViewer/tmp/${name}`)
-                );
-            const options = {
-                files: path.join(__dirname, 'mobilePdfViewer/viewer.js'),
-                from: '{{pdfPath}}',
-                to: `${name}`,
-            };
-            try {
-                const results = await replace(options)
-                console.log('Replacement results:', results);
-                res.send(indexHtml);
-            }
-            catch (error) {
-                console.error('Error occurred:', error);
-            }
-            // res.send(indexHtml);
+    try {
+      let downloadBlockBlobResponse =
+        await blockBlobClient.downloadToFile(
+          path.join(__dirname, `./mobilePdfViewer/tmp/${name}`)
+        );
+      const options = {
+        files: path.join(__dirname, 'mobilePdfViewer/viewer.js'),
+        from: '{{pdfName}}',
+        to: `${name}`,
+      };
+      try {
+        const results = await replace(options)
+        console.log('Replacement results:', results);
+        res.send(indexHtml);
+      }
+      catch (error) {
+        console.error('Error occurred:', error);
+      }
+      // res.send(indexHtml);
 
-        } catch (err) {
-            if (err) console.log(err);
-            return res.status(400).send({
-                success: false,
-                message: "File not found...",
-                err: err,
-            });
-        }
+    } catch (err) {
+      if (err) console.log(err);
+      return res.status(400).send({
+        success: false,
+        message: "File not found...",
+        err: err,
+      });
     }
+  }
 
 }
 
 
 module.exports = {
-    mobilePdf,
+  mobilePdf,
 }
