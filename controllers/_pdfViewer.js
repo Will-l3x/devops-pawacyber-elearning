@@ -27,11 +27,11 @@ limitations under the License.
 
     <title>PDF.js viewer</title>
 
-    <link rel="stylesheet" href="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/web/pdf_viewer.css">
+    <link rel="stylesheet" href="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/es5/web/pdf_viewer.css">
     <link rel="stylesheet" type="text/css" href="https://cybers.azurewebsites.net/mobileViewer/viewer.css">
 
-    <script src="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/build/pdf.js"></script>
-    <script src="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/web/pdf_viewer.js"></script>
+    <script src="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/es5/build/pdf.js"></script>
+    <script src="https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/es5/web/pdf_viewer.js"></script>
   </head>
 
   <body>

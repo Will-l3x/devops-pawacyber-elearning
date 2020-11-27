@@ -26,7 +26,7 @@ var CMAP_URL = "https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/cmaps/"
 var CMAP_PACKED = true;
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/build/pdf.worker.js";
+    "https://cybers.azurewebsites.net/mobileViewer/pdfjs-dist/es5/build/pdf.worker.js";
 
 var DEFAULT_URL = "https://cybers.azurewebsites.net/mobileViewer/tmp/{{pdfName}}";
 var DEFAULT_SCALE_DELTA = 1.1;
