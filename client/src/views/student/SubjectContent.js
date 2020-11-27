@@ -38,11 +38,14 @@ class SubjectContent extends Component {
 
   componentDidMount() {
     this.getContentTags();
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });  
   }
   videoPlayer() {
     $(".video-player-st").each(function (_, videoPlayer) {
       /**
-       * get all the controls
+       * get all the controlsdd
        **/
       let eleVideoObj = $(videoPlayer).find("video");
       let elePlayPauseBtn = $(videoPlayer).find(".toggle-play-pause");
@@ -700,7 +703,7 @@ class SubjectContent extends Component {
                                   </div>
                                 </div>
 
-                                <video
+                                <video contextMenu = "none"
                                   src={this.state.url}
                                   width="100%"
                                   height="100%"
