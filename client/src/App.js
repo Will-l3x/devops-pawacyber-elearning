@@ -24,6 +24,8 @@ import RegistrationCanceled from "./auth/RegistrationCanceled";
 import TeacherMarkClassroomScreen from "./views/teacher/TeacherMarkClassroomScreen";
 import StudentTestScreen from "./components/teacher-mark/StudentTestScreen";
 import RegisterScreen from "./auth/RegisterScreen";
+import RegisterType from "./auth/RegisterType";
+import FreeRegister from "./components/student-components/FreeStudent";
 
 import SchoolScreen from "./views/school/SchoolScreen";
 import SchoolStudentManagementScreen from "./views/school/SchoolStudentManagementScreen";
@@ -53,6 +55,7 @@ import Students from "./views/admin/Students";
 import AllClasses from "./views/admin/Subjects";
 import ProfileScreen from "./components/profile/ProfileScreen";
 import TeacherStudents from "./views/teacher/TeacherStudents";
+
 
 class App extends Component {
   componentDidMount() {
@@ -148,6 +151,9 @@ class App extends Component {
           <Route exact path="/profile" component={ProfileScreen} />
           <Route exact path="/all-students" component={Students} />
           <Route exact path="/register" component={RegisterScreen} />
+          <Route exact path = "/freereg" component={FreeRegister} />
+          <Route exact path ="/FreeAccount" component={RegisterType} />
+
           <Route exact path="/about" component={AboutScreen} />
 
           <Route exact path="/all-subjects" component={AllClasses} />

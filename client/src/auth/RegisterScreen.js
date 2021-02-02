@@ -6,6 +6,9 @@ import img from "../assets/images/details-2-office-team-work.svg"
 
 import RegistrationForm from '../components/student-components/RegistrationForms';
 import RegisterOnboardedSchool from '../components/student-components/RegisterOnboardedSchool';
+import FreeRegister from "../components/student-components/FreeStudent";
+import { HashLink as Link } from "react-router-hash-link";
+import { Redirect } from "react-router-dom";
 
 class RegisterScreen extends Component {
 
@@ -14,16 +17,21 @@ class RegisterScreen extends Component {
         this.state = {
             independentStudent: true,
             pendingSelection: true,
+            redirect: false,
         };
     }
+   
     selectOption(indepent) {
         this.setState({
             pendingSelection: false,
-            independentStudent: indepent
+            independentStudent: indepent 
         })
     };
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/register" />;
+          }
         return (
             <div style={{ backgroundColor: "white", height: "100vh" }}>
                 <OuterHeader></OuterHeader>

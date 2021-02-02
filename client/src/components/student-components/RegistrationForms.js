@@ -1157,7 +1157,7 @@ export default class RegistrationForm extends Component {
                 <label
                   style={{ transform: "translateY(-15px)", fontSize: "12px" }}
                 >
-                  Subscription Package*
+                  Subscription Package*  
                 </label>
                 <PackageOptions onSelectOption={this.onSelectOption} required />
                 <div className="my-divider"></div>

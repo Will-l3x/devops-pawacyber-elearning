@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import headerImg from "../assets/images/login_illu.png";
 import { Redirect } from "react-router";
-import OuterHeader from "../components/outerHeader";
+import OuterHeader from "../components/outerHeader"; 
 import OuterFooter from "../components/outerFooter";
 import { Link } from "react-router-dom";
 import { AuthService } from "../services/authServices";
@@ -190,7 +190,7 @@ class LoginScreen extends Component {
                         className="form-group"
                         style={{ textAlign: "center", fontStyle: "italic" }}
                       >
-                        <Link to="/register">
+                        <Link to="/FreeAccount">
                           Don't have account? Register Now
                         </Link>
                       </div>
