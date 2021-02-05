@@ -25,7 +25,7 @@ class RegisterSuccessScreen extends Component {
     async componentDidMount() {
         M.AutoInit();
         M.toast({
-            html: "Payment Successful",
+            html: "Transaction Successful",
             classes: "green accent-3",
         });
 
