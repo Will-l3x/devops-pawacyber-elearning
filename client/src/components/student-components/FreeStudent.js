@@ -256,7 +256,7 @@ export default class FreeRegister extends Component {
     PaymentService.createToken(paymentDetails).then((response) => {
       if (response === undefined) {
         M.toast({
-          html: "Payment Failed",
+          html: "Creating Account Failed",
           classes: "red accent-2",
         });
       } else if (response.success === false) {
@@ -266,7 +266,7 @@ export default class FreeRegister extends Component {
         });
       } else {
         M.toast({
-          html: "You are being redirected to the payment page",
+          html: "Your Free Account Is Being Created Right Now",
           classes: "green",
         });
         // window.open(`https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`,'_blank');
