@@ -1,14 +1,19 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import avatar from "../assets/images/avatar/avatar-7.png";
+import $ from "jquery";
 class Header extends Component {
   constructor() {
     super();
     this.state = {
       logout: false,
+      leftSidebar_trigger: true,
+      rightSidebar_trigger: true,
     };
-    this.toggleFullScreen.bind(this);
-    this.handleLogout.bind(this);
+    this.toggleFullScreen = this.toggleFullScreen.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.toggleLeftSidebar = this.toggleLeftSidebar.bind(this);
+    this.toggleRightSidebar = this.toggleRightSidebar.bind(this);
   }
   toggleFullScreen = () => {
     if (
@@ -36,26 +41,60 @@ class Header extends Component {
   };
   handleLogout = () => {
     this.setState({ logout: true });
-    localStorage.setItem(
-      "user",
-      JSON.stringify({ username: ""})
-    );
+    localStorage.setItem("user", JSON.stringify({ username: "" }));
   };
+
+  toggleLeftSidebar() {
+    const thiss = this;
+    function triggerOn() {
+      $(".toggle-ls-bar").removeClass("sidenav-translate");
+      $(".user-profile").addClass("display-none");
+      thiss.setState({ leftSidebar_trigger: true });
+    }
+    function triggerOff() {
+      $(".toggle-ls-bar").addClass("sidenav-translate");
+      $(".user-profile").removeClass("display-none");
+      thiss.setState({ leftSidebar_trigger: false });
+    }
+    this.state.leftSidebar_trigger ? triggerOff() : triggerOn();
+  }
+  toggleRightSidebar() {
+    const thiss = this;
+    function triggerOn() {
+      $("#chat-out").removeClass("display-none");
+      $("#chat-out").addClass("translateX-0");
+      thiss.setState({ rightSidebar_trigger: true });
+    }
+    function triggerOff() {
+      $("#chat-out").removeClass("translateX-0");
+      $("#chat-out").addClass("display-none");
+      thiss.setState({ rightSidebar_trigger: false });
+    }
+    this.state.rightSidebar_trigger ? triggerOff() : triggerOn();
+  }
   render() {
     if (this.state.logout) {
-      console.log("logged out")
+      console.log("logged out");
       return <Redirect to="/login" />;
     }
     return (
       <div className="navbar-fixed">
-        <nav className="navbar-color gradient-45deg-light-blue-cyan">
+        <nav className="navbar-color width-75% gradient-45deg-light-blue-cyan">
           <div className="nav-wrapper">
             <ul className="left">
               <li>
                 <h1 className="logo-wrapper">
-                  <Link to="#" className="brand-logo darken-1">
+                  <Link
+                    to="#!"
+                    data-target="slide-out"
+                    onClick={this.toggleLeftSidebar}
+                    className="white-text waves-effect sidenav-trigger-2 waves-light hide-on-large-only"
+                  >
+                    <i className="material-icons">format_indent_increase</i>
+                  </Link>
+                  <Link to="#" className="brand-logo">
                     <span className="logo-text hide-on-med-and-down">
-                      PawaCyber eLearning
+                      Pawa Cyber eLearning
                     </span>
                   </Link>
                 </h1>
@@ -85,6 +124,16 @@ class Header extends Component {
                   </i>
                 </Link>
               </li>
+              {/* <li>
+                <Link
+                  to="#!"
+                  onClick={this.toggleRightSidebar}
+                  data-activates="chat-out"
+                  class="waves-effect waves-block waves-light chat-collapse"
+                >
+                  <i class="material-icons">chat</i>
+                </Link>
+              </li> */}
               <li>
                 <Link
                   to="#"
@@ -127,7 +176,7 @@ class Header extends Component {
 
             <ul id="profile-dropdown" className="dropdown-content dropdown-acc">
               <li>
-                <Link to="#" className="grey-text text-darken-1">
+                <Link to="/profile" className="grey-text text-darken-1">
                   <i className="material-icons">face</i> Profile
                 </Link>
               </li>

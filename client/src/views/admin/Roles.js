@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import DatatablePage from "../../components/DatatablePage";
-import $ from "jquery";
+//import $ from "jquery";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
+import { Link } from "react-router-dom";
 //import RoleOptions from "./RoleOptions";
 
-export class RolesScreen extends Component {
+class RolesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,8 +41,6 @@ export class RolesScreen extends Component {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.getDashData();
     M.AutoInit();
-    $(".custom-select.custom-select-sm").addClass("display-none");
-    $(".col-sm-12.col-md-6").addClass("height-0");
   }
   handleTitleDropdownChange(event) {
     this.setState({ title: event.target.value });
@@ -96,9 +96,15 @@ export class RolesScreen extends Component {
     };
     AdminService.post_new_role(data).then((response) => {
       if (response === undefined) {
-        alert(response);
+        M.toast({
+          html: response,
+          classes: "red ",
+        });
       } else {
-        alert(response.message);
+        M.toast({
+          html: response.message,
+          classes: "green ",
+        });
         document.getElementById("sibs").reset();
         this.getDashData();
       }
@@ -120,13 +126,25 @@ export class RolesScreen extends Component {
     console.log(registerAdmin);
     /**AdminService.register(registerAdmin).then((response) => {
       if (response === undefined) {
-        alert("Teacher Registration Failed");
+   
+        M.toast({
+          html: "Teacher Registration Failed",
+          classes: "red",
+        });
       } else if (response.success === false) {
-        alert(response.message);
+      
+                M.toast({
+          html: response.message,
+          classes: "red",
+        });
       } else {
         document.getElementById("sibs").reset();
         this.getDashData();
-        alert(response.message);
+        
+                   M.toast({
+          html: response.message,
+          classes: "red",
+        });
       }
     }); */
   };
@@ -145,11 +163,12 @@ export class RolesScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
+
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{ position: "fixed" }}
                 >
                   <div className="nav-content">
@@ -249,24 +268,26 @@ export class RolesScreen extends Component {
                       <h4 className="header2">Are you sure?</h4>
                     </div>
                     <div className="modal-footer">
-                      <a
-                        href="#!"
+                      <Link
+                        to="#!"
                         style={{ marginRight: 10 }}
                         className="modal-close btn gradient-45deg-green-teal waves-effect white-text"
                       >
                         Yes
-                      </a>
-                      <a
-                        href="#!"
+                      </Link>
+                      <Link
+                        to="#!"
                         className="modal-close btn gradient-45deg-red-pink waves-effect white-text"
                       >
                         No
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </section>
               </div>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

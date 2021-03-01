@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
-import { SchoolService } from "../../services/school";
 
-export class AdminScreen extends Component {
+class AdminScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,6 +14,7 @@ export class AdminScreen extends Component {
       packages: [],
       students: [],
       teachers: [],
+      subjects: [],
     };
   }
 
@@ -26,15 +27,18 @@ export class AdminScreen extends Component {
       console.log(response);
       this.setState({ schools: response });
     });
-
     AdminService.get_subs_plans().then((response) => {
       this.setState({ packages: response });
     });
-    SchoolService.get_all_teachers(2).then((response) => {
+    AdminService.get_all_teachers().then((response) => {
       this.setState({ teachers: response });
     });
-    SchoolService.get_all_students(2).then((response) => {
+    AdminService.get_all_students().then((response) => {
       this.setState({ students: response });
+    });
+
+    AdminService.get_all_classes().then((response) => {
+      this.setState({ subjects: response });
     });
   }
 
@@ -46,14 +50,14 @@ export class AdminScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar data={this.props}></SideBar>
+            <LeftSidebar data={this.props} />
 
             <section id="content">
               <div className="container">
                 <div className="card-stats">
                   <div className="row mt-1">
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -71,7 +75,7 @@ export class AdminScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -81,7 +85,7 @@ export class AdminScreen extends Component {
                           </div>
                           <div className="col s5 m5 right-align white-text">
                             <h5 className="mb-0 white-text">
-                               {this.state.students === undefined
+                              {this.state.students === undefined
                                 ? 0
                                 : this.state.students.length}
                             </h5>
@@ -91,7 +95,7 @@ export class AdminScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -109,7 +113,7 @@ export class AdminScreen extends Component {
                       </div>
                     </div>
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -128,23 +132,25 @@ export class AdminScreen extends Component {
 
                   <div className="row mt-1">
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
                               book
                             </i>
-                            <p className="white-text">Courses Offered</p>
+                            <p className="white-text">Subjects Offered</p>
                           </div>
                           <div className="col s5 m5 right-align">
-                            <h5 className="mb-0 white-text">0</h5>
+                            <h5 className="mb-0 white-text">
+                              {this.state.subjects.length}
+                            </h5>
                             <p className="no-margin white-text">Total</p>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="col s12 m6 l3">
-                      <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text">
+                      <div className="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text border-radius-7">
                         <div className="padding-4">
                           <div className="col s7 m7">
                             <i className="material-icons background-round mt-5 white-text">
@@ -167,6 +173,8 @@ export class AdminScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
 

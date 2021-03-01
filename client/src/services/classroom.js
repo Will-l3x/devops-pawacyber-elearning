@@ -1,6 +1,8 @@
+import React, { Component } from "react";
 import axios from "axios";
 
-const apiUrl = "http://cybers.azurewebsites.net/api";
+const qs = require("qs");
+//const token =  JSON.parse(localStorage.getItem("token"));
 // const apiUrl = "http://localhost:3001/api";
 
 export const ClassroomService = {
@@ -19,171 +21,261 @@ export const ClassroomService = {
 
 // classroom functions
 async function get_all_classwork(id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/teacher/get_materials/${id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(`/teacher/get_materials/${id}`, config);
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function get_all_test_folders(classroom_id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/get-all-test-folder/${classroom_id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(
+      `/classroom/get-all-test-folder/${classroom_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
+
+
 async function get_all_assignment_folders(classroom_id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/get-all-assignment-folders/${classroom_id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(
+      `/classroom/get-all-assignment-folders/${classroom_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function get_all_test_files(classroom_id, test_id) {
-  /** details about location of student's file and the test it was uploaded for */
+
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/get-all-test-files/${classroom_id}/${test_id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(
+      `/classroom/get-all-test-files/${classroom_id}/${test_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function get_all_assignment_files(classroom_id, assignment_id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/get-all-assignment-files/${classroom_id}/${assignment_id}`,
-      method: "get",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.get(
+      `/classroom/get-all-assignment-files/${classroom_id}/${assignment_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function post_new_classroom_material(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/teacher/new_${data.type}`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log(res.data)
+    let res = await axios.post(
+      `/teacher/new_${data.type}`,
+      qs.stringify(data),
+      config
+    );
+    console.log(res.data);
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function delete_classwork(classroom_id, material_id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/delete-classwork/${classroom_id}/${material_id}`,
-      method: "delete",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.delete(
+      `/classroom/delete-classwork/${classroom_id}/${material_id}`,
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
-async function post_teacher_to_classroom(classroom_id, teacher_id) {
+async function post_teacher_to_classroom(classroom_id, teacher_id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   /** add teacher-id to classroom */
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/add-teacher/${classroom_id}/${teacher_id}`,
-      method: "post",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(
+      `/classroom/add-teacher/${classroom_id}/${teacher_id}`,
+      qs.stringify(data),
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
-async function post_student_to_classroom(classroom_id, student_id) {
+async function post_student_to_classroom(classroom_id, student_id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   /** add student-id to classroom */
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/add-student/${classroom_id}/${student_id}`,
-      method: "post",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(
+      `/classroom/add-student/${classroom_id}/${student_id}`,
+      qs.stringify(data),
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
-async function update_student_marks(classroom_id, student_id) {
+async function update_student_marks(classroom_id, student_id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/update-student-marks/${classroom_id}/${student_id}`,
-      method: "post",
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.put(
+      `/classroom/update-student-marks/${classroom_id}/${student_id}`,
+      qs.stringify(data),
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);
   }
 }
 async function upload_marked_classwork(classroom_id, classwork_id, data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+  
+    baseURL: "https://pawacyberschool.net/api",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+
   try {
-    let res = await axios({
-      url: `${apiUrl}/classroom/upload-marked-classwork/${classroom_id}/${classwork_id}`,
-      method: "post",
-      data,
-      timeout: 8000,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let res = await axios.post(
+      `/classroom/upload-marked-classwork/${classroom_id}/${classwork_id}`,
+      qs.stringify(data),
+      config
+    );
     return res.data;
   } catch (err) {
     console.error(err);

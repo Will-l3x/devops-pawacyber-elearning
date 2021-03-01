@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import ClassworkItem from "./ClassworkItem";
 
 //import store from "../../config/store"
-export class ClassroomClassworkCard extends Component {
+class ClassroomClassworkCard extends Component {
   render() {
     return <ClassworkItem />;
   }

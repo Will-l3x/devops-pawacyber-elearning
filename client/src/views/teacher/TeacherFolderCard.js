@@ -10,7 +10,7 @@ import folderIcon from "../../assets/images/icon/folder.svg";
 
 //import M from "materialize-css";
 
-export class TeacherFolderCard extends Component {
+class TeacherFolderCard extends Component {
   constructor() {
     super();
     this.state = {

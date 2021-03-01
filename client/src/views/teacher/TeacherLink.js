@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { navClick } from "../../actions/navlink";
 
 class TeacherLink extends Component {
-  
   dashClick = (dash) => {
     this.props.navClick(dash);
   };
@@ -23,6 +22,7 @@ class TeacherLink extends Component {
             <span className="nav-text">Dashboard</span>
           </Link>
         </li>
+
         <li className="bold">
           <Link
             to="/classroom-mark"
@@ -30,7 +30,7 @@ class TeacherLink extends Component {
             onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">visibility</i>
-            <span className="nav-text">Classroom</span> 
+            <span className="nav-text">Classroom</span>
           </Link>
         </li>
 
@@ -41,7 +41,7 @@ class TeacherLink extends Component {
             onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">backup</i>
-            <span className="nav-text">Upload Resources</span> 
+            <span className="nav-text">Upload Resources</span>
           </Link>
         </li>
 
@@ -52,11 +52,31 @@ class TeacherLink extends Component {
             onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">backup</i>
-            <span className="nav-text">Upload New Assignment</span> 
+            <span className="nav-text">Upload New Assignment</span>
+          </Link>
+        </li>
+        <li className="bold">
+          <Link
+            to="/teacher-students"
+            className="waves-effect waves-cyan"
+            onClick={() => this.dashClick("teacher")}
+          >
+            <i className="material-icons">people</i>
+            <span className="nav-text">Students</span>
+          </Link>
+        </li>
+        <li className="bold">
+          <Link
+            to="/video-player"
+            className="dash-link waves-effect waves-cyan"
+            onClick={() => this.dashClick("student")}
+          >
+            <i className="material-icons">live_tv</i>
+            <span className="nav-text">Video Class</span>
           </Link>
         </li>
 
-        <li className="bold">
+        {/* <li className="bold">
           <Link
             to="/teacher-calendar"
             className="dash-link waves-effect waves-cyan"
@@ -65,7 +85,7 @@ class TeacherLink extends Component {
             <i className="material-icons">date_range</i>
             <span className="nav-text">Calender</span>
           </Link>
-        </li>
+        </li> */}
       </ul>
     );
   }

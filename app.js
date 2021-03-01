@@ -10,12 +10,15 @@ var sql = require("mssql");
 var config = require("./config/config.js");
 const cors = require("cors");
 const _auth = require("./controllers/_auth.js");
+const _storage = require("./controllers/_storage.js");
 var cluster = require("cluster");
 var cron = require("node-cron");
 var moment = require("moment");
 var nodemailer = require("nodemailer");
 var _ = require("underscore");
 const fileUpload = require("express-fileupload");
+// const sendSeekable = require("send-seekable");
+
 //Documentation
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
@@ -54,6 +57,9 @@ setInterval(function () {
   });
 }, 3210);
 
+//Azure Storage
+_storage.storageInit();
+
 var api = require("./routes/api");
 
 //var redis = require('redis');
@@ -62,13 +68,21 @@ var routes = require("./routes/index");
 var users = require("./routes/users");
 
 var app = express();
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+app.use(express.urlencoded({extended: false, limit: '2gb'}));
+//app.use(express.limit('1000mb'));
 //File Upload
-app.use(fileUpload());
+app.use(fileUpload({
+  limits: {
+    fileSize: 2000000000,
+  },
+  abortOnLimit: true,
+}));
+//Send Seekable
+// app.use(sendSeekable);
 
 process.env.jwt_secret =
   "AURacx3425#$G$#3VBHSJBSJTSDDN4c4cEfFvGggGGf5t3e4Y%G&tgyGUbtfVE345$#3#$$456789(./)()newScho0l";
@@ -80,21 +94,26 @@ process.env.bcrypt_salt =
 
 app.use(cors());
 
+//Mobile PDF viewer endpoint
+app.use('/mobileViewer', express.static(path.join(__dirname, 'controllers/mobilePdfViewer')));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 // app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/build")));
 
-//app.use(_auth.checkToken);
+//api.use(_auth.checktoken);
 //app.use(_auth.authorize);
 //app.use(subscriptions.checkSubscription);
 
 app.use("/", routes);
 app.use("/users", users);
 app.use("/api", api);
+
+//Multi file upload
+app.use("/multi_upload", express.static(path.join(__dirname, "uploads_page")));
 
 //uploads
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -135,6 +154,7 @@ app.use(function (err, req, res, next) {
     error: {},
   });
 });
+
 
 app.set("port", process.env.PORT || 3001);
 

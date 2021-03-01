@@ -1,5 +1,6 @@
 let sql = require("mssql");
 let fs = require("fs");
+const moment = require("moment");
 
 //-- Create new message
 let newMsg = async (req, res) => {
@@ -206,18 +207,14 @@ let getReminders = (req, res) => {
 //Student assignment submission
 let newSubmission = (req, res) => {
   console.log("Student : creating new submission..."); //dev
+  let datesubmitted = moment().format("YYYY-MM-DD");
+  console.log(datesubmitted);
   //Expects teacherid, classid, schoolid, assid, and a json object containing material/file name
   let obj = req.body;
-  if (
-    !obj.assid ||
-    !obj.classid ||
-    !obj.teacherid ||
-    !obj.studentid ||
-    !obj.schoolid
-  ) {
+  if (!obj.assid || !obj.studentid) {
     res.send({
       err:
-        "Missing a parameter, expects classid, studentid, assid, teacherid on request object",
+        "Missing a parameter, expects classid, studentid, assid, on request object",
     });
     console.log("Missing parameter..."); //dev
   } else {
@@ -226,21 +223,14 @@ let newSubmission = (req, res) => {
     if (!obj.file) {
       let o = JSON.stringify(obj.obj);
       q = `insert into student_assignments \
-        (classid, teacherid, assignmentid, studentid, obj) \
-         values (${obj.classid}, ${obj.teacherid}, '${obj.assid}','${studentid}', ${o})`;
+        (assignmentid, studentid, datesubmitted , obj) \
+         values (${obj.assid}, ${studentid}, ${datesubmitted}, ${o})`;
     } else {
-      uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/${obj.assid}/`;
-      obj.file = `/uploads/${obj.schoolid}/${obj.classid}/${obj.assid}/`;
-      console.log("Checking upload path..."); //dev
-      if (!fs.existsSync(uploadPath)) {
-        console.log("Creating upload path..."); //dev
-        console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
-      }
+      obj.file = `${obj.assid}`;
       q = `insert into student_assignments \
-        (classid, teacherid, assignmentid, studentid, [file]) \
-         values (${obj.classid}, ${obj.teacherid}, ${obj.assid}, ${obj.studentid}, '${obj.file}'); \
-        select * FROM student_assignments where student_assignments.assignmentID = SCOPE_IDENTITY(); `;
+        (assignmentid, studentid, datesubmitted, [file]) \
+         values (${obj.assid}, ${obj.studentid}, ${datesubmitted}, '${obj.file}'); \
+        select * FROM student_assignments where student_assignments.saId = SCOPE_IDENTITY(); `;
     }
     console.log(q); //dev
     let ms_req = new sql.Request();

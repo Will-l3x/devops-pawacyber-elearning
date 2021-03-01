@@ -7,7 +7,7 @@ import { navClick } from "../../actions/navlink";
 class StudentLink extends Component {
   dashClick = (dash) => {
     this.props.navClick(dash);
-  }
+  };
 
   render() {
     return (
@@ -29,12 +29,18 @@ class StudentLink extends Component {
             className="dash-link waves-effect waves-cyan"
             onClick={() => this.dashClick("student")}
           >
-            <i className="material-icons">
-              pie_chart_outlined
-            </i>
-            <span className="nav-text">
-              My Assignments
-            </span>
+            <i className="material-icons">pie_chart_outlined</i>
+            <span className="nav-text">My Assignments</span>
+          </Link>
+        </li>
+        <li className="bold">
+          <Link
+            to="/video-player"
+            className="dash-link waves-effect waves-cyan"
+            onClick={() => this.dashClick("student")}
+          >
+            <i className="material-icons">live_tv</i>
+            <span className="nav-text">Video Class</span>
           </Link>
         </li>
       </ul>
@@ -50,6 +56,5 @@ StudentLink.propTypes = {
 const mapStateToProps = (state) => ({
   link: state.dashLink.link,
 });
-
 
 export default connect(mapStateToProps, { navClick })(StudentLink);

@@ -4,7 +4,7 @@ import TopicContentCard from "../TopicContentCard";
 import { Link, Redirect } from "react-router-dom";
 import store from "../../config/store"
 
-export class ClassroomCourseCard extends Component {
+class ClassroomCourseCard extends Component {
   state = {
     topics: [
       {
@@ -94,7 +94,6 @@ export class ClassroomCourseCard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
   course: state.student,
 });
 

@@ -62,7 +62,12 @@ let teachers = (req, res) => {
   let request = new sql.Request();
 
   request.query(query, function (err, recordset) {
-    let teachers = recordset.recordset;
+    let teachers;
+    if (recordset.recordset) {
+      teachers = recordset.recordset;
+    } else {
+      teachers = [];
+    }
     if (err) {
       console.log(err);
       console.log(err.stack);
@@ -253,17 +258,22 @@ let add_class = (req, res) => {
   let schoolid = req.body.schoolid;
   let createdon = moment().format("YYYY-MM-DD");
   let enrolmentkey;
-
   var query = `insert into [classes] \
-    (teacherid, classname, createdby, createdon, status, grade) \
-    values(${teacherid}, '${classname}', ${createdby}, ${createdon}, '${status}', ${grade}); \
+    (teacherid, classname, createdby, createdon, status, grade, schoolid) \
+    values(${teacherid}, '${classname}', ${createdby}, ${createdon}, '${status}', ${grade}, ${schoolid}); \
     select * from classes where classes.classId = SCOPE_IDENTITY(); `;
 
   let request = new sql.Request();
 
   request.query(query, function (err, recordset) {
-    console.log(recordset);
-    let _class = recordset.recordset;
+    console.log(recordset.recordset);
+
+    let _class;
+    if (recordset.recordset == null || recordset.recordset == undefined) {
+      _class = {};
+    } else {
+      _class = recordset.recordset;
+    }
     if (err) {
       console.log(err);
       console.log(err.stack);
@@ -285,8 +295,9 @@ let add_class = (req, res) => {
 
 let del_class = (req, res) => {
   var id = req.params.id;
-  var query = `delete from [classes] where classId= ${id}`;
+  var query = `UPDATE [classes] SET status='deleted' where classId= ${id}`;
 
+  let request = new sql.Request();
   request.query(query, function (err, recordset) {
     if (err) {
       console.log(err);
@@ -298,17 +309,25 @@ let del_class = (req, res) => {
         error: err.message,
       });
     } else {
-      return res.json({
-        status: 200,
-        success: true,
-        message: "Deleted",
-      });
+      if (recordset.rowsAffected[0] > 0) {
+        return res.json({
+          status: 200,
+          success: true,
+          message: "Class deleted",
+        });
+      } else {
+        return res.json({
+          status: 400,
+          success: false,
+          message: "Failed to delete",
+        });
+      }
     }
   });
 };
 
 let update_class = (req, res) => {
-  let teacherid = req.body.teacherId;
+  let teacherid = req.body.teacherid;
   let classid = req.body.classid;
   let classname = req.body.classname;
   let status = req.body.status;
@@ -656,12 +675,11 @@ let shared_materials_class = (req, res) => {
     } else {
       let materials = recordset.recordset;
 
-          return res.json({
-            status: 200,
-            success: true,
-            data: JSON.parse(JSON.stringify({ materials })),
-          });
-     
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ materials })),
+      });
     }
   });
 };
@@ -686,12 +704,11 @@ let shared_materials_topic = (req, res) => {
     } else {
       let materials = recordset.recordset;
 
-          return res.json({
-            status: 200,
-            success: true,
-            data: JSON.parse(JSON.stringify({ materials })),
-          });
-     
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ materials })),
+      });
     }
   });
 };
@@ -717,12 +734,11 @@ let shared_materials = (req, res) => {
     } else {
       let materials = recordset.recordset;
 
-          return res.json({
-            status: 200,
-            success: true,
-            data: JSON.parse(JSON.stringify({ materials })),
-          });
-     
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ materials })),
+      });
     }
   });
 };
@@ -747,12 +763,11 @@ let shared_topics = (req, res) => {
     } else {
       let topics = recordset.recordset;
 
-          return res.json({
-            status: 200,
-            success: true,
-            data: JSON.parse(JSON.stringify({ topics })),
-          });
-     
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ topics })),
+      });
     }
   });
 };
@@ -777,21 +792,19 @@ let shared_classes = (req, res) => {
     } else {
       let classes = recordset.recordset;
 
-          return res.json({
-            status: 200,
-            success: true,
-            data: JSON.parse(JSON.stringify({ classes })),
-          });
-     
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ classes })),
+      });
     }
   });
 };
 //Get all shared classes with cover
 let get_shared_classes_with_cover = (req, res) => {
-
   let query = `select * from [shared_classes] \
     where grade = ${grade}`;
-  
+
   let request = new sql.Request();
 
   request.query(query, (err, recordset) => {
@@ -813,10 +826,10 @@ let get_shared_classes_with_cover = (req, res) => {
         let q = `select * from [shared_materials]\
         where shared_materials.classid = ${classObj.classid}\
         and shared_materials.name = 'Cover'`;
-        request.query(q, (err, recordset) =>{
-          if(err){
+        request.query(q, (err, recordset) => {
+          if (err) {
             console.log(err);
-          
+
             return res.json({
               status: 500,
               success: false,
@@ -827,8 +840,8 @@ let get_shared_classes_with_cover = (req, res) => {
             let cover = recordset.recordset;
             classObj.cover = cover;
             classesWithCover.push(classObj);
-            if(count == classesLen){
-               return res.json({
+            if (count == classesLen) {
+              return res.json({
                 status: 200,
                 success: true,
                 data: JSON.parse(JSON.stringify({ classesWithCover })),
@@ -842,8 +855,6 @@ let get_shared_classes_with_cover = (req, res) => {
 };
 //Get all shared classes
 let all_shared_classes = (req, res) => {
-  
-
   let query = `select * from [shared_classes]`;
 
   let request = new sql.Request();
@@ -860,12 +871,11 @@ let all_shared_classes = (req, res) => {
     } else {
       let classes = recordset.recordset;
 
-          return res.json({
-            status: 200,
-            success: true,
-            data: JSON.parse(JSON.stringify({ classes })),
-          });
-     
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ classes })),
+      });
     }
   });
 };
@@ -875,13 +885,12 @@ let add_shared_class = (req, res) => {
   let description = req.body.description;
   let grade = req.body.grade;
 
-
   var query = `insert into [shared_classes] \
     (name, description, grade) \
     values('${name}', '${description}', ${grade}); \
     select * from [shared_classes] where shared_classes.classId = SCOPE_IDENTITY(); `;
 
-   let request = new sql.Request();
+  let request = new sql.Request();
 
   request.query(query, function (err, recordset) {
     let shared_class = recordset.recordset;
@@ -905,38 +914,36 @@ let add_shared_class = (req, res) => {
 };
 //Create new shared class cover pic
 let add_shared_class_cover = (req, res) => {
-console.log("Admin : creating new shared class cover...");
+  console.log("Admin : creating new shared class cover...");
   //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
   let obj = req.body;
 
-  if (!obj.classid ) {
+  if (!obj.classid) {
     res.send({
-      err:
-        "Missing a parameter, expects classid or topicid on request object",
+      err: "Missing a parameter, expects classid or topicid on request object",
     });
     console.log("Missing parameter..."); //dev
   } else {
     let uploadPath;
     let q;
     let o = JSON.stringify(obj.obj);
-    obj.materialtype = 'shared_materials';
+    obj.materialtype = "shared_materials";
 
-      uploadPath = `${__dirname}/../uploads/shared/${obj.classid}/`;
-      obj.file = `/uploads/shared/${obj.classid}/`;
-      obj.name = 'Cover';
-      console.log("Checking upload path..."); //dev
-      if (!fs.existsSync(uploadPath)) {
-        console.log("Creating upload path..."); //dev
-        console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
-      }
-      
-      q = `insert into [shared_materials] \
+    uploadPath = `${__dirname}/../uploads/shared/${obj.classid}/`;
+    obj.file = `/uploads/shared/${obj.classid}/`;
+    obj.name = "Cover";
+    console.log("Checking upload path..."); //dev
+    if (!fs.existsSync(uploadPath)) {
+      console.log("Creating upload path..."); //dev
+      console.log(uploadPath); //dev
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+
+    q = `insert into [shared_materials] \
         (classid, topicid, name, materialtype, [file], obj, description) \
          values (${obj.classid},'${obj.name}', '${obj.materialtype}', '${obj.file}'); \
          select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
-      
-    
+
     let ms_req = new sql.Request();
 
     ms_req.query(q, (err, data) => {
@@ -976,13 +983,12 @@ let add_shared_topic = (req, res) => {
   let description = req.body.description;
   let classid = req.body.classid;
 
-
   var query = `insert into [shared_topics] \
     (name, description, classid) \
     values('${name}', '${description}', ${classid}); \
     select * from [shared_topics] where shared_topics.topicId = SCOPE_IDENTITY(); `;
 
-    let request = new sql.Request();
+  let request = new sql.Request();
 
   request.query(query, function (err, recordset) {
     let shared_topic = recordset.recordset;
@@ -1010,43 +1016,42 @@ let add_shared_material = (req, res) => {
   //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
   let obj = req.body;
 
-  if (!obj.topicid && !obj.classid ) {
+  if (!obj.topicid && !obj.classid) {
     res.send({
-      err:
-        "Missing a parameter, expects classid or topicid on request object",
+      err: "Missing a parameter, expects classid or topicid on request object",
     });
     console.log("Missing parameter..."); //dev
   } else {
     let uploadPath;
     let q;
     let o = JSON.stringify(obj.obj);
-    obj.materialtype = 'shared_materials';
+    obj.materialtype = "shared_materials";
 
-      uploadPath = `${__dirname}/../uploads/shared/${obj.classid}/${obj.topicid}/`;
-      obj.file = `/uploads/shared/${obj.classid}/${obj.topicid}/`;
-      console.log("Checking upload path..."); //dev
-      if (!fs.existsSync(uploadPath)) {
-        console.log("Creating upload path..."); //dev
-        console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
-      }
-      if(!obj.topicid){
-        q = `insert into [shared_materials] \
+    uploadPath = `${__dirname}/../uploads/shared/${obj.classid}/${obj.topicid}/`;
+    obj.file = `/uploads/shared/${obj.classid}/${obj.topicid}/`;
+    console.log("Checking upload path..."); //dev
+    if (!fs.existsSync(uploadPath)) {
+      console.log("Creating upload path..."); //dev
+      console.log(uploadPath); //dev
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    if (!obj.topicid) {
+      q = `insert into [shared_materials] \
         (classid, name, materialtype, [file], obj, description) \
          values (${obj.classid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
          select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
-      }else if(!obj.classid){
-        q = `insert into [shared_materials] \
+    } else if (!obj.classid) {
+      q = `insert into [shared_materials] \
         (topicid, name, materialtype, [file], obj, description) \
          values (${obj.topicid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
          select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
-      }else {
+    } else {
       q = `insert into [shared_materials] \
         (classid, topicid, name, materialtype, [file], obj, description) \
          values (${obj.classid}, ${obj.topicid}, '${obj.name}', '${obj.materialtype}', '${obj.file}', '${o}', '${obj.description}'); \
          select * FROM [shared_materials] where shared_materials.sharedMaterialID = SCOPE_IDENTITY();`;
-      }
-    
+    }
+
     let ms_req = new sql.Request();
 
     ms_req.query(q, (err, data) => {
@@ -1088,14 +1093,13 @@ let add_syllabi = (req, res) => {
   console.log("School Admin : Init Syllabi");
 
   syllabi.jp.forEach((syllabus) => {
-    syllabus = '/syllabi/jp/' + syllabus;
+    syllabus = "/syllabi/jp/" + syllabus;
     console.log(syllabus);
     let query = `insert into [syllabi] \
     ([file]) \
     values('${syllabus}');`;
     let request = new sql.Request();
 
-    
     request.query(query, function (err, recordset) {
       if (err) {
         console.log(err);
@@ -1110,17 +1114,16 @@ let add_syllabi = (req, res) => {
         console.log("syllabus added...");
       }
     });
-    
   });
 
   syllabi.js.forEach((syllabus) => {
-    syllabus = '/syllabi/js/' + syllabus; 
+    syllabus = "/syllabi/js/" + syllabus;
     console.log(syllabus);
     let query = `insert into [syllabi] \
     ([file]) \
     values('${syllabus}');`;
     let request = new sql.Request();
-    
+
     request.query(query, function (err, recordset) {
       if (err) {
         console.log(err);
@@ -1135,17 +1138,16 @@ let add_syllabi = (req, res) => {
         console.log("Package added...");
       }
     });
-    
   });
 
   syllabi.ss.forEach((syllabus) => {
-    syllabus = '/syllabi/ss/' + syllabus; 
+    syllabus = "/syllabi/ss/" + syllabus;
     console.log(syllabus);
     let query = `insert into [syllabi] \
     ([file]) \
     values('${syllabus}');`;
     let request = new sql.Request();
-    
+
     request.query(query, function (err, recordset) {
       if (err) {
         console.log(err);
@@ -1160,7 +1162,6 @@ let add_syllabi = (req, res) => {
         console.log("Package added...");
       }
     });
-    
   });
 
   return res.json({
@@ -1171,8 +1172,6 @@ let add_syllabi = (req, res) => {
 };
 //Get all syllabi
 let get_syllabi = (req, res) => {
-  
-
   let query = `select * from [syllabi]`;
 
   var request = new sql.Request();
@@ -1189,12 +1188,11 @@ let get_syllabi = (req, res) => {
     } else {
       let syllabi = recordset.recordset;
 
-          return res.json({
-            status: 200,
-            success: true,
-            data: JSON.parse(JSON.stringify({ syllabi })),
-          });
-     
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ syllabi })),
+      });
     }
   });
 };
@@ -1219,12 +1217,11 @@ let syllabus = (req, res) => {
     } else {
       let syllabus = recordset.recordset;
 
-          return res.json({
-            status: 200,
-            success: true,
-            data: JSON.parse(JSON.stringify({ syllabus })),
-          });
-     
+      return res.json({
+        status: 200,
+        success: true,
+        data: JSON.parse(JSON.stringify({ syllabus })),
+      });
     }
   });
 };
@@ -1233,22 +1230,19 @@ let add_syllabus = (req, res) => {
   console.log("Admin : creating new syllabus...");
   let obj = req.body;
 
-  if (!obj.grade || !obj.subject ) {
+  if (!obj.grade || !obj.subject) {
     res.send({
-      err:
-        "Missing a parameter, expects grade and subject on request object",
+      err: "Missing a parameter, expects grade and subject on request object",
     });
     console.log("Missing parameter..."); //dev
   } else {
-    
     let q;
     obj.file = `/syllabi/`;
-      q = `insert into [syllabi] \
+    q = `insert into [syllabi] \
         ([file], grade, subject) \
          values ('${obj.file}', '${obj.grade}', '${obj.subject}'); \
          select * FROM [syllabi] where syllabi.syllabusID = SCOPE_IDENTITY();`;
-    
-    
+
     let ms_req = new sql.Request();
 
     ms_req.query(q, (err, data) => {

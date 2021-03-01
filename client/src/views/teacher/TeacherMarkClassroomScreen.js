@@ -1,73 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import SideBar from "../../components/SideBar";
-import $ from "jquery";
-import M from "materialize-css";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 
 import TestFolderCard from "../../components/teacher-mark/TestFolderCard";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 
-export class TeacherMarkClassroomScreen extends Component {
-  constructor() {
-    super();
-    this.removeMaterialHandler.bind(this);
-    this.removeItemHandler.bind(this);
-  }
-
-  componentDidMount() {
-    M.AutoInit();
-    $(".tabs-trigger").each(function () {
-      $(this).on("click", function () {
-        $(".tabs-trigger").removeClass("active");
-        $(this).addClass("active");
-        const tab = $(this).attr("data-target");
-        if (tab === "task-card1") {
-          $("#task-card1").css({
-            display: "block",
-          });
-          $("#task-card2").css({
-            display: "none",
-          });
-          $("#task-card3").css({
-            display: "none",
-          });
-        }
-        if (tab === "task-card2") {
-          $("#task-card1").css({
-            display: "none",
-          });
-          $("#task-card2").css({
-            display: "block",
-          });
-          $("#task-card3").css({
-            display: "none",
-          });
-        }
-        if (tab === "task-card3") {
-          $("#task-card1").css({
-            display: "none",
-          });
-          $("#task-card2").css({
-            display: "none",
-          });
-          $("#task-card3").css({
-            display: "block",
-          });
-        }
-      });
-    });
-  }
-
-  removeMaterialHandler = () => {
-    $(".remove-content").css({
-      display: "inline",
-    });
-  };
-
-  removeItemHandler = () => {};
-
+class TeacherMarkClassroomScreen extends Component {
   render() {
     return (
       <div>
@@ -77,21 +17,27 @@ export class TeacherMarkClassroomScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar/>
+            <LeftSidebar />
+
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
-                <nav className="navbar nav-extended" style={{ position: "fixed"}}>
-                  <div className="nav-content"> 
-                    <Link to="#" className="brand-logo">
-                      Classroom Mark/Grade
-                    </Link>
-                    <ul className="tabs">
-                      <li className="tab">
-                        <Link to="#" data-target="task-card1" className="tabs-trigger active">
-                          Tests - Assignments - Exercises
-                        </Link>
-                      </li>
-                    </ul>
+                <nav
+                  className="navbar nav-extended width-75 image-bg-1"
+                  style={{ position: "fixed" }}
+                >
+                  <div className="nav-content">
+                    <div className="left">
+                      <p
+                        style={{
+                          padding: "10px",
+                          paddingTop: 25,
+                          paddingBottom: 25,
+                          fontSize: "16px",
+                        }}
+                      >
+                        Students' Classwork
+                      </p>
+                    </div>
                   </div>
                 </nav>
               </div>
@@ -103,6 +49,8 @@ export class TeacherMarkClassroomScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

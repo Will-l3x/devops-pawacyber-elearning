@@ -1,18 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import SideBar from "../SideBar";
+import LeftSidebar from "../LeftSidebar";
+import RightSidebar from "../RightSidebar";
 import $ from "jquery";
 import M from "materialize-css";
 
-import { ClassroomClassworkCard } from "./ClassroomClassworkCard";
+import ClassroomClassworkCard from "./ClassroomClassworkCard";
 import ClassroomStudentsCard from "./ClassroomStudentsCard";
-import { ClassroomCourseCard } from "./ClassroomCourseCard";
-import { ClassroomStudentAssessment } from "./ClassroomStudentAssessment";
+import ClassroomCourseCard from "./ClassroomCourseCard";
+import ClassroomStudentAssessment from "./ClassroomStudentAssessment";
 import Footer from "../footer";
 import Header from "../header";
 
-export class ClassroomScreen extends Component {
+class ClassroomScreen extends Component {
   constructor() {
     super();
     this.removeMaterialHandler.bind(this);
@@ -36,12 +37,12 @@ export class ClassroomScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{ position: "fixed" }}
                 >
                   <div className="nav-content">
@@ -51,7 +52,6 @@ export class ClassroomScreen extends Component {
                     <Link
                       to="#!"
                       className="btn gradient-45deg-light-blue-cyan remove-content right waves-effect"
-                      data-target="dropdown7"
                       style={{ transform: "translate(-200%, 55%)" }}
                     >
                       Save
@@ -165,7 +165,9 @@ export class ClassroomScreen extends Component {
                   <ClassroomStudentAssessment />
                 </div>
               </div>
-              </section>
+            </section>
+           
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
@@ -177,7 +179,6 @@ export class ClassroomScreen extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
   files: state.fileUpload,
 });
 

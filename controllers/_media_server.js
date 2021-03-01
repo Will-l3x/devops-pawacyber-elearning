@@ -1,8 +1,7 @@
 'use strict';
 const fs = require('fs');
-const path = require('path');
-const jwt = require('jsonwebtoken');
 const sql = require('mssql');
+var generator = require('generate-password');
 
 let playvideo = (req, res) => {
     const path = '..material/video/sample.mp4';
@@ -38,10 +37,366 @@ let playvideo = (req, res) => {
     }
 };
 
-module.exports = {
-    playvideo: playvideo
-    //audio
-    //upload
-    //document
+let create_meeting = (req, res) => {
+    var createdby = req.decoded.userid;
+    var date = req.body.date;
+    var classid = req.body.classid;
+    var notes = req.body.notes;
+    var name = req.body.name;
+    var status = "Waiting for ";
 
+    var query = "INSERT INTO [meetings] \
+    (createdby,date , classid,notes,status,meetingname) \
+    VALUES(@cb,@date,@cid,@notes,@status,@name)";
+    var request = new sql.Request();
+
+    request
+        .input("cb", createdby)
+        .input("date", date)
+        .input("cid", classid)
+        .input("notes", notes)
+        .input("status", status)
+        .input("name", name)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                if (recordset.rowsAffected[0] > 0) {
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Meeting Created"
+                    });
+
+                } else {
+
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed create meeting'
+
+                    });
+                }
+            }
+        });
+};
+
+let start_meeting = (req, res) => {
+    var meeting_id = req.params.id;
+    var password = req.body.password;
+    var status = "Meeting Started";
+    
+    var room = generator.generate({
+        length: 53,
+        numbers: true,
+        lowercase: true,
+        uppercase: true
+    });
+
+    /////////////////////save to db
+    var query = "UPDATE [meetings] \
+    SET link=@room ,password=@password ,status=@status \
+    WHERE meetingId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", meeting_id)
+        .input("room", room)
+        .input("password", password)
+        .input("status", status)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                if (recordset.rowsAffected[0] > 0) {
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Meeting Started",
+                        room: "meet.jit.si/" + room
+                    });
+
+                } else {
+
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to start Meeting'
+
+                    });
+                }
+            }
+        });
+
+};
+
+let stop_meeting = (req, res) => {
+    var meeting_id = req.params.id;
+    var status = "Meeting Ended";
+
+    var query = "UPDATE [meetings] \
+    SET link=@link, password=@pass ,status=@status \
+    WHERE meetingId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", meeting_id)
+        .input("status", status)
+        .input("pass", "")
+        .input("link", "")
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                if (recordset.rowsAffected[0] > 0) {
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        message: "Meeting Stopped"
+                    });
+
+                } else {
+
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to stop Meeting'
+
+                    });
+                }
+            }
+        });
+
+};
+
+let get_meetings = (req, res) => {
+
+    var id = req.decoded.userid;
+    var role = req.decoded.roleid;
+    var request = new sql.Request();
+
+    if (role === 3) {
+        var query = "select * from [meetings] \
+         LEFT OUTER JOIN class_students ON class_students.classid = meetings.classid \
+         LEFT OUTER JOIN students ON students.studentId = class_students.studentid \
+         Where students.studentId = @id \
+         ";
+
+        request
+            .input("id", id)
+            .query(query, function (err, recordset) {
+
+                if (err) {
+                    console.log(err);
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: "An error occured",
+                        error: err.message
+                    });
+                } else {
+
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        data: JSON.parse(JSON.stringify({ meetings: recordset.recordset }))
+
+                    });
+
+                }
+            });
+
+    } else if (role === 1) {
+        var query1 = "select * from [meetings] \
+         Where createdby = @id \
+         ";
+
+        request
+            .input("id", id)
+            .query(query1, function (err, recordset) {
+
+                if (err) {
+                    console.log(err);
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: "An error occured",
+                        error: err.message
+                    });
+                } else {
+
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        data: JSON.parse(JSON.stringify({ meetings: recordset.recordset }))
+
+                    });
+
+                }
+            });
+    } else {
+        return res.json({
+            status: 401,
+            success: false,
+            message: "Not Authorized"
+
+        });
+    }
+};
+
+let get_class_meetings = (req, res) => {
+
+    var id = req.params.id;
+ 
+    var request = new sql.Request();
+
+        var query = "select * from [meetings] \
+         Where meetings.classid = @id \
+         ";
+
+        request
+            .input("id", id)
+            .query(query, function (err, recordset) {
+
+                if (err) {
+                    console.log(err);
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: "An error occured",
+                        error: err.message
+                    });
+                } else {
+
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        data: JSON.parse(JSON.stringify({ meetings: recordset.recordset }))
+
+                    });
+
+                }
+            });
+
+    
+};
+
+let get_meeting = (req, res) => {
+
+    var id = req.decoded.userid;
+    var role = req.decoded.roleid;
+    var mid = req.params.id;
+    var request = new sql.Request();
+
+    if (role === 3) {
+        var query = "select * from [meetings] \
+         LEFT OUTER JOIN class_students ON class_students.classid = meetings.classid \
+         LEFT OUTER JOIN students ON students.studentId = class_students.studentid \
+         Where students.studentId = @id \
+         and meetingId = @mid \
+         ";
+
+        request
+            .input("id", id)
+            .input("mid", mid)
+            .query(query, function (err, recordset) {
+
+                if (err) {
+                    console.log(err);
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: "An error occured",
+                        error: err.message
+                    });
+                } else {
+
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        data: JSON.parse(JSON.stringify({ meeting: recordset.recordset }))
+
+                    });
+
+                }
+            });
+
+    } else if (role === 1) {
+        var query1 = "select * from [meetings] \
+         Where createdby = @id \
+        and meetingId = @mid \
+         ";
+
+        request
+            .input("id", id)
+            .input("mid", mid)
+            .query(query1, function (err, recordset) {
+
+                if (err) {
+                    console.log(err);
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        message: "An error occured",
+                        error: err.message
+                    });
+                } else {
+
+
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        data: JSON.parse(JSON.stringify({ meeting: recordset.recordset }))
+
+                    });
+
+                }
+            });
+    }
+};
+
+module.exports = {
+    playvideo: playvideo,
+    create_meeting: create_meeting,
+    get_meetings: get_meetings,
+    get_class_meetings: get_class_meetings,
+    get_meeting: get_meeting,
+    stop_meeting: stop_meeting,
+    start_meeting:start_meeting
 };

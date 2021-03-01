@@ -60,6 +60,7 @@ let enrolStudent = async (req, res) => {
             fd.enrollmentUrl = `http://localhost:3000/api/student/enrol/ \
               ${obj.classid}-${fd.classEnrollmentKey}-${obj.studentid}`;
             //4.enrol student & send email
+
             let q3 = `insert into class_students \
               (classid, studentid) \
               values (${obj.classid}, ${obj.studentid})`;
@@ -114,12 +115,22 @@ let newCourseMaterial = (req, res) => {
     let uploadPath;
     let q;
     if (!obj.file) {
-      let o = JSON.stringify(obj.obj);
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
       q = `insert into materials \
         (classid, teacherid, materialname, obj) \
          values (${obj.classid}, ${obj.studentid}, '${obj.materialname}', '${o}')`;
     } else {
-      let o = JSON.stringify(obj.obj);
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
 
       uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/`;
       obj.file = `/uploads/${obj.schoolid}/${obj.classid}/`;
@@ -127,8 +138,79 @@ let newCourseMaterial = (req, res) => {
       if (!fs.existsSync(uploadPath)) {
         console.log("Creating upload path..."); //dev
         console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
+        fs.mkdirSync(uploadPath, {recursive: true});
       }
+      q = `insert into materials \
+        (classid, teacherid, materialname, [file], obj) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}', '${o}'); \
+         select * FROM materials where materials.mID = SCOPE_IDENTITY();`;
+    }
+    //console.log(q); //dev
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          let mId = data.recordset[0].mId;
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Added material...",
+            uploadId: mId,
+            uploadType: "materials",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to add material...",
+          });
+        }
+      }
+    });
+  }
+};
+let newCourseMaterialv2 = (req, res) => {
+  console.log("Teacher : creating new course material...");
+  //Expects teacherid, classid, materialname, schoolid and a json object containing material/file name
+  let obj = req.body;
+
+  if (!obj.materialname || !obj.classid || !obj.teacherid || !obj.schoolid) {
+    res.send({
+      err:
+        "Missing a parameter, expects classid, materialtype, teacherid on request object",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let uploadPath;
+    let q;
+    if (!obj.file) {
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
+      q = `insert into materials \
+        (classid, teacherid, materialname, obj) \
+         values (${obj.classid}, ${obj.studentid}, '${obj.materialname}', '${o}')`;
+    } else {
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
+      }
+      obj.file = `${obj.materialname}`;
+
       q = `insert into materials \
         (classid, teacherid, materialname, [file], obj) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.materialname}', '${obj.file}', '${o}'); \
@@ -180,7 +262,7 @@ let getCourseMaterial = (req, res) => {
     let p = req.params.id;
     let q = `select * \
       from materials \
-      where materials.materialID = ${p}`;
+      where materials.mID = ${p}`;
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
@@ -245,7 +327,122 @@ let getCourseMaterials = (req, res) => {
     });
   }
 };
+//--Gets course materials for a class, single row
+let getAllCourseMaterials = (req, res) => {
+  console.log("Teacher : Getting all course materials...");
 
+
+  let q = `select * from materials`;
+  let ms_req = new sql.Request();
+  ms_req.query(q, (err, data) => {
+    if (err) {
+      console.log(err); //dev
+      return res.status(500).send({
+        success: false,
+        message: "An error occured",
+        error: err.message,
+      });
+    } else {
+      if (data.recordset.len === 0) {
+        return res.status(400).send({
+          success: false,
+          message: "Materials not found",
+        });
+      } else {
+        return res.status(200).send({
+          success: true,
+          data: data.recordset,
+        });
+      }
+    }
+  });
+};
+// Get course material by tag
+let getCourseMaterialByTag = (req, res) => {
+  console.log("Teacher : Getting course materials by tag...");
+  //Expects tag string
+  if (!req.body.tag) {
+    res.send({
+      err: "Missing a parameter, expects tag",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let p = req.body.tag;
+    let q = `select * \
+      from materials \
+      where materials.obj = '${p}'`;
+    console.log(p);
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        if (data.recordset.len === 0) {
+          return res.status(400).send({
+            success: false,
+            message: "Materials not found",
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            data: data.recordset,
+          });
+        }
+      }
+    });
+  }
+};
+
+// Update course material tag
+let updateCourseMaterialTag = (req, res) => {
+  console.log("Teacher : Getting course materials by tag...");
+  //Expects tag string
+  console.log(req.body);
+  if (!req.body.materialId || !req.body.tag) {
+    res.send({
+      err: "Missing a parameter, expects tag and materialId",
+    });
+    console.log("Missing parameter..."); //dev
+  } else {
+    let tag = req.body.tag;
+    let mId = req.body.materialId;
+    let q = `update materials \
+      set materials.obj = '${tag}' \
+      where materials.mId = ${mId}`;
+    let ms_req = new sql.Request();
+    ms_req.query(q, (err, data) => {
+      if (err) {
+        console.log(err); //dev
+        return res.status(500).send({
+          success: false,
+          message: "An error occured",
+          error: err.message,
+        });
+      } else {
+        console.log("Insert : "); //dev
+        console.log(data); //dev
+        if (data.rowsAffected[0] > 0) {
+          return res.json({
+            status: 200,
+            success: true,
+            message: "Updated tag on material record...",
+          });
+        } else {
+          return res.json({
+            status: 400,
+            success: false,
+            message: "Failed to update tag...",
+          });
+        }
+      }
+    });
+  }
+};
 //-- Create new assignment for a class
 let newAssignment = (req, res) => {
   console.log("Teacher : creating new assignment..."); //dev
@@ -261,23 +458,23 @@ let newAssignment = (req, res) => {
     let uploadPath;
     let q;
     if (!obj.file) {
-      let o = JSON.stringify(obj.obj);
-      q = `insert into assignments \
-        (classid, teacherid, assignmentname, obj) \
-         values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', ${o})`;
-    } else {
-      uploadPath = `${__dirname}/../uploads/${obj.schoolid}/${obj.classid}/`;
-      obj.file = `/uploads/${obj.schoolid}/${obj.classid}/`;
-      console.log("Checking upload path..."); //dev
-      if (!fs.existsSync(uploadPath)) {
-        console.log("Creating upload path..."); //dev
-        console.log(uploadPath); //dev
-        fs.mkdirSync(uploadPath, { recursive: true });
+      let o;
+      if (!obj.obj) {
+        o = "No Tag";
+      } else {
+        o = obj.obj;
       }
+      q = `insert into assignments \
+        (classid, teacherid, assignmentname, schoolid, obj) \
+         values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', ${obj.schoolid}, '${o}')`;
+    } else {
+      obj.file = `${obj.assignmentname}`;
+
       q = `insert into assignments \
         (classid, teacherid, assignmentname, [file]) \
          values (${obj.classid}, ${obj.teacherid}, '${obj.assignmentname}', '${obj.file}'); \
         select * FROM assignments where assignments.assignmentID = SCOPE_IDENTITY(); `;
+      //new logic here
     }
     console.log(q); //dev
     let ms_req = new sql.Request();
@@ -701,7 +898,7 @@ let getSubmissions = (req, res) => {
   } else {
     let p = req.params.id;
     let q = `select * from student_assignments \
-    where student_assignments.assId = ${p}`;
+    where student_assignments.assignmentId = ${p}`;
     let ms_req = new sql.Request();
     ms_req.query(q, (err, data) => {
       if (err) {
@@ -729,9 +926,10 @@ let getSubmissions = (req, res) => {
 };
 module.exports = {
   enrolStudent: enrolStudent,
-  newCourseMaterial: newCourseMaterial,
+  newCourseMaterial: newCourseMaterialv2,
   getCourseMaterial: getCourseMaterial,
   getCourseMaterials: getCourseMaterials,
+  getAllCourseMaterials: getAllCourseMaterials,
   newAssignment: newAssignment,
   getAssignment: getAssignment,
   getAssignments: getAssignments,
@@ -743,4 +941,6 @@ module.exports = {
   getClasses: getClasses,
   getStudents: getStudents,
   getSubmissions: getSubmissions,
+  getCourseMaterialByTag: getCourseMaterialByTag,
+  updateCourseMaterialTag: updateCourseMaterialTag,
 };

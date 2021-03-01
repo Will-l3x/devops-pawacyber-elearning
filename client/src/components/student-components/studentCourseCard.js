@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { course_data } from "../../actions/student";
 
-export class StudentCourseCard extends Component {
+class StudentCourseCard extends Component {
   constructor() {
     super();
     this.colors.bind(this);
@@ -17,11 +17,6 @@ export class StudentCourseCard extends Component {
       "red",
       "teal accent-4",
     ];
-    /* shuffle array
-    colors.sort(function(){
-      return .5 -Math.random();
-    });
-    */
     return colors[i % 5];
   };
   render() {
@@ -33,28 +28,30 @@ export class StudentCourseCard extends Component {
             style={{ boxShadow: "100px", borderRadius: "5px" }}
           >
             <div className="col s11 m7  sub-card ">
-              <p className="white-text```">{course.classname}</p>
+              <p style={{ fontSize: "16px" }} className="white-text" >{course.classname}</p>
             </div>
             <div
-                className="col s1"
-                style={{
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                  position: "center",
-                  paddingLeft: "40px",
-                  paddingRight: "10px",
-                }}
+              className="col s1"
+              style={{
+                paddingTop: "10px",
+                paddingBottom: "10px",
+                position: "center",
+                paddingLeft: "40px",
+                paddingRight: "10px",
+              }}
             >
               <Link
-                to="/subject-content"
-                onClick={() => {
-                  this.props.course_data({course:{
-                    name: course.classname,
-                    courseId: course.classId,
-                    color:this.colors(i)}
+                to="/subject-content" onClick={() => {
+                  this.props.course_data({
+                    course: {
+                      name: course.classname,
+                      courseId: course.classId,
+                      color: this.colors(i)
+                    }
                   });
                 }}
               >
+               
                 <i
                   className={`material-icons background-round mt-2 `}
                   style={{ padding: "10px", color: "white" }}
@@ -71,7 +68,6 @@ export class StudentCourseCard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
   course: state.student,
 });
 

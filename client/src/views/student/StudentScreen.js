@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import { course_data } from "../../actions/student";
 
 import StudentCourseCard from "../../components/student-components/studentCourseCard";
@@ -9,40 +10,67 @@ import PendingAssignments from "../../components/student-components/Assignments"
 import MarkedAssignments from "../../components/student-components/MarkedAssignmentsCard";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
-import {StudentService} from '../../services/student';
+import { StudentService } from "../../services/student";
+import { TeacherService } from "../../services/teacher";
+import { isEmpty } from "lodash";
 
-export class StudentScreen extends Component {
+class StudentScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       courses: [],
       markedWork: [],
       pendingWork: [],
+      del_courses: [],
     };
   }
 
   user = {};
+  studentData = {};
 
   componentDidMount() {
     this.getDashData();
   }
 
-  getDashData(){
-   this.user= JSON.parse(localStorage.getItem("user"));
-    StudentService.get_all_courses(this.user.userid) // by student id
-    .then((response) => {
-      this.setState({ courses: response })
-    });
+  getDashData() {
+    this.user = JSON.parse(localStorage.getItem("user"));
+    this.studentData = JSON.parse(localStorage.getItem("userAll"));
 
-    // StudentService.get_student_marked_classwork(1) // Course Id
-    // .then((response) => {
-    //   this.setState({ markedWork: response })
-    // });
+    localStorage.setItem(
+      "registrationData",
+      JSON.stringify({ gradeid: this.studentData.gradeid })
+    );
 
-    // StudentService.get_student_pending_classwork(1) // Course Id
-    // .then((response) => {
-    //   this.setState({ pendingWork: response })
-    // });
+    StudentService.get_all_courses(this.studentData.studentId) // by student id
+      .then((response) => {
+        const courses = [];
+        var assignments = [];
+        const assTemp = [];
+        const del_courses = [];
+        for (const course of response) {
+          if (course.status === "deleted") {
+            del_courses.push(course);
+          } else {
+            courses.push(course);
+          }
+        }
+
+        this.setState({ courses, del_courses });
+        for (const sub of response) {
+          this.courseId = sub.classId;
+          TeacherService.get_assignments(this.courseId).then((data) => {
+            // assignments.push(data);
+            if (isEmpty(data)) {
+            } else {
+              assignments = assTemp.concat(data);
+              this.setState({ pendingWork: assignments.reverse() });
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -54,7 +82,7 @@ export class StudentScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar data={this.props} />
+            <LeftSidebar data={this.props} />
 
             <section id="content">
               <div className="container">
@@ -77,14 +105,12 @@ export class StudentScreen extends Component {
                 <div style={{ marginTop: "15px" }}>
                   <div id="card-widgets">
                     <div className="row">
-                      <div className="col s12 m4 l4">
-                        <ul className="task-card collection with-header">
+                      <div className="col s12 m6">
+                        <ul className="task-card collection with-header border-radius-10">
                           <li className="collection-header teal accent-4">
-                            <h5 className="task-card-title">
-                              Pending Assignments
-                            </h5>
+                            <h5 className="task-card-title">All Assignments</h5>
                             <p className="task-card-title">
-                              Arranged by submission date
+                              Arranged by upload date
                             </p>
                           </li>
                           <PendingAssignments
@@ -92,8 +118,8 @@ export class StudentScreen extends Component {
                           ></PendingAssignments>
                         </ul>
                       </div>
-                      <div className="col s12 m12 l6">
-                        <ul className="task-card collection with-header">
+                      <div className="col s12 m6">
+                        <ul className="task-card collection with-header border-radius-10">
                           <li className="collection-header gradient-45deg-light-blue-cyan accent-4">
                             <h5 className="task-card-title">
                               Graded Assignments
@@ -112,6 +138,8 @@ export class StudentScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

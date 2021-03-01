@@ -13,6 +13,10 @@ class TeacherCourseCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:
+        JSON.parse(localStorage.getItem("user")) === null
+          ? { roleid: 3 }
+          : JSON.parse(localStorage.getItem("user")),
       redirect: false,
       count: -1,
     };
@@ -20,12 +24,11 @@ class TeacherCourseCard extends Component {
   }
   componentDidMount() {
     $(".progress").removeClass("display-none");
-    this.get_all_courses()
+    this.get_all_courses();
   }
   get_all_courses = async () => {
-    await this.props.get_all_courses("teacher_id");
+    await this.props.get_all_courses(this.state.user.userid);
     $(".progress").addClass("display-none");
-
   };
   dashClick = (dash, course) => {
     this.props.navClick(dash);

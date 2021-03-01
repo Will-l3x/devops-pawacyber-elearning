@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import { Link } from "react-router-dom";
-import { Calendar } from "../../components/calendar";
+import Calendar from "../../components/calendar";
 import M from "materialize-css";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 
-export class SchoolCalendarScreen extends Component {
+class SchoolCalendarScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,13 +26,12 @@ export class SchoolCalendarScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-              <SideBar/>
-            
+            <LeftSidebar />
 
             <div className="section" style={{ paddingBottom: 0 }}>
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
+                  className="navbar nav-extended width-75"
                   style={{
                     position: "fixed",
                     minHeight: 70,
@@ -65,6 +65,8 @@ export class SchoolCalendarScreen extends Component {
                 </div>
               </section>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
@@ -79,4 +81,7 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SchoolCalendarScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SchoolCalendarScreen);

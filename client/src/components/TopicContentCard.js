@@ -5,7 +5,7 @@ import AdminActions from "../actions/admin";
 import { Link } from "react-router-dom";
 import FileDropZone from "./dropzone";
 
-export class TopicContentCard extends Component {
+class TopicContentCard extends Component {
   constructor(props) {
     super(props);
     this.state = {

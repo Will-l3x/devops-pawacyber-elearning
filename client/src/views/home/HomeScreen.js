@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { HashLink as Link } from "react-router-hash-link";
 import ReactPlayer from "react-player";
+import { toWords } from "number-to-words";
 import { AdminService } from "../../services/admin";
 
 import M from "materialize-css";
@@ -12,25 +13,32 @@ import carousel2 from "../../assets/images/carousel-4.png";
 import carousel3 from "../../assets/images/carousel-3.png";
 import carousel4 from "../../assets/images/carousel-2.png";
 
+import logo from "../../assets/images/logo/logo.png";
+
 import headerImg from "../../assets/images/welcome-img.jpg";
-import servicesImg1 from "../../assets/images/services-icon-1.svg";
-import servicesImg2 from "../../assets/images/services-icon-2.svg";
-import servicesImg3 from "../../assets/images/services-icon-3.svg";
+import servicesImg1 from "../../assets/images/gallary/service-1.jpg";
+import servicesImg2 from "../../assets/images/gallary/service-2.jpg";
+import servicesImg3 from "../../assets/images/gallary/service-3.1.jpg";
+import servicesImg4 from "../../assets/images/gallary/service-4.jpg";
+//import srvcimage4 from "../../assets/images/srvcimage4.svg";
+//import newService from "../../assets/images/retest.jpg";
 import Pricing from "../../components/pricing";
 
 import OuterHeader from "../../components/outerHeader";
 import OuterFooter from "../../components/outerFooter";
 
-export class HomeScreen extends Component {
+class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
+      logoPos: 0,
+      logoEnd: false,
       plans: [],
-      url: "http://cybers.azurewebsites.net/fe_assets/PawaCyber.mp4",
+      url: "https://www.youtube.com/watch?v=YGiorD1Aifg.mp4",
       quotes: [
         {
           quote:
-            "Education is the passport to the future, for tomorrow belongs to thode who prepare for it today.",
+            "Education is the passport to the future, for tomorrow belongs to those who prepare for it today.",
           author: "Malcom X",
         },
         {
@@ -58,7 +66,6 @@ export class HomeScreen extends Component {
 
   componentDidMount() {
     this.getDashData();
-
     $(".js-height-full").height($(window).height() - 70);
     $(".js-height-parent").each(function () {
       $(this).height($(this).parent().first().height());
@@ -90,7 +97,7 @@ export class HomeScreen extends Component {
     function autoplay() {
       instance1.next();
       instance2.next();
-      setTimeout(autoplay, 5000);
+      setTimeout(autoplay, 5500);
     }
   }
 
@@ -115,52 +122,79 @@ export class HomeScreen extends Component {
         <OuterHeader></OuterHeader>
 
         <div className="content-pawa">
-          <header id="welcome" className="header">
-            <div className="header-content">
-              <div className="container">
-                <div className="row mt-1">
-                  <div className="col s12 m6">
-                    <div className="text-container">
-                      <h1>
-                        <span className="turquoise">PawaCyber School</span>
-                      </h1>
-                      <h5 style={{ marginTop: "-5px" }}>
-                        Learn Practice Achieve
-                      </h5>
-                      <p className="p-large">
-                        Just the virtual classroom you were looking for!. Get
-                        started now with PawaCyber School e-learning to
-                        experience next gen education!
-                      </p>
-                      <Link
-                        className="btn-solid-lg page-scroll"
-                        rel="noopener noreferrer"
-                        to="/login"
-                      >
-                        GET STARTED
-                      </Link>
-                    </div>
+          <div id="welcome" className="header">
+            <div className="container">
+              <div
+                className="row"
+                style={{ paddingBottom: 70, paddingTop: 70 }}
+              >
+                <div className="col s12 m6">
+                  <div
+                    style={{
+                      width: "50%",
+                      marginLeft: 50,
+                      borderTopLeftRadius: 50,
+                      borderBottomRightRadius: 50,
+                    }}
+                  >
+                    <img
+                      className="img-fluid"
+                      style={{
+                        borderTopLeftRadius: 50,
+                        borderBottomRightRadius: 50,
+                      }}
+                      width="100%"
+                      src={logo}
+                      alt="alternative"
+                    />
                   </div>
-                  <div className="col s12 m6">
-                    <div className="">
-                      <img
-                        className="img-fluid"
-                        src={headerImg}
-                        alt="alternative"
-                      />
-                    </div>
+
+                  <div className="text-container">
+                    <h1>
+                      <span className="turquoise text-shadow-2">
+                        Pawa Cyber School
+                      </span>
+                    </h1>
+                    <h5 style={{ marginTop: "-5px" }}>
+                      Learn.Practice.Achieve
+                    </h5>
+                    <p className="p-large">
+                      Get started now with Pawa Cyber School e-learning to
+                      experience next gen education!
+                    </p>
+                    <Link
+                      className="btn-solid-lg page-scroll z-depth-5"
+                      rel="noopener noreferrer"
+                      to="/login"
+                    >
+                      GET STARTED
+                    </Link>
+                  </div>
+                </div>
+                <div className="col s12 m6">
+                  <div className="">
+                    <img
+                      className="img-fluid z-depth-5"
+                      src={headerImg}
+                      alt="alternative"
+                      style={{
+                        borderRadius: 10,
+                      }}
+                    />
                   </div>
                 </div>
               </div>
             </div>
-          </header>
+          </div>
 
-          <div id="services" className="cards-1">
-            <div className="row container">
+          <div id="services" className="justify-center">
+            <div style={{ maxWidth: 1000 }}>
               <div className="row">
-                <div className="col s12">
-                  <h4>Valued Services</h4>
-                  <p className="p-heading p-large">
+                <div className="col s12 center-align">
+                  <h4 className="text-shadow-2" style={{ fontWeight: "bold" }}>
+                    Valued Services
+                  </h4>
+                  <p className="p-large">
                     We serve both teachers and learners in Primary and Secondary
                     education sectors by allowing timeous sharing of learning
                     resources between the learners and the teachers
@@ -168,51 +202,101 @@ export class HomeScreen extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col s12 card-services">
-                  <div className="card ">
-                    <img
-                      className="card-image"
-                      src={servicesImg1}
-                      alt="alternative"
-                    />
-                    <div className="card-body">
-                      <h4 className="card-title">Learners</h4>
+                <div className="col s12 m6">
+                  <div
+                    className="card padding-3 border-radius-10"
+                    style={{ height: "100%", maxHeight: 420, minWidth: 250 }}
+                  >
+                    <div
+                      className="card-image waves-effect waves-block waves-light border-radius-10"
+                      style={{ maxHeight: 250 }}
+                    >
+                      <img src={servicesImg1} alt="office" />
+                    </div>
+                    <div className="card-content" style={{ minHeight: 160 }}>
+                      <span className="card-title grey-text text-darken-4 text-shadow-2">
+                        Virtual Reality
+                      </span>
                       <p>
-                        Learners can access their learning materials, homeworks
-                        and tests through a well designed easy to use students
-                        portal. Videos too are available!
+                        Live streaming classes - Teachers are able to have live
+                        online classes with their learners, anytime and
+                        anywhere.
                       </p>
                     </div>
                   </div>
+                </div>
 
-                  <div className="card">
-                    <img
-                      className="card-image"
-                      src={servicesImg2}
-                      alt="alternative"
-                    />
-                    <div className="card-body">
-                      <h4 className="card-title">Teachers</h4>
+                <div className="col s12 m6">
+                  <div
+                    className="card padding-3 border-radius-10"
+                    style={{ height: "100%", maxHeight: 420, minWidth: 250 }}
+                  >
+                    <div
+                      className="card-image waves-effect waves-block waves-light border-radius-10"
+                      style={{ maxHeight: 250 }}
+                    >
+                      <img src={servicesImg2} alt="office" />
+                    </div>
+                    <div className="card-content" style={{ minHeight: 160 }}>
+                      <span className="card-title grey-text text-darken-4 text-shadow-2">
+                        Animated Lessons
+                      </span>
                       <p>
-                        Teachers through their elite forum can send and receive
-                        student work. The service comes with an automated way to
-                        view perfomance and capture remedal records
+                        The platform includes state of the art 3D animated and
+                        sketch video lessons designed according to the Namibian
+                        curriculum. Learners will be able to visit the lessons
+                        anytime, anywhere making studying flexible.
                       </p>
                     </div>
                   </div>
+                </div>
 
-                  <div className="card">
-                    <img
-                      className="card-image"
-                      src={servicesImg3}
-                      alt="alternative"
-                    />
-                    <div className="card-body">
-                      <h4 className="card-title">Educational Solutions</h4>
+                <div className="col s12 m6">
+                  <div
+                    className="card padding-3 border-radius-10"
+                    style={{ height: "100%", maxHeight: 450, minWidth: 250 }}
+                  >
+                    <div
+                      className="card-image waves-effect waves-block waves-light border-radius-10"
+                      style={{ maxHeight: 250 }}
+                    >
+                      <img src={servicesImg3} alt="office" />
+                    </div>
+                    <div className="card-content" style={{ minHeight: 170 }}>
+                      <span className="card-title grey-text text-darken-4 text-shadow-2">
+                        E-Library
+                      </span>
                       <p>
-                        You are so much loved and your experience is what
-                        matters the most. We can develop any educational
-                        solution that you may thing of for you.
+                        The platform has a built in e-library with recommended
+                        ebooks and past examination papers. It gives the
+                        learners an equal opportunity to have access to
+                        essential books and other print material.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col s12 m6">
+                  <div
+                    className="card padding-3 border-radius-10"
+                    style={{ height: 450, minWidth: 250 }}
+                  >
+                    <div
+                      className="card-image waves-effect waves-block waves-light border-radius-10"
+                      style={{ maxHeight: 250 }}
+                    >
+                      <img src={servicesImg4} alt="office" />
+                    </div>
+                    <div className="card-content" style={{ minHeight: 170 }}>
+                      <span className="card-title grey-text text-darken-4 text-shadow-2">
+                        Learning Management System
+                      </span>
+                      <p>
+                        The educational platform includes a complete academic
+                        management system where teachers, principals and
+                        learners can interact. Teachers can create own content,
+                        send and receive learners work. The service comes with
+                        an automated way to view performance and capture
+                        remedial records.
                       </p>
                     </div>
                   </div>
@@ -221,88 +305,65 @@ export class HomeScreen extends Component {
             </div>
           </div>
 
-          <div className="basic-2 sect-learn" style={{ marginTop: "2px" }}>
-            <div className="container">
-              <div className="row mt-1">
-                <div className="col s12 m6">
-                  <div className="image-container">
-                    <div
-                      className="carousel carousel-slider carousel-1"
-                      data-indicators="true"
+          <div className="justify-center" style={{ backgroundColor: "#edf2f4" }}>
+            <div style={{ maxWidth: 1000, width: "100%" }}>
+              <div className="row">
+                <div className="col s12 padding-3">
+                  <div className="col s12 center-align">
+                    <h4
+                      className="text-shadow-2"
+                      style={{ fontWeight: "bold", marginBottom: 20 }}
                     >
-                      <div className="carousel-fixed-item">
-                        <div className="container">
-                          <h4 className="white-text">
-                            Join Our Online School.
-                          </h4>
-                          <a
-                            id="video-modal-trigger"
-                            className="btn transparent waves-effect waves-light btn-outline-white white-text"
-                            href="#!"
-                          >
-                            Watch Demo
-                          </a>
-                        </div>
-                      </div>
-                      <div
-                        className="carousel-item carousel-bg-img"
-                        href="#one!"
-                        style={{
-                          background: `url(${carousel1}) `,
-                        }}
-                      ></div>
-
-                      <div
-                        className="carousel-item carousel-bg-img"
-                        href="#two!"
-                        style={{
-                          background: `url(${carousel2}) `,
-                        }}
-                      ></div>
-
-                      <div
-                        className="carousel-item carousel-bg-img"
-                        href="#three!"
-                        style={{
-                          background: `url(${carousel3}) `,
-                        }}
-                      ></div>
-                      <div
-                        className="carousel-item carousel-bg-img"
-                        href="#four!"
-                        style={{
-                          background: `url(${carousel4}) `,
-                        }}
-                      ></div>
-                    </div>
+                      Learning Resources Wherever You are
+                    </h4>
+                    <p className="p-large">
+                      We serve both teachers and learners in Primary and
+                      Secondary education sectors by allowing timeous sharing of
+                      learning resources between the learners and the teachers
+                    </p>
                   </div>
-                </div>
-                <div className="col s12 m6">
-                  <div className="text-container">
-                    <h2 style={{ fontSize: "28px", fontWeight: "bold" }}>
-                      Learning Resources
-                      <br />
-                      Wherever You are
-                    </h2>
-                    <ul className="list-unstyled li-space-lg">
-                      <li className="media">
-                        <i className="fas fa-check"></i>
+                  <ul
+                    className="list-unstyled li-space-lg"
+                    style={{
+                      marginLeft: "30%",
+                      marginTop: 140,
+                      marginBottom: 30,
+                    }}
+                  >
+                    <li>
+                      <i
+                        className="fas fa-check"
+                        style={{ paddingRight: 10 }}
+                      ></i>
+                      <span className="media p-large">
                         For sure we know you know what's best for your brilliant
                         child
-                      </li>
-                      <li className="media">
-                        <i className="fas fa-check"></i>
+                      </span>
+                    </li>
+                    <li>
+                      <i
+                        className="fas fa-check"
+                        style={{ paddingRight: 10 }}
+                      ></i>
+                      <span className="media p-large">
                         We are here for one purpose, to deliver that best to
                         your child
-                      </li>
-                      <li className="media">
-                        <i className="fas fa-check"></i>
+                      </span>
+                    </li>
+                    <li>
+                      <i
+                        className="fas fa-check"
+                        style={{ paddingRight: 10 }}
+                      ></i>
+                      <span className="media p-large">
                         Everyone will be pleased from students to teachers to
                         parents
-                      </li>
-                    </ul>
+                      </span>
+                    </li>
+                  </ul>
+                  <div className="justify-center">
                     <Link
-                      className="btn-solid-reg"
+                      className="btn-solid-reg z-depth-5"
                       rel="noopener noreferrer"
                       to="/register"
                     >
@@ -310,105 +371,136 @@ export class HomeScreen extends Component {
                     </Link>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="basic-2 sect-learn">
-            <div className="container">
-              <div className="row">
-                <div className="col s12 m6">
+                <div className="col s12 padding-3">
                   <div
-                    className="carousel carousel-slider carousel-2"
+                    className="carousel carousel-slider carousel-1 border-radius-10"
                     data-indicators="true"
                   >
-                    <div className="carousel-item padding-5" href="#one!">
-                      <div className="content">
-                        <div className="notepaper">
-                          <figure className="quote">
-                            <blockquote className="curly-quotes">
-                              {this.state.quotes[0].quote}
-                            </blockquote>
-                            <figcaption className="quote-by">
-                              —{this.state.quotes[0].author}
-                            </figcaption>
-                          </figure>
-                        </div>
+                    <div className="carousel-fixed-item">
+                      <div className="container">
+                        <h4 className="white-text">Join Our Online School.</h4>
+                        <a
+                          onClick={(e) => e.preventDefault()}
+                          id="video-modal-trigger"
+                          className="btn transparent waves-effect waves-light border-radius-10 btn-outline-white white-text"
+                          href="#!"
+                        >
+                          <span className="display-none">a</span>
+                        </a>
                       </div>
                     </div>
+                    <div
+                      className="carousel-item carousel-bg-img"
+                      href="#one!"
+                      style={{
+                        background: `url(${carousel1}) `,
+                      }}
+                    ></div>
 
-                    <div className="carousel-item padding-5 " href="#two!">
-                      <div className="content">
-                        <div className="notepaper">
-                          <figure className="quote">
-                            <blockquote className="curly-quotes">
-                              {this.state.quotes[1].quote}
-                            </blockquote>
-                            <figcaption className="quote-by">
-                              —{this.state.quotes[1].author}
-                            </figcaption>
-                          </figure>
-                        </div>
-                      </div>
-                    </div>
+                    <div
+                      className="carousel-item carousel-bg-img"
+                      href="#two!"
+                      style={{
+                        background: `url(${carousel2}) `,
+                      }}
+                    ></div>
 
-                    <div className="carousel-item padding-5 " href="#three!">
-                      <div className="content">
-                        <div className="notepaper">
-                          <figure className="quote">
-                            <blockquote className="curly-quotes">
-                              {this.state.quotes[2].quote}
-                            </blockquote>
-                            <figcaption className="quote-by">
-                              —{this.state.quotes[2].author}
-                            </figcaption>
-                          </figure>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="carousel-item padding-5 " href="#four!">
-                      <div className="content">
-                        <div className="notepaper">
-                          <figure className="quote">
-                            <blockquote className="curly-quotes">
-                              {this.state.quotes[3].quote}
-                            </blockquote>
-                            <figcaption className="quote-by">
-                              —{this.state.quotes[3].author}
-                            </figcaption>
-                          </figure>
-                        </div>
-                      </div>
-                    </div>
+                    <div
+                      className="carousel-item carousel-bg-img"
+                      href="#three!"
+                      style={{
+                        background: `url(${carousel3}) `,
+                      }}
+                    ></div>
+                    <div
+                      className="carousel-item carousel-bg-img"
+                      href="#four!"
+                      style={{
+                        background: `url(${carousel4}) `,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="justify-center">
+            <div style={{ maxWidth: 1000, width: "100%" }}>
+              <div className="row">
+                <div className="col s12 padding-3 padding-bottom-0">
+                  <div className="center-align">
+                    <h4
+                      className="text-shadow-2"
+                      style={{ fontWeight: "bold" }}
+                    >
+                      Motivational Quotes
+                    </h4>
                   </div>
                 </div>
 
-                <div className="col s12 m6">
-                  <div className="card-body">
-                    <ReactPlayer url={this.state.url} controls={true} />
+                <div className="col s12 padding-3 padding-top-0">
+                  <div
+                    className="carousel carousel-slider carousel-2 max-height-240"
+                    data-indicators="true"
+                  >
+                    {this.state.quotes.map((quote, i) => (
+                      <div
+                        key={i}
+                        className="carousel-item padding-5"
+                        href={`#${toWords(i + 1)}!`}
+                      >
+                        <blockquote>
+                          <i className="fas fa-quote-left"></i>
+                          <p className="quote-text">{quote.quote}</p>
+                          <i className="fas fa-quote-right"></i>
+                          <footer className="quote-footer">
+                            — <span>{quote.author}</span>
+                          </footer>
+                        </blockquote>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="col s12 padding-3 justify-center">
+                  <div className="video-player border-radius-10 z-depth-5">
+                    <ReactPlayer
+                      width="100%"
+                      url={this.state.url}
+                      controls={true}
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div id="pricing" className="cards-2 sect-learn">
-            <div className="container">
+          <div
+            id="pricing"
+            className="cards-2 justify-center"
+            style={{ backgroundColor: "#edf2f4" }}
+          >
+            <div style={{ maxWidth: 1000 }}>
               <div className="row">
-                <div className="col s12">
-                  <h4>Multiple Pricing Options</h4>
-                  <p className="p-heading p-large">
+                <div className="col s12 center-align">
+                  <h4
+                    className="text-shadow-2"
+                    style={{ fontWeight: "bold", marginBottom: 30 }}
+                  >
+                    Multiple Pricing Options
+                  </h4>
+                  <p className="p-large">
                     We've prepared pricing plans for all budgets so you can get
                     started right away. They're great for absolutely everyone
                   </p>
                 </div>
               </div>
+              <hr className="invis" />
               <div className="row">
-                <div className="col s12">
-                  {this.state.plans.map((plan, i) => (
-                    <Pricing key={i} plan={plan}></Pricing>
-                  ))}
-                </div>
+                {this.state.plans.map((plan, i) => (
+                  <Pricing key={i} plan={plan}></Pricing>
+                ))}
               </div>
             </div>
           </div>
@@ -423,11 +515,7 @@ export class HomeScreen extends Component {
             <div>
               <ReactPlayer width="100%" url={this.state.url} controls={true} />
             </div>
-            <blockquote style={{ marginTop: "7%" }}>
-              Some motivational text. Some motivational text. Some motivational
-              text. Some motivational text. Some motivational text. Some
-              motivational text. Some motivational text.
-            </blockquote>
+            <blockquote style={{ marginTop: "7%" }}></blockquote>
           </div>
 
           <OuterFooter></OuterFooter>

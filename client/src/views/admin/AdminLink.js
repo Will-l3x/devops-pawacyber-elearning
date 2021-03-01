@@ -33,7 +33,7 @@ class AdminLink extends Component {
             className="waves-effect waves-cyan"
             onClick={this.onClick}
           >
-            <i className="material-icons">local_library</i>
+            <i className="material-icons">home</i>
             <span className="nav-text">School Management</span>
           </Link>
         </li>
@@ -49,6 +49,28 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
+            to="/all-subjects"
+            className="waves-effect waves-cyan"
+            onClick={this.onClick}
+          >
+            <i className="material-icons">class</i>
+            <span className="nav-text">Subjects</span>
+          </Link>
+          
+        </li>
+        <li className="bold">
+          <Link
+            to="/content-upload"
+            className="waves-effect waves-cyan"
+            onClick={this.onClick}
+          >
+            <i className="material-icons">local_library</i>
+            <span className="nav-text">Resources</span>
+          </Link>
+          
+        </li>
+        <li className="bold">
+          <Link
             to="/subadmins"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
@@ -57,6 +79,17 @@ class AdminLink extends Component {
             <span className="nav-text">Subadmins</span>
           </Link>
         </li>
+        <li className="bold">
+          <Link
+            to="/all-students"
+            className="waves-effect waves-cyan"
+            onClick={this.onClick}
+          >
+            <i className="material-icons">school</i>
+            <span className="nav-text">Enroled Students</span>
+          </Link>
+        </li>
+
       </ul>
     );
   }

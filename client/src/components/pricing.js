@@ -5,8 +5,8 @@ class Pricing extends Component {
   pricingPlan = this.props.plan;
   render() {
     return (
-      <div className="col s12 m3">
-        <div className="card">
+      <div className="col s12 m4">
+        <div className="card z-depth-4">
           {/* {this.pricingPlan.bestOffer ? (
           <div className="label">
             <p className="best-value">Best Value</p>
@@ -20,7 +20,7 @@ class Pricing extends Component {
               {this.pricingPlan.subscriptionname}
             </div>
             <div className="card-subtitle">
-              {this.pricingPlan.subscriptiondesc}
+              {this.pricingPlan.description}
             </div>
             <hr className="cell-divide-hr" />
             <div className="price">
@@ -28,6 +28,9 @@ class Pricing extends Component {
                 N$
               </span>
               <span className="value">{this.pricingPlan.price}</span>
+              <span className="currency" style={{ fontSize: "17px" }}>
+                /month
+              </span>
               {/* <div className="frequency">{this.pricingPlan.frequency}</div> */}
             </div>
             <hr className="cell-divide-hr" />

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import SideBar from "../SideBar";
+import LeftSidebar from "../LeftSidebar";
+import RightSidebar from "../RightSidebar";
 import FileDropZone from "../dropzone";
 import M from "materialize-css";
 import Footer from "../footer";
 import Header from "../header";
-export class StudentTestScreen extends Component {
+class StudentTestScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -67,23 +68,27 @@ export class StudentTestScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-              <SideBar/>
+            <LeftSidebar />
 
-             
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
-                  className="navbar nav-extended"
-                  style={{ position: "fixed"}}
+                  className="navbar nav-extended width-75 image-bg-1"
+                  style={{ position: "fixed" }}
                 >
                   <div className="nav-content">
-                    <Link
-                      to="#"
-                      style={{ marginTop: "3%", marginBottom: "1%" }}
-                      className="brand-logo"
-                    >
-                      Tests/Exercises
-                    </Link>
+                    <div className="left">
+                      <p
+                        style={{
+                          padding: "10px",
+                          paddingTop: 25,
+                          paddingBottom: 25,
+                          fontSize: "16px",
+                        }}
+                      >
+                        Students' Classwork
+                      </p>
+                    </div>
                   </div>
                 </nav>
               </div>
@@ -198,6 +203,8 @@ export class StudentTestScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

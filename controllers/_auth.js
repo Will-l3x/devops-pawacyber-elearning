@@ -29,10 +29,79 @@ var gen = rn.generator({
     integer: true
 });
 
+async function update_profile(req, res) {
+    var id = req.decoded.userid;
+    var role = req.decoded.roleid;
+
+    var fname = req.body.firstname;
+    var lname = req.body.lastname;
+    var tittle = req.body.title;
+    var dob = req.body.dob;
+
+    var ph = "";
+
+    if (role === 1) {
+        ph = "[teachers] SET firstname=@fname, lastname=@lname ";
+    } else if (role === "2") {
+        ph = "[parents] SET firstname=@fname, lastname=@lname , title=@title ";
+    } else if (role === "3") {
+        ph = "[students] SET firstname =@fname, lastname =@lname,dob=@dob ";
+    } else if (role === "4") {
+        ph = "[schooladmins] SET firstname =@fname, lastname =@lname,dob=@dob ";
+    } else if (role === "5") {
+        ph = "[systemadmins] SET firstname =@fname, lastname =@lname ";
+    } else if (role === "6") {
+        ph = "[subadmins] SET firstname=@fname, lastname=@lname ";
+    } else {
+        return res.json({
+            status: 400,
+            success: false,
+            message: "An error occured"
+        });
+    }
+
+    let query = "UPDATE " + ph + " WHERE userid = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", id)
+        .input("fname", fname)
+        .input("lname", lname)
+        .input("tittle", tittle)
+        .input("dob", dob)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Profile updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update Profile'
+                    });
+                }
+            }
+        });
+}
+
 let checkToken = (req, res, next) => {
-
-
-    if (req.url !== '/api/login' && req.url !== '/api/register'  && req.url !== '/api/resetpassword' && req.url.indexOf('/api/verify') < 0 && req.url !== '/api/refreshotp') {
+    console.log(req.url);
+    if (req.url !== '/multi_upload' && req.url !== '/login' && req.url !== '/register'  && req.url !== '/subscriptions' && req.url !== '/dpo/payment/createToken' && req.url !== '/classes/all' && req.url !== '/get_school_grade_subjects' && req.url!=='/classes/grade' && req.url !== '/subscribestudent' && req.url !== '/post_payment_enrol'  && req.url !== '/resetpassword' && req.url.indexOf('/verify') < 0 && req.url !== '/refreshotp') {
 
         let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
 
@@ -672,13 +741,17 @@ let register = (req, res) => {
 
     let query_email = "SELECT * FROM [users] WHERE email = @email";
 
-    var query_teacher = "INSERT INTO [teachers] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, Convert(datetime, @dj ) ),@userid)";
+    var query_teacher = "INSERT INTO [teachers] (firstname,lastname,datejoined,userid,schoolid) VALUES(@firstname,@lastname,Convert(datetime, Convert(datetime, @dj ) ),@userid,@schoolid)";
+    query_teacher = query_teacher + ';select @@IDENTITY AS \'identity\'';
 
     var query_parent = "INSERT INTO [parents] (firstname,lastname,datejoined,userid,title) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,@title)";
+    query_parent = query_parent + ';select @@IDENTITY AS \'identity\'';
 
     var query_student = "INSERT INTO [students] (firstname,lastname,datejoined,userid,dob,enrolmentkey,gradeid,schoolid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid,Convert(datetime, @dob ),@ek,@grade,@schoolid)";
+    query_student = query_student + ';select @@IDENTITY AS \'identity\'';
 
     var query_subadmin = "INSERT INTO [subadmins] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid)";
+    query_subadmin = query_subadmin + ';select @@IDENTITY AS \'identity\'';
 
     var schema = new passwordValidator();
      
@@ -767,6 +840,7 @@ let register = (req, res) => {
                                             if (recordset.rowsAffected[0] > 0) {
                                                 userid = recordset.recordset[0].identity; 
                                                 console.log(userid);
+                                                var accountid = 0;
                                                 var q = "";
                                                 if (roleid === "1") {
                                                     //teacher
@@ -809,7 +883,9 @@ let register = (req, res) => {
                                                         } else {
                                                             console.log(recordset);
                                                             if (recordset.rowsAffected[0] > 0) {
-                                                                console.log("done sending email");
+                                                              
+                                                                    accountid = recordset.recordset[0].identity; 
+                                                               
                                                                 transaction.commit();
 
                                                                 var message = {
@@ -828,6 +904,8 @@ let register = (req, res) => {
                                                                         return res.json({
                                                                             status: 201,
                                                                             success: true,
+                                                                            userid: userid,
+                                                                            accountid: accountid,
                                                                             message: 'Account Registered',
                                                                             error: 'Failed to send authorization pin'
                                                                         });
@@ -843,6 +921,8 @@ let register = (req, res) => {
                                                                     return res.json({
                                                                         status: 201,
                                                                         success: true,
+                                                                        userid: userid,
+                                                                        accountid: accountid,
                                                                         message: 'Account Created'
                                                                     });
                                                                 });
@@ -1050,13 +1130,13 @@ let login = (req, res) => {
                                     status: 401,
                                     success: false,
                                     message: 'Invalid credentials'
-                                });
+                                });  
                             } else {
                                 console.log("icho -" + activesubscriptions);
                                 let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId, activesubscriptions: activesubscriptions },
                                     process.env.jwt_secret,
                                     {
-                                        expiresIn: '36h' // expires in 1.5 days
+                                        expiresIn: '720h' // expires in 30 days
                                     }
                                 );
                                 //////////////////////////////
@@ -1123,5 +1203,6 @@ module.exports = {
     refreshotp: refreshotp,
     verifyacc: verifyacc,
     register: register,
-    login:login
+    login: login,
+    update_profile: update_profile
 };

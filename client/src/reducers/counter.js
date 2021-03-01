@@ -5,13 +5,14 @@ const intialState = {
 export default (state = intialState, { type, payload }) => {
   switch (type) {
     case "NEXT_CLICK":
-      console.log(payload++);
-      return { currentPageNumber: payload++ };
+      state.currentPageNumber = payload++;
+      return state;
     case "PREV_CLICK":
-      console.log(payload--);
-      return { currentPageNumber: payload-- };
+      state.currentPageNumber = payload--;
+      return state;
     case "PAGE_CLICK":
-      return { currentPageNumber: payload };
+      state.currentPageNumber = payload;
+      return state;
 
     default:
       return state;
