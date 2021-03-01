@@ -6,18 +6,21 @@ import { SchoolService } from "../../services/school";
 
 let options = [];
 const user = JSON.parse(localStorage.getItem("user"));
- SchoolService.get_all_teachers(user.schoolid)
-  .then((response) => {
-    for (const teacher of response) {
-      teacher.value = teacher.id;
-      teacher.label = teacher.teachername;
-      options.push(teacher);
-    }
-  })
-  .catch((error) => {
-    console.log(error);
-    options = [];
-  });
+if (user !== null) {
+  SchoolService.get_all_teachers(user.schoolid)
+    .then((response) => {
+      for (const teacher of response) {
+        teacher.value = teacher.id;
+        teacher.label = teacher.teachername;
+        options.push(teacher);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      options = [];
+    });
+}
+
 class RoleOptions extends Component {
   constructor() {
     super();

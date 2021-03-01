@@ -52,11 +52,6 @@ const history = createBrowserHistory();
 class App extends Component {
   componentDidMount() {
     M.AutoInit();
-    $(window).on("load", function () {
-      setTimeout(function () {
-        $("body").addClass("loaded");
-      }, 200);
-    });
     //var window_width = $(window).width();
 
     // Search class for focus
