@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
-import img from "../assets/images/details-2-office-team-work.svg"
+import img from "../assets/images/details-1-office-worker.svg";
 
 import RegistrationForm from '../components/student-components/RegistrationForms';
 import RegisterOnboardedSchool from '../components/student-components/RegisterOnboardedSchool';

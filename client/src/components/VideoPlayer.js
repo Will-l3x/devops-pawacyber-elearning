@@ -254,23 +254,6 @@ class VideoPlayer extends Component {
         </div>
 
         <div
-          className={`video-player ${
-            this.state.startstop_meeting_res.started ? "display-none" : ""
-          }`}
-          style={{ height: 44 }}
-        >
-          <div
-            data-target="start-meeting"
-            className="video-topbar-2 gradient-45deg-semi-dark cursor-pointer modal-trigger border-radius-5"
-          >
-            <i className="material-icons" style={{ marginRight: 7 }}>
-              videocam
-            </i>{" "}
-            Start a Meeting
-          </div>
-        </div>
-
-        <div
           className={`${
             this.state.startstop_meeting_res.started
               ? "display-none"

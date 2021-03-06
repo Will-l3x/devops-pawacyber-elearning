@@ -487,7 +487,7 @@ export default class FreeRegister extends Component {
               </div>
             </div>
           </div>
-          <div className="form-group">
+          <div className="form-group justify-center">
             <button
               data-target="modal1"
               className="form-control-submit-button modal-trigger"
@@ -498,7 +498,10 @@ export default class FreeRegister extends Component {
           <div className="form-message">
             <div id="cmsgSubmit" className="h3 text-center hidden"></div>
           </div>
-          <div id="modal1" className="modal padding-1">
+          <div
+            id="modal1"
+            className="modal padding-1 overflow-y-visibile legal__modal"
+          >
             <div className="container">
               <div className="row">
                 <div className="col s12">
@@ -526,7 +529,7 @@ export default class FreeRegister extends Component {
                         </span>
                       </div>
                     </div>
-                    <div className="legal__instructions">
+                    <div className="legal__instructions" style={{paddingTop: 0}}>
                       <div className="alert alert-info" role="alert">
                         {" "}
                         <span>Navigate to:</span>

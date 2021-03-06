@@ -150,6 +150,10 @@
   margin-bottom: 50px !important;
 }
 
+.overflow-y-visibile {
+  overflow-y: visible !important;
+}
+
 .text-carousel {
   transform: translateY(200%) !important;
   z-index: 10;
@@ -212,9 +216,19 @@
   padding: 20px 0 35px;
   margin: 0;
 }
-
+.sign-in {
+  border: 2px solid #fff;
+  height: 40px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.sign-in:hover {
+  transform: translateY(3px);
+  transition: 0.3s ease all;
+}
 .modal {
-  max-height: 100% !important;
+  max-height: 98% !important;
 }
 
 .modal-width-30 {
@@ -1325,8 +1339,7 @@ nav.modal-width-75 {
   color: red;
 }
 
-
-.chat-messages{
+.chat-messages {
   padding-left: 10px;
   padding-right: 10px;
 }

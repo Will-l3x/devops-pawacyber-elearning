@@ -485,7 +485,7 @@ export default class RegistrationForm extends Component {
               </div>
             </div>
           </div>
-          <div className="form-group">
+          <div className="form-group justify-center">
             <button
               data-target="modal1"
               className="form-control-submit-button modal-trigger"
@@ -496,7 +496,10 @@ export default class RegistrationForm extends Component {
           <div className="form-message">
             <div id="cmsgSubmit" className="h3 text-center hidden"></div>
           </div>
-          <div id="modal1" className="modal padding-1">
+          <div
+            id="modal1"
+            className="modal overflow-y-visibile legal__modal padding-1"
+          >
             <div className="container">
               <div className="row">
                 <div className="col s12">
@@ -524,7 +527,10 @@ export default class RegistrationForm extends Component {
                         </span>
                       </div>
                     </div>
-                    <div className="legal__instructions">
+                    <div
+                      className="legal__instructions"
+                      style={{ paddingTop: 0 }}
+                    >
                       <div className="alert alert-info" role="alert">
                         {" "}
                         <span>Navigate to:</span>
@@ -1157,7 +1163,7 @@ export default class RegistrationForm extends Component {
                 <label
                   style={{ transform: "translateY(-15px)", fontSize: "12px" }}
                 >
-                  Subscription Package*  
+                  Subscription Package*
                 </label>
                 <PackageOptions onSelectOption={this.onSelectOption} required />
                 <div className="my-divider"></div>

@@ -231,7 +231,7 @@ class School extends React.Component {
   render() {
     const { school } = this.props;
     return (
-      <div className="col s6 m4 l3">
+      <div className="col s6 m4">
         <div
           className="card sticky-action border-radius-10 z-depth-5"
           style={{
