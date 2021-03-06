@@ -295,6 +295,7 @@ class RegisterLimitedTeacher extends Component {
 
     setTimeout(
       function () {
+        console.log("redirecting")
         this.setState({ redirect: true });
       }.bind(this),
       300
