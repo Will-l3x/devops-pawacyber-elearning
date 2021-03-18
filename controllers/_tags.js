@@ -1,6 +1,5 @@
 let sql = require("mssql");
 
-
 //Create new tag
 let newTag = async (req, res) => {
     let obj = req.body;

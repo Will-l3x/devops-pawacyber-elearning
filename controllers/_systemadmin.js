@@ -142,6 +142,55 @@ let add_role = (req, res) => {
         });
 };
 
+let verifydoc = (req, res) => {
+    var userid = req.body.id;
+    var type = req.body.type;
+
+    var field = "";
+    if (type === "residence") {
+        field = "residenceVerified";
+    } else if (type === "identity") {
+        field = "identityVerified";
+    }
+
+    let query = "UPDATE [users] \
+                    SET "+ field + "=@status\
+                    WHERE userId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", userid)
+        .input("status", 1)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Verified'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to verify'
+                    });
+                }
+            }
+        });
+};
+
 let update_role = (req, res) => {
     var rolename = req.body.rolename;
     var roleid = req.params.id;
@@ -184,8 +233,6 @@ let update_role = (req, res) => {
         });
 };
 
-
-
 let materials = (req, res) => {
     let query = `select * from materials`;
     let request = new sql.Request();
@@ -210,9 +257,6 @@ let materials = (req, res) => {
         }
     });
 };
-
-
-
 
 let students = (req, res) => {
 
@@ -239,8 +283,6 @@ let students = (req, res) => {
         }
     });
 };
-
-
 
 //////////////////////////// All classes
 let classes = (req, res) => {
@@ -336,18 +378,6 @@ let post_payment_enrol = (req, res) => {
             }
         });
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 ////////////////////////////schools
 let schools = (req, res) => {
@@ -1620,7 +1650,6 @@ let subscribestudent = (req, res) => {
         });
 };
 
-
 let teachers = (req, res) => {
 
     let query = `select * from [teachers]`;
@@ -1650,6 +1679,85 @@ let teachers = (req, res) => {
             });
         }
     });
+};
+
+let referals = (req, res) => {
+    var status = req.params.status;
+      let query = `select * from [referals] \
+      LEFT OUTER JOIN teachers ON teachers.TeacherId = referals.ReferedBy \
+    `;
+
+    if (status == 0) {
+        query = query + " Where Paid=0";
+    } else if (status == 1) {
+        query = query + " Where Paid=1";
+    }
+
+    let request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+        let referals;
+        if (recordset.recordset) {
+            referals = recordset.recordset;
+        } else {
+            referals = [];
+        }
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else {
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ referals })),
+            });
+        }
+    });
+};
+
+let pay_ref = (req, res) => {
+    var id = req.params.id;
+    
+    let query = "UPDATE [referals] SET Paid=@paid WHERE ReferalId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("paid", 1)
+        .input("id", id)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update'
+                    });
+                }
+            }
+        });
 };
 
 let get_school_grade_subjects = (req, res) => {
@@ -1706,6 +1814,9 @@ let get_school_grade_subjects = (req, res) => {
 };
 
 module.exports = {
+    verifydoc: verifydoc,
+    referals: referals,
+    pay_ref: pay_ref,
     genders: genders,
     roles: roles,
     role: role,

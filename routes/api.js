@@ -28,9 +28,12 @@ router.get("/profile", _auth.profile);
 router.put("/update_profile", _auth.update_profile);
 router.put("/resetpassword", _auth.resetpassword);
 router.put("/refreshotp", _auth.refreshotp);
+router.put("/uploadfile", _auth.uploadFile); //new
+
 
 //////////////////////systemadmin//////////////////////////////////////////////
 // teachers
+router.put("/verifydoc", _systemadmin.verifydoc);
 
 router.post("/get_school_grade_subjects", _systemadmin.get_school_grade_subjects);
 router.get("/teachers", _systemadmin.teachers);

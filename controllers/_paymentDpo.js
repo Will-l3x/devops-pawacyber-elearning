@@ -53,7 +53,14 @@ let createToken = (req, res) => {
         } else {
           dpoRes = JSON.parse(JSON.stringify({ tokenResult }));
           if (dpoRes.tokenResult.API3G.Result[0] === "000") {
-            console.log('Transaction Verification :: ' + moment().format("YYYY/MM/DD HH:MM") + '------->> Token Created: ' + dpoRes.tokenResult.API3G.TransToken[0]);
+              console.log('Transaction Verification :: ' + moment().format("YYYY/MM/DD HH:MM") + '------->> Token Created: ' + dpoRes.tokenResult.API3G.TransToken[0]);
+
+              //get referee email
+              //get referer
+              //add to balance
+              //add to transactions
+
+
             return res.json({
               status: 200,
               success: true,
@@ -89,3 +96,4 @@ let createToken = (req, res) => {
 module.exports = {
   createToken
 };
+    

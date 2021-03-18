@@ -145,6 +145,39 @@ let checkToken = (req, res, next) => {
         next();
     }
 };
+
+let referallink = (req, res) => {
+    var id = req.decoded.userid;
+    var role = req.decoded.roleid;
+
+    var query = "SELECT * FROM referals WHERE "
+
+    var request = new sql.Request();
+
+    request
+        .input("id", id)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+
+                return res.json({
+                    status: 200,
+                    success: true,
+                    data: JSON.parse(JSON.stringify({ Profile: recordset.recordset }))
+                });
+            }
+        });
+
+}
   
 let profile = (req, res) => {
     var id = req.decoded.userid;
@@ -716,6 +749,8 @@ let register = (req, res) => {
     var gender = req.body.gender;
     var userid = 0;
 
+    var referer = req.params.referer;
+
     var grade = req.body.gradeid;
 
     var firstname = req.body.firstname;
@@ -752,6 +787,8 @@ let register = (req, res) => {
 
     var query_subadmin = "INSERT INTO [subadmins] (firstname,lastname,datejoined,userid) VALUES(@firstname,@lastname,Convert(datetime, @dj ),@userid)";
     query_subadmin = query_subadmin + ';select @@IDENTITY AS \'identity\'';
+
+    var query_referal = "INSERT INTO [referals] (ReferedUser,ReferedBy) VALUES(@refereduser,@referer)";
 
     var schema = new passwordValidator();
      
@@ -859,6 +896,7 @@ let register = (req, res) => {
                                                     q = query_subadmin;
                                                     console.log("subadmin");
                                                 }
+
                                                 request
                                                     .input('firstname', firstname)
                                                     .input('title', title)
@@ -884,48 +922,73 @@ let register = (req, res) => {
                                                             console.log(recordset);
                                                             if (recordset.rowsAffected[0] > 0) {
                                                               
-                                                                    accountid = recordset.recordset[0].identity; 
-                                                               
-                                                                transaction.commit();
+                                                                accountid = recordset.recordset[0].identity; 
+                                                              
+                                                                request
+                                                                    .input('refereduser', email)
+                                                                    .input('referer', referer)
+                                                                    .query(query_referal, function (err, recordset) {
 
-                                                                var message = {
-                                                                    from: 'noreply@cyberchool.com',
-                                                                    to: email,
-                                                                    subject: "Activate your cyberschool account",
-                                                                    text: "Your newschool activation code is " + pin,
-                                                                    html: "<h3>Welcome to cyberschool</h3><hr><p>Your activation pin is <b>" + pin + "</b>."
-                                                                };
+                                                                        if (err) {
+                                                                            console.log(err);
 
-                                                                transporter.sendMail(message, (error, info) => {
-                                                                    if (error) {
-                                                                        console.log('Error occurred');
-                                                                        console.log(error.message);
+                                                                            return res.json({
+                                                                                status: 400,
+                                                                                success: false,
+                                                                                message: 'Database error',
+                                                                                error: err.message
+                                                                            });
+                                                                        } else {
+                                                                            console.log(recordset);
+                                                                            if (recordset.rowsAffected[0] > 0) {
 
-                                                                        return res.json({
-                                                                            status: 201,
-                                                                            success: true,
-                                                                            userid: userid,
-                                                                            accountid: accountid,
-                                                                            message: 'Account Registered',
-                                                                            error: 'Failed to send authorization pin'
-                                                                        });
-                                                                        //    return res.status(400).json({ message: 'Account Registration succeded but failed to send verification pin' });
+                                                                                /////////////
 
-                                                                        //try again to send pin
-                                                                    }
+                                                                                transaction.commit();
 
-                                                                    console.log('Message sent successfully!');
-                                                                    
-                                                                    transporter.close();
-                                                                    
-                                                                    return res.json({
-                                                                        status: 201,
-                                                                        success: true,
-                                                                        userid: userid,
-                                                                        accountid: accountid,
-                                                                        message: 'Account Created'
-                                                                    });
-                                                                });
+                                                                                var message = {
+                                                                                    from: 'noreply@cyberchool.com',
+                                                                                    to: email,
+                                                                                    subject: "Activate your cyberschool account",
+                                                                                    text: "Your newschool activation code is " + pin,
+                                                                                    html: "<h3>Welcome to cyberschool</h3><hr><p>Your activation pin is <b>" + pin + "</b>."
+                                                                                };
+
+                                                                                transporter.sendMail(message, (error, info) => {
+                                                                                    if (error) {
+                                                                                        console.log('Error occurred');
+                                                                                        console.log(error.message);
+
+                                                                                        return res.json({
+                                                                                            status: 201,
+                                                                                            success: true,
+                                                                                            userid: userid,
+                                                                                            accountid: accountid,
+                                                                                            message: 'Account Registered',
+                                                                                            error: 'Failed to send authorization pin'
+                                                                                        });
+                                                                                        //    return res.status(400).json({ message: 'Account Registration succeded but failed to send verification pin' });
+
+                                                                                        //try again to send pin
+                                                                                    }
+
+                                                                                    console.log('Message sent successfully!');
+
+                                                                                    transporter.close();
+
+                                                                                    return res.json({
+                                                                                        status: 201,
+                                                                                        success: true,
+                                                                                        userid: userid,
+                                                                                        accountid: accountid,
+                                                                                        message: 'Account Created'
+                                                                                    });
+                                                                                });
+
+                                                                                //////////////////////
+                                                                            }
+                                                                        }
+                                                                    })
                                                             } else {
                                                                 transaction.rollback();
                                                                 return res.json({
@@ -1136,7 +1199,7 @@ let login = (req, res) => {
                                 let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId, activesubscriptions: activesubscriptions },
                                     process.env.jwt_secret,
                                     {
-                                        expiresIn: '720h' // expires in 30 days
+                                        expiresIn: '24h' // expires in 30 days
                                     }
                                 );
                                 //////////////////////////////
@@ -1195,7 +1258,110 @@ let login = (req, res) => {
    
 };
 
+async function uploadFile(req, res) {
+    var azureStorage = require('azure-storage');
+    var blobService = azureStorage.createBlobService(process.env.azurestorageconnectionstring);
+    var containerName = 'userdocuments';
+
+    var form = new formidable.IncomingForm();
+    var userid = req.decoded.userid;
+    var type = req.body.type;
+
+    //type 
+    //residence
+    //identity
+
+    form.parse(req, function (err, fields, files) {
+        type = fields.type;
+        var name = uuidv4();
+
+        console.log(name);
+        var oldpath = files.filetoupload.path;
+        var newpath = './files/' + files.filetoupload.name;
+
+        mv(oldpath, newpath, function (err) {
+
+            if (err) throw err;
+            /////////
+            //upload file
+            blobService.createBlockBlobFromLocalFile(
+                containerName,
+                  name + ".pdf",
+                newpath,
+                function (error, result, response) {
+                    if (error) {
+                        console.log("Couldn't upload file %s", newpath);
+                        console.error(error);
+                    } else {
+                        console.log('File %s uploaded successfully', newpath);
+
+                        //quotes/0410100.pdf
+                        var url = "https://auraservices.blob.core.windows.net/" + containerName+"/" + name + ".pdf";
+                        // url = btoa(url);
+
+                        ////////////////////////////////////
+                        var field = "";
+                        if (type === "residence") {
+                            field = "residenceProof";
+                        } else if (type === "identity") {
+                            field = "identityProof";
+                        }
+
+                        let query = "UPDATE [users] \
+                                    SET "+ field + "=@name\
+                                    WHERE UserId = @id";
+
+                        var request = new sql.Request();
+
+                        request
+                            .input("id", userid)
+                            .input("name", name)
+                            .query(query, function (err, recordset) {
+
+                                if (err) {
+                                    console.log(err);
+                                    console.log(err.stack);
+                                    return res.json({
+                                        status: 500,
+                                        success: false,
+                                        message: "An error occured",
+                                        error: err.message
+                                    });
+                                } else {
+                                    if (recordset.rowsAffected[0] > 0) {
+                                        fs.unlink(newpath, (err) => {
+                                            if (err) throw err;
+                                            console.log('file deleted');
+                                        });
+
+                                        return res.json({
+                                            status: 200,
+                                            success: true,
+                                            message: "Uploaded",
+                                            url: url
+                                        });
+                                    } else {
+                                        return res.json({
+                                            status: 400,
+                                            success: false,
+                                            message: 'Failed to upload file'
+                                        });
+                                    }
+                                }
+                            });
+
+
+                        
+                    }
+                });
+
+           
+        });
+    });
+}
+
 module.exports = {
+    uploadFile: uploadFile, 
     profile: profile, 
     resetpassword: resetpassword,
     checktoken: checkToken,
