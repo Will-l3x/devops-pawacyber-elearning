@@ -22,19 +22,39 @@ class ResourceCard extends Component {
     this.getDashData();
   }
 
-
   getDashData() {
     AdminService.get_all_resources().then((response) => {
       const allResources = response === undefined ? [] : response;
-      
+      console.log(allResources[1]);
       allResources.sort((a, b) => a.materialname.localeCompare(b.materialname));
 
       let pages = [];
       let perPage = 24;
       const totalPageCount = Math.ceil(allResources.length / perPage);
 
-      for (var i = 1; i <= totalPageCount; i++) {
-        pages.push(i);
+      if (this.state.currentPageNumber <= 3) {
+        for (var i = 1; i <= 7; i++) {
+          pages.push(i);
+        }
+      } else if (this.state.currentPageNumber >= totalPageCount - 2) {
+        for (var i = totalPageCount - 6; i <= totalPageCount; i++) {
+          pages.push(i);
+        }
+      } else {
+        for (
+          var i = this.state.currentPageNumber - 3;
+          i <= this.state.currentPageNumber;
+          i++
+        ) {
+          pages.push(i);
+        }
+        for (
+          var i = this.state.currentPageNumber + 1;
+          i <= this.state.currentPageNumber + 3;
+          i++
+        ) {
+          pages.push(i);
+        }
       }
 
       const resources = this.pageArraySplit(allResources, {
@@ -42,7 +62,7 @@ class ResourceCard extends Component {
         perPage,
       });
 
-      this.setState({ pages, resources, allResources });
+      this.setState({ pages, resources, allResources, totalPageCount });
     });
   }
 
@@ -50,7 +70,6 @@ class ResourceCard extends Component {
     var data = {
       file: resource.file,
     };
-    console.log(data)
     setTimeout(() => {
       StudentService.download(data).then((response) => {
         window.open(URL.createObjectURL(response));
@@ -117,6 +136,10 @@ class ResourceCard extends Component {
       this.getDashData();
     });
   };
+
+  truncate(str, n) {
+    return str.length > n ? str.substr(0, n - 1) + "..." : str;
+  }
   render() {
     return (
       <div>
@@ -156,7 +179,7 @@ class ResourceCard extends Component {
                   .includes(this.state.searchText.toLowerCase())
               )
               .map((resource, i) => (
-                <div key={i} className="col s6 m3">
+                <div key={i} className="col s12 m6 l4">
                   <div
                     className="card min-height-100 z-depth-2 white-text designed-dots"
                     style={{
@@ -167,7 +190,17 @@ class ResourceCard extends Component {
                     <div className="padding-4">
                       <div className="col s12 m12">
                         <p className="no-margin" style={{ color: "teal" }}>
-                          <b>{resource.materialname}</b>
+                          <a
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                            className="tooltipped"
+                            data-tooltip={`${resource.materialname}`}
+                            data-position="bottom"
+                          >
+                            {this.truncate(resource.materialname, 128)}
+                          </a>
                         </p>
                         <p
                           className="no-margin"
@@ -176,8 +209,7 @@ class ResourceCard extends Component {
                             color: "grey",
                           }}
                         >
-                          Tag: {resource.obj} | Subject ID:{" "}
-                          {resource.classid}
+                          Tag: {resource.obj} | Subject ID: {resource.classid}
                         </p>
                       </div>
 
@@ -240,7 +272,7 @@ class ResourceCard extends Component {
                   .includes(this.state.searchText.toLowerCase())
               )
               .map((resource, i) => (
-                <div key={i} className="col s6 m3">
+                <div key={i} className="col s12 m6 l4">
                   <div
                     className="card min-height-100 z-depth-2 white-text designed-dots"
                     style={{
@@ -251,7 +283,17 @@ class ResourceCard extends Component {
                     <div className="padding-4">
                       <div className="col s12 m12">
                         <p className="no-margin" style={{ color: "teal" }}>
-                          <b>{resource.materialname}</b>
+                          <a
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                            className="tooltipped"
+                            data-tooltip={`${resource.materialname}`}
+                            data-position="bottom"
+                          >
+                            {this.truncate(resource.materialname, 128)}
+                          </a>
                         </p>
                         <p
                           className="no-margin"
@@ -260,8 +302,7 @@ class ResourceCard extends Component {
                             color: "grey",
                           }}
                         >
-                          Tag: {resource.obj} | Subject ID:{" "}
-                          {resource.classid}
+                          Tag: {resource.obj} | Subject ID: {resource.classid}
                         </p>
                       </div>
 
@@ -447,7 +488,7 @@ class Search extends React.Component {
             />
           </div>
           <div
-            className="justfiyCenter white search-ico"
+            className="justify-center white search-ico"
             style={{ paddingTop: 10, borderTopRightRadius: 10 }}
           >
             <i className="material-icons left">search</i>

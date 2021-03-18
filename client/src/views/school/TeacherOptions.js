@@ -5,17 +5,13 @@ import Select from "react-select";
 import { SchoolService } from "../../services/school";
 
 let options = [];
-
 const user = JSON.parse(localStorage.getItem("user"));
-if (user === null) {
-  options = [];
-} else {
+if (user !== null) {
   SchoolService.get_all_teachers(user.schoolid)
     .then((response) => {
-      const data = response === undefined ? [] : response;
-      for (const teacher of data) {
-        teacher.value = teacher.teacherId;
-        teacher.label = teacher.lastname + " " + teacher.firstname;
+      for (const teacher of response) {
+        teacher.value = teacher.id;
+        teacher.label = teacher.teachername;
         options.push(teacher);
       }
     })
@@ -25,7 +21,7 @@ if (user === null) {
     });
 }
 
-class TeacherOptions extends Component {
+class RoleOptions extends Component {
   constructor() {
     super();
     this.state = {
@@ -56,4 +52,4 @@ class TeacherOptions extends Component {
   }
 }
 
-export default connect(null, null)(TeacherOptions);
+export default connect(null, null)(RoleOptions);

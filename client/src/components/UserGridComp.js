@@ -490,7 +490,7 @@ class Search extends React.Component {
             />
           </div>
           <div
-            className="justfiyCenter white search-ico"
+            className="justify-center white search-ico"
             style={{ paddingTop: 10, borderTopRightRadius: 10 }}
           >
             <i className="material-icons left">search</i>
@@ -546,7 +546,7 @@ class User extends React.Component {
           }}
         >
           <div className="card-content UserCard">
-            <div className="UserCardTop justfiyCenter">
+            <div className="UserCardTop justify-center">
               <Avatar className="avatar-large-2">
                 {fn.charAt(0)}
                 {ln.charAt(0)}

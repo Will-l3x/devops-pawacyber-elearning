@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import TeacherActions from "../../actions/teacher";
@@ -77,7 +78,6 @@ class TeacherScreen extends Component {
           this.courseId = sub.classId;
           TeacherService.get_submissions(this.courseId) //get by course id
             .then((data) => {
-             
               this.setState({ submissions: data });
             });
         }
@@ -112,7 +112,8 @@ class TeacherScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar data={this.props} />
+            <LeftSidebar data={this.props} />
+
             <section id="content" style={{ paddingTop: 20 }}>
               <div className="container">
                 <div className="card-stats">
@@ -121,11 +122,18 @@ class TeacherScreen extends Component {
                       <div key={i} className="col s12 m6 l3">
                         <div className="col s12">
                           <div
-                            className={`card ${this.colors(i)} white-text hovCard`}
+                            className={`card ${this.colors(
+                              i
+                            )} white-text hovCard`}
                             style={{ boxShadow: "100px", borderRadius: "5px" }}
                           >
                             <div className="col s11 m7  sub-card ">
-                              <p style={{ fontSize: "16px" }} className="white-text" >{course.classname}</p>
+                              <p
+                                style={{ fontSize: "16px" }}
+                                className="white-text"
+                              >
+                                {course.classname}
+                              </p>
                             </div>
                             <div
                               className="col s1"
@@ -138,19 +146,23 @@ class TeacherScreen extends Component {
                               }}
                             >
                               <Link
-                                to="/teacher-subject-view" onClick={() => {
+                                to="/teacher-subject-view"
+                                onClick={() => {
                                   this.props.course_data({
                                     course: {
                                       name: course.classname,
                                       courseId: course.classId,
-                                      color: this.colors(i)
-                                    }
+                                      color: this.colors(i),
+                                    },
                                   });
                                 }}
                               >
-
-                                <i className={`material-icons background-round mt-2 `} style={{ padding: "10px", color: "white" }}>
-                                  link</i>
+                                <i
+                                  className={`material-icons background-round mt-2 `}
+                                  style={{ padding: "10px", color: "white" }}
+                                >
+                                  link
+                                </i>
                               </Link>
                             </div>
                           </div>
@@ -172,7 +184,10 @@ class TeacherScreen extends Component {
                             <label htmlFor="task2">
                               {assignment.assignmentname}
                               <Link to="#" className="secondary-content">
-                                <span className="ultra-small"> {assignment.duedate}</span>
+                                <span className="ultra-small">
+                                  {" "}
+                                  {assignment.duedate}
+                                </span>
                               </Link>
                             </label>
                             <Link to="#">
@@ -213,6 +228,8 @@ class TeacherScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
@@ -225,7 +242,7 @@ class TeacherScreen extends Component {
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = Object.assign({course_data}, TeacherActions);
+const mapDispatchToProps = Object.assign({ course_data }, TeacherActions);
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(TeacherScreen)

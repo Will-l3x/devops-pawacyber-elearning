@@ -1,5 +1,7 @@
 let sql = require("mssql");
-const stream = require("stream");
+const {pipeline} = require("stream");
+const fs = require("fs");
+const path = require("path");
 const {BlobServiceClient, AbortController} = require("@azure/storage-blob");
 
 var containerNames = [
@@ -46,6 +48,19 @@ let storageInit = async () => {
 const getBlobName = (originalName, uploadId) => {
   return `${uploadId}-${originalName}`;
 };
+
+const streamToString = (readableStream) => {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on("data", (data) => {
+      chunks.push(data.toString());
+    });
+    readableStream.on("end", () => {
+      resolve(chunks.join(""));
+    });
+    readableStream.on("error", reject);
+  });
+}
 
 let upload = async (req, res) => {
   let obj;
@@ -335,6 +350,57 @@ let download = async (req, res) => {
 
     containerClient = blobServiceClient.getContainerClient(container);
     let blockBlobClient = containerClient.getBlockBlobClient(name);
+    // for await (const blob of containerClient.listBlobsFlat()) {
+    //   console.log(blob.name);
+    // }
+    try {
+      const downloadBlockBlobResponse =
+        await blockBlobClient.downloadToFile(path.join(__dirname, `../tmp/${name}`)
+        );
+      let blockStream = fs.createReadStream(
+        path.join(__dirname, `../tmp/${name}`)
+      );
+      pipeline(blockStream, res, (err) => {
+        console.log(err);
+      });
+      console.log(res.getHeaders());
+      // console.log(downloadBlockBlobResponse);
+      console.log("\nDownloaded blob content...");
+      // let fileContents = downloadBlockBlobResponse.readableStreamBody;
+      // fileContents.setEncoding('utf-8');
+      // res.set("Content-disposition", "attachment; filename=" + name);
+      // res.set("Content-Type", mimetype);
+      // fileContents.on("data", (data) => {
+      //   res.write(data);
+      // });
+      // fileContents.on("end", (data) => {
+      //   res.status(200).send();
+      // });
+    } catch (err) {
+      if (err) console.log(err);
+      return res.status(400).send({
+        success: false,
+        message: "File not found...",
+        err: err,
+      });
+    }
+  }
+};
+
+let fetchBlob = async (req, res) => {
+  if (!req.params.container) {
+    return res.status(400).send({
+      success: false,
+      message: "File field missing in body...",
+    });
+  } else {
+    let container = req.params.container;
+    let name = req.params.blobName;
+    let encoding = req.params.encoding;
+    let mimetype = req.params.mime + "/" + req.params.type;
+
+    containerClient = blobServiceClient.getContainerClient(container);
+    let blockBlobClient = containerClient.getBlockBlobClient(name);
     for await (const blob of containerClient.listBlobsFlat()) {
       console.log(blob.name);
     }
@@ -439,11 +505,196 @@ let deleteBlob = async (req, res) => {
     });
   }
 };
+let streamDownload = async (req, res) => {
+  console.log("The request headers : ");
+  console.log(req.headers);
+  let range = req.headers.range;
+  console.log(req.params);
+  if (!req.params.container) {
+    return res.status(400).send({
+      success: false,
+      message: "File field missing in url...",
+    });
+  } else {
+    let container = req.params.container;
+    let name = req.params.blobName;
+    let encoding = req.params.encoding;
+    let mimetype = req.params.mime + "/" + req.params.type;
+    console.log(mimetype);
+    containerClient = blobServiceClient.getContainerClient(container);
+    let blockBlobClient = containerClient.getBlockBlobClient(name);
+    let props = await blockBlobClient.getProperties();
+    let size = props.contentLength;
+    let start, end;
+    let fullRange;
+    if (range) {
+      console.log("Range Active : ");
+      let a = range.replace(/bytes=/, "").split("-");
+      start = a[0];
+      end = a[1];
+      console.log("Start : " + start + "\n End : " + end);
+      start = parseInt(start, 10);
+      end = end ? parseInt(end, 10) : size - 1;
+
+      if (!isNaN(start) && isNaN(end)) {
+        start = start;
+        end = size - 1;
+      }
+      if (isNaN(start) && !isNaN(end)) {
+        start = size - end;
+        end = size - 1;
+      }
+
+      res.status(206);
+      res.set({
+        "Content-Type": mimetype,
+        "Accept-Ranges": props.acceptRanges,
+        "Content-Range": `bytes ${start}-${end}/${size}`,
+        "Content-Length": end - start + 1,
+      });
+      res.set("Connection", "keep-alive");
+      let downloadBlockBlobResponse = await blockBlobClient.downloadToFile(
+        path.join(__dirname, `../tmp/${name}`)
+      );
+      // let blockStream = downloadBlockBlobResponse.readableStreamBody;
+      // blockStream.on('open', () => {
+      //   console.log("Readable stream opened...")
+      // })
+      // blockStream.on("data", (data) => {
+      //   res.write(data);
+      // });
+      let blockStream = fs.createReadStream(
+        path.join(__dirname, `../tmp/${name}`),
+        {start: start, end: end}
+      );
+      pipeline(blockStream, res, (err) => {
+        console.log(err);
+      });
+      console.log(res.getHeaders());
+    } else {
+      res.set("Content-Type", mimetype);
+      res.set("Content-Length", props.contentLength);
+      try {
+        let downloadBlockBlobResponse = await blockBlobClient.download(0);
+        let blockStream = downloadBlockBlobResponse.readableStreamBody;
+        pipeline(blockStream, res, (err) => {
+          console.log(err);
+        });
+        // blockStream.on('open', () => {
+        //   console.log("Readable stream opened...")
+        // })
+        // blockStream.on("data", (data) => {
+        //   res.write(data);
+        // });
+        // blockStream.on("end", () => {
+        //   res.status(200).send();
+        // })
+      } catch (err) {
+        if (err) console.log(err);
+        return res.status(400).send({
+          success: false,
+          message: "File not found...",
+          err: err,
+        });
+      }
+    }
+  }
+};
+let streamDownload2 = async (req, res) => {
+  console.log("The request : ");
+  console.log(req.headers.range);
+  let range = req.headers.range;
+  console.log(req.params);
+  if (!req.params.container) {
+    return res.status(400).send({
+      success: false,
+      message: "File field missing in url...",
+    });
+  } else {
+    let container = req.params.container;
+    let name = req.params.blobName;
+    let encoding = req.params.encoding;
+    let mimetype = req.params.mime + "/" + req.params.type;
+    console.log(mimetype);
+
+    containerClient = blobServiceClient.getContainerClient(container);
+    let blockBlobClient = containerClient.getBlockBlobClient(name);
+    // for await (const blob of containerClient.listBlobsFlat()) {
+    //   console.log(blob.name);
+    // }
+    let props = await blockBlobClient.getProperties();
+    // console.log("Block Properties : ")
+    // console.log(props);
+    let size = props.contentLength;
+    let start, end;
+    if (range) {
+      console.log("Range Active : ")[(start, end)] = range
+        .replace(/bytes=/, "")
+        .split("-");
+      start = parseInt(start, 10);
+      end = end ? parseInt(end, 10) : size - 1;
+
+      if (!isNaN(start) && isNaN(end)) {
+        start = start;
+        end = size - 1;
+      }
+      if (isNaN(start) && !isNaN(end)) {
+        start = size - end;
+        end = size - 1;
+      }
+    }
+
+    try {
+      const downloadBlockBlobResponse = await blockBlobClient.download(0);
+      // console.log(downloadBlockBlobResponse);
+      console.log("\nDownloaded blob content...");
+
+      let fileContents = downloadBlockBlobResponse.readableStreamBody;
+      //fileContents.setEncoding(encoding);
+
+      //res.set("Content-disposition", "attachment; filename=" + name);
+
+      // res.set("Content-Type", mimetype);
+      // res.set("Content-Length", props.contentLength);
+      // res.set("Accept-Ranges", props.acceptRanges);
+      // res.set("Cache-Control", 'max-age=600');
+      res.set("ETag", props.etag);
+      res.status(206);
+      res.set({
+        "Content-Type": mimetype,
+        "Accept-Ranges": props.acceptRanges,
+        "Cache-Control": "max-age=600",
+        "Content-Range": `bytes ${start}-${end}/${size}`,
+        "Content-Length": end - start + 1,
+      });
+      res.write(fileContents.read());
+
+      fileContents.on("data", (data) => {
+        console.log("Data chunk: " + data);
+        console.log(data.length);
+        res.write(data);
+      });
+      fileContents.on("end", (data) => {
+        res.status(200).send();
+        console.log(res);
+      });
+    } catch (err) {
+      if (err) console.log(err);
+      return res.status(400).send({
+        success: false,
+        message: "File not found...",
+        err: err,
+      });
+    }
+  }
+};
 
 module.exports = {
   upload: upload,
   download: download,
+  streamDownload: streamDownload,
   multiUpload: multiUpload,
   storageInit: storageInit,
-  deleteBlog: deleteBlob
+  deleteBlog: deleteBlob,
+  fetchBlob: fetchBlob,
 };

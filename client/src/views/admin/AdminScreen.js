@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { AdminService } from "../../services/admin";
@@ -13,7 +14,7 @@ class AdminScreen extends Component {
       packages: [],
       students: [],
       teachers: [],
-      subjects:[]
+      subjects: [],
     };
   }
 
@@ -49,7 +50,7 @@ class AdminScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar data={this.props}></SideBar>
+            <LeftSidebar data={this.props} />
 
             <section id="content">
               <div className="container">
@@ -84,7 +85,7 @@ class AdminScreen extends Component {
                           </div>
                           <div className="col s5 m5 right-align white-text">
                             <h5 className="mb-0 white-text">
-                               {this.state.students === undefined
+                              {this.state.students === undefined
                                 ? 0
                                 : this.state.students.length}
                             </h5>
@@ -140,7 +141,9 @@ class AdminScreen extends Component {
                             <p className="white-text">Subjects Offered</p>
                           </div>
                           <div className="col s5 m5 right-align">
-                            <h5 className="mb-0 white-text">{this.state.subjects.length}</h5>
+                            <h5 className="mb-0 white-text">
+                              {this.state.subjects.length}
+                            </h5>
                             <p className="no-margin white-text">Total</p>
                           </div>
                         </div>
@@ -170,6 +173,8 @@ class AdminScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
 

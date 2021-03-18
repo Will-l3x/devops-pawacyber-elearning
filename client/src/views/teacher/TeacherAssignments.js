@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 //import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 import M from "materialize-css";
@@ -61,7 +62,6 @@ class UploadNewAssignment extends Component {
     this.user = JSON.parse(localStorage.getItem("user"));
     this.loggedUserId = this.user.userid;
     this.schoolid = this.user.schoolid;
-
   }
 
   handleSubmit = (event) => {
@@ -108,7 +108,11 @@ class UploadNewAssignment extends Component {
               uploadCount += 1;
               if (uploadCount === targetLength) {
                 M.toast({
-                  html: uploadCount + " out of " + targetLength + " files uploaded ...",
+                  html:
+                    uploadCount +
+                    " out of " +
+                    targetLength +
+                    " files uploaded ...",
                   classes: "green",
                 });
 
@@ -119,7 +123,11 @@ class UploadNewAssignment extends Component {
                 });
               } else {
                 M.toast({
-                  html: uploadCount + " out of " + targetLength + " files uploaded ...",
+                  html:
+                    uploadCount +
+                    " out of " +
+                    targetLength +
+                    " files uploaded ...",
                   classes: "green",
                 });
               }
@@ -142,7 +150,7 @@ class UploadNewAssignment extends Component {
 
   onSelectClassOption = (selectedOption) => {
     this.setState({
-      class: selectedOption
+      class: selectedOption,
     });
   };
 
@@ -154,7 +162,7 @@ class UploadNewAssignment extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -317,6 +325,8 @@ class UploadNewAssignment extends Component {
                 </div>
               </div>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">
@@ -340,4 +350,7 @@ const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(UploadNewAssignment);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UploadNewAssignment);

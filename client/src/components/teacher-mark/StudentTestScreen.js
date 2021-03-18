@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import SideBar from "../SideBar";
+import LeftSidebar from "../LeftSidebar";
+import RightSidebar from "../RightSidebar";
 import FileDropZone from "../dropzone";
 import M from "materialize-css";
 import Footer from "../footer";
@@ -67,7 +68,7 @@ class StudentTestScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -202,6 +203,8 @@ class StudentTestScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

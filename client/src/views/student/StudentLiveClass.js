@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { StudentService } from "../../services/student";
@@ -66,7 +67,7 @@ class StudentLiveClass extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar data={this.props} />
+            <LeftSidebar data={this.props} />
 
             <section id="content">
               <div className="container" style={{ marginTop: "25px" }}>
@@ -115,6 +116,8 @@ class StudentLiveClass extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

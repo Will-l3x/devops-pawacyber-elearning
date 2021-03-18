@@ -1193,7 +1193,7 @@ let login = (req, res) => {
                                     status: 401,
                                     success: false,
                                     message: 'Invalid credentials'
-                                });
+                                });  
                             } else {
                                 console.log("icho -" + activesubscriptions);
                                 let token = jwt.sign({ email: result.email, roleid: result.roleid, userid: result.userId, activesubscriptions: activesubscriptions },

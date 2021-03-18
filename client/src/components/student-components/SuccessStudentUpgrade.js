@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import M from "materialize-css";
 import OuterHeader from "../../components/outerHeader";
 import OuterFooter from "../../components/outerFooter";
-import img from "../../assets/images/details-2-office-team-work.svg"
+import img from "../../assets/images/details-1-office-worker.svg";
 import { AdminService } from '../../services/admin';
 import { HashLink as Link } from "react-router-hash-link";
 

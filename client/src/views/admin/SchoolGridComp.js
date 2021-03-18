@@ -216,7 +216,7 @@ class Search extends React.Component {
             />
           </div>
           <div
-            className="justfiyCenter white search-ico"
+            className="justify-center white search-ico"
             style={{ paddingTop: 10, borderTopRightRadius: 10 }}
           >
             <i className="material-icons left">search</i>
@@ -231,7 +231,7 @@ class School extends React.Component {
   render() {
     const { school } = this.props;
     return (
-      <div className="col s6 m4 l3">
+      <div className="col s6 m4">
         <div
           className="card sticky-action border-radius-10 z-depth-5"
           style={{
@@ -240,7 +240,7 @@ class School extends React.Component {
           }}
         >
           <div className="card-content UserCard">
-            <div className="UserCardTop justfiyCenter">
+            <div className="UserCardTop justify-center">
               <Avatar className="avatar-large-2">
                 <i className="material-icons medium">school</i>
               </Avatar>
@@ -281,7 +281,7 @@ class School extends React.Component {
             </p>
             <br />
           </div>
-          <div className="card-action justfiyCenter">
+          <div className="card-action justify-center">
             <a
               href="#!"
               className="btn-floating waves-effect waves-light light-blue"

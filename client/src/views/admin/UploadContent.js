@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 //import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 import M from "materialize-css";
@@ -203,6 +204,8 @@ class UploadContent extends Component {
                     classes: "red ",
                   });
                 }
+
+                
               });
             }
           });
@@ -239,7 +242,7 @@ class UploadContent extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -443,6 +446,8 @@ class UploadContent extends Component {
                 </div>
               </div>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

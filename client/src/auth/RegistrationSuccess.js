@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import M from "materialize-css";
 import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
-import img from "../assets/images/details-2-office-team-work.svg"
+import img from "../assets/images/details-1-office-worker.svg";
 import { AdminService } from '../services/admin';
 import { AuthService } from '../services/authServices';
 import { HashLink as Link } from "react-router-hash-link";
@@ -25,7 +25,7 @@ class RegisterSuccessScreen extends Component {
     async componentDidMount() {
         M.AutoInit();
         M.toast({
-            html: "Payment Successful",
+            html: "Transaction Successful",
             classes: "green accent-3",
         });
 

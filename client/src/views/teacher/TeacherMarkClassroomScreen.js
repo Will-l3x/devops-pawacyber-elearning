@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 
 import TestFolderCard from "../../components/teacher-mark/TestFolderCard";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 
 class TeacherMarkClassroomScreen extends Component {
-
   render() {
     return (
       <div>
@@ -17,7 +17,8 @@ class TeacherMarkClassroomScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
+
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
@@ -48,6 +49,8 @@ class TeacherMarkClassroomScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

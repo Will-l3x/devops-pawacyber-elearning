@@ -17,13 +17,15 @@ import EnrolStudent from "./views/teacher/EnrolStudent";
 import ClassroomScreen from "./components/classroom/ClassroomScreen";
 import SubjectContent from "./views/student/SubjectContent";
 import StudentAssignments from "./views/student/StudentAssignments";
-import TeacherCalendarScreen from "./views/teacher/TeacherCalendarScreen";
+import TeacherReferralProgram from "./views/teacher/TeacherReferralProgram";
 import LoginScreen from "./auth/LoginScreen";
 import RegisterSuccessScreen from "./auth/RegistrationSuccess";
 import RegistrationCanceled from "./auth/RegistrationCanceled";
 import TeacherMarkClassroomScreen from "./views/teacher/TeacherMarkClassroomScreen";
 import StudentTestScreen from "./components/teacher-mark/StudentTestScreen";
 import RegisterScreen from "./auth/RegisterScreen";
+import RegisterStudent from "./auth/RegisterStudent";
+import FreeRegister from "./components/student-components/FreeStudent";
 
 import SchoolScreen from "./views/school/SchoolScreen";
 import SchoolStudentManagementScreen from "./views/school/SchoolStudentManagementScreen";
@@ -53,16 +55,20 @@ import Students from "./views/admin/Students";
 import AllClasses from "./views/admin/Subjects";
 import ProfileScreen from "./components/profile/ProfileScreen";
 import TeacherStudents from "./views/teacher/TeacherStudents";
+import RegisterAs from "./auth/RegisterAs";
+import RegisterTeacher from "./auth/RegisterTeacher";
+import RegisterLimitedTeacher from "./auth/RegisterLimitedTeacher";
+import RegisterPremiumTeacher from "./auth/RegisterPremiumTeacher";
+import RegisterPremiumTeacherVerify from "./auth/RegisterPremiumTeacherVerify";
+import RegisterLimitedTeacherVerify from "./auth/RegisterLimitedTeacherVerify";
 
 class App extends Component {
   componentDidMount() {
     M.AutoInit();
-    $(window).on("load", function () {
-      setTimeout(function () {
-        $("body").addClass("loaded");
-      }, 200);
-    });
-    //var window_width = $(window).width();
+
+    // setInterval(() => {
+    //   $("#ads_modal").removeClass("display-none");
+    // }, 3000);
 
     // Search class for focus
     $(".header-search-input")
@@ -122,14 +128,27 @@ class App extends Component {
       });
     }
   }
+  handleAdClose = (event) => {
+    event.preventDefault();
+    $("#ads_modal").addClass("display-none");
+  };
   render() {
     return (
       <Provider store={store}>
-        <div id="loader-wrapper">
-          <div id="loader"></div>
-          <div className="loader-section section-left"></div>
-          <div className="loader-section section-right"></div>
+        <div id="ads_modal" className="display-none z-depth-5">
+          <a
+            href="#!"
+            rel="noopener noreferrer"
+            className="black-text right"
+            onClick={this.handleAdClose}
+          >
+            <i className="material-icons">cancel</i>
+          </a>
+          <div className="ad-content padding-1">
+            <h4 className="header2">Ad goes here</h4>
+          </div>
         </div>
+
         <HashRouter>
           <Route exact path="/" component={HomeScreen} />
           <Route
@@ -147,7 +166,44 @@ class App extends Component {
           <Route exact path="/login" component={LoginScreen} />
           <Route exact path="/profile" component={ProfileScreen} />
           <Route exact path="/all-students" component={Students} />
-          <Route exact path="/register" component={RegisterScreen} />
+          <Route
+            exact
+            path="/register-premium-student"
+            component={RegisterScreen}
+          />
+          <Route
+            exact
+            path="/register-premium-access-teacher"
+            component={RegisterPremiumTeacher}
+          />
+          <Route
+            exact
+            path="/register-premium-access-teacher/account-verification"
+            component={RegisterPremiumTeacherVerify}
+          />
+          <Route
+            exact
+            path="/register-limited-access-teacher"
+            component={RegisterLimitedTeacher}
+          />
+          <Route
+            exact
+            path="/register-limited-access-teacher/account-verification"
+            component={RegisterLimitedTeacherVerify}
+          />
+          <Route exact path="/freereg" component={FreeRegister} />
+          <Route
+            exact
+            path="/try-free-student-account"
+            component={RegisterStudent}
+          />
+          <Route
+            exact
+            path="/try-free-teacher-account"
+            component={RegisterTeacher}
+          />
+          <Route exact path="/register-as" component={RegisterAs} />
+
           <Route exact path="/about" component={AboutScreen} />
 
           <Route exact path="/all-subjects" component={AllClasses} />
@@ -169,11 +225,7 @@ class App extends Component {
             component={TeacherSubjectContent}
           />
           <Route exact path="/teacher" component={TeacherScreen} />
-          <Route
-            exact
-            path="/teacher-calendar"
-            component={TeacherCalendarScreen}
-          />
+          <Route exact path="/referrals" component={TeacherReferralProgram} />
           <Route exact path="/teacher-students" component={TeacherStudents} />
           <Route exact path="/classroom" component={ClassroomScreen} />
           <Route

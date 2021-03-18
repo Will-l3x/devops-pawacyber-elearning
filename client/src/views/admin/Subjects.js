@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import M from "materialize-css";
@@ -173,7 +174,6 @@ class AllClasses extends Component {
           classes: "red ",
         });
       } else {
-
         M.toast({
           html: "Successfully added",
           classes: "green ",
@@ -308,7 +308,8 @@ class AllClasses extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
+
             <div style={{ position: "relative", zIndex: 50 }}>
               <nav
                 className="navbar nav-extended width-75 image-bg-1"
@@ -495,6 +496,8 @@ class AllClasses extends Component {
                 </Link>
               </div>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

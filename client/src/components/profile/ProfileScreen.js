@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import dp from "../../assets/images/avatar/avatar-11.png";
 import Header from "../header";
-import SideBar from "../SideBar";
+import LeftSidebar from "../LeftSidebar";
+import RightSidebar from "../RightSidebar";
 import Footer from "../footer";
 import M from "materialize-css";
 import "../../assets/css/profile.css";
@@ -159,11 +160,11 @@ class ProfileScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <section className="row">
               <div
-                className="col s12 justfiyCenter"
+                className="col s12 justify-center"
                 style={{ minHeight: 580, paddingTop: 25 }}
               >
                 <div className="profile-card  border-radius-10 z-depth-5">
@@ -283,7 +284,7 @@ class ProfileScreen extends Component {
                         </svg>
                       </div>
                     </div>
-                    <div className="insights justfiyCenter">
+                    <div className="insights justify-center">
                       <div className="insight row tab-active">
                         <div className="col s6">
                           <fieldset className="form-group">
@@ -403,7 +404,7 @@ class ProfileScreen extends Component {
                 </div>
               </div>
               <div
-                className="col s12 justfiyCenter"
+                className="col s12 justify-center"
                 style={{ minHeight: 400, paddingTop: 25 }}
               >
                 <div className="profile-card  border-radius-10 z-depth-5">
@@ -461,7 +462,7 @@ class ProfileScreen extends Component {
                         )}
                       </div>
                     </div>
-                    <div className="insights justfiyCenter">
+                    <div className="insights justify-center">
                       <div className="insight row tab-active">
                         <div className="col s12">
                           <fieldset className="form-group col s12 m6 l6 no-padding no-margin">
@@ -521,6 +522,8 @@ class ProfileScreen extends Component {
                 </div>
               </div>
             </section>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

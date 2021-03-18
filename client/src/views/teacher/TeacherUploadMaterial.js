@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 //import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 import M from "materialize-css";
@@ -106,7 +107,11 @@ class UploadMaterial extends Component {
               uploadCount += 1;
               if (uploadCount === targetLength) {
                 M.toast({
-                  html: uploadCount + " out of " + targetLength + " files uploaded ...",
+                  html:
+                    uploadCount +
+                    " out of " +
+                    targetLength +
+                    " files uploaded ...",
                   classes: "green",
                 });
 
@@ -117,7 +122,11 @@ class UploadMaterial extends Component {
                 });
               } else {
                 M.toast({
-                  html: uploadCount + " out of " + targetLength + " files uploaded ...",
+                  html:
+                    uploadCount +
+                    " out of " +
+                    targetLength +
+                    " files uploaded ...",
                   classes: "green",
                 });
               }
@@ -140,7 +149,7 @@ class UploadMaterial extends Component {
 
   onSelectClassOption = (selectedOption) => {
     this.setState({
-      class: selectedOption
+      class: selectedOption,
     });
   };
 
@@ -152,7 +161,7 @@ class UploadMaterial extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -316,6 +325,8 @@ class UploadMaterial extends Component {
                 </div>
               </div>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

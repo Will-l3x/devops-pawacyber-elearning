@@ -2643,7 +2643,6 @@ body.layout-semi-dark .footer-copyright {
 
 #main {
     min-height: 100%;
-    min-width: 700px !important;
     padding-left: 240px;
     -webkit-transition: .3s ease all;
     -o-transition: .3s ease all;
@@ -6398,7 +6397,7 @@ header .brand-logo img {
     }
 
     ul.side-nav.leftside-navigation {
-        top: 56px !important;
+        top: 47px !important;
     }
 }
 

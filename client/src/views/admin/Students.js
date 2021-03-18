@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 import M from "materialize-css";
@@ -96,7 +97,7 @@ class StudentScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -110,7 +111,13 @@ class StudentScreen extends Component {
                 >
                   <div className="nav-content">
                     <div className="left">
-                      <p style={{ padding: "10px",paddingTop:25, fontSize: "16px" }}>
+                      <p
+                        style={{
+                          padding: "10px",
+                          paddingTop: 25,
+                          fontSize: "16px",
+                        }}
+                      >
                         Student Management
                       </p>
                     </div>
@@ -171,6 +178,8 @@ class StudentScreen extends Component {
                 </div>
               </section>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

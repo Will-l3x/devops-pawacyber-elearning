@@ -187,7 +187,7 @@ class HomeScreen extends Component {
             </div>
           </div>
 
-          <div id="services" className="justfiyCenter">
+          <div id="services" className="justify-center">
             <div style={{ maxWidth: 1000 }}>
               <div className="row">
                 <div className="col s12 center-align">
@@ -305,7 +305,7 @@ class HomeScreen extends Component {
             </div>
           </div>
 
-          <div className="justfiyCenter" style={{ backgroundColor: "#edf2f4" }}>
+          <div className="justify-center" style={{ backgroundColor: "#edf2f4" }}>
             <div style={{ maxWidth: 1000, width: "100%" }}>
               <div className="row">
                 <div className="col s12 padding-3">
@@ -361,7 +361,7 @@ class HomeScreen extends Component {
                       </span>
                     </li>
                   </ul>
-                  <div className="justfiyCenter">
+                  <div className="justify-center">
                     <Link
                       className="btn-solid-reg z-depth-5"
                       rel="noopener noreferrer"
@@ -425,7 +425,7 @@ class HomeScreen extends Component {
               </div>
             </div>
           </div>
-          <div className="justfiyCenter">
+          <div className="justify-center">
             <div style={{ maxWidth: 1000, width: "100%" }}>
               <div className="row">
                 <div className="col s12 padding-3 padding-bottom-0">
@@ -463,7 +463,7 @@ class HomeScreen extends Component {
                   </div>
                 </div>
 
-                <div className="col s12 padding-3 justfiyCenter">
+                <div className="col s12 padding-3 justify-center">
                   <div className="video-player border-radius-10 z-depth-5">
                     <ReactPlayer
                       width="100%"
@@ -478,7 +478,7 @@ class HomeScreen extends Component {
 
           <div
             id="pricing"
-            className="cards-2 justfiyCenter"
+            className="cards-2 justify-center"
             style={{ backgroundColor: "#edf2f4" }}
           >
             <div style={{ maxWidth: 1000 }}>

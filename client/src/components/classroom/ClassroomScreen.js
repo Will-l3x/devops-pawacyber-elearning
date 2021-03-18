@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import SideBar from "../SideBar";
+import LeftSidebar from "../LeftSidebar";
+import RightSidebar from "../RightSidebar";
 import $ from "jquery";
 import M from "materialize-css";
 
@@ -36,7 +37,7 @@ class ClassroomScreen extends Component {
         <main id="main">
           {" "}
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
 
             <section id="content">
               <div style={{ position: "relative", zIndex: 50 }}>
@@ -164,7 +165,9 @@ class ClassroomScreen extends Component {
                   <ClassroomStudentAssessment />
                 </div>
               </div>
-              </section>
+            </section>
+           
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

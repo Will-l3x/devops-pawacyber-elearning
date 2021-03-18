@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SideBar from "../../components/SideBar";
+import LeftSidebar from "../../components/LeftSidebar";
+import RightSidebar from "../../components/RightSidebar";
 import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 import M from "materialize-css";
@@ -20,7 +21,7 @@ class SubscriptionScreen extends Component {
           sort: "asc",
           width: "25%",
         },
-        
+
         {
           label: "Starting Grade",
           field: "mingrade",
@@ -43,15 +44,15 @@ class SubscriptionScreen extends Component {
           label: "Package Desccription",
           field: "description",
           sort: "asc",
-          width: "20%"
+          width: "20%",
         },
         {
           label: "# of subjects",
           field: "subjects",
           sort: "asc",
-          width: "10%"
+          width: "10%",
         },
-       
+
         {
           label: "Actions",
           field: "actions",
@@ -124,7 +125,6 @@ class SubscriptionScreen extends Component {
       subscriptionname: subscription.subscriptionname,
       description: subscription.description,
       subjects: subscription.subjects,
-      
     };
     this.setState(
       {
@@ -149,7 +149,7 @@ class SubscriptionScreen extends Component {
       price: event.target.addprice.value,
       subjects: event.target.addsubjects.value,
     };
- 
+
     let elem = document.getElementById("modaladd");
     let modal = new M.Modal(elem);
     modal.close();
@@ -270,7 +270,8 @@ class SubscriptionScreen extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />
+            <LeftSidebar />
+
             <div id="section">
               <div style={{ position: "relative", zIndex: 50 }}>
                 <nav
@@ -587,6 +588,8 @@ class SubscriptionScreen extends Component {
                 </section>
               </div>
             </div>
+
+            <RightSidebar />
           </div>
         </main>
         <footer className="footer page-footer gradient-45deg-light-blue-cyan">

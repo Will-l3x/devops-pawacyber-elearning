@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import M from "materialize-css";
-import SideBar from "./SideBar";
+import LeftSidebar from "./LeftSidebar";
+import RightSidebar from "./RightSidebar";
 import Header from "./header";
 import Footer from "./footer";
 import TeVideoPlayer from "./VideoPlayer";
@@ -86,7 +87,7 @@ class LivePlayer extends Component {
         </header>
         <main id="main">
           <div className="wrapper">
-            <SideBar />{" "}
+            <LeftSidebar />
             <div
               className="z-depth-5"
               style={{ position: "relative", zIndex: 50 }}
@@ -156,7 +157,9 @@ class LivePlayer extends Component {
             ) : (
               <StVideoPlayer meetingData={this.state} />
             )}
+            <RightSidebar/>
           </div>
+
           <div
             id="create-meeting"
             className="modal modal-meeting border-radius-10"
