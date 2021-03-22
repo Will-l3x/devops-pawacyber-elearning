@@ -101,7 +101,7 @@ async function update_profile(req, res) {
 
 let checkToken = (req, res, next) => {
     console.log(req.url);
-    if (req.url !== '/multi_upload' && req.url !== '/login' && req.url !== '/register'  && req.url !== '/subscriptions' && req.url !== '/dpo/payment/createToken' && req.url !== '/classes/all' && req.url !== '/get_school_grade_subjects' && req.url!=='/classes/grade' && req.url !== '/subscribestudent' && req.url !== '/post_payment_enrol'  && req.url !== '/resetpassword' && req.url.indexOf('/verify') < 0 && req.url !== '/refreshotp') {
+    if (req.url !== '/multi_upload' && req.url !== '/login' && req.url !== '/register' && req.url !== '/subscriptions' && req.url !== '/dpo/payment/createToken' && req.url !== '/classes/all' && req.url !== '/get_school_grade_subjects' && req.url !== '/classes/grade' && req.url !== '/subscribestudent' && req.url !== '/post_payment_enrol' && req.url !== '/resetpassword' && req.url.indexOf('/verify') < 0 && req.url !== '/refreshotp' && req.url.indexOf('/register') < 0) {
 
         let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
 
@@ -749,11 +749,12 @@ let register = (req, res) => {
     var gender = req.body.gender;
     var userid = 0;
 
-    var referer = req.params.referer;
+    var referer = req.query.referer;
 
     var grade = req.body.gradeid;
 
     var firstname = req.body.firstname;
+
     var lastname = req.body.lastname;
     var title = req.body.title;
     var schoolid = req.body.schoolid;
@@ -771,7 +772,7 @@ let register = (req, res) => {
     var pin = gen();
 
 
-    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom,genderid) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom),@gender )";
+    let query = "INSERT INTO [users] (email,password,roleid,otp,OtpExpiry,activefrom,genderid,referalBalance) VALUES(@femail,@password,@roleid,@otp,Convert(datetime, @otpexpiry ),Convert(datetime, @activefrom),@gender ,@balance)";
     query = query + ';select @@IDENTITY AS \'identity\'';
 
     let query_email = "SELECT * FROM [users] WHERE email = @email";
@@ -861,6 +862,7 @@ let register = (req, res) => {
                                     .input('otpexpiry', otpexpiry)
                                     .input('activefrom', activefrom)
                                     .input('gender', gender)
+                                    .input('referalBalance', balance)
                                     .query(query, function (err, recordset) {
 
                                         if (err) {
@@ -923,9 +925,14 @@ let register = (req, res) => {
                                                             if (recordset.rowsAffected[0] > 0) {
                                                               
                                                                 accountid = recordset.recordset[0].identity; 
+
+                                                                if (referer === "undefined" || referer == undefined) {
+                                                                    console.log("undefined shas");
+                                                                    query_referal = "Update users set referalBalance = 0 WHERE userId=@refereduser";
+                                                                }
                                                               
                                                                 request
-                                                                    .input('refereduser', email)
+                                                                    .input('refereduser', userid)
                                                                     .input('referer', referer)
                                                                     .query(query_referal, function (err, recordset) {
 
@@ -1036,7 +1043,7 @@ let register = (req, res) => {
             status: 400,
             success: false,
             message: 'Some Required fields are not provided',
-            erro: 'error'
+            error: 'error'
         });
     }
 }; 
