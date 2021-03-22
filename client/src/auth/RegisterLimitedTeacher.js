@@ -168,12 +168,12 @@ class RegisterLimitedTeacher extends Component {
         const referralId = event.target.referralId.value;
         localStorage.removeItem("teacherRegData");
         localStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
-        console.log(registerAdmin);
+
         try {
           AsyncStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
           setTimeout(
             function () {
-              thiz.register(registerAdmin.dob, referralId);
+              thiz.register(registerAdmin, referralId);
             }.bind(this),
             300
           );
