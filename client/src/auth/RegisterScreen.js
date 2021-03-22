@@ -72,7 +72,7 @@ class RegisterScreen extends Component {
                             >
                               <p>
                                 <b style={{ fontSize: "24px" }}>YES</b>
-                                <br /> <hr />
+                                <br />
                                 Activate Student Account
                               </p>
                             </div>
@@ -82,7 +82,7 @@ class RegisterScreen extends Component {
                             >
                               <p>
                                 <b style={{ fontSize: "24px" }}>NO</b>
-                                <br /> <hr />
+                                <br /> 
                                 Register New Account
                               </p>
                             </div>

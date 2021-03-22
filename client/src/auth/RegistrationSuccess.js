@@ -32,6 +32,7 @@ class RegisterSuccessScreen extends Component {
     // Fetching data
     try {
       const registrationDetails = await AsyncStorage.getItem("studentData");
+      const referralId = await AsyncStorage.getItem("referralId");
       const subscriptionDetails = await AsyncStorage.getItem("selectedPackage");
       const enrolmentDetails = await AsyncStorage.getItem("selectedSubjects");
       const paymentdetails = await AsyncStorage.getItem("paymentDetails");
@@ -50,7 +51,7 @@ class RegisterSuccessScreen extends Component {
 
         setTimeout(
           function () {
-            thiz.register(JSON.parse(registrationDetails));
+            thiz.register(JSON.parse(registrationDetails, referralId));
           }.bind(this),
           1000
         );
@@ -64,10 +65,10 @@ class RegisterSuccessScreen extends Component {
     }
   }
 
-  register(registrationData) {
+  register(registrationData, referralId) {
     const thiz = this;
 
-    AuthService.register(registrationData).then((response) => {
+    AuthService.register(registrationData, referralId).then((response) => {
       if (response === undefined) {
         M.toast({
           html: "Registration Failed: Please contact system adminstrator.",

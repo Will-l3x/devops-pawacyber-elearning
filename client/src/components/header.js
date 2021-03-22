@@ -175,11 +175,11 @@ class Header extends Component {
             </ul>
 
             <ul id="profile-dropdown" className="dropdown-content dropdown-acc">
-              <li>
+              {/* <li>
                 <Link to="/profile" className="grey-text text-darken-1">
                   <i className="material-icons">face</i> Profile
                 </Link>
-              </li>
+              </li> */}
               {/* <li>
                 <Link to="#" className="grey-text text-darken-1">
                   <i className="material-icons">live_help</i> Help

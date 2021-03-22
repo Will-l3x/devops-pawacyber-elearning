@@ -22,7 +22,7 @@ export const AuthService = {
 };
 
 //Register New User
-async function register(data) {
+async function register(data, referrerId) {
   const config = {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -33,7 +33,7 @@ async function register(data) {
 
   try {
     let res = await axios.post(
-      `${apiUrl}/register`,
+      `${apiUrl}/register?referer=${referrerId}`,
       qs.stringify(data),
       config
     );

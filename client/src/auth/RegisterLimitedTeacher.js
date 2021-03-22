@@ -165,15 +165,15 @@ class RegisterLimitedTeacher extends Component {
           genderid: this.state.gender,
           schoolid: "37",
         };
-
+        const referralId = event.target.referralId.value;
         localStorage.removeItem("teacherRegData");
         localStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
-
+        console.log(registerAdmin);
         try {
           AsyncStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
           setTimeout(
             function () {
-              thiz.register(registerAdmin);
+              thiz.register(registerAdmin.dob, referralId);
             }.bind(this),
             300
           );
@@ -198,8 +198,8 @@ class RegisterLimitedTeacher extends Component {
     }
   };
 
-  register(registrationData) {
-    AuthService.register(registrationData).then((response) => {
+  register(registrationData, referralId) {
+    AuthService.register(registrationData, referralId).then((response) => {
       if (response === undefined) {
         M.toast({
           html: "Registration Failed: Please contact system adminstrator.",
@@ -271,7 +271,7 @@ class RegisterLimitedTeacher extends Component {
                         </div>
                         <div>
                           <div className="row">
-                            <div className="col s12 m6">
+                            <div className="col s12 m4">
                               <div className="input-field">
                                 <fieldset className="form-group">
                                   <ReactFormLabel
@@ -288,7 +288,7 @@ class RegisterLimitedTeacher extends Component {
                                 </fieldset>
                               </div>
                             </div>
-                            <div className="col s12 m6">
+                            <div className="col s12 m4">
                               <div className="input-field">
                                 <fieldset className="form-group">
                                   <ReactFormLabel
@@ -302,6 +302,23 @@ class RegisterLimitedTeacher extends Component {
                                     name="firstname"
                                     required
                                   ></input>
+                                </fieldset>
+                              </div>
+                            </div>
+                            <div className="col s12 m4">
+                              <div className="input-field">
+                                <fieldset className="form-group">
+                                  <ReactFormLabel
+                                    htmlFor="gender"
+                                    title="Gender *"
+                                  />
+                                  <select
+                                    name="gender"
+                                    onChange={this.handleTitleDropdownChange}
+                                  >
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                  </select>
                                 </fieldset>
                               </div>
                             </div>
@@ -328,16 +345,16 @@ class RegisterLimitedTeacher extends Component {
                               <div className="input-field">
                                 <fieldset className="form-group">
                                   <ReactFormLabel
-                                    htmlFor="gender"
-                                    title="Gender *"
+                                    htmlFor="email"
+                                    title="Email *"
                                   />
-                                  <select
-                                    name="gender"
-                                    onChange={this.handleTitleDropdownChange}
-                                  >
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                  </select>
+                                  <input
+                                    id="email"
+                                    type="email"
+                                    className="validate"
+                                    name="email"
+                                    required
+                                  ></input>
                                 </fieldset>
                               </div>
                             </div>
@@ -362,23 +379,6 @@ class RegisterLimitedTeacher extends Component {
                             </div>
                           </div>
                           <div className="row">
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="email"
-                                    title="Email *"
-                                  />
-                                  <input
-                                    id="email"
-                                    type="email"
-                                    className="validate"
-                                    name="email"
-                                    required
-                                  ></input>
-                                </fieldset>
-                              </div>
-                            </div>
                             <div className="col s12 m4">
                               <div className="input-field">
                                 <fieldset className="form-group">
@@ -409,6 +409,23 @@ class RegisterLimitedTeacher extends Component {
                                     className="validate"
                                     name="vpassword"
                                     required
+                                  ></input>
+                                </fieldset>
+                              </div>
+                            </div>
+
+                            <div className="col s12 m4">
+                              <div className="input-field">
+                                <fieldset className="form-group">
+                                  <ReactFormLabel
+                                    htmlFor="referralId"
+                                    title="Referred By*"
+                                  />
+                                  <input
+                                    id="referralId"
+                                    type="text"
+                                    name="referralId"
+                                    className="validate"
                                   ></input>
                                 </fieldset>
                               </div>

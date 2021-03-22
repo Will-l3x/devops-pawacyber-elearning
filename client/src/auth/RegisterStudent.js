@@ -65,7 +65,7 @@ class RegisterStudent extends Component {
                             >
                               <p>
                                 <b style={{ fontSize: "24px" }}>YES</b>
-                                <br /> <hr />
+                                <br />
                                 Register Trial Account
                               </p>
                             </div>
@@ -73,7 +73,7 @@ class RegisterStudent extends Component {
                               <Link to="/register-premium-student">
                                 <p>
                                   <b style={{ fontSize: "24px" }}>NO</b>
-                                  <br /> <hr />
+                                  <br />
                                   Register Premium Account
                                 </p>
                               </Link>

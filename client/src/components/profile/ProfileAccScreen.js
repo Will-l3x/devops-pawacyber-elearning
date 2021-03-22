@@ -179,7 +179,7 @@ class ProfileScreen extends Component {
   handleUploadPOR = (e) => {
     e.preventDefault();
     const uploadData = new FormData();
-    uploadData.append("filetoupload", e.target.file_proof_of_res.value);
+    uploadData.append("filetoupload", e.target.file_proof_of_res.files[0]);
     uploadData.append("type", "residence");
 
     UploadService.uploadFile(uploadData).then((resp) => {
@@ -187,7 +187,7 @@ class ProfileScreen extends Component {
       if (resp.success === true) {
         M.toast({
           html: "Upload Successful",
-          classes: "green ",
+          classes: "green og98oj7t",
         });
 
         this.setState({ enablePORUpload: false });
@@ -203,11 +203,10 @@ class ProfileScreen extends Component {
     e.preventDefault();
     const uploadData = new FormData();
 
-    uploadData.append("filetoupload", e.target.file_back_scan.value);
+    uploadData.append("filetoupload", e.target.file_back_scan.files[0]);
     uploadData.append("type", "identity");
 
     UploadService.uploadFile(uploadData).then((resp) => {
-      console.log(resp);
       if (resp.success === true) {
         M.toast({
           html: "Upload Successful",
@@ -226,7 +225,7 @@ class ProfileScreen extends Component {
   handleUploadFrontScan = (e) => {
     e.preventDefault();
     const uploadData = new FormData();
-    uploadData.append("filetoupload", e.target.file_front_scan.value);
+    uploadData.append("filetoupload", e.target.file_front_scan.files[0]);
     uploadData.append("type", "identity");
 
     UploadService.uploadFile(uploadData).then((resp) => {

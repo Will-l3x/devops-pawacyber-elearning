@@ -10,6 +10,15 @@ import { AsyncStorage } from "AsyncStorage";
 import { AdminService } from "../../services/admin";
 // import SchoolOptions from "./SchoolOptions";
 var globalGrade = "1";
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
+    );
+  }
+}
 export default class RegistrationForm extends Component {
   constructor(props) {
     super(props);
@@ -185,11 +194,15 @@ export default class RegistrationForm extends Component {
             schoolid: "24",
           };
 
+          const referralId = event.target.referralId.value;
           localStorage.removeItem("studentData");
           localStorage.setItem("studentData", JSON.stringify(registerAdmin));
+          localStorage.removeItem("refferalId");
+          localStorage.setItem("refferalId", JSON.stringify(referralId));
 
           try {
             AsyncStorage.setItem("studentData", JSON.stringify(registerAdmin));
+            AsyncStorage.setItem("referralId", JSON.stringify(referralId));
             setTimeout(
               function () {
                 this.setState({ proceedToPay: true });
@@ -374,114 +387,144 @@ export default class RegistrationForm extends Component {
           data-focus="false"
           onSubmit={this.handleSubmit}
         >
-          <div className="row mt-1">
-            <div className="col s12 m5">
+          <div className="row">
+            <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="lastname"
-                  type="text"
-                  className="validate"
-                  name="lastname"
-                  required
-                ></input>
-                <label htmlFor="lastname">Surname *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="lastname" title="Lastname *" />
+                  <input
+                    id="lastname"
+                    type="text"
+                    className="validate"
+                    name="lastname"
+                    required
+                  ></input>
+                </fieldset>
               </div>
             </div>
             <div className="col s12 m4">
               <div className="input-field">
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="firstname" title="Firstname *" />
                 <input
                   id="firstname"
                   type="text"
                   className="validate"
                   name="firstname"
                   required
-                ></input>
-                <label htmlFor="firstname">First Name *</label>
+                ></input></fieldset>
               </div>
             </div>
-            <div className="col s12 m3">
-              <div className="input-field">
+            <div className="col s12 m4">
+              <div className="input-field"><fieldset className="form-group">
+                  <ReactFormLabel htmlFor="gender" title="Gender *" />
                 <select name="gender" onChange={this.handleTitleDropdownChange}>
                   <option value="1">Male</option>
                   <option value="2">Female</option>
-                </select>
-                <label htmlFor="gender">Gender * </label>
+                </select></fieldset>
               </div>
             </div>
           </div>
-          <div className="row mt-1">
-            <div className="col s12 m5">
-              <div className="input-field">
-                <input
-                  id="dob"
-                  type="date"
-                  className="validate"
-                  name="dob"
-                  required
-                />
-                <label htmlFor="dob">Date of Birth *</label>
-              </div>
-            </div>
-            <div className="col s12 m2">
-              <div className="input-field">
-                <select
-                  name="grade"
-                  defaultValue={this.state.grade}
-                  onChange={this.handleGradeDropdownChange}
-                  required
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                </select>
-                <label htmlFor="grade">Grade *</label>
-              </div>
-            </div>
-            <div className="col s12 m5">
-              <div className="input-field">
-                <input
-                  id="email"
-                  type="email"
-                  className="validate"
-                  name="email"
-                  required
-                ></input>
-                <label htmlFor="email">Email *</label>
-              </div>
-            </div>
-          </div>
-          <div className="row mt-1">
+          <div className="row">
             <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="password"
-                  type="password"
-                  className="validate"
-                  name="password"
-                  required
-                ></input>
-                <label htmlFor="password">Password *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="dob" title="Date of Birth*" />
+                  <input
+                    id="dob"
+                    type="date"
+                    className="validate"
+                    name="dob"
+                    required
+                  ></input>
+                </fieldset>
               </div>
             </div>
             <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="vpassword"
-                  type="password"
-                  className="validate"
-                  name="vpassword"
-                  required
-                ></input>
-                <label htmlFor="vpassword">Retype Password *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="grade" title="Grade *" />
+                  <select
+                    name="grade"
+                    defaultValue={this.state.grade}
+                    onChange={this.handleGradeDropdownChange}
+                    required
+                  >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                </fieldset>
+              </div>
+            </div>
+            <div className="col s12 m4">
+              <div className="input-field">
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="email" title="Email*" />
+                  <input
+                    id="email"
+                    type="email"
+                    className="validate"
+                    name="email"
+                    required
+                  ></input>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s12 m4">
+              <div className="input-field">
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="password" title="Password*" />
+                  <input
+                    id="password"
+                    type="password"
+                    className="validate"
+                    name="password"
+                    required
+                  ></input>
+                </fieldset>
+              </div>
+            </div>
+            <div className="col s12 m4">
+              <div className="input-field">
+                <fieldset className="form-group">
+                  <ReactFormLabel
+                    htmlFor="vpassword"
+                    title="Retype Password *"
+                  />
+                  <input
+                    className="validate"
+                    id="vpassword"
+                    type="password"
+                    className="validate"
+                    name="vpassword"
+                    required
+                  ></input>
+                </fieldset>
+              </div>
+            </div>
+            <div className="col s12 m4">
+              <div className="input-field">
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="referralId" title="Referred By*" />
+                  <input
+                    id="referralId"
+                    type="text"
+                    name="referralId"
+                    className="validate"
+                  ></input>
+                </fieldset>
               </div>
             </div>
           </div>
@@ -1157,7 +1200,7 @@ export default class RegistrationForm extends Component {
           data-focus="false"
           onSubmit={this.handlePayment}
         >
-          <div className="row mt-1">
+          <div className="row">
             <div className="col s12 m6">
               <div className="input-field">
                 <label
@@ -1188,7 +1231,7 @@ export default class RegistrationForm extends Component {
           <p style={{ textAlign: "center", color: "red" }}>
             {this.state.message}
           </p>
-          <div className="row mt-1">
+          <div className="row">
             {this.state.selectedsubs.map((sub, i) => (
               <div key={i} className="col" style={{ marginBottom: "20px" }}>
                 <div
