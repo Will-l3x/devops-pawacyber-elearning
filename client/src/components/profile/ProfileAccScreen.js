@@ -207,6 +207,7 @@ class ProfileScreen extends Component {
     uploadData.append("type", "identity");
 
     UploadService.uploadFile(uploadData).then((resp) => {
+       console.log(resp);
       if (resp.success === true) {
         M.toast({
           html: "Upload Successful",

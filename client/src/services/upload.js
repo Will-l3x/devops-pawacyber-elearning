@@ -104,6 +104,7 @@ async function uploadFile(data) {
   const token = await JSON.parse(localStorage.getItem("token"));
 
   try {
+    z;
     let res = await axios.put(
       `https://pawacyberschool.net/api/uploadfile`,
       data,
@@ -116,9 +117,10 @@ async function uploadFile(data) {
         },
       }
     );
-
+    console.log(res);
     return res.data;
   } catch (err) {
+    console.log(err)
     return err;
   }
 }
