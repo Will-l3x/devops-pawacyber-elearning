@@ -59,8 +59,8 @@ import RegisterAs from "./auth/RegisterAs";
 import RegisterTeacher from "./auth/RegisterTeacher";
 import RegisterLimitedTeacher from "./auth/RegisterLimitedTeacher";
 import RegisterPremiumTeacher from "./auth/RegisterPremiumTeacher";
-import RegisterPremiumTeacherVerify from "./auth/RegisterPremiumTeacherVerify";
-import RegisterLimitedTeacherVerify from "./auth/RegisterLimitedTeacherVerify";
+import TeacherRegistrationSuccess from "./auth/TeacherRegistrationSuccess";
+import ProfileAccScreen from "./components/profile/ProfileAccScreen";
 
 class App extends Component {
   componentDidMount() {
@@ -156,7 +156,13 @@ class App extends Component {
             path="/payment-confirmed"
             component={RegisterSuccessScreen}
           />
+          <Route
+            exact
+            path="/teacher-payment-confirmed"
+            component={TeacherRegistrationSuccess}
+          />
           <Route exact path="/canceled" component={RegistrationCanceled} />
+          <Route exact path="/payment-canceled" component={RegistrationCanceled} />
           <Route
             exact
             path="/payment-upgrade"
@@ -165,6 +171,7 @@ class App extends Component {
 
           <Route exact path="/login" component={LoginScreen} />
           <Route exact path="/profile" component={ProfileScreen} />
+          <Route exact path="/profile-acc" component={ProfileAccScreen} />
           <Route exact path="/all-students" component={Students} />
           <Route
             exact
@@ -178,18 +185,8 @@ class App extends Component {
           />
           <Route
             exact
-            path="/register-premium-access-teacher/account-verification"
-            component={RegisterPremiumTeacherVerify}
-          />
-          <Route
-            exact
             path="/register-limited-access-teacher"
             component={RegisterLimitedTeacher}
-          />
-          <Route
-            exact
-            path="/register-limited-access-teacher/account-verification"
-            component={RegisterLimitedTeacherVerify}
           />
           <Route exact path="/freereg" component={FreeRegister} />
           <Route

@@ -38,9 +38,10 @@ class RegisterTeacher extends Component {
                   <div
                     className="image-container"
                     style={{
-                      paddingLeft: "70px",
-                      paddingRight: "70px",
-                      paddingTop: "90px",
+                      paddingLeft: "10%",
+                      paddingRight: "10%",
+                      paddingTop: "20%",
+                      width: "100%",
                     }}
                   >
                     <img className="img-fluid" src={img} alt="alternative" />

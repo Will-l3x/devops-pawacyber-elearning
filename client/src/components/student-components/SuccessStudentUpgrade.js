@@ -119,41 +119,74 @@ class SuccessStudentUpgrade extends Component {
 
     render() {
         return (
-            <div>
-                <OuterHeader></OuterHeader>
-                <div className="content-pawa" >
-
-                    <div className="form-2" style={{ marginBottom: "-50px" }}>
-                        <div className="container" style={{ marginTop: "-100px" }}>
-                            <div className="row mt-1" >
-                                <div className="col s12 m5">
-                                    <div className="image-container" style={{ paddingLeft: "70px", paddingRight: "70px", paddingTop: "90px" }}>
-                                        <img className="img-fluid" src={img} alt="alternative" />
-                                    </div>
-                                </div>
-
-                                <div className="col s12 m5">
-                                    <div className="row mt-1" >
-                                        <div className="form-group">
-                                            <p style={{ marginTop: "100px", color: "#2196F3", textAlign: 'center', fontSize: '20px' }}>{this.state.message}</p>
-                                            {
-                                                this.state.proceed ?
-                                                    <Link className="btn-solid-lg" rel="noopener noreferrer" to="/student" style={{ marginLeft: "35%", marginTop: "100px", marginRight: "35%" }}>
-                                                        Return to portal
-                                                        </Link>
-                                                    :
-                                                    <div style={{ marginTop: "200px", }} class="loader-3 center"><span></span></div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+          <div>
+            <OuterHeader></OuterHeader>
+            <div className="content-pawa">
+              <div className="form-2" style={{ marginBottom: "-50px" }}>
+                <div className="container" style={{ marginTop: "-100px" }}>
+                  <div className="row mt-1">
+                    <div className="col s12 m5">
+                      <div
+                        className="image-container"
+                        style={{
+                          paddingLeft: "10%",
+                          paddingRight: "10%",
+                          paddingTop: "20%",
+                          width: "100%",
+                        }}
+                      >
+                        <img
+                          className="img-fluid"
+                          src={img}
+                          alt="alternative"
+                        />
+                      </div>
                     </div>
-                    <OuterFooter></OuterFooter>
+
+                    <div className="col s12 m5">
+                      <div className="row mt-1">
+                        <div className="form-group">
+                          <p
+                            style={{
+                              marginTop: "100px",
+                              color: "#2196F3",
+                              textAlign: "center",
+                              fontSize: "20px",
+                            }}
+                          >
+                            {this.state.message}
+                          </p>
+                          {this.state.proceed ? (
+                            <Link
+                              className="btn-solid-lg"
+                              rel="noopener noreferrer"
+                              to="/student"
+                              style={{
+                                marginLeft: "35%",
+                                marginTop: "100px",
+                                marginRight: "35%",
+                              }}
+                            >
+                              Return to portal
+                            </Link>
+                          ) : (
+                            <div
+                              style={{ marginTop: "200px" }}
+                              class="loader-3 center"
+                            >
+                              <span></span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <OuterFooter></OuterFooter>
             </div>
-        )
+          </div>
+        );
     }
 }
 

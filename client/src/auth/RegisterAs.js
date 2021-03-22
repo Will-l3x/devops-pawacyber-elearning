@@ -35,9 +35,10 @@ class RegisterAs extends Component {
                   <div
                     className="image-container"
                     style={{
-                      paddingLeft: "70px",
-                      paddingRight: "70px",
-                      paddingTop: "90px",
+                      paddingLeft: "10%",
+                      paddingRight: "10%",
+                      paddingTop: "20%",
+                      width: "100%",
                     }}
                   >
                     <img className="img-fluid" src={img} alt="alternative" />
@@ -53,7 +54,7 @@ class RegisterAs extends Component {
                         <Link to="try-free-student-account">
                           <p>
                             <b style={{ fontSize: "24px" }}>Student</b>
-                            <br /> <hr />
+                            <br /> 
                             Register account as a Student
                           </p>
                         </Link>
@@ -62,7 +63,7 @@ class RegisterAs extends Component {
                         <Link to="try-free-teacher-account">
                           <p>
                             <b style={{ fontSize: "24px" }}>Teacher</b>
-                            <br /> <hr />
+                            <br /> 
                             Register account as a Teacher
                           </p>
                         </Link>

@@ -225,20 +225,7 @@ class VideoPlayer extends Component {
 
           <div className="video-controls-2 gradient-45deg-semi-dark"></div>
         </div>
-        <div
-          className={`video-player ${
-            this.state.meeting_joined ? "display-none" : ""
-          }`}
-          style={{ height: 44 }}
-        >
-          <div
-            className="video-topbar-2 gradient-45deg-semi-dark modal-trigger"
-            data-target="join-meeting"
-          >
-            Join a Meeting
-          </div>
-        </div>
-        <div
+       <div
           className={`${
             this.state.meeting_joined
               ? "display-none"
@@ -259,7 +246,7 @@ class VideoPlayer extends Component {
             className="divider"
             style={{ marginTop: 30, marginBottom: 30 }}
           ></div>
-          <div className="row margin-0">
+          <div className="row padding-3">
             {this.state.meetings.length < 1 ? (
               <div className="row">
                 <p

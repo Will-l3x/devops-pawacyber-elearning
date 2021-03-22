@@ -85,17 +85,16 @@ class TeacherLink extends Component {
             <span className="nav-text">Promotions</span>
           </Link>
         </li>
-
-        {/* <li className="bold">
+        <li className="bold">
           <Link
-            to="/teacher-calendar"
+            to="/profile-acc"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick("teacher")}
+            onClick={() => this.dashClick("referrals")}
           >
-            <i className="material-icons">date_range</i>
-            <span className="nav-text">Calender</span>
+            <i className="material-icons">account_box</i>
+            <span className="nav-text">My Account</span>
           </Link>
-        </li> */}
+        </li>
       </ul>
     );
   }
