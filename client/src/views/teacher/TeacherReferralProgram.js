@@ -245,7 +245,7 @@ class TeacherReferralProgram extends Component {
                                 name="referralLink"
                                 className=""
                                 readOnly
-                                defaultValue={`http://www.pawacyberschool.net/#/register-new-account/${this.state.user.userid}`}
+                                defaultValue={`https://pawacyberschool.net/#/register-new-account/${this.state.user.userid}`}
                               />
                               <span
                                 style={{
