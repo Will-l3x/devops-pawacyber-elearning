@@ -13,7 +13,10 @@ class TeacherReferralProgram extends Component {
   constructor() {
     super();
     this.state = {
-      user: {},
+      user:
+        JSON.parse(localStorage.getItem("user")) === null
+          ? { roleid: 3 }
+          : JSON.parse(localStorage.getItem("user")),
       termsAgreed: false,
     };
   }
@@ -138,19 +141,19 @@ class TeacherReferralProgram extends Component {
     modal.open();
   };
   handleTermsAgreed = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     this.setState({ termsAgreed: true });
     const elem = document.getElementById("modal1");
     const modal = M.Modal.init(elem, { dismissible: false });
     modal.close();
   };
   copyContent = (event) => {
-    event.preventDefault(); 
-    navigator.clipboard.writeText(this.state.textToCopy);
-     M.toast({
-       html: "Copied to clipboard!",
-       classes: "green accent-3",
-     });
+    event.preventDefault();
+    navigator.clipboard.writeText(event.target.referralLink.defaultValue);
+    M.toast({
+      html: "Copied to clipboard!",
+      classes: "green accent-3",
+    });
   };
   render() {
     return (
@@ -226,32 +229,62 @@ class TeacherReferralProgram extends Component {
 
                     <div className="col s12" style={{ marginTop: 50 }}>
                       {this.state.termsAgreed ? (
-                        <div
-                          style={{ position: "relative" }}
-                          className="input-field"
-                        >
-                          <fieldset className="form-group">
-                            <input
-                              type="text"
-                              readonly="readonly"
-                              className=""
-                              value="http://www.pawacyberschool.net/referrals?refid=41c0a7d3"
-                            />
-                            <span
-                              style={{
-                                position: "absolute",
-                                top: 0,
-                                right: 0,
-                                zIndex: 5,
-                                display: "inline-block",
-                              }}
-                            >
-                              <a onClick={this.copyContent}>
-                                <i className="material-icons">content_copy</i>
-                              </a>
-                            </span>
-                          </fieldset>
-                        </div>
+                        <form onSubmit={this.copyContent}>
+                          <div
+                            style={{ position: "relative" }}
+                            className="input-field"
+                          >
+                            <fieldset className="form-group">
+                              <ReactFormLabel
+                                htmlFor="referralLink"
+                                title="Copy the link below:"
+                              />
+                              <input
+                                type="text"
+                                id="referralLink"
+                                name="referralLink"
+                                className=""
+                                readOnly
+                                defaultValue={`http://www.pawacyberschool.net/#/register-new-account/${this.state.user.userid}`}
+                              />
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  top: 0,
+                                  right: 0,
+                                  zIndex: 5,
+                                  display: "inline-block",
+                                }}
+                              >
+                                {" "}
+                                <button className="clipboard" type="submit">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="feather feather-clipboard"
+                                  >
+                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                    <rect
+                                      x="8"
+                                      y="2"
+                                      width="8"
+                                      height="4"
+                                      rx="1"
+                                      ry="1"
+                                    ></rect>
+                                  </svg>
+                                </button>
+                              </span>
+                            </fieldset>
+                          </div>
+                        </form>
                       ) : (
                         <div className="justify-center">
                           <button
@@ -959,6 +992,15 @@ class TeacherReferralProgram extends Component {
           <Footer />
         </footer>
       </div>
+    );
+  }
+}
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
     );
   }
 }

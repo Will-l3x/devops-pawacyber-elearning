@@ -194,7 +194,7 @@ export default class RegistrationForm extends Component {
             schoolid: "24",
           };
 
-          const referralId = event.target.referralId.value;
+          const referralId = this.props.referralId;
           localStorage.removeItem("studentData");
           localStorage.setItem("studentData", JSON.stringify(registerAdmin));
           localStorage.removeItem("refferalId");
@@ -406,22 +406,28 @@ export default class RegistrationForm extends Component {
               <div className="input-field">
                 <fieldset className="form-group">
                   <ReactFormLabel htmlFor="firstname" title="Firstname *" />
-                <input
-                  id="firstname"
-                  type="text"
-                  className="validate"
-                  name="firstname"
-                  required
-                ></input></fieldset>
+                  <input
+                    id="firstname"
+                    type="text"
+                    className="validate"
+                    name="firstname"
+                    required
+                  ></input>
+                </fieldset>
               </div>
             </div>
             <div className="col s12 m4">
-              <div className="input-field"><fieldset className="form-group">
+              <div className="input-field">
+                <fieldset className="form-group">
                   <ReactFormLabel htmlFor="gender" title="Gender *" />
-                <select name="gender" onChange={this.handleTitleDropdownChange}>
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
-                </select></fieldset>
+                  <select
+                    name="gender"
+                    onChange={this.handleTitleDropdownChange}
+                  >
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                  </select>
+                </fieldset>
               </div>
             </div>
           </div>
@@ -514,19 +520,7 @@ export default class RegistrationForm extends Component {
                 </fieldset>
               </div>
             </div>
-            <div className="col s12 m4">
-              <div className="input-field">
-                <fieldset className="form-group">
-                  <ReactFormLabel htmlFor="referralId" title="Referred By*" />
-                  <input
-                    id="referralId"
-                    type="text"
-                    name="referralId"
-                    className="validate"
-                  ></input>
-                </fieldset>
-              </div>
-            </div>
+            <div className="col s12 m4"></div>
           </div>
           <div className="form-group justify-center">
             <button

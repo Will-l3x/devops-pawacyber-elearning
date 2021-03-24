@@ -6,8 +6,6 @@ import img from "../assets/images/details-1-office-worker.svg";
 
 import RegistrationForm from '../components/student-components/RegistrationForms';
 import RegisterOnboardedSchool from '../components/student-components/RegisterOnboardedSchool';
-import FreeRegister from "../components/student-components/FreeStudent";
-import { HashLink as Link } from "react-router-hash-link";
 import { Redirect } from "react-router-dom";
 
 class RegisterScreen extends Component {
@@ -30,7 +28,11 @@ class RegisterScreen extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to="/register" />;
+            return (
+              <Redirect
+                to={`/register-new-account/${this.props.match.params.referralId}`}
+              />
+            );
           }
         return (
           <div style={{ backgroundColor: "white", height: "100vh" }}>
@@ -82,16 +84,19 @@ class RegisterScreen extends Component {
                             >
                               <p>
                                 <b style={{ fontSize: "24px" }}>NO</b>
-                                <br /> 
+                                <br />
                                 Register New Account
                               </p>
                             </div>
                           </div>
                         </div>
                       ) : !this.state.independentStudent ? (
-                        <RegisterOnboardedSchool></RegisterOnboardedSchool>
+                        <RegisterOnboardedSchool
+                          referralId={this.props.match.params.referralId}
+                          
+                        ></RegisterOnboardedSchool>
                       ) : (
-                        <RegistrationForm></RegistrationForm>
+                        <RegistrationForm referralId={this.props.match.params.referralId}></RegistrationForm>
                       )}
                     </div>
                   </div>

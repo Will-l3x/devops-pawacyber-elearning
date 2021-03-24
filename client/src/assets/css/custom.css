@@ -1403,3 +1403,7 @@ nav.modal-width-75 {
     color-stop(0.86, rgb(28, 58, 148))
   );
 }
+.clipboard{
+  transform: translateY(30px);
+  border-radius: 5px;
+}

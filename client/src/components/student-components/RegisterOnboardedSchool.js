@@ -183,7 +183,7 @@ export default class RegisterOnboardedSchool extends Component {
           schoolid: event.target.school.value,
         };
 
-        const referralId = event.target.referralId.value;
+        const referralId = this.props.referralId;
         var schoolGradeSubjects = {
           schoolid: event.target.school.value,
           gradeid: this.state.grade,
@@ -363,7 +363,7 @@ export default class RegisterOnboardedSchool extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/" />;
+      return <Redirect to="/login" />;
     }
 
     return !this.state.loading ? (
@@ -530,21 +530,7 @@ export default class RegisterOnboardedSchool extends Component {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col s12 m6">
-              <div className="input-field">
-                <fieldset className="form-group">
-                  <ReactFormLabel htmlFor="referralId" title="Referred By*" />
-                  <input
-                    id="referralId"
-                    type="text"
-                    name="referralId"
-                    className="validate"
-                  ></input>
-                </fieldset>
-              </div>
-            </div>
-          </div>
+        
           <p style={{ textAlign: "center", color: "red" }}>
             {this.state.message}
           </p>

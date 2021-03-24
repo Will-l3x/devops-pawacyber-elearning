@@ -59,15 +59,7 @@ async function download(data) {
 
 async function deleteResource(data) {
   const token = await JSON.parse(localStorage.getItem("token"));
-  var config = {
-    baseURL: "https://pawacyberschool.net/api/student",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
-      "Access-Control-Allow-Credentials": true,
-    },
-  };
+
   try {
     let res = await axios.delete(
       `https://pawacyberschool.net/api/upload/delete`,

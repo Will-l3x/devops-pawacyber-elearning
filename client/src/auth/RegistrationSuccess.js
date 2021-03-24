@@ -52,7 +52,7 @@ class RegisterSuccessScreen extends Component {
         setTimeout(
           function () {
             thiz.register(JSON.parse(registrationDetails, referralId));
-          }.bind(this),
+          },
           1000
         );
       }
@@ -96,7 +96,7 @@ class RegisterSuccessScreen extends Component {
           function () {
             console.log(response.accountid);
             thiz.subscribe(response.accountid);
-          }.bind(this),
+          },
           3000
         );
       }
@@ -137,7 +137,7 @@ class RegisterSuccessScreen extends Component {
         setTimeout(
           function () {
             thiz.enrol(userid);
-          }.bind(this),
+          },
           1000
         );
       }

@@ -1,26 +1,48 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import OuterHeader from "../components/outerHeader";
-import OuterFooter from "../components/outerFooter";
-import img from "../assets/images/details-1-office-worker.svg";
+import { PaymentService } from "../../services/paymentService";
+import OuterHeader from "../outerHeader";
+import OuterFooter from "../outerFooter";
+import img from "../../assets/images/details-1-office-worker.svg";
 import $ from "jquery";
 import M from "materialize-css";
-import "../assets/css/terms.css";
-import { Link } from "react-router-dom";
+import "../../assets/css/terms.css";
+import { Redirect } from "react-router-dom";
+import PackageOptions from "./PackageOption";
+import SubcribeClassOptions from "./SubcribeClassOptions";
 import { AsyncStorage } from "AsyncStorage";
-import InputMask from "react-input-mask";
-import { AuthService } from "../services/authServices";
+import { AdminService } from "../../services/admin";
+// import SchoolOptions from "./SchoolOptions";
+var globalGrade = "1";
 
-class RegisterLimitedTeacher extends Component {
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
+    );
+  }
+}
+class FreeStudentAcc extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedOption: null,
+      selectedSchool: "24",
       title: "",
+      grade: globalGrade,
       gender: "1",
+      redirect: false,
+      proceedToPay: false,
       loading: false,
+      numberOfsubs: 0,
+      selectedsubs: [],
+      defaultSubs: [],
       message: "",
     };
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
+    this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
   }
 
   componentDidMount() {
@@ -142,45 +164,62 @@ class RegisterLimitedTeacher extends Component {
     this.setState({ gender: event.target.value });
   }
 
+  handleGradeDropdownChange(event) {
+    globalGrade = event.target.value;
+    this.setState({ grade: globalGrade });
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    const thiz = this;
+
     const mediumRegex = new RegExp(
       "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
     );
 
     if (event.target.vpassword.value === event.target.password.value) {
       if (mediumRegex.test(event.target.password.value)) {
-        var registerAdmin = {
-          roleid: 3,
-          email: event.target.email.value,
-          password: event.target.password.value,
-          //phone_number: event.target.phone_number.value,
-          firstname: event.target.firstname.value,
-          lastname: event.target.lastname.value,
-          title: this.state.gender === "1" ? "Mr" : "Miss",
-          vpassword: event.target.vpassword.value,
-          dob: event.target.dob.value,
-          genderid: this.state.gender,
-          schoolid: "37",
-        };
-        const referralId = this.props.match.params.referralId;
-        localStorage.removeItem("teacherRegData");
-        localStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
+        if (this.state.selectedSchool === null) {
+          alert("Please refresh page and select a school");
+          return false;
+        } else if (this.state.selectedSchool === undefined) {
+          alert("Please refresh page and select a school");
+          return false;
+        } else {
+          var registerAdmin = {
+            roleid: 3,
+            email: event.target.email.value,
+            password: event.target.password.value,
+            gradeid: globalGrade,
+            firstname: event.target.firstname.value,
+            lastname: event.target.lastname.value,
+            title: this.state.gender === "1" ? "Mr" : "Miss",
+            vpassword: event.target.vpassword.value,
+            dob: event.target.dob.value,
+            genderid: this.state.gender,
+            schoolid: "24",
+          };
 
-        try {
-          AsyncStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
-          setTimeout(
-            function () {
-              thiz.register(registerAdmin, referralId);
-            }.bind(this),
-            300
-          );
-        } catch (error) {
-          M.toast({
-            html: "Failed to save data",
-            classes: "red accent-2",
-          });
+          const referralId = this.props.match.params.referralId;
+          localStorage.removeItem("studentData");
+          localStorage.setItem("studentData", JSON.stringify(registerAdmin));
+          localStorage.removeItem("refferalId");
+          localStorage.setItem("refferalId", JSON.stringify(referralId));
+
+          try {
+            AsyncStorage.setItem("studentData", JSON.stringify(referralId));
+            AsyncStorage.setItem("referralId", JSON.stringify(referralId));
+            setTimeout(
+              function () {
+                this.setState({ proceedToPay: true });
+              }.bind(this),
+              300
+            );
+          } catch (error) {
+            M.toast({
+              html: "Failed to save data",
+              classes: "red accent-2",
+            });
+          }
         }
       } else {
         M.toast({
@@ -197,42 +236,153 @@ class RegisterLimitedTeacher extends Component {
     }
   };
 
-  register(registrationData, referralId) {
-    AuthService.register(registrationData, referralId).then((response) => {
+  handlePayment = (event) => {
+    event.preventDefault();
+    this.setState({ loading: true });
+
+    var det = JSON.parse(localStorage.getItem("studentData"));
+
+    var paymentDetails = {
+      paymentAmount: parseFloat(this.state.selectedOption.price),
+      customerEmail: det.email,
+      customerFirstName: det.firstname,
+      customerLastName: det.lastname,
+      serviceDescription: this.state.selectedOption.subscriptionname,
+      //routeSuccessLink: "http://localhost:3000/#/payment-confirmed",
+      routeSuccessLink: "https://pawacyberschool.net/#/payment-confirmed",
+    };
+
+    localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+
+    try {
+      AsyncStorage.setItem(
+        "selectedPackage",
+        JSON.stringify(this.state.selectedOption)
+      );
+      AsyncStorage.setItem(
+        "selectedSubjects",
+        JSON.stringify(this.state.selectedsubs)
+      );
+      AsyncStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+    } catch (error) {
+      M.toast({
+        html: "Failed to save subjects data",
+        classes: "red accent-2",
+      });
+    }
+
+    PaymentService.createToken(paymentDetails).then((response) => {
       if (response === undefined) {
         M.toast({
-          html: "Registration Failed: Please contact system adminstrator.",
+          html: "Creating Account Failed",
           classes: "red accent-2",
-        });
-        this.setState({
-          message: "Oopss Registation Failed. Contact admin",
-          loading: false,
         });
       } else if (response.success === false) {
         M.toast({
           html: response.message,
-          classes: "red accent-2",
-        });
-
-        this.setState({
-          message: response.message,
-          loading: false,
+          classes: "red",
         });
       } else {
         M.toast({
-          html: "Registration successfull",
-          classes: "green accent-3",
+          html: "Your Free Account Is Being Created Right Now",
+          classes: "green",
         });
+        // window.open(`https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`,'_blank');
+        document.getElementById("contact").reset();
+        this.setState({ redirect: true });
+        //window.location.href = ` http://localhost:3000/#/payment-confirmed`;
+        window.location.href = ` https://pawacyberschool.net/#/payment-confirmed`;
+      }
+    });
+  };
 
+  remove(element) {
+    const index = this.state.selectedsubs.indexOf(element);
+    this.state.selectedsubs.splice(index, 1);
+  }
+
+  removeSub(classId) {
+    var selectedsubs = $.grep(this.state.selectedsubs, function (e) {
+      return e.classId != classId;
+    });
+    this.setState({ selectedsubs, message: "" });
+  }
+
+  getClass() {
+    var gradeStore = JSON.parse(localStorage.getItem("studentData"));
+    var data = {
+      gradeid: gradeStore.gradeid,
+      schoolid: gradeStore.schoolid,
+    };
+    const defaultSubs = [],
+      del_options = [];
+    AdminService.findClassesForSchoolGrade(data)
+      .then((response) => {
+        for (const classOpt of response.data.subjects) {
+          if (classOpt.status === "deleted") {
+            del_options.push(classOpt);
+          } else {
+            classOpt.value = classOpt.classId;
+            classOpt.label = classOpt.classname;
+            defaultSubs.push(classOpt);
+          }
+        }
+        this.setState({ defaultSubs, selectedsubs: defaultSubs });
+      })
+      .catch((error) => {
+        console.log(error);
+        defaultSubs = [];
+      });
+  }
+
+  onSelectOption = (selectedOption) => {
+    this.setState({ selectedOption, selectedsubs: [] }, () => {
+      if (
+        selectedOption.subscriptionId === 1 ||
+        selectedOption.subscriptionId === 2
+      ) {
+        this.getClass();
+      } else {
         this.setState({
-          message: "Account set!",
-          loading: true,
+          numberOfsubs: selectedOption.subjects,
+          message: "",
+          loading: false,
         });
       }
     });
-  }
+  };
+
+  onSelectClassOption = (selectedOption) => {
+    if (this.state.selectedsubs.length === 0) {
+      this.setState({
+        message: "you need to select at least one subject",
+      });
+    }
+    if (this.state.selectedsubs.length === this.state.numberOfsubs) {
+      this.setState({
+        message:
+          "You have selected the maximum number of subjects for you package",
+      });
+    } else {
+      if (this.state.selectedsubs.includes(selectedOption)) {
+        this.setState({
+          message: "Suject Already Selected",
+        });
+      } else {
+        var valSubs = this.state.selectedsubs.concat(selectedOption);
+        this.setState({
+          selectedsubs: valSubs,
+          message: "",
+        });
+      }
+    }
+    console.log(this.state.selectedsubs);
+  };
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/login" />;
+    }
     return (
       <div style={{ backgroundColor: "white", height: "100vh" }}>
         <OuterHeader></OuterHeader>
@@ -257,182 +407,190 @@ class RegisterLimitedTeacher extends Component {
                 </div>
 
                 <div className="col s12 m7">
-                  {!this.state.loading ? (
-                    <form
-                      id="contact"
-                      data-toggle="validator"
-                      data-focus="false"
-                      onSubmit={this.handleSubmit}
-                    >
-                      <div className="col s12 m12">
-                        <div className="ex-basic-1">
-                          <h5>ACCOUNT INFORMATION</h5>
+                  {!this.state.proceedToPay ? (
+                    <div className="col s12 m12">
+                      <div className="ex-basic-1">
+                        <h5>CREATE FREE STUDENT ACCOUNT</h5>
+                      </div>
+                      <form
+                        id="contact"
+                        data-toggle="validator"
+                        data-focus="false"
+                        onSubmit={this.handleSubmit}
+                      >
+                        <div className="row">
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="lastname"
+                                  title="Lastname *"
+                                />
+                                <input
+                                  id="lastname"
+                                  type="text"
+                                  className="validate"
+                                  name="lastname"
+                                  required
+                                ></input>
+                              </fieldset>
+                            </div>
+                          </div>
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="firstname"
+                                  title="Firstname *"
+                                />
+                                <input
+                                  id="firstname"
+                                  type="text"
+                                  className="validate"
+                                  name="firstname"
+                                  required
+                                ></input>
+                              </fieldset>
+                            </div>
+                          </div>
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="gender"
+                                  title="Gender *"
+                                />
+                                <select
+                                  name="gender"
+                                  onChange={this.handleTitleDropdownChange}
+                                >
+                                  <option value="1">Male</option>
+                                  <option value="2">Female</option>
+                                </select>
+                              </fieldset>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <div className="row">
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="lastname"
-                                    title="Last Name *"
-                                  />
-                                  <input
-                                    id="lastname"
-                                    type="text"
-                                    className="validate"
-                                    name="lastname"
-                                    required
-                                  ></input>
-                                </fieldset>
-                              </div>
-                            </div>
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="firstname"
-                                    title="First Name *"
-                                  />
-                                  <input
-                                    id="firstname"
-                                    type="text"
-                                    className="validate"
-                                    name="firstname"
-                                    required
-                                  ></input>
-                                </fieldset>
-                              </div>
-                            </div>
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="gender"
-                                    title="Gender *"
-                                  />
-                                  <select
-                                    name="gender"
-                                    onChange={this.handleTitleDropdownChange}
-                                  >
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                  </select>
-                                </fieldset>
-                              </div>
+                        <div className="row">
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="dob"
+                                  title="Date of Birth*"
+                                />
+                                <input
+                                  id="dob"
+                                  type="date"
+                                  className="validate"
+                                  name="dob"
+                                  required
+                                ></input>
+                              </fieldset>
                             </div>
                           </div>
-                          <div className="row">
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="dob"
-                                    title="Date of Birth *"
-                                  />
-                                  <input
-                                    id="dob"
-                                    type="date"
-                                    className="validate"
-                                    name="dob"
-                                    required
-                                  />
-                                </fieldset>
-                              </div>
-                            </div>
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="email"
-                                    title="Email *"
-                                  />
-                                  <input
-                                    id="email"
-                                    type="email"
-                                    className="validate"
-                                    name="email"
-                                    required
-                                  ></input>
-                                </fieldset>
-                              </div>
-                            </div>
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="phone_number"
-                                    title="Phone Number *"
-                                  />
-                                  <InputMask
-                                    id="phone_number"
-                                    type="text"
-                                    className="validate"
-                                    name="phone_number"
-                                    required
-                                    mask="+264\ 99 999 9999"
-                                    maskChar=" "
-                                  />
-                                </fieldset>
-                              </div>
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="grade"
+                                  title="Grade *"
+                                />
+                                <select
+                                  name="grade"
+                                  defaultValue={this.state.grade}
+                                  onChange={this.handleGradeDropdownChange}
+                                  required
+                                >
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  <option value="6">6</option>
+                                  <option value="7">7</option>
+                                  <option value="8">8</option>
+                                  <option value="9">9</option>
+                                  <option value="10">10</option>
+                                  <option value="11">11</option>
+                                  <option value="12">12</option>
+                                </select>
+                              </fieldset>
                             </div>
                           </div>
-                          <div className="row">
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="password"
-                                    title="Password *"
-                                  />
-                                  <input
-                                    id="password"
-                                    type="password"
-                                    className="validate"
-                                    name="password"
-                                    required
-                                  ></input>
-                                </fieldset>
-                              </div>
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="email"
+                                  title="Email*"
+                                />
+                                <input
+                                  id="email"
+                                  type="email"
+                                  className="validate"
+                                  name="email"
+                                  required
+                                ></input>
+                              </fieldset>
                             </div>
-                            <div className="col s12 m4">
-                              <div className="input-field">
-                                <fieldset className="form-group">
-                                  <ReactFormLabel
-                                    htmlFor="vpassword"
-                                    title="Retype Password *"
-                                  />
-                                  <input
-                                    id="vpassword"
-                                    type="password"
-                                    className="validate"
-                                    name="vpassword"
-                                    required
-                                  ></input>
-                                </fieldset>
-                              </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="password"
+                                  title="Password*"
+                                />
+                                <input
+                                  id="password"
+                                  type="password"
+                                  className="validate"
+                                  name="password"
+                                  required
+                                ></input>
+                              </fieldset>
                             </div>
-
-                            <div className="col s12 m4"></div>
                           </div>
-                          <div className="form-group justify-center">
-                            <button
-                              data-target="modal1"
-                              className="form-control-submit-button modal-trigger"
-                            >
-                              Proceed
-                            </button>
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="vpassword"
+                                  title="Retype Password *"
+                                />
+                                <input
+                                  className="validate"
+                                  id="vpassword"
+                                  type="password"
+                                  className="validate"
+                                  name="vpassword"
+                                  required
+                                ></input>
+                              </fieldset>
+                            </div>
                           </div>
-                          <div className="form-message">
-                            <div
-                              id="cmsgSubmit"
-                              className="h3 text-center hidden"
-                            ></div>
-                          </div>
+                          <div className="col s12 m4"></div>
+                        </div>
+                        <div className="form-group justify-center">
+                          <button
+                            data-target="modal1"
+                            className="form-control-submit-button modal-trigger"
+                          >
+                            PROCEED TO SUBCRIPTION PLAN
+                          </button>
+                        </div>
+                        <div className="form-message">
+                          <div
+                            id="cmsgSubmit"
+                            className="h3 text-center hidden"
+                          ></div>
                         </div>
                         <div
                           id="modal1"
-                          className="modal overflow-y-visibile legal__modal padding-1"
+                          className="modal padding-1 overflow-y-visibile legal__modal"
                         >
                           <div className="container">
                             <div className="row">
@@ -1231,36 +1389,107 @@ class RegisterLimitedTeacher extends Component {
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </form>
+                      </form>
+                    </div>
                   ) : (
-                    <div className="col s12 m5">
-                      <div className="row mt-1">
-                        <div className="form-group">
-                          <p
-                            style={{
-                              marginTop: "100px",
-                              color: "#2196F3",
-                              textAlign: "center",
-                              fontSize: "20px",
-                            }}
-                          >
-                            {this.state.message}
-                          </p>
-                          <Link
-                            className="btn-solid-lg"
-                            rel="noopener noreferrer"
-                            to="/login"
-                            style={{
-                              marginLeft: "35%",
-                              marginTop: "100px",
-                              marginRight: "35%",
-                            }}
-                          >
-                            Login
-                          </Link>
-                        </div>
+                    <div className="col s12 m10">
+                      <div className="ex-basic-1">
+                        <h4>Subscription Options</h4>
                       </div>
+                      <form
+                        id="contact"
+                        data-toggle="validator"
+                        data-focus="false"
+                        onSubmit={this.handlePayment}
+                      >
+                        <div className="row">
+                          <div className="col s12 m6">
+                            <div className="input-field">
+                              <label
+                                style={{
+                                  transform: "translateY(-15px)",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                Subscription Package*
+                              </label>
+                              <PackageOptions
+                                onSelectOption={this.onSelectOption}
+                                required
+                              />
+                              <div className="my-divider"></div>
+                            </div>
+                          </div>
+
+                          <div className="col s12 m6">
+                            <div className="input-field">
+                              <label
+                                style={{
+                                  transform: "translateY(-15px)",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                Subjects *
+                              </label>
+                              <SubcribeClassOptions
+                                onSelectOption={this.onSelectClassOption}
+                                required
+                              />
+                              <div className="my-divider"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <p style={{ textAlign: "center", color: "red" }}>
+                          {this.state.message}
+                        </p>
+                        <div className="row">
+                          {this.state.selectedsubs.map((sub, i) => (
+                            <div
+                              key={i}
+                              className="col"
+                              style={{ marginBottom: "20px" }}
+                            >
+                              <div
+                                key={i}
+                                style={{
+                                  border: "solid",
+                                  padding: "5px",
+                                  borderRadius: "10px",
+                                  borderColor: "#2196F3",
+                                  textAlign: "center",
+                                }}
+                              >
+                                <span>
+                                  {sub.classname}
+                                  <i
+                                    className="material-icons cursor-pointer right small remove-subs"
+                                    onClick={() => {
+                                      this.removeSub(sub.classId);
+                                    }}
+                                  >
+                                    clear
+                                  </i>
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="form-group">
+                          {!this.state.loading ? (
+                            <button
+                              type="submit"
+                              className="form-control-submit-button"
+                            >
+                              Get Free Account
+                            </button>
+                          ) : (
+                            <div className="loader-3 center">
+                              <span></span>
+                            </div>
+                          )}
+                        </div>
+                      </form>
                     </div>
                   )}
                 </div>
@@ -1273,22 +1502,8 @@ class RegisterLimitedTeacher extends Component {
     );
   }
 }
-
-class ReactFormLabel extends React.Component {
-  render() {
-    return (
-      <label className="label-meeting" htmlFor={this.props.htmlFor}>
-        {this.props.title}
-      </label>
-    );
-  }
-}
-
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RegisterLimitedTeacher);
+export default connect(mapStateToProps, mapDispatchToProps)(FreeStudentAcc);

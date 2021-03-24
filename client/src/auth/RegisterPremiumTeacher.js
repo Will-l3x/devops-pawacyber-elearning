@@ -176,7 +176,7 @@ class RegisterPremiumTeacher extends Component {
           schoolid: "37",
           grade: "1",
         };
-        const referralId = event.target.referralId.value;
+        const referralId = this.props.match.params.referralId;
         localStorage.removeItem("teacherRegData");
         localStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
         localStorage.removeItem("refferalId");
@@ -435,22 +435,7 @@ class RegisterPremiumTeacher extends Component {
                             </div>
                           </div>
 
-                          <div className="col s12 m4">
-                            <div className="input-field">
-                              <fieldset className="form-group">
-                                <ReactFormLabel
-                                  htmlFor="referralId"
-                                  title="Referred By*"
-                                />
-                                <input
-                                  id="referralId"
-                                  type="text"
-                                  name="referralId"
-                                  className="validate"
-                                ></input>
-                              </fieldset>
-                            </div>
-                          </div>
+                          <div className="col s12 m4"> </div>
                         </div>
                         <div className="form-group justify-center">
                           <button className="form-control-submit-button">

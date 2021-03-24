@@ -54,7 +54,7 @@ class OuterHeader extends Component {
             <div
               className="sign-in justify-center z-depth-5"
             >
-              <Link className="nav-link" to="/register-as">
+              <Link className="nav-link" to="/register-new-account/no-referrer">
                 Register
               </Link>
             </div>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import $ from "jquery";
-import carousel1 from "../../assets/images/conference/live-chat.svg";
 import M from "materialize-css";
 import moment from "moment";
 import avatar from "../../assets/images/gallary/not_found.gif";

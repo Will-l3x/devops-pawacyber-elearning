@@ -65,8 +65,8 @@ class UploadMaterial extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    var uploadCount = 0;
-    var targetLength = event.target.fileUpload.files.length;
+    let uploadCount = 0;
+    let targetLength = event.target.fileUpload.files.length;
 
     M.toast({
       html: "Resource upload in progress",

@@ -51,19 +51,19 @@ class RegisterAs extends Component {
                     </div>
                     <div className="choices">
                       <div className="optioncircle gradient-45deg-light-blue-cyan">
-                        <Link to="try-free-student-account">
+                        <Link to={`/try-free-student-account/${this.props.match.params.referralId}`}>
                           <p>
                             <b style={{ fontSize: "24px" }}>Student</b>
-                            <br /> 
+                            <br />
                             Register account as a Student
                           </p>
                         </Link>
                       </div>
                       <div className="optioncircle gradient-45deg-light-blue-cyan">
-                        <Link to="try-free-teacher-account">
+                        <Link to={`/try-free-teacher-account/${this.props.match.params.referralId}`}>
                           <p>
                             <b style={{ fontSize: "24px" }}>Teacher</b>
-                            <br /> 
+                            <br />
                             Register account as a Teacher
                           </p>
                         </Link>
