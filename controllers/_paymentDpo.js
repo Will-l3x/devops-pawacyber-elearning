@@ -13,7 +13,8 @@ let createToken = (req, res) => {
   let customerLastName = req.body.customerLastName;
   let serviceDescription = req.body.serviceDescription;
   let routeSuccessLink = req.body.routeSuccessLink
-  let serviceDate = moment().format("YYYY/MM/DD HH:MM");
+    let serviceDate = moment().format("YYYY/MM/DD HH:MM");
+    let userid = req.body.customerid;
 
   var xmlRequestBody = `
   <?xml version="1.0" encoding="utf-8"?>
@@ -56,20 +57,108 @@ let createToken = (req, res) => {
           if (dpoRes.tokenResult.API3G.Result[0] === "000") {
               console.log('Transaction Verification :: ' + moment().format("YYYY/MM/DD HH:MM") + '------->> Token Created: ' + dpoRes.tokenResult.API3G.TransToken[0]);
 
-              //get referee email
-              //get referer
-              //add to balance
-              //add to transactions
+              ///////////////////////////////
+               //when adding multiple commission types in the future , 
+            //you might want to link every referal in the referal table to a commision id 
+            //to make sure no isssues arise. 
+            //NB*****this setup only works if there is one commission type in the system. 
+             
+              var refered = [];
+              var commission = [];
+              var amount = paymentAmount;
+
+              var query = "select * from [referals] where ReferedUser=@id ";
+              var request = new sql.Request();
+
+              request
+                  .input("id", userid)
+                  .query(query, function (err, recordset) {
+
+                      if (err) {
+                          console.log(err);
+                          console.log(err.stack);
+                          return res.json({
+                              status: 500,
+                              success: false,
+                              message: "An error occured",
+                              error: err.message
+                          });
+                      } else {
+                          refered = recordset.recordset[0];
+
+                          var { ReferedBy } = refered;
+
+                          var type = "referal";
+                          var query = "select * from [commissions] where Type=@type ";
+
+                          request
+                              .input("type", type)
+                              .query(query, function (err, recordset) {
+
+                                  if (err) {
+                                      console.log(err);
+                                      console.log(err.stack);
+                                      return res.json({
+                                          status: 500,
+                                          success: false,
+                                          message: "An error occured",
+                                          error: err.message
+                                      });
+                                  } else {
+                                      commission = recordset.recordset[0];
+                                      console.log(commission);
+
+                                      var { Percent } = commission;
+
+                                      var comm = (amount / 115) * Percent;
+
+                                      console.log(comm);
+
+                                      var query = "UPDATE users SET referalBalance=@comm + referalBalance Where userId = @userid ";
+
+                                      request
+                                          .input("comm", comm)
+                                          .input("userid", ReferedBy)
+                                          .query(query, function (err, recordset) {
+
+                                              if (err) {
+                                                  console.log(err);
+                                                  console.log(err.stack);
+                                                  return res.json({
+                                                      status: 200,
+                                                      success: true,
+                                                      message:"Transaction successfull, but failed to pay commission",
+                                                      data: {
+                                                          transactionToken: dpoRes.tokenResult.API3G.TransToken[0],
+                                                          message: dpoRes.tokenResult.API3G.ResultExplanation[0]
+                                                      }
+                                                  });
+                                              } else {
+
+                                                  return res.json({
+                                                      status: 200,
+                                                      success: true,
+                                                      data: {
+                                                          transactionToken: dpoRes.tokenResult.API3G.TransToken[0],
+                                                          message: dpoRes.tokenResult.API3G.ResultExplanation[0]
+                                                      }
+                                                  });
+
+                                              }
+                                          });
+
+                                  }
+                              });
+
+                      }
+                  });
 
 
-            return res.json({
-              status: 200,
-              success: true,
-              data: {
-                transactionToken: dpoRes.tokenResult.API3G.TransToken[0],
-                message: dpoRes.tokenResult.API3G.ResultExplanation[0]
-              }
-            });
+
+              ///////////////////////////////
+
+
+         
           } else {
             console.log('_Payment Token Creation :: ' + moment().format("YYYY/MM/DD HH:MM") + ' -------->> Failed to Create Token. Code: ' + dpoRes.tokenResult.API3G.Result[0] + '. Reason:' + dpoRes.tokenResult.API3G.ResultExplanation[0]+'\n\n');
             return res.json({
