@@ -373,14 +373,12 @@ class ProfileScreen extends Component {
                             />
                           </fieldset>
                         </div>
-
                         <div className="col s12">
                           <fieldset className="form-group">
                             <ReactFormLabel
                               htmlFor="address"
                               title="Address:"
                             />
-
                             <textarea
                               id="address"
                               name="address"

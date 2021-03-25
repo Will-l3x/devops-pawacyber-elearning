@@ -35,9 +35,10 @@ class RegisterAs extends Component {
                   <div
                     className="image-container"
                     style={{
-                      paddingLeft: "70px",
-                      paddingRight: "70px",
-                      paddingTop: "90px",
+                      paddingLeft: "10%",
+                      paddingRight: "10%",
+                      paddingTop: "20%",
+                      width: "100%",
                     }}
                   >
                     <img className="img-fluid" src={img} alt="alternative" />
@@ -50,19 +51,19 @@ class RegisterAs extends Component {
                     </div>
                     <div className="choices">
                       <div className="optioncircle gradient-45deg-light-blue-cyan">
-                        <Link to="try-free-student-account">
+                        <Link to={`/try-free-student-account/${this.props.match.params.referralId}`}>
                           <p>
                             <b style={{ fontSize: "24px" }}>Student</b>
-                            <br /> <hr />
+                            <br />
                             Register account as a Student
                           </p>
                         </Link>
                       </div>
                       <div className="optioncircle gradient-45deg-light-blue-cyan">
-                        <Link to="try-free-teacher-account">
+                        <Link to={`/try-free-teacher-account/${this.props.match.params.referralId}`}>
                           <p>
                             <b style={{ fontSize: "24px" }}>Teacher</b>
-                            <br /> <hr />
+                            <br />
                             Register account as a Teacher
                           </p>
                         </Link>

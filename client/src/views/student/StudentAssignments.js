@@ -8,8 +8,6 @@ import M from "materialize-css";
 import Header from "../../components/header";
 
 import { StudentService } from "../../services/student";
-import { TeacherService } from "../../services/teacher";
-import { isEmpty } from "lodash";
 import { UploadService } from "../../services/upload";
 
 class StudentAssignments extends Component {

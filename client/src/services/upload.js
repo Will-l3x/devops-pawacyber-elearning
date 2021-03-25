@@ -1,15 +1,13 @@
 import axios from "axios";
 const qs = require("qs");
 
-
-
-
-
 export const UploadService = {
   upload,
+  uploadFile,
+  verifyDoc,
   post_material,
   add_tag,
-  link_tags
+  link_tags,
 };
 
 async function link_tags(data) {
@@ -30,7 +28,6 @@ async function link_tags(data) {
     return err;
   }
 }
-
 
 async function post_material(data) {
   const token = await JSON.parse(localStorage.getItem("token"));
@@ -54,15 +51,6 @@ async function post_material(data) {
 
 async function upload(data) {
   const token = await JSON.parse(localStorage.getItem("token"));
-  var config = {
-    baseURL: "https://pawacyberschool.net/api/teacher",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
-      "Access-Control-Allow-Credentials": true,
-    },
-  };
   try {
     let res = await axios.post(
       `https://pawacyberschool.net/api/upload/new`,
@@ -79,7 +67,51 @@ async function upload(data) {
   } catch (err) {
     console.error(err);
     return err;
-    return [];
+  }
+}
+
+async function verifyDoc(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  try {
+    let res = await axios.put(
+      `https://pawacyberschool.net/api/verifydoc`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+          "Access-Control-Allow-Credentials": true,
+        },
+      }
+    );
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+}
+async function uploadFile(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+
+  try {
+    
+    let res = await axios.put(
+      `https://pawacyberschool.net/api/uploadfile`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+          "Access-Control-Allow-Credentials": true,
+        },
+      }
+    );
+    console.log(res);
+    return res.data;
+  } catch (err) {
+    console.log(err)
+    return err;
   }
 }
 
@@ -101,5 +133,3 @@ async function add_tag(data) {
     console.log(err);
   }
 }
-
-

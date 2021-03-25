@@ -190,7 +190,7 @@ class LoginScreen extends Component {
                         className="form-group"
                         style={{ textAlign: "center", fontStyle: "italic" }}
                       >
-                        <Link to="/register-as">
+                        <Link to="/register-new-account/no-referrer">
                           Don't have account? Register Now
                         </Link>
                       </div>

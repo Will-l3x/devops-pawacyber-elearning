@@ -3,10 +3,19 @@ import $ from "jquery";
 import M from "materialize-css";
 import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
-import { AdminService } from '../../services/admin';
-import { AuthService } from '../../services/authServices';
+import { AdminService } from "../../services/admin";
+import { AuthService } from "../../services/authServices";
 import { HashLink as Link } from "react-router-hash-link";
 
+class ReactFormLabel extends React.Component {
+  render() {
+    return (
+      <label className="label-meeting" htmlFor={this.props.htmlFor}>
+        {this.props.title}
+      </label>
+    );
+  }
+}
 export default class RegisterOnboardedSchool extends Component {
   constructor(props) {
     super(props);
@@ -18,14 +27,13 @@ export default class RegisterOnboardedSchool extends Component {
       selectedsubs: [],
       message: "",
       loading: false,
-      proceed: false
+      proceed: false,
     };
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
     this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
   }
   // findClassesForSchoolGrade
   componentDidMount() {
-
     M.AutoInit();
     function legalTerms() {
       var totalLegalRules = $(".legal__rule").length;
@@ -151,110 +159,127 @@ export default class RegisterOnboardedSchool extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+    const mediumRegex = new RegExp(
+      "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
+    );
 
     if (event.target.vpassword.value === event.target.password.value) {
       if (mediumRegex.test(event.target.password.value)) {
-            
-    this.setState({
-      loading: true,
-      message:"Account Activation in progress... "
-    });
-    var registerStudent = {
-      roleid: 3,
-      email: event.target.email.value,
-      password: event.target.password.value,
-      gradeid: this.state.grade,
-      firstname: event.target.firstname.value,
-      lastname: event.target.lastname.value,
-      title: this.state.gender === "1" ? "Mr" : "Miss",
-      vpassword: event.target.vpassword.value,
-      dob: event.target.dob.value,
-      genderid: this.state.gender,
-      schoolid: event.target.school.value,
-    };
-
-    var schoolGradeSubjects = {
-      schoolid: event.target.school.value,
-      gradeid: this.state.grade
-    };
-
-    AdminService.findClassesForSchoolGrade(schoolGradeSubjects).then((response) => {
-      if (response === undefined) {
-        M.toast({
-          html: "Registration Failed: Please contact system adminstrator.",
-          classes: "red accent-2",
-        });
         this.setState({
-          message: "Oopss Registation Failed. Contact admin"
+          loading: true,
+          message: "Account Activation in progress... ",
         });
-      } else if (response.success === false) {
-        M.toast({
-          html: response.message,
-          classes: "red accent-2",
-        });
-        this.setState({
-          message: response.message
-        });
-      } else {
-        console.log(response.data.subjects);
-        this.setState({
-          selectedsubs: response.data.subjects
-        });
+        var registerStudent = {
+          roleid: 3,
+          email: event.target.email.value,
+          password: event.target.password.value,
+          gradeid: this.state.grade,
+          firstname: event.target.firstname.value,
+          lastname: event.target.lastname.value,
+          title: this.state.gender === "1" ? "Mr" : "Miss",
+          vpassword: event.target.vpassword.value,
+          dob: event.target.dob.value,
+          genderid: this.state.gender,
+          schoolid: event.target.school.value,
+        };
 
-        setTimeout(function () {
-          AuthService.register(registerStudent).then((response) => {
+        const referralId = this.props.referralId;
+        var schoolGradeSubjects = {
+          schoolid: event.target.school.value,
+          gradeid: this.state.grade,
+        };
+
+        AdminService.findClassesForSchoolGrade(schoolGradeSubjects).then(
+          (response) => {
             if (response === undefined) {
               M.toast({
-                html: "Registration Failed: Please contact system adminstrator.",
+                html:
+                  "Registration Failed: Please contact system adminstrator.",
                 classes: "red accent-2",
               });
               this.setState({
                 message: "Oopss Registation Failed. Contact admin",
-                loading: false
               });
             } else if (response.success === false) {
               M.toast({
                 html: response.message,
                 classes: "red accent-2",
               });
-
               this.setState({
                 message: response.message,
-                loading: false
               });
             } else {
+              console.log(response.data.subjects);
               this.setState({
-                message: "Preparing your content..."
+                selectedsubs: response.data.subjects,
               });
 
-              setTimeout(function () {
-                this.subscribe(response.accountid, registerStudent.schoolid);
-              }.bind(this), 3000);
+              setTimeout(
+                function () {
+                  AuthService.register(registerStudent, referralId).then(
+                    (response) => {
+                      if (response === undefined) {
+                        M.toast({
+                          html:
+                            "Registration Failed: Please contact system adminstrator.",
+                          classes: "red accent-2",
+                        });
+                        this.setState({
+                          message: "Oopss Registation Failed. Contact admin",
+                          loading: false,
+                        });
+                      } else if (response.success === false) {
+                        M.toast({
+                          html: response.message,
+                          classes: "red accent-2",
+                        });
+
+                        this.setState({
+                          message: response.message,
+                          loading: false,
+                        });
+                      } else {
+                        this.setState({
+                          message: "Preparing your content...",
+                        });
+
+                        setTimeout(
+                          function () {
+                            this.subscribe(
+                              response.accountid,
+                              registerStudent.schoolid
+                            );
+                          }.bind(this),
+                          3000
+                        );
+                      }
+                    }
+                  );
+                }.bind(this),
+                1000
+              );
             }
-          });
-        }.bind(this), 1000);
-      }
-    });
-      }else{
+          }
+        );
+      } else {
         M.toast({
-          html: "Low password strength. Password should include a minimum of 8 characters. Including at least 1 digit.",
+          html:
+            "Low password strength. Password should include a minimum of 8 characters. Including at least 1 digit.",
           classes: "red",
         });
       }
-    }else{
+    } else {
       M.toast({
         html: "Passwords not matching",
         classes: "red",
       });
     }
-  }
+  };
 
   subscribe(studentId, schoolid) {
-
     var subscriptionData = {
       studentid: studentId,
-      subscriptionid: schoolid
+      subscriptionid: schoolid,
     };
 
     AdminService.subcribe_student(subscriptionData).then((response) => {
@@ -270,16 +295,19 @@ export default class RegisterOnboardedSchool extends Component {
         });
         this.setState({
           message: response.message,
-          loading: false
+          loading: false,
         });
       } else {
         this.setState({
-          message: "Adding resources to your account..."
+          message: "Adding resources to your account...",
         });
 
-        setTimeout(function () {
-          this.enrol(studentId);
-        }.bind(this), 1000);
+        setTimeout(
+          function () {
+            this.enrol(studentId);
+          }.bind(this),
+          1000
+        );
       }
     });
   }
@@ -290,7 +318,7 @@ export default class RegisterOnboardedSchool extends Component {
       var enrolData = {
         studentid: studentId,
         classid: this.state.selectedsubs[i].classId,
-      }
+      };
       AdminService.self_enrolment(enrolData).then((response) => {
         if (response === undefined) {
           M.toast({
@@ -299,21 +327,19 @@ export default class RegisterOnboardedSchool extends Component {
           });
           this.setState({
             message: "Enrolment Failed. Please contact system adminstrator.",
-            loading: false
+            loading: false,
           });
         } else if (response.success === false) {
-
           M.toast({
             html: response.message,
             classes: "red accent-2",
           });
           this.setState({
             message: response.message,
-            loading: false
+            loading: false,
           });
-
         } else {
-          if ((i + 1) === this.state.selectedsubs.length) {
+          if (i + 1 === this.state.selectedsubs.length) {
             M.toast({
               html: "Registration successfull",
               classes: "green accent-3",
@@ -321,14 +347,14 @@ export default class RegisterOnboardedSchool extends Component {
 
             this.setState({
               message: "Account set!",
-              proceed: true
+              proceed: true,
             });
           } else {
             count += 1;
             this.setState({
               message: `Adding resources ( ${count} of ${this.state.selectedsubs.length} )...`,
             });
-            setTimeout(function () { }, 3000);
+            setTimeout(function () {}, 3000);
           }
         }
       });
@@ -337,7 +363,7 @@ export default class RegisterOnboardedSchool extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/" />;
+      return <Redirect to="/login" />;
     }
 
     return !this.state.loading ? (
@@ -351,129 +377,160 @@ export default class RegisterOnboardedSchool extends Component {
           data-focus="false"
           onSubmit={this.handleSubmit}
         >
-          <div className="row mt-1">
-            <div className="col s12 m5">
+          <div className="row">
+            <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="lastname"
-                  type="text"
-                  className="validate"
-                  name="lastname"
-                  required
-                ></input>
-                <label htmlFor="lastname">Surname *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="lastname" title="Lastname *" />
+                  <input
+                    id="lastname"
+                    type="text"
+                    className="validate"
+                    name="lastname"
+                    required
+                  ></input>
+                </fieldset>
               </div>
             </div>
             <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="firstname"
-                  type="text"
-                  className="validate"
-                  name="firstname"
-                  required
-                ></input>
-                <label htmlFor="firstname">First Name *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="firstname" title="Firstname *" />
+                  <input
+                    id="firstname"
+                    type="text"
+                    className="validate"
+                    name="firstname"
+                    required
+                  ></input>
+                </fieldset>
               </div>
             </div>
-            <div className="col s12 m3">
+            <div className="col s12 m4">
               <div className="input-field">
-                <select name="gender" onChange={this.handleTitleDropdownChange}>
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
-                </select>
-                <label htmlFor="gender">Gender * </label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="gender" title="Gender *" />
+                  <select
+                    name="gender"
+                    onChange={this.handleTitleDropdownChange}
+                  >
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                  </select>
+                </fieldset>
               </div>
             </div>
           </div>
-          <div className="row mt-1">
-            <div className="col s12 m5">
+          <div className="row">
+            <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="dob"
-                  type="date"
-                  className="validate"
-                  name="dob"
-                  required
-                />
-                <label htmlFor="dob">Date of Birth *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="dob" title="Date of Birth *" />
+                  <input
+                    id="dob"
+                    type="date"
+                    className="validate"
+                    name="dob"
+                    required
+                  />
+                </fieldset>
               </div>
             </div>
-            <div className="col s12 m2">
+            <div className="col s12 m4">
               <div className="input-field">
-                <select
-                  name="grade"
-                  defaultValue={this.state.grade}
-                  onChange={this.handleGradeDropdownChange}
-                  required
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                </select>
-                <label htmlFor="grade">Grade *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="grade" title="Grade *" />
+                  <select
+                    name="grade"
+                    defaultValue={this.state.grade}
+                    onChange={this.handleGradeDropdownChange}
+                    required
+                  >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                </fieldset>
               </div>
             </div>
-            <div className="col s12 m5">
+            <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="school"
-                  type="text"
-                  className="validate"
-                  name="school"
-                  required
-                ></input>
-                <label htmlFor="school">Enter Your School Code *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel
+                    htmlFor="school"
+                    title="Enter Your School Code *"
+                  />
+                  <input
+                    id="school"
+                    type="text"
+                    className="validate"
+                    name="school"
+                    required
+                  ></input>
+                </fieldset>
               </div>
             </div>
           </div>
-          <div className="row mt-1">
+          <div className="row">
             <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="email"
-                  type="email"
-                  className="validate"
-                  name="email"
-                  required
-                ></input>
-                <label htmlFor="email">Email *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="email" title="Email *" />
+                  <input
+                    id="email"
+                    type="email"
+                    className="validate"
+                    name="email"
+                    required
+                  ></input>
+                </fieldset>
               </div>
             </div>
             <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="password"
-                  type="password"
-                  className="validate"
-                  name="password"
-                  required
-                ></input>
-                <label htmlFor="password">Password *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel htmlFor="password" title="Password *" />
+                  <input
+                    id="password"
+                    type="password"
+                    className="validate"
+                    name="password"
+                    required
+                  ></input>
+                </fieldset>
               </div>
             </div>
             <div className="col s12 m4">
               <div className="input-field">
-                <input
-                  id="vpassword"
-                  type="password"
-                  className="validate"
-                  name="vpassword"
-                  required
-                ></input>
-                <label htmlFor="vpassword">Retype Password *</label>
+                <fieldset className="form-group">
+                  <ReactFormLabel
+                    htmlFor="vpassword"
+                    title="Retype Password *"
+                  />
+                  <input
+                    id="vpassword"
+                    type="password"
+                    className="validate"
+                    name="vpassword"
+                    required
+                  ></input>
+                </fieldset>
+
+                <input></input>
+                <label htmlFor="vpassword"></label>
               </div>
             </div>
           </div>
+        
           <p style={{ textAlign: "center", color: "red" }}>
             {this.state.message}
           </p>
@@ -1141,7 +1198,7 @@ export default class RegisterOnboardedSchool extends Component {
       </div>
     ) : (
       <div className="col s12 m5">
-        <div className="row mt-1">
+        <div className="row">
           <div className="form-group">
             <p
               style={{
@@ -1175,6 +1232,5 @@ export default class RegisterOnboardedSchool extends Component {
         </div>
       </div>
     );
-
   }
 }

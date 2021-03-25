@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 //import $ from "jquery";
-import carousel1 from "../assets/images/gallary/design.png";
 // import M from "materialize-css";
 import moment from "moment";
 
@@ -257,24 +256,26 @@ class VideoPlayer extends Component {
           className={`${
             this.state.startstop_meeting_res.started
               ? "display-none"
-              : "video-info-2 z-depth-5 border-radius-10"
+              : "video-info-2 z-depth-5"
           }`}
-          style={{ marginTop: 30 }}
         >
-          <div className="divider" style={{ marginTop: 1 }}></div>
-          <div className="center-align" style={{ marginTop: 30 }}>
+          <div
+            className="center-align"
+            style={{ marginTop: 30, borderRadius: 10 }}
+          >
             <Link
-              to="#!"
-              className="btn waves waves-effect gradient-45deg-semi-dark width-250 border-radius-5"
+              to="#"
+              className="btn waves waves-effect gradient-45deg-semi-dark width-250"
             >
               Activity
             </Link>
           </div>
           <div
             className="divider"
-            style={{ marginTop: 30, marginBottom: 30 }}
+            style={{ marginTop: 30, borderRadius: 10 }}
           ></div>
-          <div className="row margin-0">
+
+          <div className="row padding-3">
             {this.state.meetings.length < 1 ? (
               <div className="row">
                 <p
@@ -325,7 +326,10 @@ class VideoPlayer extends Component {
                       </div>
                     </div>
                     <div className="card-content-bg white-text">
-                      <div className="image-bg-2" style={{ padding: 24, borderRadius: "0 0 2px 2px" }}>
+                      <div
+                        className="image-bg-2"
+                        style={{ padding: 24, borderRadius: "0 0 2px 2px" }}
+                      >
                         <div className="row image-bg-2">
                           <div className="col s12 center-align black-text">
                             <i className="material-icons medium">
@@ -340,7 +344,10 @@ class VideoPlayer extends Component {
               ))
             )}
           </div>
-          <div className="divider" style={{ marginTop: 30 }}></div>
+          <div
+            className="divider"
+            style={{ marginTop: 30, borderRadius: 10 }}
+          ></div>
           <div className="row">
             <div className="col l12 center-align" style={{ paddingTop: 20 }}>
               <ul className="pagination">

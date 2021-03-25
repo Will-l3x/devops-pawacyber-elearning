@@ -7,8 +7,10 @@ import RightSidebar from "../../components/RightSidebar";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import TeacherActions from "../../actions/teacher";
+import M from "materialize-css";
 import { TeacherService } from "../../services/teacher";
 import { course_data } from "../../actions/student";
+import { UploadService } from "../../services/upload";
 
 class TeacherScreen extends Component {
   // Get teacher subjects
@@ -86,6 +88,31 @@ class TeacherScreen extends Component {
         console.log(error);
       });
   }
+  verifyTeacherDocs = (e) => {
+    e.preventDefault();
+    const data = {
+      type: "residence",
+      userid: "userid", // teachers userid
+    };
+    UploadService.verifyDoc(data).then((resp) => {
+      console.log(resp);
+      if (resp.success === true) {
+        M.toast({
+          html: "Upload Successful",
+          classes: "green ",
+        });
+
+        this.setState({
+          enablePORUpload: true,
+        });
+      } else {
+        M.toast({
+          html: "Failed to upload resource: " + resp.message,
+          classes: "red ",
+        });
+      }
+    });
+  };
   colors = (i) => {
     var colors = [
       "gradient-45deg-light-blue-cyan",

@@ -537,7 +537,7 @@ class User extends React.Component {
       rolename,
     } = this.props;
     return (
-      <div className="col s6 m4 l3">
+      <div className="col s12 m6 l4">
         <div
           className="card border-radius-10 z-depth-5"
           style={{

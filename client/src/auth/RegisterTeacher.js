@@ -5,9 +5,6 @@ import OuterFooter from "../components/outerFooter";
 import img from "../assets/images/details-1-office-worker.svg";
 import { Link } from "react-router-dom";
 
-import FreeRegister from "../components/student-components/FreeStudent";
-import RegisterScreen from "./RegisterScreen";
-
 class RegisterTeacher extends Component {
   constructor(props) {
     super(props);
@@ -38,9 +35,10 @@ class RegisterTeacher extends Component {
                   <div
                     className="image-container"
                     style={{
-                      paddingLeft: "70px",
-                      paddingRight: "70px",
-                      paddingTop: "90px",
+                      paddingLeft: "10%",
+                      paddingRight: "10%",
+                      paddingTop: "20%",
+                      width: "100%",
                     }}
                   >
                     <img className="img-fluid" src={img} alt="alternative" />
@@ -57,7 +55,7 @@ class RegisterTeacher extends Component {
                           className="card-title"
                           style={{ fontSize: "16px" }}
                         >
-                          Limited Access
+                          Free Account
                         </div>
                         <hr className="cell-divide-hr" />
                         <div className="price">
@@ -121,7 +119,7 @@ class RegisterTeacher extends Component {
                           style={{ marginTop: 20 }}
                           className="btn-solid-reg page-scroll"
                           rel="noopener noreferrer"
-                          to="register-limited-access-teacher"
+                          to={`/register-limited-access-teacher/${this.props.match.params.referralId}`}
                         >
                           Proceed
                         </Link>
@@ -138,7 +136,7 @@ class RegisterTeacher extends Component {
                           className="card-title"
                           style={{ fontSize: "16px" }}
                         >
-                          Premium Access
+                          Premium Account
                         </div>
                         <hr className="cell-divide-hr" />
                         <div className="price">
@@ -200,7 +198,7 @@ class RegisterTeacher extends Component {
                           style={{ marginTop: 20 }}
                           className="btn-solid-reg page-scroll"
                           rel="noopener noreferrer"
-                          to="register-premium-access-teacher"
+                          to={`/register-premium-access-teacher/${this.props.match.params.referralId}`}
                         >
                           Proceed
                         </Link>

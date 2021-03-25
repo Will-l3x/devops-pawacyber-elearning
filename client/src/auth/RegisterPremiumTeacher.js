@@ -5,13 +5,13 @@ import OuterHeader from "../components/outerHeader";
 import OuterFooter from "../components/outerFooter";
 import img from "../assets/images/details-1-office-worker.svg";
 
+import { PaymentService } from "../services/paymentService";
 import $ from "jquery";
 import M from "materialize-css";
 import "../assets/css/terms.css";
-import { Redirect } from "react-router-dom";
 import { AsyncStorage } from "AsyncStorage";
 import InputMask from "react-input-mask";
-var globalGrade = "1";
+import { Redirect } from "react-router";
 
 class RegisterPremiumTeacher extends Component {
   constructor(props) {
@@ -19,9 +19,6 @@ class RegisterPremiumTeacher extends Component {
     this.state = {
       selectedOption: null,
       selectedSchool: "37",
-      title: "",
-      grade: globalGrade,
-      gender: "1",
       redirect: false,
       proceedToPay: false,
       proceedToVerification: false,
@@ -29,11 +26,12 @@ class RegisterPremiumTeacher extends Component {
       numberOfsubs: 0,
       selectedsubs: [],
       defaultSubs: [],
-      phone_number: "",
       message: "",
     };
     this.handleTitleDropdownChange = this.handleTitleDropdownChange.bind(this);
-    this.handleGradeDropdownChange = this.handleGradeDropdownChange.bind(this);
+    this.onChange = (data) => {
+      this.setState({ id_num: data.target.value });
+    };
   }
 
   componentDidMount() {
@@ -155,11 +153,6 @@ class RegisterPremiumTeacher extends Component {
     this.setState({ gender: event.target.value });
   }
 
-  handleGradeDropdownChange(event) {
-    globalGrade = event.target.value;
-    this.setState({ grade: globalGrade });
-  }
-
   handleSubmit = (event) => {
     event.preventDefault();
 
@@ -169,44 +162,40 @@ class RegisterPremiumTeacher extends Component {
 
     if (event.target.vpassword.value === event.target.password.value) {
       if (mediumRegex.test(event.target.password.value)) {
-        if (this.state.selectedSchool === null) {
-          alert("Please refresh page and select a school");
-          return false;
-        } else if (this.state.selectedSchool === undefined) {
-          alert("Please refresh page and select a school");
-          return false;
-        } else {
-          var registerAdmin = {
-            roleid: 3,
-            email: event.target.email.value,
-            password: event.target.password.value,
-            phone_number: event.target.phone_number.value,
-            firstname: event.target.firstname.value,
-            lastname: event.target.lastname.value,
-            title: this.state.gender === "1" ? "Mr" : "Miss",
-            vpassword: event.target.vpassword.value,
-            dob: event.target.dob.value,
-            genderid: this.state.gender,
-            schoolid: "37",
-          };
+        var registerAdmin = {
+          roleid: 1,
+          email: event.target.email.value,
+          password: event.target.password.value,
+          //phone_number: event.target.phone_number.value,
+          firstname: event.target.firstname.value,
+          lastname: event.target.lastname.value,
+          title: this.state.gender === "1" ? "Mr" : "Miss",
+          vpassword: event.target.vpassword.value,
+          dob: event.target.dob.value,
+          genderid: this.state.gender,
+          schoolid: "37",
+          grade: "1",
+        };
+        const referralId = this.props.match.params.referralId;
+        localStorage.removeItem("teacherRegData");
+        localStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
+        localStorage.removeItem("refferalId");
+        localStorage.setItem("refferalId", JSON.stringify(referralId));
 
-          localStorage.removeItem("teacherPremiumRegData");
-          localStorage.setItem("teacherPremiumRegData", JSON.stringify(registerAdmin));
-
-          try {
-            AsyncStorage.setItem("teacherPremiumRegData", JSON.stringify(registerAdmin));
-            setTimeout(
-              function () {
-                this.setState({ redirect: true });
-              }.bind(this),
-              300
-            );
-          } catch (error) {
-            M.toast({
-              html: "Failed to save data",
-              classes: "red accent-2",
-            });
-          }
+        try {
+          AsyncStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
+          AsyncStorage.setItem("referralId", JSON.stringify(referralId));
+          setTimeout(
+            function () {
+              this.handlePayment(registerAdmin);
+            }.bind(this),
+            300
+          );
+        } catch (error) {
+          M.toast({
+            html: "Failed to save data",
+            classes: "red accent-2",
+          });
         }
       } else {
         M.toast({
@@ -222,11 +211,51 @@ class RegisterPremiumTeacher extends Component {
       });
     }
   };
+
+  handlePayment = (det) => {
+    var paymentDetails = {
+      paymentAmount: parseFloat(20),
+      customerEmail: det.email,
+      customerFirstName: det.firstname,
+      customerLastName: det.lastname,
+      serviceDescription: "Teacher Premium Access",
+      routeSuccessLink:
+        "https://pawacyberschool.net/#/teacher-payment-confirmed",
+      routeFailureLink: "https://pawacyberschool.net/#/payment-canceled",
+    };
+
+    localStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+    AsyncStorage.setItem("paymentDetails", JSON.stringify(paymentDetails));
+
+    PaymentService.createToken(paymentDetails).then((response) => {
+      if (response === undefined) {
+        M.toast({
+          html: "Payment Failed",
+          classes: "red accent-2",
+        });
+      } else if (response.success === false) {
+        M.toast({
+          html: response.message,
+          classes: "red",
+        });
+      } else {
+        M.toast({
+          html: "You are being redirected to the payment page",
+          classes: "green",
+        });
+        // window.open(`https://secure1.sandbox.directpay.online/payv2.php?ID=${response.data.transactionToken}`,'_blank');
+        document.getElementById("contact").reset();
+
+        this.setState({ redirect: true });
+
+        window.location.href = ` https://secure.3gdirectpay.com/pay.asp?ID=${response.data.transactionToken}`;
+      }
+    });
+  };
+
   render() {
     if (this.state.redirect) {
-      return (
-        <Redirect to="/register-premium-access-teacher/account-verification" />
-      );
+      return <Redirect to="/" />;
     }
     return (
       <div style={{ backgroundColor: "white", height: "100vh" }}>
@@ -249,7 +278,7 @@ class RegisterPremiumTeacher extends Component {
                   >
                     <img className="img-fluid" src={img} alt="alternative" />
                   </div>
-                </div>
+                </div>{" "}
                 <div className="col s12 m7">
                   <form
                     id="contact"
@@ -263,7 +292,7 @@ class RegisterPremiumTeacher extends Component {
                       </div>
                       <div>
                         <div className="row">
-                          <div className="col s12 m6">
+                          <div className="col s12 m4">
                             <div className="input-field">
                               <fieldset className="form-group">
                                 <ReactFormLabel
@@ -280,7 +309,7 @@ class RegisterPremiumTeacher extends Component {
                               </fieldset>
                             </div>
                           </div>
-                          <div className="col s12 m6">
+                          <div className="col s12 m4">
                             <div className="input-field">
                               <fieldset className="form-group">
                                 <ReactFormLabel
@@ -294,6 +323,23 @@ class RegisterPremiumTeacher extends Component {
                                   name="firstname"
                                   required
                                 ></input>
+                              </fieldset>
+                            </div>
+                          </div>
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="gender"
+                                  title="Gender *"
+                                />
+                                <select
+                                  name="gender"
+                                  onChange={this.handleTitleDropdownChange}
+                                >
+                                  <option value="1">Male</option>
+                                  <option value="2">Female</option>
+                                </select>
                               </fieldset>
                             </div>
                           </div>
@@ -320,16 +366,16 @@ class RegisterPremiumTeacher extends Component {
                             <div className="input-field">
                               <fieldset className="form-group">
                                 <ReactFormLabel
-                                  htmlFor="gender"
-                                  title="Gender *"
+                                  htmlFor="email"
+                                  title="Email *"
                                 />
-                                <select
-                                  name="gender"
-                                  onChange={this.handleTitleDropdownChange}
-                                >
-                                  <option value="1">Male</option>
-                                  <option value="2">Female</option>
-                                </select>
+                                <input
+                                  id="email"
+                                  type="email"
+                                  className="validate"
+                                  name="email"
+                                  required
+                                ></input>
                               </fieldset>
                             </div>
                           </div>
@@ -354,23 +400,6 @@ class RegisterPremiumTeacher extends Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col s12 m4">
-                            <div className="input-field">
-                              <fieldset className="form-group">
-                                <ReactFormLabel
-                                  htmlFor="email"
-                                  title="Email *"
-                                />
-                                <input
-                                  id="email"
-                                  type="email"
-                                  className="validate"
-                                  name="email"
-                                  required
-                                ></input>
-                              </fieldset>
-                            </div>
-                          </div>
                           <div className="col s12 m4">
                             <div className="input-field">
                               <fieldset className="form-group">
@@ -405,10 +434,12 @@ class RegisterPremiumTeacher extends Component {
                               </fieldset>
                             </div>
                           </div>
+
+                          <div className="col s12 m4"> </div>
                         </div>
                         <div className="form-group justify-center">
                           <button className="form-control-submit-button">
-                            Proceed
+                            Proceed To Pay
                           </button>
                         </div>
                         <div className="form-message">

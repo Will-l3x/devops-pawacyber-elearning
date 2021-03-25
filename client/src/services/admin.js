@@ -653,17 +653,6 @@ async function post_new_course(data) {
   }
 }
 async function get_courses() {
-  const token = await JSON.parse(localStorage.getItem("token"));
-  var config = {
-    baseURL: "https://pawacyberschool.net/api",
-
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
-      "Access-Control-Allow-Credentials": true,
-    },
-  };
   try {
     /*
          let res = await axios.get(schooladmin/shared_class`, config);
@@ -733,17 +722,6 @@ async function post_new_topic(data) {
 }
 
 async function get_topics(id) {
-  const token = await JSON.parse(localStorage.getItem("token"));
-  var config = {
-    baseURL: "https://pawacyberschool.net/api",
-
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
-      "Access-Control-Allow-Credentials": true,
-    },
-  };
   try {
     /* let res = await axios(.get`schooladmin/shared_class`, config)*/
 

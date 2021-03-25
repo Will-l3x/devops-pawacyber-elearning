@@ -25,7 +25,6 @@ import TeacherMarkClassroomScreen from "./views/teacher/TeacherMarkClassroomScre
 import StudentTestScreen from "./components/teacher-mark/StudentTestScreen";
 import RegisterScreen from "./auth/RegisterScreen";
 import RegisterStudent from "./auth/RegisterStudent";
-import FreeRegister from "./components/student-components/FreeStudent";
 
 import SchoolScreen from "./views/school/SchoolScreen";
 import SchoolStudentManagementScreen from "./views/school/SchoolStudentManagementScreen";
@@ -59,8 +58,9 @@ import RegisterAs from "./auth/RegisterAs";
 import RegisterTeacher from "./auth/RegisterTeacher";
 import RegisterLimitedTeacher from "./auth/RegisterLimitedTeacher";
 import RegisterPremiumTeacher from "./auth/RegisterPremiumTeacher";
-import RegisterPremiumTeacherVerify from "./auth/RegisterPremiumTeacherVerify";
-import RegisterLimitedTeacherVerify from "./auth/RegisterLimitedTeacherVerify";
+import TeacherRegistrationSuccess from "./auth/TeacherRegistrationSuccess";
+import ProfileAccScreen from "./components/profile/ProfileAccScreen";
+import FreeStudentAcc from "./components/student-components/FreeStudentAcc";
 
 class App extends Component {
   componentDidMount() {
@@ -156,7 +156,17 @@ class App extends Component {
             path="/payment-confirmed"
             component={RegisterSuccessScreen}
           />
+          <Route
+            exact
+            path="/teacher-payment-confirmed"
+            component={TeacherRegistrationSuccess}
+          />
           <Route exact path="/canceled" component={RegistrationCanceled} />
+          <Route
+            exact
+            path="/payment-canceled"
+            component={RegistrationCanceled}
+          />
           <Route
             exact
             path="/payment-upgrade"
@@ -165,44 +175,39 @@ class App extends Component {
 
           <Route exact path="/login" component={LoginScreen} />
           <Route exact path="/profile" component={ProfileScreen} />
+          <Route exact path="/profile-acc" component={ProfileAccScreen} />
           <Route exact path="/all-students" component={Students} />
           <Route
             exact
-            path="/register-premium-student"
+            path="/register-premium-access-student/:referralId"
             component={RegisterScreen}
+          /><Route
+            exact
+            path="/register-limited-access-student/:referralId"
+            component={FreeStudentAcc}
           />
           <Route
             exact
-            path="/register-premium-access-teacher"
+            path="/register-premium-access-teacher/:referralId"
             component={RegisterPremiumTeacher}
           />
           <Route
             exact
-            path="/register-premium-access-teacher/account-verification"
-            component={RegisterPremiumTeacherVerify}
-          />
-          <Route
-            exact
-            path="/register-limited-access-teacher"
+            path="/register-limited-access-teacher/:referralId"
             component={RegisterLimitedTeacher}
           />
+          
           <Route
             exact
-            path="/register-limited-access-teacher/account-verification"
-            component={RegisterLimitedTeacherVerify}
-          />
-          <Route exact path="/freereg" component={FreeRegister} />
-          <Route
-            exact
-            path="/try-free-student-account"
+            path="/try-free-student-account/:referralId"
             component={RegisterStudent}
           />
           <Route
             exact
-            path="/try-free-teacher-account"
+            path="/try-free-teacher-account/:referralId"
             component={RegisterTeacher}
           />
-          <Route exact path="/register-as" component={RegisterAs} />
+          <Route exact path="/register-new-account/:referralId" component={RegisterAs} />
 
           <Route exact path="/about" component={AboutScreen} />
 
