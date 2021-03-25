@@ -172,9 +172,9 @@ class RegisterPremiumTeacher extends Component {
           title: this.state.gender === "1" ? "Mr" : "Miss",
           vpassword: event.target.vpassword.value,
           dob: event.target.dob.value,
-          genderid: this.state.gender,
-          schoolid: "37",
-          grade: "1",
+          //genderid: this.state.gender,
+          schoolid: 37,
+          grade: event.target.grade.value,
         };
         const referralId = this.props.match.params.referralId;
         localStorage.removeItem("teacherRegData");
@@ -185,12 +185,9 @@ class RegisterPremiumTeacher extends Component {
         try {
           AsyncStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
           AsyncStorage.setItem("referralId", JSON.stringify(referralId));
-          setTimeout(
-            function () {
-              this.handlePayment(registerAdmin);
-            }.bind(this),
-            300
-          );
+          setTimeout(function () {
+            this.handlePayment(registerAdmin);
+          }, 300);
         } catch (error) {
           M.toast({
             html: "Failed to save data",
@@ -366,19 +363,23 @@ class RegisterPremiumTeacher extends Component {
                             <div className="input-field">
                               <fieldset className="form-group">
                                 <ReactFormLabel
-                                  htmlFor="email"
-                                  title="Email *"
+                                  htmlFor="grade"
+                                  title="Grade:"
                                 />
+
                                 <input
-                                  id="email"
-                                  type="email"
-                                  className="validate"
-                                  name="email"
+                                  className="form-input input-meeting"
+                                  id="grade"
+                                  type="number"
+                                  min="0"
+                                  max="12"
+                                  name="grade"
                                   required
-                                ></input>
+                                />
                               </fieldset>
                             </div>
                           </div>
+
                           <div className="col s12 m4">
                             <div className="input-field">
                               <fieldset className="form-group">
@@ -400,6 +401,24 @@ class RegisterPremiumTeacher extends Component {
                           </div>
                         </div>
                         <div className="row">
+                          <div className="col s12 m4">
+                            <div className="input-field">
+                              <fieldset className="form-group">
+                                <ReactFormLabel
+                                  htmlFor="email"
+                                  title="Email *"
+                                />
+                                <input
+                                  id="email"
+                                  type="email"
+                                  className="validate"
+                                  name="email"
+                                  required
+                                ></input>
+                              </fieldset>
+                            </div>
+                          </div>
+
                           <div className="col s12 m4">
                             <div className="input-field">
                               <fieldset className="form-group">

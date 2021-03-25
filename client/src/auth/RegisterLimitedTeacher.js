@@ -144,7 +144,7 @@ class RegisterLimitedTeacher extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const thiz = this;
+    const thus = this;
     const mediumRegex = new RegExp(
       "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
     );
@@ -161,8 +161,8 @@ class RegisterLimitedTeacher extends Component {
           title: this.state.gender === "1" ? "Mr" : "Miss",
           vpassword: event.target.vpassword.value,
           dob: event.target.dob.value,
-          genderid: this.state.gender,
-          schoolid: "37",
+          // genderid: this.state.gender,
+          schoolid: 37,
         };
         const referralId = this.props.match.params.referralId;
         localStorage.removeItem("teacherRegData");
@@ -170,12 +170,9 @@ class RegisterLimitedTeacher extends Component {
 
         try {
           AsyncStorage.setItem("teacherRegData", JSON.stringify(registerAdmin));
-          setTimeout(
-            function () {
-              thiz.register(registerAdmin, referralId);
-            }.bind(this),
-            300
-          );
+          setTimeout(function () {
+            thus.register(registerAdmin, referralId);
+          }, 300);
         } catch (error) {
           M.toast({
             html: "Failed to save data",
@@ -344,19 +341,23 @@ class RegisterLimitedTeacher extends Component {
                               <div className="input-field">
                                 <fieldset className="form-group">
                                   <ReactFormLabel
-                                    htmlFor="email"
-                                    title="Email *"
+                                    htmlFor="grade"
+                                    title="Grade:"
                                   />
+
                                   <input
-                                    id="email"
-                                    type="email"
-                                    className="validate"
-                                    name="email"
+                                    className="form-input input-meeting"
+                                    id="grade"
+                                    type="number"
+                                    min="0"
+                                    max="12"
+                                    name="grade"
                                     required
-                                  ></input>
+                                  />
                                 </fieldset>
                               </div>
                             </div>
+
                             <div className="col s12 m4">
                               <div className="input-field">
                                 <fieldset className="form-group">
@@ -378,6 +379,24 @@ class RegisterLimitedTeacher extends Component {
                             </div>
                           </div>
                           <div className="row">
+                            <div className="col s12 m4">
+                              <div className="input-field">
+                                <fieldset className="form-group">
+                                  <ReactFormLabel
+                                    htmlFor="email"
+                                    title="Email *"
+                                  />
+                                  <input
+                                    id="email"
+                                    type="email"
+                                    className="validate"
+                                    name="email"
+                                    required
+                                  ></input>
+                                </fieldset>
+                              </div>
+                            </div>
+
                             <div className="col s12 m4">
                               <div className="input-field">
                                 <fieldset className="form-group">
@@ -413,7 +432,7 @@ class RegisterLimitedTeacher extends Component {
                               </div>
                             </div>
 
-                            <div className="col s12 m4"></div>
+                            <div className="col s12 m4"> </div>
                           </div>
                           <div className="form-group justify-center">
                             <button
