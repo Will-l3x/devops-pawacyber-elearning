@@ -101,7 +101,7 @@ async function update_profile(req, res) {
 
 let checkToken = (req, res, next) => {
     console.log(req.url);
-    if (req.url !== '/multi_upload' && req.url !== '/login' && req.url !== '/register' && req.url !== '/subscriptions' && req.url !== '/dpo/payment/createToken' && req.url !== '/classes/all' && req.url !== '/get_school_grade_subjects' && req.url !== '/classes/grade' && req.url !== '/subscribestudent' && req.url !== '/post_payment_enrol' && req.url !== '/resetpassword' && req.url.indexOf('/verify') < 0 && req.url !== '/refreshotp' && req.url.indexOf('/register') < 0) {
+    if (req.url !== '/multi_upload' && req.url !== '/login' && req.url !== '/test' && req.url !== '/register' && req.url !== '/subscriptions' && req.url !== '/dpo/payment/createToken' && req.url !== '/classes/all' && req.url !== '/get_school_grade_subjects' && req.url !== '/classes/grade' && req.url !== '/subscribestudent' && req.url !== '/post_payment_enrol' && req.url !== '/resetpassword' && req.url.indexOf('/verify') < 0 && req.url !== '/refreshotp' && req.url.indexOf('/register') < 0) {
 
         let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
 
@@ -1047,6 +1047,8 @@ let register = (req, res) => {
         });
     }
 }; 
+
+
 //login
 let login = (req, res) => {
   
