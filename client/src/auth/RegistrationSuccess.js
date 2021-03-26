@@ -28,7 +28,7 @@ class RegisterSuccessScreen extends Component {
       html: "Transaction Successful",
       classes: "green accent-3",
     });
-    const thiz = this;
+    const thus = this;
     // Fetching data
     try {
       const registrationDetails = await AsyncStorage.getItem("studentData");
@@ -51,7 +51,7 @@ class RegisterSuccessScreen extends Component {
 
         setTimeout(
           function () {
-            thiz.register(JSON.parse(registrationDetails, referralId));
+            thus.register(JSON.parse(registrationDetails, referralId));
           },
           1000
         );
@@ -66,7 +66,7 @@ class RegisterSuccessScreen extends Component {
   }
 
   register(registrationData, referralId) {
-    const thiz = this;
+    const thus = this;
 
     AuthService.register(registrationData, referralId).then((response) => {
       if (response === undefined) {
@@ -95,7 +95,7 @@ class RegisterSuccessScreen extends Component {
         setTimeout(
           function () {
             console.log(response.accountid);
-            thiz.subscribe(response.accountid);
+            thus.subscribe(response.accountid);
           },
           3000
         );
@@ -104,7 +104,7 @@ class RegisterSuccessScreen extends Component {
   }
 
   subscribe(userid) {
-    const thiz = this;
+    const thus = this;
     console.log(userid);
     var subscriptionData = {
       studentid: userid,
@@ -136,7 +136,7 @@ class RegisterSuccessScreen extends Component {
         });
         setTimeout(
           function () {
-            thiz.enrol(userid);
+            thus.enrol(userid);
           },
           1000
         );

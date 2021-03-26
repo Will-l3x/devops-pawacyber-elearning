@@ -25,7 +25,7 @@ class TeacherRegisterSuccessScreen extends Component {
       html: "Transaction Successful",
       classes: "green accent-3",
     });
-    const thiz = this;
+    const thus = this;
     // Fetching data
     try {
       const registrationDetails = await AsyncStorage.getItem("teacherRegData");
@@ -39,7 +39,7 @@ class TeacherRegisterSuccessScreen extends Component {
 
         setTimeout(
           function () {
-            thiz.register(JSON.parse(registrationDetails, referralId));
+            thus.register(JSON.parse(registrationDetails, referralId));
           },
           1000
         );

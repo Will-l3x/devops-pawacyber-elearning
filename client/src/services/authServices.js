@@ -32,12 +32,21 @@ async function register(data, referrerId) {
   };
 
   try {
-    let res = await axios.post(
-      `${apiUrl}/register?referer=${referrerId}`,
-      qs.stringify(data),
-      config
-    );
-    return res.data;
+    if (referrerId === "no-referrer") {
+      let res = await axios.post(
+        `${apiUrl}/register`,
+        qs.stringify(data),
+        config
+      );
+      return res.data;
+    } else {
+      let res = await axios.post(
+        `${apiUrl}/register?referer=${referrerId}`,
+        qs.stringify(data),
+        config
+      );
+      return res.data;
+    }
   } catch (err) {
     console.error(err);
   }
