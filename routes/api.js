@@ -64,6 +64,7 @@ router.post("/add_subscription", _systemadmin.add_subscription);
 router.delete("/del_subscription/:id", _systemadmin.del_subscription);
 router.get("/subscription/:id", _systemadmin.subscription);
 router.get("/update_subcription", _systemadmin.update_subscription);
+router.put("/payref/:id", _systemadmin.pay_ref);
 
 router.get("/classes/all", _systemadmin.classes);
 router.post("/classes/grade", _systemadmin.classesByGrade);

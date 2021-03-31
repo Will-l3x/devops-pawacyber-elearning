@@ -853,6 +853,7 @@ let register = (req, res) => {
 
                                 password = bcrypt.hashSync(password, process.env.bcrypt_salt);
                                 //  var SubscriptionEndDate = moment().format();
+                                var balance = 0;
 
                                 request
                                     .input('password', password)
@@ -862,7 +863,7 @@ let register = (req, res) => {
                                     .input('otpexpiry', otpexpiry)
                                     .input('activefrom', activefrom)
                                     .input('gender', gender)
-                                    .input('referalBalance', balance)
+                                    .input('balance', balance)
                                     .query(query, function (err, recordset) {
 
                                         if (err) {

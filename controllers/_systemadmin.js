@@ -233,6 +233,158 @@ let update_role = (req, res) => {
         });
 };
 
+let update_commission = (req, res) => {
+    var percent = req.body.percent;
+    var description = req.body.description;
+    var type = req.body.description;
+    var id = req.params.id;
+
+    let query = "UPDATE [commissions] \
+    SET Percent=@percent,Description=@descr,Type=@type \
+    WHERE CommId = @id";
+
+    var request = new sql.Request();
+
+    request
+        .input("id", id)
+        .input("percent", percent)
+        .input("descr", description)
+        .input("type", type)
+        .query(query, function (err, recordset) {
+
+            if (err) {
+                console.log(err);
+                console.log(err.stack);
+                return res.json({
+                    status: 500,
+                    success: false,
+                    message: "An error occured",
+                    error: err.message
+                });
+            } else {
+                if (recordset.rowsAffected[0] > 0) {
+                    return res.json({
+                        status: 202,
+                        success: true,
+                        message: 'Updated'
+                    });
+                } else {
+                    return res.json({
+                        status: 400,
+                        success: false,
+                        message: 'Failed to update'
+                    });
+                }
+            }
+        });
+};
+
+let commissions = (req, res) => {
+    let query = `select * from commissions`;
+    let request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+        let commissions = recordset.recordset;
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else {
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ commissions})),
+            });
+        }
+    });
+};
+
+let transactions = (req, res) => {
+    let query = `select * from transactions`;
+    let request = new sql.Request();
+
+    request.query(query, function (err, recordset) {
+        let transactions = recordset.recordset;
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else {
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ transactions })),
+            });
+        }
+    });
+};
+
+let mytransactions = (req, res) => {
+    var id = req.params.id;
+    let query = `select * from transactions where UserId=@id`;
+    let request = new sql.Request();
+
+    request
+        .input("id",id)
+        .query(query, function (err, recordset) {
+        let transactions = recordset.recordset;
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else {
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ transactions })),
+            });
+        }
+    });
+};
+
+let commission = (req, res) => {
+    let query = `select * from commissions where CommId=@id`;
+    let request = new sql.Request();
+    var id = req.params.id;
+
+    request
+        .input("id",id)
+        .query(query, function (err, recordset) {
+        let commissions = recordset.recordset;
+        if (err) {
+            console.log(err);
+            console.log(err.stack);
+            return res.json({
+                status: 500,
+                success: false,
+                message: "An error occured",
+                error: err.message,
+            });
+        } else {
+            return res.json({
+                status: 200,
+                success: true,
+                data: JSON.parse(JSON.stringify({ commissions })),
+            });
+        }
+    });
+};
+
 let materials = (req, res) => {
     let query = `select * from materials`;
     let request = new sql.Request();
@@ -1722,20 +1874,31 @@ let referals = (req, res) => {
 };
 
 let pay_ref = (req, res) => {
-    var id = req.params.id;
+    var userid = req.params.id;
     
-    let query = "UPDATE [referals] SET Paid=@paid WHERE ReferalId = @id";
+    let query = "SELECT * FROM users WHERE userId=@id";
 
-    var request = new sql.Request();
+    var transaction = new sql.Transaction();
+    transaction.begin(function (err) {
+        if (err) {
+            console.log(err.message);
+            return res.json({
+                status: 400,
+                success: false,
+                message: 'Internal server error'
+            });
+        }
+
+        var request = new sql.Request(transaction);
 
     request
-        .input("paid", 1)
-        .input("id", id)
+        .input("id", userid)
         .query(query, function (err, recordset) {
 
             if (err) {
                 console.log(err);
                 console.log(err.stack);
+                transaction.rollback();
                 return res.json({
                     status: 500,
                     success: false,
@@ -1743,21 +1906,99 @@ let pay_ref = (req, res) => {
                     error: err.message
                 });
             } else {
-                if (recordset.rowsAffected[0] > 0) {
-                    return res.json({
-                        status: 202,
-                        success: true,
-                        message: 'Updated'
-                    });
+                if (recordset.recordset.length > 0) {
+                   var user = recordset.recordset[0];
+
+                    var { referalBalance } = user;
+
+                    query = "UPDATE users SET referalBalance=0 WHERE userId=@id";
+
+                    request
+                        .query(query, function (err, recordset) {
+
+                            if (err) {
+                                transaction.rollback();
+                                console.log(err);
+                                console.log(err.stack);
+                                return res.json({
+                                    status: 500,
+                                    success: false,
+                                    message: "An error occured",
+                                    error: err.message
+                                });
+                            } else {
+
+                                if (recordset.rowsAffected[0] > 0) {
+                                    query = "INSERT INTO transactions (TransactionDetail,Amount,Type,UserId,Status) VALUES(@detail,@amount,@type,@id,@status)";
+                                    request
+                                        
+                                        .input("amount", referalBalance)
+                                        .input("type", "debit")
+                                        .input("detail", "Referal Paid")
+                                        .input("status", "complete")
+                                        .query(query, function (err, recordset) {
+
+                                            if (err) {
+                                                console.log(err);
+                                                console.log(err.stack);
+                                                return res.json({
+                                                    status: 500,
+                                                    success: false,
+                                                    message: "An error occured",
+                                                    error: err.message
+                                                });
+                                            } else {
+
+                                                if (recordset.rowsAffected[0] > 0) {
+                                                    transaction.commit();
+                                                  
+                                                    return res.json({
+                                                        status: 200,
+                                                        success: true,
+                                                        message: "Done"
+                                                    });
+                                                } else {
+
+                                                    transaction.rollback();
+                                                    return res.json({
+                                                        status: 500,
+                                                        success: false,
+                                                        message: "An error occured"
+                                                    });
+                                                }
+                                            }
+                                        })
+
+
+                                } else {
+                                    transaction.rollback();
+                                    console.log("Invalid User 2");
+                                    return res.json({
+                                        status: 400,
+                                        success: false,
+                                        message: 'Invalid User',
+                                        error: err.message
+                                    });
+                                }
+
+                            }
+                        })
+
+
+
                 } else {
+                    transaction.rollback();
+                    console.log("Invalid User");
                     return res.json({
                         status: 400,
                         success: false,
-                        message: 'Failed to update'
+                        message: 'Invalid User',
+                        error: err.message
                     });
                 }
             }
         });
+    });
 };
 
 let get_school_grade_subjects = (req, res) => {
