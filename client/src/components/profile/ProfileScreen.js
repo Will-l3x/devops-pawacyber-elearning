@@ -6,7 +6,6 @@ import LeftSidebar from "../LeftSidebar";
 import RightSidebar from "../RightSidebar";
 import Footer from "../footer";
 import M from "materialize-css";
-import "../../assets/css/profile.css";
 import moment from "moment";
 import { AuthService } from "../../services/authServices";
 
@@ -259,11 +258,11 @@ class ProfileScreen extends Component {
                       )}
                     </div>
                   </div>
-                  <hr className="border" />
+                  <hr className="profile-border" />
                   <div className="card--insights">
                     <div className="card--heading">
                       <div className="heading">Details</div>
-                      <div className="date">
+                      <div className="profile-date">
                         Joined{" "}
                         {moment(new Date(this.state.uuser.activefrom)).format(
                           "LL"

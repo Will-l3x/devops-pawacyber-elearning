@@ -51,7 +51,7 @@ class TeacherScreen extends Component {
         this.setState({ courses, del_courses });
         for (const sub of response) {
           this.courseId = sub.classId;
-          TeacherService.get_assignments(this.courseId) //get by course id
+          TeacherService.getAssignments(this.courseId) //get by course id
             .then((data) => {
               this.setState({ assignments: data });
             });
@@ -78,7 +78,7 @@ class TeacherScreen extends Component {
         this.setState({ courses, del_courses });
         for (const sub of response) {
           this.courseId = sub.classId;
-          TeacherService.get_submissions(this.courseId) //get by course id
+          TeacherService.getSubmissions (this.courseId) //get by course id
             .then((data) => {
               this.setState({ submissions: data });
             });
@@ -88,6 +88,7 @@ class TeacherScreen extends Component {
         console.log(error);
       });
   }
+  
   verifyTeacherDocs = (e) => {
     e.preventDefault();
     const data = {
@@ -207,7 +208,7 @@ class TeacherScreen extends Component {
                         </li>
 
                         {this.state.assignments.map((assignment, i) => (
-                          <li className="collection-item dismissable">
+                          <li key={i} className="collection-item dismissable">
                             <label htmlFor="task2">
                               {assignment.assignmentname}
                               <Link to="#" className="secondary-content">

@@ -17,12 +17,12 @@ import EnrolStudent from "./views/teacher/EnrolStudent";
 import ClassroomScreen from "./components/classroom/ClassroomScreen";
 import SubjectContent from "./views/student/SubjectContent";
 import StudentAssignments from "./views/student/StudentAssignments";
-import TeacherReferralProgram from "./views/teacher/TeacherReferralProgram";
+import TeacherAffiliateProgram from "./views/teacher/TeacherAffiliateProgram";
 import LoginScreen from "./auth/LoginScreen";
 import RegisterSuccessScreen from "./auth/RegistrationSuccess";
 import RegistrationCanceled from "./auth/RegistrationCanceled";
 import TeacherMarkClassroomScreen from "./views/teacher/TeacherMarkClassroomScreen";
-import StudentTestScreen from "./components/teacher-mark/StudentTestScreen";
+import StudentSubmissionsScreen from "./components/teacher-mark/StudentSubmissionsScreen";
 import RegisterScreen from "./auth/RegisterScreen";
 import RegisterStudent from "./auth/RegisterStudent";
 
@@ -47,6 +47,7 @@ import "./assets/css/custom.css";
 import M from "materialize-css";
 
 import "./assets/css/video-player.css";
+import "./assets/css/profile.css";
 import "./assets/css/loader.css";
 import store from "./config/store";
 //import history from "./history";
@@ -61,6 +62,8 @@ import RegisterPremiumTeacher from "./auth/RegisterPremiumTeacher";
 import TeacherRegistrationSuccess from "./auth/TeacherRegistrationSuccess";
 import ProfileAccScreen from "./components/profile/ProfileAccScreen";
 import FreeStudentAcc from "./components/student-components/FreeStudentAcc";
+import StudentCoursework from "./views/student/StudentCoursework";
+import StudentClassCoursework from "./views/student/StudentClassCoursework";
 
 class App extends Component {
   componentDidMount() {
@@ -230,7 +233,7 @@ class App extends Component {
             component={TeacherSubjectContent}
           />
           <Route exact path="/teacher" component={TeacherScreen} />
-          <Route exact path="/referrals" component={TeacherReferralProgram} />
+          <Route exact path="/affiliate-program" component={TeacherAffiliateProgram} />
           <Route exact path="/teacher-students" component={TeacherStudents} />
           <Route exact path="/classroom" component={ClassroomScreen} />
           <Route
@@ -241,10 +244,12 @@ class App extends Component {
           <Route
             exact
             path="/classroom-mark-test"
-            component={StudentTestScreen}
+            component={StudentSubmissionsScreen}
           />
 
           <Route exact path="/student" component={StudentScreen} />
+          <Route exact path="/coursework" component={StudentCoursework} />
+          <Route exact path="/class-coursework" component={StudentClassCoursework} />
 
           <Route exact path="/video-player" component={LivePlayer} />
 

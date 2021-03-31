@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+*{
+    padding: 0;
+    margin: 0; 
+    font-family: 'Quicksand', sans-serif;     
+}
+.bounceman-4th{
+    background:#00bcd4;
+}
+.bounceman-4th ul{
+    position: absolute;
+    top: 50%;  left:50%;
+    transform: translate(-50%,-50%);
+    width : 100%;
+    text-align:center;
+}
+.bounceman-4th ul li{
+    list-style: none;
+    display: inline-block;
+    color: #fff;
+    animation: bounceman_4th 2s infinite linear;
+}
+@keyframes bounceman_4th{
+    0%{
+        font-size: 60px;
+        opacity: 1;
+        transform: rotateY(0);
+        letter-spacing: 10px;
+    }
+    50%{
+        font-size: 120px;
+        opacity: 0;
+        letter-spacing: 20px;
+        transform: rotateY(90deg);
+    }
+    100%{
+        font-size: 60px;
+        opacity: 1;
+        transform: rotateY(0);
+        letter-spacing: 10px;
+    }
+}
+.bounceman-4th ul li:nth-child(1){
+    animation-delay: 0s;
+}
+.bounceman-4th ul li:nth-child(2){
+    animation-delay: .2s;
+}
+.bounceman-4th ul li:nth-child(3){
+    animation-delay: .4s;
+}
+.bounceman-4th ul li:nth-child(4){
+    animation-delay: .6s;
+}
+.bounceman-4th ul li:nth-child(5){
+    animation-delay: .8s;
+}
+.bounceman-4th ul li:nth-child(6){
+    animation-delay: 1s;
+}
+.bounceman-4th ul li:nth-child(7){
+    animation-delay: 1.2s;
+}
+.bounceman-4th ul li:nth-child(8){
+    animation-delay: 1.4s;
+}
+.bounceman-4th ul li:nth-child(9){
+    animation-delay: 1.6s;
+}
+.bounceman-4th ul li:nth-child(10){
+    animation-delay: 1.8s;
+}

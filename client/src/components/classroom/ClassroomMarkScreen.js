@@ -14,17 +14,17 @@ class ClassroomMarkScreen extends Component {
       submissions: [],
       selectedFolder: false,
     };
-    this.get_assignments.bind(this);
+    this.getAssignments.bind(this);
     this.handleFolderClick.bind(this);
   }
   componentDidMount() {
-    this.get_assignments();
+    this.getAssignments();
     // $(".custom-select.bs-select select").addClass("display-none");
     // $(".col-sm-12.col-md-6").addClass("height-0");
     // $(".dataTables_length.bs-select").addClass("translateY-10");
   }
 
-  get_assignments = async () => {
+  getAssignments = async () => {
     ClassroomService.get_assiginments(
       this.props.teacherState.course.courseId
     ).then((res) => {
@@ -34,7 +34,7 @@ class ClassroomMarkScreen extends Component {
 
   handleFolderClick = (id) => {
     this.setState({ selectedFolder: true });
-    ClassroomService.get_submissions(id)
+    ClassroomService.getSubmissions (id)
       .then((res) => {
         this.setState({ subsmissions: res.data.data });
       })

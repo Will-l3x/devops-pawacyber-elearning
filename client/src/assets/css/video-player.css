@@ -147,6 +147,7 @@
 
 .video-controls .icon {
   position: absolute;
+  margin-top: 25px;
 }
 
 .translate-icon {

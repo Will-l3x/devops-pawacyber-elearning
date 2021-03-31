@@ -187,9 +187,9 @@ a {
   color: #0275d8;
 }
 
-#privacy-notice ol {
+/* #privacy-notice ol {
   list-style-type: circle !important;
-}
+} */
 
 .legal__terms {
   position: relative;
@@ -202,14 +202,16 @@ a {
 
 @media (min-width: 360px) {
   .legal__terms {
-    height: 180px;
+    height: fit-content;
+    max-height: 260px;
     margin: 20px 0;
   }
 }
 
 @media (min-width: 768px) {
   .legal__terms {
-    height: 280px;
+    height: fit-content;
+    max-height: 360px;
     margin: 20px;
   }
 }

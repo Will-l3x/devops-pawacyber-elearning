@@ -10,6 +10,7 @@ export const StudentService = {
   get_student_marked_classwork,
   get_student_all_classwork,
   download,
+  getAssignments,
   deleteResource,
   submit_assignment,
 };
@@ -148,6 +149,25 @@ async function get_course_video_resources(course_id) {
 
 //per course
 async function get_student_all_classwork(course_id) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  var config = {
+    baseURL: "https://pawacyberschool.net/api/student",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "https://pawacyberschool.net",
+      "Access-Control-Allow-Credentials": true,
+    },
+  };
+  try {
+    let res = await axios.get(`/get_assignments/${course_id}`, config);
+    return res.data.data;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+async function getAssignments(course_id) {
   const token = await JSON.parse(localStorage.getItem("token"));
   var config = {
     baseURL: "https://pawacyberschool.net/api/student",

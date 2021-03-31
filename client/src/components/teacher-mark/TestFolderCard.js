@@ -36,7 +36,7 @@ class TestFolderCard extends Component {
       this.setState({ courses: response })
       if(this.state.courses.length>0){
         this.courseId = this.state.courses[0].classId;
-        TeacherService.get_assignments(this.courseId)   // Get all assignments by class id
+        TeacherService.getAssignments(this.courseId)   // Get all assignments by class id
         .then((response) => {
           this.setState({ classwork:  response })
         });

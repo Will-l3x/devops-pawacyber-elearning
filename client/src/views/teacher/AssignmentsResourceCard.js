@@ -32,7 +32,7 @@ class AssignmentsResourceCard extends Component {
      
       for (const sub of response) {
         this.courseId = sub.classId;
-          TeacherService.get_assignments(this.courseId)
+          TeacherService.getAssignments(this.courseId)
             .then((response) => {
               console.log(response);
               const allResources = response === undefined ? [] : response.reverse();

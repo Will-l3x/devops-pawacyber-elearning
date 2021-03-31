@@ -451,20 +451,10 @@ class RegisterLimitedTeacher extends Component {
                         </div>
                         <div
                           id="modal1"
-                          className="modal overflow-y-visibile legal__modal padding-1"
+                          className="modal overflow-y-visibile legal__modal padding-2"
                         >
-                          <div className="container">
-                            <div className="row">
-                              <div className="col s12">
-                                <div className="titles">
-                                  <h1 className="title">
-                                    Terms & Conditions and Privacy Notice
-                                  </h1>
-                                  <h2 className="subtitle">
-                                    To create an account with Pawa Cyber, please
-                                    read and agree to our Terms & Conditions and
-                                    Privacy Notice
-                                  </h2>
+                                <div className="ex-basic-1">
+                                  <h5>Terms & Conditions and Privacy Notice</h5>
                                 </div>
 
                                 <div className="legal">
@@ -475,7 +465,7 @@ class RegisterLimitedTeacher extends Component {
                                     >
                                       <strong>
                                         <i className="fa fa-exclamation-triangle"></i>
-                                        Important.
+                                        Important.{" "}
                                       </strong>
                                       <span>
                                         In order to continue, you must read the
@@ -484,7 +474,7 @@ class RegisterLimitedTeacher extends Component {
                                       </span>
                                     </div>
                                   </div>
-                                  <div
+                                  {/* <div
                                     className="legal__instructions"
                                     style={{ paddingTop: 0 }}
                                   >
@@ -494,7 +484,8 @@ class RegisterLimitedTeacher extends Component {
                                     >
                                       {" "}
                                       <span>Navigate to:</span>
-                                      <ol>
+                                       <br />
+                          <ol style={{marginRight: 15}}>
                                         <li>
                                           <a
                                             className="terms-nav"
@@ -517,15 +508,14 @@ class RegisterLimitedTeacher extends Component {
                                     </div>
 
                                     <div className="legal__progress"></div>
-                                  </div>
+                                  </div> */}
 
                                   <div className="legal__terms">
                                     <div className="legal__terms-scroll">
                                       <div id="terms-and-conditions">
                                         <h5>Terms and Conditions</h5>
                                         <br />
-                                        <h6>Overview</h6>
-
+                                        <br /> <h6>Overview</h6>
                                         <p>
                                           This website is operated by Pawa Cyber
                                           School cc. Throughout the site, the
@@ -535,23 +525,20 @@ class RegisterLimitedTeacher extends Component {
                                           services available from this site to
                                           you, the user, conditioned upon your
                                           acceptance of all terms, conditions,
-                                          policies and notices stated here.
-                                        </p>
-                                        <p>
-                                          By visiting our site and / or
-                                          purchasing something from us, you
-                                          engage in our “Service” and agree to
-                                          be bound by the following terms and
-                                          conditions (“Terms of Service”,
-                                          “Terms”), including those additional
-                                          terms and conditions and policies
-                                          referenced herein and / or available
-                                          by hyperlink. These Terms of Service
-                                          apply to all users of the site,
-                                          including without limitation users who
-                                          are browsers, vendors, customers,
-                                          merchants, and / or contributors of
-                                          content.
+                                          policies and notices stated here. By
+                                          visiting our site and / or purchasing
+                                          something from us, you engage in our
+                                          “Service” and agree to be bound by the
+                                          following terms and conditions (“Terms
+                                          of Service”, “Terms”), including those
+                                          additional terms and conditions and
+                                          policies referenced herein and / or
+                                          available by hyperlink. These Terms of
+                                          Service apply to all users of the
+                                          site, including without limitation
+                                          users who are browsers, vendors,
+                                          customers, merchants, and / or
+                                          contributors of content.
                                         </p>
                                         <p>
                                           Please read these Terms of Service
@@ -585,7 +572,7 @@ class RegisterLimitedTeacher extends Component {
                                           changes constitutes acceptance of
                                           those changes.
                                         </p>
-                                        <h6>Online School Terms</h6>
+                                        <br /> <h6>Online School Terms</h6>
                                         <p>
                                           By agreeing to these Terms of Service,
                                           you represent that you are at least
@@ -610,76 +597,36 @@ class RegisterLimitedTeacher extends Component {
                                           immediate termination of your
                                           Services.
                                         </p>
-                                        <h6>General Conditions</h6>
+                                        <br />{" "}
+                                        <h6>Free subscription Conditions</h6>
                                         <p>
-                                          We reserve the right to refuse service
-                                          to anyone for any reason at any time.
-                                          You understand that your content (not
-                                          including credit card information),
-                                          may be transferred unencrypted and
-                                          involve (a) transmissions over various
-                                          networks; and (b) changes to conform
-                                          and adapt to technical requirements of
-                                          connecting networks or devices. Credit
-                                          card information is always encrypted
-                                          during transfer over networks.
-                                        </p>
-                                        <p>
-                                          You agree not to reproduce, duplicate,
-                                          copy, sell, resell or exploit any
-                                          portion of the Service, use of the
-                                          Service, or access to the Service or
-                                          any contact on the website through
-                                          which the service is provided, without
-                                          express written permission by us. The
-                                          headings used in this agreement are
-                                          included for convenience only and will
-                                          not limit or otherwise affect these
-                                          Terms.
-                                        </p>
-                                        <h6>Your Fees</h6>
-                                        <p>
-                                          We will provide the Service to you on
-                                          a pre-paid basis. In order to have
-                                          continued access to the Service you
-                                          must make, and we must receive,
-                                          payment of your Fees in advance on or
-                                          before the Monthly Due Date. If we do
-                                          not receive payment of on or before
-                                          due date, we will suspend your access
-                                          to the Service. If your access to the
-                                          Service is suspended, we will not
-                                          reactivate your access to the Service
-                                          until we have received payment of your
-                                          Fees.
-                                        </p>
-                                        <h6>
-                                          Modifications to the Service and
-                                          Prices
-                                        </h6>
-                                        <p>
-                                          Prices for our products and services
-                                          are subject to change without notice.
-                                          We reserve the right at any time to
-                                          modify or discontinue the Service (or
-                                          any part or content thereof) without
-                                          notice at any time.
-                                        </p>
-                                        <p>
-                                          We shall not be liable to you or to
-                                          any third-party for any modification,
-                                          price change, suspension or
-                                          discontinuance of the Service.
-                                        </p>
-                                        <h6>Products or Services</h6>
-                                        <p>
-                                          Certain products or services may be
-                                          available exclusively online through
-                                          the website. These products or
-                                          services may have limited quantities
-                                          and are subject to return or exchange
-                                          only according to our Return Policy.
-                                        </p>
+                                          We will provide to you a free
+                                          subscription that will not expire and
+                                          is accessible anytime of the day with
+                                          the following conditions:
+                                        </p>{" "}
+                                        <br />
+                                        <ul
+                                          style={{
+                                            marginRight: 15,
+                                            listStyle: "disc",
+                                          }}
+                                        >
+                                          <li>A Limited library access</li>
+                                          <li>Storage space of 0 GB</li>
+                                          <li>
+                                            Video conferencing with limited
+                                            participants
+                                          </li>
+                                          <li>
+                                            Video conferencing is limited to
+                                            2hrs per day
+                                          </li>
+                                          <li>
+                                            Adverts will always appear on screen
+                                          </li>
+                                        </ul>
+                                        <br /> <h6>Products or Services</h6>
                                         <p>
                                           We have made every effort to display
                                           as accurately as possible the colours
@@ -717,7 +664,7 @@ class RegisterLimitedTeacher extends Component {
                                           expectations, or that any errors in
                                           the Service will be corrected.
                                         </p>
-                                        <h6>Links To Other Web Sites</h6>
+                                        <br /> <h6>Links To Other Web Sites</h6>
                                         <p>
                                           Our Service may contain links to
                                           third-party web sites or services that
@@ -737,49 +684,13 @@ class RegisterLimitedTeacher extends Component {
                                           available on or through any such web
                                           sites or service.
                                         </p>
-                                        <h6>
-                                          Accuracy of Billing and Account
-                                          Information
-                                        </h6>
-                                        <p>
-                                          We reserve the right to refuse any
-                                          order you place with us. We may, in
-                                          our sole discretion, limit or cancel
-                                          quantities purchased per person, per
-                                          household or per order. These
-                                          restrictions may include orders placed
-                                          by or under the same customer account,
-                                          the same credit card, and/or orders
-                                          that use the same billing and/or
-                                          shipping address. In the event that we
-                                          make a change to or cancel an order,
-                                          we may attempt to notify you by
-                                          contacting the e-mail and/or billing
-                                          address/phone number provided at the
-                                          time the order was made.
-                                        </p>
-                                        <p>
-                                          We reserve the right to limit or
-                                          prohibit orders that, in our sole
-                                          judgment, appear to be placed by
-                                          dealers, resellers or distributors.
-                                          You agree to provide current, complete
-                                          and accurate purchase and account
-                                          information for all purchases made at
-                                          our online school. You agree to
-                                          promptly update your account and other
-                                          information, including your email
-                                          address and credit card numbers and
-                                          expiration dates, so that we can
-                                          complete your transactions and contact
-                                          you as needed.
-                                        </p>
-                                        <h6>Personal Information</h6>
+                                        <br /> <h6>Personal Information</h6>
                                         <p>
                                           Your submission of personal
                                           information through the online school
                                           is governed by our Privacy Policy.
                                         </p>
+                                        <br />{" "}
                                         <h6>
                                           Errors, Inaccuracies and Omissions
                                         </h6>
@@ -817,6 +728,7 @@ class RegisterLimitedTeacher extends Component {
                                           Service or on any related website has
                                           been modified or updated.
                                         </p>
+                                        <br />{" "}
                                         <h6>
                                           Disclaimer of Warranties; Limitation
                                           of Liability
@@ -894,17 +806,7 @@ class RegisterLimitedTeacher extends Component {
                                           liability shall be limited to the
                                           maximum extent permitted by law.
                                         </p>
-                                        <h6>Cancellation and Refunds</h6>
-                                        <p>
-                                          Once the user has purchased our
-                                          services and decides to cancel, no
-                                          refunds will be made. You will be
-                                          asked to acknowledge this policy
-                                          during the enrolment or registration
-                                          process; exceptions to this policy are
-                                          not offered.
-                                        </p>
-                                        <h6>Entire Agreement</h6>
+                                        <br /> <h6>Entire Agreement</h6>
                                         <p>
                                           These Terms constitute the entire
                                           agreement between Pawa Cyber School
@@ -912,6 +814,7 @@ class RegisterLimitedTeacher extends Component {
                                           this Website, and supersede all prior
                                           agreements and understandings.
                                         </p>
+                                        <br />{" "}
                                         <h6>Governing Law & Jurisdiction</h6>
                                         <p>
                                           These Terms will be governed by and
@@ -926,7 +829,7 @@ class RegisterLimitedTeacher extends Component {
                                       <div id="privacy-notice">
                                         <h5>Privacy Notice</h5>
                                         <br />
-                                        <h6>Overview</h6>
+                                        <br /> <h6>Overview</h6>
                                         <p>
                                           Pawa Cyber School ("us", "we", or
                                           "our") operates
@@ -943,15 +846,16 @@ class RegisterLimitedTeacher extends Component {
                                           collection and use of information in
                                           accordance with this policy.
                                         </p>
+                                        <br />{" "}
                                         <h6>Your Acceptance of These Terms</h6>
                                         <p>
                                           By using this site, you signify your
                                           assent to the Pawa Cyber School
                                           Privacy Policy. If you do not agree
                                           with this Privacy Policy, you may not
-                                          use our services. Your continued use
-                                          of the services following the posting.
+                                          use our services.
                                         </p>
+                                        <br />{" "}
                                         <h6>
                                           Private Data We Receive And Collect
                                         </h6>
@@ -975,7 +879,6 @@ class RegisterLimitedTeacher extends Component {
                                           web page, and the web page(s) you
                                           access (as applicable).
                                         </p>
-
                                         <p>
                                           When you first register for a Pawa
                                           Cyber School eLearning account, and
@@ -990,7 +893,8 @@ class RegisterLimitedTeacher extends Component {
                                           </a>
                                           about you such as:
                                         </p>
-                                        <ol>
+                                        <br />
+                                        <ol style={{ marginRight: 15 }}>
                                           <li>
                                             The geographic area where you use
                                             your computer and mobile devices
@@ -1035,8 +939,7 @@ class RegisterLimitedTeacher extends Component {
                                             queries or comments concerning.
                                           </li>
                                         </ol>
-
-                                        <h6>Cookies</h6>
+                                        <br /> <h6>Cookies</h6>
                                         <p>
                                           The use of “cookies” is standard in
                                           the Internet industry. They are used
@@ -1072,6 +975,7 @@ class RegisterLimitedTeacher extends Component {
                                           is very common in the Internet
                                           industry.
                                         </p>
+                                        <br />{" "}
                                         <h6>General Compliance With Laws</h6>
                                         <p>
                                           The safety of children is our highest
@@ -1081,7 +985,8 @@ class RegisterLimitedTeacher extends Component {
                                           purposes as it relates to our services
                                           and WILL NOT:
                                         </p>
-                                        <ol>
+                                        <br />
+                                        <ol style={{ marginRight: 15 }}>
                                           <li>
                                             Collect contact information from
                                             students without prior parental
@@ -1094,7 +999,7 @@ class RegisterLimitedTeacher extends Component {
                                             consent, online information will
                                             only be used to respond directly to
                                             a child’s request and will not be
-                                            used for other purposes.{" "}
+                                            used for other purposes.
                                           </li>
                                           <li>
                                             Use any information collected from
@@ -1121,8 +1026,7 @@ class RegisterLimitedTeacher extends Component {
                                             activity.
                                           </li>
                                         </ol>
-
-                                        <h6>Security</h6>
+                                        <br /> <h6>Security</h6>
                                         <p>
                                           The security of our Users’ personally
                                           identifiable information is of the
@@ -1181,6 +1085,7 @@ class RegisterLimitedTeacher extends Component {
                                           security features may not be broken,
                                           violated or in some way compromised.
                                         </p>
+                                        <br />{" "}
                                         <h6>Changes To This Privacy Policy</h6>
                                         <p>
                                           This Privacy Policy is effective as of
@@ -1209,7 +1114,7 @@ class RegisterLimitedTeacher extends Component {
                                           you have provided us, or by placing a
                                           prominent notice on our website.
                                         </p>
-                                        <h6>Contact Us</h6>
+                                        <br /> <h6>Contact Us</h6>
                                         <p>
                                           If you have any questions about this
                                           Privacy Policy, please contact us.
@@ -1222,10 +1127,6 @@ class RegisterLimitedTeacher extends Component {
                                       <div>
                                         <sup>1</sup> Must agree to create your
                                         account
-                                      </div>
-                                      <div>
-                                        <sup>2</sup> Must agree or disagree to
-                                        create your account
                                       </div>
                                     </div>
                                     <div style={{ float: "right" }}>
@@ -1247,9 +1148,7 @@ class RegisterLimitedTeacher extends Component {
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
+                           
                       </div>
                     </form>
                   ) : (

@@ -37,8 +37,9 @@ export const AdminService = {
   get_subadmins,
   get_all_students,
   get_all_resources,
-  get_all_teachers
-
+  get_all_teachers,
+  deleteResource,
+  download
 };
 
 async function get_course_tag(data) {
@@ -738,5 +739,49 @@ async function get_topics(id) {
     return res;
   } catch (err) {
     console.error(err);
+  }
+}
+
+async function download(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+  try {
+    let res = await axios.post(
+      `https://pawacyberschool.net/api/upload/get`,
+      qs.stringify(data),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
+        responseType: "blob",
+      }
+    );
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+async function deleteResource(data) {
+  const token = await JSON.parse(localStorage.getItem("token"));
+
+  try {
+    let res = await axios.delete(
+      `https://pawacyberschool.net/api/upload/delete`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: data,
+      }
+    );
+
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    return err;
   }
 }

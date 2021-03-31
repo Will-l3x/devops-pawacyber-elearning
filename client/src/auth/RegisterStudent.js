@@ -50,10 +50,10 @@ class RegisterStudent extends Component {
                           className="card-title"
                           style={{ fontSize: "16px" }}
                         >
-                          Free Account
+                          Free Subscription Account
                         </div>
                         <hr className="cell-divide-hr" />
-                        <div className="price">
+                        {/* <div className="price">
                           <span
                             className="currency"
                             style={{ fontSize: "17px" }}
@@ -67,9 +67,9 @@ class RegisterStudent extends Component {
                           >
                             /month
                           </span>
-                          {/* <div className="frequency">{this.pricingPlan.frequency}</div> */}
+                          {/* <div className="frequency">{this.pricingPlan.frequency}</div> /}
                         </div>
-                        <hr className="cell-divide-hr" />
+                        <hr className="cell-divide-hr" /> */}
                         <ul className="list-unstyled li-space-lg">
                           <li className="media">
                             <i
@@ -134,7 +134,7 @@ class RegisterStudent extends Component {
                           Premium Account
                         </div>
                         <hr className="cell-divide-hr" />
-                        <div className="price">
+                        {/* <div className="price">
                           <span
                             className="currency"
                             style={{ fontSize: "17px" }}
@@ -148,9 +148,9 @@ class RegisterStudent extends Component {
                           >
                             /month
                           </span>
-                          {/* <div className="frequency">{this.pricingPlan.frequency}</div> */}
+                          {/* <div className="frequency">{this.pricingPlan.frequency}</div>/}
                         </div>
-                        <hr className="cell-divide-hr" />
+                        <hr className="cell-divide-hr" /> */}
                         <ul className="list-unstyled li-space-lg">
                           <li className="media">
                             <i

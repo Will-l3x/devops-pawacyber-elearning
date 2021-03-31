@@ -58,7 +58,7 @@ class StudentScreen extends Component {
         this.setState({ courses, del_courses });
         for (const sub of response) {
           this.courseId = sub.classId;
-          TeacherService.get_assignments(this.courseId).then((data) => {
+          TeacherService.getAssignments(this.courseId).then((data) => {
             // assignments.push(data);
             if (isEmpty(data)) {
             } else {

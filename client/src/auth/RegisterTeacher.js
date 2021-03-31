@@ -55,7 +55,7 @@ class RegisterTeacher extends Component {
                           className="card-title"
                           style={{ fontSize: "16px" }}
                         >
-                          Free Account
+                          Free Subscription Account
                         </div>
                         <hr className="cell-divide-hr" />
                         <div className="price">

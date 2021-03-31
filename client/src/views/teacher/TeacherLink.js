@@ -69,7 +69,7 @@ class TeacherLink extends Component {
           <Link
             to="/video-player"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick("student")}
+            onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">live_tv</i>
             <span className="nav-text">Video Class</span>
@@ -77,9 +77,9 @@ class TeacherLink extends Component {
         </li>
         <li className="bold">
           <Link
-            to="/referrals"
+            to="/affiliate-program"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick("referrals")}
+            onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">star</i>
             <span className="nav-text">Promotions</span>
@@ -89,7 +89,7 @@ class TeacherLink extends Component {
           <Link
             to="/profile-acc"
             className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick("referrals")}
+            onClick={() => this.dashClick("teacher")}
           >
             <i className="material-icons">account_box</i>
             <span className="nav-text">My Account</span>

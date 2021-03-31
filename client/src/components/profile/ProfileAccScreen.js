@@ -6,9 +6,6 @@ import LeftSidebar from "../LeftSidebar";
 import RightSidebar from "../RightSidebar";
 import Footer from "../footer";
 import M from "materialize-css";
-import "../../assets/css/profile.css";
-import "../../assets/css/e-wallet.css";
-import "../../assets/css/basic-loader.css";
 import moment from "moment";
 import InputMask from "react-input-mask";
 import { AuthService } from "../../services/authServices";
@@ -391,8 +388,8 @@ class ProfileScreen extends Component {
                         className="card--heading"
                         style={{ marginBottom: 30 }}
                       >
-                        <div className="heading">Details</div>
-                        <div className="date">
+                        <div className="profile-heading">Details</div>
+                        <div className="profile-date">
                           Joined{" "}
                           {moment(new Date(this.state.uuser.activefrom)).format(
                             "LL"
@@ -559,7 +556,7 @@ class ProfileScreen extends Component {
                   <div className="profile-card  border-radius-10 z-depth-5">
                     <div className="card--insights">
                       <div className="card--heading">
-                        <div className="heading">Account</div>
+                        <div className="profile-heading">Account</div>
                         <div className="card--button">
                           {this.state.accSettings ? (
                             <button
@@ -1125,7 +1122,7 @@ class ProfileScreen extends Component {
                   <div className="profile-card  border-radius-10 z-depth-5">
                     <div className="card--insights">
                       <div className="card--heading">
-                        <div className="heading">Security</div>
+                        <div className="profile-heading">Security</div>
                         <div className="card--button">
                           {this.state.editpass ? (
                             <button

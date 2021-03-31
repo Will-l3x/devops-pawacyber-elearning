@@ -1403,7 +1403,56 @@ nav.modal-width-75 {
     color-stop(0.86, rgb(28, 58, 148))
   );
 }
-.clipboard{
+.clipboard {
   transform: translateY(30px);
   border-radius: 5px;
+}
+.submission {
+  font-family: "Noto Sans JP";
+  margin: 0px auto;
+  padding: 10px 25px 10px 25px;
+  background-color: #e0ecf8;
+  border-radius: 5px;
+}
+
+
+.submission__title {
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border-bottom: 0px solid rgba(255, 255, 255, 0.1);
+}
+
+.submission__title i {
+  font-style: normal;
+  font-size: 12px;
+}
+
+.submission__header,
+.submission__footer {
+  display: flex;
+  font-size: 12px;
+  font-weight: 500;
+}
+.submission__header {
+  margin-top: 15px;
+}
+.submission__footer {
+  transform: translateY(-20px);
+}
+
+.submission__status {
+  margin-left: auto;
+}
+
+.submission__group__label {
+  display: block;
+  padding: 2px 0px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #9e9e9e;
+}
+
+.submission__group__item {
+  display: flex;
+  align-items: center;
 }
