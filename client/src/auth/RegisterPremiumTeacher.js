@@ -172,7 +172,7 @@ class RegisterPremiumTeacher extends Component {
           title: this.state.gender === "1" ? "Mr" : "Miss",
           vpassword: event.target.vpassword.value,
           dob: event.target.dob.value,
-          //genderid: this.state.gender,
+          genderid: this.state.gender,
           schoolid: 37,
           grade: event.target.grade.value,
         };

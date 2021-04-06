@@ -21,7 +21,7 @@ class TeacherScreen extends Component {
     this.state = {
       user:
         JSON.parse(localStorage.getItem("user")) === null
-          ? { roleid: 3 }
+          ? { roleid: 1 }
           : JSON.parse(localStorage.getItem("user")),
       courses: [],
       assignments: [],
