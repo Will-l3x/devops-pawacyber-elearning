@@ -320,20 +320,11 @@ input[type='checkbox'] {
 }
 
 #ads_modal{
-	left: unset !important;
-	right: 10px;
-	width: 30%;
-	height: 250px;
+	width: 60vh;
+	height: 40vh;
 	z-index: 1045;
     display: block;
-    top: 10%;
-    transform: scaleX(1) scaleY(1);
-    position: fixed;
     background-color: #FAFAD5;;
-    margin: auto;
-    overflow-y: auto;
-    border-radius: 2px;
-    will-change: top, opacity;
 }
 .form-control-submit-button {
 	display: inline-block;

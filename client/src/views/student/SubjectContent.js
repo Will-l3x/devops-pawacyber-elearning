@@ -38,9 +38,9 @@ class SubjectContent extends Component {
 
   componentDidMount() {
     this.getContentTags();
-    document.addEventListener('contextmenu', (e) => {
+    document.addEventListener("contextmenu", (e) => {
       e.preventDefault();
-    });  
+    });
   }
   videoPlayer() {
     $(".video-player-st").each(function (_, videoPlayer) {
@@ -244,8 +244,9 @@ class SubjectContent extends Component {
             }
           }
         }
+        allResources = allResources.filter((el) => el.obj !== "Advert");
 
-        const allResources = content.filter((resource) =>
+        let allResources = content.filter((resource) =>
           resource.obj.includes(selectedContentTag.name)
         );
         allResources.sort((a, b) =>
@@ -360,18 +361,34 @@ class SubjectContent extends Component {
       file: resource.file,
     };
 
-    this.setState({ selectedResourceKey: key });
-    setTimeout(() => {
+    this.setState({ selectedResourceKey: key }, () => {
       StudentService.download(data).then((response) => {
-        this.setState(
-          { view: true, url: URL.createObjectURL(response) },
+        try {
+          const url = URL.createObjectURL(response);
+          this.setState(
+            {
+              view: true,
+              url,
+            },
 
-          () => {
-            this.videoPlayer();
-          }
-        );
+            () => {
+              this.videoPlayer();
+            }
+          );
+        } catch (error) {
+          this.setState(
+            {
+              view: true,
+              url: "",
+            },
+
+            () => {
+              this.videoPlayer();
+            }
+          );
+        }
       });
-    }, 100);
+    });
   }
   cancelView() {
     this.setState({
@@ -703,7 +720,8 @@ class SubjectContent extends Component {
                                   </div>
                                 </div>
 
-                                <video contextMenu = "none"
+                                <video
+                                  contextMenu="none"
                                   src={this.state.url}
                                   width="100%"
                                   height="100%"

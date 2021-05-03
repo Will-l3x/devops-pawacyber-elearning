@@ -31,33 +31,32 @@ class TeacherResourceCard extends Component {
       this.setState({ courses: response });
       for (const sub of response) {
         this.courseId = sub.classId;
-        TeacherService.get_materials(this.courseId)
-          .then((response) => {
-            const allResources = response === undefined ? [] : response.reverse();
-            allResources.sort(
-              (a, b) => new Date(b.materialname) - new Date(a.materialname)
-            );
+        TeacherService.get_materials(this.courseId).then((response) => {
+          let allResources = response === undefined ? [] : response.reverse();
+          allResources = allResources.filter((el) => el.obj !== "Advert");
 
-            let pages = [];
-            let perPage = 24;
-            const totalPageCount = Math.ceil(allResources.length / perPage);
+          allResources.sort(
+            (a, b) => new Date(b.materialname) - new Date(a.materialname)
+          );
 
-            for (var i = 1; i <= totalPageCount; i++) {
-              pages.push(i);
-            }
+          let pages = [];
+          let perPage = 24;
+          const totalPageCount = Math.ceil(allResources.length / perPage);
 
-            const resources = this.pageArraySplit(allResources, {
-              currentPageNumber: this.state.currentPageNumber,
-              perPage,
-            });
+          for (var i = 1; i <= totalPageCount; i++) {
+            pages.push(i);
+          }
 
-            this.setState({ pages, resources, allResources });
+          const resources = this.pageArraySplit(allResources, {
+            currentPageNumber: this.state.currentPageNumber,
+            perPage,
           });
+
+          this.setState({ pages, resources, allResources });
+        });
       }
-      
     });
   }
-
 
   download(resource) {
     var data = {
@@ -111,7 +110,7 @@ class TeacherResourceCard extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-        this.state.pages.length < 1
+      this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber - 1;
     this.setState({ currentPageNumber: pageNumber }, () => {
@@ -122,7 +121,7 @@ class TeacherResourceCard extends Component {
     e.preventDefault();
     const pageNumber =
       this.state.currentPageNumber === this.state.pages.length ||
-        this.state.pages.length < 1
+      this.state.pages.length < 1
         ? this.state.currentPageNumber
         : this.state.currentPageNumber + 1;
     this.setState({ currentPageNumber: pageNumber }, () => {

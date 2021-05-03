@@ -406,7 +406,7 @@ class SchoolTeacherManagementScreen extends Component {
                     <div className="col s5">
                       <ReactFormLabel htmlFor="firstname" title="Firstname:" />
                       <input
-                        className="form-input input-meeting"
+                        className="form-input input-meeting text-capitalize"
                         id="firstname"
                         type="text"
                         name="firstname"
@@ -416,7 +416,7 @@ class SchoolTeacherManagementScreen extends Component {
                     <div className="col s5">
                       <ReactFormLabel htmlFor="lastname" title="Lastname:" />
                       <input
-                        className="form-input input-meeting"
+                        className="form-input input-meeting text-capitalize"
                         id="lastname"
                         type="text"
                         name="lastname"
@@ -497,7 +497,7 @@ class SchoolTeacherManagementScreen extends Component {
                     <input
                       id="firstname2"
                       type="text"
-                      className="form-input input-meeting"
+                      className="form-input input-meeting text-capitalize"
                       name="firstname"
                       onChange={this.onChange}
                       value={this.state.selectedTeacher.firstname}
@@ -509,7 +509,7 @@ class SchoolTeacherManagementScreen extends Component {
                     <input
                       id="lastname2"
                       type="text"
-                      className="form-input input-meeting"
+                      className="form-input input-meeting text-capitalize"
                       name="lastname"
                       onChange={this.onChange}
                       value={this.state.selectedTeacher.lastname}

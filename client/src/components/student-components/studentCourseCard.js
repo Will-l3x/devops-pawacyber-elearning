@@ -4,10 +4,6 @@ import { connect } from "react-redux";
 import { course_data } from "../../actions/student";
 
 class StudentCourseCard extends Component {
-  constructor() {
-    super();
-    this.colors.bind(this);
-  }
   colors = (i) => {
     var colors = [
       "gradient-45deg-light-blue-cyan",

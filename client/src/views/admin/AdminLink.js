@@ -49,6 +49,16 @@ class AdminLink extends Component {
         </li>
         <li className="bold">
           <Link
+            to="/advertising"
+            className="waves-effect waves-cyan"
+            onClick={this.onClick}
+          >
+            <i className="material-icons">cast_connected</i>
+            <span className="nav-text">Ads Management</span>
+          </Link>
+        </li>
+        <li className="bold">
+          <Link
             to="/all-subjects"
             className="waves-effect waves-cyan"
             onClick={this.onClick}
@@ -56,7 +66,6 @@ class AdminLink extends Component {
             <i className="material-icons">class</i>
             <span className="nav-text">Subjects</span>
           </Link>
-          
         </li>
         <li className="bold">
           <Link
@@ -67,7 +76,6 @@ class AdminLink extends Component {
             <i className="material-icons">local_library</i>
             <span className="nav-text">Resources</span>
           </Link>
-          
         </li>
         <li className="bold">
           <Link
@@ -89,7 +97,6 @@ class AdminLink extends Component {
             <span className="nav-text">Enroled Students</span>
           </Link>
         </li>
-
       </ul>
     );
   }

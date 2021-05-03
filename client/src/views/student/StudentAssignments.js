@@ -30,12 +30,13 @@ class StudentAssignments extends Component {
     var data = {
       file: resource.file,
     };
-    console.log(data);
-    setTimeout(() => {
-      StudentService.download(data).then((response) => {
+    StudentService.download(data).then((response) => {
+      try {
         window.open(URL.createObjectURL(response));
-      });
-    }, 100);
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }
 
   assignmentData() {

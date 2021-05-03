@@ -25,40 +25,38 @@ class AssignmentsResourceCard extends Component {
   }
 
   getDashData() {
- 
     this.teacherid = this.user.userid;
     TeacherService.get_all_courses(this.teacherid).then((response) => {
       this.setState({ courses: response });
-     
+
       for (const sub of response) {
         this.courseId = sub.classId;
-          TeacherService.getAssignments(this.courseId)
-            .then((response) => {
-              console.log(response);
-              const allResources = response === undefined ? [] : response.reverse();
-              allResources.sort(
-                (a, b) => new Date(b.assignmentname) - new Date(a.assignmentname)
-              );
-        
-              let pages = [];
-              let perPage = 24;
-              const totalPageCount = Math.ceil(allResources.length / perPage);
-        
-              for (var i = 1; i <= totalPageCount; i++) {
-                pages.push(i);
-              }
-        
-              const resources = this.pageArraySplit(allResources, {
-                currentPageNumber: this.state.currentPageNumber,
-                perPage,
-              });
-        
-              this.setState({ pages, resources, allResources });
-            });
+        TeacherService.getAssignments(this.courseId).then((response) => {
+          let allResources = response === undefined ? [] : response.reverse();
+          allResources = allResources.filter((el) => el.obj !== "Advert");
+
+          allResources.sort(
+            (a, b) => new Date(b.assignmentname) - new Date(a.assignmentname)
+          );
+
+          let pages = [];
+          let perPage = 24;
+          const totalPageCount = Math.ceil(allResources.length / perPage);
+
+          for (var i = 1; i <= totalPageCount; i++) {
+            pages.push(i);
+          }
+
+          const resources = this.pageArraySplit(allResources, {
+            currentPageNumber: this.state.currentPageNumber,
+            perPage,
+          });
+
+          this.setState({ pages, resources, allResources });
+        });
       }
     });
   }
-
 
   download(resource) {
     var data = {

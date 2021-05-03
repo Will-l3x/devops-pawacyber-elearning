@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { SchoolService } from "../services/school";
 import { TeacherService } from "../services/teacher";
+import User from "./User";
 
 class UserGridComp extends Component {
   constructor(props) {
@@ -290,86 +291,84 @@ class UserGridComp extends Component {
               .toLowerCase()
               .includes(this.state.searchText.toLowerCase())
           ).length < 1 ? (
-              <div className="row">
-                <div className="divider" style={{ marginTop: 30 }}></div>
-                <p
+            <div className="row">
+              <div className="divider" style={{ marginTop: 30 }}></div>
+              <p
+                style={{
+                  textAlign: "center",
+                  fontSize: "20px",
+                }}
+              >
+                <img
+                  src={avatar}
+                  alt="Avatar"
                   style={{
-                    textAlign: "center",
-                    fontSize: "20px",
+                    maxWidth: "100%",
+                    maxHeight: "150px",
                   }}
-                >
-                  <img
-                    src={avatar}
-                    alt="Avatar"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "150px",
-                    }}
-                  ></img>
-                  <br />
-                  <br />
+                ></img>
+                <br />
+                <br />
                 No Results Found!
               </p>
-              </div>
-            ) : this.state.searchText === "" ? (
-              this.state.users
-                .filter((user) =>
-                  user.name
-                    .toLowerCase()
-                    .includes(this.state.searchText.toLowerCase())
-                )
-                .map((user, index) => (
-                  <User
-                    key={index}
-                    name={user.name}
-                    fn={user.firstname}
-                    ln={user.lastname}
-                    email={user.email}
-                    pic={dp}
-                    dob={user.dob}
-                    datejoined={user.datejoined}
-                    enrolmentkey={user.enrolmentkey}
-                    firstname={user.firstname}
-                    gradeid={user.gradeid}
-                    lastname={user.lastname}
-                    rolename={user.rolename}
-                  />
-                ))
-            ) : (
-                this.state.allUsers
-                  .filter((user) =>
-                    user.name
-                      .toLowerCase()
-                      .includes(this.state.searchText.toLowerCase())
-                  )
-                  .map((user, index) => (
-                    <User
-                      key={index}
-                      name={user.name}
-                      fn={user.firstname}
-                      ln={user.lastname}
-                      email={user.email}
-                      pic={user.pic}
-                      dob={user.dob}
-                      datejoined={user.datejoined}
-                      enrolmentkey={user.enrolmentkey}
-                      firstname={user.firstname}
-                      gradeid={user.gradeid}
-                      lastname={user.lastname}
-                      rolename={user.rolename}
-                    />
-                  ))
-              )}
+            </div>
+          ) : this.state.searchText === "" ? (
+            this.state.users
+              .filter((user) =>
+                user.name
+                  .toLowerCase()
+                  .includes(this.state.searchText.toLowerCase())
+              )
+              .map((user, index) => (
+                <User
+                  key={index}
+                  index={index}
+                  name={user.name}
+                  firstname={user.firstname}
+                  lastname={user.lastname}
+                  email={user.email}
+                  pic={dp}
+                  dob={user.dob}
+                  datejoined={user.datejoined}
+                  enrolmentkey={user.enrolmentkey}
+                  gradeid={user.gradeid}
+                  rolename={user.rolename}
+                />
+              ))
+          ) : (
+            this.state.allUsers
+              .filter((user) =>
+                user.name
+                  .toLowerCase()
+                  .includes(this.state.searchText.toLowerCase())
+              )
+              .map((user, index) => (
+                <User
+                  key={index}
+                  index={index}
+                  name={user.name}
+                  firstname={user.firstname}
+                  lastname={user.lastname}
+                  email={user.email}
+                  pic={user.pic}
+                  dob={user.dob}
+                  datejoined={user.datejoined}
+                  enrolmentkey={user.enrolmentkey}
+                  gradeid={user.gradeid}
+                  rolename={user.rolename}
+                />
+              ))
+          )}
         </main>
         <div className="divider" style={{ marginTop: 30 }}></div>
         <div className="row">
-          <div className="col l12 center-align" style={{paddingTop: 20}}>
+          <div className="col l12 center-align" style={{ paddingTop: 20 }}>
             <ul className="pagination">
               <li
                 className={
                   this.state.currentPageNumber === 1 ||
-                    this.state.pages.length < 1 ||
-                    this.state.searchText !== ""
+                  this.state.pages.length < 1 ||
+                  this.state.searchText !== ""
                     ? "disabled pointer-events-none"
                     : "waves-effect"
                 }
@@ -377,8 +376,8 @@ class UserGridComp extends Component {
                 <Link
                   className={
                     this.state.currentPageNumber === 1 ||
-                      this.state.pages.length < 1 ||
-                      this.state.searchText !== ""
+                    this.state.pages.length < 1 ||
+                    this.state.searchText !== ""
                       ? "disabled pointer-events-none"
                       : ""
                   }
@@ -396,42 +395,42 @@ class UserGridComp extends Component {
                   </Link>
                 </li>
               ) : (
-                  this.state.pages.map((page) => {
-                    if (page === this.state.currentPageNumber) {
-                      return (
-                        <li key={page} className="active">
-                          <Link
-                            onClick={() => this.handlePageClick(page)}
-                            rel="noopener noreferer"
-                            to="#!"
-                          >
-                            {page}
-                          </Link>
-                        </li>
-                      );
-                    } else {
-                      return (
-                        <li key={page}>
-                          <Link
-                            onClick={(e) => {
-                              e.preventDefault();
-                              this.handlePageClick(page);
-                            }}
-                            rel="noopener noreferer"
-                            to="#!"
-                          >
-                            {page}
-                          </Link>
-                        </li>
-                      );
-                    }
-                  })
-                )}
+                this.state.pages.map((page) => {
+                  if (page === this.state.currentPageNumber) {
+                    return (
+                      <li key={page} className="active">
+                        <Link
+                          onClick={() => this.handlePageClick(page)}
+                          rel="noopener noreferer"
+                          to="#!"
+                        >
+                          {page}
+                        </Link>
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li key={page}>
+                        <Link
+                          onClick={(e) => {
+                            e.preventDefault();
+                            this.handlePageClick(page);
+                          }}
+                          rel="noopener noreferer"
+                          to="#!"
+                        >
+                          {page}
+                        </Link>
+                      </li>
+                    );
+                  }
+                })
+              )}
               <li
                 className={
                   this.state.currentPageNumber === this.state.pages.length ||
-                    this.state.pages.length < 1 ||
-                    this.state.searchText !== ""
+                  this.state.pages.length < 1 ||
+                  this.state.searchText !== ""
                     ? "disabled pointer-events-none"
                     : "waves-effect"
                 }
@@ -440,8 +439,8 @@ class UserGridComp extends Component {
                   onClick={this.handleNextClick}
                   className={
                     this.state.currentPageNumber === this.state.pages.length ||
-                      this.state.pages.length < 1 ||
-                      this.state.searchText !== ""
+                    this.state.pages.length < 1 ||
+                    this.state.searchText !== ""
                       ? "disabled pointer-events-none"
                       : ""
                   }
@@ -459,7 +458,7 @@ class UserGridComp extends Component {
   }
 }
 
-class Search extends React.Component {
+class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -501,110 +500,6 @@ class Search extends React.Component {
   }
 }
 
-// class ReactFormLabel extends React.Component {
-//   render() {
-//     return (
-//       <label className="label-meeting" htmlFor={this.props.htmlFor}>
-//         {this.props.title}
-//       </label>
-//     );
-//   }
-// }
-
-class User extends React.Component {
-  static defaultProps = {
-    name: "John Doe",
-    //email: "JohnDoe@example.com",
-    pic: dp,
-  };
-
-  static propTypes = {
-    name: PropTypes.string,
-    //email: PropTypes.string,
-    pic: PropTypes.string,
-  };
-
-  render() {
-    const {
-      name,
-      fn,
-      ln,
-      gradeid,
-      //pic,
-      dob,
-      datejoined,
-      enrolmentkey,
-      rolename,
-    } = this.props;
-    return (
-      <div className="col s12 m6 l4">
-        <div
-          className="card border-radius-10 z-depth-5"
-          style={{
-            background: `url(${backgrnd}) `,
-            backgroundSize: "contain",
-          }}
-        >
-          <div className="card-content UserCard">
-            <div className="UserCardTop justify-center">
-              <Avatar className="avatar-large-2">
-                {fn.charAt(0)}
-                {ln.charAt(0)}
-              </Avatar>
-              {/* <img alt="user" src={pic} /> */}
-            </div>
-          </div>
-
-          <div className="card-content text-normal">
-            <span
-              style={{ fontSize: 20 }}
-              className="card-title activator grey-text text-darken-4"
-            >
-              {name}
-              <i className="material-icons right">more_vert</i>
-            </span>
-            <br />
-            <p>
-              <i className="material-icons small icon-translate">perm_identity</i> {rolename}
-            </p>
-            <br />
-            <p>
-              <i className="material-icons small icon-translate">airplanemode_active</i> Joined{" "}
-              {moment(new Date(datejoined)).format("LL") === "Invalid date"
-                ? "Unknown"
-                : moment(new Date(datejoined)).format("LL")}
-            </p>
-            <br />
-          </div>
-          <div className="card-reveal">
-            <span className="card-title grey-text text-darken-4">
-              {name}
-              <i className="material-icons right">close</i>
-            </span>
-            <p>Here is some more information about this user.</p>
-            <p>
-              <i className="material-icons small icon-translate">cake</i>{" "}
-              {moment(new Date(dob)).format("LL") === "Invalid date"
-                ? "Unknown"
-                : moment(new Date(dob)).format("LL")}
-            </p>
-            <p>
-              <i className="material-icons small icon-translate">airplanemode_active</i> Joined{" "}
-              {moment(new Date(datejoined)).format("LL")}
-            </p>
-            <p>
-              <i className="material-icons small icon-translate">class</i> Grade: {gradeid}
-            </p>
-            <p>
-              <i className="material-icons small icon-translate">vpn_key</i> EnrolmentKey:{" "}
-              {enrolmentkey}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {};

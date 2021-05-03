@@ -4,8 +4,6 @@ import M from "materialize-css";
 import Select from "react-select";
 import { AdminService } from "../services/admin";
 
-let options = [];
-
 class Tags extends Component {
   constructor() {
     super();
@@ -20,15 +18,20 @@ class Tags extends Component {
   getTag() {
     AdminService.get_all_tags()
       .then((response) => {
+        let options = [];
         for (const tag of response) {
-            tag.value = tag.tagId;
-            tag.label = tag.name;
+          tag.value = tag.tagId;
+          tag.label = tag.name;
+          if (tag.name === "Advert") {
+            //pass
+          } else {
             options.push(tag);
+          }
         }
+        this.setState({ options });
       })
       .catch((error) => {
         console.log(error);
-        options = [];
       });
   }
 
@@ -49,10 +52,10 @@ class Tags extends Component {
     return (
       <Select
         classNamePrefix="custom-options"
-        className ="form-input "
+        className="form-input "
         value={selectedOption}
         onChange={this.handleChange}
-        options={options}
+        options={this.state.options}
       />
     );
   }

@@ -48,6 +48,7 @@ class LeftSidebar extends Component {
     //should just use user role to change links
     let Links;
     const user = JSON.parse(localStorage.getItem("user"));
+ 
     if (user.roleid === 5) {
       Links = AdminLink;
     } else if (user.roleid === 4) {

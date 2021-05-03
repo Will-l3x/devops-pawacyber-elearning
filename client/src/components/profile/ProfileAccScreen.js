@@ -422,7 +422,7 @@ class ProfileScreen extends Component {
                                 id="firstname"
                                 type="text"
                                 name="firstname"
-                                className="form-input input-meeting"
+                                className="form-input input-meeting text-capitalize"
                                 onChange={this.onChange}
                                 defaultValue={
                                   this.state.uuser.firstname === null
@@ -445,7 +445,7 @@ class ProfileScreen extends Component {
                                 id="lastname"
                                 type="text"
                                 name="lastname"
-                                className="form-input input-meeting"
+                                className="form-input input-meeting text-capitalize"
                                 onChange={this.onChange}
                                 defaultValue={
                                   this.state.uuser.lastname === null

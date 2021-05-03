@@ -24,8 +24,9 @@ class ResourceCard extends Component {
 
   getDashData() {
     AdminService.get_all_resources().then((response) => {
-      const allResources = response === undefined ? [] : response;
-      console.log(allResources[1]);
+      let allResources = response === undefined ? [] : response;
+      allResources = allResources.filter((el) => el.obj !== "Advert");
+
       allResources.sort((a, b) => a.materialname.localeCompare(b.materialname));
 
       let pages = [];

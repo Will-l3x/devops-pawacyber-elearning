@@ -42,7 +42,7 @@ export class RightSidebar extends Component {
                   </ul>
                 </div>
                 <div id="chatapp" className="col s12 no-padding">
-                  <div className="scrollbar" id="style-7">
+                  <div className="scrollbar" id="style-1">
                     <div className="chat-messages">
                       <div className="message-container z-depth-5 left green accent-3">
                         <span>You</span>

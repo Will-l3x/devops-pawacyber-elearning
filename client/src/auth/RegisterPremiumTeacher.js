@@ -299,7 +299,7 @@ class RegisterPremiumTeacher extends Component {
                                 <input
                                   id="lastname"
                                   type="text"
-                                  className="validate"
+                                  className="validate text-capitalize"
                                   name="lastname"
                                   required
                                 ></input>
@@ -316,7 +316,7 @@ class RegisterPremiumTeacher extends Component {
                                 <input
                                   id="firstname"
                                   type="text"
-                                  className="validate"
+                                  className="validate text-capitalize"
                                   name="firstname"
                                   required
                                 ></input>

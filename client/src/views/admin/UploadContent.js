@@ -52,9 +52,6 @@ class UploadContent extends Component {
     this.schoolid = this.user.schoolid;
     M.AutoInit();
     this.getDashData();
-    document.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-    });
   }
   videoPlayer() {
     $(".video-player-st").each(function (_, videoPlayer) {
@@ -237,8 +234,8 @@ class UploadContent extends Component {
 
   getDashData() {
     AdminService.get_all_resources().then((response) => {
-      const allResources = response === undefined ? [] : response;
-      console.log(allResources[1]);
+      let allResources = response === undefined ? [] : response;
+      allResources = allResources.filter((el) => el.obj !== "Advert");
       allResources.sort((a, b) => a.materialname.localeCompare(b.materialname));
 
       let pages = [];
@@ -274,7 +271,6 @@ class UploadContent extends Component {
         currentPageNumber: this.state.currentPageNumber,
         perPage,
       });
-
       this.setState({ pages, resources, allResources, totalPageCount });
     });
   }
@@ -421,10 +417,8 @@ class UploadContent extends Component {
   };
 
   onSelectTagOption = (selectedOption) => {
-    const tagOptions = this.state.tag;
-    tagOptions.push(selectedOption.tagId);
     this.setState({
-      tag: tagOptions,
+      tag: [selectedOption.tagId],
       selectedOption,
     });
   };
@@ -433,22 +427,43 @@ class UploadContent extends Component {
     var data = {
       file: resource.file,
     };
-    this.setState({ loading: true }, () => {
-       AdminService.download(data).then((response) => {
-         this.setState(
-           {
-             view: true,
-             loading: false,
-             url: URL.createObjectURL(response),
-             selectedVideo: resource.file.includes("video") ? true : false,
-           },
+    this.setState(
+      {
+        view: true,
+        loading: true,
+      },
+      () => {
+        AdminService.download(data).then((response) => {
+          try {
+            const url = URL.createObjectURL(response);
+            this.setState(
+              {
+                loading: false,
+                selectedVideo: resource.file.includes("video") ? true : false,
 
-           () => {
-             this.videoPlayer();
-           }
-         );
-       });
-    });
+                url,
+              },
+
+              () => {
+                this.videoPlayer();
+              }
+            );
+          } catch (error) {
+            this.setState(
+              {
+                loading: false,
+                selectedVideo: resource.file.includes("video") ? true : false,
+                url: "",
+              },
+
+              () => {
+                this.videoPlayer();
+              }
+            );
+          }
+        });
+      }
+    );
   }
 
   deleteResource(resource) {
@@ -590,65 +605,41 @@ class UploadContent extends Component {
                   </div>
                 </nav>
               </div>
-              <section
-                id="content"
-                style={
-                  this.state.loading
-                    ? { paddingTop: 85, backgroundColor: "#00bcd4" }
-                    : this.state.selectedVideo
-                    ? { paddingTop: 85, backgroundColor: "#000" }
-                    : { paddingTop: 85 }
-                }
-              >
-                {this.state.loading ? (
-                  <div className="bounceman-4th">
-                    <ul>
-                      <li>L</li>
-                      <li>O</li>
-                      <li>A</li>
-                      <li>D</li>
-                      <li>I</li>
-                      <li>N</li>
-                      <li>G</li>
-                      <li>.</li>
-                      <li>.</li>
-                      <li>.</li>
-                    </ul>
-                  </div>
-                ) : (
-                  <div className="container">
-                    {this.state.view ? (
-                      this.state.selectedVideo ? (
-                        <div className="padding-2">
+              <section class="row" style={{ paddingTop: 85 }}>
+                {this.state.view ? (
+                  <div className="col s12">
+                    <div
+                      className="card sticky-action z-depth-5 left"
+                      style={{
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          backgroundColor: this.state.loading
+                            ? "#00bcd4"
+                            : "#000",
+                          height: this.state.selectedVideo ? 480 : "100%",
+                          minHeight: 480,
+                        }}
+                      >
+                        {this.state.loading ? (
+                          <div className="bounceman-4th">
+                            <ul>
+                              <li>L</li>
+                              <li>O</li>
+                              <li>A</li>
+                              <li>D</li>
+                              <li>I</li>
+                              <li>N</li>
+                              <li>G</li>
+                              <li>.</li>
+                              <li>.</li>
+                              <li>.</li>
+                            </ul>
+                          </div>
+                        ) : this.state.selectedVideo ? (
                           <div className="video-player-st">
-                            <div className="video-topbar transparent">
-                              <div className="card--button right z-depth-5 border-radius-10">
-                                <button
-                                  style={{
-                                    backgroundColor: "#ee6e73",
-                                  }}
-                                  className="border-radius-10"
-                                  onClick={this.cancelView}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="feather feather-x"
-                                  >
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                  </svg>
-                                  <span>close</span>
-                                </button>
-                              </div>
-                            </div>
                             <video
                               contextMenu="none"
                               src={this.state.url}
@@ -685,434 +676,430 @@ class UploadContent extends Component {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div className=" padding-3">
-                          <div className="card--button right z-depth-5 border-radius-10">
-                            <button
-                              style={{
-                                backgroundColor: "#ee6e73",
-                              }}
-                              className="border-radius-10"
-                              onClick={this.cancelView}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-x"
+                        ) : (
+                          <div className=" padding-1">
+                            <div className="card--button right z-depth-5 border-radius-10">
+                              <button
+                                style={{
+                                  backgroundColor: "#ee6e73",
+                                }}
+                                className="border-radius-10"
+                                onClick={this.cancelView}
                               >
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                              </svg>
-                              <span>close</span>
-                            </button>
-                          </div>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="feather feather-x"
+                                >
+                                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                                <span>close</span>
+                              </button>
+                            </div>
 
-                          <div className="justify-center">
-                            <Document
-                              file={this.state.url}
-                              onLoadSuccess={this.onDocumentLoadSuccess}
-                            >
-                              <Page pageNumber={this.state.currentPageNumber} />
-                            </Document>
+                            <div className="justify-center">
+                              <Document
+                                file={this.state.url}
+                                onLoadSuccess={this.onDocumentLoadSuccess}
+                              >
+                                <Page
+                                  pageNumber={this.state.currentPageNumber}
+                                />
+                              </Document>
+                            </div>
+                            <div className="center-align">
+                              <a
+                                className="btn"
+                                style={{ color: "white" }}
+                                onClick={
+                                  this.state.currentPageNumber > 1
+                                    ? () =>
+                                        this.setState({
+                                          currentPageNumber:
+                                            this.state.currentPageNumber - 1,
+                                        })
+                                    : () =>
+                                        this.setState({
+                                          currentPageNumber: 1,
+                                        })
+                                }
+                              >
+                                <i className="material-icons">chevron_left</i>
+                                <i className="material-icons">chevron_left</i>
+                              </a>
+                              Page {this.state.currentPageNumber} of{" "}
+                              {this.state.numPages}
+                              <a
+                                className="btn"
+                                style={{ color: "white" }}
+                                onClick={
+                                  this.state.currentPageNumber !=
+                                  this.state.numPages
+                                    ? () =>
+                                        this.setState({
+                                          currentPageNumber:
+                                            this.state.currentPageNumber + 1,
+                                        })
+                                    : () =>
+                                        this.setState({
+                                          currentPageNumber: this.state
+                                            .numPages,
+                                        })
+                                }
+                              >
+                                <i className="material-icons">chevron_right</i>
+                                <i className="material-icons">chevron_right</i>
+                              </a>
+                            </div>
                           </div>
-                          <div className="center-align">
-                            <a
-                              className="btn"
-                              style={{ color: "white" }}
-                              onClick={
-                                this.state.currentPageNumber > 1
-                                  ? () =>
-                                      this.setState({
-                                        currentPageNumber:
-                                          this.state.currentPageNumber - 1,
-                                      })
-                                  : () =>
-                                      this.setState({
-                                        currentPageNumber: 1,
-                                      })
-                              }
-                            >
-                              <i className="material-icons">chevron_left</i>
-                              <i className="material-icons">chevron_left</i>
-                            </a>
-                            Page {this.state.currentPageNumber} of{" "}
-                            {this.state.numPages}
-                            <a
-                              className="btn"
-                              style={{ color: "white" }}
-                              onClick={
-                                this.state.currentPageNumber !=
-                                this.state.numPages
-                                  ? () =>
-                                      this.setState({
-                                        currentPageNumber:
-                                          this.state.currentPageNumber + 1,
-                                      })
-                                  : () =>
-                                      this.setState({
-                                        currentPageNumber: this.state.numPages,
-                                      })
-                              }
-                            >
-                              <i className="material-icons">chevron_right</i>
-                              <i className="material-icons">chevron_right</i>
-                            </a>
-                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="padding-3">
+                    <Search searchText={this.searchText} />
+                    <main className="row" style={{ minHeight: 350 }}>
+                      {this.state.resources.filter((resource) =>
+                        resource.materialname
+                          .toLowerCase()
+                          .includes(this.state.searchText.toLowerCase())
+                      ).length < 1 ? (
+                        <div className="row">
+                          <div
+                            className="divider"
+                            style={{ marginTop: 30 }}
+                          ></div>
+                          <p
+                            style={{
+                              textAlign: "center",
+                              fontSize: "20px",
+                            }}
+                          >
+                            <img
+                              src={avatar}
+                              alt="Avatar"
+                              style={{
+                                maxWidth: "100%",
+                                maxHeight: "150px",
+                              }}
+                            ></img>
+                            <br />
+                            <br />
+                            No Results Found!
+                          </p>
                         </div>
-                      )
-                    ) : (
-                      <div className="padding-3">
-                        <Search searchText={this.searchText} />
-                        <main className="row" style={{ minHeight: 350 }}>
-                          {this.state.resources.filter((resource) =>
+                      ) : this.state.searchText === "" ? (
+                        this.state.resources
+                          .filter((resource) =>
                             resource.materialname
                               .toLowerCase()
                               .includes(this.state.searchText.toLowerCase())
-                          ).length < 1 ? (
-                            <div className="row">
+                          )
+                          .map((resource, i) => (
+                            <div key={i} className="col s12 m6 l4">
                               <div
-                                className="divider"
-                                style={{ marginTop: 30 }}
-                              ></div>
-                              <p
+                                className="card min-height-100 z-depth-2 white-text designed-dots"
                                 style={{
-                                  textAlign: "center",
-                                  fontSize: "20px",
+                                  borderRadius: "5px",
+                                  backgroundColor: "white",
                                 }}
                               >
-                                <img
-                                  src={avatar}
-                                  alt="Avatar"
-                                  style={{
-                                    maxWidth: "100%",
-                                    maxHeight: "150px",
-                                  }}
-                                ></img>
-                                <br />
-                                <br />
-                                No Results Found!
-                              </p>
-                            </div>
-                          ) : this.state.searchText === "" ? (
-                            this.state.resources
-                              .filter((resource) =>
-                                resource.materialname
-                                  .toLowerCase()
-                                  .includes(this.state.searchText.toLowerCase())
-                              )
-                              .map((resource, i) => (
-                                <div key={i} className="col s12 m6 l4">
+                                <div className="padding-4">
+                                  <div className="col s12 m12">
+                                    <p
+                                      className="no-margin"
+                                      style={{ color: "teal" }}
+                                    >
+                                      <a
+                                        href="#"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                        }}
+                                        className="tooltipped"
+                                        data-tooltip={`${resource.materialname}`}
+                                        data-position="bottom"
+                                      >
+                                        {this.truncate(
+                                          resource.materialname,
+                                          128
+                                        )}
+                                      </a>
+                                    </p>
+                                    <p
+                                      className="no-margin"
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "grey",
+                                      }}
+                                    >
+                                      Tag: {resource.obj} | Subject ID:{" "}
+                                      {resource.classid}
+                                    </p>
+                                  </div>
+
                                   <div
-                                    className="card min-height-100 z-depth-2 white-text designed-dots"
+                                    className="row"
                                     style={{
-                                      borderRadius: "5px",
-                                      backgroundColor: "white",
+                                      marginTop: "90px",
+                                      color: "white",
                                     }}
                                   >
-                                    <div className="padding-4">
-                                      <div className="col s12 m12">
-                                        <p
-                                          className="no-margin"
-                                          style={{ color: "teal" }}
-                                        >
-                                          <a
-                                            href="#"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                            }}
-                                            className="tooltipped"
-                                            data-tooltip={`${resource.materialname}`}
-                                            data-position="bottom"
-                                          >
-                                            {this.truncate(
-                                              resource.materialname,
-                                              128
-                                            )}
-                                          </a>
-                                        </p>
-                                        <p
-                                          className="no-margin"
+                                    <div className="left-align col s6 m6">
+                                      <p className="no-margin">
+                                        <a
+                                          href="#!"
                                           style={{
-                                            fontSize: "12px",
-                                            color: "grey",
+                                            color: "red",
+                                            padding: "5px",
+                                            textAlign: "center",
                                           }}
-                                        >
-                                          Tag: {resource.obj} | Subject ID:{" "}
-                                          {resource.classid}
-                                        </p>
-                                      </div>
-
-                                      <div
-                                        className="row"
-                                        style={{
-                                          marginTop: "90px",
-                                          color: "white",
-                                        }}
-                                      >
-                                        <div className="left-align col s6 m6">
-                                          <p className="no-margin">
-                                            <a
-                                              href="#!"
-                                              style={{
-                                                color: "red",
-                                                padding: "5px",
-                                                textAlign: "center",
-                                              }}
-                                              onClick={(e) => {
-                                                e.preventDefault();
-                                                this.deleteResource(resource);
-                                              }}
-                                            >
-                                              Delete
-                                            </a>
-                                          </p>
-                                        </div>
-                                        <div className="right-align col s6 m6">
-                                          <p className="no-margin">
-                                            <a
-                                              href="#!"
-                                              style={{
-                                                border: "1px solid #2196F3",
-                                                color: "white",
-                                                backgroundColor: "#2196F3",
-                                                borderRadius: "15px",
-                                                padding: "5px",
-                                                textAlign: "center",
-                                              }}
-                                              onClick={(e) => {
-                                                e.preventDefault();
-                                                this.download(resource);
-                                              }}
-                                            >
-                                              {resource.file.includes("video")
-                                                ? "Watch"
-                                                : "View"}
-                                            </a>
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))
-                          ) : (
-                            this.state.allResources
-                              .filter((resource) =>
-                                resource.materialname
-                                  .toLowerCase()
-                                  .includes(this.state.searchText.toLowerCase())
-                              )
-                              .map((resource, i) => (
-                                <div key={i} className="col s12 m6 l4">
-                                  <div
-                                    className="card min-height-100 z-depth-2 white-text designed-dots"
-                                    style={{
-                                      borderRadius: "5px",
-                                      backgroundColor: "white",
-                                    }}
-                                  >
-                                    <div className="padding-4">
-                                      <div className="col s12 m12">
-                                        <p
-                                          className="no-margin"
-                                          style={{ color: "teal" }}
-                                        >
-                                          <a
-                                            href="#"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                            }}
-                                            className="tooltipped"
-                                            data-tooltip={`${resource.materialname}`}
-                                            data-position="bottom"
-                                          >
-                                            {this.truncate(
-                                              resource.materialname,
-                                              128
-                                            )}
-                                          </a>
-                                        </p>
-                                        <p
-                                          className="no-margin"
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "grey",
-                                          }}
-                                        >
-                                          Tag: {resource.obj} | Subject ID:{" "}
-                                          {resource.classid}
-                                        </p>
-                                      </div>
-
-                                      <div
-                                        className="row"
-                                        style={{
-                                          marginTop: "90px",
-                                          color: "white",
-                                        }}
-                                      >
-                                        <div className="left-align col s6 m6">
-                                          <p className="no-margin">
-                                            <a
-                                              href="#!"
-                                              style={{
-                                                color: "red",
-                                                padding: "5px",
-                                                textAlign: "center",
-                                              }}
-                                              onClick={(e) => {
-                                                e.preventDefault();
-                                                this.deleteResource(resource);
-                                              }}
-                                            >
-                                              Delete
-                                            </a>
-                                          </p>
-                                        </div>
-                                        <div className="right-align col s6 m6">
-                                          <p className="no-margin">
-                                            <a
-                                              href="#!"
-                                              style={{
-                                                border: "1px solid #2196F3",
-                                                color: "white",
-                                                backgroundColor: "#2196F3",
-                                                borderRadius: "15px",
-                                                padding: "5px",
-                                                textAlign: "center",
-                                              }}
-                                              onClick={(e) => {
-                                                e.preventDefault();
-                                                this.download(resource);
-                                              }}
-                                            >
-                                              Download
-                                            </a>
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))
-                          )}
-                        </main>
-                        <div
-                          className="divider"
-                          style={{ marginTop: 30 }}
-                        ></div>
-                        <div className="row">
-                          <div
-                            className="col l12 center-align"
-                            style={{ paddingTop: 20 }}
-                          >
-                            <ul className="pagination">
-                              <li
-                                className={
-                                  this.state.currentPageNumber === 1 ||
-                                  this.state.pages.length < 1 ||
-                                  this.state.searchText !== ""
-                                    ? "disabled pointer-events-none"
-                                    : "waves-effect"
-                                }
-                              >
-                                <Link
-                                  className={
-                                    this.state.currentPageNumber === 1 ||
-                                    this.state.pages.length < 1 ||
-                                    this.state.searchText !== ""
-                                      ? "disabled pointer-events-none"
-                                      : ""
-                                  }
-                                  onClick={this.handlePrevClick}
-                                  rel="noopener noreferer"
-                                  to="#!"
-                                >
-                                  <i className="material-icons">chevron_left</i>
-                                </Link>
-                              </li>
-                              {this.state.pages.length < 1 ||
-                              this.state.searchText !== "" ? (
-                                <li className="active">
-                                  <Link rel="noopener noreferer" to="#!">
-                                    {1}
-                                  </Link>
-                                </li>
-                              ) : (
-                                this.state.pages.map((page) => {
-                                  if (page === this.state.currentPageNumber) {
-                                    return (
-                                      <li key={page} className="active">
-                                        <Link
-                                          onClick={() =>
-                                            this.handlePageClick(page)
-                                          }
-                                          rel="noopener noreferer"
-                                          to="#!"
-                                        >
-                                          {page}
-                                        </Link>
-                                      </li>
-                                    );
-                                  } else {
-                                    return (
-                                      <li key={page}>
-                                        <Link
                                           onClick={(e) => {
                                             e.preventDefault();
-                                            this.handlePageClick(page);
+                                            this.deleteResource(resource);
                                           }}
-                                          rel="noopener noreferer"
-                                          to="#!"
                                         >
-                                          {page}
-                                        </Link>
-                                      </li>
-                                    );
-                                  }
-                                })
-                              )}
-                              <li
-                                className={
-                                  this.state.currentPageNumber ===
-                                    this.state.pages.length ||
-                                  this.state.pages.length < 1 ||
-                                  this.state.searchText !== ""
-                                    ? "disabled pointer-events-none"
-                                    : "waves-effect"
-                                }
+                                          Delete
+                                        </a>
+                                      </p>
+                                    </div>
+                                    <div className="right-align col s6 m6">
+                                      <p className="no-margin">
+                                        <a
+                                          href="#!"
+                                          style={{
+                                            border: "1px solid #2196F3",
+                                            color: "white",
+                                            backgroundColor: "#2196F3",
+                                            borderRadius: "15px",
+                                            padding: "5px",
+                                            textAlign: "center",
+                                          }}
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            this.download(resource);
+                                          }}
+                                        >
+                                          {resource.file.includes("video")
+                                            ? "Watch"
+                                            : "View"}
+                                        </a>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                      ) : (
+                        this.state.allResources
+                          .filter((resource) =>
+                            resource.materialname
+                              .toLowerCase()
+                              .includes(this.state.searchText.toLowerCase())
+                          )
+                          .map((resource, i) => (
+                            <div key={i} className="col s12 m6 l4">
+                              <div
+                                className="card min-height-100 z-depth-2 white-text designed-dots"
+                                style={{
+                                  borderRadius: "5px",
+                                  backgroundColor: "white",
+                                }}
                               >
-                                <Link
-                                  onClick={this.handleNextClick}
-                                  className={
-                                    this.state.currentPageNumber ===
-                                      this.state.pages.length ||
-                                    this.state.pages.length < 1 ||
-                                    this.state.searchText !== ""
-                                      ? "disabled pointer-events-none"
-                                      : ""
-                                  }
-                                  rel="noopener noreferer"
-                                  to="#!"
-                                >
-                                  <i className="material-icons">
-                                    chevron_right
-                                  </i>
-                                </Link>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
+                                <div className="padding-4">
+                                  <div className="col s12 m12">
+                                    <p
+                                      className="no-margin"
+                                      style={{ color: "teal" }}
+                                    >
+                                      <a
+                                        href="#"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                        }}
+                                        className="tooltipped"
+                                        data-tooltip={`${resource.materialname}`}
+                                        data-position="bottom"
+                                      >
+                                        {this.truncate(
+                                          resource.materialname,
+                                          128
+                                        )}
+                                      </a>
+                                    </p>
+                                    <p
+                                      className="no-margin"
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "grey",
+                                      }}
+                                    >
+                                      Tag: {resource.obj} | Subject ID:{" "}
+                                      {resource.classid}
+                                    </p>
+                                  </div>
+
+                                  <div
+                                    className="row"
+                                    style={{
+                                      marginTop: "90px",
+                                      color: "white",
+                                    }}
+                                  >
+                                    <div className="left-align col s6 m6">
+                                      <p className="no-margin">
+                                        <a
+                                          href="#!"
+                                          style={{
+                                            color: "red",
+                                            padding: "5px",
+                                            textAlign: "center",
+                                          }}
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            this.deleteResource(resource);
+                                          }}
+                                        >
+                                          Delete
+                                        </a>
+                                      </p>
+                                    </div>
+                                    <div className="right-align col s6 m6">
+                                      <p className="no-margin">
+                                        <a
+                                          href="#!"
+                                          style={{
+                                            border: "1px solid #2196F3",
+                                            color: "white",
+                                            backgroundColor: "#2196F3",
+                                            borderRadius: "15px",
+                                            padding: "5px",
+                                            textAlign: "center",
+                                          }}
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            this.download(resource);
+                                          }}
+                                        >
+                                          Download
+                                        </a>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                      )}
+                    </main>
+                    <div className="divider" style={{ marginTop: 30 }}></div>
+                    <div className="row">
+                      <div
+                        className="col l12 center-align"
+                        style={{ paddingTop: 20 }}
+                      >
+                        <ul className="pagination">
+                          <li
+                            className={
+                              this.state.currentPageNumber === 1 ||
+                              this.state.pages.length < 1 ||
+                              this.state.searchText !== ""
+                                ? "disabled pointer-events-none"
+                                : "waves-effect"
+                            }
+                          >
+                            <Link
+                              className={
+                                this.state.currentPageNumber === 1 ||
+                                this.state.pages.length < 1 ||
+                                this.state.searchText !== ""
+                                  ? "disabled pointer-events-none"
+                                  : ""
+                              }
+                              onClick={this.handlePrevClick}
+                              rel="noopener noreferer"
+                              to="#!"
+                            >
+                              <i className="material-icons">chevron_left</i>
+                            </Link>
+                          </li>
+                          {this.state.pages.length < 1 ||
+                          this.state.searchText !== "" ? (
+                            <li className="active">
+                              <Link rel="noopener noreferer" to="#!">
+                                {1}
+                              </Link>
+                            </li>
+                          ) : (
+                            this.state.pages.map((page) => {
+                              if (page === this.state.currentPageNumber) {
+                                return (
+                                  <li key={page} className="active">
+                                    <Link
+                                      onClick={() => this.handlePageClick(page)}
+                                      rel="noopener noreferer"
+                                      to="#!"
+                                    >
+                                      {page}
+                                    </Link>
+                                  </li>
+                                );
+                              } else {
+                                return (
+                                  <li key={page}>
+                                    <Link
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        this.handlePageClick(page);
+                                      }}
+                                      rel="noopener noreferer"
+                                      to="#!"
+                                    >
+                                      {page}
+                                    </Link>
+                                  </li>
+                                );
+                              }
+                            })
+                          )}
+                          <li
+                            className={
+                              this.state.currentPageNumber ===
+                                this.state.pages.length ||
+                              this.state.pages.length < 1 ||
+                              this.state.searchText !== ""
+                                ? "disabled pointer-events-none"
+                                : "waves-effect"
+                            }
+                          >
+                            <Link
+                              onClick={this.handleNextClick}
+                              className={
+                                this.state.currentPageNumber ===
+                                  this.state.pages.length ||
+                                this.state.pages.length < 1 ||
+                                this.state.searchText !== ""
+                                  ? "disabled pointer-events-none"
+                                  : ""
+                              }
+                              rel="noopener noreferer"
+                              to="#!"
+                            >
+                              <i className="material-icons">chevron_right</i>
+                            </Link>
+                          </li>
+                        </ul>
                       </div>
-                    )}
+                    </div>
                   </div>
                 )}
               </section>
