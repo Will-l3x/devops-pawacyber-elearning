@@ -425,7 +425,7 @@ class AssignmentsResourceCard extends Component {
   }
 }
 
-class Search extends React.Component {
+class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {

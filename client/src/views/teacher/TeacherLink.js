@@ -85,16 +85,6 @@ class TeacherLink extends Component {
             <span className="nav-text">Promotions</span>
           </Link>
         </li>
-        <li className="bold">
-          <Link
-            to="/profile-acc"
-            className="dash-link waves-effect waves-cyan"
-            onClick={() => this.dashClick("teacher")}
-          >
-            <i className="material-icons">account_box</i>
-            <span className="nav-text">My Account</span>
-          </Link>
-        </li>
       </ul>
     );
   }

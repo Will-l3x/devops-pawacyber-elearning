@@ -45,30 +45,30 @@ class Header extends Component {
   };
 
   toggleLeftSidebar() {
-    const thiss = this;
+    const thus = this;
     function triggerOn() {
       $(".toggle-ls-bar").removeClass("sidenav-translate");
       $(".user-profile").addClass("display-none");
-      thiss.setState({ leftSidebar_trigger: true });
+      thus.setState({ leftSidebar_trigger: true });
     }
     function triggerOff() {
       $(".toggle-ls-bar").addClass("sidenav-translate");
       $(".user-profile").removeClass("display-none");
-      thiss.setState({ leftSidebar_trigger: false });
+      thus.setState({ leftSidebar_trigger: false });
     }
     this.state.leftSidebar_trigger ? triggerOff() : triggerOn();
   }
   toggleRightSidebar() {
-    const thiss = this;
+    const thus = this;
     function triggerOn() {
       $("#chat-out").removeClass("display-none");
       $("#chat-out").addClass("translateX-0");
-      thiss.setState({ rightSidebar_trigger: true });
+      thus.setState({ rightSidebar_trigger: true });
     }
     function triggerOff() {
       $("#chat-out").removeClass("translateX-0");
       $("#chat-out").addClass("display-none");
-      thiss.setState({ rightSidebar_trigger: false });
+      thus.setState({ rightSidebar_trigger: false });
     }
     this.state.rightSidebar_trigger ? triggerOff() : triggerOn();
   }
@@ -175,11 +175,11 @@ class Header extends Component {
             </ul>
 
             <ul id="profile-dropdown" className="dropdown-content dropdown-acc">
-              {/* <li>
-                <Link to="/profile" className="grey-text text-darken-1">
+              <li>
+                <Link to="/profile-acc" className="grey-text text-darken-1">
                   <i className="material-icons">face</i> Profile
                 </Link>
-              </li> */}
+              </li>
               {/* <li>
                 <Link to="#" className="grey-text text-darken-1">
                   <i className="material-icons">live_help</i> Help

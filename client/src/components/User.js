@@ -29,6 +29,10 @@ class User extends Component {
     ];
     return colors[i % 6];
   };
+  truncate(str, n) {
+    return str.length > n ? str.substr(0, n - 1) + "..." : str;
+  }
+
   render() {
     const {
       name,
@@ -41,8 +45,9 @@ class User extends Component {
       enrolmentkey,
       rolename,
       email,
-      index
+      index,
     } = this.props;
+
     return (
       <div className="col s12 m6 l4">
         <div className="card border-radius-10 z-depth-5">
@@ -56,15 +61,10 @@ class User extends Component {
               </div>
               <div className="col s8">
                 <div id="full-name" className="text-capitalize">
-                  {name}
+                  {this.truncate(name, 24)}
                 </div>
                 <div id="user-name">{rolename}</div>
                 <div className="description">
-                  <p>
-                    <i className="material-icons small icon-translate">email</i>{" "}
-                    Email: <span id="email">{email}</span>
-                  </p>
-                  <br />
                   <p>
                     <i className="material-icons small icon-translate">
                       airplanemode_active
@@ -75,6 +75,12 @@ class User extends Component {
                       ? "Unknown"
                       : moment(new Date(datejoined)).format("LL")}
                   </p>
+
+                  <p>
+                    <i className="material-icons small icon-translate">email</i>{" "}
+                    Contacts: <span>{email}</span>
+                  </p>
+                  <br />
                 </div>
               </div>
               <div className="col s12 user-footer">
@@ -85,7 +91,7 @@ class User extends Component {
             </div>
           </div>
           <div className="card-reveal">
-            <span className="card-title grey-text text-darken-4">
+            <span className="card-title grey-text text-darken-4 text-capitalize">
               {name}
               <i className="material-icons right">close</i>
             </span>

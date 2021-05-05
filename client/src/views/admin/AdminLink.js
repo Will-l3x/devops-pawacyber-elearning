@@ -57,6 +57,18 @@ class AdminLink extends Component {
             <span className="nav-text">Ads Management</span>
           </Link>
         </li>
+
+        <li className="bold">
+          <Link
+            to="/teacher-awards"
+            className="waves-effect waves-cyan"
+            onClick={this.onClick}
+          >
+            <i className="material-icons">card_giftcard</i>
+            <span className="nav-text">Teacher Referral Awards</span>
+          </Link>
+        </li>
+
         <li className="bold">
           <Link
             to="/all-subjects"

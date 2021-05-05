@@ -1439,7 +1439,8 @@ nav.modal-width-75 {
 
 .clipboard {
   transform: translateY(30px);
-  border-radius: 5px;
+  border: none;
+  background-color: transparent;
 }
 .submission {
   font-family: "Noto Sans JP";
@@ -1585,6 +1586,6 @@ nav.modal-width-75 {
 }
 .right-top-content {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
 }

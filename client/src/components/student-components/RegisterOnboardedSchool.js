@@ -7,7 +7,7 @@ import { AdminService } from "../../services/admin";
 import { AuthService } from "../../services/authServices";
 import { HashLink as Link } from "react-router-hash-link";
 
-class ReactFormLabel extends React.Component {
+class ReactFormLabel extends Component {
   render() {
     return (
       <label className="label-meeting" htmlFor={this.props.htmlFor}>

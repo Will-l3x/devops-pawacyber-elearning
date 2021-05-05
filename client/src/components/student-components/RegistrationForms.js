@@ -10,7 +10,7 @@ import { AsyncStorage } from "AsyncStorage";
 import { AdminService } from "../../services/admin";
 // import SchoolOptions from "./SchoolOptions";
 var globalGrade = "1";
-class ReactFormLabel extends React.Component {
+class ReactFormLabel extends Component {
   render() {
     return (
       <label className="label-meeting" htmlFor={this.props.htmlFor}>

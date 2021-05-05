@@ -68,6 +68,7 @@ import StudentCoursework from "./views/student/StudentCoursework";
 import StudentClassCoursework from "./views/student/StudentClassCoursework";
 import AdsManagementScreen from "./views/admin/AdsManagementScreen";
 import { AdminService } from "./services/admin";
+import TeacherPromotionsScreen from "./views/admin/TeacherPromotionsScreen";
 
 class App extends Component {
   constructor() {
@@ -327,16 +328,24 @@ class App extends Component {
   }
 
   handleMouseDown() {
-    this.state.draggable.style.cursor = "move";
-    this.state.draggable.addEventListener("mouseup", this.handleMouseUp);
-    document.body.addEventListener("mousemove", this.handleMouseMove);
-    document.body.addEventListener("mouseleave", this.handleMouseUp);
+    const draggable = {
+      style: { cursor: "move" },
+    };
+    this.setState({ draggable }, () => {
+      this.state.draggable.addEventListener("mouseup", this.handleMouseUp);
+      document.body.addEventListener("mousemove", this.handleMouseMove);
+      document.body.addEventListener("mouseleave", this.handleMouseUp);
+    });
   }
 
   handleMouseUp() {
-    this.state.draggable.style.cursor = "default";
-    document.body.removeEventListener("mousemove", this.handleMouseMove);
-    document.body.removeEventListener("mouseleave", this.handleMouseUp);
+    const draggable = {
+      style: { cursor: "default" },
+    };
+    this.setState({ draggable }, () => {
+      document.body.removeEventListener("mousemove", this.handleMouseMove);
+      document.body.removeEventListener("mouseleave", this.handleMouseUp);
+    });
   }
 
   handleMouseMove(e) {
@@ -511,6 +520,11 @@ class App extends Component {
 
           <Route exact path="/subscriptions" component={SubscriptionScreen} />
           <Route exact path="/advertising" component={AdsManagementScreen} />
+          <Route
+            exact
+            path="/teacher-awards"
+            component={TeacherPromotionsScreen}
+          />
           <Route exact path="/enrol-student" component={EnrolStudent} />
           <Route
             exact

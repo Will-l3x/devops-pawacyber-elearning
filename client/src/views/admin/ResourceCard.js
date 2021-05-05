@@ -11,6 +11,10 @@ class ResourceCard extends Component {
     super(props);
     this.state = {
       resources: [],
+      user:
+        JSON.parse(localStorage.getItem("user")) === null
+          ? { }
+          : JSON.parse(localStorage.getItem("user")),
       allResources: [],
       currentPageNumber: 1,
       searchText: "",
@@ -223,20 +227,24 @@ class ResourceCard extends Component {
                       >
                         <div className="left-align col s6 m6">
                           <p className="no-margin">
-                            <a
-                              href="#!"
-                              style={{
-                                color: "red",
-                                padding: "5px",
-                                textAlign: "center",
-                              }}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                this.deleteResource(resource);
-                              }}
-                            >
-                              Delete
-                            </a>
+                            {this.state.user.role === 5 ? (
+                              <a
+                                href="#!"
+                                style={{
+                                  color: "red",
+                                  padding: "5px",
+                                  textAlign: "center",
+                                }}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  this.deleteResource(resource);
+                                }}
+                              >
+                                Delete
+                              </a>
+                            ) : (
+                              ""
+                            )}
                           </p>
                         </div>
                         <div className="right-align col s6 m6">
@@ -316,20 +324,24 @@ class ResourceCard extends Component {
                       >
                         <div className="left-align col s6 m6">
                           <p className="no-margin">
-                            <a
-                              href="#!"
-                              style={{
-                                color: "red",
-                                padding: "5px",
-                                textAlign: "center",
-                              }}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                this.deleteResource(resource);
-                              }}
-                            >
-                              Delete
-                            </a>
+                            {this.state.user.role === 5 ? (
+                              <a
+                                href="#!"
+                                style={{
+                                  color: "red",
+                                  padding: "5px",
+                                  textAlign: "center",
+                                }}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  this.deleteResource(resource);
+                                }}
+                              >
+                                Delete
+                              </a>
+                            ) : (
+                              ""
+                            )}
                           </p>
                         </div>
                         <div className="right-align col s6 m6">
@@ -458,7 +470,7 @@ class ResourceCard extends Component {
   }
 }
 
-class Search extends React.Component {
+class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {

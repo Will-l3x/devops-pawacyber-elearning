@@ -53,6 +53,7 @@ class UploadContent extends Component {
     M.AutoInit();
     this.getDashData();
   }
+
   videoPlayer() {
     $(".video-player-st").each(function (_, videoPlayer) {
       /**
@@ -1257,7 +1258,7 @@ class UploadContent extends Component {
   }
 }
 
-class ReactFormLabel extends React.Component {
+class ReactFormLabel extends Component {
   render() {
     return (
       <label className="label-meeting" htmlFor={this.props.htmlFor}>
@@ -1267,7 +1268,7 @@ class ReactFormLabel extends React.Component {
   }
 }
 
-class Search extends React.Component {
+class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {

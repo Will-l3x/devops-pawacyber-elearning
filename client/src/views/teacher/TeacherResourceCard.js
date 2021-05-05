@@ -32,9 +32,7 @@ class TeacherResourceCard extends Component {
       for (const sub of response) {
         this.courseId = sub.classId;
         TeacherService.get_materials(this.courseId).then((response) => {
-          let allResources = response === undefined ? [] : response.reverse();
-          allResources = allResources.filter((el) => el.obj !== "Advert");
-
+          const allResources = response === undefined ? [] : response.reverse();
           allResources.sort(
             (a, b) => new Date(b.materialname) - new Date(a.materialname)
           );

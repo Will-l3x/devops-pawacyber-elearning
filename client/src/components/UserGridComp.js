@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AdminService } from "../services/admin";
-import PropTypes from "prop-types";
 import "../assets/css/list-grid-comp.css";
-import Avatar from "@material-ui/core/Avatar";
 import dp from "../assets/images/avatar/avatar-11.png";
 import avatar from "../assets/images/gallary/not_found.gif";
-import backgrnd from "../assets/images/gallary/design.png";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { SchoolService } from "../services/school";

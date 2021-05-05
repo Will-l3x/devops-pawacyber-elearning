@@ -395,7 +395,7 @@ class StudentMark extends Component {
   }
 }
 
-class ReactFormLabel extends React.Component {
+class ReactFormLabel extends Component {
   render() {
     return (
       <label className="label-meeting" htmlFor={this.props.htmlFor}>

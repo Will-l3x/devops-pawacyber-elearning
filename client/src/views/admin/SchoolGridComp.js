@@ -25,7 +25,6 @@ class SchoolGridComp extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <Search searchText={this.searchText} />
@@ -231,6 +230,10 @@ class Search extends Component {
 }
 
 class School extends Component {
+  constructor() {
+    super();
+    this.state = { settings: false };
+  }
   componentDidMount() {
     M.AutoInit();
     let elems = document.querySelectorAll(".fixed-action-btn");
@@ -251,6 +254,22 @@ class School extends Component {
     ];
     return colors[i % 6];
   };
+  toggleSettings = (e) => {
+    e.preventDefault();
+    const thus = this;
+    function triggerOn() {
+      thus.setState({ settings: true });
+    }
+    function triggerOff() {
+      thus.setState({ settings: false });
+    }
+    this.state.settings ? triggerOff() : triggerOn();
+  };
+  truncate(str, n) {
+    console.log(str.length > n ? str.substr(0, n - 1) + "..." : str);
+    return str.length > n ? str.substr(0, n - 1) + "..." : str;
+  }
+
   render() {
     const { school, index } = this.props;
     return (
@@ -258,37 +277,47 @@ class School extends Component {
         <div className="card border-radius-10 z-depth-5">
           <div className="user-content card-content right-top">
             <div className="right-top-content">
-              <div class="fixed-action-btn" style={{ position: "initial" }}>
-                <a>
+              <div className="adminActions">
+                <a
+                  className="admin-button"
+                  href="#!"
+                  onClick={this.toggleSettings}
+                >
                   <i className="material-icons">settings</i>
                 </a>
-                <ul style={{ right: 25, transform: " translateY(-85%)" }}>
-                  <li style={{ marginTop: 0 }}>
-                    <a
-                      className="btn-floating red modal-trigger"
-                      data-target="areyousure"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.props.setSchoolId(school.schoolId);
-                      }}
-                      style={{ marginLeft: 5 }}
-                    >
-                      <i className="material-icons">delete</i>
-                    </a>
-                  </li>
-                  <li style={{ marginTop: 0 }}>
-                    <a
-                      className="btn-floating blue"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.props.handleEdit(school);
-                      }}
-                      style={{ marginRight: 5 }}
-                    >
-                      <i className="material-icons">create</i>
-                    </a>
-                  </li>
-                </ul>
+                <div className="admin-buttons">
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.props.handleEdit(school);
+                    }}
+                    className="btn-floating blue"
+                    style={
+                      this.state.settings
+                        ? { opacity: 1, visibility: "visible" }
+                        : {}
+                    }
+                  >
+                    <i className="material-icons small">create</i>
+                  </a>
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.props.setSchoolId(school.schoolId);
+                    }}
+                    data-target="areyousure"
+                    className="btn-floating red modal-trigger"
+                    style={
+                      this.state.settings
+                        ? { opacity: 1, visibility: "visible" }
+                        : {}
+                    }
+                  >
+                    <i className="material-icons small">delete</i>
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -300,19 +329,25 @@ class School extends Component {
               </div>
               <div className="col s8">
                 <div id="full-name" className="text-capitalize">
-                  {school.schoolname}
+                  {this.truncate(school.schoolname, 24)}
                 </div>
                 <div className="description">
                   <p>
-                    <i className="material-icons small icon-translate">email</i>{" "}
-                    Email: <span id="email">{school.email}</span>
+                    <i className="material-icons small icon-translate">
+                      airplanemode_active
+                    </i>{" "}
+                    Joined{" "}
+                    {moment(new Date(school.datejoined)).format("LL") ===
+                    "Invalid date"
+                      ? "Unknown"
+                      : moment(new Date(school.datejoined)).format("LL")}
                   </p>
                   <br />
                   <p>
                     <i className="material-icons small icon-translate">
                       contacts
                     </i>{" "}
-                    {school.contacts}
+                    Contacts: <span>{school.contacts}</span>
                   </p>
                 </div>
               </div>
@@ -324,7 +359,7 @@ class School extends Component {
             </div>
           </div>{" "}
           <div className="card-reveal">
-            <span className="card-title grey-text text-darken-4">
+            <span className="card-title grey-text text-darken-4 text-capitalize">
               {school.schoolname}
               <i className="material-icons right">close</i>
             </span>

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import LeftSidebar from "../../components/LeftSidebar";
 import RightSidebar from "../../components/RightSidebar";
-import DatatablePage from "../../components/DatatablePage";
 //import $ from "jquery";
 import moment from "moment";
 import M from "materialize-css";
@@ -286,43 +285,6 @@ class SchoolTeacherManagementScreen extends Component {
                         Teacher Management
                       </p>
                     </div>
-
-                    <a
-                      href="#!"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.setState({ view: "grid" });
-                      }}
-                      className={`waves-effect right ${
-                        this.state.view === "grid" ? "active-view" : ""
-                      }`}
-                      style={{
-                        marginTop: "1%",
-                        marginRight: "1%",
-                        color: "#626262",
-                      }}
-                    >
-                      <i className="material-icons">grid_on</i>
-                    </a>
-
-                    <a
-                      href="#!"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.setState({ view: "table" });
-                      }}
-                      className={`waves-effect right ${
-                        this.state.view === "table" ? "active-view" : ""
-                      }`}
-                      style={{
-                        marginTop: "1%",
-                        marginRight: "1%",
-                        color: "#626262",
-                      }}
-                    >
-                      <i className="material-icons">format_list_numbered</i>
-                    </a>
-
                     <a
                       href="#!"
                       data-target="modaladd"
@@ -356,16 +318,7 @@ class SchoolTeacherManagementScreen extends Component {
               <section className="row" id="content" style={{ paddingTop: 85 }}>
                 <div className="container  col s12">
                   <div
-                    className={`card-stats z-depth-5 padding-3 border-radius-10 ${
-                      this.state.view === "table" ? "" : "display-none"
-                    }`}
-                  >
-                    <DatatablePage data={this.state} />
-                  </div>
-                  <div
-                    className={`padding-3 ${
-                      this.state.view === "grid" ? "" : "display-none"
-                    }`}
+                    className={`padding-3`}
                   >
                     <UserGridComp dashboard="schooladmin" rolename="teacher" />
                   </div>
@@ -560,7 +513,7 @@ class SchoolTeacherManagementScreen extends Component {
   }
 }
 
-class ReactFormLabel extends React.Component {
+class ReactFormLabel extends Component {
   render() {
     return (
       <label className="label-meeting" htmlFor={this.props.htmlFor}>
