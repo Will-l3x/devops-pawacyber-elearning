@@ -264,7 +264,7 @@ class StudentAssignments extends Component {
                             </li>
                           </ul>
                         </div>
-                      </div>
+                      </div> 
                       <div className="col s12 m13 l9">
                         <div className="task-card collection with-header">
                           <div className="collection-header teal">
