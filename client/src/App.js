@@ -69,6 +69,7 @@ import StudentClassCoursework from "./views/student/StudentClassCoursework";
 import AdsManagementScreen from "./views/admin/AdsManagementScreen";
 import { AdminService } from "./services/admin";
 import TeacherPromotionsScreen from "./views/admin/TeacherPromotionsScreen";
+import StudentAssessment from "./views/student/StudentAssessment";
 
 class App extends Component {
   constructor() {
@@ -552,6 +553,7 @@ class App extends Component {
 
           <Route exact path="/student" component={StudentScreen} />
           <Route exact path="/coursework" component={StudentCoursework} />
+          <Route exact path="/Assessment" component={StudentAssessment} />
           <Route
             exact
             path="/class-coursework"

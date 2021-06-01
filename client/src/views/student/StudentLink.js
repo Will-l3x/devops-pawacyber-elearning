@@ -6,7 +6,7 @@ import { navClick } from "../../actions/navlink";
 
 class StudentLink extends Component {
   dashClick = (dash) => {
-    this.props.navClick(dash);
+    this.props.navClick(dash); 
   };
 
   render() {
@@ -31,6 +31,16 @@ class StudentLink extends Component {
           >
             <i className="material-icons">pie_chart_outlined</i>
             <span className="nav-text">My Assignments</span>
+          </Link>
+        </li>
+        <li className = "bold">
+          <Link
+              to="/Assessment"
+              className="dash-link waves-effect waves-cyan"
+              onClick={()=>this.dashClick("student")}
+          >
+            <i className = "material-icons">note-text</i>
+            <span className = "nav-text">Online Assessments</span>
           </Link>
         </li>
         {/* <li className="bold">
