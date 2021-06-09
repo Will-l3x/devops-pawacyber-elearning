@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
 import Header from '../../components/header';
 import LeftSidebar from '../../components/LeftSidebar';
-import quizQuestions from './quizQuestions'
+import quizQuestions from './quizQuestions';
+import Quiz from './QuizComponents/Quiz';
+import Result from './QuizComponents/Result';
+import './Index.css';
 
 class QuizApp extends Component{
     constructor(props){
@@ -132,14 +135,20 @@ class QuizApp extends Component{
                         <div className="column">
                           <ul className="task-card collection with-header">
                           <li
-                              className={`collection-header ${course.color} `}
+                              className= ""
                             >
                               <p className="task-card-title">
                                 ICT Exams
                               </p>
                             </li>
                           </ul>
-                          {this.state.result ? this.renderResult() : this.renderQuiz()}
+                          <div className="App">
+                            <div className="App-header">
+                              
+                             
+                            </div>
+                            {this.state.result ? this.renderResult() : this.renderQuiz()}
+                          </div>
                         </div>
                     </div>
                 </div>

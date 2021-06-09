@@ -555,7 +555,7 @@ class App extends Component {
           <Route exact path="/student" component={StudentScreen} />
           <Route exact path="/coursework" component={StudentCoursework} />
           <Route exact path="/Assessment" component={StudentAssessment} />
-          <Route exact path = "multichoice" component={QuizApp} />
+          <Route exact path = "/multichoice" component={QuizApp} />
           <Route
             exact
             path="/class-coursework"

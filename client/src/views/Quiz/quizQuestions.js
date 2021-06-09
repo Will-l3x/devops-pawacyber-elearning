@@ -1,89 +1,73 @@
 var quizQuestions = [
     {
-        question: "What franchise would you rather play a game from?",
+        question: "Which of these devices is not a peripheral device?",
         answers: [
             {
                 type: "Microsoft",
-                content: "Halo"
+                content: "Mouse"
             },
             {
                 type: "Nintendo",
-                content: "Pokemon"
+                content: "Keyboard"
             },
             {
                 type: "Sony",
-                content: "Uncharted"
+                content: "Microsoft word"
             }
         ]
     },
     {
-        question: "Which console would you prefer to play with friends?",
+        question: "Which of these is a word editing software",
         answers: [
             {
                 type: "Microsoft",
-                content: "X-Box"
+                content: "MS word"
             },
             {
                 type: "Nintendo",
-                content: "Nintendo 64"
+                content: "MS excel"
             },
             {
                 type: "Sony",
-                content: "Playstation 1"
+                content: "MS access"
             }
         ]
     },
     {
-        question: "Which of these racing franchises would you prefer to play a game from?",
+        question: "Which of these can be used for mathematical calculations?",
         answers: [
             {
                 type: "Microsoft",
-                content: "Forza"
+                content: "Excel"
             },
             {
                 type: "Nintendo",
-                content: "Mario Kart"
+                content: "Access"
             },
             {
                 type: "Sony",
-                content: "Gran Turismo"
+                content: "VSCO"
             }
         ]
     },
     {
-        question: "Which of these games do you think is best?",
+        question: "Which of these networks is faster than LTE",
         answers: [
             {
                 type: "Microsoft",
-                content: "BioShock"
+                content: "4G"
             },
             {
                 type: "Nintendo",
-                content: "The Legend of Zelda: Ocarina of Time"
+                content: "3G"
             },
             {
                 type: "Sony",
-                content: "Final Fantasy VII"
+                content: "Edge"
             }
         ]
     },
-    {
-        question: "What console would you prefer to own?",
-        answers: [
-            {
-                type: "Microsoft",
-                content: "X-Box One"
-            },
-            {
-                type: "Nintendo",
-                content: "Wii U"
-            },
-            {
-                type: "Sony",
-                content: "Playstation 4"
-            }
-        ]
-    }
+    
   ];
   
   export default quizQuestions;

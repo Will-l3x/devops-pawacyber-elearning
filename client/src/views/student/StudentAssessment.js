@@ -35,13 +35,8 @@ class StudentAssessment extends React.Component{
                                                     <label htmlFor="task1">
                                                         All Exams
                                                         <Link
-                                                        to="#"
-                                                        onClick={() =>
-                                                            this.selectCategory(
-                                                            "ALL EXAMS",
-                                                            "All"
-                                                            )
-                                                        }
+                                                        to="/multichoice"
+                                                        
                                                         className="secondary-content"
                                                         >
                                                         <span className="ultra-small">VIEW</span>
