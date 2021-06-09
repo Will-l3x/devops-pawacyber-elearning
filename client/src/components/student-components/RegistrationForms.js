@@ -6,7 +6,7 @@ import "../../assets/css/terms.css";
 import { Redirect } from "react-router-dom";
 import PackageOptions from "./PackageOption";
 import SubcribeClassOptions from "./SubcribeClassOptions";
-import { AsyncStorage } from "AsyncStorage";
+import { AsyncStorage } from "AsyncStorage"; 
 import { AdminService } from "../../services/admin";
 // import SchoolOptions from "./SchoolOptions";
 var globalGrade = "1";

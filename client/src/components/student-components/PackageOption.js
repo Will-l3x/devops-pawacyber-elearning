@@ -25,7 +25,7 @@ class subplanOptions extends Component {
     this.state = {
       options: [],
       selectedOption: null,
-      packageDescription: null
+      packageDescription: null 
     };
     this.handleChange.bind(this);
   }
